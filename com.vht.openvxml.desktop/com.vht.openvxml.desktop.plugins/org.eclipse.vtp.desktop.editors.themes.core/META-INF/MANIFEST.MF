@@ -14,3 +14,4 @@ Export-Package: org.eclipse.vtp.desktop.editors.themes.core,
  org.eclipse.vtp.desktop.editors.themes.core.preferences
 Bundle-Activator: org.eclipse.vtp.desktop.editors.themes.core.Activator
 Bundle-ActivationPolicy: lazy
+Automatic-Module-Name: org.eclipse.vtp.desktop.editors.themes.core

@@ -32,3 +32,4 @@ Export-Package: org.eclipse.vtp.modules.interactive.ui,
  org.eclipse.vtp.modules.interactive.ui.export,
  org.eclipse.vtp.modules.interactive.ui.properties,
  org.eclipse.vtp.modules.interactive.ui.views
+Automatic-Module-Name: org.eclipse.vtp.modules.interactive.ui

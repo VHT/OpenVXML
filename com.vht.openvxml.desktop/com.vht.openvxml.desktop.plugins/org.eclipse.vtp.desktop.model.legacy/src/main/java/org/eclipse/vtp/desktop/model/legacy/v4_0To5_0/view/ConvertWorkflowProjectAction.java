@@ -43,7 +43,6 @@ import com.openmethods.openvxml.desktop.model.workflow.IWorkflowProjectAspect;
  * @author Trip
  * @version 1.0
  */
-@SuppressWarnings("deprecation")
 public class ConvertWorkflowProjectAction extends SelectionListenerAction {
 	/**
 	 * Constructs a new <code>CreateApplicationAction</code> instance with the

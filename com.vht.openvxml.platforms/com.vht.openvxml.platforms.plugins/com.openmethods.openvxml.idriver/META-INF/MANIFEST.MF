@@ -10,3 +10,4 @@ Import-Package: com.sun.jna,
  com.sun.jna.win32
 Export-Package: com.openmethods.openvxml.idriver
 Require-Bundle: org.eclipse.core.runtime;bundle-version="3.7.0"
+Automatic-Module-Name: com.openmethods.openvxml.idriver

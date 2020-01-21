@@ -20,3 +20,4 @@ Require-Bundle: org.eclipse.core.runtime,
 Export-Package: org.eclipse.vtp.desktop.model.legacy.v3_xTo3_X,
  org.eclipse.vtp.desktop.model.legacy.v3_xTo3_X.legacysupport,
  org.eclipse.vtp.desktop.model.legacy.v3_xTo3_X.update
+Automatic-Module-Name: org.eclipse.vtp.desktop.model.legacy

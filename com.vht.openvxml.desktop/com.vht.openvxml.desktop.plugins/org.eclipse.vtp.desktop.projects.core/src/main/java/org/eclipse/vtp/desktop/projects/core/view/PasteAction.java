@@ -80,8 +80,7 @@ public class PasteAction extends SelectionListenerAction {
 	 * @return the actual target of the paste action
 	 */
 	private IResource getTarget() {
-		@SuppressWarnings("unchecked")
-		List<IResource> selectedResources = getSelectedResources();
+		List<? extends IResource> selectedResources = getSelectedResources();
 
 		for (int i = 0; i < selectedResources.size(); i++) {
 			IResource resource = selectedResources.get(i);
@@ -165,8 +164,7 @@ public class PasteAction extends SelectionListenerAction {
 	 * Returns the container to hold the pasted resources.
 	 */
 	private IContainer getContainer() {
-		@SuppressWarnings("unchecked")
-		List<IResource> selection = getSelectedResources();
+		List<? extends IResource> selection = getSelectedResources();
 		if (selection.get(0) instanceof IFile) {
 			return ((IFile) selection.get(0)).getParent();
 		}
@@ -229,8 +227,7 @@ public class PasteAction extends SelectionListenerAction {
 
 		// can paste files and folders to a single selection (file, folder,
 		// open project) or multiple file selection with the same parent
-		@SuppressWarnings("unchecked")
-		List<IResource> selectedResources = getSelectedResources();
+		List<? extends IResource> selectedResources = getSelectedResources();
 		if (selectedResources.size() > 1) {
 			for (int i = 0; i < selectedResources.size(); i++) {
 				IResource resource = selectedResources.get(i);

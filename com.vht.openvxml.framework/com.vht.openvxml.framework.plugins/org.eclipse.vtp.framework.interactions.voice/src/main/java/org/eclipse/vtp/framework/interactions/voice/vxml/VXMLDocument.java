@@ -13,8 +13,6 @@
  -------------------------------------------------------------------------*/
 package org.eclipse.vtp.framework.interactions.voice.vxml;
 
-import static org.eclipse.vtp.framework.interactions.voice.vxml.VXMLConstants.EMPTY;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;

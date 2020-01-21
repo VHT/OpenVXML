@@ -12,3 +12,4 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.vtp.framework.util;bundle-version="6.0.0"
 Export-Package: com.openmethods.openvxml.desktop.model.businessobjects,
  com.openmethods.openvxml.desktop.model.businessobjects.internal
+Automatic-Module-Name: com.openmethods.openvxml.desktop.model.businessobjects

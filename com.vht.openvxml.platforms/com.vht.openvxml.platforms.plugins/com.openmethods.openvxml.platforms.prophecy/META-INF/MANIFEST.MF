@@ -10,3 +10,4 @@ Require-Bundle: org.eclipse.vtp.framework.interactions.voice;bundle-version="6.0
  org.eclipse.vtp.framework.core;bundle-version="6.0.0",
  org.eclipse.vtp.framework.common;bundle-version="6.0.0",
  org.eclipse.vtp.framework.util;bundle-version="6.0.0"
+Automatic-Module-Name: com.openmethods.openvxml.platforms.prophecy

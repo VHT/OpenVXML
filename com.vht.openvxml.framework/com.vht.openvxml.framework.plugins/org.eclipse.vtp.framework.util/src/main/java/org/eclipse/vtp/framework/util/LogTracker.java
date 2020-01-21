@@ -11,9 +11,11 @@
  -------------------------------------------------------------------------*/
 package org.eclipse.vtp.framework.util;
 
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.log.LogService;
+import org.osgi.service.log.Logger;
 
 /**
  * A class that forwards to the most desirable log service when one is
@@ -89,5 +91,35 @@ public class LogTracker extends SingletonTracker implements LogService {
 		if (log != null) {
 			log.log(reference, level, message, thrown);
 		}
+	}
+
+	@Override
+	public Logger getLogger(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Logger getLogger(Class<?> clazz) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <L extends Logger> L getLogger(String name, Class<L> loggerType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <L extends Logger> L getLogger(Class<?> clazz, Class<L> loggerType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <L extends Logger> L getLogger(Bundle bundle, String name, Class<L> loggerType) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

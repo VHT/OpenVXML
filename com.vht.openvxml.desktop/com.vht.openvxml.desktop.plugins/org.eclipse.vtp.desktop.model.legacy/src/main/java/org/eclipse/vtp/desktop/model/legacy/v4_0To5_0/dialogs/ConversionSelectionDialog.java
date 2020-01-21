@@ -34,7 +34,6 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.vtp.desktop.model.core.natures.WorkflowProjectNature;
 import org.eclipse.vtp.desktop.model.interactive.voice.natures.VoiceProjectNature;
 
-@SuppressWarnings("deprecation")
 public class ConversionSelectionDialog extends Dialog {
 	Button allButton = null;
 	Button selectedButton = null;

@@ -22,3 +22,4 @@ Import-Package: org.eclipse.ui,
  javax.servlet.http
 Export-Package: org.eclipse.vtp.desktop.export
 Bundle-Vendor: Eclipse.org
+Automatic-Module-Name: org.eclipse.vtp.desktop.export

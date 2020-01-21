@@ -52,41 +52,26 @@ import com.openmethods.openvxml.desktop.model.workflow.IDesignDocument;
 public class WebApplicationExporter {
 
 	private static final List<String> REQUIRED_BUNDLES = Collections
-			.unmodifiableList(Arrays.asList(new String[] { "org.eclipse.osgi",
-					"org.eclipse.osgi.services",
-					"org.eclipse.core.contenttype", "org.eclipse.core.jobs",
-					"org.eclipse.core.runtime",
-					"org.eclipse.core.runtime.compatibility.auth",
-					"org.eclipse.equinox.app", "org.eclipse.equinox.common",
-					"org.eclipse.equinox.http.servlet",
-					"org.eclipse.equinox.http.servletbridge",
-					"org.eclipse.equinox.preferences",
-					"org.eclipse.equinox.registry",
-					"org.eclipse.equinox.servletbridge",
-					"org.eclipse.update.configurator", "javax.activation",
-					"javax.mail", "javax.xml.soap", "javax.xml.rpc",
-					"javax.wsdl", "org.apache.ant", "org.apache.axis",
-					"org.apache.commons.discovery", "org.apache.commons.io",
-					"org.apache.commons.fileupload",
-					"org.apache.commons.logging", "org.apache.commons.pool",
-					"org.apache.log4j", "org.apache.xerces",
-					"org.apache.xml.resolver", "org.mozilla.javascript",
-					"org.eclipse.vtp.framework.core",
-					"org.eclipse.vtp.framework.engine",
-					"org.eclipse.vtp.framework.spi",
-					"org.eclipse.vtp.framework.util",
-					"org.apache.commons.codec", "org.apache.commons.lang" }));
+			.unmodifiableList(Arrays.asList(new String[] { "org.eclipse.osgi", "org.eclipse.osgi.services",
+					"org.eclipse.core.contenttype", "org.eclipse.core.jobs", "org.eclipse.core.runtime",
+//					"org.eclipse.core.runtime.compatibility.auth",
+					"org.eclipse.equinox.app", "org.eclipse.equinox.common", "org.eclipse.equinox.http.servlet",
+					"org.eclipse.equinox.http.servletbridge", "org.eclipse.equinox.preferences",
+					"org.eclipse.equinox.registry", "org.eclipse.equinox.servletbridge",
+					"org.eclipse.update.configurator", "javax.activation", "javax.mail", "javax.xml.soap",
+					"javax.xml.rpc", "javax.wsdl", "org.apache.ant", "org.apache.axis", "org.apache.commons.discovery",
+					"org.apache.commons.io", "org.apache.commons.fileupload", "org.apache.commons.logging",
+					"org.apache.commons.pool", "org.apache.log4j", "org.apache.xerces", "org.apache.xml.resolver",
+					"org.mozilla.javascript", "org.eclipse.vtp.framework.core", "org.eclipse.vtp.framework.engine",
+					"org.eclipse.vtp.framework.spi", "org.eclipse.vtp.framework.util", "org.apache.commons.codec",
+					"org.apache.commons.lang" }));
 
 	private static final List<String> OPTIONAL_BUNDLES = Collections
-			.unmodifiableList(Arrays.asList(new String[] { "javax.xml",
-					"org.apache.xml.serializer" }));
+			.unmodifiableList(Arrays.asList(new String[] { "javax.xml", "org.apache.xml.serializer" }));
 
-	private static final List<String> EXTENSION_POINTS = Collections
-			.unmodifiableList(Arrays.asList(new String[] {
-					"org.eclipse.vtp.framework.core.actions",
-					"org.eclipse.vtp.framework.core.configurations",
-					"org.eclipse.vtp.framework.core.observers",
-					"org.eclipse.vtp.framework.core.services" }));
+	private static final List<String> EXTENSION_POINTS = Collections.unmodifiableList(Arrays.asList(
+			new String[] { "org.eclipse.vtp.framework.core.actions", "org.eclipse.vtp.framework.core.configurations",
+					"org.eclipse.vtp.framework.core.observers", "org.eclipse.vtp.framework.core.services" }));
 
 	private static final Map<String, Integer> START_LEVELS;
 
@@ -116,10 +101,8 @@ public class WebApplicationExporter {
 		this.agents = agents;
 	}
 
-	public final synchronized boolean export(File archive,
-			Collection<WorkflowExporter> workflowProjects,
-			Collection<MediaExporter> mediaProjects, boolean separateMedia,
-			IProgressMonitor monitor) throws Exception {
+	public final synchronized boolean export(File archive, Collection<WorkflowExporter> workflowProjects,
+			Collection<MediaExporter> mediaProjects, boolean separateMedia, IProgressMonitor monitor) throws Exception {
 		this.separateMedia = separateMedia;
 		File canonical = archive.getCanonicalFile();
 		boolean completed = false;
@@ -141,8 +124,7 @@ public class WebApplicationExporter {
 			dbf.setNamespaceAware(true);
 			dbf.setValidating(false);
 			this.documentBuilder = dbf.newDocumentBuilder();
-			this.transformer = TransformerFactory.newInstance()
-					.newTransformer();
+			this.transformer = TransformerFactory.newInstance().newTransformer();
 			return completed = run();
 		} finally {
 			try {
@@ -186,8 +168,7 @@ public class WebApplicationExporter {
 		if (monitor.isCanceled()) {
 			return false;
 		}
-		monitor.beginTask("Constructing runtime...", workflowExporters.size()
-				+ mediaExporters.size() + 3);
+		monitor.beginTask("Constructing runtime...", workflowExporters.size() + mediaExporters.size() + 3);
 		constructRuntime();
 		monitor.worked(1);
 		if (monitor.isCanceled()) {
@@ -200,9 +181,7 @@ public class WebApplicationExporter {
 			if (monitor.isCanceled()) {
 				return false;
 			}
-			monitor.setTaskName(String.format(
-					"Exporting workflow project %s...", project.getProject()
-							.getName()));
+			monitor.setTaskName(String.format("Exporting workflow project %s...", project.getProject().getName()));
 			exportWorkflow(project);
 			monitor.worked(1);
 		}
@@ -210,8 +189,7 @@ public class WebApplicationExporter {
 			if (monitor.isCanceled()) {
 				return false;
 			}
-			monitor.setTaskName(String.format("Exporting media project %s...",
-					project.getProject().getName()));
+			monitor.setTaskName(String.format("Exporting media project %s...", project.getProject().getName()));
 			if (!separateMedia) {
 				exportMedia(project);
 			} else {
@@ -239,8 +217,7 @@ public class WebApplicationExporter {
 		}
 		IExtensionRegistry extensionRegistry = Platform.getExtensionRegistry();
 		for (String extensionPoint : EXTENSION_POINTS) {
-			for (IExtension extension : extensionRegistry.getExtensionPoint(
-					extensionPoint).getExtensions()) {
+			for (IExtension extension : extensionRegistry.getExtensionPoint(extensionPoint).getExtensions()) {
 				bundleExporters.put(extension.getContributor().getName(), null);
 			}
 		}
@@ -254,14 +231,12 @@ public class WebApplicationExporter {
 				symbolicName = REQUIRED_BUNDLES.get(0);
 			}
 			if (!bundleExporters.containsKey(symbolicName)) {
-				String hostSymbolicName = bundle.getHeaders().get(
-						"Fragment-Host");
+				String hostSymbolicName = bundle.getHeaders().get("Fragment-Host");
 				if (hostSymbolicName == null) {
 					continue;
 				}
 				if (hostSymbolicName.indexOf(';') >= 0) {
-					hostSymbolicName = hostSymbolicName.substring(0,
-							hostSymbolicName.indexOf(';'));
+					hostSymbolicName = hostSymbolicName.substring(0, hostSymbolicName.indexOf(';'));
 				}
 				hostSymbolicName = hostSymbolicName.trim();
 				if (!bundleExporters.containsKey(hostSymbolicName)) {
@@ -271,30 +246,22 @@ public class WebApplicationExporter {
 
 			BundleExporter exporter = bundleExporters.get(symbolicName);
 			if (exporter == null) {
-				System.out.println("First bundle version: " + symbolicName
-						+ "_"
+				System.out.println("First bundle version: " + symbolicName + "_"
 						+ bundle.getHeaders().get(Constants.BUNDLE_VERSION));
 				bundleExporters.put(symbolicName, new BundleExporter(bundle));
 			} else {
-				System.out.println("Multiple bundle versions: "
-						+ symbolicName
-						+ " current: "
-						+ (String) exporter.getHeaders().get(
-								Constants.BUNDLE_VERSION) + " new: "
+				System.out.println("Multiple bundle versions: " + symbolicName + " current: "
+						+ (String) exporter.getHeaders().get(Constants.BUNDLE_VERSION) + " new: "
 						+ bundle.getHeaders().get(Constants.BUNDLE_VERSION));
-				Version oldVersion = new Version((String) exporter.getHeaders()
-						.get(Constants.BUNDLE_VERSION));
-				Version newVersion = new Version(bundle.getHeaders().get(
-						Constants.BUNDLE_VERSION));
+				Version oldVersion = new Version((String) exporter.getHeaders().get(Constants.BUNDLE_VERSION));
+				Version newVersion = new Version(bundle.getHeaders().get(Constants.BUNDLE_VERSION));
 				if (newVersion.compareTo(oldVersion) > 0) {
 					System.out.println("Replacing current version");
-					bundleExporters.put(symbolicName,
-							new BundleExporter(bundle));
+					bundleExporters.put(symbolicName, new BundleExporter(bundle));
 				}
 			}
 		}
-		for (String name : bundleExporters.keySet().toArray(
-				new String[bundleExporters.size()])) {
+		for (String name : bundleExporters.keySet().toArray(new String[bundleExporters.size()])) {
 			if (bundleExporters.get(name) == null) {
 				System.err.println("Missing bundle import: " + name);
 				bundleExporters.remove(name);
@@ -304,17 +271,14 @@ public class WebApplicationExporter {
 
 	private void exportFramework() throws Exception {
 		// Copy the static launch configuration file.
-		output.writeURL("WEB-INF/eclipse/launch.ini",
-				getClass().getResource("/launch.ini"));
+		output.writeURL("WEB-INF/eclipse/launch.ini", getClass().getResource("/launch.ini"));
 		// Create the startup configuration file.
-		PrintStream frameworkConfig = new PrintStream(
-				output.write("WEB-INF/eclipse/configuration/config.ini"));
+		PrintStream frameworkConfig = new PrintStream(output.write("WEB-INF/eclipse/configuration/config.ini"));
 		frameworkConfig.println("#Eclipse Runtime Configuration File");
 		frameworkConfig.println("#Generated by the VoiceTools export wizard.");
 		frameworkConfig.println("osgi.parentClassLoader=boot");
 		frameworkConfig.print("osgi.bundles=");
-		frameworkConfig
-				.println("org.eclipse.equinox.servletbridge.extensionbundle,\\");
+		frameworkConfig.println("org.eclipse.equinox.servletbridge.extensionbundle,\\");
 		frameworkConfig.print("javax.servlet");
 		for (String symbolicName : bundleExporters.keySet()) {
 			Integer startLevel = START_LEVELS.get(symbolicName);
@@ -345,38 +309,30 @@ public class WebApplicationExporter {
 			}
 		}
 		// Export the fake Java Servlet bundle.
-		output.writeURL(
-				"WEB-INF/eclipse/plugins/javax.servlet_2.4.0/META-INF/MANIFEST.MF",
+		output.writeURL("WEB-INF/eclipse/plugins/javax.servlet_2.4.0/META-INF/MANIFEST.MF",
 				getClass().getResource("/servletManifest.mf"));
 		// Export the static configuration bundle.
-		output.writeURL(
-				"WEB-INF/eclipse/plugins/static.configuration_0.0.0/META-INF/MANIFEST.MF",
+		output.writeURL("WEB-INF/eclipse/plugins/static.configuration_0.0.0/META-INF/MANIFEST.MF",
 				getClass().getResource("/staticConfigManifest.mf"));
 		List<ConfigurationDictionary> dictionaries = new LinkedList<ConfigurationDictionary>();
-		ConfigurationDictionary httpDictionary = new ConfigurationDictionary(
-				"org.eclipse.vtp.framework.engine.http");
+		ConfigurationDictionary httpDictionary = new ConfigurationDictionary("org.eclipse.vtp.framework.engine.http");
 		httpDictionary.put("path", "/");
 		httpDictionary.put("mime.type.grxml", "application/srgs+xml");
 		httpDictionary.put("mime.type.vox", "audio/basic");
 		httpDictionary.put("mime.type.wav", "audio/x-wav");
 		dictionaries.add(httpDictionary);
 		for (WorkflowExporter exporter : workflowExporters) {
-			dictionaries.addAll(exporter
-					.getConfigurationDictionaries(uniqueToken));
+			dictionaries.addAll(exporter.getConfigurationDictionaries(uniqueToken));
 		}
 		for (MediaExporter exporter : mediaExporters) {
-			dictionaries.addAll(exporter
-					.getConfigurationDictionaries(uniqueToken));
+			dictionaries.addAll(exporter.getConfigurationDictionaries(uniqueToken));
 		}
 		Document document = documentBuilder.newDocument();
 		document.appendChild(ConfigurationDictionary.saveAll(document,
-				dictionaries.toArray(new ConfigurationDictionary[dictionaries
-						.size()])));
-		OutputStream staticConfig = output
-				.write("WEB-INF/eclipse/plugins/static.configuration_0.0.0/META-INF/services/"
-						+ StaticConfigurationAdmin.class.getName());
-		transformer.transform(new DOMSource(document), new XMLWriter(
-				staticConfig).toXMLResult());
+				dictionaries.toArray(new ConfigurationDictionary[dictionaries.size()])));
+		OutputStream staticConfig = output.write("WEB-INF/eclipse/plugins/static.configuration_0.0.0/META-INF/services/"
+				+ StaticConfigurationAdmin.class.getName());
+		transformer.transform(new DOMSource(document), new XMLWriter(staticConfig).toXMLResult());
 		staticConfig.close();
 
 	}
@@ -385,14 +341,11 @@ public class WebApplicationExporter {
 		return exportProject(project, null);
 	}
 
-	private String exportProject(ProjectExporter project, FilenameFilter filter)
-			throws Exception {
-		String symbolicName = project.getProject().getName() + "."
-				+ uniqueToken;
+	private String exportProject(ProjectExporter project, FilenameFilter filter) throws Exception {
+		String symbolicName = project.getProject().getName() + "." + uniqueToken;
 		String path = "WEB-INF/eclipse/plugins/" + symbolicName + "_0.0.0/";
 		// Write the bundle manifest.
-		PrintStream manifest = new PrintStream(output.write(path
-				+ "META-INF/MANIFEST.MF"));
+		PrintStream manifest = new PrintStream(output.write(path + "META-INF/MANIFEST.MF"));
 		manifest.println("Manifest-Version: 1.0");
 		manifest.println("Bundle-ManifestVersion: 2");
 		manifest.print("Bundle-Name: ");
@@ -403,16 +356,14 @@ public class WebApplicationExporter {
 		manifest.println("Bundle-Version: 0.0.0");
 		manifest.println("Bundle-Localization: plugin");
 		manifest.print("Bundle-ClassPath: .,project/Dependencies");
-		IFolder dependencyFolder = project.getProject().getFolder(
-				"Dependencies");
+		IFolder dependencyFolder = project.getProject().getFolder("Dependencies");
 		if (dependencyFolder.exists()) {
 			IResource[] members = dependencyFolder.members();
 			for (IResource dep : members) {
 				if (dep.exists() && dep instanceof IFile) {
 					IFile file = (IFile) dep;
 					if (file.getFileExtension().toLowerCase().equals("jar")) {
-						manifest.print(",project/Dependencies/"
-								+ file.getName());
+						manifest.print(",project/Dependencies/" + file.getName());
 					}
 				}
 			}
@@ -432,8 +383,7 @@ public class WebApplicationExporter {
 		manifest.println();
 		manifest.close();
 		// Copy the project contents.
-		output.writeFile(path + "project/", project.getProject().getLocation()
-				.toFile(), filter);
+		output.writeFile(path + "project/", project.getProject().getLocation().toFile(), filter);
 		return path;
 	}
 
@@ -442,9 +392,8 @@ public class WebApplicationExporter {
 
 			@Override
 			public boolean accept(File dir, String name) {
-				if (name.endsWith(".xml") || name.endsWith(".grxml")
-						|| name.endsWith(".gram") || name.endsWith(".grammar")
-						|| name.endsWith(".regex") || name.endsWith(".regx")) {
+				if (name.endsWith(".xml") || name.endsWith(".grxml") || name.endsWith(".gram")
+						|| name.endsWith(".grammar") || name.endsWith(".regex") || name.endsWith(".regx")) {
 					return true;
 				}
 				File child = new File(dir, name);
@@ -462,12 +411,10 @@ public class WebApplicationExporter {
 		String path = exportProject(project, filter);
 		// Create the plugin.xml file.
 		Document pluginXmlDoc = documentBuilder.newDocument();
-		pluginXmlDoc.appendChild(pluginXmlDoc.createProcessingInstruction(
-				"eclipse", "version=\"3.2\""));
+		pluginXmlDoc.appendChild(pluginXmlDoc.createProcessingInstruction("eclipse", "version=\"3.2\""));
 		Element pluginElement = pluginXmlDoc.createElement("plugins");
 		Element extensionElement = pluginXmlDoc.createElement("extension");
-		extensionElement.setAttribute("point",
-				"org.eclipse.vtp.framework.engine.resources");
+		extensionElement.setAttribute("point", "org.eclipse.vtp.framework.engine.resources");
 		Element resourcesElement = pluginXmlDoc.createElement("resources");
 		resourcesElement.setAttribute("id", project.getProject().getName());
 		resourcesElement.setAttribute("name", project.getProject().getName());
@@ -476,12 +423,10 @@ public class WebApplicationExporter {
 		pluginElement.appendChild(extensionElement);
 		pluginXmlDoc.appendChild(pluginElement);
 		OutputStream stream = output.write(path + "plugin.xml");
-		transformer.transform(new DOMSource(pluginXmlDoc),
-				new XMLWriter(stream).toXMLResult());
+		transformer.transform(new DOMSource(pluginXmlDoc), new XMLWriter(stream).toXMLResult());
 		stream.close();
 		StringBuilder fileIndex = new StringBuilder();
-		indexMedia(fileIndex, project.getMediaProject()
-				.getMediaLibrariesFolder().getUnderlyingFolder());
+		indexMedia(fileIndex, project.getMediaProject().getMediaLibrariesFolder().getUnderlyingFolder());
 		stream = output.write(path + "files.index");
 		stream.write(fileIndex.toString().getBytes());
 		stream.close();
@@ -506,59 +451,44 @@ public class WebApplicationExporter {
 		String path = exportProject(project);
 		// Create the plugin.xml file.
 		Document pluginXmlDoc = documentBuilder.newDocument();
-		pluginXmlDoc.appendChild(pluginXmlDoc.createProcessingInstruction(
-				"eclipse", "version=\"3.2\""));
+		pluginXmlDoc.appendChild(pluginXmlDoc.createProcessingInstruction("eclipse", "version=\"3.2\""));
 		Element pluginElement = pluginXmlDoc.createElement("plugins");
 		Element extensionElement = pluginXmlDoc.createElement("extension");
-		extensionElement.setAttribute("point",
-				"org.eclipse.vtp.framework.engine.definitions");
+		extensionElement.setAttribute("point", "org.eclipse.vtp.framework.engine.definitions");
 		Element resourcesElement = pluginXmlDoc.createElement("definition");
-		resourcesElement.setAttribute("id", project.getProject().getName()
-				+ "." + uniqueToken);
+		resourcesElement.setAttribute("id", project.getProject().getName() + "." + uniqueToken);
 		resourcesElement.setAttribute("name", project.getProject().getName());
 		resourcesElement.setAttribute("path", "process.xml");
 		extensionElement.appendChild(resourcesElement);
 		pluginElement.appendChild(extensionElement);
 		pluginXmlDoc.appendChild(pluginElement);
 		OutputStream stream = output.write(path + "plugin.xml");
-		transformer.transform(new DOMSource(pluginXmlDoc),
-				new XMLWriter(stream).toXMLResult());
+		transformer.transform(new DOMSource(pluginXmlDoc), new XMLWriter(stream).toXMLResult());
 		stream.close();
 		// Create the process.xml file.
-		Map<String, MediaExporter> mediaProjects = project
-				.getMediaDependencyMap();
-		Map<String, String> formatterIDsByLanguage = new HashMap<String, String>(
-				mediaProjects.size());
-		Map<String, String> resourceManagerIDsByLanguage = new HashMap<String, String>(
-				mediaProjects.size());
+		Map<String, MediaExporter> mediaProjects = project.getMediaDependencyMap();
+		Map<String, String> formatterIDsByLanguage = new HashMap<String, String>(mediaProjects.size());
+		Map<String, String> resourceManagerIDsByLanguage = new HashMap<String, String>(mediaProjects.size());
 		for (Map.Entry<String, MediaExporter> entry : mediaProjects.entrySet()) {
-			formatterIDsByLanguage.put(entry.getKey(), entry.getValue()
-					.getFormatter());
-			resourceManagerIDsByLanguage.put(entry.getKey(), entry.getValue()
-					.getProject().getName());
+			formatterIDsByLanguage.put(entry.getKey(), entry.getValue().getFormatter());
+			resourceManagerIDsByLanguage.put(entry.getKey(), entry.getValue().getProject().getName());
 		}
 		Collection<DesignReference> callDesigns = new LinkedList<DesignReference>();
 		for (IDesignDocument document : project.getDesignDocuments()) {
-			callDesigns.add(new DesignReference(document, documentBuilder
-					.parse(document.getUnderlyingFile().getLocation().toFile()
-							.getCanonicalFile())));
+			callDesigns.add(new DesignReference(document,
+					documentBuilder.parse(document.getUnderlyingFile().getLocation().toFile().getCanonicalFile())));
 		}
-		Document definition = new DefinitionBuilder(
-				callDesigns.toArray(new DesignReference[callDesigns.size()]),
-				documentBuilder, project.getWorkflowProject(),
-				formatterIDsByLanguage, resourceManagerIDsByLanguage,
+		Document definition = new DefinitionBuilder(callDesigns.toArray(new DesignReference[callDesigns.size()]),
+				documentBuilder, project.getWorkflowProject(), formatterIDsByLanguage, resourceManagerIDsByLanguage,
 				project.getLanguageMapping()).getDefinition();
-		Element servicesElement = (Element) definition
-				.getDocumentElement()
-				.getElementsByTagNameNS(
-						"http://eclipse.org/vtp/xml/framework/engine/process-definition",
-						"services").item(0);
+		Element servicesElement = (Element) definition.getDocumentElement()
+				.getElementsByTagNameNS("http://eclipse.org/vtp/xml/framework/engine/process-definition", "services")
+				.item(0);
 		for (ExportAgent agent : agents) {
 			agent.getValue().configureServices(project, servicesElement);
 		}
 		OutputStream fileEntryStream = output.write(path + "process.xml");
-		transformer.transform(new DOMSource(definition), new XMLWriter(
-				fileEntryStream).toXMLResult());
+		transformer.transform(new DOMSource(definition), new XMLWriter(fileEntryStream).toXMLResult());
 		fileEntryStream.close();
 	}
 
@@ -566,12 +496,10 @@ public class WebApplicationExporter {
 		String path = exportProject(project);
 		// Create the plugin.xml file.
 		Document pluginXmlDoc = documentBuilder.newDocument();
-		pluginXmlDoc.appendChild(pluginXmlDoc.createProcessingInstruction(
-				"eclipse", "version=\"3.2\""));
+		pluginXmlDoc.appendChild(pluginXmlDoc.createProcessingInstruction("eclipse", "version=\"3.2\""));
 		Element pluginElement = pluginXmlDoc.createElement("plugins");
 		Element extensionElement = pluginXmlDoc.createElement("extension");
-		extensionElement.setAttribute("point",
-				"org.eclipse.vtp.framework.engine.resources");
+		extensionElement.setAttribute("point", "org.eclipse.vtp.framework.engine.resources");
 		Element resourcesElement = pluginXmlDoc.createElement("resources");
 		resourcesElement.setAttribute("id", project.getProject().getName());
 		resourcesElement.setAttribute("name", project.getProject().getName());
@@ -580,23 +508,17 @@ public class WebApplicationExporter {
 		pluginElement.appendChild(extensionElement);
 		pluginXmlDoc.appendChild(pluginElement);
 		OutputStream stream = output.write(path + "plugin.xml");
-		transformer.transform(new DOMSource(pluginXmlDoc),
-				new XMLWriter(stream).toXMLResult());
+		transformer.transform(new DOMSource(pluginXmlDoc), new XMLWriter(stream).toXMLResult());
 		stream.close();
 	}
 
 	private void finalizeWebApplication() throws Exception {
 		// Copy the session listener bridge.
-		output.writeURL(
-				"WEB-INF/classes/org/eclipse/vtp/framework/webapp/HttpSessionListenerManager.class",
-				getClass()
-						.getResource(
-								"/org/eclipse/vtp/framework/webapp/HttpSessionListenerManager.class"));
+		output.writeURL("WEB-INF/classes/org/eclipse/vtp/framework/webapp/HttpSessionListenerManager.class",
+				getClass().getResource("/org/eclipse/vtp/framework/webapp/HttpSessionListenerManager.class"));
 		StringBuilder builder = new StringBuilder();
-		IConfigurationElement[] packageEntries = Platform
-				.getExtensionRegistry()
-				.getConfigurationElementsFor(
-						"org.eclipse.vtp.framework.engine.externalPackageEntries");
+		IConfigurationElement[] packageEntries = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor("org.eclipse.vtp.framework.engine.externalPackageEntries");
 		for (IConfigurationElement entry : packageEntries) {
 			if (builder.length() != 0) {
 				builder.append(", ");
@@ -616,14 +538,12 @@ public class WebApplicationExporter {
 		baos.close();
 		webIn.close();
 		String webText = baos.toString();
-		webText = webText.replace("[[extendedFrameworkExports]]",
-				builder.toString());
+		webText = webText.replace("[[extendedFrameworkExports]]", builder.toString());
 		ByteArrayInputStream bais = new ByteArrayInputStream(webText.getBytes());
 		output.writeStream("WEB-INF/web.xml", bais);
 		bais.close();
 		// Export the WAR libraries.
-		output.writeURL("WEB-INF/lib/servletbridge.jar", getClass()
-				.getResource("/servletbridge.jar"));
+		output.writeURL("WEB-INF/lib/servletbridge.jar", getClass().getResource("/servletbridge.jar"));
 	}
 
 }

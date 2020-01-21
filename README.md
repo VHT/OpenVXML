@@ -109,7 +109,7 @@ In Run Configurations Window
 
 3. On the **Arguments tab** set the VM arguments to: 
 
-   > -Dosgi.requiredJavaVersion=1.8 -XX:MaxPermSize=256m -Xmx4096m
+   > -Dosgi.requiredJavaVersion=1.8 -XX:MaxPermSize=256m -Xmx4g
 
 6. Click Run
 
@@ -200,4 +200,9 @@ To install [Apache Maven](http://maven.apache.org/) on Windows, you just need to
 
 11. Wait for **<u>BUILD SUCCESS</u>** and then continue
 
-12. Open child eclipse (VXML-IVR) created in <u>Finally, to run VXML-IVR</u> and clean build all the projects then changes made on OpenVXML will be reflected
+12. Open child eclipse (VXML-IVR) again that we created using Step 1-4 in <u>Finally, to run VXML-IVR</u> procedure
+
+    > From the Parent Eclipse Menu: Run History > VXML-IVR
+
+13. Now, clean and build all the projects to see the changes made on OpenVXML 6.0 to be reflected on the VXML-IVR projects
+

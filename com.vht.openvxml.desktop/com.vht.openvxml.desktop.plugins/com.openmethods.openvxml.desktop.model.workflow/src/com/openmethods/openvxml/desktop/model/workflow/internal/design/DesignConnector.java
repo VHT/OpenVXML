@@ -217,6 +217,7 @@ public class DesignConnector extends DesignComponent implements
 		this.fireChange();
 	}
 
+	@SuppressWarnings("unlikely-arg-type")
 	@Override
 	public void removeMidpoint(IDesignConnectorMidpoint midpoint) {
 		points.remove(midpoint);

@@ -85,6 +85,7 @@ public class LanguageRegistry implements ILanguageRegistry, IScriptable {
 		return new String[] { "getLanguage" };
 	}
 
+	@SuppressWarnings("unlikely-arg-type")
 	@Override
 	public Object getItem(int index) {
 		if (index > -1 && index < languageMapping.size()) {
