@@ -124,9 +124,8 @@ import com.openmethods.openvxml.desktop.model.workflow.internal.IDesignFilter;
 import com.openmethods.openvxml.desktop.model.workflow.internal.PartialDesignDocument;
 import com.openmethods.openvxml.desktop.model.workflow.internal.design.Design;
 
-public class ApplicationEditor extends EditorPart implements
-		ControllerListener, ModelNavigationListener, PalletFocusProvider,
-		IDesignDocumentListener, IDesignViewer, UndoSystem {
+public class ApplicationEditor extends EditorPart implements ControllerListener, ModelNavigationListener,
+		PalletFocusProvider, IDesignDocumentListener, IDesignViewer, UndoSystem {
 	boolean dirty = false;
 	List<CanvasRecord> designs = new ArrayList<CanvasRecord>();
 	Map<String, Object> resourceMap = new HashMap<String, Object>();
@@ -146,11 +145,9 @@ public class ApplicationEditor extends EditorPart implements
 	}
 
 	@Override
-	public void init(IEditorSite site, IEditorInput input)
-			throws PartInitException {
+	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 		IWorkbench workbench = site.getWorkbenchWindow().getWorkbench();
-		operationHistory = workbench.getOperationSupport()
-				.getOperationHistory();
+		operationHistory = workbench.getOperationSupport().getOperationHistory();
 		// ResourcesPlugin.getWorkspace().addResourceChangeListener(this,
 		// IResourceChangeEvent.POST_CHANGE);
 		// required callbacks for the init function. TG
@@ -162,17 +159,14 @@ public class ApplicationEditor extends EditorPart implements
 		try {
 			project = WorkflowCore.getDefault().getWorkflowModel()
 					.convertToWorkflowProject(fileInput.getFile().getProject());
-			workflowAspect = (IWorkflowProjectAspect) project
-					.getProjectAspect(IWorkflowProjectAspect.ASPECT_ID);
+			workflowAspect = (IWorkflowProjectAspect) project.getProjectAspect(IWorkflowProjectAspect.ASPECT_ID);
 			this.setPartName(fileInput.getName());
-			designDocument = (IDesignDocument) WorkflowCore.getDefault()
-					.getWorkflowModel()
+			designDocument = (IDesignDocument) WorkflowCore.getDefault().getWorkflowModel()
 					.convertToWorkflowResource(fileInput.getFile());
 			designDocument.becomeWorkingCopy();
 
 			designDocument.addDocumentListener(this);
-			RenderedModel mainDesign = new RenderedModel(
-					designDocument.getMainDesign());
+			RenderedModel mainDesign = new RenderedModel(designDocument.getMainDesign());
 			CanvasRecord mainRecord = new CanvasRecord(mainDesign);
 			mainDesign.setUndoSystem(this);
 			mainDesign.setUndoContext(mainRecord.undoContext);
@@ -189,7 +183,10 @@ public class ApplicationEditor extends EditorPart implements
 			// {
 			// if(!MessageDialog.openConfirm(site.getShell(),
 			// "Application Upgrade Needed",
-			// "The application you are opening needs to be upgraded to your OpenVXML version before it can be edited.  The upgrade will be performed the next time you save the application.  If you would like to continue, press OK.  Otherwise press Cancel."))
+			// "The application you are opening needs to be upgraded to your OpenVXML
+			// version before it can be edited. The upgrade will be performed the next time
+			// you save the application. If you would like to continue, press OK. Otherwise
+			// press Cancel."))
 			// {
 			// Display.getCurrent().asyncExec(new Runnable()
 			// {
@@ -206,13 +203,11 @@ public class ApplicationEditor extends EditorPart implements
 			// this.setPartName(this.getPartName() + " [Will be upgraded]");
 			// }
 			// }
-			undoActionHandler = new UndoActionHandler(site,
-					currentCanvas.undoContext);
+			undoActionHandler = new UndoActionHandler(site, currentCanvas.undoContext);
 			undoActionHandler.setPruneHistory(true);
 
 			// create the redo action handler
-			redoActionHandler = new RedoActionHandler(site,
-					currentCanvas.undoContext);
+			redoActionHandler = new RedoActionHandler(site, currentCanvas.undoContext);
 			redoActionHandler.setPruneHistory(true);
 			partListener = new IPartListener() {
 
@@ -220,151 +215,104 @@ public class ApplicationEditor extends EditorPart implements
 				public void partActivated(IWorkbenchPart part) {
 					System.out.println("part activated: " + part);
 					if (part != ApplicationEditor.this) {
-						System.out
-								.println("part activated but not me: " + part);
+						System.out.println("part activated but not me: " + part);
 						return;
 					}
 					IEditorSite site = (IEditorSite) getSite();
-					site.getActionBars().setGlobalActionHandler(
-							ActionFactory.UNDO.getId(), undoActionHandler);
-					site.getActionBars().setGlobalActionHandler(
-							ActionFactory.REDO.getId(), redoActionHandler);
-					site.getActionBars().setGlobalActionHandler(
-							ActionFactory.COPY.getId(), new Action("Copy") {
-								@Override
-								public void run() {
-									final SelectionStructure selection = currentCanvas.renderedCanvas
-											.getSelection();
-									if (selection.getPrimarySelection() instanceof ConnectorFrame) {
-										return;
-									}
-									copySelectionToClipboard(selection);
+					site.getActionBars().setGlobalActionHandler(ActionFactory.UNDO.getId(), undoActionHandler);
+					site.getActionBars().setGlobalActionHandler(ActionFactory.REDO.getId(), redoActionHandler);
+					site.getActionBars().setGlobalActionHandler(ActionFactory.COPY.getId(), new Action("Copy") {
+						@Override
+						public void run() {
+							final SelectionStructure selection = currentCanvas.renderedCanvas.getSelection();
+							if (selection.getPrimarySelection() instanceof ConnectorFrame) {
+								return;
+							}
+							copySelectionToClipboard(selection);
+						}
+					});
+					site.getActionBars().setGlobalActionHandler(ActionFactory.CUT.getId(), new Action("Cut") {
+						@Override
+						public void run() {
+							final SelectionStructure selection = currentCanvas.renderedCanvas.getSelection();
+							if (selection.getPrimarySelection() instanceof ConnectorFrame) {
+								return;
+							}
+							copySelectionToClipboard(selection);
+							currentCanvas.renderedCanvas.deleteSelectedItems();
+						}
+					});
+					site.getActionBars().setGlobalActionHandler(ActionFactory.PASTE.getId(), new Action("Paste") {
+						@Override
+						public void run() {
+							Clipboard clipboard = new Clipboard(canvasTabs.getDisplay());
+							String text = (String) clipboard.getContents(TextTransfer.getInstance());
+							if (text != null) {
+								try {
+									DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+									factory.setNamespaceAware(true);
+									DocumentBuilder builder = factory.newDocumentBuilder();
+									Document document = builder.parse(new ByteArrayInputStream(text.getBytes()));
+									PartialDesignDocument pdd = new PartialDesignDocument(designDocument, null,
+											document);
+									PasteOperation po = new PasteOperation(pdd, currentCanvas);
+									po.addContext(currentCanvas.undoContext);
+									operationHistory.execute(po, null, null);
+								} catch (Exception ex) {
+									ex.printStackTrace();
 								}
-							});
-					site.getActionBars().setGlobalActionHandler(
-							ActionFactory.CUT.getId(), new Action("Cut") {
-								@Override
-								public void run() {
-									final SelectionStructure selection = currentCanvas.renderedCanvas
-											.getSelection();
-									if (selection.getPrimarySelection() instanceof ConnectorFrame) {
-										return;
-									}
-									copySelectionToClipboard(selection);
-									currentCanvas.renderedCanvas
-											.deleteSelectedItems();
-								}
-							});
-					site.getActionBars().setGlobalActionHandler(
-							ActionFactory.PASTE.getId(), new Action("Paste") {
-								@Override
-								public void run() {
-									Clipboard clipboard = new Clipboard(
-											canvasTabs.getDisplay());
-									String text = (String) clipboard
-											.getContents(TextTransfer
-													.getInstance());
-									if (text != null) {
-										try {
-											DocumentBuilderFactory factory = DocumentBuilderFactory
-													.newInstance();
-											factory.setNamespaceAware(true);
-											DocumentBuilder builder = factory
-													.newDocumentBuilder();
-											Document document = builder
-													.parse(new ByteArrayInputStream(
-															text.getBytes()));
-											PartialDesignDocument pdd = new PartialDesignDocument(
-													designDocument, null,
-													document);
-											PasteOperation po = new PasteOperation(
-													pdd, currentCanvas);
-											po.addContext(currentCanvas.undoContext);
-											operationHistory.execute(po, null,
-													null);
-										} catch (Exception ex) {
-											ex.printStackTrace();
-										}
-									}
-								}
-							});
-					site.getActionBars().setGlobalActionHandler(
-							ActionFactory.PRINT.getId(), new Action("Print") {
+							}
+						}
+					});
+					site.getActionBars().setGlobalActionHandler(ActionFactory.PRINT.getId(), new Action("Print") {
 
-								@Override
-								public void run() {
-									Shell workbenchShell = Display.getCurrent()
-											.getActiveShell();
-									PrintDialog pd = new PrintDialog(
-											workbenchShell);
-									pd.setStartPage(1);
-									pd.setEndPage(designs.size());
-									PrinterData printerData = pd.open();
-									if (printerData != null) {
-										Printer printer = new Printer(
-												printerData);
-										printer.startJob("Print Callflow");
-										for (int i = printerData.startPage - 1; i < Math
-												.min(printerData.endPage,
-														designs.size()); i++) {
-											CanvasRecord cr = designs.get(i);
-											RenderedModel renderedModel = cr.renderedCanvas;
-											printer.startPage();
-											Point dpi = printer.getDPI();
-											System.out.println("printer dpi: "
-													+ dpi.x + ", " + dpi.y);
-											@SuppressWarnings("cast")
-											float scaleX = dpi.x / 96f;
-											@SuppressWarnings("cast")
-											float scaleY = dpi.y / 96f;
-											Rectangle clientArea = printer
-													.getClientArea();
-											System.out.println("Client Area: "
-													+ clientArea);
-											int printerOrientation = clientArea.width > clientArea.height ? 2
-													: 1;
-											GC gc = new GC(printer);
-											Transform transform = new Transform(
-													printer);
-											if (scaleX != 1 || scaleY != 1) {
-												transform.scale(scaleX, scaleY);
-											}
-											if (renderedModel.getUIModel()
-													.getOrientation() != printerOrientation) {
-												transform
-														.translate(
-																renderedModel
-																		.getUIModel()
-																		.getHeight() / 2,
-																renderedModel
-																		.getUIModel()
-																		.getHeight() / 2);
-												transform.rotate(90f);
-												transform.translate(-1f
-														* renderedModel
-																.getUIModel()
-																.getHeight()
-														/ 2, -1f
-														* renderedModel
-																.getUIModel()
-																.getHeight()
-														/ 2);
-											}
-											gc.setTransform(transform);
-											gc.setLineWidth(1);
-											renderedModel.paintCanvas(gc,
-													resourceMap,
-													Theme.RENDER_FLAG_PRINTING);
-											transform.dispose();
-											gc.dispose();
-											printer.endPage();
-										}
-										printer.endJob();
-										printer.dispose();
+						@Override
+						public void run() {
+							Shell workbenchShell = Display.getCurrent().getActiveShell();
+							PrintDialog pd = new PrintDialog(workbenchShell);
+							pd.setStartPage(1);
+							pd.setEndPage(designs.size());
+							PrinterData printerData = pd.open();
+							if (printerData != null) {
+								Printer printer = new Printer(printerData);
+								printer.startJob("Print Callflow");
+								for (int i = printerData.startPage - 1; i < Math.min(printerData.endPage,
+										designs.size()); i++) {
+									CanvasRecord cr = designs.get(i);
+									RenderedModel renderedModel = cr.renderedCanvas;
+									printer.startPage();
+									Point dpi = printer.getDPI();
+									System.out.println("printer dpi: " + dpi.x + ", " + dpi.y);
+									float scaleX = dpi.x / 96f;
+									float scaleY = dpi.y / 96f;
+									Rectangle clientArea = printer.getClientArea();
+									System.out.println("Client Area: " + clientArea);
+									int printerOrientation = clientArea.width > clientArea.height ? 2 : 1;
+									GC gc = new GC(printer);
+									Transform transform = new Transform(printer);
+									if (scaleX != 1 || scaleY != 1) {
+										transform.scale(scaleX, scaleY);
 									}
+									if (renderedModel.getUIModel().getOrientation() != printerOrientation) {
+										transform.translate(renderedModel.getUIModel().getHeight() / 2,
+												renderedModel.getUIModel().getHeight() / 2);
+										transform.rotate(90f);
+										transform.translate(-1f * renderedModel.getUIModel().getHeight() / 2,
+												-1f * renderedModel.getUIModel().getHeight() / 2);
+									}
+									gc.setTransform(transform);
+									gc.setLineWidth(1);
+									renderedModel.paintCanvas(gc, resourceMap, Theme.RENDER_FLAG_PRINTING);
+									transform.dispose();
+									gc.dispose();
+									printer.endPage();
 								}
+								printer.endJob();
+								printer.dispose();
+							}
+						}
 
-							});
+					});
 					site.getActionBars().updateActionBars();
 				}
 
@@ -426,34 +374,25 @@ public class ApplicationEditor extends EditorPart implements
 		try {
 			DesignWriter writer = new DesignWriter();
 			// build document contents
-			DocumentBuilderFactory factory = DocumentBuilderFactory
-					.newInstance();
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document document = builder.getDOMImplementation().createDocument(
-					null, "design-fragment", null);
+			Document document = builder.getDOMImplementation().createDocument(null, "design-fragment", null);
 			org.w3c.dom.Element rootElement = document.getDocumentElement();
 			rootElement.setAttribute("xml-version", "4.0.0");
-			if (!ApplicationEditor.this.currentCanvas.renderedCanvas
-					.getUIModel().equals(designDocument.getMainDesign())) {
+			if (!ApplicationEditor.this.currentCanvas.renderedCanvas.getUIModel()
+					.equals(designDocument.getMainDesign())) {
 				rootElement.setAttribute("dialog-only", "true");
-				writer.writeDesign(rootElement,
-						(Design) currentCanvas.renderedCanvas.getUIModel(),
-						selectionFilter);
+				writer.writeDesign(rootElement, (Design) currentCanvas.renderedCanvas.getUIModel(), selectionFilter);
 			} else {
-				writer.writeDesign(rootElement,
-						(Design) designDocument.getMainDesign(),
-						selectionFilter);
+				writer.writeDesign(rootElement, (Design) designDocument.getMainDesign(), selectionFilter);
 
-				org.w3c.dom.Element dialogsElement = rootElement
-						.getOwnerDocument().createElement("dialogs");
+				org.w3c.dom.Element dialogsElement = rootElement.getOwnerDocument().createElement("dialogs");
 				rootElement.appendChild(dialogsElement);
 				for (IDesign dialogDesign : designDocument.getDialogDesigns()) {
 					List<ComponentFrame> items = selection.getSelectedItems();
 					for (ComponentFrame cf : items) {
-						if (cf.getDesignComponent().getId()
-								.equals(dialogDesign.getDesignId())) {
-							writer.writeDesign(dialogsElement,
-									(Design) dialogDesign);
+						if (cf.getDesignComponent().getId().equals(dialogDesign.getDesignId())) {
+							writer.writeDesign(dialogsElement, (Design) dialogDesign);
 							break;
 						}
 					}
@@ -467,14 +406,10 @@ public class ApplicationEditor extends EditorPart implements
 			t.setOutputProperty(OutputKeys.METHOD, "xml");
 			t.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 			t.setOutputProperty(OutputKeys.INDENT, "yes");
-			t.setOutputProperty("{http://xml.apache.org/xslt}indent-amount",
-					"4");
-			t.transform(new DOMSource(document),
-					new XMLWriter(baos).toXMLResult());
-			Clipboard clipboard = new Clipboard(
-					ApplicationEditor.this.canvasTabs.getDisplay());
-			clipboard.setContents(new Object[] { baos.toString() },
-					new Transfer[] { TextTransfer.getInstance() });
+			t.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+			t.transform(new DOMSource(document), new XMLWriter(baos).toXMLResult());
+			Clipboard clipboard = new Clipboard(ApplicationEditor.this.canvasTabs.getDisplay());
+			clipboard.setContents(new Object[] { baos.toString() }, new Transfer[] { TextTransfer.getInstance() });
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -497,12 +432,9 @@ public class ApplicationEditor extends EditorPart implements
 		});
 
 		FileEditorInput fileInput = (FileEditorInput) getEditorInput();
-		File workingLocation = fileInput.getFile().getProject()
-				.getWorkingLocation("org.eclipse.vtp.desktop.model.core")
+		File workingLocation = fileInput.getFile().getProject().getWorkingLocation("org.eclipse.vtp.desktop.model.core")
 				.toFile();
-		File iconPath = new File(workingLocation, fileInput.getFile()
-				.getProjectRelativePath().toString()
-				+ "/");
+		File iconPath = new File(workingLocation, fileInput.getFile().getProjectRelativePath().toString() + "/");
 		System.out.println(iconPath);
 		iconPath.mkdirs();
 		GC gc = new GC(parent);
@@ -510,19 +442,14 @@ public class ApplicationEditor extends EditorPart implements
 		for (CanvasRecord cr : designs) {
 			RenderedModel renderedModel = cr.renderedCanvas;
 			renderedModel.initializeGraphics(gc, resourceMap);
-			if (renderedModel
-					.getUIModel()
-					.getDocument()
-					.getDesignThumbnail(
-							renderedModel.getUIModel().getDesignId()) == null) {
+			if (renderedModel.getUIModel().getDocument()
+					.getDesignThumbnail(renderedModel.getUIModel().getDesignId()) == null) {
 				try {
 					float scale;
 					if (cr.renderedCanvas.getUIModel().getOrientation() == IDesignConstants.LANDSCAPE) {
-						scale = 100f / cr.renderedCanvas.getUIModel()
-								.getWidth();
+						scale = 100f / cr.renderedCanvas.getUIModel().getWidth();
 					} else {
-						scale = 100f / cr.renderedCanvas.getUIModel()
-								.getHeight();
+						scale = 100f / cr.renderedCanvas.getUIModel().getHeight();
 					}
 					Image icon = new Image(Display.getCurrent(), 100, 100);
 					GC gc2 = new GC(icon);
@@ -540,14 +467,12 @@ public class ApplicationEditor extends EditorPart implements
 					// }
 					gc2.setTransform(transform);
 					gc2.setLineWidth(1);
-					cr.renderedCanvas.paintCanvas(gc2, resourceMap,
-							Theme.RENDER_FLAG_NO_SELECTION);
+					cr.renderedCanvas.paintCanvas(gc2, resourceMap, Theme.RENDER_FLAG_NO_SELECTION);
 					transform.dispose();
 					gc2.dispose();
 					ImageLoader imageLoader = new ImageLoader();
 					imageLoader.data = new ImageData[] { icon.getImageData() };
-					File iconFile = new File(iconPath, cr.renderedCanvas
-							.getUIModel().getDesignId() + ".jpg");
+					File iconFile = new File(iconPath, cr.renderedCanvas.getUIModel().getDesignId() + ".jpg");
 					FileOutputStream fos = new FileOutputStream(iconFile);
 					imageLoader.save(fos, SWT.IMAGE_JPEG);
 					fos.close();
@@ -638,12 +563,9 @@ public class ApplicationEditor extends EditorPart implements
 			this.firePropertyChange(PROP_DIRTY);
 		} catch (Exception ex) {
 			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, 0,
-					"Could not save file: "
-							+ designDocument.getUnderlyingFile().getFullPath(),
-					ex);
+					"Could not save file: " + designDocument.getUnderlyingFile().getFullPath(), ex);
 			Activator.getDefault().getLog().log(status);
-			MessageDialog.openError(Display.getDefault().getActiveShell(),
-					"Error Saving",
+			MessageDialog.openError(Display.getDefault().getActiveShell(), "Error Saving",
 					"An error occured while saving.\n\n" + ex.getMessage());
 		}
 	}
@@ -662,8 +584,7 @@ public class ApplicationEditor extends EditorPart implements
 	}
 
 	@Override
-	public void graphicUpdate(int x, int y, int width, int height,
-			boolean inProgress) {
+	public void graphicUpdate(int x, int y, int width, int height, boolean inProgress) {
 		GC gc = new GC(currentCanvas.canvas);
 		currentCanvas.controller.paintCanvas(gc);
 		gc.dispose();
@@ -678,7 +599,7 @@ public class ApplicationEditor extends EditorPart implements
 	}
 
 	@Override
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes" })
 	public Object getAdapter(Class adapter) {
 		if (adapter.isAssignableFrom(this.getClass())) {
 			return this;
@@ -713,8 +634,7 @@ public class ApplicationEditor extends EditorPart implements
 			controller = new BasicController(renderedCanvas);
 			controller.setResourceMap(resourceMap);
 			controller.setContainer(ApplicationEditor.this);
-			canvasFrame = ThemeManager.getDefault().getDefaultTheme()
-					.createCanvasFrame(renderedCanvas.getUIModel());
+			canvasFrame = ThemeManager.getDefault().getDefaultTheme().createCanvasFrame(renderedCanvas.getUIModel());
 
 		}
 
@@ -724,8 +644,7 @@ public class ApplicationEditor extends EditorPart implements
 			sc.getVerticalBar().setPageIncrement(275);
 			sc.getHorizontalBar().setIncrement(30);
 			sc.getHorizontalBar().setPageIncrement(275);
-			canvasFrameComp = new Composite(sc, SWT.DOUBLE_BUFFERED
-					| SWT.NO_BACKGROUND);
+			canvasFrameComp = new Composite(sc, SWT.DOUBLE_BUFFERED | SWT.NO_BACKGROUND);
 			sc.setContent(canvasFrameComp);
 			canvasFrameComp.setLayout(new FormLayout());
 			canvasFrameComp.addControlListener(new ControlListener() {
@@ -747,19 +666,14 @@ public class ApplicationEditor extends EditorPart implements
 			});
 			int canvasWidth = renderedCanvas.getUIModel().getWidth();
 			int canvasHeight = renderedCanvas.getUIModel().getHeight();
-			sc.setMinSize(
-					canvasWidth + canvasFrame.getInsets().x
-							+ canvasFrame.getInsets().width,
-					canvasHeight + canvasFrame.getInsets().y
-							+ canvasFrame.getInsets().height);
+			sc.setMinSize(canvasWidth + canvasFrame.getInsets().x + canvasFrame.getInsets().width,
+					canvasHeight + canvasFrame.getInsets().y + canvasFrame.getInsets().height);
 			sc.setExpandVertical(true);
 			sc.setExpandHorizontal(true);
-			canvas = new org.eclipse.swt.widgets.Canvas(canvasFrameComp,
-					SWT.DOUBLE_BUFFERED);
+			canvas = new org.eclipse.swt.widgets.Canvas(canvasFrameComp, SWT.DOUBLE_BUFFERED);
 			Font nameFont = new Font(canvas.getDisplay(), "sans", 9, SWT.NORMAL);
 			canvas.setFont(nameFont);
-			canvas.setBackground(parent.getDisplay().getSystemColor(
-					SWT.COLOR_WHITE));
+			canvas.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
 			FormData fd = new FormData();
 			fd.left = new FormAttachment(50, -1 * canvasWidth / 2);
 			fd.top = new FormAttachment(50, -1 * canvasHeight / 2);
@@ -813,11 +727,8 @@ public class ApplicationEditor extends EditorPart implements
 		public void renderedModelFormatChanged(RenderedModel renderedCanvas) {
 			int width = renderedCanvas.getUIModel().getWidth();
 			int height = renderedCanvas.getUIModel().getHeight();
-			sc.setMinSize(
-					width + canvasFrame.getInsets().x
-							+ canvasFrame.getInsets().width,
-					height + canvasFrame.getInsets().y
-							+ canvasFrame.getInsets().height);
+			sc.setMinSize(width + canvasFrame.getInsets().x + canvasFrame.getInsets().width,
+					height + canvasFrame.getInsets().y + canvasFrame.getInsets().height);
 			FormData fd = new FormData();
 			fd.left = new FormAttachment(50, -1 * width / 2);
 			fd.top = new FormAttachment(50, -1 * height / 2);
@@ -849,8 +760,7 @@ public class ApplicationEditor extends EditorPart implements
 
 		public class CanvasUndoContext implements IUndoContext {
 			public String getId() {
-				return renderedCanvas.getUIModel().getDocument()
-						.getUnderlyingFile()
+				return renderedCanvas.getUIModel().getDocument().getUnderlyingFile()
 						+ renderedCanvas.getUIModel().getDesignId();
 			}
 
@@ -862,8 +772,7 @@ public class ApplicationEditor extends EditorPart implements
 			@Override
 			public boolean matches(IUndoContext context) {
 				if (context instanceof CanvasUndoContext) {
-					return getId()
-							.equals(((CanvasUndoContext) context).getId());
+					return getId().equals(((CanvasUndoContext) context).getId());
 				}
 				return false;
 			}
@@ -916,8 +825,7 @@ public class ApplicationEditor extends EditorPart implements
 			}
 		});
 		for (PalletFocusListener focusListener : palletListeners) {
-			focusListener.focusChanged(currentCanvas.renderedCanvas
-					.getUIModel());
+			focusListener.focusChanged(currentCanvas.renderedCanvas.getUIModel());
 		}
 	}
 
@@ -942,8 +850,7 @@ public class ApplicationEditor extends EditorPart implements
 	}
 
 	@Override
-	public void dialogDesignAdded(IDesignDocument designDocument,
-			IDesign dialogDesign) {
+	public void dialogDesignAdded(IDesignDocument designDocument, IDesign dialogDesign) {
 		RenderedModel dialogModel = new RenderedModel(dialogDesign);
 		dialogModel.setUndoSystem(this);
 		CanvasRecord dialogRecord = new CanvasRecord(dialogModel);
@@ -957,8 +864,7 @@ public class ApplicationEditor extends EditorPart implements
 	}
 
 	@Override
-	public void dialogDesignRemoved(IDesignDocument designDocument,
-			String dialogId) {
+	public void dialogDesignRemoved(IDesignDocument designDocument, String dialogId) {
 		for (CanvasRecord cr : designs) {
 			if (cr.renderedCanvas.getUIModel().getDesignId().equals(dialogId)) {
 				designs.remove(cr);
@@ -978,25 +884,22 @@ public class ApplicationEditor extends EditorPart implements
 		PartialDesignDocument pdd = null;
 		CanvasRecord targetDesign = null;
 
-		public PasteOperation(PartialDesignDocument pdd,
-				CanvasRecord targetDesign) {
+		public PasteOperation(PartialDesignDocument pdd, CanvasRecord targetDesign) {
 			super("Paste");
 			this.pdd = pdd;
 			this.targetDesign = targetDesign;
 		}
 
 		@Override
-		public IStatus execute(IProgressMonitor monitor, IAdaptable info)
-				throws ExecutionException {
+		public IStatus execute(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 			DesignDocument dd = (DesignDocument) designDocument;
 			IDesign design = targetDesign.renderedCanvas.getUIModel();
 			boolean doit = true;
 			if (!dd.canMergeAll(design, pdd)) {
-				MessageBox confirmationDialog = new MessageBox(Display
-						.getCurrent().getActiveShell(), SWT.YES | SWT.NO
-						| SWT.ICON_QUESTION);
-				confirmationDialog
-						.setMessage("Not all elements can be used in the target canvas.  Would you like to paste the remaining elements?");
+				MessageBox confirmationDialog = new MessageBox(Display.getCurrent().getActiveShell(),
+						SWT.YES | SWT.NO | SWT.ICON_QUESTION);
+				confirmationDialog.setMessage(
+						"Not all elements can be used in the target canvas.  Would you like to paste the remaining elements?");
 
 				int result = confirmationDialog.open();
 
@@ -1013,8 +916,7 @@ public class ApplicationEditor extends EditorPart implements
 		}
 
 		@Override
-		public IStatus redo(IProgressMonitor monitor, IAdaptable info)
-				throws ExecutionException {
+		public IStatus redo(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 			System.out.println("redoing paste operation");
 			DesignDocument dd = (DesignDocument) designDocument;
 			IDesign design = targetDesign.renderedCanvas.getUIModel();
@@ -1027,8 +929,7 @@ public class ApplicationEditor extends EditorPart implements
 		}
 
 		@Override
-		public IStatus undo(IProgressMonitor monitor, IAdaptable info)
-				throws ExecutionException {
+		public IStatus undo(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 			System.out.println("undoing paste operation");
 			targetDesign.renderedCanvas.getSelection().clear();
 			DesignDocument dd = (DesignDocument) designDocument;

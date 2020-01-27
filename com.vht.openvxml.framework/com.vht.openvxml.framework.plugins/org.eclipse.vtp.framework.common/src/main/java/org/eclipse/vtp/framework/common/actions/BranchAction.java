@@ -270,7 +270,6 @@ public class BranchAction implements IAction {
 	 *            The type of comparison to perform.
 	 * @return The result of the comparison operation.
 	 */
-	@SuppressWarnings("unchecked")
 	private boolean performCastComparison(Object left, Object right,
 			int comparison) {
 		return performComparison((Comparable<Object>) left, right, comparison);

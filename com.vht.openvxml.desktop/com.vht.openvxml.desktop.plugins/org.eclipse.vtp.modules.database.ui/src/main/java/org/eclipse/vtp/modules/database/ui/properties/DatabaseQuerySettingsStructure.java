@@ -104,8 +104,7 @@ public class DatabaseQuerySettingsStructure implements Cloneable {
 
 	@Override
 	public Object clone() {
-		DatabaseQuerySettingsStructure copy = new DatabaseQuerySettingsStructure(
-				objectSet);
+		DatabaseQuerySettingsStructure copy = new DatabaseQuerySettingsStructure(objectSet);
 		copy.targetVariableExists = targetVariableExists;
 		copy.targetVariableName = targetVariableName;
 		copy.targetVariableType = targetVariableType;
@@ -131,8 +130,7 @@ public class DatabaseQuerySettingsStructure implements Cloneable {
 	}
 
 	public void read(Element element) {
-		targetVariableExists = Boolean.valueOf(
-				element.getAttribute("var-exists")).booleanValue();
+		targetVariableExists = Boolean.valueOf(element.getAttribute("var-exists")).booleanValue();
 		targetVariableName = element.getAttribute("var-name");
 		if (element.getAttributeNode("var-type") != null) // legacy support
 		{
@@ -156,15 +154,12 @@ public class DatabaseQuerySettingsStructure implements Cloneable {
 				}
 			}
 		} else {
-			List<Element> typeElements = XMLUtilities.getElementsByTagName(
-					element, "data-type", true);
+			List<Element> typeElements = XMLUtilities.getElementsByTagName(element, "data-type", true);
 			if (typeElements.size() > 0) {
-				targetVariableType = FieldType.load(objectSet,
-						typeElements.get(0));
+				targetVariableType = FieldType.load(objectSet, typeElements.get(0));
 			}
 		}
-		targetVariableSecure = Boolean.parseBoolean(element
-				.getAttribute("var-secured"));
+		targetVariableSecure = Boolean.parseBoolean(element.getAttribute("var-secured"));
 		sourceDatabase = element.getAttribute("db-name");
 		sourceDatabaseTable = element.getAttribute("db-table");
 		resultLimit = Integer.parseInt(element.getAttribute("db-result-limit"));
@@ -174,8 +169,7 @@ public class DatabaseQuerySettingsStructure implements Cloneable {
 		for (int i = 0; i < nl.getLength(); i++) {
 			Element dmElement = (Element) nl.item(i);
 			DataMapping dm = new DataMapping(dmElement.getAttribute("name"),
-					Integer.parseInt(dmElement.getAttribute("type")),
-					dmElement.getAttribute("value"));
+					Integer.parseInt(dmElement.getAttribute("type")), dmElement.getAttribute("value"));
 			dataMapping.add(dm);
 		}
 
@@ -183,8 +177,7 @@ public class DatabaseQuerySettingsStructure implements Cloneable {
 
 		for (int i = 0; i < nl.getLength(); i++) {
 			Element scElement = (Element) nl.item(i);
-			SelectionCriteria sc = new SelectionCriteria(
-					scElement.getAttribute("name"));
+			SelectionCriteria sc = new SelectionCriteria(scElement.getAttribute("name"));
 			sc.comparison = Integer.parseInt(scElement.getAttribute("comp"));
 			sc.type = Integer.parseInt(scElement.getAttribute("type"));
 			sc.value = scElement.getAttribute("value");
@@ -193,48 +186,36 @@ public class DatabaseQuerySettingsStructure implements Cloneable {
 	}
 
 	public void write(Element element) {
-		element.setAttribute("var-exists",
-				Boolean.toString(targetVariableExists));
-		element.setAttribute("var-name", (targetVariableName == null) ? ""
-				: targetVariableName);
+		element.setAttribute("var-exists", Boolean.toString(targetVariableExists));
+		element.setAttribute("var-name", (targetVariableName == null) ? "" : targetVariableName);
 		if (targetVariableType != null) {
 			targetVariableType.write(element);
 		}
-		element.setAttribute("var-secured",
-				Boolean.toString(targetVariableSecure));
-		element.setAttribute("db-name", (sourceDatabase == null) ? ""
-				: sourceDatabase);
-		element.setAttribute("db-table", (sourceDatabaseTable == null) ? ""
-				: sourceDatabaseTable);
+		element.setAttribute("var-secured", Boolean.toString(targetVariableSecure));
+		element.setAttribute("db-name", (sourceDatabase == null) ? "" : sourceDatabase);
+		element.setAttribute("db-table", (sourceDatabaseTable == null) ? "" : sourceDatabaseTable);
 		element.setAttribute("db-result-limit", Integer.toString(resultLimit));
 
-		Element mappingsElement = element.getOwnerDocument().createElement(
-				"mappings");
+		Element mappingsElement = element.getOwnerDocument().createElement("mappings");
 		element.appendChild(mappingsElement);
 
 		for (int i = 0; i < dataMapping.size(); i++) {
 			DataMapping dm = dataMapping.get(i);
-			Element dmElement = mappingsElement.getOwnerDocument()
-					.createElement("mapping");
+			Element dmElement = mappingsElement.getOwnerDocument().createElement("mapping");
 			mappingsElement.appendChild(dmElement);
-			dmElement.setAttribute("name", (dm.fieldName == null) ? ""
-					: dm.fieldName);
+			dmElement.setAttribute("name", (dm.fieldName == null) ? "" : dm.fieldName);
 			dmElement.setAttribute("type", Integer.toString(dm.mappingType));
-			dmElement.setAttribute("value", (dm.mappingValue == null) ? ""
-					: dm.mappingValue);
+			dmElement.setAttribute("value", (dm.mappingValue == null) ? "" : dm.mappingValue);
 		}
 
-		Element criteriaElement = element.getOwnerDocument().createElement(
-				"criteria");
+		Element criteriaElement = element.getOwnerDocument().createElement("criteria");
 		element.appendChild(criteriaElement);
 
 		for (int i = 0; i < criteria.size(); i++) {
 			SelectionCriteria sc = criteria.get(i);
-			Element scElement = criteriaElement.getOwnerDocument()
-					.createElement("criterium");
+			Element scElement = criteriaElement.getOwnerDocument().createElement("criterium");
 			criteriaElement.appendChild(scElement);
-			scElement.setAttribute("name", (sc.columnName == null) ? ""
-					: sc.columnName);
+			scElement.setAttribute("name", (sc.columnName == null) ? "" : sc.columnName);
 			scElement.setAttribute("comp", Integer.toString(sc.comparison));
 			scElement.setAttribute("type", Integer.toString(sc.type));
 			scElement.setAttribute("value", (sc.value == null) ? "" : sc.value);
@@ -283,8 +264,7 @@ public class DatabaseQuerySettingsStructure implements Cloneable {
 		int mappingType = 0;
 		String mappingValue;
 
-		public DataMapping(String fieldName, int mappingType,
-				String mappingValue) {
+		public DataMapping(String fieldName, int mappingType, String mappingValue) {
 			super();
 			this.fieldName = fieldName;
 			this.mappingType = mappingType;
@@ -293,8 +273,7 @@ public class DatabaseQuerySettingsStructure implements Cloneable {
 
 		@Override
 		public Object clone() {
-			DataMapping copy = new DataMapping(fieldName, mappingType,
-					mappingValue);
+			DataMapping copy = new DataMapping(fieldName, mappingType, mappingValue);
 
 			return copy;
 		}

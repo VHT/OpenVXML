@@ -35,21 +35,17 @@ public class InputGrammarCreatorPanelManager {
 	Map<String, ContentCreatorRecord> creatorPanels = new HashMap<String, ContentCreatorRecord>();
 	List<ContentCreatorRecord> sortedPanels = new ArrayList<ContentCreatorRecord>();
 
-	@SuppressWarnings("unchecked")
 	public InputGrammarCreatorPanelManager() {
-		IConfigurationElement[] creatorExtensions = Platform
-				.getExtensionRegistry().getConfigurationElementsFor(
-						inputCreatorPanelExtensionId);
+		IConfigurationElement[] creatorExtensions = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(inputCreatorPanelExtensionId);
 		for (IConfigurationElement creatorExtension : creatorExtensions) {
 			ContentCreatorRecord ccr = new ContentCreatorRecord();
 			ccr.contentType = creatorExtension.getAttribute("input-type");
 			ccr.contentName = creatorExtension.getAttribute("input-type-name");
 			String className = creatorExtension.getAttribute("class");
-			Bundle contributor = Platform.getBundle(creatorExtension
-					.getContributor().getName());
+			Bundle contributor = Platform.getBundle(creatorExtension.getContributor().getName());
 			try {
-				ccr.creatorClass = (Class<InputGrammarCreatorPanel>) contributor
-						.loadClass(className);
+				ccr.creatorClass = (Class<InputGrammarCreatorPanel>) contributor.loadClass(className);
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 				continue;

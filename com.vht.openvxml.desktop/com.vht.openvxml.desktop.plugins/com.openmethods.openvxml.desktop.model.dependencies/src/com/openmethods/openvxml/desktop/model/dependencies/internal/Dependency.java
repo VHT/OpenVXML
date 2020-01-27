@@ -95,15 +95,12 @@ public class Dependency extends WorkflowResource implements IDependency {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.internal.WorkflowResource#getAdapter
+	 * @see org.eclipse.vtp.desktop.model.core.internal.WorkflowResource#getAdapter
 	 * (java.lang.Class)
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapterClass) {
-		if (IResource.class.isAssignableFrom(adapterClass)
-				&& adapterClass.isAssignableFrom(file.getClass())) {
+		if (IResource.class.isAssignableFrom(adapterClass) && adapterClass.isAssignableFrom(file.getClass())) {
 			return file;
 		}
 		if (Dependency.class.isAssignableFrom(adapterClass)) {

@@ -48,10 +48,8 @@ public class MediaFolder extends MediaResource implements IMediaFolder {
 	 * Creates a new <code>MediaFolder</code> in the provided container with the
 	 * given eclipse folder resource.
 	 *
-	 * @param container
-	 *            The parent media container
-	 * @param folder
-	 *            The eclipse folder resource this media folder represents
+	 * @param container The parent media container
+	 * @param folder    The eclipse folder resource this media folder represents
 	 */
 	public MediaFolder(IMediaContainer container, IFolder folder) {
 		super(container, folder);
@@ -79,8 +77,7 @@ public class MediaFolder extends MediaResource implements IMediaFolder {
 				ret.add(new MediaFolder(this, f));
 			} else {
 				IFile f = (IFile) re;
-				IMediaFile mf = MediaTypeManager.getInstance().createMediaFile(
-						this, f);
+				IMediaFile mf = MediaTypeManager.getInstance().createMediaFile(this, f);
 				if (mf != null) {
 					ret.add(mf);
 				}
@@ -93,8 +90,7 @@ public class MediaFolder extends MediaResource implements IMediaFolder {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IMediaContainer#getMediaFolder(java
+	 * @see org.eclipse.vtp.desktop.core.project.IMediaContainer#getMediaFolder(java
 	 * .lang.String)
 	 */
 	@Override
@@ -107,8 +103,7 @@ public class MediaFolder extends MediaResource implements IMediaFolder {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IMediaContainer#getMediaFile(java
+	 * @see org.eclipse.vtp.desktop.core.project.IMediaContainer#getMediaFile(java
 	 * .lang.String)
 	 */
 	@Override
@@ -121,8 +116,7 @@ public class MediaFolder extends MediaResource implements IMediaFolder {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IMediaContainer#create(java.lang
+	 * @see org.eclipse.vtp.desktop.core.project.IMediaContainer#create(java.lang
 	 * .String)
 	 */
 	@Override
@@ -133,16 +127,13 @@ public class MediaFolder extends MediaResource implements IMediaFolder {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IMediaContainer#create(java.lang
+	 * @see org.eclipse.vtp.desktop.core.project.IMediaContainer#create(java.lang
 	 * .String, java.io.InputStream, org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
-	public IMediaFile create(String name, InputStream source,
-			IProgressMonitor monitor) throws CoreException {
+	public IMediaFile create(String name, InputStream source, IProgressMonitor monitor) throws CoreException {
 		IFile file = folder.getFile(name);
-		IMediaFile mf = MediaTypeManager.getInstance().createMediaFile(this,
-				file);
+		IMediaFile mf = MediaTypeManager.getInstance().createMediaFile(this, file);
 		if (mf != null) {
 			file.create(source, false, null);
 		}
@@ -152,8 +143,7 @@ public class MediaFolder extends MediaResource implements IMediaFolder {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IMediaContainer#makeDirectory(java
+	 * @see org.eclipse.vtp.desktop.core.project.IMediaContainer#makeDirectory(java
 	 * .lang.String)
 	 */
 	@Override
@@ -183,8 +173,7 @@ public class MediaFolder extends MediaResource implements IMediaFolder {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.ui.model.IWorkbenchAdapter#getImageDescriptor(java.lang.Object
-	 * )
+	 * org.eclipse.ui.model.IWorkbenchAdapter#getImageDescriptor(java.lang.Object )
 	 */
 	public ImageDescriptor getImageDescriptor(Object object) {
 		return null;
@@ -206,7 +195,6 @@ public class MediaFolder extends MediaResource implements IMediaFolder {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapterClass) {
 		if (adapterClass.isAssignableFrom(IFolder.class)) {
 			return folder;

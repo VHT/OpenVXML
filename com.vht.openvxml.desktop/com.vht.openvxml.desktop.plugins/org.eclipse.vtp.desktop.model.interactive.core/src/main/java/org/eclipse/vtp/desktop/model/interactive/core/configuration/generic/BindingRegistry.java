@@ -58,7 +58,6 @@ public class BindingRegistry {
 			Bundle contributor = Platform.getBundle(bindingTypeExtension
 					.getContributor().getName());
 			try {
-				@SuppressWarnings("unchecked")
 				Class<BindingItem> bindingClass = (Class<BindingItem>) contributor
 						.loadClass(className);
 				BindingType bt = new BindingType(bindingTypeId, bindingClass);

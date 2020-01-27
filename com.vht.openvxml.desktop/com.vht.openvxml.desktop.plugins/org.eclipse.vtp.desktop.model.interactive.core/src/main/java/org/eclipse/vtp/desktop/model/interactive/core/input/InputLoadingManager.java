@@ -34,25 +34,18 @@ public class InputLoadingManager implements IInputGrammarFactory {
 
 	public InputLoadingManager() {
 		super();
-		IConfigurationElement[] primitiveExtensions = Platform
-				.getExtensionRegistry().getConfigurationElementsFor(
-						inputTypeExtensionId);
+		IConfigurationElement[] primitiveExtensions = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(inputTypeExtensionId);
 		for (IConfigurationElement primitiveExtension : primitiveExtensions) {
-			String inputElementURI = primitiveExtension
-					.getAttribute("element-uri");
-			String inputElementName = primitiveExtension
-					.getAttribute("element-name");
+			String inputElementURI = primitiveExtension.getAttribute("element-uri");
+			String inputElementName = primitiveExtension.getAttribute("element-name");
 			String inputClassName = primitiveExtension.getAttribute("class");
-			if (inputElementURI == null || inputElementName == null
-					|| inputClassName == null) {
+			if (inputElementURI == null || inputElementName == null || inputClassName == null) {
 				continue;
 			}
-			Bundle contributor = Platform.getBundle(primitiveExtension
-					.getContributor().getName());
+			Bundle contributor = Platform.getBundle(primitiveExtension.getContributor().getName());
 			try {
-				@SuppressWarnings("unchecked")
-				Class<InputGrammar> providerClass = (Class<InputGrammar>) contributor
-						.loadClass(inputClassName);
+				Class<InputGrammar> providerClass = (Class<InputGrammar>) contributor.loadClass(inputClassName);
 				InputRegistration reg = new InputRegistration();
 				reg.id = primitiveExtension.getAttribute("id");
 				reg.inputElementURI = inputElementURI;
@@ -77,15 +70,11 @@ public class InputLoadingManager implements IInputGrammarFactory {
 				return null;
 			}
 			try {
-				return reg.inputClass
-						.getConstructor(
-								new Class[] { IInputGrammarFactory.class,
-										Element.class }).newInstance(
-								new Object[] { this, inputElement });
+				return reg.inputClass.getConstructor(new Class[] { IInputGrammarFactory.class, Element.class })
+						.newInstance(new Object[] { this, inputElement });
 			} catch (NoSuchMethodException e) {
-				return reg.inputClass.getConstructor(
-						new Class[] { Element.class }).newInstance(
-						new Object[] { inputElement });
+				return reg.inputClass.getConstructor(new Class[] { Element.class })
+						.newInstance(new Object[] { inputElement });
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

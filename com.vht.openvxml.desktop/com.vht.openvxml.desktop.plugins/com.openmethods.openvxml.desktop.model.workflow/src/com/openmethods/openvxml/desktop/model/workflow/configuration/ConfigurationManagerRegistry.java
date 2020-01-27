@@ -33,22 +33,19 @@ public class ConfigurationManagerRegistry {
 
 	public ConfigurationManagerRegistry() {
 		super();
-		IConfigurationElement[] managerExtensions = Platform
-				.getExtensionRegistry().getConfigurationElementsFor(
-						configurationManagerExtensionId);
+		IConfigurationElement[] managerExtensions = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(configurationManagerExtensionId);
 		for (IConfigurationElement managerExtension : managerExtensions) {
 			String managerId = managerExtension.getAttribute("id");
 			String namespace = managerExtension.getAttribute("xml-namespace");
 			String element = managerExtension.getAttribute("xml-tag");
 			String className = managerExtension.getAttribute("class");
-			Bundle contributor = Platform.getBundle(managerExtension
-					.getContributor().getName());
+			Bundle contributor = Platform.getBundle(managerExtension.getContributor().getName());
 			try {
-				@SuppressWarnings("unchecked")
 				Class<ConfigurationManager> managerClass = (Class<ConfigurationManager>) contributor
 						.loadClass(className);
-				ConfigurationManagerRecord cmr = new ConfigurationManagerRecord(
-						managerId, namespace, element, managerClass);
+				ConfigurationManagerRecord cmr = new ConfigurationManagerRecord(managerId, namespace, element,
+						managerClass);
 				managerRecords.add(cmr);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -57,8 +54,7 @@ public class ConfigurationManagerRegistry {
 		}
 	}
 
-	public ConfigurationManager getConfigurationManager(IDesign design,
-			String managerId) {
+	public ConfigurationManager getConfigurationManager(IDesign design, String managerId) {
 		for (int i = 0; i < managerRecords.size(); i++) {
 			ConfigurationManagerRecord cmr = managerRecords.get(i);
 			if (cmr.getManagerId().equals(managerId)) {
@@ -71,8 +67,7 @@ public class ConfigurationManagerRegistry {
 	public String convertLegacyXMLtoId(String namespace, String element) {
 		for (int i = 0; i < managerRecords.size(); i++) {
 			ConfigurationManagerRecord cmr = managerRecords.get(i);
-			if (element.equals(cmr.getElement())
-					&& namespace.equals(cmr.getNamespace())) {
+			if (element.equals(cmr.getElement()) && namespace.equals(cmr.getNamespace())) {
 				return cmr.managerId;
 			}
 		}
@@ -87,9 +82,8 @@ public class ConfigurationManagerRegistry {
 		private Class<ConfigurationManager> managerClass;
 		private Constructor<ConfigurationManager> constructor = null;
 
-		public ConfigurationManagerRecord(String managerId, String namespace,
-				String element, Class<ConfigurationManager> managerClass)
-				throws Exception {
+		public ConfigurationManagerRecord(String managerId, String namespace, String element,
+				Class<ConfigurationManager> managerClass) throws Exception {
 			super();
 			this.managerId = managerId;
 			this.namespace = namespace;

@@ -48,8 +48,8 @@ public class DatabaseTable extends WorkflowResource implements IDatabaseTable {
 	Database database;
 
 	/**
-	 * The eclipse file resource that contains the definition of the coloumns
-	 * used in this database table.
+	 * The eclipse file resource that contains the definition of the coloumns used
+	 * in this database table.
 	 */
 	IFile file;
 
@@ -65,14 +65,12 @@ public class DatabaseTable extends WorkflowResource implements IDatabaseTable {
 	List<DatabaseTableColumn> columns;
 
 	/**
-	 * Creates a new <code>DatabaseTable</code> with the given parent database
-	 * and eclipse file resource.
+	 * Creates a new <code>DatabaseTable</code> with the given parent database and
+	 * eclipse file resource.
 	 *
-	 * @param database
-	 *            The parent database
-	 * @param file
-	 *            The eclipse file resource that contains the definition of
-	 *            table columns
+	 * @param database The parent database
+	 * @param file     The eclipse file resource that contains the definition of
+	 *                 table columns
 	 */
 	public DatabaseTable(Database database, IFile file) {
 		super();
@@ -88,8 +86,7 @@ public class DatabaseTable extends WorkflowResource implements IDatabaseTable {
 	 */
 	private void loadModel() {
 		try {
-			Document document = DocumentBuilderFactory.newInstance()
-					.newDocumentBuilder().parse(file.getContents());
+			Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file.getContents());
 			Element rootElement = document.getDocumentElement();
 			name = rootElement.getAttribute("name");
 			columns = new ArrayList<DatabaseTableColumn>();
@@ -99,14 +96,11 @@ public class DatabaseTable extends WorkflowResource implements IDatabaseTable {
 			for (int i = 0; i < nl.getLength(); i++) {
 				Element fieldElement = (Element) nl.item(i);
 				String fieldName = fieldElement.getAttribute("name");
-				NodeList dtnl = fieldElement
-						.getElementsByTagName("column-type");
+				NodeList dtnl = fieldElement.getElementsByTagName("column-type");
 
 				if (dtnl.getLength() > 0) {
-					ColumnType fieldDataType = ColumnType.load((Element) dtnl
-							.item(0));
-					DatabaseTableColumn dtc = new DatabaseTableColumn(this,
-							fieldName, fieldDataType);
+					ColumnType fieldDataType = ColumnType.load((Element) dtnl.item(0));
+					DatabaseTableColumn dtc = new DatabaseTableColumn(this, fieldName, fieldDataType);
 					columns.add(dtc);
 				}
 			}
@@ -120,8 +114,7 @@ public class DatabaseTable extends WorkflowResource implements IDatabaseTable {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.internals.VoiceResource#getObjectId
+	 * @see org.eclipse.vtp.desktop.core.project.internals.VoiceResource#getObjectId
 	 * ()
 	 */
 	@Override
@@ -160,19 +153,16 @@ public class DatabaseTable extends WorkflowResource implements IDatabaseTable {
 	}
 
 	/**
-	 * Requests that the contents of the column definition resource be replace
-	 * with the data provided by the given input stream.
+	 * Requests that the contents of the column definition resource be replace with
+	 * the data provided by the given input stream.
 	 *
-	 * @param source
-	 *            The input stream containing the new contents.
-	 * @throws CoreException
-	 *             If an error occured during the file update
+	 * @param source The input stream containing the new contents.
+	 * @throws CoreException If an error occured during the file update
 	 */
 	@Override
 	public void write(InputStream source) throws CoreException {
 		file.setContents(source, true, true, null);
-		WorkflowCore.getDefault().postObjectEvent(
-				new ReloadObjectDataEvent(getObjectId()));
+		WorkflowCore.getDefault().postObjectEvent(new ReloadObjectDataEvent(getObjectId()));
 	}
 
 	/*
@@ -214,15 +204,12 @@ public class DatabaseTable extends WorkflowResource implements IDatabaseTable {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.internal.WorkflowResource#getAdapter
+	 * @see org.eclipse.vtp.desktop.model.core.internal.WorkflowResource#getAdapter
 	 * (java.lang.Class)
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapterClass) {
-		if (IResource.class.isAssignableFrom(adapterClass)
-				&& adapterClass.isAssignableFrom(file.getClass())) {
+		if (IResource.class.isAssignableFrom(adapterClass) && adapterClass.isAssignableFrom(file.getClass())) {
 			return file;
 		}
 		if (DatabaseTable.class.isAssignableFrom(adapterClass)) {
@@ -234,8 +221,7 @@ public class DatabaseTable extends WorkflowResource implements IDatabaseTable {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.projects.core.IDatabaseTable#getUnderlyingFile()
+	 * @see org.eclipse.vtp.desktop.projects.core.IDatabaseTable#getUnderlyingFile()
 	 */
 	@Override
 	public IFile getUnderlyingFile() {

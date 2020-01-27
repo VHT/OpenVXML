@@ -36,28 +36,21 @@ public class DesignElementActionManager {
 	public DesignElementActionManager() {
 		super();
 		actionRecords = new ArrayList<ActionRecord>();
-		IConfigurationElement[] primitiveExtensions = Platform
-				.getExtensionRegistry().getConfigurationElementsFor(
-						designElementActionExtensionPointId);
+		IConfigurationElement[] primitiveExtensions = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(designElementActionExtensionPointId);
 		for (IConfigurationElement primitiveExtension : primitiveExtensions) {
 			ActionRecord ar = new ActionRecord();
-			String filterClassName = primitiveExtension
-					.getAttribute("filter-class");
-			String actionClassName = primitiveExtension
-					.getAttribute("action-class");
-			Bundle contributor = Platform.getBundle(primitiveExtension
-					.getContributor().getName());
+			String filterClassName = primitiveExtension.getAttribute("filter-class");
+			String actionClassName = primitiveExtension.getAttribute("action-class");
+			Bundle contributor = Platform.getBundle(primitiveExtension.getContributor().getName());
 			try {
-				@SuppressWarnings("unchecked")
 				Class<DesignElementActionFilter> filterClass = (Class<DesignElementActionFilter>) contributor
 						.loadClass(filterClassName);
 				ar.filter = filterClass.newInstance();
-				@SuppressWarnings("unchecked")
 				Class<DesignElementAction> actionClass = (Class<DesignElementAction>) contributor
 						.loadClass(actionClassName);
 				ar.actionClass = actionClass;
-				ar.con = actionClass.getConstructor(IDesignElement.class,
-						CommandListener.class);
+				ar.con = actionClass.getConstructor(IDesignElement.class, CommandListener.class);
 				actionRecords.add(ar);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -65,8 +58,7 @@ public class DesignElementActionManager {
 		}
 	}
 
-	public List<DesignElementAction> getActions(IDesignElement element,
-			CommandListener commandListener) {
+	public List<DesignElementAction> getActions(IDesignElement element, CommandListener commandListener) {
 		List<DesignElementAction> ret = new LinkedList<DesignElementAction>();
 		for (ActionRecord ar : actionRecords) {
 			if (ar.filter.isApplicable(element)) {
@@ -82,8 +74,7 @@ public class DesignElementActionManager {
 		Constructor<DesignElementAction> con = null;
 		DesignElementActionFilter filter = null;
 
-		DesignElementAction createAction(IDesignElement element,
-				CommandListener commandListener) {
+		DesignElementAction createAction(IDesignElement element, CommandListener commandListener) {
 			try {
 				return con.newInstance(element, commandListener);
 			} catch (Exception e) {

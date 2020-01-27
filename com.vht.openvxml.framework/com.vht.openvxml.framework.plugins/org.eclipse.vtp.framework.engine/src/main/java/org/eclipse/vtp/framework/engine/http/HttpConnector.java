@@ -594,7 +594,6 @@ public class HttpConnector {
 		} else if (document instanceof ControllerDocument) {
 			ControllerDocument cd = (ControllerDocument) document;
 			if (cd.getTarget() == null) {
-				@SuppressWarnings("unchecked")
 				Map<String, Map<String, Object>> outgoing = (Map<String, Map<String, Object>>) httpSession
 						.getAttribute(fullPrefix + "outgoing-data");
 				int newDepth = depth.intValue() - 1;

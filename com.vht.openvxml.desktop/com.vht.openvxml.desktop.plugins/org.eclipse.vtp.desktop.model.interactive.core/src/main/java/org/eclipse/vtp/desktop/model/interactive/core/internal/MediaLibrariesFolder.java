@@ -13,8 +13,7 @@ import org.eclipse.vtp.desktop.model.interactive.core.IMediaObject;
 import org.eclipse.vtp.desktop.model.interactive.core.IMediaObjectContainer;
 import org.eclipse.vtp.desktop.model.interactive.core.IMediaProject;
 
-public class MediaLibrariesFolder extends MediaObject implements
-		IMediaLibrariesFolder {
+public class MediaLibrariesFolder extends MediaObject implements IMediaLibrariesFolder {
 	private static final String HASHPREFIX = "MEDIALIBRARIESFOLDER";
 	private IMediaProject parent;
 	private IFolder folder;
@@ -80,7 +79,6 @@ public class MediaLibrariesFolder extends MediaObject implements
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapterClass) {
 		if (adapterClass.isAssignableFrom(IFolder.class)) {
 			return folder;
@@ -91,8 +89,7 @@ public class MediaLibrariesFolder extends MediaObject implements
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof MediaLibrariesFolder) {
-			return folder.equals(((MediaLibrariesFolder) obj)
-					.getUnderlyingFolder());
+			return folder.equals(((MediaLibrariesFolder) obj).getUnderlyingFolder());
 		}
 		return false;
 	}

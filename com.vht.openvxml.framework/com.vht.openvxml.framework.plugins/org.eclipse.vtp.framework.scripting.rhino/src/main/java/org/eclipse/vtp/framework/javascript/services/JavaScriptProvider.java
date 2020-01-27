@@ -29,13 +29,12 @@ public class JavaScriptProvider implements IScriptingProvider {
 	/**
 	 * Creates a new JavaScriptProvider.
 	 * 
-	 * @param context
-	 *            The process context of this provider
+	 * @param context The process context of this provider
 	 */
 	public JavaScriptProvider(final IProcessContext context) {
 		applicatioClassLoader = new ClassLoader() {
 			@Override
-			@SuppressWarnings({ "unchecked", "rawtypes" })
+			@SuppressWarnings({ "rawtypes" })
 			public Class loadClass(String name) throws ClassNotFoundException {
 				return context.loadClass(name);
 			}
@@ -50,9 +49,7 @@ public class JavaScriptProvider implements IScriptingProvider {
 	 * org.eclipse.vtp.framework.spi.scripting.IScriptable[])
 	 */
 	@Override
-	public IScriptingContext createScriptingContext(String scriptingLanuage,
-			IScriptable[] content) {
-		return new JavaScriptContext(applicatioClassLoader, scriptingLanuage,
-				content);
+	public IScriptingContext createScriptingContext(String scriptingLanuage, IScriptable[] content) {
+		return new JavaScriptContext(applicatioClassLoader, scriptingLanuage, content);
 	}
 }

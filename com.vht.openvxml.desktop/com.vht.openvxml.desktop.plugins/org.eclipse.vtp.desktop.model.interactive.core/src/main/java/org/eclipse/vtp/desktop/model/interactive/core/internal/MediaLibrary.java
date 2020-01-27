@@ -51,13 +51,11 @@ public class MediaLibrary extends MediaObject implements IMediaLibrary {
 	IMediaLibrariesFolder parent;
 
 	/**
-	 * Creates a new <code>MediaFilesFolder</code> in the parent container with
-	 * the given eclipse folder resource.
+	 * Creates a new <code>MediaFilesFolder</code> in the parent container with the
+	 * given eclipse folder resource.
 	 *
-	 * @param parent
-	 *            The parent container of this resource
-	 * @param folder
-	 *            The eclipse folder resource this media file folder represents
+	 * @param parent The parent container of this resource
+	 * @param folder The eclipse folder resource this media file folder represents
 	 */
 	public MediaLibrary(IMediaLibrariesFolder parent, IFolder folder) {
 		super();
@@ -96,8 +94,7 @@ public class MediaLibrary extends MediaObject implements IMediaLibrary {
 				ret.add(new MediaFolder(this, f));
 			} else {
 				IFile f = (IFile) re;
-				IMediaFile mf = MediaTypeManager.getInstance().createMediaFile(
-						this, f);
+				IMediaFile mf = MediaTypeManager.getInstance().createMediaFile(this, f);
 				if (mf != null) {
 					ret.add(mf);
 				}
@@ -110,8 +107,7 @@ public class MediaLibrary extends MediaObject implements IMediaLibrary {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IMediaContainer#getMediaFolder(java
+	 * @see org.eclipse.vtp.desktop.core.project.IMediaContainer#getMediaFolder(java
 	 * .lang.String)
 	 */
 	@Override
@@ -124,8 +120,7 @@ public class MediaLibrary extends MediaObject implements IMediaLibrary {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IMediaContainer#getMediaFile(java
+	 * @see org.eclipse.vtp.desktop.core.project.IMediaContainer#getMediaFile(java
 	 * .lang.String)
 	 */
 	@Override
@@ -148,8 +143,7 @@ public class MediaLibrary extends MediaObject implements IMediaLibrary {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IMediaContainer#create(java.lang
+	 * @see org.eclipse.vtp.desktop.core.project.IMediaContainer#create(java.lang
 	 * .String)
 	 */
 	@Override
@@ -160,16 +154,13 @@ public class MediaLibrary extends MediaObject implements IMediaLibrary {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IMediaContainer#create(java.lang
+	 * @see org.eclipse.vtp.desktop.core.project.IMediaContainer#create(java.lang
 	 * .String, java.io.InputStream, org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
-	public IMediaFile create(String name, InputStream source,
-			IProgressMonitor monitor) throws CoreException {
+	public IMediaFile create(String name, InputStream source, IProgressMonitor monitor) throws CoreException {
 		IFile file = folder.getFile(name);
-		IMediaFile mf = MediaTypeManager.getInstance().createMediaFile(this,
-				file);
+		IMediaFile mf = MediaTypeManager.getInstance().createMediaFile(this, file);
 		if (mf != null) {
 			file.create(source, false, null);
 		}
@@ -179,8 +170,7 @@ public class MediaLibrary extends MediaObject implements IMediaLibrary {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IMediaContainer#makeDirectory(java
+	 * @see org.eclipse.vtp.desktop.core.project.IMediaContainer#makeDirectory(java
 	 * .lang.String)
 	 */
 	@Override
@@ -194,8 +184,7 @@ public class MediaLibrary extends MediaObject implements IMediaLibrary {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.internals.VoiceResource#getObjectId
+	 * @see org.eclipse.vtp.desktop.core.project.internals.VoiceResource#getObjectId
 	 * ()
 	 */
 	@Override
@@ -227,7 +216,6 @@ public class MediaLibrary extends MediaObject implements IMediaLibrary {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapterClass) {
 		if (adapterClass.isAssignableFrom(IFolder.class)) {
 			return folder;

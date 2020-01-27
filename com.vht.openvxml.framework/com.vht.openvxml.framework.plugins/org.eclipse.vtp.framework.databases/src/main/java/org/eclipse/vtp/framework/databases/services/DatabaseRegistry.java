@@ -56,15 +56,11 @@ public class DatabaseRegistry implements IDatabaseRegistry {
 	/**
 	 * Creates a new DatabaseRegistry.
 	 * 
-	 * @param context
-	 *            The context to use.
-	 * @param types
-	 *            The data type registry to use.
-	 * @param configurations
-	 *            The database configuration information.
+	 * @param context        The context to use.
+	 * @param types          The data type registry to use.
+	 * @param configurations The database configuration information.
 	 */
-	public DatabaseRegistry(IProcessContext context, IDataTypeRegistry types,
-			DatabaseConfiguration[] configurations) {
+	public DatabaseRegistry(IProcessContext context, IDataTypeRegistry types, DatabaseConfiguration[] configurations) {
 		this.context = context;
 		Object encryption = context.lookup(IEncryptionEngine.class.getName());
 		if (encryption instanceof IEncryptionEngine) {
@@ -72,16 +68,13 @@ public class DatabaseRegistry implements IDatabaseRegistry {
 		} else {
 			this.encryption = null;
 		}
-		Map<String, IDatabase> databases = new HashMap<String, IDatabase>(
-				configurations.length);
+		Map<String, IDatabase> databases = new HashMap<String, IDatabase>(configurations.length);
 		for (DatabaseConfiguration configuration : configurations) {
 			AbstractDatabase factory = null;
 			if (configuration instanceof JdbcDatabaseConfiguration) {
-				factory = new JdbcDatabase(types,
-						(JdbcDatabaseConfiguration) configuration);
+				factory = new JdbcDatabase(types, (JdbcDatabaseConfiguration) configuration);
 			} else if (configuration instanceof JndiDatabaseConfiguration) {
-				factory = new JndiDatabase(types,
-						(JndiDatabaseConfiguration) configuration);
+				factory = new JndiDatabase(types, (JndiDatabaseConfiguration) configuration);
 			} else {
 				continue;
 			}
@@ -130,31 +123,24 @@ public class DatabaseRegistry implements IDatabaseRegistry {
 		/**
 		 * Creates a new Database.
 		 * 
-		 * @param types
-		 *            The data type registry to use.
-		 * @param configuration
-		 *            The configuration of this database.
+		 * @param types         The data type registry to use.
+		 * @param configuration The configuration of this database.
 		 */
-		AbstractDatabase(IDataTypeRegistry types,
-				DatabaseConfiguration configuration) {
+		AbstractDatabase(IDataTypeRegistry types, DatabaseConfiguration configuration) {
 			this.name = configuration.getName();
 			this.username = configuration.getUsername();
 			String password = configuration.getPassword();
 			if (encryption == null || password == null) {
 				this.password = password;
 			} else {
-				this.password = new String(encryption.decrypt(password
-						.toCharArray()));
+				this.password = new String(encryption.decrypt(password.toCharArray()));
 			}
-			DatabaseTableConfiguration[] tableConfigs = configuration
-					.getTables();
+			DatabaseTableConfiguration[] tableConfigs = configuration.getTables();
 			Map<String, Map<String, IDataType>> schema = new LinkedHashMap<String, Map<String, IDataType>>(
 					tableConfigs.length);
 			for (DatabaseTableConfiguration tableConfig : tableConfigs) {
-				DatabaseColumnConfiguration[] columnConfigs = tableConfig
-						.getColumns();
-				Map<String, IDataType> table = new LinkedHashMap<String, IDataType>(
-						columnConfigs.length);
+				DatabaseColumnConfiguration[] columnConfigs = tableConfig.getColumns();
+				Map<String, IDataType> table = new LinkedHashMap<String, IDataType>(columnConfigs.length);
 				for (DatabaseColumnConfiguration columnConfig : columnConfigs) {
 					String type = null;
 					switch (columnConfig.getType()) {
@@ -178,12 +164,10 @@ public class DatabaseRegistry implements IDatabaseRegistry {
 						break;
 					}
 					if (type != null) {
-						table.put(columnConfig.getName(),
-								types.getDataType(type));
+						table.put(columnConfig.getName(), types.getDataType(type));
 					}
 				}
-				schema.put(tableConfig.getName(),
-						Collections.unmodifiableMap(table));
+				schema.put(tableConfig.getName(), Collections.unmodifiableMap(table));
 			}
 			this.schema = Collections.unmodifiableMap(schema);
 		}
@@ -211,8 +195,7 @@ public class DatabaseRegistry implements IDatabaseRegistry {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.vtp.framework.databases.IDatabase#getColumnNames(java
+		 * @see org.eclipse.vtp.framework.databases.IDatabase#getColumnNames(java
 		 * .lang.String)
 		 */
 		@Override
@@ -227,8 +210,7 @@ public class DatabaseRegistry implements IDatabaseRegistry {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.vtp.framework.databases.IDatabase#getColumnType(java.
+		 * @see org.eclipse.vtp.framework.databases.IDatabase#getColumnType(java.
 		 * lang.String, java.lang.String)
 		 */
 		@Override
@@ -252,20 +234,18 @@ public class DatabaseRegistry implements IDatabaseRegistry {
 		/** The URL to use. */
 		final String url;
 
-		@SuppressWarnings({ "rawtypes", "unchecked" })
+		@SuppressWarnings({ "rawtypes" })
 		/**
 		 * Creates a new JdbcDatabase.
 		 * 
-		 * @param types The data type registry to use.
+		 * @param types         The data type registry to use.
 		 * @param configuration The configuration to use.
 		 */
-		JdbcDatabase(IDataTypeRegistry types,
-				JdbcDatabaseConfiguration configuration) {
+		JdbcDatabase(IDataTypeRegistry types, JdbcDatabaseConfiguration configuration) {
 			super(types, configuration);
 			Driver driver = null;
 			try {
-				driver = (Driver) context.loadClass(configuration.getDriver())
-						.newInstance();
+				driver = (Driver) context.loadClass(configuration.getDriver()).newInstance();
 			} catch (Exception e) {
 				Hashtable properties = new Hashtable();
 				properties.put("cause", e); //$NON-NLS-1$
@@ -305,20 +285,18 @@ public class DatabaseRegistry implements IDatabaseRegistry {
 		/** The URL to use. */
 		final DataSource dataSource;
 
-		@SuppressWarnings({ "rawtypes", "unchecked" })
+		@SuppressWarnings({ "rawtypes" })
 		/**
 		 * Creates a new JndiDatabase.
 		 * 
-		 * @param types The data type registry to use.
+		 * @param types         The data type registry to use.
 		 * @param configuration The configuration to use.
 		 */
-		JndiDatabase(IDataTypeRegistry types,
-				JndiDatabaseConfiguration configuration) {
+		JndiDatabase(IDataTypeRegistry types, JndiDatabaseConfiguration configuration) {
 			super(types, configuration);
 			DataSource dataSource = null;
 			try {
-				dataSource = (DataSource) new InitialContext()
-						.lookup(configuration.getUri());
+				dataSource = (DataSource) new InitialContext().lookup(configuration.getUri());
 			} catch (Exception e) {
 				Hashtable properties = new Hashtable();
 				properties.put("cause", e); //$NON-NLS-1$
