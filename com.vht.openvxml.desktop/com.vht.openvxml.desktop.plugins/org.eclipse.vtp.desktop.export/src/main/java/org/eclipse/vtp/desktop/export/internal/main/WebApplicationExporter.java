@@ -51,20 +51,17 @@ import com.openmethods.openvxml.desktop.model.workflow.IDesignDocument;
 
 public class WebApplicationExporter {
 
-	private static final List<String> REQUIRED_BUNDLES = Collections
-			.unmodifiableList(Arrays.asList(new String[] { "org.eclipse.osgi", "org.eclipse.osgi.services",
-					"org.eclipse.core.contenttype", "org.eclipse.core.jobs", "org.eclipse.core.runtime",
-//					"org.eclipse.core.runtime.compatibility.auth",
-					"org.eclipse.equinox.app", "org.eclipse.equinox.common", "org.eclipse.equinox.http.servlet",
-					"org.eclipse.equinox.http.servletbridge", "org.eclipse.equinox.preferences",
-					"org.eclipse.equinox.registry", "org.eclipse.equinox.servletbridge",
-					"org.eclipse.update.configurator", "javax.activation", "javax.mail", "javax.xml.soap",
-					"javax.xml.rpc", "javax.wsdl", "org.apache.ant", "org.apache.axis", "org.apache.commons.discovery",
-					"org.apache.commons.io", "org.apache.commons.fileupload", "org.apache.commons.logging",
-					"org.apache.commons.pool", "org.apache.log4j", "org.apache.xerces", "org.apache.xml.resolver",
-					"org.mozilla.javascript", "org.eclipse.vtp.framework.core", "org.eclipse.vtp.framework.engine",
-					"org.eclipse.vtp.framework.spi", "org.eclipse.vtp.framework.util", "org.apache.commons.codec",
-					"org.apache.commons.lang" }));
+	private static final List<String> REQUIRED_BUNDLES = Collections.unmodifiableList(Arrays.asList(new String[] {
+			"org.eclipse.osgi", "org.eclipse.osgi.services", "org.eclipse.core.contenttype", "org.eclipse.core.jobs",
+			"org.eclipse.core.runtime", "org.eclipse.core.runtime.compatibility.auth", "org.eclipse.equinox.app",
+			"org.eclipse.equinox.common", "org.eclipse.equinox.http.servlet", "org.eclipse.equinox.http.servletbridge",
+			"org.eclipse.equinox.preferences", "org.eclipse.equinox.registry", "org.eclipse.equinox.servletbridge",
+			"org.eclipse.update.configurator", "javax.activation", "javax.mail", "javax.xml.soap", "javax.xml.rpc",
+			"javax.wsdl", "org.apache.ant", "org.apache.axis", "org.apache.commons.discovery", "org.apache.commons.io",
+			"org.apache.commons.fileupload", "org.apache.commons.logging", "org.apache.commons.pool",
+			"org.apache.log4j", "org.apache.xerces", "org.apache.xml.resolver", "org.mozilla.javascript",
+			"org.eclipse.vtp.framework.core", "org.eclipse.vtp.framework.engine", "org.eclipse.vtp.framework.spi",
+			"org.eclipse.vtp.framework.util", "org.apache.commons.codec", "org.apache.commons.lang" }));
 
 	private static final List<String> OPTIONAL_BUNDLES = Collections
 			.unmodifiableList(Arrays.asList(new String[] { "javax.xml", "org.apache.xml.serializer" }));
