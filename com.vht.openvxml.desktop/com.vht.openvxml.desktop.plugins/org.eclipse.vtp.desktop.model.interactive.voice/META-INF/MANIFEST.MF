@@ -16,4 +16,3 @@ Export-Package: org.eclipse.vtp.desktop.model.interactive.voice,
  org.eclipse.vtp.desktop.model.interactive.voice.internal,
  org.eclipse.vtp.desktop.model.interactive.voice.internal.helpers,
  org.eclipse.vtp.desktop.model.interactive.voice.natures
-Automatic-Module-Name: org.eclipse.vtp.desktop.model.interactive.voice

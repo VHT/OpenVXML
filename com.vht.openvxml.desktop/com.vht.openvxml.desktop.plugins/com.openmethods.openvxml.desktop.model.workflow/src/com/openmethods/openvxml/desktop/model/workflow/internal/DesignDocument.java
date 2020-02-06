@@ -53,7 +53,8 @@ import com.openmethods.openvxml.desktop.model.workflow.internal.design.ElementRe
  * @author trip
  *
  */
-public class DesignDocument extends WorkflowResource implements IDesignDocument, ElementResolutionVisitor {
+public class DesignDocument extends WorkflowResource implements
+		IDesignDocument, ElementResolutionVisitor {
 	private static final String HASHPREFIX = "DesignDocument";
 	private IDesignItemContainer parent = null;
 	private IFile file = null;
@@ -95,7 +96,8 @@ public class DesignDocument extends WorkflowResource implements IDesignDocument,
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.vtp.desktop.model.core.internal.WorkflowResource#getObjectId
+	 * @see
+	 * org.eclipse.vtp.desktop.model.core.internal.WorkflowResource#getObjectId
 	 * ()
 	 */
 	@Override
@@ -118,7 +120,8 @@ public class DesignDocument extends WorkflowResource implements IDesignDocument,
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.vtp.desktop.model.core.IDesignDocument#getUnderlyingFile()
+	 * @see
+	 * org.eclipse.vtp.desktop.model.core.IDesignDocument#getUnderlyingFile()
 	 */
 	@Override
 	public IFile getUnderlyingFile() {
@@ -149,7 +152,8 @@ public class DesignDocument extends WorkflowResource implements IDesignDocument,
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.vtp.desktop.model.core.IDesignDocument#becomeWorkingCopy()
+	 * @see
+	 * org.eclipse.vtp.desktop.model.core.IDesignDocument#becomeWorkingCopy()
 	 */
 	@Override
 	public void becomeWorkingCopy() {
@@ -158,32 +162,41 @@ public class DesignDocument extends WorkflowResource implements IDesignDocument,
 
 	@Override
 	public synchronized void becomeWorkingCopy(boolean followExternalReferences) {
-		if (!isWorking || (followExternalReferences != externalReferencesFollowed)) {
+		if (!isWorking
+				|| (followExternalReferences != externalReferencesFollowed)) {
 			externalReferencesFollowed = followExternalReferences;
 			isWorking = true;
 			mainDesign = null;
 			dialogs.clear();
 			DesignParser designParser = new DesignParser();
 			try {
-				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+				DocumentBuilderFactory factory = DocumentBuilderFactory
+						.newInstance();
 				factory.setNamespaceAware(true);
 				DocumentBuilder builder = factory.newDocumentBuilder();
 				Document document = builder.parse(file.getContents());
 				org.w3c.dom.Element rootElement = document.getDocumentElement();
 				// boolean neededConversion = false;
 				// load dialogs
-				NodeList dialogsList = rootElement.getElementsByTagName("dialogs");
+				NodeList dialogsList = rootElement
+						.getElementsByTagName("dialogs");
 				if (dialogsList.getLength() > 0) {
-					NodeList dialogList = ((org.w3c.dom.Element) dialogsList.item(0)).getElementsByTagName("workflow");
+					NodeList dialogList = ((org.w3c.dom.Element) dialogsList
+							.item(0)).getElementsByTagName("workflow");
 					for (int i = 0; i < dialogList.getLength(); i++) {
-						org.w3c.dom.Element dialogElement = (org.w3c.dom.Element) dialogList.item(i);
-						dialogs.add(designParser.parseDesign(this, dialogElement, null, followExternalReferences));
+						org.w3c.dom.Element dialogElement = (org.w3c.dom.Element) dialogList
+								.item(i);
+						dialogs.add(designParser.parseDesign(this,
+								dialogElement, null, followExternalReferences));
 					}
 				}
-				NodeList mainList = rootElement.getElementsByTagName("workflow");
+				NodeList mainList = rootElement
+						.getElementsByTagName("workflow");
 				if (mainList.getLength() > 0) {
-					org.w3c.dom.Element mainElement = (org.w3c.dom.Element) mainList.item(0);
-					mainDesign = designParser.parseDesign(this, mainElement, this, followExternalReferences);
+					org.w3c.dom.Element mainElement = (org.w3c.dom.Element) mainList
+							.item(0);
+					mainDesign = designParser.parseDesign(this, mainElement,
+							this, followExternalReferences);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -194,7 +207,8 @@ public class DesignDocument extends WorkflowResource implements IDesignDocument,
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.vtp.desktop.model.core.IDesignDocument#commitWorkingCopy()
+	 * @see
+	 * org.eclipse.vtp.desktop.model.core.IDesignDocument#commitWorkingCopy()
 	 */
 	@Override
 	public synchronized void commitWorkingCopy() throws Exception {
@@ -202,12 +216,14 @@ public class DesignDocument extends WorkflowResource implements IDesignDocument,
 		// build document contents
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
-		Document document = builder.getDOMImplementation().createDocument(null, "design-document", null);
+		Document document = builder.getDOMImplementation().createDocument(null,
+				"design-document", null);
 		org.w3c.dom.Element rootElement = document.getDocumentElement();
 		rootElement.setAttribute("xml-version", "4.0.0");
 		writer.writeDesign(rootElement, mainDesign);
 
-		org.w3c.dom.Element dialogsElement = rootElement.getOwnerDocument().createElement("dialogs");
+		org.w3c.dom.Element dialogsElement = rootElement.getOwnerDocument()
+				.createElement("dialogs");
 		rootElement.appendChild(dialogsElement);
 		for (IDesign dialogDesign : getDialogDesigns()) {
 			writer.writeDesign(dialogsElement, (Design) dialogDesign);
@@ -222,12 +238,15 @@ public class DesignDocument extends WorkflowResource implements IDesignDocument,
 		t.setOutputProperty(OutputKeys.INDENT, "yes");
 		t.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 		t.transform(new DOMSource(document), new XMLWriter(baos).toXMLResult());
-		file.setContents(new ByteArrayInputStream(baos.toByteArray()), true, true, null);
+		file.setContents(new ByteArrayInputStream(baos.toByteArray()), true,
+				true, null);
 	}
 
-	public synchronized boolean canMergeAll(IDesign target, PartialDesignDocument partialDocument) {
+	public synchronized boolean canMergeAll(IDesign target,
+			PartialDesignDocument partialDocument) {
 		if (!mainDesign.equals(target) && !dialogs.contains(target)) {
-			System.err.println("trying to merge into design not in this document");
+			System.err
+					.println("trying to merge into design not in this document");
 			return false;
 		}
 		IDesign mergeMain = partialDocument.getMainDesign();
@@ -240,15 +259,18 @@ public class DesignDocument extends WorkflowResource implements IDesignDocument,
 		return true;
 	}
 
-	public synchronized void merge(IDesign target, PartialDesignDocument partialDocument) {
+	public synchronized void merge(IDesign target,
+			PartialDesignDocument partialDocument) {
 		merge(target, partialDocument, true);
 	}
 
-	public synchronized void merge(IDesign target, PartialDesignDocument partialDocument, boolean overrideIds) {
+	public synchronized void merge(IDesign target,
+			PartialDesignDocument partialDocument, boolean overrideIds) {
 		try {
 			System.out.println("merging partial document: " + partialDocument);
 			if (!mainDesign.equals(target) && !dialogs.contains(target)) {
-				System.err.println("trying to merge into design not in this document");
+				System.err
+						.println("trying to merge into design not in this document");
 				return;
 			}
 			if (overrideIds) {
@@ -272,24 +294,29 @@ public class DesignDocument extends WorkflowResource implements IDesignDocument,
 			System.out.println("merging " + mergeElements.size() + " elements");
 			List<IDesignElement> droppedElements = new LinkedList<IDesignElement>();
 			for (IDesignElement mergeElement : mergeElements) {
-				System.out.println("processing element: [" + mergeElement.getId() + "] " + mergeElement.getName());
+				System.out.println("processing element: ["
+						+ mergeElement.getId() + "] " + mergeElement.getName());
 				if (mergeElement.canBeContainedBy(target)) {
 					System.out.println("adding to target design");
 					target.addDesignElement(mergeElement);
 				} else {
-					System.out.println("skipping element as it cannot be contained by target design");
+					System.out
+							.println("skipping element as it cannot be contained by target design");
 					droppedElements.add(mergeElement);
 				}
 			}
 			List<IDesignConnector> droppedConnectors = new LinkedList<IDesignConnector>();
-			for (IDesignConnector mergeConnector : mergeMain.getDesignConnectors()) {
+			for (IDesignConnector mergeConnector : mergeMain
+					.getDesignConnectors()) {
 				IDesignElement source = null;
 				IDesignElement dest = null;
 				for (IDesignElement element : target.getDesignElements()) {
-					if (element.getId().equals(mergeConnector.getOrigin().getId())) {
+					if (element.getId().equals(
+							mergeConnector.getOrigin().getId())) {
 						source = element;
 					}
-					if (element.getId().equals(mergeConnector.getDestination().getId())) {
+					if (element.getId().equals(
+							mergeConnector.getDestination().getId())) {
 						dest = element;
 					}
 					if (source != null && dest != null) {
@@ -297,16 +324,19 @@ public class DesignDocument extends WorkflowResource implements IDesignDocument,
 					}
 				}
 				if (source != null && dest != null) {
-					((Design) target).addDesignConnector((DesignConnector) mergeConnector);
+					((Design) target)
+							.addDesignConnector((DesignConnector) mergeConnector);
 				} else {
 					droppedConnectors.add(mergeConnector);
 				}
 			}
 			for (IDesignElement droppedElement : droppedElements) {
-				partialDocument.getMainDesign().removeDesignElement(droppedElement);
+				partialDocument.getMainDesign().removeDesignElement(
+						droppedElement);
 			}
 			for (IDesignConnector droppedConnector : droppedConnectors) {
-				partialDocument.getMainDesign().removeDesignConnector(droppedConnector);
+				partialDocument.getMainDesign().removeDesignConnector(
+						droppedConnector);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -315,21 +345,29 @@ public class DesignDocument extends WorkflowResource implements IDesignDocument,
 
 	public void reverse(IDesign target, PartialDesignDocument partialDocument) {
 		if (!mainDesign.equals(target) && !dialogs.contains(target)) {
-			System.err.println("trying to merge into design not in this document");
+			System.err
+					.println("trying to merge into design not in this document");
 			return;
 		}
-		for (IDesignConnector remConnector : partialDocument.getMainDesign().getDesignConnectors()) {
-			System.out.println("processing connector: [" + remConnector.getId() + "]");
-			IDesignConnector rc = target.getDesignConnector(remConnector.getId());
+		for (IDesignConnector remConnector : partialDocument.getMainDesign()
+				.getDesignConnectors()) {
+			System.out.println("processing connector: [" + remConnector.getId()
+					+ "]");
+			IDesignConnector rc = target.getDesignConnector(remConnector
+					.getId());
 			target.removeDesignConnector(rc);
 		}
 		for (IDesignElement targetElement : target.getDesignElements()) {
-			System.out.println("target element: [" + targetElement.getId() + "] " + targetElement.getName());
+			System.out.println("target element: [" + targetElement.getId()
+					+ "] " + targetElement.getName());
 		}
-		for (IDesignElement remElement : partialDocument.getMainDesign().getDesignElements()) {
-			System.out.println("processing element: [" + remElement.getId() + "] " + remElement.getName());
+		for (IDesignElement remElement : partialDocument.getMainDesign()
+				.getDesignElements()) {
+			System.out.println("processing element: [" + remElement.getId()
+					+ "] " + remElement.getName());
 			IDesignElement re = target.getDesignElement(remElement.getId());
-			System.out.println("found element: [" + re.getId() + "] " + re.getName());
+			System.out.println("found element: [" + re.getId() + "] "
+					+ re.getName());
 			target.removeDesignElement(re);
 		}
 		for (IDesign dialogDesign : partialDocument.getDialogDesigns()) {
@@ -340,7 +378,8 @@ public class DesignDocument extends WorkflowResource implements IDesignDocument,
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.vtp.desktop.model.core.IDesignDocument#restoreWorkingCopy()
+	 * @see
+	 * org.eclipse.vtp.desktop.model.core.IDesignDocument#restoreWorkingCopy()
 	 */
 	@Override
 	public synchronized void restoreWorkingCopy() {
@@ -349,7 +388,8 @@ public class DesignDocument extends WorkflowResource implements IDesignDocument,
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.vtp.desktop.model.core.IDesignDocument#discardWorkingCopy()
+	 * @see
+	 * org.eclipse.vtp.desktop.model.core.IDesignDocument#discardWorkingCopy()
 	 */
 
 	@Override
@@ -359,13 +399,16 @@ public class DesignDocument extends WorkflowResource implements IDesignDocument,
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.vtp.desktop.model.core.IDesignDocument#getDesignThumbnail()
+	 * @see
+	 * org.eclipse.vtp.desktop.model.core.IDesignDocument#getDesignThumbnail()
 	 */
 
 	@Override
 	public Image getDesignThumbnail(String designId) {
-		File workingPath = file.getProject().getWorkingLocation("org.eclipse.vtp.model.core").toFile();
-		File iconPath = new File(workingPath, file.getProjectRelativePath().toString());
+		File workingPath = file.getProject()
+				.getWorkingLocation("org.eclipse.vtp.model.core").toFile();
+		File iconPath = new File(workingPath, file.getProjectRelativePath()
+				.toString());
 		File iconFile = new File(iconPath, designId + ".jpg");
 		if (iconFile.exists()) {
 			try {
@@ -394,7 +437,8 @@ public class DesignDocument extends WorkflowResource implements IDesignDocument,
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.vtp.desktop.model.core.IDesignDocument#getDialogDesigns()
+	 * @see
+	 * org.eclipse.vtp.desktop.model.core.IDesignDocument#getDialogDesigns()
 	 */
 
 	@Override
@@ -407,7 +451,8 @@ public class DesignDocument extends WorkflowResource implements IDesignDocument,
 		DesignParser designParser = new DesignParser();
 		Design dialogDesign = null;
 		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilderFactory factory = DocumentBuilderFactory
+					.newInstance();
 			factory.setNamespaceAware(true);
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document document = builder.parse(templateURL.openStream());
@@ -415,7 +460,8 @@ public class DesignDocument extends WorkflowResource implements IDesignDocument,
 			NodeList mainList = rootElement.getElementsByTagName("workflow");
 			if (mainList.getLength() > 0) {
 				Element mainElement = (Element) mainList.item(0);
-				dialogDesign = designParser.parseDesign(this, mainElement, this, true);
+				dialogDesign = designParser.parseDesign(this, mainElement,
+						this, true);
 				dialogDesign.setDesignId(id);
 				dialogs.add(dialogDesign);
 			}
@@ -453,12 +499,15 @@ public class DesignDocument extends WorkflowResource implements IDesignDocument,
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.vtp.desktop.model.core.internal.WorkflowResource#getAdapter
+	 * @see
+	 * org.eclipse.vtp.desktop.model.core.internal.WorkflowResource#getAdapter
 	 * (java.lang.Class)
 	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapterClass) {
-		if (IResource.class.isAssignableFrom(adapterClass) && adapterClass.isAssignableFrom(file.getClass())) {
+		if (IResource.class.isAssignableFrom(adapterClass)
+				&& adapterClass.isAssignableFrom(file.getClass())) {
 			return file;
 		}
 		return super.getAdapter(adapterClass);
@@ -485,58 +534,78 @@ public class DesignDocument extends WorkflowResource implements IDesignDocument,
 	@Override
 	public List<IDesignEntryPoint> getDesignEntryPoints() {
 		if (mainDesign != null) {
-			return DesignTraversalHelper.getDesignElements(mainDesign, IDesignEntryPoint.class);
+			return DesignTraversalHelper.getDesignElements(mainDesign,
+					IDesignEntryPoint.class);
 		}
-		WorkflowIndex index = WorkflowIndexService.getInstance().getIndex(getProject().getUnderlyingProject());
+		WorkflowIndex index = WorkflowIndexService.getInstance().getIndex(
+				getProject().getUnderlyingProject());
 		return index.getDesignEntries(this);
 	}
 
 	@Override
-	public List<IDesignEntryPoint> getUpStreamDesignEntries(IWorkflowExit workflowExit) {
+	public List<IDesignEntryPoint> getUpStreamDesignEntries(
+			IWorkflowExit workflowExit) {
 		if (mainDesign != null) {
 			return DesignTraversalHelper.getUpStreamDesignElements(
-					(IDesignElement) workflowExit.getAdapter(IDesignElement.class), IDesignEntryPoint.class);
+					(IDesignElement) workflowExit
+							.getAdapter(IDesignElement.class),
+					IDesignEntryPoint.class);
 		}
-		WorkflowIndex index = WorkflowIndexService.getInstance().getIndex(getProject().getUnderlyingProject());
+		WorkflowIndex index = WorkflowIndexService.getInstance().getIndex(
+				getProject().getUnderlyingProject());
 		return index.getUpstreamDesignEntries(this, workflowExit);
 	}
 
 	@Override
-	public List<IDesignEntryPoint> getUpStreamDesignEntries(IDesignExitPoint designExit) {
+	public List<IDesignEntryPoint> getUpStreamDesignEntries(
+			IDesignExitPoint designExit) {
 		if (mainDesign != null) {
 			return DesignTraversalHelper.getUpStreamDesignElements(
-					(IDesignElement) designExit.getAdapter(IDesignElement.class), IDesignEntryPoint.class);
+					(IDesignElement) designExit
+							.getAdapter(IDesignElement.class),
+					IDesignEntryPoint.class);
 		}
-		WorkflowIndex index = WorkflowIndexService.getInstance().getIndex(getProject().getUnderlyingProject());
+		WorkflowIndex index = WorkflowIndexService.getInstance().getIndex(
+				getProject().getUnderlyingProject());
 		return index.getUpstreamDesignEntries(this, designExit);
 	}
 
 	@Override
 	public List<IDesignExitPoint> getDesignExitPoints() {
 		if (mainDesign != null) {
-			return DesignTraversalHelper.getDesignElements(mainDesign, IDesignExitPoint.class);
+			return DesignTraversalHelper.getDesignElements(mainDesign,
+					IDesignExitPoint.class);
 		}
-		WorkflowIndex index = WorkflowIndexService.getInstance().getIndex(getProject().getUnderlyingProject());
+		WorkflowIndex index = WorkflowIndexService.getInstance().getIndex(
+				getProject().getUnderlyingProject());
 		return index.getDesignExits(this);
 	}
 
 	@Override
-	public List<IDesignExitPoint> getDownStreamDesignExits(IWorkflowEntry workflowEntry) {
+	public List<IDesignExitPoint> getDownStreamDesignExits(
+			IWorkflowEntry workflowEntry) {
 		if (mainDesign != null) {
 			return DesignTraversalHelper.getDownStreamDesignElements(
-					(IDesignElement) workflowEntry.getAdapter(IDesignElement.class), IDesignExitPoint.class);
+					(IDesignElement) workflowEntry
+							.getAdapter(IDesignElement.class),
+					IDesignExitPoint.class);
 		}
-		WorkflowIndex index = WorkflowIndexService.getInstance().getIndex(getProject().getUnderlyingProject());
+		WorkflowIndex index = WorkflowIndexService.getInstance().getIndex(
+				getProject().getUnderlyingProject());
 		return index.getDownstreamDesignExits(this, workflowEntry);
 	}
 
 	@Override
-	public List<IDesignExitPoint> getDownStreamDesignExits(IDesignEntryPoint designEntry) {
+	public List<IDesignExitPoint> getDownStreamDesignExits(
+			IDesignEntryPoint designEntry) {
 		if (mainDesign != null) {
 			return DesignTraversalHelper.getDownStreamDesignElements(
-					(IDesignElement) designEntry.getAdapter(IDesignElement.class), IDesignExitPoint.class);
+					(IDesignElement) designEntry
+							.getAdapter(IDesignElement.class),
+					IDesignExitPoint.class);
 		}
-		WorkflowIndex index = WorkflowIndexService.getInstance().getIndex(getProject().getUnderlyingProject());
+		WorkflowIndex index = WorkflowIndexService.getInstance().getIndex(
+				getProject().getUnderlyingProject());
 		return index.getDownstreamDesignExits(this, designEntry);
 	}
 
@@ -548,38 +617,50 @@ public class DesignDocument extends WorkflowResource implements IDesignDocument,
 	@Override
 	public List<IWorkflowEntry> getWorkflowEntries() {
 		if (mainDesign != null) {
-			return DesignTraversalHelper.getDesignElements(mainDesign, IWorkflowEntry.class);
+			return DesignTraversalHelper.getDesignElements(mainDesign,
+					IWorkflowEntry.class);
 		}
-		WorkflowIndex index = WorkflowIndexService.getInstance().getIndex(getProject().getUnderlyingProject());
+		WorkflowIndex index = WorkflowIndexService.getInstance().getIndex(
+				getProject().getUnderlyingProject());
 		return index.getWorkflowEntries(this);
 	}
 
 	@Override
-	public List<IWorkflowEntry> getUpStreamWorkflowEntries(IDesignExitPoint designExit) {
+	public List<IWorkflowEntry> getUpStreamWorkflowEntries(
+			IDesignExitPoint designExit) {
 		if (mainDesign != null) {
 			return DesignTraversalHelper.getUpStreamDesignElements(
-					(IDesignElement) designExit.getAdapter(IDesignElement.class), IWorkflowEntry.class);
+					(IDesignElement) designExit
+							.getAdapter(IDesignElement.class),
+					IWorkflowEntry.class);
 		}
-		WorkflowIndex index = WorkflowIndexService.getInstance().getIndex(getProject().getUnderlyingProject());
+		WorkflowIndex index = WorkflowIndexService.getInstance().getIndex(
+				getProject().getUnderlyingProject());
 		return index.getUpstreamWorkflowEntries(this, designExit);
 	}
 
 	@Override
-	public List<IWorkflowEntry> getUpStreamWorkflowEntries(IWorkflowExit workflowExit) {
+	public List<IWorkflowEntry> getUpStreamWorkflowEntries(
+			IWorkflowExit workflowExit) {
 		if (mainDesign != null) {
 			return DesignTraversalHelper.getUpStreamDesignElements(
-					(IDesignElement) workflowExit.getAdapter(IDesignElement.class), IWorkflowEntry.class);
+					(IDesignElement) workflowExit
+							.getAdapter(IDesignElement.class),
+					IWorkflowEntry.class);
 		}
-		WorkflowIndex index = WorkflowIndexService.getInstance().getIndex(getProject().getUnderlyingProject());
+		WorkflowIndex index = WorkflowIndexService.getInstance().getIndex(
+				getProject().getUnderlyingProject());
 		return index.getUpstreamWorkflowEntries(this, workflowExit);
 	}
 
 	@Override
 	public List<IWorkflowExit> getWorkflowExits() {
 		if (mainDesign != null) {
-			return DesignTraversalHelper.getDesignElements(mainDesign, IWorkflowExit.class);
+			return DesignTraversalHelper.getDesignElements(mainDesign,
+					IWorkflowExit.class);
 		}
-		WorkflowIndex index = WorkflowIndexService.getInstance().getIndex(getProject().getUnderlyingProject());
+		WorkflowIndex index = WorkflowIndexService.getInstance().getIndex(
+				getProject().getUnderlyingProject());
 		return index.getWorkflowExits(this);
 	}
 
@@ -587,31 +668,41 @@ public class DesignDocument extends WorkflowResource implements IDesignDocument,
 	public List<IWorkflowReference> getWorkflowReferences() {
 		List<IWorkflowReference> ret = new ArrayList<IWorkflowReference>();
 		if (mainDesign != null) {
-			ret.addAll(DesignTraversalHelper.getDesignElements(mainDesign, IWorkflowReference.class));
+			ret.addAll(DesignTraversalHelper.getDesignElements(mainDesign,
+					IWorkflowReference.class));
 			for (Design dialog : dialogs) {
-				ret.addAll(DesignTraversalHelper.getDesignElements(dialog, IWorkflowReference.class));
+				ret.addAll(DesignTraversalHelper.getDesignElements(dialog,
+						IWorkflowReference.class));
 			}
 		}
 		return ret;
 	}
 
 	@Override
-	public List<IWorkflowExit> getDownStreamWorkflowExits(IDesignEntryPoint designEntry) {
+	public List<IWorkflowExit> getDownStreamWorkflowExits(
+			IDesignEntryPoint designEntry) {
 		if (mainDesign != null) {
 			return DesignTraversalHelper.getDownStreamDesignElements(
-					(IDesignElement) designEntry.getAdapter(IDesignElement.class), IWorkflowExit.class);
+					(IDesignElement) designEntry
+							.getAdapter(IDesignElement.class),
+					IWorkflowExit.class);
 		}
-		WorkflowIndex index = WorkflowIndexService.getInstance().getIndex(getProject().getUnderlyingProject());
+		WorkflowIndex index = WorkflowIndexService.getInstance().getIndex(
+				getProject().getUnderlyingProject());
 		return index.getDownstreamWorkflowExits(this, designEntry);
 	}
 
 	@Override
-	public List<IWorkflowExit> getDownStreamWorkflowExits(IWorkflowEntry workflowEntry) {
+	public List<IWorkflowExit> getDownStreamWorkflowExits(
+			IWorkflowEntry workflowEntry) {
 		if (mainDesign != null) {
 			return DesignTraversalHelper.getDownStreamDesignElements(
-					(IDesignElement) workflowEntry.getAdapter(IDesignElement.class), IWorkflowExit.class);
+					(IDesignElement) workflowEntry
+							.getAdapter(IDesignElement.class),
+					IWorkflowExit.class);
 		}
-		WorkflowIndex index = WorkflowIndexService.getInstance().getIndex(getProject().getUnderlyingProject());
+		WorkflowIndex index = WorkflowIndexService.getInstance().getIndex(
+				getProject().getUnderlyingProject());
 		return index.getDownstreamWorkflowExits(this, workflowEntry);
 	}
 

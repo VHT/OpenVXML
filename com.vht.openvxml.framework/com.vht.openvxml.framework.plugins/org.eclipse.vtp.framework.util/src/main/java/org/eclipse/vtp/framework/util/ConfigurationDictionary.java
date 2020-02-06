@@ -43,11 +43,14 @@ import org.w3c.dom.NodeList;
  * @author Lonnie Pryor
  */
 @SuppressWarnings("rawtypes")
-public class ConfigurationDictionary extends Dictionary implements Comparator<String>, Serializable {
+public class ConfigurationDictionary extends Dictionary implements
+		Comparator<String>, Serializable {
 	/** Set of reserved property keys. */
 	private static final Set RESERVED_KEYS = Collections
-			.unmodifiableSet(new HashSet<String>(Arrays.asList(new String[] { Constants.SERVICE_PID,
-					ConfigurationAdmin.SERVICE_FACTORYPID, ConfigurationAdmin.SERVICE_BUNDLELOCATION })));
+			.unmodifiableSet(new HashSet<String>(Arrays.asList(new String[] {
+					Constants.SERVICE_PID,
+					ConfigurationAdmin.SERVICE_FACTORYPID,
+					ConfigurationAdmin.SERVICE_BUNDLELOCATION })));
 	/** Index of simple types. */
 	private static final Set<Class> SIMPLE_TYPES;
 	/** Index of supported types by tag name. */
@@ -69,7 +72,8 @@ public class ConfigurationDictionary extends Dictionary implements Comparator<St
 		typesByName.put("long", Long.class); //$NON-NLS-1$
 		typesByName.put("double", Double.class); //$NON-NLS-1$
 		typesByName.put("string", String.class); //$NON-NLS-1$
-		SIMPLE_TYPES = Collections.unmodifiableSet(new HashSet<Class>(typesByName.values()));
+		SIMPLE_TYPES = Collections.unmodifiableSet(new HashSet<Class>(
+				typesByName.values()));
 		typesByName.put("booleans", Boolean[].class); //$NON-NLS-1$
 		typesByName.put("primitive-booleans", boolean[].class); //$NON-NLS-1$
 		typesByName.put("bytes", Byte[].class); //$NON-NLS-1$
@@ -89,7 +93,8 @@ public class ConfigurationDictionary extends Dictionary implements Comparator<St
 		typesByName.put("strings", String[].class); //$NON-NLS-1$
 		typesByName.put("vector", Vector.class); //$NON-NLS-1$
 		TYPES_BY_NAME = Collections.unmodifiableMap(typesByName);
-		Map<Class, String> namesByType = new HashMap<Class, String>(typesByName.size());
+		Map<Class, String> namesByType = new HashMap<Class, String>(
+				typesByName.size());
 		for (Map.Entry<String, Class> entry : typesByName.entrySet()) {
 			namesByType.put(entry.getValue(), entry.getKey());
 		}
@@ -99,15 +104,18 @@ public class ConfigurationDictionary extends Dictionary implements Comparator<St
 	/**
 	 * Loads all the data from the supplied element into a new array.
 	 * 
-	 * @param configurations The configurations data to load.
+	 * @param configurations
+	 *            The configurations data to load.
 	 * @return The configuration dictionaries loaded from the supplied data.
 	 */
 	public static ConfigurationDictionary[] loadAll(Element configurations) {
-		if (configurations == null || !"configurations".equals(configurations.getTagName())) {
+		if (configurations == null
+				|| !"configurations".equals(configurations.getTagName())) {
 			return null;
 		}
 		NodeList nodeList = configurations.getChildNodes();
-		List<ConfigurationDictionary> dictionaries = new ArrayList<ConfigurationDictionary>(nodeList.getLength());
+		List<ConfigurationDictionary> dictionaries = new ArrayList<ConfigurationDictionary>(
+				nodeList.getLength());
 		ConfigurationDictionary dictionary = null;
 		for (int i = 0; i < nodeList.getLength(); ++i) {
 			Node node = nodeList.item(i);
@@ -123,18 +131,24 @@ public class ConfigurationDictionary extends Dictionary implements Comparator<St
 			dictionaries.add(dictionary);
 			dictionary = null;
 		}
-		return dictionaries.toArray(new ConfigurationDictionary[dictionaries.size()]);
+		return dictionaries.toArray(new ConfigurationDictionary[dictionaries
+				.size()]);
 	}
 
 	/**
-	 * Converts the contents of all the supplied dictionaries to an XML structure.
+	 * Converts the contents of all the supplied dictionaries to an XML
+	 * structure.
 	 * 
-	 * @param document     The document to use to create the XML structure.
-	 * @param dictionaries The dictionaries to save.
-	 * @return The XML representation of the contents of the supplied dictionaries
-	 *         or <code>null</code> if the supplied document was <code>null</code>.
+	 * @param document
+	 *            The document to use to create the XML structure.
+	 * @param dictionaries
+	 *            The dictionaries to save.
+	 * @return The XML representation of the contents of the supplied
+	 *         dictionaries or <code>null</code> if the supplied document was
+	 *         <code>null</code>.
 	 */
-	public static Element saveAll(Document document, ConfigurationDictionary[] dictionaries) {
+	public static Element saveAll(Document document,
+			ConfigurationDictionary[] dictionaries) {
 		if (document == null) {
 			return null;
 		}
@@ -156,9 +170,12 @@ public class ConfigurationDictionary extends Dictionary implements Comparator<St
 	/**
 	 * Encodes the specified XML element into a supported value.
 	 * 
-	 * @param property The XML property to decode.
-	 * @return A decoded value or <code>null</code> if the XML cannot be decoded.
+	 * @param property
+	 *            The XML property to decode.
+	 * @return A decoded value or <code>null</code> if the XML cannot be
+	 *         decoded.
 	 */
+	@SuppressWarnings("unchecked")
 	private static Object decodeValue(Element property) {
 		if (property == null) {
 			return null;
@@ -179,8 +196,10 @@ public class ConfigurationDictionary extends Dictionary implements Comparator<St
 				return new Vector();
 			} else {
 				Object value = decodeValue(arrayProperty);
-				if (value == null || !value.getClass().isArray()
-						|| !SIMPLE_TYPES.contains(value.getClass().getComponentType())) {
+				if (value == null
+						|| !value.getClass().isArray()
+						|| !SIMPLE_TYPES.contains(value.getClass()
+								.getComponentType())) {
 					return null;
 				}
 				Object[] array = (Object[]) value;
@@ -205,7 +224,8 @@ public class ConfigurationDictionary extends Dictionary implements Comparator<St
 				{
 					String string = null;
 					try {
-						string = XMLUtilities.getElementTextData(property, true);
+						string = XMLUtilities
+								.getElementTextData(property, true);
 					} catch (Exception e) {
 						continue;
 					}
@@ -215,7 +235,8 @@ public class ConfigurationDictionary extends Dictionary implements Comparator<St
 					}
 				}
 			}
-			Object array = Array.newInstance(type.getComponentType(), items.size());
+			Object array = Array.newInstance(type.getComponentType(),
+					items.size());
 			int i = 0;
 			for (Iterator j = items.iterator(); j.hasNext(); ++i) {
 				Array.set(array, i, j.next());
@@ -235,13 +256,16 @@ public class ConfigurationDictionary extends Dictionary implements Comparator<St
 	/**
 	 * Attempts to parse the supplied string into the specified type.
 	 * 
-	 * @param value The value to parse.
-	 * @param type  The type to parse the value into.
+	 * @param value
+	 *            The value to parse.
+	 * @param type
+	 *            The type to parse the value into.
 	 * @return The parsed value or <code>null</code> if the value could not be
 	 *         parsed.
 	 */
 	private static Object parse(String value, Class type) {
-		if (value == null || type == null || !type.isPrimitive() && !SIMPLE_TYPES.contains(type)) {
+		if (value == null || type == null || !type.isPrimitive()
+				&& !SIMPLE_TYPES.contains(type)) {
 			return null;
 		}
 		try {
@@ -251,8 +275,10 @@ public class ConfigurationDictionary extends Dictionary implements Comparator<St
 				return Byte.valueOf(value);
 			} else if (type.equals(Short.TYPE) || type.equals(Short.class)) {
 				return Short.valueOf(value);
-			} else if (type.equals(Character.TYPE) || type.equals(Character.class)) {
-				return value.length() != 1 ? null : Character.valueOf(value.charAt(0));
+			} else if (type.equals(Character.TYPE)
+					|| type.equals(Character.class)) {
+				return value.length() != 1 ? null : Character.valueOf(value
+						.charAt(0));
 			} else if (type.equals(Integer.TYPE) || type.equals(Integer.class)) {
 				return Integer.valueOf(value);
 			} else if (type.equals(Float.TYPE) || type.equals(Float.class)) {
@@ -272,11 +298,14 @@ public class ConfigurationDictionary extends Dictionary implements Comparator<St
 	/**
 	 * Encodes the specified supported value into an XML element.
 	 * 
-	 * @param document The document to create elements with.
-	 * @param value    The value to encode.
+	 * @param document
+	 *            The document to create elements with.
+	 * @param value
+	 *            The value to encode.
 	 * @return The new XML element or <code>null</code> if the value was
 	 *         <code>null</code>.
 	 */
+	@SuppressWarnings("unchecked")
 	private static Element encodeValue(Document document, Object value) {
 		if (value == null) {
 			return null;
@@ -298,8 +327,9 @@ public class ConfigurationDictionary extends Dictionary implements Comparator<St
 				if (element != null) {
 					componentType = element.getClass();
 				}
-				property.appendChild(
-						encodeValue(document, vector.toArray((Object[]) Array.newInstance(componentType, size))));
+				property.appendChild(encodeValue(document, vector
+						.toArray((Object[]) Array.newInstance(componentType,
+								size))));
 			}
 		} else if (value.getClass().isArray()) {
 			int length = Array.getLength(value);
@@ -322,9 +352,11 @@ public class ConfigurationDictionary extends Dictionary implements Comparator<St
 	/**
 	 * Clones the specified value.
 	 * 
-	 * @param input The value to clone.
+	 * @param input
+	 *            The value to clone.
 	 * @return The safe copy of the value.
 	 */
+	@SuppressWarnings("unchecked")
 	private static Object cloneValue(Object input) {
 		if (input == null) {
 			return null;
@@ -336,13 +368,15 @@ public class ConfigurationDictionary extends Dictionary implements Comparator<St
 			return input;
 		}
 		int length = Array.getLength(input);
-		Object output = Array.newInstance(input.getClass().getComponentType(), length);
+		Object output = Array.newInstance(input.getClass().getComponentType(),
+				length);
 		System.arraycopy(input, 0, output, 0, length);
 		return output;
 	}
 
 	/** The properties in this dictionary. */
-	private final Map<String, Object> properties = new TreeMap<String, Object>(this);
+	private final Map<String, Object> properties = new TreeMap<String, Object>(
+			this);
 
 	/**
 	 * Creates a new ConfigurationDictionary.
@@ -356,7 +390,8 @@ public class ConfigurationDictionary extends Dictionary implements Comparator<St
 	/**
 	 * Creates a new ConfigurationDictionary.
 	 * 
-	 * @param pid The PID of this dictionary.
+	 * @param pid
+	 *            The PID of this dictionary.
 	 */
 	public ConfigurationDictionary(String pid) {
 		setPid(pid);
@@ -365,8 +400,10 @@ public class ConfigurationDictionary extends Dictionary implements Comparator<St
 	/**
 	 * Creates a new ConfigurationDictionary.
 	 * 
-	 * @param pid        The PID of this dictionary.
-	 * @param factoryPid The factory PID of this dictionary.
+	 * @param pid
+	 *            The PID of this dictionary.
+	 * @param factoryPid
+	 *            The factory PID of this dictionary.
 	 */
 	public ConfigurationDictionary(String pid, String factoryPid) {
 		setPid(pid);
@@ -376,11 +413,15 @@ public class ConfigurationDictionary extends Dictionary implements Comparator<St
 	/**
 	 * Creates a new ConfigurationDictionary.
 	 * 
-	 * @param pid            The PID of this dictionary.
-	 * @param factoryPid     The factory PID of this dictionary.
-	 * @param bundleLocation The bundle location of this dictionary.
+	 * @param pid
+	 *            The PID of this dictionary.
+	 * @param factoryPid
+	 *            The factory PID of this dictionary.
+	 * @param bundleLocation
+	 *            The bundle location of this dictionary.
 	 */
-	public ConfigurationDictionary(String pid, String factoryPid, String bundleLocation) {
+	public ConfigurationDictionary(String pid, String factoryPid,
+			String bundleLocation) {
 		setPid(pid);
 		setFactoryPid(factoryPid);
 		setBundleLocation(bundleLocation);
@@ -389,11 +430,13 @@ public class ConfigurationDictionary extends Dictionary implements Comparator<St
 	/**
 	 * Creates a new ConfigurationDictionary.
 	 * 
-	 * @param configuration The configuration data for this dictionary's properties.
-	 * @throws NullPointerException If the supplied configuration is
-	 *                              <code>null</code>.
+	 * @param configuration
+	 *            The configuration data for this dictionary's properties.
+	 * @throws NullPointerException
+	 *             If the supplied configuration is <code>null</code>.
 	 */
-	public ConfigurationDictionary(Element configuration) throws NullPointerException {
+	public ConfigurationDictionary(Element configuration)
+			throws NullPointerException {
 		load(configuration);
 	}
 
@@ -421,13 +464,15 @@ public class ConfigurationDictionary extends Dictionary implements Comparator<St
 	 * @return The value of the "service.bundleLocation" property.
 	 */
 	public synchronized String getBundleLocation() {
-		return (String) properties.get(ConfigurationAdmin.SERVICE_BUNDLELOCATION);
+		return (String) properties
+				.get(ConfigurationAdmin.SERVICE_BUNDLELOCATION);
 	}
 
 	/**
 	 * Sets the value of the "service.pid" property.
 	 * 
-	 * @param pid The value of the "service.pid" property.
+	 * @param pid
+	 *            The value of the "service.pid" property.
 	 */
 	public synchronized void setPid(String pid) {
 		if (pid == null || pid.length() == 0) {
@@ -440,7 +485,8 @@ public class ConfigurationDictionary extends Dictionary implements Comparator<St
 	/**
 	 * Sets the value of the "service.factoryPid" property.
 	 * 
-	 * @param factoryPid The value of the "service.factoryPid" property.
+	 * @param factoryPid
+	 *            The value of the "service.factoryPid" property.
 	 */
 	public synchronized void setFactoryPid(String factoryPid) {
 		if (factoryPid == null || factoryPid.length() == 0) {
@@ -453,21 +499,24 @@ public class ConfigurationDictionary extends Dictionary implements Comparator<St
 	/**
 	 * Sets the value of the "service.bundleLocation" property.
 	 * 
-	 * @param bundleLocation The value of the "service.bundleLocation" property.
+	 * @param bundleLocation
+	 *            The value of the "service.bundleLocation" property.
 	 */
 	public synchronized void setBundleLocation(String bundleLocation) {
 		if (bundleLocation == null || bundleLocation.length() == 0) {
 			properties.remove(ConfigurationAdmin.SERVICE_BUNDLELOCATION);
 		} else {
-			properties.put(ConfigurationAdmin.SERVICE_BUNDLELOCATION, bundleLocation);
+			properties.put(ConfigurationAdmin.SERVICE_BUNDLELOCATION,
+					bundleLocation);
 		}
 	}
 
 	/**
 	 * Loads the data from the supplied element into this dictionary.
 	 * 
-	 * @param configuration The configuration data to load or <code>null</code> to
-	 *                      clear this dictionary.
+	 * @param configuration
+	 *            The configuration data to load or <code>null</code> to clear
+	 *            this dictionary.
 	 * @return True if the data in this dictionary changed.
 	 */
 	public synchronized boolean load(Element configuration) {
@@ -504,7 +553,8 @@ public class ConfigurationDictionary extends Dictionary implements Comparator<St
 	/**
 	 * Converts the contents of this dictionary to an XML structure.
 	 * 
-	 * @param document The document to use to create the XML structure.
+	 * @param document
+	 *            The document to use to create the XML structure.
 	 * @return The XML representation of the contents of this dictionary or
 	 *         <code>null</code> if the supplied document was <code>null</code>.
 	 */
@@ -567,6 +617,7 @@ public class ConfigurationDictionary extends Dictionary implements Comparator<St
 	 * @see java.util.Dictionary#keys()
 	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public synchronized Enumeration keys() {
 		return Collections.enumeration(new ArrayList(properties.keySet()));
 	}
@@ -577,8 +628,10 @@ public class ConfigurationDictionary extends Dictionary implements Comparator<St
 	 * @see java.util.Dictionary#elements()
 	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public synchronized Enumeration elements() {
-		final Enumeration e = Collections.enumeration(new ArrayList(properties.values()));
+		final Enumeration e = Collections.enumeration(new ArrayList(properties
+				.values()));
 		return new Enumeration() {
 			@Override
 			public boolean hasMoreElements() {

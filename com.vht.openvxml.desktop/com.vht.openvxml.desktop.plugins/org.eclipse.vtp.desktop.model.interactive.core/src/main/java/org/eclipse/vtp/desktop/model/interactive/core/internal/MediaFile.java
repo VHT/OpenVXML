@@ -33,11 +33,13 @@ public class MediaFile extends MediaResource implements IMediaFile {
 	IFile file;
 
 	/**
-	 * Creates a new <code>MediaFile</code> in the given container with the provided
-	 * eclipse file resource.
+	 * Creates a new <code>MediaFile</code> in the given container with the
+	 * provided eclipse file resource.
 	 *
-	 * @param container The parent media container
-	 * @param file      The eclipse file resource this media file represents
+	 * @param container
+	 *            The parent media container
+	 * @param file
+	 *            The eclipse file resource this media file represents
 	 */
 	public MediaFile(IMediaContainer container, IFile file) {
 		super(container, file);
@@ -73,6 +75,7 @@ public class MediaFile extends MediaResource implements IMediaFile {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapterClass) {
 		if (adapterClass.isAssignableFrom(IFile.class)) {
 			return file;

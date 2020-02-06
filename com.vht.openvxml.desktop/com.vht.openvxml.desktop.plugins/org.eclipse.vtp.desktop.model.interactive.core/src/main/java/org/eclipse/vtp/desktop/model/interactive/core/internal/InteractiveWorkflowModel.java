@@ -37,18 +37,22 @@ public class InteractiveWorkflowModel implements IMediaProjectModel {
 	 */
 	@SuppressWarnings("unused")
 	public InteractiveWorkflowModel() {
-		IConfigurationElement[] primitiveExtensions = Platform.getExtensionRegistry()
-				.getConfigurationElementsFor(mediaProjectExtensionId);
+		IConfigurationElement[] primitiveExtensions = Platform
+				.getExtensionRegistry().getConfigurationElementsFor(
+						mediaProjectExtensionId);
 		for (IConfigurationElement primitiveExtension : primitiveExtensions) {
 			// TODO review these attributes to see if they need logged or
 			// removed
 			String id = primitiveExtension.getAttribute("id");
 			String name = primitiveExtension.getAttribute("name");
 			String nature = primitiveExtension.getAttribute("nature-id");
-			String interactionType = primitiveExtension.getAttribute("interaction-type");
+			String interactionType = primitiveExtension
+					.getAttribute("interaction-type");
 			String className = primitiveExtension.getAttribute("class");
-			Bundle contributor = Platform.getBundle(primitiveExtension.getContributor().getName());
+			Bundle contributor = Platform.getBundle(primitiveExtension
+					.getContributor().getName());
 			try {
+				@SuppressWarnings("unchecked")
 				Class<IMediaProjectFactory> factoryClass = (Class<IMediaProjectFactory>) contributor
 						.loadClass(className);
 				if (IMediaProjectFactory.class.isAssignableFrom(factoryClass)) {
@@ -64,7 +68,8 @@ public class InteractiveWorkflowModel implements IMediaProjectModel {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.vtp.desktop.model.interactive.core.IInteractiveWorkflowModel
+	 * @see
+	 * org.eclipse.vtp.desktop.model.interactive.core.IInteractiveWorkflowModel
 	 * #convertToMediaProject(org.eclipse.core.resources.IProject)
 	 */
 	@Override
@@ -89,11 +94,13 @@ public class InteractiveWorkflowModel implements IMediaProjectModel {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.vtp.desktop.model.interactive.core.IInteractiveWorkflowModel
+	 * @see
+	 * org.eclipse.vtp.desktop.model.interactive.core.IInteractiveWorkflowModel
 	 * #createMediaProject(java.lang.String)
 	 */
 	@Override
-	public IMediaProject createMediaProject(String natureId, String languagePackId, String name) {
+	public IMediaProject createMediaProject(String natureId,
+			String languagePackId, String name) {
 		IMediaProjectFactory factory = projectFactories.get(natureId);
 		if (factory != null) {
 			return factory.createMediaProject(name, languagePackId);
@@ -104,7 +111,8 @@ public class InteractiveWorkflowModel implements IMediaProjectModel {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.vtp.desktop.model.interactive.core.IInteractiveWorkflowModel
+	 * @see
+	 * org.eclipse.vtp.desktop.model.interactive.core.IInteractiveWorkflowModel
 	 * #getMediaProject(java.lang.String)
 	 */
 	@Override
@@ -121,7 +129,8 @@ public class InteractiveWorkflowModel implements IMediaProjectModel {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.vtp.desktop.model.interactive.core.IInteractiveWorkflowModel
+	 * @see
+	 * org.eclipse.vtp.desktop.model.interactive.core.IInteractiveWorkflowModel
 	 * #isMediaProject(org.eclipse.core.resources.IProject)
 	 */
 	@Override
@@ -146,18 +155,21 @@ public class InteractiveWorkflowModel implements IMediaProjectModel {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.vtp.desktop.model.interactive.core.IInteractiveWorkflowModel
+	 * @see
+	 * org.eclipse.vtp.desktop.model.interactive.core.IInteractiveWorkflowModel
 	 * #listMediaProjects()
 	 */
 	@Override
 	public List<IMediaProject> listMediaProjects() {
 		List<IMediaProject> projects = new ArrayList<IMediaProject>();
-		IProject[] rawProjects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
+		IProject[] rawProjects = ResourcesPlugin.getWorkspace().getRoot()
+				.getProjects();
 		for (IProject project : rawProjects) {
 			try {
 				String[] natureIds = project.getDescription().getNatureIds();
 				for (String natureId : natureIds) {
-					IMediaProjectFactory factory = projectFactories.get(natureId);
+					IMediaProjectFactory factory = projectFactories
+							.get(natureId);
 					if (factory != null) {
 						projects.add(factory.convertToMediaProject(project));
 						break;
@@ -190,16 +202,19 @@ public class InteractiveWorkflowModel implements IMediaProjectModel {
 		return null;
 	}
 
-	private IMediaObject locateMediaObject(IMediaObjectContainer parentResource, List<IResource> path) {
+	private IMediaObject locateMediaObject(
+			IMediaObjectContainer parentResource, List<IResource> path) {
 		IResource resource = path.remove(0);
 		for (IMediaObject child : parentResource.getChildren()) {
-			IResource adaptedResource = (IResource) child.getAdapter(IResource.class);
+			IResource adaptedResource = (IResource) child
+					.getAdapter(IResource.class);
 			if (adaptedResource != null && adaptedResource.equals(resource)) {
 				if (path.isEmpty()) {
 					return child;
 				}
 				if (child instanceof IMediaObjectContainer) {
-					return locateMediaObject((IMediaObjectContainer) child, path);
+					return locateMediaObject((IMediaObjectContainer) child,
+							path);
 				}
 				return null;
 			}

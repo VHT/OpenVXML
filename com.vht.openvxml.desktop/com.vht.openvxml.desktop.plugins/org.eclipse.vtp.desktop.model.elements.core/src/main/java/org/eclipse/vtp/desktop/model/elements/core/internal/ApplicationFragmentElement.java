@@ -242,6 +242,7 @@ public class ApplicationFragmentElement extends DesignElement implements
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) {
 		// System.out.println("Adapting fragment element to: " +
 		// adapter.getName() + " " + adapter.isAssignableFrom(getClass()));

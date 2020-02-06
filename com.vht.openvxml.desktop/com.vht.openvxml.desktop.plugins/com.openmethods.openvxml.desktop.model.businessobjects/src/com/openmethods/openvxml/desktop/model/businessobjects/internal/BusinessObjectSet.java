@@ -202,6 +202,7 @@ public class BusinessObjectSet extends WorkflowResource implements
 	 * (java.lang.Class)
 	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapterClass) {
 		if (IResource.class.isAssignableFrom(adapterClass)
 				&& adapterClass.isAssignableFrom(folder.getClass())) {

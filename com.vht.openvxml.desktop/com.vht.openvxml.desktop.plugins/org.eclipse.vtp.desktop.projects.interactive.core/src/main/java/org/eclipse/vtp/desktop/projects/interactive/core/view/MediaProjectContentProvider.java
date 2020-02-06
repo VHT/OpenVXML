@@ -44,7 +44,8 @@ import org.eclipse.vtp.desktop.model.interactive.core.InteractiveWorkflowCore;
  * @author trip
  *
  */
-public class MediaProjectContentProvider implements IPipelinedTreeContentProvider, IDoubleClickListener {
+public class MediaProjectContentProvider implements
+		IPipelinedTreeContentProvider, IDoubleClickListener {
 	private Viewer viewer = null;
 
 	public MediaProjectContentProvider() {
@@ -53,17 +54,20 @@ public class MediaProjectContentProvider implements IPipelinedTreeContentProvide
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.
+	 * @see
+	 * org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.
 	 * Object)
 	 */
 	@Override
 	public Object[] getChildren(Object parentElement) {
 		if (parentElement instanceof IProject) {
-			IMediaProject workflowProject = InteractiveWorkflowCore.getDefault().getInteractiveWorkflowModel()
+			IMediaProject workflowProject = InteractiveWorkflowCore
+					.getDefault().getInteractiveWorkflowModel()
 					.convertToMediaProject((IProject) parentElement);
 			return workflowProject.getChildren().toArray();
 		} else if (parentElement instanceof IMediaObjectContainer) {
-			return ((IMediaObjectContainer) parentElement).getChildren().toArray();
+			return ((IMediaObjectContainer) parentElement).getChildren()
+					.toArray();
 		}
 		return null;
 	}
@@ -72,7 +76,8 @@ public class MediaProjectContentProvider implements IPipelinedTreeContentProvide
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object )
+	 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object
+	 * )
 	 */
 	@Override
 	public Object getParent(Object element) {
@@ -91,7 +96,8 @@ public class MediaProjectContentProvider implements IPipelinedTreeContentProvide
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.
+	 * @see
+	 * org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.
 	 * Object)
 	 */
 	@Override
@@ -108,7 +114,8 @@ public class MediaProjectContentProvider implements IPipelinedTreeContentProvide
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java
+	 * @see
+	 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java
 	 * .lang.Object)
 	 */
 	@Override
@@ -147,23 +154,27 @@ public class MediaProjectContentProvider implements IPipelinedTreeContentProvide
 	}
 
 	@Override
-	@SuppressWarnings({ "rawtypes" })
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void getPipelinedChildren(Object aParent, Set theCurrentChildren) {
 		List newChildren = new LinkedList();
 		if (aParent instanceof IProject) {
 			IProject project = (IProject) aParent;
 			try {
-				if (InteractiveWorkflowCore.getDefault().getInteractiveWorkflowModel().isMediaProject(project)) {
-					IMediaProject workflowProject = InteractiveWorkflowCore.getDefault().getInteractiveWorkflowModel()
+				if (InteractiveWorkflowCore.getDefault()
+						.getInteractiveWorkflowModel().isMediaProject(project)) {
+					IMediaProject workflowProject = InteractiveWorkflowCore
+							.getDefault().getInteractiveWorkflowModel()
 							.convertToMediaProject(project);
-					List<IMediaObject> workflowResources = workflowProject.getChildren();
+					List<IMediaObject> workflowResources = workflowProject
+							.getChildren();
 					Iterator iterator = theCurrentChildren.iterator();
 					while (iterator.hasNext()) {
 						Object child = iterator.next();
 						if (child instanceof IResource) {
 							IResource resource = (IResource) child;
 							for (IMediaObject workflowResource : workflowResources) {
-								if (workflowResource.getName().equals(resource.getName())) {
+								if (workflowResource.getName().equals(
+										resource.getName())) {
 									iterator.remove();
 									newChildren.add(workflowResource);
 									break;
@@ -189,7 +200,8 @@ public class MediaProjectContentProvider implements IPipelinedTreeContentProvide
 	public Object getPipelinedParent(Object anObject, Object aSuggestedParent) {
 		if (aSuggestedParent instanceof IResource) {
 			IResource resource = (IResource) aSuggestedParent;
-			IMediaObject workflowResource = InteractiveWorkflowCore.getDefault().getInteractiveWorkflowModel()
+			IMediaObject workflowResource = InteractiveWorkflowCore
+					.getDefault().getInteractiveWorkflowModel()
 					.convertToMediaObject(resource);
 			if (workflowResource != null) {
 				if (!(workflowResource instanceof IMediaProject)) {
@@ -202,13 +214,15 @@ public class MediaProjectContentProvider implements IPipelinedTreeContentProvide
 
 	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public PipelinedShapeModification interceptAdd(final PipelinedShapeModification anAddModification) {
+	public PipelinedShapeModification interceptAdd(
+			final PipelinedShapeModification anAddModification) {
 		Object parentObj = anAddModification.getParent();
 		if (parentObj instanceof IResource) {
 			IResource parent = (IResource) parentObj;
-			IMediaObject workflowParent = InteractiveWorkflowCore.getDefault().getInteractiveWorkflowModel()
-					.convertToMediaObject(parent);
-			if (workflowParent != null && !(workflowParent instanceof IMediaProject)) {
+			IMediaObject workflowParent = InteractiveWorkflowCore.getDefault()
+					.getInteractiveWorkflowModel().convertToMediaObject(parent);
+			if (workflowParent != null
+					&& !(workflowParent instanceof IMediaProject)) {
 				anAddModification.setParent(workflowParent);
 			}
 			Set children = anAddModification.getChildren();
@@ -218,7 +232,8 @@ public class MediaProjectContentProvider implements IPipelinedTreeContentProvide
 				Object childObj = iterator.next();
 				if (childObj instanceof IResource) {
 					IResource childResource = (IResource) childObj;
-					IMediaObject workflowChild = InteractiveWorkflowCore.getDefault().getInteractiveWorkflowModel()
+					IMediaObject workflowChild = InteractiveWorkflowCore
+							.getDefault().getInteractiveWorkflowModel()
 							.convertToMediaObject(childResource);
 					if (workflowChild != null) {
 						iterator.remove();
@@ -233,7 +248,8 @@ public class MediaProjectContentProvider implements IPipelinedTreeContentProvide
 
 	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public boolean interceptRefresh(PipelinedViewerUpdate aRefreshSynchronization) {
+	public boolean interceptRefresh(
+			PipelinedViewerUpdate aRefreshSynchronization) {
 		boolean changed = false;
 		Set children = aRefreshSynchronization.getRefreshTargets();
 		List newTargets = new LinkedList();
@@ -242,7 +258,8 @@ public class MediaProjectContentProvider implements IPipelinedTreeContentProvide
 			Object childObj = iterator.next();
 			if (childObj instanceof IResource) {
 				IResource childResource = (IResource) childObj;
-				IMediaObject workflowChild = InteractiveWorkflowCore.getDefault().getInteractiveWorkflowModel()
+				IMediaObject workflowChild = InteractiveWorkflowCore
+						.getDefault().getInteractiveWorkflowModel()
 						.convertToMediaObject(childResource);
 				if (workflowChild != null) {
 					iterator.remove();
@@ -257,7 +274,8 @@ public class MediaProjectContentProvider implements IPipelinedTreeContentProvide
 
 	@Override
 	@SuppressWarnings({ "rawtypes" })
-	public PipelinedShapeModification interceptRemove(PipelinedShapeModification aRemoveModification) {
+	public PipelinedShapeModification interceptRemove(
+			PipelinedShapeModification aRemoveModification) {
 		Set children = aRemoveModification.getChildren();
 		final List<IMediaObject> parents = new LinkedList<IMediaObject>();
 		Iterator iterator = children.iterator();
@@ -265,7 +283,8 @@ public class MediaProjectContentProvider implements IPipelinedTreeContentProvide
 			Object childObj = iterator.next();
 			if (childObj instanceof IResource) {
 				IResource childResource = (IResource) childObj;
-				IMediaObject workflowParent = InteractiveWorkflowCore.getDefault().getInteractiveWorkflowModel()
+				IMediaObject workflowParent = InteractiveWorkflowCore
+						.getDefault().getInteractiveWorkflowModel()
 						.convertToMediaObject(childResource.getParent());
 				if (workflowParent != null) {
 					parents.add(workflowParent);
@@ -302,18 +321,21 @@ public class MediaProjectContentProvider implements IPipelinedTreeContentProvide
 
 	@Override
 	public void doubleClick(DoubleClickEvent event) {
-		IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+		IStructuredSelection selection = (IStructuredSelection) event
+				.getSelection();
 		Object sel = selection.getFirstElement();
 		if (sel instanceof IMediaFile) {
 			try {
-				IDE.openEditor(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage(),
+				IDE.openEditor(PlatformUI.getWorkbench()
+						.getActiveWorkbenchWindow().getActivePage(),
 						((IMediaFile) sel).getUnderlyingFile());
 			} catch (PartInitException e) {
 				e.printStackTrace();
 			}
 		} else if (sel instanceof IPromptSet) {
 			try {
-				IDE.openEditor(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage(),
+				IDE.openEditor(PlatformUI.getWorkbench()
+						.getActiveWorkbenchWindow().getActivePage(),
 						((IPromptSet) sel).getUnderlyingFile());
 			} catch (PartInitException e) {
 				e.printStackTrace();

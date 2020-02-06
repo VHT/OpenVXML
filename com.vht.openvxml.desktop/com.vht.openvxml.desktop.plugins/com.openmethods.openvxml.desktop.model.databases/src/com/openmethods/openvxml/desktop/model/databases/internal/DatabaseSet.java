@@ -26,13 +26,14 @@ import com.openmethods.openvxml.desktop.model.databases.IDatabase;
 import com.openmethods.openvxml.desktop.model.databases.IDatabaseSet;
 
 /**
- * This is a concrete implementation of <code>IDatabaseSet</code> and provides
- * the default behavior of that interface.
+ * This is a concrete implementation of <code>IDatabaseSet</code>
+ * and provides the default behavior of that interface.
  *
  * @author Trip Gilman
  * @version 2.0
  */
-public class DatabaseSet extends WorkflowResource implements IDatabaseSet {
+public class DatabaseSet extends WorkflowResource implements IDatabaseSet
+{
 	/**
 	 * The parent application project.
 	 */
@@ -44,90 +45,89 @@ public class DatabaseSet extends WorkflowResource implements IDatabaseSet {
 	private IFolder folder;
 
 	/**
-	 * Creates a new <code>DatabaseSet</code> with the given application project and
-	 * eclipse folder resource.
+	 * Creates a new <code>DatabaseSet</code> with the given application
+	 * project and eclipse folder resource.
 	 *
 	 * @param aspect The parent application project
 	 * @param folder The eclipse folder resource this database set represents
 	 */
-	public DatabaseSet(DatabaseProjectAspect aspect, IFolder folder) {
+	public DatabaseSet(DatabaseProjectAspect aspect, IFolder folder)
+	{
 		super();
 		this.aspect = aspect;
 		this.folder = folder;
 		activateEvents();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.eclipse.vtp.desktop.core.project.IVoiceResource#getName()
 	 */
-	public String getName() {
+	public String getName()
+	{
 		return folder.getName();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.internals.VoiceResource#getObjectId()
+	/* (non-Javadoc)
+	 * @see org.eclipse.vtp.desktop.core.project.internals.VoiceResource#getObjectId()
 	 */
-	protected String getObjectId() {
+	protected String getObjectId()
+	{
 		return folder.getFullPath().toPortableString();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.eclipse.vtp.desktop.core.project.IVoiceResource#getParent()
 	 */
-	public IWorkflowResource getParent() {
+	public IWorkflowResource getParent()
+	{
 		return aspect.getHostProject();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.eclipse.vtp.desktop.core.project.IDatabaseSet#getDatabases()
 	 */
-	public List<IDatabase> getDatabases() {
+	public List<IDatabase> getDatabases()
+	{
 		List<IDatabase> ret = new ArrayList<IDatabase>();
 
-		try {
+		try
+		{
 			IResource[] res = folder.members();
 
-			for (int i = 0; i < res.length; i++) {
-				if (res[i] instanceof IFolder && !res[i].getName().startsWith(".")) {
-					Database database = new Database(this, (IFolder) res[i]);
+			for(int i = 0; i < res.length; i++)
+			{
+				if(res[i] instanceof IFolder
+						&& !res[i].getName().startsWith("."))
+				{
+					Database database = new Database(this, (IFolder)res[i]);
 					ret.add(database);
 				}
 			}
-		} catch (CoreException e) {
+		}
+		catch(CoreException e)
+		{
 			e.printStackTrace();
 		}
 
 		return ret;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IDatabaseSet#createDatabase(java.lang.
-	 * String)
+	/* (non-Javadoc)
+	 * @see org.eclipse.vtp.desktop.core.project.IDatabaseSet#createDatabase(java.lang.String)
 	 */
-	public IDatabase createDatabase(String name) throws CoreException {
+	public IDatabase createDatabase(String name) throws CoreException
+	{
 		IFolder databaseFolder = folder.getFolder(name);
 
-		if (databaseFolder.exists()) {
-			throw new IllegalArgumentException("A Database with that name already exists: " + name);
+		if(databaseFolder.exists())
+		{
+			throw new IllegalArgumentException(
+				"A Database with that name already exists: " + name);
 		}
 
 		databaseFolder.create(true, false, null);
 		IFile workaround = databaseFolder.getFile(".gitworkaround");
-		workaround.create(
-				new ByteArrayInputStream("This is a workaround for Git's lack of empty directory support.".getBytes()),
-				true, null);
+		workaround.create(new ByteArrayInputStream("This is a workaround for Git's lack of empty directory support.".getBytes()), true, null);
 
 		Database database = new Database(this, databaseFolder);
 		refresh();
@@ -135,46 +135,46 @@ public class DatabaseSet extends WorkflowResource implements IDatabaseSet {
 		return database;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IDatabaseSet#deleteDatabase(org.eclipse.
-	 * vtp.desktop.core.project.IDatabase)
+	/* (non-Javadoc)
+	 * @see org.eclipse.vtp.desktop.core.project.IDatabaseSet#deleteDatabase(org.eclipse.vtp.desktop.core.project.IDatabase)
 	 */
-	public void deleteDatabase(IDatabase database) {
+	public void deleteDatabase(IDatabase database)
+	{
 	}
-
-	public IFolder getUnderlyingFolder() {
+	
+	public IFolder getUnderlyingFolder()
+	{
 		return folder;
 	}
 
-	public boolean equals(Object obj) {
-		if (obj instanceof DatabaseSet) {
-			return folder.equals(((DatabaseSet) obj).getUnderlyingFolder());
+	public boolean equals(Object obj)
+	{
+		if(obj instanceof DatabaseSet)
+		{
+			return folder.equals(((DatabaseSet)obj).getUnderlyingFolder());
 		}
 		return false;
 	}
-
-	public int hashCode() {
+	
+	public int hashCode()
+	{
 		return folder.toString().hashCode();
 	}
 
-	public List<IWorkflowResource> getChildren() {
+	public List<IWorkflowResource> getChildren()
+	{
 		return new ArrayList<IWorkflowResource>(getDatabases());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.internal.WorkflowResource#getAdapter(java.
-	 * lang.Class)
+	/* (non-Javadoc)
+	 * @see org.eclipse.vtp.desktop.model.core.internal.WorkflowResource#getAdapter(java.lang.Class)
 	 */
-	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapterClass) {
-		if (IResource.class.isAssignableFrom(adapterClass) && adapterClass.isAssignableFrom(folder.getClass()))
+	@SuppressWarnings("unchecked")
+	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapterClass)
+	{
+		if(IResource.class.isAssignableFrom(adapterClass) && adapterClass.isAssignableFrom(folder.getClass()))
 			return folder;
-		if (DatabaseSet.class.isAssignableFrom(adapterClass))
+		if(DatabaseSet.class.isAssignableFrom(adapterClass))
 			return this;
 		return super.getAdapter(adapterClass);
 	}

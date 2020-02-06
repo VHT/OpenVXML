@@ -22,7 +22,8 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesignConnectorLa
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesignConnectorMidpoint;
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElementConnectionPoint;
 
-public class DesignConnector extends DesignComponent implements IDesignConnector {
+public class DesignConnector extends DesignComponent implements
+		IDesignConnector {
 	private DesignElement origin;
 	private DesignElement destination;
 	protected List<ConnectorRecord> exitCodes = new ArrayList<ConnectorRecord>();
@@ -44,7 +45,8 @@ public class DesignConnector extends DesignComponent implements IDesignConnector
 		this.label = new LineLabel();
 	}
 
-	public DesignConnector(String id, DesignElement origin, DesignElement destination) {
+	public DesignConnector(String id, DesignElement origin,
+			DesignElement destination) {
 		super(id);
 		this.origin = origin;
 		this.destination = destination;
@@ -58,13 +60,15 @@ public class DesignConnector extends DesignComponent implements IDesignConnector
 	 * @param configuration
 	 */
 	public void writeConfiguration(org.w3c.dom.Element configuration) {
-		org.w3c.dom.Element connectorElement = configuration.getOwnerDocument().createElement("connector");
+		org.w3c.dom.Element connectorElement = configuration.getOwnerDocument()
+				.createElement("connector");
 		configuration.appendChild(connectorElement);
 		connectorElement.setAttribute("id", getId());
 		connectorElement.setAttribute("origin", origin.getId());
 		connectorElement.setAttribute("destination", destination.getId());
 		for (ConnectorRecord cr : exitCodes) {
-			org.w3c.dom.Element recordElement = connectorElement.getOwnerDocument().createElement("record");
+			org.w3c.dom.Element recordElement = connectorElement
+					.getOwnerDocument().createElement("record");
 			connectorElement.appendChild(recordElement);
 			recordElement.setAttribute("sourcename", cr.getName());
 			recordElement.setAttribute("destinationname", "");
@@ -80,7 +84,8 @@ public class DesignConnector extends DesignComponent implements IDesignConnector
 	}
 
 	/**
-	 * @param origin The origin to set.
+	 * @param origin
+	 *            The origin to set.
 	 */
 	public void setOrigin(DesignElement origin) {
 		this.origin = origin;
@@ -169,9 +174,11 @@ public class DesignConnector extends DesignComponent implements IDesignConnector
 		Point[] ps = new Point[points.size()];
 		for (int i = 0; i < points.size(); i++) {
 			if (i == (points.size() - 1)) {
-				ps[i] = points.get(i).getPoint(points.get(i - 1).getRegistryPoint());
+				ps[i] = points.get(i).getPoint(
+						points.get(i - 1).getRegistryPoint());
 			} else {
-				ps[i] = points.get(i).getPoint(points.get(i + 1).getRegistryPoint());
+				ps[i] = points.get(i).getPoint(
+						points.get(i + 1).getRegistryPoint());
 			}
 			if (ps[i] == null) {
 				ps[i] = points.get(i).getRegistryPoint();
@@ -181,6 +188,7 @@ public class DesignConnector extends DesignComponent implements IDesignConnector
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<IDesignConnectorMidpoint> getMidpoints() {
 		@SuppressWarnings("rawtypes")
 		List midpoints = points.subList(1, points.size() - 1);
@@ -209,7 +217,6 @@ public class DesignConnector extends DesignComponent implements IDesignConnector
 		this.fireChange();
 	}
 
-	@SuppressWarnings("unlikely-arg-type")
 	@Override
 	public void removeMidpoint(IDesignConnectorMidpoint midpoint) {
 		points.remove(midpoint);

@@ -24,8 +24,8 @@ import org.w3c.dom.NodeList;
  */
 public class FieldType {
 	public enum Primitive {
-		ANY("ANYTYPE"), STRING("String"), NUMBER("Number"), DECIMAL("Decimal"), BOOLEAN("Boolean"),
-		DATETIME("DateTime"), ARRAY("Array"), MAP("Map");
+		ANY("ANYTYPE"), STRING("String"), NUMBER("Number"), DECIMAL("Decimal"), BOOLEAN(
+				"Boolean"), DATETIME("DateTime"), ARRAY("Array"), MAP("Map");
 
 		private String val;
 
@@ -38,8 +38,6 @@ public class FieldType {
 			case ARRAY:
 			case MAP:
 				return true;
-			default:
-				break;
 			}
 			return false;
 		}
@@ -48,8 +46,6 @@ public class FieldType {
 			switch (this) {
 			case ANY:
 				return false;
-			default:
-				break;
 			}
 			return true;
 		}
@@ -59,8 +55,6 @@ public class FieldType {
 			case ARRAY:
 			case MAP:
 				return false;
-			default:
-				break;
 			}
 			return true;
 		}
@@ -70,8 +64,8 @@ public class FieldType {
 		}
 
 		/**
-		 * Determines whether or not the precision value is applicable to this field
-		 * type.
+		 * Determines whether or not the precision value is applicable to this
+		 * field type.
 		 *
 		 * @return <code>true</code> if this field type has a precision,
 		 *         <code>false</code> otherwise
@@ -81,8 +75,6 @@ public class FieldType {
 			case NUMBER:
 			case DECIMAL:
 				return true;
-			default:
-				break;
 			}
 			return false;
 		}
@@ -95,8 +87,6 @@ public class FieldType {
 			case BOOLEAN:
 			case DATETIME:
 				return true;
-			default:
-				break;
 			}
 			return false;
 		}
@@ -174,7 +164,8 @@ public class FieldType {
 	 * Creates a new <code>FieldType</code> with the given primitive data type.
 	 * Precision is defaulted to SINGLE.
 	 *
-	 * @param type The primitive data type of this field type
+	 * @param type
+	 *            The primitive data type of this field type
 	 */
 	public FieldType(Primitive type) {
 		super();
@@ -189,7 +180,8 @@ public class FieldType {
 
 	public FieldType(Primitive type, Primitive baseType) {
 		if (!type.isMainType()) {
-			throw new IllegalArgumentException("Only arrays and maps can have a base type.");
+			throw new IllegalArgumentException(
+					"Only arrays and maps can have a base type.");
 		}
 		if (!baseType.isBaseType()) {
 			throw new IllegalArgumentException(
@@ -201,7 +193,8 @@ public class FieldType {
 
 	public FieldType(Primitive type, IBusinessObject baseType) {
 		if (!type.isMainType()) {
-			throw new IllegalArgumentException("Only arrays and maps can have a base type.");
+			throw new IllegalArgumentException(
+					"Only arrays and maps can have a base type.");
 		}
 		this.primitiveType = type;
 		this.objectBaseType = baseType;
@@ -245,8 +238,8 @@ public class FieldType {
 	/**
 	 * Determines whether or not this field type represents a business object.
 	 *
-	 * @return <code>true</code> if this field type represents a business object,
-	 *         <code>false</code> otherwise
+	 * @return <code>true</code> if this field type represents a business
+	 *         object, <code>false</code> otherwise
 	 */
 	public boolean isObject() {
 		return primitiveType == null;
@@ -280,8 +273,9 @@ public class FieldType {
 	 * Generates the XML DOM elements and attributes required to save the
 	 * information for this field type.
 	 *
-	 * @param parent The parent XML DOM element that will contain the field type
-	 *               information
+	 * @param parent
+	 *            The parent XML DOM element that will contain the field type
+	 *            information
 	 */
 	public void write(Element parent) {
 		Element dt = parent.getOwnerDocument().createElement("data-type");
@@ -291,12 +285,15 @@ public class FieldType {
 			dt.setAttribute("type", "primitive:" + primitiveType.getName());
 			if (primitiveType.hasBaseType()) {
 				if (primitiveBaseType != null) {
-					dt.setAttribute("base-type", "primitive:" + primitiveBaseType.getName());
+					dt.setAttribute("base-type", "primitive:"
+							+ primitiveBaseType.getName());
 					if (primitiveBaseType.hasPrecision()) {
-						dt.setAttribute("base-precision", Integer.toString(getPrecision()));
+						dt.setAttribute("base-precision",
+								Integer.toString(getPrecision()));
 					}
 				} else {
-					dt.setAttribute("base-type", "object:" + objectBaseType.getName());
+					dt.setAttribute("base-type",
+							"object:" + objectBaseType.getName());
 				}
 			}
 			if (primitiveType.hasPrecision()) {
@@ -311,8 +308,8 @@ public class FieldType {
 	 * Constructs a new <code>FieldType</code> that represents a number with the
 	 * given precision.
 	 *
-	 * @param precision The precision of the number represented by the new field
-	 *                  type
+	 * @param precision
+	 *            The precision of the number represented by the new field type
 	 * @return The new <code>FieldType</code>
 	 */
 	public static FieldType number(int precision) {
@@ -323,7 +320,8 @@ public class FieldType {
 	}
 
 	/**
-	 * Constructs a new <code>FieldType</code> that represents an array of numbers.
+	 * Constructs a new <code>FieldType</code> that represents an array of
+	 * numbers.
 	 *
 	 * @return The new <code>FieldType</code>
 	 */
@@ -333,11 +331,12 @@ public class FieldType {
 	}
 
 	/**
-	 * Constructs a new <code>FieldType</code> that represents an array of numbers
-	 * that will have the given precision.
+	 * Constructs a new <code>FieldType</code> that represents an array of
+	 * numbers that will have the given precision.
 	 *
-	 * @param precision The precision of the numbers contained in the array
-	 *                  represented by the new field type
+	 * @param precision
+	 *            The precision of the numbers contained in the array
+	 *            represented by the new field type
 	 * @return The new <code>FieldType</code>
 	 */
 	public static FieldType numberArray(int precision) {
@@ -347,7 +346,8 @@ public class FieldType {
 	}
 
 	/**
-	 * Constructs a new <code>FieldType</code> that represents an array of strings.
+	 * Constructs a new <code>FieldType</code> that represents an array of
+	 * strings.
 	 *
 	 * @return The new <code>FieldType</code>
 	 */
@@ -357,7 +357,8 @@ public class FieldType {
 	}
 
 	/**
-	 * Constructs a new <code>FieldType</code> that represents an array of dates.
+	 * Constructs a new <code>FieldType</code> that represents an array of
+	 * dates.
 	 *
 	 * @return The new <code>FieldType</code>
 	 */
@@ -367,11 +368,12 @@ public class FieldType {
 	}
 
 	/**
-	 * Constructs a new <code>FieldType</code> that represents a decimal number with
-	 * the given precision.
+	 * Constructs a new <code>FieldType</code> that represents a decimal number
+	 * with the given precision.
 	 *
-	 * @param precision The precision of the decimal number represented by the new
-	 *                  field type
+	 * @param precision
+	 *            The precision of the decimal number represented by the new
+	 *            field type
 	 * @return The new <code>FieldType</code>
 	 */
 	public static FieldType decimal(int precision) {
@@ -381,8 +383,8 @@ public class FieldType {
 	}
 
 	/**
-	 * Constructs a new <code>FieldType</code> that represents an array of decimal
-	 * numbers.
+	 * Constructs a new <code>FieldType</code> that represents an array of
+	 * decimal numbers.
 	 *
 	 * @return The new <code>FieldType</code>
 	 */
@@ -392,11 +394,12 @@ public class FieldType {
 	}
 
 	/**
-	 * Constructs a new <code>FieldType</code> that represents an array of decimal
-	 * numbers that will have the given precision.
+	 * Constructs a new <code>FieldType</code> that represents an array of
+	 * decimal numbers that will have the given precision.
 	 *
-	 * @param precision The precision of the decimal numbers contained in the array
-	 *                  represented by the new field type
+	 * @param precision
+	 *            The precision of the decimal numbers contained in the array
+	 *            represented by the new field type
 	 * @return The new <code>FieldType</code>
 	 */
 	public static FieldType decimalArray(int precision) {
@@ -406,8 +409,8 @@ public class FieldType {
 	}
 
 	/**
-	 * Constructs a new <code>FieldType</code> that represents an array of boolean
-	 * values.
+	 * Constructs a new <code>FieldType</code> that represents an array of
+	 * boolean values.
 	 *
 	 * @return The new <code>FieldType</code>
 	 */
@@ -417,11 +420,12 @@ public class FieldType {
 	}
 
 	/**
-	 * Constructs a new <code>FieldType</code> from the information stored in the
-	 * given XML DOM sturcture. The information must be stored the same format
-	 * produced by the write() function of this class.
+	 * Constructs a new <code>FieldType</code> from the information stored in
+	 * the given XML DOM sturcture. The information must be stored the same
+	 * format produced by the write() function of this class.
 	 *
-	 * @param element The element that contains the formated data
+	 * @param element
+	 *            The element that contains the formated data
 	 * @return The new <code>FieldType</code> instance represented by the given
 	 *         field type information
 	 */
@@ -441,16 +445,19 @@ public class FieldType {
 					Element child = (Element) nl.item(i);
 
 					if (child.getTagName().equals("type")) {
-						typeName = XMLUtilities.getElementTextDataNoEx(child, true);
+						typeName = XMLUtilities.getElementTextDataNoEx(child,
+								true);
 					} else if (child.getTagName().equals("style")) {
 						try {
-							style = Integer.parseInt(child.getAttribute("value"));
+							style = Integer.parseInt(child
+									.getAttribute("value"));
 						} catch (NumberFormatException e) {
 							e.printStackTrace();
 						}
 					} else if (child.getTagName().equals("precision")) {
 						try {
-							precision = Integer.parseInt(child.getAttribute("value"));
+							precision = Integer.parseInt(child
+									.getAttribute("value"));
 						} catch (NumberFormatException e) {
 							e.printStackTrace();
 						}
@@ -459,10 +466,12 @@ public class FieldType {
 			}
 
 			if ((typeName == null) || (style == -1) || (precision == -1)) {
-				throw new IllegalArgumentException("DesignElement Format Exception");
+				throw new IllegalArgumentException(
+						"DesignElement Format Exception");
 			}
 			FieldType ret = null;
-			System.err.println("**************************" + typeName + "***************************");
+			System.err.println("**************************" + typeName
+					+ "***************************");
 			Primitive type = Primitive.find(typeName);
 			if (type != null) {
 				System.err.println("Primitive!");
@@ -500,7 +509,8 @@ public class FieldType {
 					ret = new FieldType(type, baseType);
 					if (baseType.hasPrecision()) {
 						try {
-							precision = Integer.parseInt(element.getAttribute("precision"));
+							precision = Integer.parseInt(element
+									.getAttribute("precision"));
 						} catch (NumberFormatException nfe) {
 						}
 						ret.precision = precision;
@@ -508,9 +518,12 @@ public class FieldType {
 				} else // business object type
 				{
 					baseTypeName = baseTypeName.substring(7);
-					IBusinessObject bo = objectSet.getBusinessObject(baseTypeName);
+					IBusinessObject bo = objectSet
+							.getBusinessObject(baseTypeName);
 					if (bo == null) {
-						throw new RuntimeException("Missing business object definition: " + baseTypeName);
+						throw new RuntimeException(
+								"Missing business object definition: "
+										+ baseTypeName);
 					}
 					ret = new FieldType(type, bo);
 				}
@@ -519,7 +532,8 @@ public class FieldType {
 			}
 			if (type.hasPrecision()) {
 				try {
-					precision = Integer.parseInt(element.getAttribute("precision"));
+					precision = Integer.parseInt(element
+							.getAttribute("precision"));
 				} catch (NumberFormatException nfe) {
 				}
 				ret.precision = precision;
@@ -529,7 +543,8 @@ public class FieldType {
 			typeName = typeName.substring(7);
 			IBusinessObject bo = objectSet.getBusinessObject(typeName);
 			if (bo == null) {
-				throw new RuntimeException("Missing business object definition: " + typeName);
+				throw new RuntimeException(
+						"Missing business object definition: " + typeName);
 			}
 			ret = new FieldType(bo);
 		}
@@ -542,7 +557,9 @@ public class FieldType {
 			return false;
 		}
 		FieldType type = (FieldType) obj;
-		return type.primitiveType == primitiveType && type.objectType == objectType
-				&& type.primitiveBaseType == primitiveBaseType && type.objectBaseType == objectBaseType;
+		return type.primitiveType == primitiveType
+				&& type.objectType == objectType
+				&& type.primitiveBaseType == primitiveBaseType
+				&& type.objectBaseType == objectBaseType;
 	}
 }

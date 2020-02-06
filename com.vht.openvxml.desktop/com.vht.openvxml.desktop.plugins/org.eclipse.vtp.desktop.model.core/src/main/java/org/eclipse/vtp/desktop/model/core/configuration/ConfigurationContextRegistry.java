@@ -45,6 +45,7 @@ public class ConfigurationContextRegistry {
 				Bundle contributor = Platform.getBundle(managerExtension
 						.getContributor().getName());
 				try {
+					@SuppressWarnings("unchecked")
 					Class<ConfigurationContext> managerClass = (Class<ConfigurationContext>) contributor
 							.loadClass(className);
 					ContextRecord cmr = new ContextRecord(managerId,

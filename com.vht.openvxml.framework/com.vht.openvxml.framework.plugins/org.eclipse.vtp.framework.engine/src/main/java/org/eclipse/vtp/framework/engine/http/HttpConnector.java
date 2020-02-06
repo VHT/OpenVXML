@@ -78,7 +78,8 @@ public class HttpConnector {
 	/** The path info for binary resources. */
 	public static final String RESOURCES_PATH = PATH_PREFIX + "resources"; //$NON-NLS-1$
 	/** The path info for binary platform includes. */
-	public static final String PLATFORM_PATH = PATH_PREFIX + "platform-includes"; //$NON-NLS-1$
+	public static final String PLATFORM_PATH = PATH_PREFIX
+			+ "platform-includes"; //$NON-NLS-1$
 	/** The path info for the session examiner. */
 	public static final String EXAMINE_PATH = PATH_PREFIX + "examine"; //$NON-NLS-1$
 	/** The path info for the log level setter. */
@@ -130,15 +131,19 @@ public class HttpConnector {
 	/** The currently deployed processes. */
 	private final Map<String, Deployment> deploymentsByID = new HashMap<String, Deployment>();
 	/** The currently deployed processes. */
-	private final Map<String, Deployment> deploymentsByPath = new TreeMap<String, Deployment>(PATH_SORT);
+	private final Map<String, Deployment> deploymentsByPath = new TreeMap<String, Deployment>(
+			PATH_SORT);
 
 	/**
 	 * Creates a new HttpConnector.
 	 * 
-	 * @param engine      The process engine to use.
-	 * @param httpService The HTTP service to use.
+	 * @param engine
+	 *            The process engine to use.
+	 * @param httpService
+	 *            The HTTP service to use.
 	 */
-	public HttpConnector(LogService log, IProcessEngine engine, HttpService httpService, IReporter reporter) {
+	public HttpConnector(LogService log, IProcessEngine engine,
+			HttpService httpService, IReporter reporter) {
 		// this.log = log;
 		this.engine = engine;
 		this.httpService = httpService;
@@ -148,10 +153,13 @@ public class HttpConnector {
 	/**
 	 * Registers a process definition with this connector.
 	 * 
-	 * @param definitionID The ID of the definition to register.
-	 * @param definition   The definition to register.
+	 * @param definitionID
+	 *            The ID of the definition to register.
+	 * @param definition
+	 *            The definition to register.
 	 */
-	public void registerDefinition(String definitionID, IProcessDefinition definition, Bundle contributor) {
+	public void registerDefinition(String definitionID,
+			IProcessDefinition definition, Bundle contributor) {
 		synchronized (definitionsByID) {
 			definitionsByID.put(definitionID, definition);
 			definitionContributors.put(definitionID, contributor);
@@ -161,7 +169,8 @@ public class HttpConnector {
 	/**
 	 * Releases a process definition in this connector.
 	 * 
-	 * @param definitionID The ID of the definition to release.
+	 * @param definitionID
+	 *            The ID of the definition to release.
 	 */
 	public void releaseDefinition(String definitionID) {
 		synchronized (definitionsByID) {
@@ -173,8 +182,10 @@ public class HttpConnector {
 	/**
 	 * Registers a resource group with this connector.
 	 * 
-	 * @param resourcesID The ID of the resource group to register.
-	 * @param resources   The resource group to register.
+	 * @param resourcesID
+	 *            The ID of the resource group to register.
+	 * @param resources
+	 *            The resource group to register.
 	 */
 	public void registerResouces(String resourcesID, ResourceGroup resources) {
 		synchronized (resourcesByID) {
@@ -185,7 +196,8 @@ public class HttpConnector {
 	/**
 	 * Releases a resource group in this connector.
 	 * 
-	 * @param resourcesID The ID of the resource group to release.
+	 * @param resourcesID
+	 *            The ID of the resource group to release.
 	 */
 	public void releaseResouces(String resourcesID) {
 		synchronized (resourcesByID) {
@@ -196,9 +208,11 @@ public class HttpConnector {
 	/**
 	 * Configures the basic properties of this connector.
 	 * 
-	 * @param properties The basic configuration properties.
+	 * @param properties
+	 *            The basic configuration properties.
 	 */
-	public synchronized void configure(@SuppressWarnings("rawtypes") Dictionary properties) {
+	public synchronized void configure(
+			@SuppressWarnings("rawtypes") Dictionary properties) {
 		close();
 		this.properties = properties;
 		open();
@@ -207,10 +221,13 @@ public class HttpConnector {
 	/**
 	 * Deploys a process into the engine.
 	 * 
-	 * @param key        The key for the deployment.
-	 * @param properties The properties of the deployment.
+	 * @param key
+	 *            The key for the deployment.
+	 * @param properties
+	 *            The properties of the deployment.
 	 */
-	public synchronized void deploy(String key, @SuppressWarnings("rawtypes") Dictionary properties) {
+	public synchronized void deploy(String key,
+			@SuppressWarnings("rawtypes") Dictionary properties) {
 		Deployment deployment = deploymentsByKey.remove(key);
 		if (deployment != null) {
 			deploymentsByPath.remove(deployment.getPath());
@@ -240,13 +257,15 @@ public class HttpConnector {
 			return;
 		}
 		try {
-			deployment = new Deployment(engine, definition, properties, contributor, reporter);
+			deployment = new Deployment(engine, definition, properties,
+					contributor, reporter);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return;
 		}
 		synchronized (resourcesByID) {
-			for (Map.Entry<String, ResourceGroup> entry : resourcesByID.entrySet()) {
+			for (Map.Entry<String, ResourceGroup> entry : resourcesByID
+					.entrySet()) {
 				deployment.setResourceManager(entry.getKey(), entry.getValue());
 			}
 		}
@@ -269,7 +288,8 @@ public class HttpConnector {
 	/**
 	 * Undeploys a process from the engine.
 	 * 
-	 * @param key The key for the deployment.
+	 * @param key
+	 *            The key for the deployment.
 	 */
 	public synchronized void undeploy(String key) {
 		Deployment deployment = deploymentsByKey.remove(key);
@@ -283,13 +303,17 @@ public class HttpConnector {
 	/**
 	 * Serves up a site that can be used to examine and modify active sessions.
 	 * 
-	 * @param req The HTTP request.
-	 * @param res The HTTP response.
-	 * @throws ServletException If the processing fails.
-	 * @throws IOException      If the connection fails.
+	 * @param req
+	 *            The HTTP request.
+	 * @param res
+	 *            The HTTP response.
+	 * @throws ServletException
+	 *             If the processing fails.
+	 * @throws IOException
+	 *             If the connection fails.
 	 */
-	public synchronized void examine(HttpServletRequest req, HttpServletResponse res)
-			throws ServletException, IOException {
+	public synchronized void examine(HttpServletRequest req,
+			HttpServletResponse res) throws ServletException, IOException {
 		String cmd = req.getParameter("cmd");
 		String process = req.getParameter("process");
 		String session = req.getParameter("session");
@@ -309,7 +333,8 @@ public class HttpConnector {
 		if (variable != null) {
 			for (String token : variable.split("\\.")) {
 				if (object == null) {
-					object = deploymentSession.getVariableRegistry().getVariable(token);
+					object = deploymentSession.getVariableRegistry()
+							.getVariable(token);
 				} else {
 					parent = object;
 					object = parent.getField(token);
@@ -319,9 +344,11 @@ public class HttpConnector {
 		}
 		if ("unlock".equals(cmd)) {
 			if (action.startsWith("Save")) {
-				IVariableRegistry variables = deploymentSession.getVariableRegistry();
+				IVariableRegistry variables = deploymentSession
+						.getVariableRegistry();
 				if (object == null) {
-					object = variables.createVariable(parent.getField(fieldName).getType());
+					object = variables.createVariable(parent
+							.getField(fieldName).getType());
 					parent.setField(fieldName, object);
 				}
 				if (object instanceof IBooleanObject) {
@@ -337,7 +364,9 @@ public class HttpConnector {
 				}
 			}
 			deploymentSession.unlock();
-			res.sendRedirect(res.encodeRedirectURL("examine?cmd=variables&process=" + process + "&session=" + session));
+			res.sendRedirect(res
+					.encodeRedirectURL("examine?cmd=variables&process="
+							+ process + "&session=" + session));
 		} else {
 			String base = res.encodeURL("examine?cmd=");
 			res.setContentType("text/html");
@@ -345,14 +374,18 @@ public class HttpConnector {
 			out.println("<html><head><title>Runtime Examination</title></head><body>");
 			if ("edit".equals(cmd)) {
 				out.println("<p>Application: " + process + "</p>");
-				out.println("<p>Session: " + deploymentSession.getSessionID() + " : "
-						+ deploymentSession.getCurrentPosition() + "</p>");
+				out.println("<p>Session: " + deploymentSession.getSessionID()
+						+ " : " + deploymentSession.getCurrentPosition()
+						+ "</p>");
 				deploymentSession.lock();
 				out.println("<form action=\"examine\" method=\"post\">");
 				out.println("<input type=\"hidden\" name=\"cmd\" value=\"unlock\" />");
-				out.println("<input type=\"hidden\" name=\"process\" value=\"" + process + "\" />");
-				out.println("<input type=\"hidden\" name=\"session\" value=\"" + session + "\" />");
-				out.println("<input type=\"hidden\" name=\"variable\" value=\"" + variable + "\" />");
+				out.println("<input type=\"hidden\" name=\"process\" value=\""
+						+ process + "\" />");
+				out.println("<input type=\"hidden\" name=\"session\" value=\""
+						+ session + "\" />");
+				out.println("<input type=\"hidden\" name=\"variable\" value=\""
+						+ variable + "\" />");
 				out.println("<p>" + variable + " = ");
 				out.println("<input type=\"text\" name=\"value\" value=\"");
 				if (object != null) {
@@ -364,15 +397,19 @@ public class HttpConnector {
 				out.println("</form>");
 			} else if ("variables".equals(cmd)) {
 				out.println("<p>Application: " + process + "</p>");
-				out.println("<p>Session: " + deploymentSession.getSessionID() + " : "
-						+ deploymentSession.getCurrentPosition() + "</p>");
+				out.println("<p>Session: " + deploymentSession.getSessionID()
+						+ " : " + deploymentSession.getCurrentPosition()
+						+ "</p>");
 				out.println("<p>Select a variable to edit:</p><ul>");
-				IVariableRegistry variables = deploymentSession.getVariableRegistry();
-				String prefix = base + "edit&process=" + process + "&session=" + session + "&variable=";
+				IVariableRegistry variables = deploymentSession
+						.getVariableRegistry();
+				String prefix = base + "edit&process=" + process + "&session="
+						+ session + "&variable=";
 				String[] variableNames = variables.getVariableNames();
 				Arrays.sort(variableNames);
 				for (String name : variableNames) {
-					examineVariable(out, prefix, name, variables.getVariable(name));
+					examineVariable(out, prefix, name,
+							variables.getVariable(name));
 				}
 				out.println("</ul>");
 			} else if ("sessions".equals(cmd)) {
@@ -416,9 +453,10 @@ public class HttpConnector {
 	 * @param var
 	 * @throws IOException
 	 */
-	private void examineVariable(ServletOutputStream out, String prefix, String name, IDataObject var)
-			throws IOException {
-		if (var instanceof IBooleanObject || var instanceof IDateObject || var instanceof IDecimalObject
+	private void examineVariable(ServletOutputStream out, String prefix,
+			String name, IDataObject var) throws IOException {
+		if (var instanceof IBooleanObject || var instanceof IDateObject
+				|| var instanceof IDecimalObject
 				|| var instanceof INumberObject || var instanceof IStringObject) {
 			out.print("<li>");
 			out.print(name);
@@ -432,7 +470,8 @@ public class HttpConnector {
 			String[] fieldNames = var.getType().getFieldNames();
 			Arrays.sort(fieldNames);
 			for (String fieldName : fieldNames) {
-				examineVariable(out, prefix, name + "." + fieldName, var.getField(fieldName));
+				examineVariable(out, prefix, name + "." + fieldName,
+						var.getField(fieldName));
 			}
 		}
 	}
@@ -440,15 +479,22 @@ public class HttpConnector {
 	/**
 	 * Processes an HTTP request.
 	 * 
-	 * @param req The HTTP request.
-	 * @param res The HTTP response.
-	 * @throws ServletException If the processing fails.
-	 * @throws IOException      If the connection fails.
+	 * @param req
+	 *            The HTTP request.
+	 * @param res
+	 *            The HTTP response.
+	 * @throws ServletException
+	 *             If the processing fails.
+	 * @throws IOException
+	 *             If the connection fails.
 	 */
-	public void process(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+	public void process(HttpServletRequest req, HttpServletResponse res)
+			throws ServletException, IOException {
 		try {
-			invokeProcessEngine(req, res, req.getSession(), HttpUtils.normalizePath(req.getPathInfo()),
-					Collections.emptyMap(), new HashMap<String, String[]>(), false);
+			invokeProcessEngine(req, res, req.getSession(),
+					HttpUtils.normalizePath(req.getPathInfo()),
+					Collections.emptyMap(), new HashMap<String, String[]>(),
+					false);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -461,12 +507,18 @@ public class HttpConnector {
 	 * @param res
 	 * @param httpSession
 	 * @param pathInfo
-	 * @param embeddedInvocation TODO
+	 * @param embeddedInvocation
+	 *            TODO
 	 * @throws IOException
 	 * @throws ServletException
 	 */
-	private void invokeProcessEngine(HttpServletRequest req, HttpServletResponse res, HttpSession httpSession,
-			String pathInfo, Map<Object, Object> variableValues, Map<String, String[]> parameterValues,
+	private void invokeProcessEngine(
+			HttpServletRequest req,
+			HttpServletResponse res,
+			HttpSession httpSession,
+			String pathInfo,
+			Map<Object, Object> variableValues,
+			@SuppressWarnings("rawtypes") Map<String, String[]> parameterValues,
 			boolean embeddedInvocation) throws IOException, ServletException {
 		boolean newSession = false;
 		Integer depth = (Integer) httpSession.getAttribute("connector.depth");
@@ -486,12 +538,14 @@ public class HttpConnector {
 			newSession = true;
 			synchronized (this) {
 				for (String path : deploymentsByPath.keySet()) {
-					if (pathInfo.equals(path) || pathInfo.startsWith(path) && pathInfo.length() > path.length()
+					if (pathInfo.equals(path) || pathInfo.startsWith(path)
+							&& pathInfo.length() > path.length()
 							&& pathInfo.charAt(path.length()) == '/') {
 						deployment = deploymentsByPath.get(path);
 						brand = req.getParameter("BRAND");
 						if (req.getParameter("SUBDIALOG") != null) {
-							subdialog = Boolean.parseBoolean(req.getParameter("SUBDIALOG"));
+							subdialog = Boolean.parseBoolean(req
+									.getParameter("SUBDIALOG"));
 						}
 						if (pathInfo.length() > path.length() + 1) {
 							entryName = pathInfo.substring(path.length() + 1);
@@ -509,12 +563,17 @@ public class HttpConnector {
 				return;
 			}
 			pathInfo = NEXT_PATH;
-			httpSession.setAttribute(fullPrefix + DEPLOYMENT_ID, deployment.getProcessID());
+			httpSession.setAttribute(fullPrefix + DEPLOYMENT_ID,
+					deployment.getProcessID());
 		} else if (pathInfo.equals(LOG_PATH)) {
-			if (req.getParameter("cmd") != null && req.getParameter("cmd").equals("set")) {
+			if (req.getParameter("cmd") != null
+					&& req.getParameter("cmd").equals("set")) {
 				String level = req.getParameter("level");
-				if (level == null || (!level.equalsIgnoreCase("ERROR") && !level.equalsIgnoreCase("WARN")
-						&& !level.equalsIgnoreCase("INFO") && !level.equalsIgnoreCase("DEBUG"))) {
+				if (level == null
+						|| (!level.equalsIgnoreCase("ERROR")
+								&& !level.equalsIgnoreCase("WARN")
+								&& !level.equalsIgnoreCase("INFO") && !level
+									.equalsIgnoreCase("DEBUG"))) {
 					level = "INFO";
 				}
 				System.setProperty("org.eclipse.vtp.loglevel", level);
@@ -522,7 +581,8 @@ public class HttpConnector {
 			writeLogging(req, res);
 			return;
 		} else {
-			String deploymentID = (String) httpSession.getAttribute(fullPrefix + DEPLOYMENT_ID);
+			String deploymentID = (String) httpSession.getAttribute(fullPrefix
+					+ DEPLOYMENT_ID);
 			synchronized (this) {
 				deployment = deploymentsByID.get(deploymentID);
 			}
@@ -538,18 +598,24 @@ public class HttpConnector {
 			writeIndex(res, deployment);
 			return;
 		}
-		ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
-		if (ServletFileUpload.isMultipartContent(new ServletRequestContext(req))) {
+		ServletFileUpload upload = new ServletFileUpload(
+				new DiskFileItemFactory());
+		if (ServletFileUpload
+				.isMultipartContent(new ServletRequestContext(req))) {
 			try {
-				List<?> items = upload.parseRequest(req);
+				List items = upload.parseRequest(req);
 				for (int i = 0; i < items.size(); i++) {
 					FileItem fui = (FileItem) items.get(i);
-					if (fui.isFormField() || "text/plain".equals(fui.getContentType())) {
-						parameterValues.put(fui.getFieldName(), new String[] { fui.getString() });
+					if (fui.isFormField()
+							|| "text/plain".equals(fui.getContentType())) {
+						parameterValues.put(fui.getFieldName(),
+								new String[] { fui.getString() });
 					} else {
-						File temp = File.createTempFile(Guid.createGUID(), ".tmp");
+						File temp = File.createTempFile(Guid.createGUID(),
+								".tmp");
 						fui.write(temp);
-						parameterValues.put(fui.getFieldName(), new String[] { temp.getAbsolutePath() });
+						parameterValues.put(fui.getFieldName(),
+								new String[] { temp.getAbsolutePath() });
 						fui.delete();
 					}
 				}
@@ -557,7 +623,7 @@ public class HttpConnector {
 				e.printStackTrace();
 			}
 		}
-		for (Enumeration<?> e = req.getParameterNames(); e.hasMoreElements();) {
+		for (Enumeration e = req.getParameterNames(); e.hasMoreElements();) {
 			String key = (String) e.nextElement();
 			parameterValues.put(key, req.getParameterValues(key));
 		}
@@ -574,15 +640,16 @@ public class HttpConnector {
 		}
 		IDocument document = null;
 		if (pathInfo.equals(ABORT_PATH)) {
-			document = deployment.abort(httpSession, req, res, prefix, depth.intValue(), variableValues,
-					parameterValues);
+			document = deployment.abort(httpSession, req, res, prefix,
+					depth.intValue(), variableValues, parameterValues);
 		} else if (pathInfo.equals(NEXT_PATH)) {
 			if (brand == null && !newSession) {
-				document = deployment.next(httpSession, req, res, prefix, depth.intValue(), variableValues,
-						parameterValues);
+				document = deployment.next(httpSession, req, res, prefix,
+						depth.intValue(), variableValues, parameterValues);
 			} else {
-				document = deployment.start(httpSession, req, res, prefix, depth.intValue(), variableValues,
-						parameterValues, entryName, brand, subdialog);
+				document = deployment.start(httpSession, req, res, prefix,
+						depth.intValue(), variableValues, parameterValues,
+						entryName, brand, subdialog);
 			}
 		} else {
 			res.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -594,48 +661,58 @@ public class HttpConnector {
 		} else if (document instanceof ControllerDocument) {
 			ControllerDocument cd = (ControllerDocument) document;
 			if (cd.getTarget() == null) {
+				@SuppressWarnings("unchecked")
 				Map<String, Map<String, Object>> outgoing = (Map<String, Map<String, Object>>) httpSession
 						.getAttribute(fullPrefix + "outgoing-data");
 				int newDepth = depth.intValue() - 1;
 				if (newDepth == 0) {
 					httpSession.removeAttribute("connector.depth");
 				} else {
-					httpSession.setAttribute("connector.depth", new Integer(newDepth));
+					httpSession.setAttribute("connector.depth", new Integer(
+							newDepth));
 				}
 				String oldFullPrefix = fullPrefix;
 				fullPrefix = prefix + newDepth + ".";
-				Object[] params = (Object[]) httpSession.getAttribute(fullPrefix + "exitparams");
+				Object[] params = (Object[]) httpSession
+						.getAttribute(fullPrefix + "exitparams");
 				if (params != null) {
 					for (int i = 0; i < params.length; i += 2) {
-						parameterValues.put((String) params[i], (String[]) params[i + 1]);
+						parameterValues.put((String) params[i],
+								(String[]) params[i + 1]);
 					}
 				}
 				String[] paramNames = cd.getParameterNames();
 				for (String paramName : paramNames) {
-					parameterValues.put(paramName, cd.getParameterValues(paramName));
+					parameterValues.put(paramName,
+							cd.getParameterValues(paramName));
 				}
 				String[] variableNames = cd.getVariableNames();
-				Map<Object, Object> variables = new HashMap<Object, Object>(variableNames.length);
+				Map<Object, Object> variables = new HashMap<Object, Object>(
+						variableNames.length);
 				if (outgoing != null) {
-					Map<String, Object> map = outgoing.get(cd.getParameterValues("exit")[0]);
+					Map<String, Object> map = outgoing.get(cd
+							.getParameterValues("exit")[0]);
 					if (map != null) {
 						for (String variableName : variableNames) {
 							Object mapping = map.get(variableName);
 							if (mapping != null) {
-								variables.put(mapping, cd.getVariableValue(variableName));
+								variables.put(mapping,
+										cd.getVariableValue(variableName));
 							}
 						}
 					}
 				}
 				deployment.end(httpSession, prefix, depth.intValue());
 				for (@SuppressWarnings("rawtypes")
-				Enumeration e = httpSession.getAttributeNames(); e.hasMoreElements();) {
+				Enumeration e = httpSession.getAttributeNames(); e
+						.hasMoreElements();) {
 					String name = (String) e.nextElement();
 					if (name.startsWith(oldFullPrefix)) {
 						httpSession.removeAttribute(name);
 					}
 				}
-				invokeProcessEngine(req, res, httpSession, NEXT_PATH, variables, parameterValues, newDepth > 0);
+				invokeProcessEngine(req, res, httpSession, NEXT_PATH,
+						variables, parameterValues, newDepth > 0);
 				return;
 			} else {
 				String[] paramNames = cd.getParameterNames();
@@ -646,17 +723,24 @@ public class HttpConnector {
 				}
 				httpSession.setAttribute(fullPrefix + "exitparams", params);
 				String[] variableNames = cd.getVariableNames();
-				Map<Object, Object> variables = new HashMap<Object, Object>(variableNames.length);
+				Map<Object, Object> variables = new HashMap<Object, Object>(
+						variableNames.length);
 				for (String variableName : variableNames) {
-					variables.put(variableName, cd.getVariableValue(variableName));
+					variables.put(variableName,
+							cd.getVariableValue(variableName));
 				}
-				httpSession.setAttribute("connector.depth", new Integer(depth.intValue() + 1));
+				httpSession.setAttribute("connector.depth",
+						new Integer(depth.intValue() + 1));
 				fullPrefix = prefix + (depth.intValue() + 1) + ".";
-				String deploymentId = cd.getTarget().substring(0, cd.getTarget().lastIndexOf('(') - 1);
-				String entryPointName = cd.getTarget().substring(cd.getTarget().lastIndexOf('(') + 1,
+				String deploymentId = cd.getTarget().substring(0,
+						cd.getTarget().lastIndexOf('(') - 1);
+				String entryPointName = cd.getTarget().substring(
+						cd.getTarget().lastIndexOf('(') + 1,
 						cd.getTarget().length() - 1);
-				httpSession.setAttribute(fullPrefix + DEPLOYMENT_ID, deploymentId);
-				httpSession.setAttribute(fullPrefix + ENTRY_POINT_NAME, entryPointName);
+				httpSession.setAttribute(fullPrefix + DEPLOYMENT_ID,
+						deploymentId);
+				httpSession.setAttribute(fullPrefix + ENTRY_POINT_NAME,
+						entryPointName);
 				Map<String, Map<String, Object>> outgoing = new HashMap<String, Map<String, Object>>();
 				String[] outPaths = cd.getOutgoingPaths();
 				for (String outPath : outPaths) {
@@ -667,9 +751,11 @@ public class HttpConnector {
 					}
 					outgoing.put(outPath, map);
 				}
-				httpSession.setAttribute(fullPrefix + "outgoing-data", outgoing);
-				invokeProcessEngine(req, res, httpSession, "/" + deploymentId + "/" + entryPointName, variables,
-						parameterValues, true);
+				httpSession
+						.setAttribute(fullPrefix + "outgoing-data", outgoing);
+				invokeProcessEngine(req, res, httpSession, "/" + deploymentId
+						+ "/" + entryPointName, variables, parameterValues,
+						true);
 				return;
 			}
 		}
@@ -680,15 +766,19 @@ public class HttpConnector {
 		res.setContentType(document.getContentType());
 		OutputStream writer = res.getOutputStream();
 		try {
-			Transformer transformer = TransformerFactory.newInstance().newTransformer();
+			Transformer transformer = TransformerFactory.newInstance()
+					.newTransformer();
 			XMLWriter xmlWriter = new XMLWriter(writer);
 			xmlWriter.setCompactElements(true);
-			transformer.transform(document.toXMLSource(), xmlWriter.toXMLResult());
-			if (reporter.isSeverityEnabled(IReporter.SEVERITY_INFO) && !document.isSecured()) {
+			transformer.transform(document.toXMLSource(),
+					xmlWriter.toXMLResult());
+			if (reporter.isSeverityEnabled(IReporter.SEVERITY_INFO)
+					&& !document.isSecured()) {
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				xmlWriter = new XMLWriter(baos);
 				xmlWriter.setCompactElements(true);
-				transformer.transform(document.toXMLSource(), xmlWriter.toXMLResult());
+				transformer.transform(document.toXMLSource(),
+						xmlWriter.toXMLResult());
 				System.out.println(new String(baos.toByteArray(), "UTF-8"));
 			}
 		} catch (TransformerException e) {
@@ -701,7 +791,8 @@ public class HttpConnector {
 	/**
 	 * The MIME type for the specified resource.
 	 * 
-	 * @param resourcePath The resource to determine the MIME type of.
+	 * @param resourcePath
+	 *            The resource to determine the MIME type of.
 	 * @return The MIME type for the specified resource.
 	 */
 	public String getMimeType(String resourcePath) {
@@ -735,7 +826,8 @@ public class HttpConnector {
 	/**
 	 * Returns the resource at the specified path.
 	 * 
-	 * @param resourcePath The path of the resource to return.
+	 * @param resourcePath
+	 *            The path of the resource to return.
 	 * @return The resource at the specified path.
 	 */
 	public URL getResource(String resourcePath) {
@@ -759,7 +851,8 @@ public class HttpConnector {
 	/**
 	 * Returns the resource at the specified path.
 	 * 
-	 * @param resourcePath The path of the resource to return.
+	 * @param resourcePath
+	 *            The path of the resource to return.
 	 * @return The resource at the specified path.
 	 */
 	public URL getPlatformInclude(String resourcePath) {
@@ -800,10 +893,12 @@ public class HttpConnector {
 			} else {
 				resourcesPath = servletPath + RESOURCES_PATH;
 			}
-			HttpConnectorContext context = new HttpConnectorContext(httpService.createDefaultHttpContext(), this);
+			HttpConnectorContext context = new HttpConnectorContext(
+					httpService.createDefaultHttpContext(), this);
 			httpService.registerResources(resourcesPath, "/", context); //$NON-NLS-1$
 			this.resourcesPath = resourcesPath;
-			httpService.registerServlet(servletPath, new HttpConnectorServlet(this), null, context);
+			httpService.registerServlet(servletPath, new HttpConnectorServlet(
+					this), null, context);
 			this.servletPath = servletPath;
 			open = true;
 		} catch (NamespaceException e) {
@@ -846,11 +941,15 @@ public class HttpConnector {
 	/**
 	 * Writes an index page for the current deployments.
 	 * 
-	 * @param res        The HTTP response.
-	 * @param deployment The current deployment.
-	 * @throws IOException If the connection fails.
+	 * @param res
+	 *            The HTTP response.
+	 * @param deployment
+	 *            The current deployment.
+	 * @throws IOException
+	 *             If the connection fails.
 	 */
-	private void writeIndex(HttpServletResponse res, Deployment deployment) throws IOException {
+	private void writeIndex(HttpServletResponse res, Deployment deployment)
+			throws IOException {
 		String deploymentID = deployment.getID();
 		res.setStatus(HttpServletResponse.SC_OK);
 		res.setContentType("text/html");
@@ -864,7 +963,8 @@ public class HttpConnector {
 			writer.println("</p>");
 		}
 		synchronized (this) {
-			for (Map.Entry<String, Deployment> entry : deploymentsByPath.entrySet()) {
+			for (Map.Entry<String, Deployment> entry : deploymentsByPath
+					.entrySet()) {
 				writer.print("<p><a href=\"");
 				writer.print(res.encodeURL(entry.getKey()));
 				writer.print("\">");
@@ -881,18 +981,23 @@ public class HttpConnector {
 	/**
 	 * Writes an logging page for the current deployments.
 	 * 
-	 * @param res        The HTTP response.
-	 * @param deployment The current deployment.
-	 * @throws IOException If the connection fails.
+	 * @param res
+	 *            The HTTP response.
+	 * @param deployment
+	 *            The current deployment.
+	 * @throws IOException
+	 *             If the connection fails.
 	 */
-	private void writeLogging(HttpServletRequest req, HttpServletResponse res) throws IOException {
+	private void writeLogging(HttpServletRequest req, HttpServletResponse res)
+			throws IOException {
 		res.setStatus(HttpServletResponse.SC_OK);
 		res.setContentType("text/html");
 		PrintWriter writer = res.getWriter();
 		writer.println("<html>");
 		writer.println("<head><title>Logging Level</title></head>");
 		writer.println("<body>");
-		writer.print("<p>Current Log Level: " + System.getProperty("org.eclipse.vtp.loglevel", "INFO"));
+		writer.print("<p>Current Log Level: "
+				+ System.getProperty("org.eclipse.vtp.loglevel", "INFO"));
 		writer.println("</p>");
 		StringBuffer buffer = new StringBuffer();
 		String contextPath = HttpUtils.normalizePath(req.getContextPath());

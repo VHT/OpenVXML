@@ -19,6 +19,7 @@ public class DesignTraversalHelper {
 	public static <T> List<T> getDesignElements(Design design, Class<T> type) {
 		List<T> ret = new ArrayList<T>();
 		for (IDesignElement designElement : design.getDesignElements()) {
+			@SuppressWarnings("unchecked")
 			T object = (T) designElement.getAdapter(type);
 			if (object != null) {
 				ret.add(object);
@@ -73,6 +74,7 @@ public class DesignTraversalHelper {
 					}
 				});
 			}
+			@SuppressWarnings("unchecked")
 			T adapter = (T) sourceElement.getAdapter(destinationType);
 			if (adapter != null) {
 				elements.add(adapter);
@@ -96,6 +98,7 @@ public class DesignTraversalHelper {
 							for (IExitBroadcastReceiver receiver : receivers) {
 								if (point.getName().equals(
 										receiver.getExitPattern())) {
+									@SuppressWarnings("unchecked")
 									T adapter = (T) sourceElement
 											.getAdapter(destinationType);
 									if (adapter != null) {
@@ -136,6 +139,7 @@ public class DesignTraversalHelper {
 			IDesignConnector connector = connectionPoint.getDesignConnector();
 			if (connector != null) {
 				IDesignElement targetElement = connector.getDestination();
+				@SuppressWarnings("unchecked")
 				T adapter = (T) targetElement.getAdapter(destinationType);
 				if (adapter != null) {
 					elements.add(adapter);
@@ -154,6 +158,7 @@ public class DesignTraversalHelper {
 								.getExitBroadcastReceivers()) {
 							if (connectionPoint.getName().equals(
 									receiver.getExitPattern())) {
+								@SuppressWarnings("unchecked")
 								T adapter = (T) targetElement
 										.getAdapter(destinationType);
 								if (adapter != null) {

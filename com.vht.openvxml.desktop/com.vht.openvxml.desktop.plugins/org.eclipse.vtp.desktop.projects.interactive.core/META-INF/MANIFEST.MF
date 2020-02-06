@@ -35,5 +35,4 @@ Export-Package: org.eclipse.vtp.desktop.projects.interactive.core,
  org.eclipse.vtp.desktop.projects.interactive.core.util,
  org.eclipse.vtp.desktop.projects.interactive.core.view,
  org.eclipse.vtp.desktop.projects.interactive.core.wizards
-Automatic-Module-Name: org.eclipse.vtp.desktop.projects.interactive.core
 

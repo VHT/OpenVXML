@@ -28,24 +28,30 @@ public class MediaDefaultsPanelManager {
 
 	Map<String, Map<String, DefaultsPanelRecord>> configurationScreens = null;
 
+	@SuppressWarnings("unchecked")
 	public MediaDefaultsPanelManager() {
 		super();
 		configurationScreens = new HashMap<String, Map<String, DefaultsPanelRecord>>();
-		IConfigurationElement[] screenExtensions = Platform.getExtensionRegistry()
-				.getConfigurationElementsFor(mediaDefaultPanelExtensionId);
+		IConfigurationElement[] screenExtensions = Platform
+				.getExtensionRegistry().getConfigurationElementsFor(
+						mediaDefaultPanelExtensionId);
 		for (IConfigurationElement screenExtension : screenExtensions) {
 			DefaultsPanelRecord dpr = new DefaultsPanelRecord();
 			dpr.primitiveTypeId = screenExtension.getAttribute("primitive-id");
-			dpr.interactionType = screenExtension.getAttribute("interaction-type");
+			dpr.interactionType = screenExtension
+					.getAttribute("interaction-type");
 			String className = screenExtension.getAttribute("class");
-			Bundle contributor = Platform.getBundle(screenExtension.getContributor().getName());
+			Bundle contributor = Platform.getBundle(screenExtension
+					.getContributor().getName());
 			try {
-				dpr.screenClass = (Class<IMediaDefaultPanel>) contributor.loadClass(className);
+				dpr.screenClass = (Class<IMediaDefaultPanel>) contributor
+						.loadClass(className);
 			} catch (Exception e) {
 				e.printStackTrace();
 				continue;
 			}
-			Map<String, DefaultsPanelRecord> byInteraction = configurationScreens.get(dpr.interactionType);
+			Map<String, DefaultsPanelRecord> byInteraction = configurationScreens
+					.get(dpr.interactionType);
 			if (byInteraction == null) {
 				byInteraction = new HashMap<String, DefaultsPanelRecord>();
 				configurationScreens.put(dpr.interactionType, byInteraction);
@@ -54,9 +60,11 @@ public class MediaDefaultsPanelManager {
 		}
 	}
 
-	public IMediaDefaultPanel getMediaDefaultsPanel(String primitiveTypeId, String interactionType) {
+	public IMediaDefaultPanel getMediaDefaultsPanel(String primitiveTypeId,
+			String interactionType) {
 		IMediaDefaultPanel ret = null;
-		Map<String, DefaultsPanelRecord> byInteraction = configurationScreens.get(interactionType);
+		Map<String, DefaultsPanelRecord> byInteraction = configurationScreens
+				.get(interactionType);
 		if (byInteraction != null) {
 			DefaultsPanelRecord csr = byInteraction.get(primitiveTypeId);
 			if (csr != null) {
@@ -70,11 +78,14 @@ public class MediaDefaultsPanelManager {
 		return ret;
 	}
 
-	public Map<String, IMediaDefaultPanel> getIndexedMediaDefaultsPanels(String interactionType) {
+	public Map<String, IMediaDefaultPanel> getIndexedMediaDefaultsPanels(
+			String interactionType) {
 		Map<String, IMediaDefaultPanel> ret = new HashMap<String, IMediaDefaultPanel>();
-		Map<String, DefaultsPanelRecord> byInteraction = configurationScreens.get(interactionType);
+		Map<String, DefaultsPanelRecord> byInteraction = configurationScreens
+				.get(interactionType);
 		if (byInteraction != null) {
-			for (Map.Entry<String, DefaultsPanelRecord> entry : byInteraction.entrySet()) {
+			for (Map.Entry<String, DefaultsPanelRecord> entry : byInteraction
+					.entrySet()) {
 				DefaultsPanelRecord csr = entry.getValue();
 				if (csr != null) {
 					try {

@@ -43,4 +43,3 @@ Export-Package: org.eclipse.vtp.desktop.projects.core,
 Bundle-Activator: org.eclipse.vtp.desktop.projects.core.DesktopCorePlugin
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Automatic-Module-Name: org.eclipse.vtp.desktop.projects.core

@@ -48,23 +48,31 @@ public class DataTypeRegistry implements IDataTypeRegistry, IScriptable {
 	/**
 	 * Creates a new DataTypeRegistry.
 	 *
-	 * @param extensionRegistry The extension registry to use.
-	 * @param configurations    The configurations to use.
+	 * @param extensionRegistry
+	 *            The extension registry to use.
+	 * @param configurations
+	 *            The configurations to use.
 	 */
-	public DataTypeRegistry(IExtensionRegistry extensionRegistry, DataTypeConfiguration[] configurations) {
+	@SuppressWarnings("unchecked")
+	public DataTypeRegistry(IExtensionRegistry extensionRegistry,
+			DataTypeConfiguration[] configurations) {
 		final Map<String, IDataType> dataTypes = new HashMap<String, IDataType>();
 		// Create the registered types.
-		final IConfigurationElement[] elements = extensionRegistry.getConfigurationElementsFor(//
+		final IConfigurationElement[] elements = extensionRegistry
+				.getConfigurationElementsFor(//
 				"org.eclipse.vtp.framework.common.dataTypes"); //$NON-NLS-1$
 		for (final IConfigurationElement element : elements) {
 			final DataType type = new DataType(element);
 			dataTypes.put(type.getName(), type);
 			if (element.getName().equals("object-implementation")) {
-				final String typeClassName = element.getAttribute("factory-class");
-				final Bundle contributor = Platform.getBundle(element.getContributor().getName());
+				final String typeClassName = element
+						.getAttribute("factory-class");
+				final Bundle contributor = Platform.getBundle(element
+						.getContributor().getName());
 				IExternalDataType factory = null;
 				try {
-					factory = ((Class<IExternalDataType>) contributor.loadClass(typeClassName)).newInstance();
+					factory = ((Class<IExternalDataType>) contributor
+							.loadClass(typeClassName)).newInstance();
 					type.setExternalFactory(factory);
 					type.setExternal(true);
 				} catch (final Exception e) {
@@ -81,16 +89,23 @@ public class DataTypeRegistry implements IDataTypeRegistry, IScriptable {
 		}
 		// Create the implicit types.
 		final String zero = String.valueOf(0);
-		dataTypes.put(IArrayObject.TYPE_NAME,
-				new DataType(IArrayObject.TYPE_NAME, IArrayObject.FIELD_NAME_LENGTH, INumberObject.TYPE_NAME, zero));
+		dataTypes.put(IArrayObject.TYPE_NAME, new DataType(
+				IArrayObject.TYPE_NAME, IArrayObject.FIELD_NAME_LENGTH,
+				INumberObject.TYPE_NAME, zero));
 		dataTypes.put(IMapObject.TYPE_NAME, new DataType(IMapObject.TYPE_NAME));
-		dataTypes.put(IBooleanObject.TYPE_NAME, new DataType(IBooleanObject.TYPE_NAME));
-		dataTypes.put(IDateObject.TYPE_NAME, new DataType(IDateObject.TYPE_NAME));
-		dataTypes.put(IDecimalObject.TYPE_NAME, new DataType(IDecimalObject.TYPE_NAME));
-		dataTypes.put(INumberObject.TYPE_NAME, new DataType(INumberObject.TYPE_NAME));
-		dataTypes.put(IStringObject.TYPE_NAME,
-				new DataType(IStringObject.TYPE_NAME, IStringObject.FIELD_NAME_LENGTH, INumberObject.TYPE_NAME, zero));
-		this.dataTypes = Collections.unmodifiableMap(new HashMap<String, IDataType>(dataTypes));
+		dataTypes.put(IBooleanObject.TYPE_NAME, new DataType(
+				IBooleanObject.TYPE_NAME));
+		dataTypes.put(IDateObject.TYPE_NAME,
+				new DataType(IDateObject.TYPE_NAME));
+		dataTypes.put(IDecimalObject.TYPE_NAME, new DataType(
+				IDecimalObject.TYPE_NAME));
+		dataTypes.put(INumberObject.TYPE_NAME, new DataType(
+				INumberObject.TYPE_NAME));
+		dataTypes.put(IStringObject.TYPE_NAME, new DataType(
+				IStringObject.TYPE_NAME, IStringObject.FIELD_NAME_LENGTH,
+				INumberObject.TYPE_NAME, zero));
+		this.dataTypes = Collections
+				.unmodifiableMap(new HashMap<String, IDataType>(dataTypes));
 	}
 
 	/*
@@ -100,7 +115,8 @@ public class DataTypeRegistry implements IDataTypeRegistry, IScriptable {
 	 * java.lang.String)
 	 */
 	@Override
-	public final IDataType getDataType(String typeName) throws NullPointerException {
+	public final IDataType getDataType(String typeName)
+			throws NullPointerException {
 		if (typeName == null) {
 			throw new NullPointerException("typeName"); //$NON-NLS-1$
 		}
@@ -140,7 +156,8 @@ public class DataTypeRegistry implements IDataTypeRegistry, IScriptable {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getFunctionNames()
+	 * @see
+	 * org.eclipse.vtp.framework.spi.scripting.IScriptable#getFunctionNames()
 	 */
 	@Override
 	public final String[] getFunctionNames() {
@@ -272,7 +289,8 @@ public class DataTypeRegistry implements IDataTypeRegistry, IScriptable {
 		/**
 		 * Creates a new ScriptableDataType.
 		 * 
-		 * @param name The name of this type.
+		 * @param name
+		 *            The name of this type.
 		 */
 		DataType(String name) {
 			this.name = name;
@@ -284,27 +302,39 @@ public class DataTypeRegistry implements IDataTypeRegistry, IScriptable {
 		/**
 		 * Creates a new ScriptableDataType.
 		 * 
-		 * @param name              The name of this type.
-		 * @param fieldName         The name of the single derived field.
-		 * @param fieldTypeName     The name of the type of the single derived field.
-		 * @param fieldInitialValue The initial value of the single derived field.
+		 * @param name
+		 *            The name of this type.
+		 * @param fieldName
+		 *            The name of the single derived field.
+		 * @param fieldTypeName
+		 *            The name of the type of the single derived field.
+		 * @param fieldInitialValue
+		 *            The initial value of the single derived field.
 		 */
-		DataType(String name, String fieldName, String fieldTypeName, String fieldInitialValue) {
+		DataType(String name, String fieldName, String fieldTypeName,
+				String fieldInitialValue) {
 			this(name, fieldName, fieldTypeName, fieldInitialValue, false);
 		}
 
 		/**
 		 * Creates a new ScriptableDataType.
 		 * 
-		 * @param name              The name of this type.
-		 * @param fieldName         The name of the single derived field.
-		 * @param fieldTypeName     The name of the type of the single derived field.
-		 * @param fieldInitialValue The initial value of the single derived field.
-		 * @param fieldSecured      Whether or not the field is secured.
+		 * @param name
+		 *            The name of this type.
+		 * @param fieldName
+		 *            The name of the single derived field.
+		 * @param fieldTypeName
+		 *            The name of the type of the single derived field.
+		 * @param fieldInitialValue
+		 *            The initial value of the single derived field.
+		 * @param fieldSecured
+		 *            Whether or not the field is secured.
 		 */
-		DataType(String name, String fieldName, String fieldTypeName, String fieldInitialValue, boolean fieldSecured) {
+		DataType(String name, String fieldName, String fieldTypeName,
+				String fieldInitialValue, boolean fieldSecured) {
 			this.name = name;
-			this.fields = new Field[] { new Field(fieldName, fieldTypeName, fieldInitialValue, fieldSecured) };
+			this.fields = new Field[] { new Field(fieldName, fieldTypeName,
+					fieldInitialValue, fieldSecured) };
 			this.primaryField = null;
 			this.fieldArray = new ScriptableArray("fields", fields); //$NON-NLS-1$
 		}
@@ -312,7 +342,8 @@ public class DataTypeRegistry implements IDataTypeRegistry, IScriptable {
 		/**
 		 * Creates a new DataType.
 		 * 
-		 * @param configuration The configuration for this type.
+		 * @param configuration
+		 *            The configuration for this type.
 		 */
 		DataType(DataTypeConfiguration configuration) {
 			this.name = configuration.getName();
@@ -321,8 +352,10 @@ public class DataTypeRegistry implements IDataTypeRegistry, IScriptable {
 			final String primaryFieldName = configuration.getPrimaryField();
 			Field primaryField = null;
 			for (int i = 0; i < fieldConfigs.length; ++i) {
-				this.fields[i] = new Field(fieldConfigs[i].getName(), fieldConfigs[i].getType(),
-						fieldConfigs[i].getInitialValue(), fieldConfigs[i].isSecured());
+				this.fields[i] = new Field(fieldConfigs[i].getName(),
+						fieldConfigs[i].getType(),
+						fieldConfigs[i].getInitialValue(),
+						fieldConfigs[i].isSecured());
 				if (this.fields[i].getName().equals(primaryFieldName)) {
 					primaryField = this.fields[i];
 				}
@@ -334,21 +367,25 @@ public class DataTypeRegistry implements IDataTypeRegistry, IScriptable {
 		/**
 		 * Creates a new DataType.
 		 * 
-		 * @param configuration The configuration for this type.
+		 * @param configuration
+		 *            The configuration for this type.
 		 */
 		DataType(IConfigurationElement configuration) {
 			this.name = configuration.getAttribute("name"); //$NON-NLS-1$
-			final IConfigurationElement[] fieldConfigs = configuration.getChildren("field"); //$NON-NLS-1$
+			final IConfigurationElement[] fieldConfigs = configuration
+					.getChildren("field"); //$NON-NLS-1$
 			this.fields = new Field[fieldConfigs.length];
-			final String primaryFieldName = configuration.getAttribute("primary-field"); //$NON-NLS-1$
+			final String primaryFieldName = configuration
+					.getAttribute("primary-field"); //$NON-NLS-1$
 			Field primaryField = null;
 			for (int i = 0; i < fieldConfigs.length; ++i) {
-				this.fields[i] = new Field(fieldConfigs[i].getAttribute("name"), //$NON-NLS-1$
+				this.fields[i] = new Field(
+						fieldConfigs[i].getAttribute("name"), //$NON-NLS-1$ 
 						fieldConfigs[i].getAttribute("type"), //$NON-NLS-1$
 						fieldConfigs[i].getAttribute("initial-value"),
-						fieldConfigs[i].getAttribute("secured") != null
-								? Boolean.parseBoolean(fieldConfigs[i].getAttribute("secured"))
-								: false);
+						fieldConfigs[i].getAttribute("secured") != null ? Boolean
+								.parseBoolean(fieldConfigs[i]
+										.getAttribute("secured")) : false);
 				if (this.fields[i].getName().equals(primaryFieldName)) {
 					primaryField = this.fields[i];
 				}
@@ -394,7 +431,8 @@ public class DataTypeRegistry implements IDataTypeRegistry, IScriptable {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.vtp.framework.core.IDataType#getFieldType( java.lang.String)
+		 * @see org.eclipse.vtp.framework.core.IDataType#getFieldType(
+		 * java.lang.String)
 		 */
 		@Override
 		public IDataType getFieldType(String fieldName) {
@@ -468,8 +506,10 @@ public class DataTypeRegistry implements IDataTypeRegistry, IScriptable {
 		 */
 		@Override
 		public boolean isSimpleType() {
-			return IBooleanObject.TYPE_NAME.equals(name) || IDateObject.TYPE_NAME.equals(name)
-					|| IDecimalObject.TYPE_NAME.equals(name) || INumberObject.TYPE_NAME.equals(name)
+			return IBooleanObject.TYPE_NAME.equals(name)
+					|| IDateObject.TYPE_NAME.equals(name)
+					|| IDecimalObject.TYPE_NAME.equals(name)
+					|| INumberObject.TYPE_NAME.equals(name)
 					|| IStringObject.TYPE_NAME.equals(name);
 		}
 
@@ -514,7 +554,9 @@ public class DataTypeRegistry implements IDataTypeRegistry, IScriptable {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getFunctionNames ()
+		 * @see
+		 * org.eclipse.vtp.framework.spi.scripting.IScriptable#getFunctionNames
+		 * ()
 		 */
 		@Override
 		public String[] getFunctionNames() {
@@ -526,7 +568,8 @@ public class DataTypeRegistry implements IDataTypeRegistry, IScriptable {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#invokeFunction(
+		 * @see
+		 * org.eclipse.vtp.framework.spi.scripting.IScriptable#invokeFunction(
 		 * java.lang.String, java.lang.Object[])
 		 */
 		@Override
@@ -625,7 +668,8 @@ public class DataTypeRegistry implements IDataTypeRegistry, IScriptable {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearItem(int)
+		 * @see
+		 * org.eclipse.vtp.framework.spi.scripting.IScriptable#clearItem(int)
 		 */
 		@Override
 		public boolean clearItem(int index) {
@@ -635,7 +679,8 @@ public class DataTypeRegistry implements IDataTypeRegistry, IScriptable {
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearProperty(
+		 * @see
+		 * org.eclipse.vtp.framework.spi.scripting.IScriptable#clearProperty(
 		 * java.lang.String)
 		 */
 		@Override
@@ -670,11 +715,15 @@ public class DataTypeRegistry implements IDataTypeRegistry, IScriptable {
 			/**
 			 * Creates a new Field.
 			 * 
-			 * @param name        The name of this field.
-			 * @param typeName    The name of the type of this field.
-			 * @param initalValue The initial value of this field.
+			 * @param name
+			 *            The name of this field.
+			 * @param typeName
+			 *            The name of the type of this field.
+			 * @param initalValue
+			 *            The initial value of this field.
 			 */
-			Field(String name, String typeName, String initalValue, boolean secured) {
+			Field(String name, String typeName, String initalValue,
+					boolean secured) {
 				this.name = name;
 				this.typeName = typeName;
 				this.initalValue = initalValue;
@@ -693,7 +742,8 @@ public class DataTypeRegistry implements IDataTypeRegistry, IScriptable {
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getName()
+			 * @see
+			 * org.eclipse.vtp.framework.spi.scripting.IScriptable#getName()
 			 */
 			@Override
 			public String getName() {
@@ -703,7 +753,8 @@ public class DataTypeRegistry implements IDataTypeRegistry, IScriptable {
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasValue()
+			 * @see
+			 * org.eclipse.vtp.framework.spi.scripting.IScriptable#hasValue()
 			 */
 			@Override
 			public boolean hasValue() {
@@ -711,14 +762,15 @@ public class DataTypeRegistry implements IDataTypeRegistry, IScriptable {
 			}
 
 			/*
-			 * FIXME This method is never used and should be deleted. public boolean
-			 * isSecured() { return secured; }
+			 * FIXME This method is never used and should be deleted. public
+			 * boolean isSecured() { return secured; }
 			 */
 
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#toValue()
+			 * @see
+			 * org.eclipse.vtp.framework.spi.scripting.IScriptable#toValue()
 			 */
 			@Override
 			public Object toValue() {
@@ -728,7 +780,9 @@ public class DataTypeRegistry implements IDataTypeRegistry, IScriptable {
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getFunctionNames ()
+			 * @see
+			 * org.eclipse.vtp.framework.spi.scripting.IScriptable#getFunctionNames
+			 * ()
 			 */
 			@Override
 			public String[] getFunctionNames() {
@@ -738,8 +792,9 @@ public class DataTypeRegistry implements IDataTypeRegistry, IScriptable {
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#invokeFunction (
-			 * java.lang.String, java.lang.Object[])
+			 * @see
+			 * org.eclipse.vtp.framework.spi.scripting.IScriptable#invokeFunction
+			 * ( java.lang.String, java.lang.Object[])
 			 */
 			@Override
 			public Object invokeFunction(String name, Object[] arguments) {
@@ -749,7 +804,8 @@ public class DataTypeRegistry implements IDataTypeRegistry, IScriptable {
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasItem(int)
+			 * @see
+			 * org.eclipse.vtp.framework.spi.scripting.IScriptable#hasItem(int)
 			 */
 			@Override
 			public boolean hasItem(int index) {
@@ -764,7 +820,8 @@ public class DataTypeRegistry implements IDataTypeRegistry, IScriptable {
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasProperty(
+			 * @see
+			 * org.eclipse.vtp.framework.spi.scripting.IScriptable#hasProperty(
 			 * java.lang.String)
 			 */
 			@Override
@@ -778,7 +835,8 @@ public class DataTypeRegistry implements IDataTypeRegistry, IScriptable {
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getItem(int)
+			 * @see
+			 * org.eclipse.vtp.framework.spi.scripting.IScriptable#getItem(int)
 			 */
 			@Override
 			public Object getItem(int index) {
@@ -788,7 +846,8 @@ public class DataTypeRegistry implements IDataTypeRegistry, IScriptable {
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getProperty(
+			 * @see
+			 * org.eclipse.vtp.framework.spi.scripting.IScriptable#getProperty(
 			 * java.lang.String)
 			 */
 			@Override
@@ -811,7 +870,8 @@ public class DataTypeRegistry implements IDataTypeRegistry, IScriptable {
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setItem(int,
+			 * @see
+			 * org.eclipse.vtp.framework.spi.scripting.IScriptable#setItem(int,
 			 * java.lang.Object)
 			 */
 			@Override
@@ -822,7 +882,8 @@ public class DataTypeRegistry implements IDataTypeRegistry, IScriptable {
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setProperty(
+			 * @see
+			 * org.eclipse.vtp.framework.spi.scripting.IScriptable#setProperty(
 			 * java.lang.String, java.lang.Object)
 			 */
 			@Override
@@ -833,7 +894,9 @@ public class DataTypeRegistry implements IDataTypeRegistry, IScriptable {
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearItem (int)
+			 * @see
+			 * org.eclipse.vtp.framework.spi.scripting.IScriptable#clearItem
+			 * (int)
 			 */
 			@Override
 			public boolean clearItem(int index) {
@@ -843,8 +906,9 @@ public class DataTypeRegistry implements IDataTypeRegistry, IScriptable {
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearProperty (
-			 * java.lang.String)
+			 * @see
+			 * org.eclipse.vtp.framework.spi.scripting.IScriptable#clearProperty
+			 * ( java.lang.String)
 			 */
 			@Override
 			public boolean clearEntry(String name) {

@@ -63,8 +63,10 @@ public class CopyAction extends SelectionListenerAction {
 	/**
 	 * Creates a new action.
 	 *
-	 * @param shell     the shell for any dialogs
-	 * @param clipboard a platform clipboard
+	 * @param shell
+	 *            the shell for any dialogs
+	 * @param clipboard
+	 *            a platform clipboard
 	 */
 	public CopyAction(Shell shell, Clipboard clipboard) {
 		super("Copy");
@@ -81,9 +83,12 @@ public class CopyAction extends SelectionListenerAction {
 	/**
 	 * Creates a new action.
 	 *
-	 * @param shell       the shell for any dialogs
-	 * @param clipboard   a platform clipboard
-	 * @param pasteAction a paste action
+	 * @param shell
+	 *            the shell for any dialogs
+	 * @param clipboard
+	 *            a platform clipboard
+	 * @param pasteAction
+	 *            a paste action
 	 * 
 	 * @since 2.0
 	 */
@@ -98,8 +103,10 @@ public class CopyAction extends SelectionListenerAction {
 	 */
 	@Override
 	public void run() {
-		List<? extends IResource> selectedResources = getSelectedResources();
-		IResource[] resources = selectedResources.toArray(new IResource[selectedResources.size()]);
+		@SuppressWarnings("unchecked")
+		List<IResource> selectedResources = getSelectedResources();
+		IResource[] resources = selectedResources
+				.toArray(new IResource[selectedResources.size()]);
 
 		// Get the file names and a string representation
 		final int length = resources.length;
@@ -137,26 +144,33 @@ public class CopyAction extends SelectionListenerAction {
 	/**
 	 * Set the clipboard contents. Prompt to retry if clipboard is busy.
 	 * 
-	 * @param resources the resources to copy to the clipboard
-	 * @param fileNames file names of the resources to copy to the clipboard
-	 * @param names     string representation of all names
+	 * @param resources
+	 *            the resources to copy to the clipboard
+	 * @param fileNames
+	 *            file names of the resources to copy to the clipboard
+	 * @param names
+	 *            string representation of all names
 	 */
-	private void setClipboard(IResource[] resources, String[] fileNames, String names) {
+	private void setClipboard(IResource[] resources, String[] fileNames,
+			String names) {
 		try {
 			// set the clipboard contents
 			if (fileNames.length > 0) {
-				clipboard.setContents(new Object[] { resources, fileNames, names }, new Transfer[] {
-						ResourceTransfer.getInstance(), FileTransfer.getInstance(), TextTransfer.getInstance() });
+				clipboard.setContents(
+						new Object[] { resources, fileNames, names },
+						new Transfer[] { ResourceTransfer.getInstance(),
+								FileTransfer.getInstance(),
+								TextTransfer.getInstance() });
 			} else {
 				clipboard.setContents(new Object[] { resources, names },
-						new Transfer[] { ResourceTransfer.getInstance(), TextTransfer.getInstance() });
+						new Transfer[] { ResourceTransfer.getInstance(),
+								TextTransfer.getInstance() });
 			}
 		} catch (SWTError e) {
 			if (e.code != DND.ERROR_CANNOT_SET_CLIPBOARD) {
 				throw e;
 			}
-			if (MessageDialog.openQuestion(shell, "Problem with copy title", // TODO //$NON-NLS-1$
-																				// ResourceNavigatorMessages.CopyToClipboardProblemDialog_title,
+			if (MessageDialog.openQuestion(shell, "Problem with copy title", // TODO ResourceNavigatorMessages.CopyToClipboardProblemDialog_title,  //$NON-NLS-1$
 					"Problem with copy.")) { //$NON-NLS-1$
 				setClipboard(resources, fileNames, names);
 			}
@@ -178,13 +192,15 @@ public class CopyAction extends SelectionListenerAction {
 			return false;
 		}
 
-		List<? extends IResource> selectedResources = getSelectedResources();
+		@SuppressWarnings("unchecked")
+		List<IResource> selectedResources = getSelectedResources();
 		if (selectedResources.size() == 0) {
 			return false;
 		}
 
 		boolean projSelected = selectionIsOfType(IResource.PROJECT);
-		boolean fileFoldersSelected = selectionIsOfType(IResource.FILE | IResource.FOLDER);
+		boolean fileFoldersSelected = selectionIsOfType(IResource.FILE
+				| IResource.FOLDER);
 		if (!projSelected && !fileFoldersSelected) {
 			return false;
 		}

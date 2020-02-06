@@ -26,4 +26,3 @@ Export-Package: org.eclipse.vtp.desktop.model.elements.core,
  org.eclipse.vtp.desktop.model.elements.core.export,
  org.eclipse.vtp.desktop.model.elements.core.internal,
  org.eclipse.vtp.desktop.model.elements.core.internal.views
-Automatic-Module-Name: org.eclipse.vtp.desktop.model.elements.core

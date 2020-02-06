@@ -12,4 +12,3 @@ Export-Package: org.eclipse.vtp.framework.interactions.voice.media,
  org.eclipse.vtp.framework.interactions.voice.services,
  org.eclipse.vtp.framework.interactions.voice.vxml
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Automatic-Module-Name: org.eclipse.vtp.framework.interactions.voice

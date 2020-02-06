@@ -11,4 +11,3 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.vtp.desktop.model.core;bundle-version="6.0.0",
  com.openmethods.openvxml.desktop.model.workflow;bundle-version="6.0.0"
 Export-Package: com.openmethods.openvxml.desktop.model.databases
-Automatic-Module-Name: com.openmethods.openvxml.desktop.model.databases

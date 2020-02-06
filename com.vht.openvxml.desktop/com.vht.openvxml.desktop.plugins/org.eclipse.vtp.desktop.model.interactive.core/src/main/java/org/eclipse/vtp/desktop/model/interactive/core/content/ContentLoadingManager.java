@@ -34,18 +34,25 @@ public class ContentLoadingManager implements IContentFactory {
 
 	public ContentLoadingManager() {
 		super();
-		IConfigurationElement[] primitiveExtensions = Platform.getExtensionRegistry()
-				.getConfigurationElementsFor(contentTypeExtensionId);
+		IConfigurationElement[] primitiveExtensions = Platform
+				.getExtensionRegistry().getConfigurationElementsFor(
+						contentTypeExtensionId);
 		for (IConfigurationElement primitiveExtension : primitiveExtensions) {
-			String contentElementURI = primitiveExtension.getAttribute("element-uri");
-			String contentElementName = primitiveExtension.getAttribute("element-name");
+			String contentElementURI = primitiveExtension
+					.getAttribute("element-uri");
+			String contentElementName = primitiveExtension
+					.getAttribute("element-name");
 			String contentClassName = primitiveExtension.getAttribute("class");
-			if (contentElementURI == null || contentElementName == null || contentClassName == null) {
+			if (contentElementURI == null || contentElementName == null
+					|| contentClassName == null) {
 				continue;
 			}
-			Bundle contributor = Platform.getBundle(primitiveExtension.getContributor().getName());
+			Bundle contributor = Platform.getBundle(primitiveExtension
+					.getContributor().getName());
 			try {
-				Class<Content> providerClass = (Class<Content>) contributor.loadClass(contentClassName);
+				@SuppressWarnings("unchecked")
+				Class<Content> providerClass = (Class<Content>) contributor
+						.loadClass(contentClassName);
 				ContentRegistration reg = new ContentRegistration();
 				reg.id = primitiveExtension.getAttribute("id");
 				reg.contentElementURI = contentElementURI;
@@ -70,11 +77,13 @@ public class ContentLoadingManager implements IContentFactory {
 				return null;
 			}
 			try {
-				return reg.contentClass.getConstructor(new Class[] { IContentFactory.class, Element.class })
+				return reg.contentClass.getConstructor(
+						new Class[] { IContentFactory.class, Element.class })
 						.newInstance(new Object[] { this, contentElement });
 			} catch (NoSuchMethodException e) {
-				return reg.contentClass.getConstructor(new Class[] { Element.class })
-						.newInstance(new Object[] { contentElement });
+				return reg.contentClass.getConstructor(
+						new Class[] { Element.class }).newInstance(
+						new Object[] { contentElement });
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

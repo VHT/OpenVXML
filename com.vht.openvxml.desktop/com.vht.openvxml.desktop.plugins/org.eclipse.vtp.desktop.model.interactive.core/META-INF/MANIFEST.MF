@@ -27,4 +27,3 @@ Export-Package: org.eclipse.vtp.desktop.model.interactive.core,
  org.eclipse.vtp.desktop.model.interactive.core.mediadefaults
 Bundle-Activator: org.eclipse.vtp.desktop.model.interactive.core.InteractiveWorkflowCore
 Bundle-ActivationPolicy: lazy
-Automatic-Module-Name: org.eclipse.vtp.desktop.model.interactive.core

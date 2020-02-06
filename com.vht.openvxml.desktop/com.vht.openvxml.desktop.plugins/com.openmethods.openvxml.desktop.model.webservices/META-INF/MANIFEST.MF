@@ -19,4 +19,3 @@ Export-Package: com.openmethods.openvxml.desktop.model.webservices,
  com.openmethods.openvxml.desktop.model.webservices.schema,
  com.openmethods.openvxml.desktop.model.webservices.wsdl,
  com.openmethods.openvxml.desktop.model.webservices.wsdl.soap
-Automatic-Module-Name: com.openmethods.openvxml.desktop.model.webservices

@@ -34,11 +34,11 @@ import com.openmethods.openvxml.desktop.model.databases.IDatabaseTable;
  */
 public class Database extends WorkflowResource implements IDatabase {
 	/**
-	 * Constant string template for the XML format of the database table definition
-	 * document.
+	 * Constant string template for the XML format of the database table
+	 * definition document.
 	 */
-	private static final String tableTemplate = "<database-table name=\"[name]\">" + "<columns></columns>"
-			+ "</database-table>";
+	private static final String tableTemplate = "<database-table name=\"[name]\">"
+			+ "<columns></columns>" + "</database-table>";
 
 	/**
 	 * The parent database set of this database folder resource.
@@ -56,11 +56,13 @@ public class Database extends WorkflowResource implements IDatabase {
 	String name;
 
 	/**
-	 * Creates a new <code>Database</code> with the given parent database set and
-	 * eclipse folder resource.
+	 * Creates a new <code>Database</code> with the given parent database set
+	 * and eclipse folder resource.
 	 *
-	 * @param databaseSet The parent database set
-	 * @param folder      The eclipse folder resource this database represents
+	 * @param databaseSet
+	 *            The parent database set
+	 * @param folder
+	 *            The eclipse folder resource this database represents
 	 */
 	public Database(DatabaseSet databaseSet, IFolder folder) {
 		super();
@@ -73,7 +75,8 @@ public class Database extends WorkflowResource implements IDatabase {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.vtp.desktop.core.project.internals.VoiceResource#getObjectId
+	 * @see
+	 * org.eclipse.vtp.desktop.core.project.internals.VoiceResource#getObjectId
 	 * ()
 	 */
 	@Override
@@ -107,7 +110,8 @@ public class Database extends WorkflowResource implements IDatabase {
 				if (re instanceof IFile) {
 					IFile file = (IFile) re;
 
-					if ((file.getFileExtension() != null) && file.getFileExtension().equalsIgnoreCase("dbt")) {
+					if ((file.getFileExtension() != null)
+							&& file.getFileExtension().equalsIgnoreCase("dbt")) {
 						DatabaseTable table = new DatabaseTable(this, file);
 						ret.add(table);
 					}
@@ -133,7 +137,8 @@ public class Database extends WorkflowResource implements IDatabase {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.vtp.desktop.core.project.IDatabase#createTable(java.lang.
+	 * @see
+	 * org.eclipse.vtp.desktop.core.project.IDatabase#createTable(java.lang.
 	 * String)
 	 */
 	@Override
@@ -141,13 +146,15 @@ public class Database extends WorkflowResource implements IDatabase {
 		IFile databaseTableFile = folder.getFile(name + ".dbt");
 
 		if (databaseTableFile.exists()) {
-			throw new IllegalArgumentException("A Database table with that name already exists: " + name);
+			throw new IllegalArgumentException(
+					"A Database table with that name already exists: " + name);
 		}
 
 		String template = new String(tableTemplate);
 		template = template.replaceAll("\\[name\\]", name);
 		// CGI.searchAndReplace(template, "[name]", name);
-		databaseTableFile.create(new ByteArrayInputStream(template.toString().getBytes()), true, null);
+		databaseTableFile.create(new ByteArrayInputStream(template.toString()
+				.getBytes()), true, null);
 
 		DatabaseTable database = new DatabaseTable(this, databaseTableFile);
 
@@ -185,12 +192,15 @@ public class Database extends WorkflowResource implements IDatabase {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.vtp.desktop.model.core.internal.WorkflowResource#getAdapter
+	 * @see
+	 * org.eclipse.vtp.desktop.model.core.internal.WorkflowResource#getAdapter
 	 * (java.lang.Class)
 	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapterClass) {
-		if (IResource.class.isAssignableFrom(adapterClass) && adapterClass.isAssignableFrom(folder.getClass())) {
+		if (IResource.class.isAssignableFrom(adapterClass)
+				&& adapterClass.isAssignableFrom(folder.getClass())) {
 			return folder;
 		}
 		if (Database.class.isAssignableFrom(adapterClass)) {

@@ -41,7 +41,6 @@ public class LanguageSelection implements ILanguageSelection, IScriptable {
 	 * @param languageRegistry
 	 *            The language registry.
 	 */
-	@SuppressWarnings("unlikely-arg-type")
 	public LanguageSelection(ISessionContext context,
 			ILanguageRegistry languageRegistry, IBrandSelection brandSelection,
 			IMediaProviderRegistry mediaProviderRegistry) {

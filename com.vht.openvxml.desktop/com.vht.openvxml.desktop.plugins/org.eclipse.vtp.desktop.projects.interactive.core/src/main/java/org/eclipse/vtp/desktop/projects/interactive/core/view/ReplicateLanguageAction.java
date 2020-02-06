@@ -69,7 +69,8 @@ public class ReplicateLanguageAction extends SelectionListenerAction {
 	@Override
 	public void run() {
 		if (PlatformUI.getWorkbench().saveAllEditors(true)) {
-			List<? extends IResource> selectedResources = getSelectedResources();
+			@SuppressWarnings("unchecked")
+			List<IResource> selectedResources = getSelectedResources();
 			if (selectedResources.get(0) instanceof IProject) {
 				IOpenVXMLProject wr = WorkflowCore
 						.getDefault()
@@ -112,7 +113,8 @@ public class ReplicateLanguageAction extends SelectionListenerAction {
 			return false;
 		}
 
-		List<? extends IResource> selectedResources = getSelectedResources();
+		@SuppressWarnings("unchecked")
+		List<IResource> selectedResources = getSelectedResources();
 		if (selectedResources.size() != 1) {
 			return false;
 		}
