@@ -61,12 +61,11 @@ public interface IReporter {
 	 * @param message
 	 *            The message associated with the report or <code>null</code> to
 	 *            not include a message.
-	 * @param properties
+	 * @param props
 	 *            The properties of the report or <code>null</code> if no
 	 *            properties are specified.
 	 */
-	void report(int severity, String message,
-			@SuppressWarnings("rawtypes") Dictionary properties);
+	void report(int severity, String message, Dictionary<String, Object> props);
 
 	/**
 	 * Creates and publishes a reporting entry with the specified attributes.
@@ -98,5 +97,5 @@ public interface IReporter {
 	 *            properties are specified.
 	 */
 	void report(int severity, String[] categories, String message,
-			@SuppressWarnings("rawtypes") Dictionary properties);
+			Dictionary<String, Object> properties);
 }

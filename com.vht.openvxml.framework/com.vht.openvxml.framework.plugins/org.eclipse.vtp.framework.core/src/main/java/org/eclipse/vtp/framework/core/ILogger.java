@@ -43,8 +43,7 @@ public interface ILogger extends IReporter {
 	 *            The properties of the log entry or <code>null</code> if no
 	 *            properties are specified.
 	 */
-	void log(int severity, String message,
-			@SuppressWarnings("rawtypes") Dictionary properties);
+	void log(int severity, String message, Dictionary<String, Object> properties);
 
 	/**
 	 * Creates and publishes a log entry with the specified attributes.
@@ -76,7 +75,7 @@ public interface ILogger extends IReporter {
 	 *            properties are specified.
 	 */
 	void log(int severity, String[] categories, String message,
-			@SuppressWarnings("rawtypes") Dictionary properties);
+			Dictionary<String, Object> properties);
 
 	/**
 	 * Returns true if the error severity level is enabled.
@@ -104,8 +103,7 @@ public interface ILogger extends IReporter {
 	 *            The properties of the log entry or <code>null</code> if no
 	 *            properties are specified.
 	 */
-	void error(String message,
-			@SuppressWarnings("rawtypes") Dictionary properties);
+	void error(String message, Dictionary<String, Object> properties);
 
 	/**
 	 * Creates and publishes an error log entry with the specified attributes.
@@ -133,7 +131,7 @@ public interface ILogger extends IReporter {
 	 *            properties are specified.
 	 */
 	void error(String[] categories, String message,
-			@SuppressWarnings("rawtypes") Dictionary properties);
+			Dictionary<String, Object> properties);
 
 	/**
 	 * Returns true if the warning severity level is enabled.
@@ -161,8 +159,7 @@ public interface ILogger extends IReporter {
 	 *            The properties of the log entry or <code>null</code> if no
 	 *            properties are specified.
 	 */
-	void warn(String message,
-			@SuppressWarnings("rawtypes") Dictionary properties);
+	void warn(String message, Dictionary<String, Object> properties);
 
 	/**
 	 * Creates and publishes a warning log entry with the specified attributes.
@@ -190,7 +187,7 @@ public interface ILogger extends IReporter {
 	 *            properties are specified.
 	 */
 	void warn(String[] categories, String message,
-			@SuppressWarnings("rawtypes") Dictionary properties);
+			Dictionary<String, Object> properties);
 
 	/**
 	 * Returns true if the informational severity level is enabled.
@@ -220,8 +217,7 @@ public interface ILogger extends IReporter {
 	 *            The properties of the log entry or <code>null</code> if no
 	 *            properties are specified.
 	 */
-	void info(String message,
-			@SuppressWarnings("rawtypes") Dictionary properties);
+	void info(String message, Dictionary<String, Object> properties);
 
 	/**
 	 * Creates and publishes an informational log entry with the specified
@@ -251,7 +247,7 @@ public interface ILogger extends IReporter {
 	 *            properties are specified.
 	 */
 	void info(String[] categories, String message,
-			@SuppressWarnings("rawtypes") Dictionary properties);
+			Dictionary<String, Object> properties);
 
 	/**
 	 * Returns true if the debug severity level is enabled.
@@ -279,8 +275,7 @@ public interface ILogger extends IReporter {
 	 *            The properties of the log entry or <code>null</code> if no
 	 *            properties are specified.
 	 */
-	void debug(String message,
-			@SuppressWarnings("rawtypes") Dictionary properties);
+	void debug(String message, Dictionary<String, Object> properties);
 
 	/**
 	 * Creates and publishes a debug log entry with the specified attributes.
@@ -308,5 +303,5 @@ public interface ILogger extends IReporter {
 	 *            properties are specified.
 	 */
 	void debug(String[] categories, String message,
-			@SuppressWarnings("rawtypes") Dictionary properties);
+			Dictionary<String, Object> properties);
 }

@@ -49,10 +49,8 @@ public class ReplicateLanguageAction extends SelectionListenerAction {
 	/**
 	 * Creates a new action.
 	 *
-	 * @param shell
-	 *            the shell for any dialogs
-	 * @param clipboard
-	 *            a platform clipboard
+	 * @param shell     the shell for any dialogs
+	 * @param clipboard a platform clipboard
 	 */
 	public ReplicateLanguageAction(Shell shell) {
 		super("Replication Language");
@@ -69,26 +67,19 @@ public class ReplicateLanguageAction extends SelectionListenerAction {
 	@Override
 	public void run() {
 		if (PlatformUI.getWorkbench().saveAllEditors(true)) {
-			@SuppressWarnings("unchecked")
-			List<IResource> selectedResources = getSelectedResources();
+			List<? extends IResource> selectedResources = getSelectedResources();
 			if (selectedResources.get(0) instanceof IProject) {
-				IOpenVXMLProject wr = WorkflowCore
-						.getDefault()
-						.getWorkflowModel()
-						.convertToWorkflowProject(
-								(IProject) selectedResources.get(0));
+				IOpenVXMLProject wr = WorkflowCore.getDefault().getWorkflowModel()
+						.convertToWorkflowProject((IProject) selectedResources.get(0));
 				if (wr != null) {
 					IInteractiveProjectAspect interactiveAspect = (IInteractiveProjectAspect) wr
 							.getProjectAspect(IInteractiveProjectAspect.ASPECT_ID);
 					if (interactiveAspect != null) {
 						ILanguageSupportProjectAspect languageAspect = (ILanguageSupportProjectAspect) wr
 								.getProjectAspect(ILanguageSupportProjectAspect.ASPECT_ID);
-						List<String> languages = languageAspect
-								.getMediaProviderManager()
-								.getSupportedLanguages(
-										"org.eclipse.vtp.framework.interactions.voice.interaction");
-						ReplicateLanguageDialog rld = new ReplicateLanguageDialog(
-								shell);
+						List<String> languages = languageAspect.getMediaProviderManager()
+								.getSupportedLanguages("org.eclipse.vtp.framework.interactions.voice.interaction");
+						ReplicateLanguageDialog rld = new ReplicateLanguageDialog(shell);
 						rld.setLanguage(languages);
 						rld.setProject(wr);
 						rld.open();
@@ -113,8 +104,7 @@ public class ReplicateLanguageAction extends SelectionListenerAction {
 			return false;
 		}
 
-		@SuppressWarnings("unchecked")
-		List<IResource> selectedResources = getSelectedResources();
+		List<? extends IResource> selectedResources = getSelectedResources();
 		if (selectedResources.size() != 1) {
 			return false;
 		}

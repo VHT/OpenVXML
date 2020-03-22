@@ -35,12 +35,12 @@ import org.w3c.dom.Element;
  * @author Lonnie Pryor
  */
 public class Blueprint {
-	private final Map configurationIndex;
-	private final Map processServiceIndex;
-	private final Map sessionServiceIndex;
-	private final Map executionServiceIndex;
-	private final Map actionServiceIndex;
-	private final Map executableIndex;
+	private final Map<String, LinkedList<ConfigurationDescriptor>> configurationIndex;
+	private final Map<String, Object> processServiceIndex;
+	private final Map<String, Object> sessionServiceIndex;
+	private final Map<String, Object> executionServiceIndex;
+	private final Map<String, Object> actionServiceIndex;
+	private final Map<String, Object> executableIndex;
 	private final Map<String, Executable> entryPointIndex;
 	private final IExtensionRegistry registry;
 
@@ -50,13 +50,14 @@ public class Blueprint {
 			ObserverDescriptor[] observerDescriptors,
 			ServiceDescriptor[] serviceDescriptors, IExtensionRegistry registry) {
 		this.configurationIndex = indexConfigurations(configurationDescriptors);
-		List processServiceDescriptors = new ArrayList(
+		List<ServiceDescriptor> processServiceDescriptors = new ArrayList<ServiceDescriptor>(
 				serviceDescriptors.length);
-		List sessionServiceDescriptors = new ArrayList(
+		List<ServiceDescriptor> sessionServiceDescriptors = new ArrayList<ServiceDescriptor>(
 				serviceDescriptors.length);
-		List executionServiceDescriptors = new ArrayList(
+		List<ServiceDescriptor> executionServiceDescriptors = new ArrayList<ServiceDescriptor>(
 				serviceDescriptors.length);
-		List actionServiceDescriptors = new ArrayList(serviceDescriptors.length);
+		List<ServiceDescriptor> actionServiceDescriptors = new ArrayList<ServiceDescriptor>(
+				serviceDescriptors.length);
 		for (ServiceDescriptor serviceDescriptor : serviceDescriptors) {
 			if (ServiceDescriptor.SCOPE_PROCESS.equals(serviceDescriptor
 					.getScope())) {
@@ -86,22 +87,25 @@ public class Blueprint {
 		this.registry = registry;
 	}
 
-	public Collection createConfigurations(Element data) {
+	public Collection<Configuration> createConfigurations(Element data) {
 		String xmlIdentifier = RuntimeUtils.getXMLIdentifier(data);
-		List descriptors = (List) configurationIndex.get(xmlIdentifier);
+		List<ConfigurationDescriptor> descriptors = configurationIndex
+				.get(xmlIdentifier);
 		if (descriptors == null || descriptors.isEmpty()) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
-		List results = new ArrayList(descriptors.size());
-		for (Iterator i = descriptors.iterator(); i.hasNext();) {
-			results.add(new Configuration(this, ((ConfigurationDescriptor) i
-					.next()), data));
+		List<Configuration> results = new ArrayList<Configuration>(
+				descriptors.size());
+		for (Iterator<ConfigurationDescriptor> i = descriptors.iterator(); i
+				.hasNext();) {
+			results.add(new Configuration(this, i.next(), data));
 		}
 		return results;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void solidifyConfigurations(IContext serviceRegistry) {
-		Iterator i = processServiceIndex.values().iterator();
+		Iterator<Object> i = processServiceIndex.values().iterator();
 		while (i.hasNext()) {
 			List<Configurable> list = (List<Configurable>) i.next();
 			for (Configurable configurable : list) {
@@ -136,20 +140,20 @@ public class Blueprint {
 		}
 	}
 
-	public Collection getProcessServices(String identifier) {
-		return (List) processServiceIndex.get(identifier);
+	public Collection<?> getProcessServices(String identifier) {
+		return (List<?>) processServiceIndex.get(identifier);
 	}
 
-	public Collection getSessionServices(String identifier) {
-		return (List) sessionServiceIndex.get(identifier);
+	public Collection<?> getSessionServices(String identifier) {
+		return (List<?>) sessionServiceIndex.get(identifier);
 	}
 
-	public Collection getExecutionServices(String identifier) {
-		return (List) executionServiceIndex.get(identifier);
+	public Collection<?> getExecutionServices(String identifier) {
+		return (List<?>) executionServiceIndex.get(identifier);
 	}
 
-	public Collection getActionServices(String identifier) {
-		return (List) actionServiceIndex.get(identifier);
+	public Collection<?> getActionServices(String identifier) {
+		return (List<?>) actionServiceIndex.get(identifier);
 	}
 
 	public Executable getExecutable(String instanceID) {
@@ -175,29 +179,30 @@ public class Blueprint {
 	 * @return A Map of configuration descriptor lists indexed by XML
 	 *         identifiers.
 	 */
-	private Map indexConfigurations(
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private Map<String, LinkedList<ConfigurationDescriptor>> indexConfigurations(
 			ConfigurationDescriptor[] configurationDescriptors) {
-		Map configurationDescriptorIndex = new HashMap(
+		Map<String, LinkedList<ConfigurationDescriptor>> configurationDescriptorIndex = new HashMap<String, LinkedList<ConfigurationDescriptor>>(
 				configurationDescriptors.length);
 		for (ConfigurationDescriptor configurationDescriptor : configurationDescriptors) {
 			String xmlIdentifier = RuntimeUtils.getQualifiedIdentifier(
 					configurationDescriptor.getXmlTag(),
 					configurationDescriptor.getXmlNamespace());
-			LinkedList list = (LinkedList) configurationDescriptorIndex
+			LinkedList<ConfigurationDescriptor> list = configurationDescriptorIndex
 					.get(xmlIdentifier);
 			if (list == null) {
 				configurationDescriptorIndex.put(xmlIdentifier,
-						list = new LinkedList());
+						list = new LinkedList<ConfigurationDescriptor>());
 			}
 			list.addLast(configurationDescriptor);
 		}
-		for (Iterator i = configurationDescriptorIndex.entrySet().iterator(); i
+		for (Iterator<?> i = configurationDescriptorIndex.entrySet().iterator(); i
 				.hasNext();) {
 			Map.Entry entry = (Map.Entry) i.next();
-			entry.setValue(Collections.unmodifiableList(new ArrayList(
-					(LinkedList) entry.getValue())));
+			entry.setValue(Collections.unmodifiableList(new ArrayList<Object>(
+					(LinkedList<?>) entry.getValue())));
 		}
-		return Collections.unmodifiableMap(new HashMap(
+		return Collections.unmodifiableMap(new HashMap<String, LinkedList>(
 				configurationDescriptorIndex));
 	}
 
@@ -210,24 +215,30 @@ public class Blueprint {
 	 *            The environment service descriptors.
 	 * @return A Map of service lists indexed by identifiers.
 	 */
-	private Map buildServices(IProcessDefinition definition,
-			List serviceDescriptors) {
-		Map serviceIndex = new HashMap(serviceDescriptors.size());
-		for (Iterator i = serviceDescriptors.iterator(); i.hasNext();) {
-			ServiceDescriptor descriptor = (ServiceDescriptor) i.next();
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private Map<String, Object> buildServices(IProcessDefinition definition,
+			List<ServiceDescriptor> serviceDescriptors) {
+		Map<String, LinkedList> serviceIndex = new HashMap<String, LinkedList>(
+				serviceDescriptors.size());
+		for (Iterator<ServiceDescriptor> i = serviceDescriptors.iterator(); i
+				.hasNext();) {
+			ServiceDescriptor descriptor = i.next();
 			Service service = new Service(this,
 					definition.getServiceConfiguration(descriptor.getId()),
 					descriptor);
-			for (Iterator j = service.getIdentifiers().iterator(); j.hasNext();) {
+			for (Iterator<?> j = service.getIdentifiers().iterator(); j
+					.hasNext();) {
 				String identifier = (String) j.next();
-				LinkedList list = (LinkedList) serviceIndex.get(identifier);
+				LinkedList<Service> list = serviceIndex.get(identifier);
 				if (list == null) {
-					serviceIndex.put(identifier, list = new LinkedList());
+					serviceIndex.put(identifier,
+							list = new LinkedList<Service>());
 				}
 				list.addLast(service);
 			}
 		}
-		return Collections.unmodifiableMap(new HashMap(serviceIndex));
+		return Collections.unmodifiableMap(new HashMap<String, LinkedList>(
+				serviceIndex));
 	}
 
 	/**
@@ -241,29 +252,28 @@ public class Blueprint {
 	 *            The environment observer descriptors.
 	 * @return A Map of service lists indexed by identifiers.
 	 */
-	private Map buildExecutables(IProcessDefinition definition,
+	private Map<String, Object> buildExecutables(IProcessDefinition definition,
 			ActionDescriptor[] actionDescriptors,
 			ObserverDescriptor[] observerDescriptors) {
 		// Index the action descriptors.
-		Map actionIndex = new HashMap();
+		Map<String, ActionDescriptor> actionIndex = new HashMap<String, ActionDescriptor>();
 		for (ActionDescriptor actionDescriptor : actionDescriptors) {
 			actionIndex.put(actionDescriptor.getId(), actionDescriptor);
 		}
 		// Index the observer descriptors.
-		Map observerIndex = new HashMap();
+		Map<String, ObserverDescriptor> observerIndex = new HashMap<String, ObserverDescriptor>();
 		for (ObserverDescriptor observerDescriptor : observerDescriptors) {
 			observerIndex.put(observerDescriptor.getId(), observerDescriptor);
 		}
 		// Index the executable instances.
-		Map executableIndex = new HashMap();
+		Map<String, Executable> executableIndex = new HashMap<String, Executable>();
 		// Index each action instance.
 		String[] actionIDs = definition.getActionInstanceIDs();
 		for (String actionID : actionIDs) {
 			Action action = new Action(this,
 					definition.getActionName(actionID),
 					definition.getActionConfiguration(actionID), actionID,
-					((ActionDescriptor) actionIndex.get(definition
-							.getActionDescriptorID(actionID))));
+					actionIndex.get(definition.getActionDescriptorID(actionID)));
 			executableIndex.put(actionID, action);
 			// Index the action's before observers.
 			String[] observerIDs = definition
@@ -271,9 +281,8 @@ public class Blueprint {
 			for (String observerID : observerIDs) {
 				Observer observer = new Observer(this,
 						definition.getObserverConfiguration(observerID),
-						observerID,
-						((ObserverDescriptor) observerIndex.get(definition
-								.getObserverDescriptorID(observerID))), action);
+						observerID, observerIndex.get(definition
+								.getObserverDescriptorID(observerID)), action);
 				executableIndex.put(observerID, observer);
 			}
 			// Index the action's after observers.
@@ -284,15 +293,15 @@ public class Blueprint {
 				for (String observerID : observerIDs) {
 					Observer observer = new Observer(this,
 							definition.getObserverConfiguration(observerID),
-							observerID,
-							((ObserverDescriptor) observerIndex.get(definition
-									.getObserverDescriptorID(observerID))),
+							observerID, observerIndex.get(definition
+									.getObserverDescriptorID(observerID)),
 							action);
 					executableIndex.put(observerID, observer);
 				}
 			}
 		}
-		return Collections.unmodifiableMap(new HashMap(executableIndex));
+		return Collections.unmodifiableMap(new HashMap<String, Executable>(
+				executableIndex));
 	}
 
 	/**
@@ -307,7 +316,7 @@ public class Blueprint {
 			IProcessDefinition definition) {
 		Map<String, Executable> index = new HashMap<String, Executable>();
 		// Link each action instance's before observers to determine target IDs.
-		Map targetsByActionID = new HashMap();
+		Map<String, Executable> targetsByActionID = new HashMap<String, Executable>();
 		String[] actionIDs = definition.getActionInstanceIDs();
 		for (String actionID : actionIDs) {
 			Action action = (Action) getExecutable(actionID);
@@ -348,9 +357,8 @@ public class Blueprint {
 					}
 					previous = observer;
 				}
-				Executable target = (Executable) targetsByActionID
-						.get(definition.getActionResultTargetInstanceID(
-								actionID, resultID));
+				Executable target = targetsByActionID.get(definition
+						.getActionResultTargetInstanceID(actionID, resultID));
 				if (previous == null) {
 					result = target;
 				} else {
@@ -360,14 +368,13 @@ public class Blueprint {
 			}
 		}
 		String[] startActionIds = definition.getStartActionInstanceIDs();
-		index.put("Default",
-				(Executable) targetsByActionID.get(startActionIds[0]));
+		index.put("Default", targetsByActionID.get(startActionIds[0]));
 		for (String startActionId : startActionIds) {
 			System.out.println("Indexing start action: "
 					+ definition.getActionName(startActionId) + "["
 					+ startActionId + "]");
 			index.put(definition.getActionName(startActionId),
-					(Executable) targetsByActionID.get(startActionId));
+					targetsByActionID.get(startActionId));
 		}
 		return index;
 	}

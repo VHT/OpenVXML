@@ -32,10 +32,10 @@ import org.eclipse.vtp.framework.spi.IProcessDescriptor;
 public abstract class AbstractProcessContext extends AbstractContext implements
 		IProcessContext {
 	/** The service identifiers that will return this context. */
-	protected static final Set RESERVED_SERVICE_IDENTIFIERS;
+	protected static final Set<String> RESERVED_SERVICE_IDENTIFIERS;
 
 	static {
-		Set identifiers = new HashSet(4);
+		Set<String> identifiers = new HashSet<String>(4);
 		identifiers.add(IReporter.class.getName());
 		identifiers.add(ILogger.class.getName());
 		identifiers.add(IContext.class.getName());
@@ -46,7 +46,7 @@ public abstract class AbstractProcessContext extends AbstractContext implements
 	/** The process descriptor. */
 	protected final IProcessDescriptor descriptor;
 	/** The service identifiers provided by the descriptor. */
-	protected final Set providedServiceIdentifiers;
+	protected final Set<String> providedServiceIdentifiers;
 
 	/**
 	 * Creates a new AbstractProcessContext.
@@ -63,7 +63,7 @@ public abstract class AbstractProcessContext extends AbstractContext implements
 		}
 		this.descriptor = descriptor;
 		this.providedServiceIdentifiers = Collections
-				.unmodifiableSet(new HashSet(Arrays.asList(descriptor
+				.unmodifiableSet(new HashSet<String>(Arrays.asList(descriptor
 						.getServiceIdentifiers())));
 	}
 
@@ -75,9 +75,9 @@ public abstract class AbstractProcessContext extends AbstractContext implements
 	 */
 	@Override
 	protected void doReport(int severity, String[] categories, String message,
-			Dictionary properties) {
+			Dictionary<String, Object> properties) {
 		if (properties == null) {
-			properties = new Hashtable();
+			properties = new Hashtable<String, Object>();
 		}
 		if (properties.get("scope") == null) {
 			properties.put("scope", "process"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -172,7 +172,7 @@ public abstract class AbstractProcessContext extends AbstractContext implements
 	 * java.lang.String)
 	 */
 	@Override
-	public final Class loadClass(String className)
+	public final Class<?> loadClass(String className)
 			throws ClassNotFoundException, NullPointerException {
 		return descriptor.loadClass(className);
 	}

@@ -47,16 +47,16 @@ import org.eclipse.vtp.framework.core.ILogger;
  */
 public class ScriptableLogger implements IScriptable {
 	/** The logger to provide scripting services for. */
-	private final ILogger logger;
+	private final ILogger iLogger;
 
 	/**
 	 * Creates a new ScriptableLogger.
 	 * 
-	 * @param logger
+	 * @param iLogger
 	 *            The logger to provide scripting services for.
 	 */
-	public ScriptableLogger(ILogger logger) {
-		this.logger = logger;
+	public ScriptableLogger(ILogger iLogger) {
+		this.iLogger = iLogger;
 	}
 
 	/*
@@ -178,7 +178,7 @@ public class ScriptableLogger implements IScriptable {
 			if (arguments.length == 0) {
 				return null;
 			}
-			return logger.isSeverityEnabled(toSeverityLevel(arguments[0])) ? Boolean.TRUE
+			return iLogger.isSeverityEnabled(toSeverityLevel(arguments[0])) ? Boolean.TRUE
 					: Boolean.FALSE;
 		} else if ("report".equals(name)) //$NON-NLS-1$
 		{
@@ -186,7 +186,7 @@ public class ScriptableLogger implements IScriptable {
 				return null;
 			}
 			final int severity = toSeverityLevel(arguments[0]);
-			if (!logger.isSeverityEnabled(severity)) {
+			if (!iLogger.isSeverityEnabled(severity)) {
 				return null;
 			}
 			String[] categories = null;
@@ -196,7 +196,7 @@ public class ScriptableLogger implements IScriptable {
 					categories[i] = String.valueOf(arguments[i + 1]);
 				}
 			}
-			logger.report(severity, categories,
+			iLogger.report(severity, categories,
 					String.valueOf(arguments[arguments.length - 1]));
 		} else {
 			int severity = ILogger.SEVERITY_DEBUG;
@@ -207,7 +207,7 @@ public class ScriptableLogger implements IScriptable {
 					return null;
 				}
 				severity = toSeverityLevel(arguments[0]);
-				if (!logger.isSeverityEnabled(severity)) {
+				if (!iLogger.isSeverityEnabled(severity)) {
 					return null;
 				}
 				if (arguments.length > 2) {
@@ -221,7 +221,7 @@ public class ScriptableLogger implements IScriptable {
 					return null;
 				}
 				severity = toSeverityLevel(name);
-				if (!logger.isSeverityEnabled(severity)) {
+				if (!iLogger.isSeverityEnabled(severity)) {
 					return null;
 				}
 				if (arguments.length > 1) {
@@ -231,7 +231,7 @@ public class ScriptableLogger implements IScriptable {
 					}
 				}
 			}
-			logger.log(severity, categories,
+			iLogger.log(severity, categories,
 					String.valueOf(arguments[arguments.length - 1]));
 		}
 		return null;

@@ -22,7 +22,7 @@ import org.eclipse.vtp.framework.interactions.core.conversation.IConversation;
  */
 public class MetaDataMessageObserver implements Runnable {
 	/** The context to use. */
-	private final ILogger logger;
+	private final ILogger iLogger;
 	/** The conversation to use. */
 	private final IConversation conversation;
 	/** The configuration to use. */
@@ -31,16 +31,16 @@ public class MetaDataMessageObserver implements Runnable {
 	/**
 	 * Creates a new MetaDataMessageAction.
 	 * 
-	 * @param logger
+	 * @param iLogger
 	 *            The logger to use.
 	 * @param conversation
 	 *            The conversation to use.
 	 * @param configuration
 	 *            The configuration to use.
 	 */
-	public MetaDataMessageObserver(ILogger logger, IConversation conversation,
+	public MetaDataMessageObserver(ILogger iLogger, IConversation conversation,
 			MetaDataConfiguration configuration) {
-		this.logger = logger;
+		this.iLogger = iLogger;
 		this.conversation = conversation;
 		this.configuration = configuration;
 	}
@@ -52,7 +52,7 @@ public class MetaDataMessageObserver implements Runnable {
 	 */
 	@Override
 	public void run() {
-		logger.debug(getClass().getName().substring(
+		iLogger.debug(getClass().getName().substring(
 				getClass().getName().lastIndexOf('.') + 1));
 		configuration.setIgnoreErrors(true);
 		conversation.createMetaDataMessage(configuration,

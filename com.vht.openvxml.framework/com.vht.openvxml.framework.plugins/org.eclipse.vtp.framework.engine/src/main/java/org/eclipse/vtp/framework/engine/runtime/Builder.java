@@ -39,32 +39,28 @@ public abstract class Builder {
 	/**
 	 * Creates an instance of the component.
 	 * 
-	 * @return The new component instance or <code>null</code> if it could not
-	 *         be created.
-	 * @throws IllegalStateException
-	 *             If a previously created component has not been configured.
+	 * @return The new component instance or <code>null</code> if it could not be
+	 *         created.
+	 * @throws IllegalStateException If a previously created component has not been
+	 *                               configured.
 	 */
+	@SuppressWarnings("rawtypes")
 	public Object create() throws IllegalStateException {
 		if (instance != null) {
 			throw new IllegalStateException();
 		}
 		Constructor[] constructors = getConstructors();
-		List arguments = new ArrayList();
+		List<Object> arguments = new ArrayList<Object>();
 		for (int i = 0; instance == null && i < constructors.length; ++i) {
 			Class[] parameterTypes = constructors[i].getParameterTypes();
 			if (parameterTypes.length == 0) {
-				instance = RuntimeUtils.createInstance(constructors[i],
-						new Object[0]);
+				instance = RuntimeUtils.createInstance(constructors[i], new Object[0]);
 			} else {
 				for (Class parameterType : parameterTypes) {
 					Object value = resolveDependency(parameterType);
 					if (value == null) {
-						System.err
-								.println("Could not locate: "
-										+ parameterType.getName()
-										+ " while resolving "
-										+ constructors[0].getDeclaringClass()
-												.getName());
+						System.err.println("Could not locate: " + parameterType.getName() + " while resolving "
+								+ constructors[0].getDeclaringClass().getName());
 						arguments.clear();
 						break;
 					}
@@ -73,17 +69,14 @@ public abstract class Builder {
 				if (arguments.isEmpty()) {
 					continue;
 				}
-				instance = RuntimeUtils.createInstance(constructors[i],
-						arguments.toArray());
+				instance = RuntimeUtils.createInstance(constructors[i], arguments.toArray());
 			}
 		}
 		if (instance == null) {
 			if (registry != null) {
-				registry.error("Unable to create: "
-						+ constructors[0].getDeclaringClass().getName());
+				registry.error("Unable to create: " + constructors[0].getDeclaringClass().getName());
 			} else {
-				System.err.println("Unable to create: "
-						+ constructors[0].getDeclaringClass().getName());
+				System.err.println("Unable to create: " + constructors[0].getDeclaringClass().getName());
 			}
 		}
 		return instance;
@@ -92,8 +85,8 @@ public abstract class Builder {
 	/**
 	 * Configures the currently active component instance.
 	 * 
-	 * @throws IllegalStateException
-	 *             If there is no currently active component instance.
+	 * @throws IllegalStateException If there is no currently active component
+	 *                               instance.
 	 */
 	public void configure() throws IllegalStateException {
 		if (instance == null) {
@@ -102,8 +95,7 @@ public abstract class Builder {
 		Method[] mutators = getMutators();
 		for (Method mutator : mutators) {
 			Object value = resolveDependency(mutator.getParameterTypes()[0]);
-			if (value != null
-					&& (!value.getClass().isArray() || ((Object[]) value).length > 0)) {
+			if (value != null && (!value.getClass().isArray() || ((Object[]) value).length > 0)) {
 				RuntimeUtils.setProperty(instance, mutator, value);
 			}
 		}
@@ -115,6 +107,7 @@ public abstract class Builder {
 	 * 
 	 * @return The constructors for the component.
 	 */
+	@SuppressWarnings("rawtypes")
 	protected abstract Constructor[] getConstructors();
 
 	/**
@@ -134,27 +127,24 @@ public abstract class Builder {
 	/**
 	 * Resolves a dependency on the specified type.
 	 * 
-	 * @param type
-	 *            The type to find.
+	 * @param type The type to find.
 	 * @return The value of the resolved dependency or <code>null</code> if the
 	 *         dependency could not be resolved.
 	 */
-	private Object resolveDependency(Class type) {
+	private Object resolveDependency(Class<?> type) {
 		if (registry == null) {
 			registry = createServiceRegistry();
 		}
 		Object value = null;
 		if (type.isArray()) {
-			Object[] values = registry.lookupAll(type.getComponentType()
-					.getName());
-			List results = new ArrayList(values.length);
+			Object[] values = registry.lookupAll(type.getComponentType().getName());
+			List<Object> results = new ArrayList<Object>(values.length);
 			for (Object value2 : values) {
 				if (type.getComponentType().isInstance(value2)) {
 					results.add(value2);
 				}
 			}
-			value = results.toArray((Object[]) Array.newInstance(
-					type.getComponentType(), results.size()));
+			value = results.toArray((Object[]) Array.newInstance(type.getComponentType(), results.size()));
 		} else {
 			value = registry.lookup(type.getName());
 			if (value != null && !type.isInstance(value)) {

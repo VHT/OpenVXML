@@ -44,7 +44,7 @@ public abstract class AbstractReporter implements IReporter {
 	 *            properties are specified.
 	 */
 	protected abstract void doReport(int severity, String[] categories,
-			String message, Dictionary properties);
+			String message, Dictionary<String, Object> properties);
 
 	/*
 	 * (non-Javadoc)
@@ -66,7 +66,8 @@ public abstract class AbstractReporter implements IReporter {
 	 * java.lang.String, java.util.Dictionary)
 	 */
 	@Override
-	public final void report(int severity, String message, Dictionary properties) {
+	public final void report(int severity, String message,
+			Dictionary<String, Object> properties) {
 		if (isSeverityEnabled(severity)) {
 			doReport(severity, null, message, properties);
 		}
@@ -93,7 +94,7 @@ public abstract class AbstractReporter implements IReporter {
 	 */
 	@Override
 	public final void report(int severity, String[] categories, String message,
-			Dictionary properties) {
+			Dictionary<String, Object> properties) {
 		if (isSeverityEnabled(severity)) {
 			doReport(severity, categories, message, properties);
 		}

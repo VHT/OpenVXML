@@ -57,10 +57,8 @@ public class PasteAction extends SelectionListenerAction {
 	/**
 	 * Creates a new action.
 	 *
-	 * @param shell
-	 *            the shell for any dialogs
-	 * @param clipboard
-	 *            the clipboard
+	 * @param shell     the shell for any dialogs
+	 * @param clipboard the clipboard
 	 */
 	public PasteAction(Shell shell, Clipboard clipboard) {
 		super("Paste");
@@ -81,7 +79,7 @@ public class PasteAction extends SelectionListenerAction {
 	 */
 	private IResource getTarget() {
 		@SuppressWarnings("unchecked")
-		List<IResource> selectedResources = getSelectedResources();
+		List<? extends IResource> selectedResources = getSelectedResources();
 
 		for (int i = 0; i < selectedResources.size(); i++) {
 			IResource resource = selectedResources.get(i);
@@ -102,10 +100,9 @@ public class PasteAction extends SelectionListenerAction {
 	/**
 	 * Returns whether any of the given resources are linked resources.
 	 * 
-	 * @param resources
-	 *            resource to check for linked type. may be null
-	 * @return true=one or more resources are linked. false=none of the
-	 *         resources are linked
+	 * @param resources resource to check for linked type. may be null
+	 * @return true=one or more resources are linked. false=none of the resources
+	 *         are linked
 	 */
 	private boolean isLinked(IResource[] resources) {
 		for (IResource resource : resources) {
@@ -123,15 +120,13 @@ public class PasteAction extends SelectionListenerAction {
 	public void run() {
 		// try a resource transfer
 		ResourceTransfer resTransfer = ResourceTransfer.getInstance();
-		IResource[] resourceData = (IResource[]) clipboard
-				.getContents(resTransfer);
+		IResource[] resourceData = (IResource[]) clipboard.getContents(resTransfer);
 
 		if (resourceData != null && resourceData.length > 0) {
 			if (resourceData[0].getType() == IResource.PROJECT) {
 				// enablement checks for all projects
 				for (IResource element : resourceData) {
-					CopyProjectOperation operation = new CopyProjectOperation(
-							this.shell);
+					CopyProjectOperation operation = new CopyProjectOperation(this.shell);
 					operation.copyProject((IProject) element);
 				}
 			} else {
@@ -139,8 +134,7 @@ public class PasteAction extends SelectionListenerAction {
 				// container
 				IContainer container = getContainer();
 
-				CopyFilesAndFoldersOperation operation = new CopyFilesAndFoldersOperation(
-						this.shell);
+				CopyFilesAndFoldersOperation operation = new CopyFilesAndFoldersOperation(this.shell);
 				operation.copyResources(resourceData, container);
 			}
 			return;
@@ -155,8 +149,7 @@ public class PasteAction extends SelectionListenerAction {
 			// container
 			IContainer container = getContainer();
 
-			CopyFilesAndFoldersOperation operation = new CopyFilesAndFoldersOperation(
-					this.shell);
+			CopyFilesAndFoldersOperation operation = new CopyFilesAndFoldersOperation(this.shell);
 			operation.copyFiles(fileData, container);
 		}
 	}
@@ -166,7 +159,7 @@ public class PasteAction extends SelectionListenerAction {
 	 */
 	private IContainer getContainer() {
 		@SuppressWarnings("unchecked")
-		List<IResource> selection = getSelectedResources();
+		List<? extends IResource> selection = getSelectedResources();
 		if (selection.get(0) instanceof IFile) {
 			return ((IFile) selection.get(0)).getParent();
 		}
@@ -175,13 +168,13 @@ public class PasteAction extends SelectionListenerAction {
 
 	/**
 	 * The <code>PasteAction</code> implementation of this
-	 * <code>SelectionListenerAction</code> method enables this action if a
-	 * resource compatible with what is on the clipboard is selected.
+	 * <code>SelectionListenerAction</code> method enables this action if a resource
+	 * compatible with what is on the clipboard is selected.
 	 * 
-	 * -Clipboard must have IResource or java.io.File -Projects can always be
-	 * pasted if they are open -Workspace folder may not be copied into itself
-	 * -Files and folders may be pasted to a single selected folder in open
-	 * project or multiple selected files in the same folder
+	 * -Clipboard must have IResource or java.io.File -Projects can always be pasted
+	 * if they are open -Workspace folder may not be copied into itself -Files and
+	 * folders may be pasted to a single selected folder in open project or multiple
+	 * selected files in the same folder
 	 */
 	@Override
 	protected boolean updateSelection(IStructuredSelection selection) {
@@ -195,8 +188,7 @@ public class PasteAction extends SelectionListenerAction {
 			public void run() {
 				// clipboard must have resources or files
 				ResourceTransfer resTransfer = ResourceTransfer.getInstance();
-				clipboardData[0] = (IResource[]) clipboard
-						.getContents(resTransfer);
+				clipboardData[0] = (IResource[]) clipboard.getContents(resTransfer);
 			}
 		});
 		IResource[] resourceData = clipboardData[0];
@@ -207,8 +199,7 @@ public class PasteAction extends SelectionListenerAction {
 			for (IResource element : resourceData) {
 				// make sure all resource data are open projects
 				// can paste open projects regardless of selection
-				if (element.getType() != IResource.PROJECT
-						|| ((IProject) element).isOpen() == false) {
+				if (element.getType() != IResource.PROJECT || ((IProject) element).isOpen() == false) {
 					return false;
 				}
 			}
@@ -230,7 +221,7 @@ public class PasteAction extends SelectionListenerAction {
 		// can paste files and folders to a single selection (file, folder,
 		// open project) or multiple file selection with the same parent
 		@SuppressWarnings("unchecked")
-		List<IResource> selectedResources = getSelectedResources();
+		List<? extends IResource> selectedResources = getSelectedResources();
 		if (selectedResources.size() > 1) {
 			for (int i = 0; i < selectedResources.size(); i++) {
 				IResource resource = selectedResources.get(i);
@@ -244,8 +235,7 @@ public class PasteAction extends SelectionListenerAction {
 		}
 		if (resourceData != null) {
 			// linked resources can only be pasted into projects
-			if (isLinked(resourceData)
-					&& targetResource.getType() != IResource.PROJECT
+			if (isLinked(resourceData) && targetResource.getType() != IResource.PROJECT
 					&& targetResource.getType() != IResource.FOLDER) {
 				return false;
 			}

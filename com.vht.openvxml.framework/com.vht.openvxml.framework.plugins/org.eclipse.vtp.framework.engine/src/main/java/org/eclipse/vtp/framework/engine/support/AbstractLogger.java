@@ -45,9 +45,9 @@ public abstract class AbstractLogger extends AbstractReporter implements
 	 *            properties are specified.
 	 */
 	protected void doLog(int severity, String[] categories, String message,
-			Dictionary properties) {
+			Dictionary<String, Object> properties) {
 		if (properties == null) {
-			properties = new Hashtable();
+			properties = new Hashtable<String, Object>();
 		}
 		properties.put("type", "log"); //$NON-NLS-1$ //$NON-NLS-2$
 		doReport(severity, categories, message, properties);
@@ -72,7 +72,8 @@ public abstract class AbstractLogger extends AbstractReporter implements
 	 * java.util.Dictionary)
 	 */
 	@Override
-	public final void log(int severity, String message, Dictionary properties) {
+	public final void log(int severity, String message,
+			Dictionary<String, Object> properties) {
 		if (isSeverityEnabled(severity)) {
 			doLog(severity, null, message, properties);
 		}
@@ -99,7 +100,7 @@ public abstract class AbstractLogger extends AbstractReporter implements
 	 */
 	@Override
 	public final void log(int severity, String[] categories, String message,
-			Dictionary properties) {
+			Dictionary<String, Object> properties) {
 		if (isSeverityEnabled(severity)) {
 			doLog(severity, categories, message, properties);
 		}
@@ -134,7 +135,8 @@ public abstract class AbstractLogger extends AbstractReporter implements
 	 * java.util.Dictionary)
 	 */
 	@Override
-	public final void error(String message, Dictionary properties) {
+	public final void error(String message,
+			Dictionary<String, Object> properties) {
 		if (isSeverityEnabled(SEVERITY_ERROR)) {
 			doLog(SEVERITY_ERROR, null, message, properties);
 		}
@@ -161,7 +163,7 @@ public abstract class AbstractLogger extends AbstractReporter implements
 	 */
 	@Override
 	public final void error(String[] categories, String message,
-			Dictionary properties) {
+			Dictionary<String, Object> properties) {
 		if (isSeverityEnabled(SEVERITY_ERROR)) {
 			doLog(SEVERITY_ERROR, categories, message, properties);
 		}
@@ -196,7 +198,7 @@ public abstract class AbstractLogger extends AbstractReporter implements
 	 * java.util.Dictionary)
 	 */
 	@Override
-	public final void warn(String message, Dictionary properties) {
+	public final void warn(String message, Dictionary<String, Object> properties) {
 		if (isSeverityEnabled(SEVERITY_WARN)) {
 			doLog(SEVERITY_WARN, null, message, properties);
 		}
@@ -223,7 +225,7 @@ public abstract class AbstractLogger extends AbstractReporter implements
 	 */
 	@Override
 	public final void warn(String[] categories, String message,
-			Dictionary properties) {
+			Dictionary<String, Object> properties) {
 		if (isSeverityEnabled(SEVERITY_WARN)) {
 			doLog(SEVERITY_WARN, categories, message, properties);
 		}
@@ -258,7 +260,7 @@ public abstract class AbstractLogger extends AbstractReporter implements
 	 * java.util.Dictionary)
 	 */
 	@Override
-	public final void info(String message, Dictionary properties) {
+	public final void info(String message, Dictionary<String, Object> properties) {
 		if (isSeverityEnabled(SEVERITY_INFO)) {
 			doLog(SEVERITY_INFO, null, message, properties);
 		}
@@ -285,7 +287,7 @@ public abstract class AbstractLogger extends AbstractReporter implements
 	 */
 	@Override
 	public final void info(String[] categories, String message,
-			Dictionary properties) {
+			Dictionary<String, Object> properties) {
 		if (isSeverityEnabled(SEVERITY_INFO)) {
 			doLog(SEVERITY_INFO, categories, message, properties);
 		}
@@ -320,7 +322,7 @@ public abstract class AbstractLogger extends AbstractReporter implements
 	 * java.util.Dictionary)
 	 */
 	@Override
-	public final void debug(String message, Dictionary properties) {
+	public final void debug(String message, Dictionary<String, Object> properties) {
 		if (isSeverityEnabled(SEVERITY_DEBUG)) {
 			doLog(SEVERITY_DEBUG, null, message, properties);
 		}
@@ -347,7 +349,7 @@ public abstract class AbstractLogger extends AbstractReporter implements
 	 */
 	@Override
 	public final void debug(String[] categories, String message,
-			Dictionary properties) {
+			Dictionary<String, Object> properties) {
 		if (isSeverityEnabled(SEVERITY_DEBUG)) {
 			doLog(SEVERITY_DEBUG, categories, message, properties);
 		}

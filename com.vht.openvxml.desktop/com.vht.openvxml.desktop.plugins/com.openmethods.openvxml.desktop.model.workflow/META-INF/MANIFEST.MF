@@ -20,3 +20,4 @@ Export-Package: com.openmethods.openvxml.desktop.model.workflow,
  com.openmethods.openvxml.desktop.model.workflow.design,
  com.openmethods.openvxml.desktop.model.workflow.internal,
  com.openmethods.openvxml.desktop.model.workflow.internal.design
+Automatic-Module-Name: com.openmethods.openvxml.desktop.model.workflow
