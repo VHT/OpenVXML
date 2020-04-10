@@ -13,10 +13,9 @@ package org.eclipse.vtp.framework.common.services;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -857,8 +856,8 @@ public class VariableRegistry implements IVariableRegistry, IScriptable,
 	 * 
 	 * @author Lonnie Pryor
 	 */
-	private final class DateObject extends SimpleObject<Calendar> implements
-			IDateObject {
+	private final class DateObject extends SimpleObject<ZonedDateTime>
+			implements IDateObject {
 		/**
 		 * Creates a new DateObject.
 		 */
@@ -897,7 +896,7 @@ public class VariableRegistry implements IVariableRegistry, IScriptable,
 		 * coerce(java.lang.Object)
 		 */
 		@Override
-		Calendar coerce(Object obj) {
+		ZonedDateTime coerce(Object obj) {
 			Calendar cal = Calendar.getInstance();
 			if (obj == null) {
 				return cal;

@@ -13,6 +13,9 @@ package org.eclipse.vtp.framework.interactions.voice.media;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -124,17 +127,12 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 	 * (java.util.Date, java.lang.String,
 	 * org.eclipse.vtp.framework.interactions.core.media.IResourceManager)
 	 */
-	@Override
-	public List<Content> formatDate(Date date, String formatDefinition,
-			String formatOptions, IResourceManager resourceManager) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(date);
-		return formatDate(cal, formatDefinition, formatOptions, resourceManager);
-	}
 
 	@Override
-	public List<Content> formatDate(Calendar cal, String formatDefinition,
+	public List<Content> formatDate(ZonedDateTime zdt, String formatDefinition,
 			String formatOptions, IResourceManager resourceManager) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(Date.from(zdt.toInstant()));
 		List<Content> ret = new ArrayList<Content>();
 		if (formatDefinition == null || formatDefinition.equals("")) {
 			TextContent tc = new TextContent();
@@ -303,7 +301,10 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 							days[cal.get(Calendar.DAY_OF_WEEK) - 1],
 							days[cal.get(Calendar.DAY_OF_WEEK) - 1]));
 				} else {
-					formatDate(cal, "Short Date", "", resourceManager);
+					zdt = LocalDateTime.ofInstant(cal.toInstant(),
+							ZoneId.systemDefault()).atZone(
+							ZoneId.systemDefault());
+					formatDate(zdt, "Short Date", "", resourceManager);
 				}
 			}
 		} else if (formatDefinition.equals("Hour of Day")) {

@@ -2,6 +2,9 @@ package org.eclipse.vtp.framework.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.TimeZone;
 
@@ -12,7 +15,7 @@ public class DateHelper {
 			"H:mm:ss z", "h:mm:ss a", "H:mm:ss", "h:mm a z", "H:mm z",
 			"h:mm a", "H:mm" };
 
-	public static Calendar parseDate(String dateString) {
+	public static ZonedDateTime parseDate(String dateString) {
 		Calendar cal = parseDate0(dateString);
 		if (cal != null) {
 			int index = dateString.indexOf("GMT");
@@ -22,7 +25,8 @@ public class DateHelper {
 				cal.setTimeZone(tzOffset);
 			}
 		}
-		return cal;
+		return LocalDateTime.ofInstant(cal.toInstant(), ZoneId.systemDefault())
+				.atZone(ZoneId.systemDefault());
 	}
 
 	private static Calendar parseDate0(String dateString) {
