@@ -84,12 +84,15 @@ public class ResourceGroup implements IResourceManager,
 						HashSet<String> localIndex = new HashSet<String>();
 						ExternalServerManager.Logging logging = ExternalServerManager
 								.getInstance().getLogging();
+						System.out.println(logging.toString());
 						List<ExternalServer> locations = ExternalServerManager
 								.getInstance().getLocations();
+						System.out.println("locations size: " + locations.size());
 						if (locations.size() > 0) {
 							boolean connected = false;
 							for (ExternalServer server : locations) {
 								String location = server.getLocation();
+								System.out.println("server status: "+server.lastStatus());
 								if (!location.endsWith("/")) {
 									location = location + "/";
 								}
@@ -145,7 +148,9 @@ public class ResourceGroup implements IResourceManager,
 								} catch (Exception e) {
 									switch (logging) {
 									case FIRSTFAILURE:
+										System.out.println("in firstfailure");
 										if (!server.lastStatus()) {
+											System.out.println("in firstfailure : if");
 											break;
 										}
 									case ALWAYS:
