@@ -58,11 +58,14 @@ public class ResourceGroup implements IResourceManager,
 	public ResourceGroup(Bundle bundle, String path) {
 		ExternalServerManager.getInstance().addListener(this);
 		this.bundle = bundle;
+		System.out.println("bundle id: "+this.bundle.getBundleId());
+		System.out.println("bundle name: " +ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"));
 		if (!path.startsWith("/")) {
 			path = "/" + path;
 		}
 		this.path = path;
 		URL indexURL = bundle.getResource("files.index");
+		System.out.println("indexurl " +indexURL);
 		if (indexURL != null) {
 			try {
 				BufferedReader br = new BufferedReader(new InputStreamReader(
@@ -100,6 +103,7 @@ public class ResourceGroup implements IResourceManager,
 										+ ResourceGroup.this.bundle
 												.getHeaders()
 												.get("Bundle-Name") + "/";
+								System.out.println("****"+location +"****");
 								if (logging == ExternalServerManager.Logging.ALWAYS) {
 									System.out
 											.println("Attempting to load index from: "
