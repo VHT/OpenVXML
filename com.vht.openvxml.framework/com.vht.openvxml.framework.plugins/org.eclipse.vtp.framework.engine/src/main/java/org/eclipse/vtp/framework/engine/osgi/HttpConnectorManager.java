@@ -377,6 +377,7 @@ public final class HttpConnectorManager extends SingletonTracker {
 							}
 						}
 					} else {
+						System.out.println("registering resource");
 						httpConnector.registerResouces(id, new ResourceGroup(
 								contributor, path));
 					}
