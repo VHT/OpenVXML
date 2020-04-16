@@ -98,6 +98,7 @@ public class ResourceGroup implements IResourceManager,
 						if (locations.size() > 0) {
 							boolean connected = false;
 							for (ExternalServer server : locations) {
+								System.out.println("server :" +server.toString());
 								String location = server.getLocation();
 								System.out.println("server status: "+server.lastStatus());
 								if (!location.endsWith("/")) {
@@ -168,6 +169,7 @@ public class ResourceGroup implements IResourceManager,
 										e.printStackTrace();
 									}
 									server.setStatus(false);
+									System.out.println("setting server status false :"+server.lastStatus());
 								}
 							}
 							if (!connected
