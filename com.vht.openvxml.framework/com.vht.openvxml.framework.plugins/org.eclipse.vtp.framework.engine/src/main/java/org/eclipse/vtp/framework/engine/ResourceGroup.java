@@ -79,11 +79,15 @@ public class ResourceGroup implements IResourceManager,
 				e.printStackTrace();
 			}
 		}
+		System.out.println("ResourceGroup1");
 		Thread t = new Thread(new Runnable() {
 			@Override
 			public void run() {
+				System.out.println("ResourceGroup2");
 				try {
+					System.out.println("ResourceGroup3");
 					while (true) {
+						System.out.println("ResourceGroup4");
 						HashSet<String> localIndex = new HashSet<String>();
 						ExternalServerManager.Logging logging = ExternalServerManager
 								.getInstance().getLogging();
