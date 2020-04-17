@@ -58,6 +58,7 @@ public class ResourceGroup implements IResourceManager,
 	public ResourceGroup(Bundle bundle, String path) {
 		ExternalServerManager.getInstance().addListener(this);
 		this.bundle = bundle;
+		System.out.println("bundle object" + bundle.toString());
 		System.out.println("bundle id: "+this.bundle.getBundleId());
 		System.out.println("bundle name: " +ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"));
 		if (!path.startsWith("/")) {
