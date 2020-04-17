@@ -169,21 +169,24 @@ public class ResourceGroup implements IResourceManager,
 									server.setStatus(true);
 									break;
 								} catch (Exception e) {
-									switch (logging) {
-									case FIRSTFAILURE:
-										System.out.println(bundleList.get(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")));
-										bundleList.put(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"), false);
-										System.out.println(bundleList.get(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")));
-										System.out.println("in firstfailure");
-										if (!server.lastStatus()) {
-											System.out.println("in firstfailure : if");
-											break;
+									if (logging == ExternalServerManager.Logging.ALWAYS || (logging == ExternalServerManager.Logging.FIRSTFAILURE && bundleList.get(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")))){
+										switch (logging) {
+										case FIRSTFAILURE:
+											System.out.println(bundleList.get(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")));
+											
+											System.out.println(bundleList.get(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")));
+											System.out.println("in firstfailure");
+											if (!server.lastStatus()) {
+												System.out.println("in firstfailure : if");
+												break;
+											}
+										case ALWAYS:
+											System.out
+													.println("Unable to connect to external media server @ "
+															+ location);
+											e.printStackTrace();
 										}
-									case ALWAYS:
-										System.out
-												.println("Unable to connect to external media server @ "
-														+ location);
-										e.printStackTrace();
+										bundleList.put(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"), false);
 									}
 									server.setStatus(false);
 									System.out.println("setting server status false :"+server.lastStatus());
