@@ -170,11 +170,9 @@ public class ResourceGroup implements IResourceManager,
 									break;
 								} catch (Exception e) {
 									if (logging == ExternalServerManager.Logging.ALWAYS || (logging == ExternalServerManager.Logging.FIRSTFAILURE && bundleList.get(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")))){
+										System.out.println(bundleList.get(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")));
 										switch (logging) {
 										case FIRSTFAILURE:
-											System.out.println(bundleList.get(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")));
-											
-											System.out.println(bundleList.get(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")));
 											System.out.println("in firstfailure");
 											if (!server.lastStatus()) {
 												System.out.println("in firstfailure : if");
@@ -193,7 +191,8 @@ public class ResourceGroup implements IResourceManager,
 								}
 							}
 							if (!connected
-									&& logging != ExternalServerManager.Logging.NONE) {
+									&& logging != ExternalServerManager.Logging.NONE
+									&&((logging == ExternalServerManager.Logging.FIRSTFAILURE && bundleList.get(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"))))) {
 								System.out.println("Unable to load index for "
 										+ ResourceGroup.this.bundle
 												.getHeaders()
