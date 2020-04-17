@@ -73,7 +73,7 @@ public class ResourceGroup implements IResourceManager,
 		System.out.println("indexurl " +indexURL);
 		if (indexURL != null) {
 			if(!bundleList.containsKey(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"))){
-				bundleList.put(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"), false);
+				bundleList.put(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"), true);
 			}
 			try {
 				BufferedReader br = new BufferedReader(new InputStreamReader(
@@ -135,6 +135,7 @@ public class ResourceGroup implements IResourceManager,
 									int statusCode = response.getStatusLine()
 											.getStatusCode();
 									if (statusCode != 200) {
+										if(bundleList.get(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")))
 										throw new Exception(
 												"Error during request. "
 														+ response
@@ -168,6 +169,7 @@ public class ResourceGroup implements IResourceManager,
 								} catch (Exception e) {
 									switch (logging) {
 									case FIRSTFAILURE:
+										bundleList.put(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"), false);
 										System.out.println("in firstfailure");
 										if (!server.lastStatus()) {
 											System.out.println("in firstfailure : if");
