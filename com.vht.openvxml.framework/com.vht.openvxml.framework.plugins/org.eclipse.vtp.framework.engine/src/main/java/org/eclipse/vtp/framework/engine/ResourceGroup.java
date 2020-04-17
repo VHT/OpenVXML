@@ -18,9 +18,12 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URL;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ResponseHandler;
@@ -46,6 +49,7 @@ public class ResourceGroup implements IResourceManager,
 	private final String path;
 	private Object lock = new Object();
 	private HashSet<String> index = new HashSet<String>();
+	private static Map<String, Boolean> bundleList = new HashMap<String, Boolean> ();
 
 	/**
 	 * Creates a new ResourceGroup.
@@ -68,6 +72,9 @@ public class ResourceGroup implements IResourceManager,
 		URL indexURL = bundle.getResource("files.index");
 		System.out.println("indexurl " +indexURL);
 		if (indexURL != null) {
+			if(!bundleList.containsKey(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"))){
+				bundleList.put(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"), false);
+			}
 			try {
 				BufferedReader br = new BufferedReader(new InputStreamReader(
 						indexURL.openConnection().getInputStream()));
@@ -79,6 +86,9 @@ public class ResourceGroup implements IResourceManager,
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		}
+		for (Map.Entry<String, Boolean> entry: bundleList.entrySet()){
+			System.out.println("bundle list"+ entry.getKey() +" "+ entry.getValue());
 		}
 		System.out.println("ResourceGroup1");
 		Thread t = new Thread(new Runnable() {
