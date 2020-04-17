@@ -23,7 +23,6 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ResponseHandler;
@@ -62,15 +61,11 @@ public class ResourceGroup implements IResourceManager,
 	public ResourceGroup(Bundle bundle, String path) {
 		ExternalServerManager.getInstance().addListener(this);
 		this.bundle = bundle;
-		System.out.println("bundle object" + bundle.getClass());
-		System.out.println("bundle id: "+this.bundle.getBundleId());
-		System.out.println("bundle name: " +ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"));
 		if (!path.startsWith("/")) {
 			path = "/" + path;
 		}
 		this.path = path;
 		URL indexURL = bundle.getResource("files.index");
-		System.out.println("indexurl " +indexURL);
 		if (indexURL != null) {
 			if(!bundleList.containsKey(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"))){
 				bundleList.put(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"), true);
@@ -87,31 +82,20 @@ public class ResourceGroup implements IResourceManager,
 				e.printStackTrace();
 			}
 		}
-		for (Map.Entry<String, Boolean> entry: bundleList.entrySet()){
-			System.out.println("bundle list"+ entry.getKey() +" "+ entry.getValue());
-		}
-		System.out.println("ResourceGroup1");
 		Thread t = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				System.out.println("ResourceGroup2");
 				try {
-					System.out.println("ResourceGroup3");
 					while (true) {
-						System.out.println("ResourceGroup4");
 						HashSet<String> localIndex = new HashSet<String>();
 						ExternalServerManager.Logging logging = ExternalServerManager
 								.getInstance().getLogging();
-						System.out.println(logging.toString());
 						List<ExternalServer> locations = ExternalServerManager
 								.getInstance().getLocations();
-						System.out.println("locations size: " + locations.size());
 						if (locations.size() > 0) {
 							boolean connected = false;
 							for (ExternalServer server : locations) {
-								System.out.println("server :" +server.toString());
 								String location = server.getLocation();
-								System.out.println("server status: "+server.lastStatus());
 								if (!location.endsWith("/")) {
 									location = location + "/";
 								}
@@ -119,7 +103,6 @@ public class ResourceGroup implements IResourceManager,
 										+ ResourceGroup.this.bundle
 												.getHeaders()
 												.get("Bundle-Name") + "/";
-								System.out.println("****"+location +"****");
 								if (logging == ExternalServerManager.Logging.ALWAYS) {
 									System.out
 											.println("Attempting to load index from: "
@@ -135,13 +118,10 @@ public class ResourceGroup implements IResourceManager,
 									int statusCode = response.getStatusLine()
 											.getStatusCode();
 									if (statusCode != 200) {
-										System.out.println("/////////"+ ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")+" "+bundleList.get(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")));
-										if(bundleList.get(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")).equals(true)){
 										throw new Exception(
 												"Error during request. "
 														+ response
 																.getStatusLine());
-										}
 									}
 									ResponseHandler<String> responseHandler = new BasicResponseHandler();
 									String responseBody = responseHandler
@@ -170,12 +150,9 @@ public class ResourceGroup implements IResourceManager,
 									break;
 								} catch (Exception e) {
 									if (logging == ExternalServerManager.Logging.ALWAYS || (logging == ExternalServerManager.Logging.FIRSTFAILURE && bundleList.get(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")))){
-										System.out.println(bundleList.get(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")));
 										switch (logging) {
 										case FIRSTFAILURE:
-											System.out.println("in firstfailure");
 											if (!server.lastStatus()) {
-												System.out.println("in firstfailure : if");
 												break;
 											}
 										case ALWAYS:
@@ -186,7 +163,6 @@ public class ResourceGroup implements IResourceManager,
 										}
 									}
 									server.setStatus(false);
-									System.out.println("setting server status false :"+server.lastStatus());
 								}
 							}
 							if (!connected
