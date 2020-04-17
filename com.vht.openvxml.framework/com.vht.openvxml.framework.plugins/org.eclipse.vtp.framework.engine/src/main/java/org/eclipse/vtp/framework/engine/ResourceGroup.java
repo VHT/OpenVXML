@@ -135,7 +135,7 @@ public class ResourceGroup implements IResourceManager,
 									int statusCode = response.getStatusLine()
 											.getStatusCode();
 									if (statusCode != 200) {
-										System.out.println("/////////"+ bundleList.get(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")+" "+bundleList.get(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"))));
+										System.out.println("/////////"+ ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")+" "+bundleList.get(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")));
 										if(bundleList.get(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")))
 										throw new Exception(
 												"Error during request. "
