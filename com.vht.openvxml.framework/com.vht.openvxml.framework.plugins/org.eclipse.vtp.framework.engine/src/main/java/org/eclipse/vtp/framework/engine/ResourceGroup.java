@@ -136,11 +136,12 @@ public class ResourceGroup implements IResourceManager,
 											.getStatusCode();
 									if (statusCode != 200) {
 										System.out.println("/////////"+ ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")+" "+bundleList.get(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")));
-										if(bundleList.get(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")).equals(true))
+										if(bundleList.get(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")).equals(true)){
 										throw new Exception(
 												"Error during request. "
 														+ response
 																.getStatusLine());
+										}
 									}
 									ResponseHandler<String> responseHandler = new BasicResponseHandler();
 									String responseBody = responseHandler
