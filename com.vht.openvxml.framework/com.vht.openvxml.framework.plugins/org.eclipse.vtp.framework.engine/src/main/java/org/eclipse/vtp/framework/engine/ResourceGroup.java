@@ -135,6 +135,7 @@ public class ResourceGroup implements IResourceManager,
 									int statusCode = response.getStatusLine()
 											.getStatusCode();
 									if (statusCode != 200) {
+										System.out.println("/////////"+ bundleList.get(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")+" "+bundleList.get(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"))));
 										if(bundleList.get(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")))
 										throw new Exception(
 												"Error during request. "
@@ -169,7 +170,9 @@ public class ResourceGroup implements IResourceManager,
 								} catch (Exception e) {
 									switch (logging) {
 									case FIRSTFAILURE:
+										System.out.println(bundleList.get(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")));
 										bundleList.put(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"), false);
+										System.out.println(bundleList.get(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")));
 										System.out.println("in firstfailure");
 										if (!server.lastStatus()) {
 											System.out.println("in firstfailure : if");
