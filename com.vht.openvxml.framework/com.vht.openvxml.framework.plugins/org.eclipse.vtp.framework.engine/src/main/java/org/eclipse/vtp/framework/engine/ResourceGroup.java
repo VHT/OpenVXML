@@ -184,7 +184,6 @@ public class ResourceGroup implements IResourceManager,
 															+ location);
 											e.printStackTrace();
 										}
-										bundleList.put(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"), false);
 									}
 									server.setStatus(false);
 									System.out.println("setting server status false :"+server.lastStatus());
@@ -198,6 +197,7 @@ public class ResourceGroup implements IResourceManager,
 												.getHeaders()
 												.get("Bundle-Name")
 										+ " from any external media servers");
+								bundleList.put(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"), false);
 							}
 						}
 						try {
