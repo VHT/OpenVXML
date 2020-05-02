@@ -49,7 +49,7 @@ public interface IFormatter {
 	 * should be used. This event may be logged but should never produce an
 	 * exception.
 	 *
-	 * @param date
+	 * @param zdt
 	 *            The date to translate to text.
 	 * @param formatDefinition
 	 *            The provided specialized format to use during transformation.
@@ -61,7 +61,7 @@ public interface IFormatter {
 	 *         <code>org.eclipse.vtp.framework.interactions.core.media.Content</code>
 	 *         objects that contain the formatted elements of the provided date.
 	 */
-	List<Content> formatDate(ZonedDateTime date, String formatDefinition,
+	List<Content> formatDate(ZonedDateTime zdt, String formatDefinition,
 			String formatOptions, IResourceManager resourceManager);
 
 	/**

@@ -11,7 +11,8 @@
  -------------------------------------------------------------------------*/
 package org.eclipse.vtp.framework.engine.http;
 
-import java.util.Date;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -136,7 +137,7 @@ public class DeploymentSession implements ISessionDescriptor {
 	/** The depth of this deployment session */
 	private int depth = 0;
 	/** The start time of the session */
-	private Date startTime;
+	private ZonedDateTime startTime;
 	private long timeout = Long.MAX_VALUE;
 	private long lastAccessed = System.currentTimeMillis();
 	private final boolean[] editLock = { false };
@@ -219,6 +220,8 @@ public class DeploymentSession implements ISessionDescriptor {
 			HttpServletRequest httpRequest, HttpServletResponse httpReesponse,
 			String prefix, int depth, Map variableValues, Map parameterValues,
 			String entryName, String brand, boolean subdialog) {
+		DateTimeFormatter format = DateTimeFormatter
+				.ofPattern("E MMM dd HH:mm:ss z y");
 		this.httpSession = httpSession;
 		this.timeout = httpSession.getMaxInactiveInterval() * 1000L;
 		this.lastAccessed = httpSession.getLastAccessedTime();
@@ -247,9 +250,9 @@ public class DeploymentSession implements ISessionDescriptor {
 			reporter.report(IReporter.SEVERITY_INFO, "Session \"" + id
 					+ "\" created.", report);
 		}
-		startTime = (Date) getAttribute("session.starttime");
+		startTime = (ZonedDateTime) getAttribute("session.starttime");
 		if (startTime == null) {
-			startTime = new Date();
+			startTime = ZonedDateTime.now();
 			setAttribute("session.starttime", startTime);
 		}
 		setAttribute("engine.sequence.entry", entryName);
@@ -283,9 +286,9 @@ public class DeploymentSession implements ISessionDescriptor {
 		assignVariables(
 				(IVariableRegistry) session.lookupService(IVariableRegistry.class
 						.getName()), variableValues, true);
-		startTime = (Date) getAttribute("session.starttime");
+		startTime = (ZonedDateTime) getAttribute("session.starttime");
 		if (startTime == null) {
-			startTime = new Date();
+			startTime = ZonedDateTime.now();
 			setAttribute("session.starttime", startTime);
 		}
 		return new DeploymentExecution(getNextExecutionID(), this, httpRequest,
@@ -383,7 +386,7 @@ public class DeploymentSession implements ISessionDescriptor {
 	}
 
 	@Override
-	public Date getSessionStartTime() {
+	public ZonedDateTime getSessionStartTime() {
 		return startTime;
 	}
 

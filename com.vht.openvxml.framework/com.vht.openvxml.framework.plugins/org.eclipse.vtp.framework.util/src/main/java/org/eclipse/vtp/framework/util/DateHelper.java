@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.TimeZone;
 
@@ -60,10 +61,9 @@ public class DateHelper {
 		return null;
 	}
 
-	public static String toDateString(Calendar cal) {
-		SimpleDateFormat sdf = new SimpleDateFormat(datePatterns[0] + " "
-				+ timePatterns[0]);
-		sdf.setTimeZone(cal.getTimeZone());
-		return sdf.format(cal.getTime());
+	public static String toDateString(ZonedDateTime zdt) {
+		DateTimeFormatter formatter = DateTimeFormatter
+				.ofPattern(datePatterns[2] + " " + timePatterns[5]);
+		return zdt.format(formatter);
 	}
 }

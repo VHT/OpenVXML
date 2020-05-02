@@ -16,6 +16,9 @@ import java.math.BigInteger;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -856,8 +859,8 @@ public class VariableRegistry implements IVariableRegistry, IScriptable,
 	 * 
 	 * @author Lonnie Pryor
 	 */
-	private final class DateObject extends SimpleObject<ZonedDateTime>
-			implements IDateObject {
+	private final class DateObject extends SimpleObject<Calendar> implements
+			IDateObject {
 		/**
 		 * Creates a new DateObject.
 		 */
@@ -896,7 +899,7 @@ public class VariableRegistry implements IVariableRegistry, IScriptable,
 		 * coerce(java.lang.Object)
 		 */
 		@Override
-		ZonedDateTime coerce(Object obj) {
+		Calendar coerce(Object obj) {
 			Calendar cal = Calendar.getInstance();
 			if (obj == null) {
 				return cal;
@@ -913,12 +916,12 @@ public class VariableRegistry implements IVariableRegistry, IScriptable,
 				return cal;
 			}
 			if (obj instanceof IDateObject) {
-				return ((IDateObject) obj).getValue();
+				return GregorianCalendar.from(((IDateObject) obj).getValue());
 			}
 			if (obj instanceof String) {
 				final String inValue = (String) obj;
 				context.debug("So the date is supposed to be: " + inValue);
-				cal = DateHelper.parseDate(inValue);
+				cal = GregorianCalendar.from(DateHelper.parseDate(inValue));
 				return cal;
 			}
 			return null;
@@ -944,11 +947,14 @@ public class VariableRegistry implements IVariableRegistry, IScriptable,
 		 * @see org.eclipse.vtp.framework.core.IDateObject#getValue()
 		 */
 		@Override
-		public Calendar getValue() {
-			Calendar cal = Calendar.getInstance();
+		public ZonedDateTime getValue() {
 			final String val = (String) load();
-			cal = DateHelper.parseDate(val);
-			return cal;
+			return DateHelper.parseDate(val);
+			/*
+			 * cal = DateHelper.parseDate(val); return
+			 * ZonedDateTime.ofInstant(cal.getTime().toInstant(), cal
+			 * .getTimeZone().toZoneId());
+			 */
 		}
 
 		/*
@@ -977,14 +983,14 @@ public class VariableRegistry implements IVariableRegistry, IScriptable,
 			if (cal == null) {
 				return false;
 			}
-			save(DateHelper.toDateString(cal));
+			save(DateHelper.toDateString(((GregorianCalendar) cal)
+					.toZonedDateTime()));
 			return true;
 		}
 
 		@Override
 		public String toString() {
-			final Calendar cal = getValue();
-			return DateHelper.toDateString(cal);
+			return DateHelper.toDateString(getValue());
 		}
 	}
 

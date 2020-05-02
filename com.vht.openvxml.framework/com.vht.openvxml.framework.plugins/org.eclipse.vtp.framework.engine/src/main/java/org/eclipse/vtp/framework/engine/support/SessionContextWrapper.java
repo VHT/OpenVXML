@@ -11,7 +11,7 @@
  -------------------------------------------------------------------------*/
 package org.eclipse.vtp.framework.engine.support;
 
-import java.util.Date;
+import java.time.ZonedDateTime;
 import java.util.Dictionary;
 
 import org.eclipse.vtp.framework.core.ISessionContext;
@@ -450,7 +450,7 @@ public abstract class SessionContextWrapper implements ISessionContext {
 	 * @see org.eclipse.vtp.framework.core.ISessionContext#getSessionStartTime()
 	 */
 	@Override
-	public Date getSessionStartTime() {
+	public ZonedDateTime getSessionStartTime() {
 		return getSessionContext().getSessionStartTime();
 	}
 

@@ -97,10 +97,9 @@ public class DateContent extends FormattableContent {
 		for (String date : dates) {
 			printDate(date);
 		}
-		Calendar cal = Calendar.getInstance();
-		System.out.println(DateHelper.toDateString(cal));
-		System.out.println(DateFormat.getDateTimeInstance().format(
-				cal.getTime()));
+		ZonedDateTime zdt = ZonedDateTime.now();
+		System.out.println(DateHelper.toDateString(zdt));
+		System.out.println(DateFormat.getDateTimeInstance().format(zdt));
 	}
 
 	public static void printDate(String date) {

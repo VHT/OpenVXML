@@ -17,8 +17,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URL;
 import java.text.DateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -108,15 +108,13 @@ public class Activator extends AbstractReporter implements BundleActivator,
 		// Create the line prefix.
 		StringBuffer buffer = new StringBuffer(REPORT_LEVELS[Math.max(0,
 				Math.min(REPORT_LEVELS.length - 1, severity - 1))]);
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(new Date());
-		buffer.append('|').append(calendar.get(Calendar.YEAR));
-		buffer.append('/').append(format(calendar.get(Calendar.MONTH) + 1, 2));
-		buffer.append('/').append(format(calendar.get(Calendar.DATE), 2));
-		buffer.append('|')
-				.append(format(calendar.get(Calendar.HOUR_OF_DAY), 2));
-		buffer.append(':').append(format(calendar.get(Calendar.MINUTE), 2));
-		buffer.append(':').append(format(calendar.get(Calendar.SECOND), 2));
+		ZonedDateTime zdt = ZonedDateTime.now();
+		buffer.append('|').append(zdt.getYear());
+		buffer.append('/').append(format(zdt.getMonthValue(), 2));
+		buffer.append('/').append(format(zdt.getDayOfMonth(), 2));
+		buffer.append('|').append(format(zdt.getHour(), 2));
+		buffer.append(':').append(format(zdt.getMinute(), 2));
+		buffer.append(':').append(format(zdt.getSecond(), 2));
 		Object id = properties.remove("process.id"); //$NON-NLS-1$
 		if (id != null) {
 			buffer.append('|').append("p=").append(id); //$NON-NLS-1$
@@ -234,6 +232,8 @@ public class Activator extends AbstractReporter implements BundleActivator,
 	@Override
 	protected void doReport(int severity, String[] categories, String message,
 			Dictionary properties) {
+		DateTimeFormatter format = DateTimeFormatter
+				.ofPattern("dd MMM, y h:mm:ss a");
 		Object[] reporters = this.reporters.getServices();
 		if (properties == null) {
 			properties = new Hashtable();
@@ -246,7 +246,7 @@ public class Activator extends AbstractReporter implements BundleActivator,
 			properties.put("type", type = "report"); //$NON-NLS-1$ //$NON-NLS-2$
 			if (properties.get("time") == null) {
 				properties.put("time", //$NON-NLS-1$
-						DateFormat.getDateTimeInstance().format(new Date()));
+						ZonedDateTime.now().format(format));
 			}
 			if (reporters != null) {
 				for (Object reporter : reporters) {

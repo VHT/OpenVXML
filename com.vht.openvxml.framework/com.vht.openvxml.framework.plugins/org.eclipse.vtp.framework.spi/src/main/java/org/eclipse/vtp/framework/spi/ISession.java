@@ -11,7 +11,7 @@
  -------------------------------------------------------------------------*/
 package org.eclipse.vtp.framework.spi;
 
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 /**
  * A collection of executions of the steps in a process.
@@ -31,7 +31,7 @@ public interface ISession {
 	 * 
 	 * @return The start time of the session being described.
 	 */
-	Date getSessionStartTime();
+	ZonedDateTime getSessionStartTime();
 
 	/**
 	 * Looks up the service selected for the specified identifier or

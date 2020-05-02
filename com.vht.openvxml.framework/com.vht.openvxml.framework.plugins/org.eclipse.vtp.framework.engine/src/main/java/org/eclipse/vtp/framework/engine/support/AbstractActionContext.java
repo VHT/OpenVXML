@@ -11,8 +11,8 @@
  -------------------------------------------------------------------------*/
 package org.eclipse.vtp.framework.engine.support;
 
+import java.time.ZonedDateTime;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Dictionary;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -181,7 +181,7 @@ public abstract class AbstractActionContext extends AbstractContext implements
 	 * @see org.eclipse.vtp.framework.core.ISessionContext#getSessionStartTime()
 	 */
 	@Override
-	public final Date getSessionStartTime() {
+	public final ZonedDateTime getSessionStartTime() {
 		return executionContext.getSessionStartTime();
 	}
 

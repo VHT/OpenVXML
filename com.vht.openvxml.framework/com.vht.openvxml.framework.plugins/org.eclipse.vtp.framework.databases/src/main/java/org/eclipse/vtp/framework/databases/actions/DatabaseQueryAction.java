@@ -18,8 +18,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.ZoneId;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.LinkedHashMap;
@@ -411,7 +411,8 @@ public class DatabaseQueryAction implements IAction {
 						.booleanValue());
 			} else if (value instanceof IDateObject) {
 				statement.setTimestamp(index, new Timestamp(
-						((IDateObject) value).getValue().getTime().getTime()));
+						((IDateObject) value).getValue().toInstant()
+								.toEpochMilli()));
 			} else if (value instanceof IDecimalObject) {
 				statement.setBigDecimal(index,
 						((IDecimalObject) value).getValue());
@@ -494,14 +495,13 @@ public class DatabaseQueryAction implements IAction {
 				((IBooleanObject) target).setValue(data);
 			} else if (target instanceof IDateObject) {
 				if (data instanceof java.sql.Date) {
-					((IDateObject) target).setValue(new Date(
-							((java.sql.Date) data).getTime()));
+					((IDateObject) target).setValue(((java.sql.Date) data)
+							.toLocalDate().atStartOfDay(ZoneId.systemDefault())
+							.toInstant().toEpochMilli());
 				} else if (data instanceof Time) {
-					((IDateObject) target).setValue(new Date(((Time) data)
-							.getTime()));
+					((IDateObject) target).setValue(((Time) data).toInstant());
 				} else if (data instanceof Timestamp) {
-					((IDateObject) target).setValue(new Date(((Timestamp) data)
-							.getTime()));
+					((IDateObject) target).setValue(((Time) data).toInstant());
 				} else {
 					((IDateObject) target).setValue(data);
 				}

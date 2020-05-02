@@ -11,7 +11,7 @@
  -------------------------------------------------------------------------*/
 package org.eclipse.vtp.framework.common;
 
-import java.util.Calendar;
+import java.time.ZonedDateTime;
 
 /**
  * Represents a dynamic date and/or time value.
@@ -27,6 +27,6 @@ public interface IDateObject extends IValueObject {
 	 * 
 	 * @return The current value of this data object.
 	 */
-	Calendar getValue();
+	ZonedDateTime getValue();
 
 }

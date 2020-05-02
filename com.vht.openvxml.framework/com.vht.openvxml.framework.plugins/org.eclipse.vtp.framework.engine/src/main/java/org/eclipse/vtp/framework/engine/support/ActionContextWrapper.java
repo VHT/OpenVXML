@@ -11,7 +11,7 @@
  -------------------------------------------------------------------------*/
 package org.eclipse.vtp.framework.engine.support;
 
-import java.util.Date;
+import java.time.ZonedDateTime;
 import java.util.Dictionary;
 
 import org.eclipse.vtp.framework.core.IActionContext;
@@ -451,7 +451,7 @@ public abstract class ActionContextWrapper implements IActionContext {
 	 * @see org.eclipse.vtp.framework.core.ISessionContext#getSessionStartTime()
 	 */
 	@Override
-	public Date getSessionStartTime() {
+	public ZonedDateTime getSessionStartTime() {
 		return getActionContext().getSessionStartTime();
 	}
 
