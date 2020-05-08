@@ -67,6 +67,7 @@ public class ResourceGroup implements IResourceManager,
 		this.path = path;
 		URL indexURL = bundle.getResource("files.index");
 		if (indexURL != null) {
+			System.out.println(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"));
 			if(!bundleList.containsKey(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"))){
 				bundleList.put(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"), true);
 			}
@@ -151,9 +152,12 @@ public class ResourceGroup implements IResourceManager,
 									break;
 								} catch (Exception e) {
 									if (logging == ExternalServerManager.Logging.ALWAYS || (logging == ExternalServerManager.Logging.FIRSTFAILURE && bundleList.get(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")))){
+										System.out.println(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name") + "server status "+ server.lastStatus());
 										switch (logging) {
 										case FIRSTFAILURE:
 											if (!server.lastStatus()) {
+												System.out
+														.println(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")+ " in break");
 												break;
 											}
 										case ALWAYS:
