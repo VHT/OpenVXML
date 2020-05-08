@@ -155,11 +155,8 @@ public class ResourceGroup implements IResourceManager,
 										System.out.println(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name") + "server status "+ server.lastStatus());
 										switch (logging) {
 										case FIRSTFAILURE:
-											if (!server.lastStatus()) {
 												System.out
 														.println(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")+ " in break");
-												break;
-											}
 										case ALWAYS:
 											System.out
 													.println("Unable to connect to external media server @ "
