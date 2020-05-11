@@ -2,6 +2,10 @@ package org.eclipse.vtp.framework.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.TimeZone;
 
@@ -12,7 +16,7 @@ public class DateHelper {
 			"H:mm:ss z", "h:mm:ss a", "H:mm:ss", "h:mm a z", "H:mm z",
 			"h:mm a", "H:mm" };
 
-	public static Calendar parseDate(String dateString) {
+	public static ZonedDateTime parseDate(String dateString) {
 		Calendar cal = parseDate0(dateString);
 		if (cal != null) {
 			int index = dateString.indexOf("GMT");
@@ -22,7 +26,8 @@ public class DateHelper {
 				cal.setTimeZone(tzOffset);
 			}
 		}
-		return cal;
+		return LocalDateTime.ofInstant(cal.toInstant(), ZoneId.systemDefault())
+				.atZone(ZoneId.systemDefault());
 	}
 
 	private static Calendar parseDate0(String dateString) {
@@ -56,10 +61,9 @@ public class DateHelper {
 		return null;
 	}
 
-	public static String toDateString(Calendar cal) {
-		SimpleDateFormat sdf = new SimpleDateFormat(datePatterns[0] + " "
-				+ timePatterns[0]);
-		sdf.setTimeZone(cal.getTimeZone());
-		return sdf.format(cal.getTime());
+	public static String toDateString(ZonedDateTime zdt) {
+		DateTimeFormatter formatter = DateTimeFormatter
+				.ofPattern(datePatterns[2] + " " + timePatterns[5]);
+		return zdt.format(formatter);
 	}
 }

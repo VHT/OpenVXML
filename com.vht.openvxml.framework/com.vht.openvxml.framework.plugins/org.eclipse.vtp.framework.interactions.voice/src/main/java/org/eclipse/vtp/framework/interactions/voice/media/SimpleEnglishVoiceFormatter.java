@@ -13,16 +13,17 @@ package org.eclipse.vtp.framework.interactions.voice.media;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Currency;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 
 import org.eclipse.vtp.framework.interactions.core.media.Content;
 import org.eclipse.vtp.framework.interactions.core.media.DateContent;
@@ -53,9 +54,6 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 	private static final String[] months = new String[] { "january",
 			"february", "march", "april", "may", "june", "july", "august",
 			"september", "october", "november", "december" };
-	/** Array of day names. The index is 0 based. */
-	private static final String[] days = new String[] { "sunday", "monday",
-			"tuesday", "wednesday", "thursday", "friday", "saturday", "sunday" };
 
 	private static final Map<Character, String[]> characterReplacements = new HashMap<Character, String[]>();
 
@@ -121,49 +119,50 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 	 * 
 	 * @see
 	 * org.eclipse.vtp.framework.interactions.core.media.IFormatter#formatDate
-	 * (java.util.Date, java.lang.String,
+	 * (java.time.ZonedDateTime, java.lang.String,
 	 * org.eclipse.vtp.framework.interactions.core.media.IResourceManager)
 	 */
+	/*
+	 * @Override public List<Content> formatDate(Date date, String
+	 * formatDefinition, String formatOptions, IResourceManager resourceManager)
+	 * { ZonedDateTime zdt = ZonedDateTime.ofInstant(date.toInstant(),
+	 * ZoneId.systemDefault()); return formatDate(zdt, formatDefinition,
+	 * formatOptions, resourceManager); }
+	 */
 	@Override
-	public List<Content> formatDate(Date date, String formatDefinition,
-			String formatOptions, IResourceManager resourceManager) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(date);
-		return formatDate(cal, formatDefinition, formatOptions, resourceManager);
-	}
-
-	@Override
-	public List<Content> formatDate(Calendar cal, String formatDefinition,
+	public List<Content> formatDate(ZonedDateTime zdt, String formatDefinition,
 			String formatOptions, IResourceManager resourceManager) {
 		List<Content> ret = new ArrayList<Content>();
 		if (formatDefinition == null || formatDefinition.equals("")) {
 			TextContent tc = new TextContent();
 			DateFormat df = DateFormat.getDateTimeInstance();
-			df.setTimeZone(cal.getTimeZone());
-			tc.setStaticText(df.format(cal.getTime()) + " ");
+			df.setTimeZone(TimeZone.getTimeZone(zdt.getZone()));
+			DateTimeFormatter format = DateTimeFormatter
+					.ofPattern("E MMM dd HH:mm:ss z y");
+			tc.setStaticText(df.format(zdt.format(format)) + " ");
 			ret.add(tc);
 		} else if (formatDefinition.equals("Short Date")
 				|| formatDefinition.equals("Default")) {
-			ret.addAll(formatNumber(cal.get(Calendar.MONTH) + 1, "Default", "",
+			ret.addAll(formatNumber(zdt.getMonthValue(), "Default", "",
 					resourceManager));
-			ret.addAll(formatOrdinal(cal.get(Calendar.DATE), "Default", "",
+			ret.addAll(formatOrdinal(zdt.getDayOfMonth(), "Default", "",
 					resourceManager));
-			ret.addAll(formatYear(Integer.toString(cal.get(Calendar.YEAR)),
+			ret.addAll(formatYear(Integer.toString(zdt.getYear()),
 					resourceManager));
 		} else if (formatDefinition.equals("Long Date")) {
 			ret.add(getAudioContent(resourceManager, "/Months/",
-					months[cal.get(Calendar.MONTH)],
-					months[cal.get(Calendar.MONTH)]));
-			ret.addAll(formatOrdinal(cal.get(Calendar.DATE), "Default", "",
+					months[zdt.getMonthValue() - 1],
+					months[zdt.getMonthValue() - 1]));
+			ret.addAll(formatOrdinal(zdt.getDayOfMonth(), "Default", "",
 					resourceManager));
-			ret.addAll(formatYear(Integer.toString(cal.get(Calendar.YEAR)),
+			ret.addAll(formatYear(Integer.toString(zdt.getYear()),
 					resourceManager));
 		} else if (formatDefinition.equals("Short Time")) {
-			int hour = cal.get(Calendar.HOUR);
+			int hour = zdt.getHour() > 12 ? zdt.getHour() - 12 : zdt.getHour();
 			ret.addAll(formatNumber(hour == 0 ? 12 : hour, "Default", "",
 					resourceManager));
 
-			int minute = cal.get(Calendar.MINUTE);
+			int minute = zdt.getMinute();
 			if (minute > 0 && minute < 10) {
 				ret.addAll(formatLetters("O", "Default", "", resourceManager));
 				ret.addAll(formatNumber(minute, "Default", "", resourceManager));
@@ -171,17 +170,17 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 				ret.addAll(formatNumber(minute, "Default", "", resourceManager));
 			}
 
-			if (cal.get(Calendar.AM_PM) == 0) {
+			if ((zdt.getHour() > 12 ? 1 : 0) == 0) {
 				ret.addAll(formatLetters("AM", "Default", "", resourceManager));
 			} else {
 				ret.addAll(formatLetters("PM", "Default", "", resourceManager));
 			}
 		} else if (formatDefinition.equals("Long Time")) {
-			int hour = cal.get(Calendar.HOUR);
+			int hour = zdt.getHour() > 12 ? zdt.getHour() - 12 : zdt.getHour();
 			ret.addAll(formatNumber(hour == 0 ? 12 : hour, "Default", "",
 					resourceManager));
 
-			int minute = cal.get(Calendar.MINUTE);
+			int minute = zdt.getMinute();
 			if (minute > 0 && minute < 10) {
 				ret.addAll(formatLetters("O", "Default", "", resourceManager));
 				ret.addAll(formatNumber(minute, "Default", "", resourceManager));
@@ -189,24 +188,25 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 				ret.addAll(formatNumber(minute, "Default", "", resourceManager));
 			}
 
-			if (cal.get(Calendar.AM_PM) == 0) {
+			if ((zdt.getHour() > 12 ? 1 : 0) == 0) {
 				ret.addAll(formatLetters("AM", "Default", "", resourceManager));
 			} else {
 				ret.addAll(formatLetters("PM", "Default", "", resourceManager));
 			}
 		} else if (formatDefinition.equals("Short Date Time")) {
-			ret.addAll(formatNumber(cal.get(Calendar.MONTH) + 1, "Default", "",
+			ret.addAll(formatNumber(zdt.getMonthValue(), "Default", "",
 					resourceManager));
-			ret.addAll(formatOrdinal(cal.get(Calendar.DATE), "Default", "",
+			ret.addAll(formatOrdinal(zdt.getDayOfMonth(), "Default", "",
 					resourceManager));
-			ret.addAll(formatYear(Integer.toString(cal.get(Calendar.YEAR)),
+			ret.addAll(formatYear(Integer.toString(zdt.getYear()),
 					resourceManager));
 
-			int hour = cal.get(Calendar.HOUR);
+			int hour = zdt.getHour() > 12 ? zdt.getHour() - 12 : zdt.getHour();
 			ret.addAll(formatNumber(hour == 0 ? 12 : hour, "Default", "",
 					resourceManager));
 
-			int minute = cal.get(Calendar.MINUTE);
+			int minute = zdt.getMinute();
+			;
 			if (minute > 0 && minute < 10) {
 				ret.addAll(formatLetters("O", "Default", "", resourceManager));
 				ret.addAll(formatNumber(minute, "Default", "", resourceManager));
@@ -214,25 +214,26 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 				ret.addAll(formatNumber(minute, "Default", "", resourceManager));
 			}
 
-			if (cal.get(Calendar.AM_PM) == 0) {
+			if ((zdt.getHour() > 12 ? 1 : 0) == 0) {
 				ret.addAll(formatLetters("AM", "Default", "", resourceManager));
 			} else {
 				ret.addAll(formatLetters("PM", "Default", "", resourceManager));
 			}
 		} else if (formatDefinition.equals("Long Date Time")) {
 			ret.add(getAudioContent(resourceManager, "/Months/",
-					months[cal.get(Calendar.MONTH)],
-					months[cal.get(Calendar.MONTH)]));
-			ret.addAll(formatOrdinal(cal.get(Calendar.DATE), "Default", "",
+					months[zdt.getMonthValue() - 1],
+					months[zdt.getMonthValue() - 1]));
+			ret.addAll(formatOrdinal(zdt.getDayOfMonth(), "Default", "",
 					resourceManager));
-			ret.addAll(formatYear(Integer.toString(cal.get(Calendar.YEAR)),
+			ret.addAll(formatYear(Integer.toString(zdt.getYear()),
 					resourceManager));
 
-			int hour = cal.get(Calendar.HOUR);
+			int hour = zdt.getHour() > 12 ? zdt.getHour() - 12 : zdt.getHour();
 			ret.addAll(formatNumber(hour == 0 ? 12 : hour, "Default", "",
 					resourceManager));
 
-			int minute = cal.get(Calendar.MINUTE);
+			int minute = zdt.getMinute();
+			;
 			if (minute > 0 && minute < 10) {
 				ret.addAll(formatLetters("O", "Default", "", resourceManager));
 				ret.addAll(formatNumber(minute, "Default", "", resourceManager));
@@ -240,18 +241,18 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 				ret.addAll(formatNumber(minute, "Default", "", resourceManager));
 			}
 
-			if (cal.get(Calendar.AM_PM) == 0) {
+			if ((zdt.getHour() > 12 ? 1 : 0) == 0) {
 				ret.addAll(formatLetters("AM", "Default", "", resourceManager));
 			} else {
 				ret.addAll(formatLetters("PM", "Default", "", resourceManager));
 			}
 		} else if (formatDefinition.equals("Day of Week")) {
-			int calYear = cal.get(Calendar.YEAR);
-			int calDay = cal.get(Calendar.DAY_OF_YEAR);
-			int calHour = cal.get(Calendar.HOUR_OF_DAY);
-			Calendar now = Calendar.getInstance(cal.getTimeZone());
-			int nowYear = now.get(Calendar.YEAR);
-			int nowDay = now.get(Calendar.DAY_OF_YEAR);
+			int calYear = zdt.getYear();
+			int calDay = zdt.getDayOfYear();
+			int calHour = zdt.getHour();
+			ZonedDateTime now = ZonedDateTime.now(zdt.getZone());
+			int nowYear = now.getYear();
+			int nowDay = now.getDayOfYear();
 			Set<String> options = new HashSet<String>(
 					Arrays.asList(formatOptions.split(",")));
 			if (calYear == nowYear && calDay == nowDay) {
@@ -274,17 +275,17 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 								"today", "today"));
 					} else {
 						ret.add(getAudioContent(resourceManager, "/DayOfWeek/",
-								days[cal.get(Calendar.DAY_OF_WEEK) - 1],
-								days[cal.get(Calendar.DAY_OF_WEEK) - 1]));
+								zdt.getDayOfWeek().toString().toLowerCase(),
+								zdt.getDayOfWeek().toString().toLowerCase()));
 					}
 				}
 			} else {
 				int distance = 1;
-				Calendar search = (Calendar) now.clone();
+				ZonedDateTime search = now;
 				while (distance < 14) {
-					search.add(Calendar.DAY_OF_MONTH, 1);
-					if (calYear == search.get(Calendar.YEAR)
-							&& calDay == search.get(Calendar.DAY_OF_YEAR)) {
+					search.plusDays(1);
+					if (calYear == search.getYear()
+							&& calDay == search.getDayOfYear()) {
 						break;
 					}
 					++distance;
@@ -293,27 +294,28 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 					ret.add(getAudioContent(resourceManager, "/DayOfWeek/",
 							"tomorrow", "tomorrow"));
 				} else if (distance < 7) {
-					ret.add(getAudioContent(resourceManager, "/DayOfWeek/",
-							days[cal.get(Calendar.DAY_OF_WEEK) - 1],
-							days[cal.get(Calendar.DAY_OF_WEEK) - 1]));
+					ret.add(getAudioContent(resourceManager, "/DayOfWeek/", zdt
+							.getDayOfWeek().toString().toLowerCase(), zdt
+							.getDayOfWeek().toString().toLowerCase()));
 				} else if (distance < 14 && options.contains("next")) {
 					ret.add(getAudioContent(resourceManager, "/DayOfWeek/",
 							"next", "next"));
-					ret.add(getAudioContent(resourceManager, "/DayOfWeek/",
-							days[cal.get(Calendar.DAY_OF_WEEK) - 1],
-							days[cal.get(Calendar.DAY_OF_WEEK) - 1]));
+					ret.add(getAudioContent(resourceManager, "/DayOfWeek/", zdt
+							.getDayOfWeek().toString().toLowerCase(), zdt
+							.getDayOfWeek().toString().toLowerCase()));
 				} else {
-					formatDate(cal, "Short Date", "", resourceManager);
+					formatDate(zdt, "Short Date", "", resourceManager);
 				}
 			}
 		} else if (formatDefinition.equals("Hour of Day")) {
 			Set<String> options = new HashSet<String>(
 					Arrays.asList(formatOptions.split(",")));
-			int hour = cal.get(Calendar.HOUR);
+			int hour = zdt.getHour() > 12 ? zdt.getHour() - 12 : zdt.getHour();
 			ret.addAll(formatNumber(hour == 0 ? 12 : hour, "Default", "",
 					resourceManager));
 			if (options.contains("minutes")) {
-				int minute = cal.get(Calendar.MINUTE);
+				int minute = zdt.getMinute();
+				;
 				if (minute > 0 && minute < 10) {
 					ret.addAll(formatLetters("O", "Default", "",
 							resourceManager));
@@ -324,7 +326,7 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 							resourceManager));
 				}
 			}
-			if (cal.get(Calendar.AM_PM) == 0) {
+			if ((zdt.getHour() > 12 ? 1 : 0) == 0) {
 				ret.addAll(formatLetters("AM", "Default", "", resourceManager));
 			} else {
 				ret.addAll(formatLetters("PM", "Default", "", resourceManager));

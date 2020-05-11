@@ -11,7 +11,7 @@
  -------------------------------------------------------------------------*/
 package org.eclipse.vtp.framework.javascript;
 
-import java.util.Calendar;
+import java.time.ZonedDateTime;
 
 import org.eclipse.vtp.framework.common.IScriptable;
 import org.mozilla.javascript.BaseFunction;
@@ -55,7 +55,7 @@ public class JavaScriptObject extends ScriptableObject implements Wrapper {
 		if (object instanceof IScriptable) {
 			return new JavaScriptObject((IScriptable) object);
 		}
-		if (object instanceof Calendar) {
+		if (object instanceof ZonedDateTime) {
 			return object;
 		}
 		return Context.javaToJS(object, start);
@@ -75,7 +75,7 @@ public class JavaScriptObject extends ScriptableObject implements Wrapper {
 		if (object.equals(Context.getUndefinedValue())) {
 			return null;
 		}
-		if (object instanceof Calendar) {
+		if (object instanceof ZonedDateTime) {
 			return object;
 		}
 		if (object instanceof JavaScriptObject) {

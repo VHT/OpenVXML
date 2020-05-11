@@ -1,7 +1,7 @@
 package org.eclipse.vtp.framework.interactions.voice.media;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
+import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -86,10 +86,9 @@ public abstract class VoiceFormatter implements IFormatter {
 	}
 
 	@Override
-	public List<Content> formatDate(Calendar cal, String formatDefinition,
+	public List<Content> formatDate(ZonedDateTime zdt, String formatDefinition,
 			String formatOptions, IResourceManager resourceManager) {
-		return formatDate(cal.getTime(), formatDefinition, formatOptions,
-				resourceManager);
+		return formatDate(zdt, formatDefinition, formatOptions, resourceManager);
 	}
 
 	/*

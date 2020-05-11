@@ -12,9 +12,8 @@
 package org.eclipse.vtp.framework.interactions.core.media;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
+import java.time.ZonedDateTime;
 import java.util.Currency;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -62,31 +61,7 @@ public interface IFormatter {
 	 *         <code>org.eclipse.vtp.framework.interactions.core.media.Content</code>
 	 *         objects that contain the formatted elements of the provided date.
 	 */
-	List<Content> formatDate(Date date, String formatDefinition,
-			String formatOptions, IResourceManager resourceManager);
-
-	/**
-	 * Transforms the supplied date information into a language specific
-	 * sequence of elements following the given definition using the provided
-	 * resource manager to locate file resources.<br>
-	 * <br>
-	 * If the definition is not recognized or invalid, the default definition
-	 * should be used. This event may be logged but should never produce an
-	 * exception.
-	 *
-	 * @param date
-	 *            The date to translate to text.
-	 * @param formatDefinition
-	 *            The provided specialized format to use during transformation.
-	 * @param formatOptions
-	 *            TODO
-	 * @param resourceManager
-	 *            Provides access to the available file resources.
-	 * @return A list of
-	 *         <code>org.eclipse.vtp.framework.interactions.core.media.Content</code>
-	 *         objects that contain the formatted elements of the provided date.
-	 */
-	List<Content> formatDate(Calendar date, String formatDefinition,
+	List<Content> formatDate(ZonedDateTime zdt, String formatDefinition,
 			String formatOptions, IResourceManager resourceManager);
 
 	/**

@@ -12,6 +12,8 @@
 package org.eclipse.vtp.framework.interactions.core.media;
 
 import java.text.DateFormat;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,13 +36,14 @@ public class DateContent extends FormattableContent {
 		return "DATE"; //$NON-NLS-1$
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public List format(IFormatter formatter, IMediaProvider mediaProvider) {
 		List ret = new LinkedList();
 		if (getValueType() != VARIABLE_VALUE) {
-			Calendar date = DateHelper.parseDate(getValue());
-			if (date != null) {
-				ret.addAll(formatter.formatDate(date, mediaProvider
+			ZonedDateTime zdt = DateHelper.parseDate(getValue());
+			if (zdt != null) {
+				ret.addAll(formatter.formatDate(zdt, mediaProvider
 						.getFormatManager().getFormat(this, getFormatName()),
 						getFormatOptions(), mediaProvider.getResourceManager()));
 			} else {
@@ -94,20 +97,17 @@ public class DateContent extends FormattableContent {
 		for (String date : dates) {
 			printDate(date);
 		}
-		Calendar cal = Calendar.getInstance();
-		System.out.println(DateHelper.toDateString(cal));
-		System.out.println(DateFormat.getDateTimeInstance().format(
-				cal.getTime()));
+		ZonedDateTime zdt = ZonedDateTime.now();
+		System.out.println(DateHelper.toDateString(zdt));
+		System.out.println(DateFormat.getDateTimeInstance().format(zdt));
 	}
 
 	public static void printDate(String date) {
-		Calendar cal = DateHelper.parseDate(date);
-		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
-				DateFormat.LONG);
-		System.out.println(cal.getTimeZone());
-		System.out.println(df.format(cal.getTime()));
-		df.setTimeZone(cal.getTimeZone());
-		System.out.println(df.format(cal.getTime()));
-		System.out.println(DateHelper.toDateString(cal));
+		ZonedDateTime zdt = DateHelper.parseDate(date);
+		// System.out.println(cal.getTimeZone());
+		System.out.println(zdt.getZone());
+		System.out.println(zdt);
+		System.out.println(zdt.format(DateTimeFormatter.ISO_LOCAL_TIME));
+		System.out.println(zdt.format(DateTimeFormatter.ISO_LOCAL_DATE));
 	}
 }

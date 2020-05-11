@@ -5,7 +5,8 @@ Bundle-SymbolicName: org.eclipse.vtp.framework.databases;singleton:=true
 Bundle-Version: 6.0.0.qualifier
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.vtp.framework.core;bundle-version="6.0.0",
- org.eclipse.vtp.framework.common;bundle-version="6.0.0"
+ org.eclipse.vtp.framework.common;bundle-version="6.0.0",
+ org.eclipse.vtp.framework.util;bundle-version="6.0.0"
 Export-Package: org.eclipse.vtp.framework.databases,
  org.eclipse.vtp.framework.databases.actions,
  org.eclipse.vtp.framework.databases.configurations,
