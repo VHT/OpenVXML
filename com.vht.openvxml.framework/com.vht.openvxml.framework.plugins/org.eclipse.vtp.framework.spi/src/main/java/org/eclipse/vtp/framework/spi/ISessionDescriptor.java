@@ -11,7 +11,7 @@
  -------------------------------------------------------------------------*/
 package org.eclipse.vtp.framework.spi;
 
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 /**
  * The descriptor for a session in the process engine.
@@ -31,7 +31,7 @@ public interface ISessionDescriptor {
 	 * 
 	 * @return The start time of the session being described.
 	 */
-	Date getSessionStartTime();
+	ZonedDateTime getSessionStartTime();
 
 	/**
 	 * Returns the identifiers of all the externally-provided services.

@@ -11,8 +11,8 @@
  -------------------------------------------------------------------------*/
 package org.eclipse.vtp.framework.engine.runtime;
 
+import java.time.ZonedDateTime;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Set;
 
 import org.eclipse.vtp.framework.engine.support.AbstractSessionContext;
@@ -81,7 +81,7 @@ public class Session extends Scope implements ISession {
 	 * @see org.eclipse.vtp.framework.spi.ISession#getSessionStartTime()
 	 */
 	@Override
-	public Date getSessionStartTime() {
+	public ZonedDateTime getSessionStartTime() {
 		return context.getSessionStartTime();
 	}
 

@@ -11,7 +11,7 @@
  -------------------------------------------------------------------------*/
 package org.eclipse.vtp.framework.core;
 
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 /**
  * A service available to all services at any scope except the process scope.
@@ -31,7 +31,7 @@ public interface ISessionContext extends IProcessContext {
 	 * 
 	 * @return The start time of the current session.
 	 */
-	Date getSessionStartTime();
+	ZonedDateTime getSessionStartTime();
 
 	/**
 	 * Returns the names of all the session-level attributes currently
