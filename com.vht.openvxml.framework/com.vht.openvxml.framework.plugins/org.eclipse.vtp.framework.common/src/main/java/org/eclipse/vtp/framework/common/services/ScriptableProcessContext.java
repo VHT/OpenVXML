@@ -15,25 +15,21 @@ import org.eclipse.vtp.framework.common.IScriptable;
 import org.eclipse.vtp.framework.core.IProcessContext;
 
 /**
- * An {@link IScriptable} implementation that makes the {@link IProcessContext}
- * instance available as a scripting object.
- * 
+ * An {@link IScriptable} implementation that makes the {@link IProcessContext} instance available
+ * as a scripting object.
  * <p>
- * This service will make available a "Process" object to all scripts in its
- * scope. The variable supports the following properties:
+ * This service will make available a "Process" object to all scripts in its scope. The variable
+ * supports the following properties:
  * <ul>
  * <li><code>id</code>: a string containing the process ID</li>
- * <li><code>properties</code>: an object containing the process configuration
- * properties</li>
+ * <li><code>properties</code>: an object containing the process configuration properties</li>
  * </ul>
- * The properties object listed above will have a property for each
- * configuration property defined in the process context. The properties object
- * will not have an implicit value.
+ * The properties object listed above will have a property for each configuration property defined
+ * in the process context. The properties object will not have an implicit value.
  * </p>
- * 
  * <p>
- * The "Process" scripting object uses the process ID as the implicit value,
- * thus it can be compared to other string objects.
+ * The "Process" scripting object uses the process ID as the implicit value, thus it can be compared
+ * to other string objects.
  * </p>
  * 
  * @author Lonnie Pryor
@@ -48,9 +44,7 @@ public class ScriptableProcessContext implements IScriptable {
 	private final class ScriptableProperties implements IScriptable {
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearEntry(
-		 * java.lang.String)
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearEntry( java.lang.String)
 		 */
 		@Override
 		public boolean clearEntry(String name) {
@@ -59,9 +53,7 @@ public class ScriptableProcessContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.vtp.framework.spi.scripting.IScriptable#clearItem(int)
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearItem(int)
 		 */
 		@Override
 		public boolean clearItem(int index) {
@@ -70,9 +62,7 @@ public class ScriptableProcessContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getEntry(
-		 * java.lang.String)
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getEntry( java.lang.String)
 		 */
 		@Override
 		public Object getEntry(String name) {
@@ -81,9 +71,7 @@ public class ScriptableProcessContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#
-		 * getFunctionNames()
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable# getFunctionNames()
 		 */
 		@Override
 		public String[] getFunctionNames() {
@@ -92,7 +80,6 @@ public class ScriptableProcessContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getItem(int)
 		 */
 		@Override
@@ -102,7 +89,6 @@ public class ScriptableProcessContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getName()
 		 */
 		@Override
@@ -117,9 +103,7 @@ public class ScriptableProcessContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasEntry(
-		 * java.lang.String)
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasEntry( java.lang.String)
 		 */
 		@Override
 		public boolean hasEntry(String name) {
@@ -128,7 +112,6 @@ public class ScriptableProcessContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasItem(int)
 		 */
 		@Override
@@ -138,7 +121,6 @@ public class ScriptableProcessContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasValue()
 		 */
 		@Override
@@ -148,9 +130,7 @@ public class ScriptableProcessContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.vtp.framework.spi.scripting.IScriptable#invokeFunction(
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#invokeFunction(
 		 * java.lang.String, java.lang.Object[])
 		 */
 		@Override
@@ -166,9 +146,8 @@ public class ScriptableProcessContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setEntry(
-		 * java.lang.String, java.lang.Object)
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setEntry( java.lang.String,
+		 * java.lang.Object)
 		 */
 		@Override
 		public boolean setEntry(String name, Object value) {
@@ -177,9 +156,7 @@ public class ScriptableProcessContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setItem(int,
-		 * java.lang.Object)
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setItem(int, java.lang.Object)
 		 */
 		@Override
 		public boolean setItem(int index, Object value) {
@@ -188,7 +165,6 @@ public class ScriptableProcessContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#toValue()
 		 */
 		@Override
@@ -206,8 +182,7 @@ public class ScriptableProcessContext implements IScriptable {
 	/**
 	 * Creates a new ScriptableProcessContext.
 	 * 
-	 * @param context
-	 *            The context to provide scripting services for.
+	 * @param context The context to provide scripting services for.
 	 */
 	public ScriptableProcessContext(IProcessContext context) {
 		this.context = context;
@@ -215,9 +190,7 @@ public class ScriptableProcessContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearEntry(
-	 * java.lang.String)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearEntry( java.lang.String)
 	 */
 	@Override
 	public final boolean clearEntry(String name) {
@@ -226,7 +199,6 @@ public class ScriptableProcessContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearItem(int)
 	 */
 	@Override
@@ -236,26 +208,18 @@ public class ScriptableProcessContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getEntry(
-	 * java.lang.String)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getEntry( java.lang.String)
 	 */
 	@Override
 	public final Object getEntry(String name) {
-		if ("id".equals(name)) {
-			return context.getProcessID();
-		}
-		if (properties.getName().equals(name)) {
-			return properties;
-		}
+		if ("id".equals(name)) { return context.getProcessID(); }
+		if (properties.getName().equals(name)) { return properties; }
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.spi.scripting.IScriptable#getFunctionNames()
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getFunctionNames()
 	 */
 	@Override
 	public final String[] getFunctionNames() {
@@ -264,7 +228,6 @@ public class ScriptableProcessContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getItem(int)
 	 */
 	@Override
@@ -274,7 +237,6 @@ public class ScriptableProcessContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getName()
 	 */
 	@Override
@@ -289,9 +251,7 @@ public class ScriptableProcessContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasEntry(
-	 * java.lang.String)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasEntry( java.lang.String)
 	 */
 	@Override
 	public final boolean hasEntry(String name) {
@@ -300,7 +260,6 @@ public class ScriptableProcessContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasItem(int)
 	 */
 	@Override
@@ -310,7 +269,6 @@ public class ScriptableProcessContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasValue()
 	 */
 	@Override
@@ -320,17 +278,14 @@ public class ScriptableProcessContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#invokeFunction(
-	 * java.lang.String, java.lang.Object[])
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#invokeFunction( java.lang.String,
+	 * java.lang.Object[])
 	 */
 	@Override
 	public final Object invokeFunction(String name, Object[] arguments) {
 		if ("loadClass".equals(name)) //$NON-NLS-1$
 		{
-			if (arguments.length != 1) {
-				return null;
-			}
+			if (arguments.length != 1) { return null; }
 			try {
 				return context.loadClass(arguments[0].toString());
 			} catch (final ClassNotFoundException e) {
@@ -348,9 +303,8 @@ public class ScriptableProcessContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setEntry(
-	 * java.lang.String, java.lang.Object)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setEntry( java.lang.String,
+	 * java.lang.Object)
 	 */
 	@Override
 	public final boolean setEntry(String name, Object value) {
@@ -359,9 +313,7 @@ public class ScriptableProcessContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setItem(int,
-	 * java.lang.Object)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setItem(int, java.lang.Object)
 	 */
 	@Override
 	public final boolean setItem(int index, Object value) {
@@ -370,7 +322,6 @@ public class ScriptableProcessContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#toValue()
 	 */
 	@Override

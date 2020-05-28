@@ -19,9 +19,8 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
 /**
- * The <code>Submit</code> class represents the &lt;submit&gt; VXML element.
- * This element acts exactly like the goto element, except that data can be
- * passed to the next document as well.
+ * The <code>Submit</code> class represents the &lt;submit&gt; VXML element. This element acts
+ * exactly like the goto element, except that data can be passed to the next document as well.
  * 
  * @author Trip Gilman
  * @author Lonnie Pryor
@@ -36,36 +35,26 @@ public class Submit extends Goto {
 	private final LinkedList<String> names = new LinkedList<String>();
 
 	/**
-	 * Creates a new Submit object that will transfer execution to the given
-	 * URI.
+	 * Creates a new Submit object that will transfer execution to the given URI.
 	 * 
-	 * @param targetURI
-	 *            URI of the next document to process.
-	 * @throws IllegalArgumentException
-	 *             If the supplied URI is empty.
-	 * @throws NullPointerException
-	 *             If the supplied URI is <code>null</code>.
+	 * @param targetURI URI of the next document to process.
+	 * @throws IllegalArgumentException If the supplied URI is empty.
+	 * @throws NullPointerException If the supplied URI is <code>null</code>.
 	 */
 	public Submit(String targetURI) {
 		super(targetURI);
 	}
 
 	/**
-	 * Creates a new Submit object that will transfer execution and pass the
-	 * specified variable values to the given URI.
+	 * Creates a new Submit object that will transfer execution and pass the specified variable
+	 * values to the given URI.
 	 * 
-	 * @param targetURI
-	 *            URI of the next document to process.
-	 * @param names
-	 *            List of variables to pass to the next document.
-	 * @throws IllegalArgumentException
-	 *             If the supplied URI is empty.
-	 * @throws IllegalArgumentException
-	 *             If any of the supplied names are empty.
-	 * @throws NullPointerException
-	 *             If the supplied URI is <code>null</code>.
-	 * @throws NullPointerException
-	 *             If any of the supplied names are <code>null</code>.
+	 * @param targetURI URI of the next document to process.
+	 * @param names List of variables to pass to the next document.
+	 * @throws IllegalArgumentException If the supplied URI is empty.
+	 * @throws IllegalArgumentException If any of the supplied names are empty.
+	 * @throws NullPointerException If the supplied URI is <code>null</code>.
+	 * @throws NullPointerException If any of the supplied names are <code>null</code>.
 	 */
 	public Submit(String targetURI, String[] names) {
 		super(targetURI);
@@ -106,20 +95,14 @@ public class Submit extends Goto {
 	/**
 	 * Sets the HTTP method to send data with.
 	 * 
-	 * @param method
-	 *            The HTTP method to send data with.
-	 * @throws IllegalArgumentException
-	 *             If the supplied method is empty.
-	 * @throws NullPointerException
-	 *             If the supplied method is <code>null</code>.
+	 * @param method The HTTP method to send data with.
+	 * @throws IllegalArgumentException If the supplied method is empty.
+	 * @throws NullPointerException If the supplied method is <code>null</code>.
 	 */
-	public void setMethod(String method) throws IllegalArgumentException,
-			NullPointerException {
-		if (method == null) {
-			throw new NullPointerException("method"); //$NON-NLS-1$
+	public void setMethod(String method) throws IllegalArgumentException, NullPointerException {
+		if (method == null) { throw new NullPointerException("method"); //$NON-NLS-1$
 		}
-		if (method.length() == 0) {
-			throw new IllegalArgumentException("method"); //$NON-NLS-1$
+		if (method.length() == 0) { throw new IllegalArgumentException("method"); //$NON-NLS-1$
 		}
 		this.method = method;
 	}
@@ -127,84 +110,64 @@ public class Submit extends Goto {
 	/**
 	 * Sets the encoding type for the parameters.
 	 * 
-	 * @param encodingType
-	 *            The encoding type for the parameters
-	 * @throws IllegalArgumentException
-	 *             If the supplied encoding type is empty.
+	 * @param encodingType The encoding type for the parameters
+	 * @throws IllegalArgumentException If the supplied encoding type is empty.
 	 */
-	public void setEncodingType(String encodingType)
-			throws IllegalArgumentException {
-		if (encodingType != null && encodingType.length() == 0) {
-			throw new IllegalArgumentException("encodingType"); //$NON-NLS-1$
+	public void setEncodingType(String encodingType) throws IllegalArgumentException {
+		if (encodingType != null && encodingType.length() == 0) { throw new IllegalArgumentException(
+				"encodingType"); //$NON-NLS-1$
 		}
 		this.encodingType = encodingType;
 	}
 
 	/**
-	 * Adds the variable name to the list of variables to pass to the next
-	 * document.
+	 * Adds the variable name to the list of variables to pass to the next document.
 	 * 
-	 * @param name
-	 *            The variable name to add.
-	 * @throws IllegalArgumentException
-	 *             If the supplied name is empty.
-	 * @throws NullPointerException
-	 *             If the supplied name is <code>null</code>.
+	 * @param name The variable name to add.
+	 * @throws IllegalArgumentException If the supplied name is empty.
+	 * @throws NullPointerException If the supplied name is <code>null</code>.
 	 */
 	public void addName(String name) {
-		if (name == null) {
-			throw new NullPointerException("name"); //$NON-NLS-1$
+		if (name == null) { throw new NullPointerException("name"); //$NON-NLS-1$
 		}
-		if (name.length() == 0) {
-			throw new IllegalArgumentException("name"); //$NON-NLS-1$
+		if (name.length() == 0) { throw new IllegalArgumentException("name"); //$NON-NLS-1$
 		}
 		names.add(name);
 	}
 
 	/**
-	 * Removes the variable name from the list of variables to pass to the next
-	 * document.
+	 * Removes the variable name from the list of variables to pass to the next document.
 	 * 
-	 * @param name
-	 *            The variable name to remove.
-	 * @throws IllegalArgumentException
-	 *             If the supplied name is empty.
-	 * @throws NullPointerException
-	 *             If the supplied name is <code>null</code>.
+	 * @param name The variable name to remove.
+	 * @throws IllegalArgumentException If the supplied name is empty.
+	 * @throws NullPointerException If the supplied name is <code>null</code>.
 	 */
 	public void removeName(String name) {
-		if (name == null) {
-			throw new NullPointerException("name"); //$NON-NLS-1$
+		if (name == null) { throw new NullPointerException("name"); //$NON-NLS-1$
 		}
-		if (name.length() == 0) {
-			throw new IllegalArgumentException("name"); //$NON-NLS-1$
+		if (name.length() == 0) { throw new IllegalArgumentException("name"); //$NON-NLS-1$
 		}
 		names.remove(name);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.core.output.Widget#writeWidget(
 	 * org.xml.sax.ContentHandler)
 	 */
 	@Override
-	public void writeWidget(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
-		if (outputHandler == null) {
-			throw new NullPointerException("outputHandler"); //$NON-NLS-1$
+	public void writeWidget(ContentHandler outputHandler) throws NullPointerException, SAXException {
+		if (outputHandler == null) { throw new NullPointerException("outputHandler"); //$NON-NLS-1$
 		}
 		// Start and end the element.
 		AttributesImpl attributes = new AttributesImpl();
 		writeAttributes(attributes);
-		outputHandler.startElement(NAMESPACE_URI_VXML, NAME_SUBMIT,
-				NAME_SUBMIT, attributes);
+		outputHandler.startElement(NAMESPACE_URI_VXML, NAME_SUBMIT, NAME_SUBMIT, attributes);
 		outputHandler.endElement(NAMESPACE_URI_VXML, NAME_SUBMIT, NAME_SUBMIT);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.voice.output.EventHandler#
 	 * writeAttributes(org.xml.sax.helpers.AttributesImpl)
 	 */
@@ -213,8 +176,7 @@ public class Submit extends Goto {
 		super.writeAttributes(attributes);
 		writeAttribute(attributes, null, null, NAME_METHOD, TYPE_CDATA, method);
 		if (encodingType != null) {
-			writeAttribute(attributes, null, null, NAME_ENCTYPE, TYPE_CDATA,
-					encodingType);
+			writeAttribute(attributes, null, null, NAME_ENCTYPE, TYPE_CDATA, encodingType);
 		}
 		if (names.size() > 0) {
 			StringBuffer buffer = new StringBuffer();
@@ -224,8 +186,7 @@ public class Submit extends Goto {
 					buffer.append(' ');
 				}
 			}
-			writeAttribute(attributes, null, null, NAME_NAMELIST, TYPE_CDATA,
-					buffer.toString());
+			writeAttribute(attributes, null, null, NAME_NAMELIST, TYPE_CDATA, buffer.toString());
 		}
 	}
 }

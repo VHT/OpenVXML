@@ -50,9 +50,9 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElement;
 import com.openmethods.openvxml.desktop.model.workflow.design.ISecurableElement;
 
 @SuppressWarnings("restriction")
-public class OptionSetCombinedMediaPropertiesPanel extends
-		DesignElementPropertiesPanel implements
-		MediaConfigurationScreenContainer {
+public class OptionSetCombinedMediaPropertiesPanel extends DesignElementPropertiesPanel
+	implements
+	MediaConfigurationScreenContainer {
 	StackLayout stackLayout = null;
 	Map<String, MediaConfigurationScreen> screensByType;
 	Composite comp = null;
@@ -74,22 +74,17 @@ public class OptionSetCombinedMediaPropertiesPanel extends
 	 * @param name
 	 * @param element
 	 */
-	public OptionSetCombinedMediaPropertiesPanel(String name,
-			IDesignElement element) {
+	public OptionSetCombinedMediaPropertiesPanel(String name, IDesignElement element) {
 		super(name, element);
 		PrimitiveElement primitiveElement = (PrimitiveElement) element;
-		info = (OptionSetInformationProvider) primitiveElement
-				.getInformationProvider();
+		info = (OptionSetInformationProvider) primitiveElement.getInformationProvider();
 		screensByType = MediaConfigurationScreenManager.getInstance()
-				.getIndexedMediaConfigurationScreens(
-						primitiveElement.getSubTypeId(), this);
+				.getIndexedMediaConfigurationScreens(primitiveElement.getSubTypeId(), this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel
+	 * @see org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel
 	 * #createControls(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -99,8 +94,7 @@ public class OptionSetCombinedMediaPropertiesPanel extends
 		mainComp.setLayout(new GridLayout(2, false));
 
 		toolkit = new FormToolkit(parent.getDisplay());
-		final Section contentSection = toolkit.createSection(mainComp,
-				Section.TITLE_BAR);
+		final Section contentSection = toolkit.createSection(mainComp, Section.TITLE_BAR);
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL
 				| GridData.VERTICAL_ALIGN_BEGINNING);
 		gridData.horizontalSpan = 2;
@@ -126,41 +120,32 @@ public class OptionSetCombinedMediaPropertiesPanel extends
 		variableField.addVerifyListener(new VerifyListener() {
 			@Override
 			public void verifyText(VerifyEvent e) {
-				String currentName = variableField.getText().substring(0,
-						e.start)
-						+ e.text
-						+ variableField.getText(e.end, (variableField.getText()
-								.length() - 1));
+				String currentName = variableField.getText().substring(0, e.start) + e.text
+						+ variableField.getText(e.end, (variableField.getText().length() - 1));
 				if ("".equals(currentName)
-						|| VariableNameValidator
-								.followsVtpNamingRules(currentName)) {
-					exitTypeLabel.setForeground(exitTypeLabel.getDisplay()
-							.getSystemColor(SWT.COLOR_BLACK));
-					variableField.setForeground(variableField.getDisplay()
-							.getSystemColor(SWT.COLOR_BLACK));
+						|| VariableNameValidator.followsVtpNamingRules(currentName)) {
+					exitTypeLabel.setForeground(exitTypeLabel.getDisplay().getSystemColor(
+							SWT.COLOR_BLACK));
+					variableField.setForeground(variableField.getDisplay().getSystemColor(
+							SWT.COLOR_BLACK));
 					getContainer().setCanFinish(true);
 				} else {
-					exitTypeLabel.setForeground(exitTypeLabel.getDisplay()
-							.getSystemColor(SWT.COLOR_RED));
-					variableField.setForeground(variableField.getDisplay()
-							.getSystemColor(SWT.COLOR_RED));
+					exitTypeLabel.setForeground(exitTypeLabel.getDisplay().getSystemColor(
+							SWT.COLOR_RED));
+					variableField.setForeground(variableField.getDisplay().getSystemColor(
+							SWT.COLOR_RED));
 					getContainer().setCanFinish(false);
 				}
 			}
 		});
 		if ("".equals(variableField.getText())
-				|| VariableNameValidator.followsVtpNamingRules(variableField
-						.getText())) {
-			exitTypeLabel.setForeground(exitTypeLabel.getDisplay()
-					.getSystemColor(SWT.COLOR_BLACK));
-			variableField.setForeground(variableField.getDisplay()
-					.getSystemColor(SWT.COLOR_BLACK));
+				|| VariableNameValidator.followsVtpNamingRules(variableField.getText())) {
+			exitTypeLabel.setForeground(exitTypeLabel.getDisplay().getSystemColor(SWT.COLOR_BLACK));
+			variableField.setForeground(variableField.getDisplay().getSystemColor(SWT.COLOR_BLACK));
 			getContainer().setCanFinish(true);
 		} else {
-			exitTypeLabel.setForeground(exitTypeLabel.getDisplay()
-					.getSystemColor(SWT.COLOR_RED));
-			variableField.setForeground(variableField.getDisplay()
-					.getSystemColor(SWT.COLOR_RED));
+			exitTypeLabel.setForeground(exitTypeLabel.getDisplay().getSystemColor(SWT.COLOR_RED));
+			variableField.setForeground(variableField.getDisplay().getSystemColor(SWT.COLOR_RED));
 			getContainer().setCanFinish(false);
 		}
 
@@ -171,8 +156,7 @@ public class OptionSetCombinedMediaPropertiesPanel extends
 			gridData = new GridData(GridData.FILL_HORIZONTAL);
 			gridData.horizontalSpan = 2;
 			secureElementButton.setLayoutData(gridData);
-			secureElementButton.setSelection(((ISecurableElement) info)
-					.isSecured());
+			secureElementButton.setSelection(((ISecurableElement) info).isSecured());
 		}
 
 		comp = new Composite(mainComp, SWT.NONE);
@@ -183,8 +167,7 @@ public class OptionSetCombinedMediaPropertiesPanel extends
 		comp.setLayoutData(gridData);
 		stackLayout = new StackLayout();
 		comp.setLayout(stackLayout);
-		for (Map.Entry<String, MediaConfigurationScreen> entry : screensByType
-				.entrySet()) {
+		for (Map.Entry<String, MediaConfigurationScreen> entry : screensByType.entrySet()) {
 			MediaConfigurationScreen mcs = entry.getValue();
 			mcs.createControls(comp);
 			stackLayout.topControl = mcs.getControl();
@@ -194,22 +177,17 @@ public class OptionSetCombinedMediaPropertiesPanel extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel
-	 * #save()
+	 * @see org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel #save()
 	 */
 	@Override
 	public void save() {
 		try {
 			getElement().setName(nameField.getText());
 			if (ISecurableElement.class.isAssignableFrom(info.getClass())) {
-				((ISecurableElement) info).setSecured(secureElementButton
-						.getSelection());
+				((ISecurableElement) info).setSecured(secureElementButton.getSelection());
 			}
 			info.setVariableName(variableField.getText());
-			for (Map.Entry<String, MediaConfigurationScreen> entry : screensByType
-					.entrySet()) {
+			for (Map.Entry<String, MediaConfigurationScreen> entry : screensByType.entrySet()) {
 				MediaConfigurationScreen mcs = entry.getValue();
 				mcs.save();
 			}
@@ -220,15 +198,11 @@ public class OptionSetCombinedMediaPropertiesPanel extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.configuration.ComponentPropertiesPanel
-	 * #cancel()
+	 * @see org.eclipse.vtp.desktop.model.core.configuration.ComponentPropertiesPanel #cancel()
 	 */
 	@Override
 	public void cancel() {
-		for (Map.Entry<String, MediaConfigurationScreen> entry : screensByType
-				.entrySet()) {
+		for (Map.Entry<String, MediaConfigurationScreen> entry : screensByType.entrySet()) {
 			MediaConfigurationScreen mcs = entry.getValue();
 			mcs.cancel();
 		}
@@ -236,11 +210,8 @@ public class OptionSetCombinedMediaPropertiesPanel extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel
-	 * #setConfigurationContext
-	 * (org.eclipse.vtp.desktop.core.configuration.Brand, java.lang.String,
+	 * @see org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel
+	 * #setConfigurationContext (org.eclipse.vtp.desktop.core.configuration.Brand, java.lang.String,
 	 * java.lang.String)
 	 */
 	@Override
@@ -249,30 +220,24 @@ public class OptionSetCombinedMediaPropertiesPanel extends
 		String language = (String) values.get(LanguageContext.CONTEXT_ID);
 		Object object = values.get(InteractionTypeContext.CONTEXT_ID);
 		if (brand == null || language == null || object == null) {
-			final IOpenVXMLProject project = getElement().getDesign()
-					.getDocument().getProject();
+			final IOpenVXMLProject project = getElement().getDesign().getDocument().getProject();
 			System.out.println("project: " + project);
 			final IProject uproject = project.getUnderlyingProject();
 			final Shell shell = this.getContainer().getParentShell();
 			Display.getCurrent().asyncExec(new Runnable() {
 				@Override
 				public void run() {
-					MessageBox mb = new MessageBox(shell, SWT.OK | SWT.CANCEL
-							| SWT.ICON_ERROR);
+					MessageBox mb = new MessageBox(shell, SWT.OK | SWT.CANCEL | SWT.ICON_ERROR);
 					mb.setText("Configuration Problems");
 					mb.setMessage("The interaction and language configuration for this project is incomplete.  You will not be able edit the applications effectively until this is resolved.  Would you like to configure this now?");
 					if (mb.open() == SWT.OK) {
 						Display.getCurrent().asyncExec(new Runnable() {
 							@Override
 							public void run() {
-								PropertyDialog pd = PropertyDialog
-										.createDialogOn(
-												PlatformUI
-														.getWorkbench()
-														.getActiveWorkbenchWindow()
-														.getShell(),
-												"org.eclipse.vtp.desktop.projects.core.appproperties",
-												uproject);
+								PropertyDialog pd = PropertyDialog.createDialogOn(PlatformUI
+										.getWorkbench().getActiveWorkbenchWindow().getShell(),
+										"org.eclipse.vtp.desktop.projects.core.appproperties",
+										uproject);
 								pd.open();
 							}
 						});
@@ -302,15 +267,13 @@ public class OptionSetCombinedMediaPropertiesPanel extends
 
 	@Override
 	public void cancelMediaConfiguration() {
-		final IOpenVXMLProject project = getElement().getDesign().getDocument()
-				.getProject();
+		final IOpenVXMLProject project = getElement().getDesign().getDocument().getProject();
 		final IProject uproject = project.getUnderlyingProject();
 		final Shell shell = this.getContainer().getParentShell();
 		Display.getCurrent().asyncExec(new Runnable() {
 			@Override
 			public void run() {
-				MessageBox mb = new MessageBox(shell, SWT.OK | SWT.CANCEL
-						| SWT.ICON_ERROR);
+				MessageBox mb = new MessageBox(shell, SWT.OK | SWT.CANCEL | SWT.ICON_ERROR);
 				mb.setText("Configuration Problems");
 				mb.setMessage("The selected language does not have an associated Voice project.  You will not be able to configure interactive modules until this is resolved.  Would you like to configure this now?");
 				if (mb.open() == SWT.OK) {
@@ -318,10 +281,8 @@ public class OptionSetCombinedMediaPropertiesPanel extends
 						@Override
 						public void run() {
 							PropertyDialog pd = PropertyDialog
-									.createDialogOn(
-											PlatformUI.getWorkbench()
-													.getActiveWorkbenchWindow()
-													.getShell(),
+									.createDialogOn(PlatformUI.getWorkbench()
+											.getActiveWorkbenchWindow().getShell(),
 											"org.eclipse.vtp.desktop.projects.core.appproperties",
 											uproject);
 							pd.open();

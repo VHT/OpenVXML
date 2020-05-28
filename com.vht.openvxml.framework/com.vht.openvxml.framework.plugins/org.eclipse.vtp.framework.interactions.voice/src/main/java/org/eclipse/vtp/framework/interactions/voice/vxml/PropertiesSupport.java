@@ -32,8 +32,7 @@ public class PropertiesSupport extends Widget implements VXMLConstants {
 	/**
 	 * Creates a new PropertiesSupport.
 	 */
-	public PropertiesSupport() {
-	}
+	public PropertiesSupport() {}
 
 	/**
 	 * Returns the names of the properties.
@@ -45,20 +44,14 @@ public class PropertiesSupport extends Widget implements VXMLConstants {
 	}
 
 	/**
-	 * Returns the value of the specified property or <code>null</code> if no
-	 * such property exists.
+	 * Returns the value of the specified property or <code>null</code> if no such property exists.
 	 * 
-	 * @param propertyName
-	 *            The name of the property to find the value of.
-	 * @return The value of the specified property or <code>null</code> if no
-	 *         such property exists.
-	 * @throws NullPointerException
-	 *             If the supplied property name is <code>null</code>.
+	 * @param propertyName The name of the property to find the value of.
+	 * @return The value of the specified property or <code>null</code> if no such property exists.
+	 * @throws NullPointerException If the supplied property name is <code>null</code>.
 	 */
-	public String getPropertyValue(String propertyName)
-			throws NullPointerException {
-		if (propertyName == null) {
-			throw new NullPointerException("propertyName"); //$NON-NLS-1$
+	public String getPropertyValue(String propertyName) throws NullPointerException {
+		if (propertyName == null) { throw new NullPointerException("propertyName"); //$NON-NLS-1$
 		}
 		return properties.get(propertyName);
 	}
@@ -66,20 +59,14 @@ public class PropertiesSupport extends Widget implements VXMLConstants {
 	/**
 	 * Sets the value of a property.
 	 * 
-	 * @param propertyName
-	 *            The name of the property to set.
-	 * @param propertyValue
-	 *            The value to set the property to.
-	 * @throws NullPointerException
-	 *             If the supplied property name or value is <code>null</code>.
+	 * @param propertyName The name of the property to set.
+	 * @param propertyValue The value to set the property to.
+	 * @throws NullPointerException If the supplied property name or value is <code>null</code>.
 	 */
-	public void setProperty(String propertyName, String propertyValue)
-			throws NullPointerException {
-		if (propertyName == null) {
-			throw new NullPointerException("propertyName"); //$NON-NLS-1$
+	public void setProperty(String propertyName, String propertyValue) throws NullPointerException {
+		if (propertyName == null) { throw new NullPointerException("propertyName"); //$NON-NLS-1$
 		}
-		if (propertyValue == null) {
-			throw new NullPointerException("propertyValue"); //$NON-NLS-1$
+		if (propertyValue == null) { throw new NullPointerException("propertyValue"); //$NON-NLS-1$
 		}
 		properties.put(propertyName, propertyValue);
 	}
@@ -87,44 +74,35 @@ public class PropertiesSupport extends Widget implements VXMLConstants {
 	/**
 	 * Clears the value of a property.
 	 * 
-	 * @param propertyName
-	 *            The name of the property to clear.
-	 * @throws NullPointerException
-	 *             If the supplied property name is <code>null</code>.
+	 * @param propertyName The name of the property to clear.
+	 * @throws NullPointerException If the supplied property name is <code>null</code>.
 	 */
 	public void clearProperty(String propertyName) throws NullPointerException {
-		if (propertyName == null) {
-			throw new NullPointerException("propertyName"); //$NON-NLS-1$
+		if (propertyName == null) { throw new NullPointerException("propertyName"); //$NON-NLS-1$
 		}
 		properties.remove(propertyName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.core.output.Widget#writeWidget(
 	 * org.xml.sax.ContentHandler)
 	 */
 	@Override
-	public void writeWidget(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
+	public void writeWidget(ContentHandler outputHandler) throws NullPointerException, SAXException {
 		writeProperties(outputHandler);
 	}
 
 	/**
 	 * Writes the properties to an XML document fragment.
 	 * 
-	 * @param outputHandler
-	 *            The handler to write the properties to.
-	 * @throws SAXException
-	 *             If the writing of the properties fails.
-	 * @throws NullPointerException
-	 *             If the supplied content handler is <code>null</code>.
+	 * @param outputHandler The handler to write the properties to.
+	 * @throws SAXException If the writing of the properties fails.
+	 * @throws NullPointerException If the supplied content handler is <code>null</code>.
 	 */
-	protected void writeProperties(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
-		if (outputHandler == null) {
-			throw new NullPointerException("outputHandler"); //$NON-NLS-1$
+	protected void writeProperties(ContentHandler outputHandler) throws NullPointerException,
+			SAXException {
+		if (outputHandler == null) { throw new NullPointerException("outputHandler"); //$NON-NLS-1$
 		}
 		AttributesImpl attributes = new AttributesImpl();
 		writeAttribute(attributes, null, null, NAME_NAME, TYPE_CDATA, null);
@@ -132,10 +110,9 @@ public class PropertiesSupport extends Widget implements VXMLConstants {
 		for (Map.Entry<String, String> entry : properties.entrySet()) {
 			attributes.setValue(0, entry.getKey());
 			attributes.setValue(1, entry.getValue());
-			outputHandler.startElement(NAMESPACE_URI_VXML, NAME_PROPERTY,
-					NAME_PROPERTY, attributes);
-			outputHandler.endElement(NAMESPACE_URI_VXML, NAME_PROPERTY,
-					NAME_PROPERTY);
+			outputHandler
+					.startElement(NAMESPACE_URI_VXML, NAME_PROPERTY, NAME_PROPERTY, attributes);
+			outputHandler.endElement(NAMESPACE_URI_VXML, NAME_PROPERTY, NAME_PROPERTY);
 		}
 	}
 }

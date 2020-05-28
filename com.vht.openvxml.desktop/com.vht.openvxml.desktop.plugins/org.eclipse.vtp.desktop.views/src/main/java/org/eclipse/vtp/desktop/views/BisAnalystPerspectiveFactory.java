@@ -23,31 +23,25 @@ import org.eclipse.ui.IPerspectiveFactory;
 public class BisAnalystPerspectiveFactory implements IPerspectiveFactory {
 	/**
 	 * Creates a new BisAnalystPerspectiveFactory.
-	 *
 	 */
-	public BisAnalystPerspectiveFactory() {
-	}
+	public BisAnalystPerspectiveFactory() {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.IPerspectiveFactory#createInitialLayout(org.eclipse.ui
-	 * .IPageLayout)
+	 * @see org.eclipse.ui.IPerspectiveFactory#createInitialLayout(org.eclipse.ui .IPageLayout)
 	 */
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
-		IFolderLayout flayout = layout.createFolder(
-				"org.eclipse.vtp.desktop.ui.app.viewfolder", IPageLayout.LEFT,
-				.20f, IPageLayout.ID_EDITOR_AREA);
+		IFolderLayout flayout = layout.createFolder("org.eclipse.vtp.desktop.ui.app.viewfolder",
+				IPageLayout.LEFT, .20f, IPageLayout.ID_EDITOR_AREA);
 		flayout.addView("org.eclipse.ui.navigator.ProjectExplorer");
 		IFolderLayout flayout3 = layout.createFolder(
-				"org.eclipse.vtp.desktop.ui.app.viewbottomfolder",
-				IPageLayout.BOTTOM, .80f, IPageLayout.ID_EDITOR_AREA);
+				"org.eclipse.vtp.desktop.ui.app.viewbottomfolder", IPageLayout.BOTTOM, .80f,
+				IPageLayout.ID_EDITOR_AREA);
 		flayout3.addView("org.eclipse.ui.views.ProblemView");
 		IFolderLayout flayout2 = layout.createFolder(
-				"org.eclipse.vtp.desktop.ui.app.viewfolderright",
-				IPageLayout.RIGHT, .80f, IPageLayout.ID_EDITOR_AREA);
+				"org.eclipse.vtp.desktop.ui.app.viewfolderright", IPageLayout.RIGHT, .80f,
+				IPageLayout.ID_EDITOR_AREA);
 		flayout2.addView("org.eclipse.vtp.desktop.views.pallet");
 		// flayout2.addView("org.eclipse.vtp.desktop.views.canvasbrowser");
 	}

@@ -12,8 +12,8 @@
 package org.eclipse.vtp.desktop.editors.themes.core.commands;
 
 /**
- * This command indicates that the visual workflow for moving the frame that
- * generated it should be initiated.
+ * This command indicates that the visual workflow for moving the frame that generated it should be
+ * initiated.
  * 
  * @author trip
  */

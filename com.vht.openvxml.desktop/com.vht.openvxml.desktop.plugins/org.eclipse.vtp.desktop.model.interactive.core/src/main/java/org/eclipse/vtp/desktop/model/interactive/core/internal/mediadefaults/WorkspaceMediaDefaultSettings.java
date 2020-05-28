@@ -14,14 +14,12 @@ public class WorkspaceMediaDefaultSettings implements IMediaDefaultSettings {
 		return instance;
 	}
 
-	private WorkspaceMediaDefaultSettings() {
-	}
+	private WorkspaceMediaDefaultSettings() {}
 
 	@Override
-	public IMediaDefaultSetting getDefaultSetting(String interactionType,
-			String elementType, String setting) {
-		return new WorkspaceMediaDefaultSetting(interactionType, elementType,
-				setting);
+	public IMediaDefaultSetting getDefaultSetting(String interactionType, String elementType,
+			String setting) {
+		return new WorkspaceMediaDefaultSetting(interactionType, elementType, setting);
 	}
 
 	private class WorkspaceMediaDefaultSetting implements IMediaDefaultSetting {
@@ -29,8 +27,8 @@ public class WorkspaceMediaDefaultSettings implements IMediaDefaultSettings {
 		String elementType = "";
 		String setting = "";
 
-		public WorkspaceMediaDefaultSetting(String interactionType,
-				String elementType, String setting) {
+		public WorkspaceMediaDefaultSetting(String interactionType, String elementType,
+				String setting) {
 			super();
 			this.interactionType = interactionType;
 			this.elementType = elementType;
@@ -54,12 +52,12 @@ public class WorkspaceMediaDefaultSettings implements IMediaDefaultSettings {
 
 		@Override
 		public String getValue() {
-			IPreferenceStore preferenceStore = InteractiveWorkflowCore
-					.getDefault().getPreferenceStore();
-			String settingValue = preferenceStore.getString(interactionType
-					+ ":" + elementType + ":" + setting);
-			System.out.println("got preference value " + interactionType + ":"
-					+ elementType + ":" + setting + ", " + settingValue);
+			IPreferenceStore preferenceStore = InteractiveWorkflowCore.getDefault()
+					.getPreferenceStore();
+			String settingValue = preferenceStore.getString(interactionType + ":" + elementType
+					+ ":" + setting);
+			System.out.println("got preference value " + interactionType + ":" + elementType + ":"
+					+ setting + ", " + settingValue);
 			return settingValue;
 		}
 
@@ -70,12 +68,8 @@ public class WorkspaceMediaDefaultSettings implements IMediaDefaultSettings {
 
 		@Override
 		public void setValue(String value) {
-			InteractiveWorkflowCore
-					.getDefault()
-					.getPreferenceStore()
-					.setValue(
-							interactionType + ":" + elementType + ":" + setting,
-							value);
+			InteractiveWorkflowCore.getDefault().getPreferenceStore().setValue(
+					interactionType + ":" + elementType + ":" + setting, value);
 		}
 
 	}
@@ -85,9 +79,8 @@ public class WorkspaceMediaDefaultSettings implements IMediaDefaultSettings {
 		return false;
 	}
 
-	public List<String> getDefaultSettingNames(String elementType,
-			String interactionType) {
-		return DefaultSettingsRegistry.getInstance().getDefaultSettingNames(
-				elementType, interactionType);
+	public List<String> getDefaultSettingNames(String elementType, String interactionType) {
+		return DefaultSettingsRegistry.getInstance().getDefaultSettingNames(elementType,
+				interactionType);
 	}
 }

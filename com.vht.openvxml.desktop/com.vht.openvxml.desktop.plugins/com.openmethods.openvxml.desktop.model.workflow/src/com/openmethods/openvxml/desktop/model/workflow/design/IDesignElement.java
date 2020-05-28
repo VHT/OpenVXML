@@ -66,8 +66,7 @@ public interface IDesignElement extends IDesignComponent, IAdaptable {
 
 	public List<Variable> getOutgoingVariables(String exitPoint);
 
-	public List<Variable> getOutgoingVariables(String exitPoint,
-			boolean localOnly);
+	public List<Variable> getOutgoingVariables(String exitPoint, boolean localOnly);
 
 	/**
 	 * @return

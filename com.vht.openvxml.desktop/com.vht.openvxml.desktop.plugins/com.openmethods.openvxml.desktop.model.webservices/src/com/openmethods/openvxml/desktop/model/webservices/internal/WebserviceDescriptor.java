@@ -37,8 +37,7 @@ import com.openmethods.openvxml.desktop.model.webservices.wsdl.WSDL;
  *
  * @author Trip Gilman
  */
-public class WebserviceDescriptor extends WorkflowResource implements
-		IWebserviceDescriptor {
+public class WebserviceDescriptor extends WorkflowResource implements IWebserviceDescriptor {
 	private static final String HASHPREFIX = "Webservice";
 	/** Comment for parent. */
 	private final WebserviceSet parent;
@@ -59,9 +58,7 @@ public class WebserviceDescriptor extends WorkflowResource implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.core.project.internals.VoiceResource#
-	 * getObjectId()
+	 * @see org.eclipse.vtp.desktop.core.project.internals.VoiceResource# getObjectId()
 	 */
 	@Override
 	protected String getObjectId() {
@@ -70,7 +67,6 @@ public class WebserviceDescriptor extends WorkflowResource implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IVoiceResource#getName()
 	 */
 	@Override
@@ -85,9 +81,7 @@ public class WebserviceDescriptor extends WorkflowResource implements
 
 	@Override
 	public WSDL getWSDL() throws Exception {
-		if (!file.exists()) {
-			return null;
-		}
+		if (!file.exists()) { return null; }
 		if (wsdl == null) {
 			try {
 				// DocumentBuilderFactory factory =
@@ -95,8 +89,8 @@ public class WebserviceDescriptor extends WorkflowResource implements
 				// factory.setNamespaceAware(true);
 				// DocumentBuilder builder = factory.newDocumentBuilder();
 				// Document document = builder.parse(file.getContents());
-				WebserviceDescriptorXMLParser parser = new WebserviceDescriptorXMLParser(
-						file.getContents());
+				WebserviceDescriptorXMLParser parser = new WebserviceDescriptorXMLParser(file
+						.getContents());
 				Document document = parser.getDocument();
 				org.w3c.dom.Element rootElement = document.getDocumentElement();
 				wsdl = new WSDL(rootElement);
@@ -109,7 +103,6 @@ public class WebserviceDescriptor extends WorkflowResource implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IVoiceResource#getParent()
 	 */
 	@Override
@@ -119,7 +112,6 @@ public class WebserviceDescriptor extends WorkflowResource implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.projects.core.IDependency#delete()
 	 */
 	@Override
@@ -129,7 +121,6 @@ public class WebserviceDescriptor extends WorkflowResource implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.projects.core.IDependency#exists()
 	 */
 	@Override
@@ -139,29 +130,22 @@ public class WebserviceDescriptor extends WorkflowResource implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.internal.WorkflowResource#getAdapter
+	 * @see org.eclipse.vtp.desktop.model.core.internal.WorkflowResource#getAdapter
 	 * (java.lang.Class)
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapterClass) {
 		if (IResource.class.isAssignableFrom(adapterClass)
-				&& adapterClass.isAssignableFrom(file.getClass())) {
-			return file;
-		}
-		if (WebserviceDescriptor.class.isAssignableFrom(adapterClass)) {
-			return this;
-		}
+				&& adapterClass.isAssignableFrom(file.getClass())) { return file; }
+		if (WebserviceDescriptor.class.isAssignableFrom(adapterClass)) { return this; }
 		return super.getAdapter(adapterClass);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof WebserviceDescriptor) {
-			return file.equals(((WebserviceDescriptor) obj).file);
-		}
+		if (obj instanceof WebserviceDescriptor) { return file
+				.equals(((WebserviceDescriptor) obj).file); }
 		return false;
 	}
 
@@ -175,9 +159,7 @@ public class WebserviceDescriptor extends WorkflowResource implements
 
 		public WebserviceDescriptorXMLParser(InputStream input) {
 			try {
-				this.setFeature(
-						"http://apache.org/xml/features/dom/defer-node-expansion",
-						false);
+				this.setFeature("http://apache.org/xml/features/dom/defer-node-expansion", false);
 				this.parse(new InputSource(input));
 			} catch (Exception ex) {
 				ex.printStackTrace();
@@ -185,8 +167,8 @@ public class WebserviceDescriptor extends WorkflowResource implements
 		}
 
 		@Override
-		public void startElement(QName elementQName, XMLAttributes attrList,
-				Augmentations augs) throws XNIException {
+		public void startElement(QName elementQName, XMLAttributes attrList, Augmentations augs)
+				throws XNIException {
 			super.startElement(elementQName, attrList, augs);
 			Node node = null;
 			try {
@@ -195,15 +177,13 @@ public class WebserviceDescriptor extends WorkflowResource implements
 				ex.printStackTrace();
 			}
 			if (node != null) {
-				node.setUserData("line_Number",
-						String.valueOf(locator.getLineNumber()), null);
+				node.setUserData("line_Number", String.valueOf(locator.getLineNumber()), null);
 			}
 		}
 
 		@Override
 		public void startDocument(XMLLocator locator, String encoding,
-				NamespaceContext namespaceContext, Augmentations augs)
-				throws XNIException {
+				NamespaceContext namespaceContext, Augmentations augs) throws XNIException {
 			super.startDocument(locator, encoding, namespaceContext, augs);
 			this.locator = locator;
 			Node node = null;
@@ -213,14 +193,12 @@ public class WebserviceDescriptor extends WorkflowResource implements
 				ex.printStackTrace();
 			}
 			if (node != null) {
-				node.setUserData("line_Number",
-						String.valueOf(locator.getLineNumber()), null);
+				node.setUserData("line_Number", String.valueOf(locator.getLineNumber()), null);
 			}
 		}
 
 		@Override
-		public void ignorableWhitespace(XMLString text, Augmentations augs)
-				throws XNIException {
+		public void ignorableWhitespace(XMLString text, Augmentations augs) throws XNIException {
 			// if(! NotIncludeIgnorableWhiteSpaces )
 			super.ignorableWhitespace(text, augs);
 		}

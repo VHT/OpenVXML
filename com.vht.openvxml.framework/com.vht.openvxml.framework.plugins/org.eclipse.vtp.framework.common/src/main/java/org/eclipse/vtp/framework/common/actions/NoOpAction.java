@@ -28,8 +28,7 @@ public class NoOpAction implements IAction {
 	/**
 	 * Creates a new BranchAction.
 	 * 
-	 * @param context
-	 *            The context to use.
+	 * @param context The context to use.
 	 */
 	public NoOpAction(IActionContext context) {
 		this.context = context;
@@ -37,7 +36,6 @@ public class NoOpAction implements IAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.core.IAction#execute()
 	 */
 	@Override

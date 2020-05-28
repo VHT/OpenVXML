@@ -32,22 +32,17 @@ public class ComponentPropertiesPanelProviderRegistry {
 	private List<ComponentPropertiesPanelProvider> providers = new LinkedList<ComponentPropertiesPanelProvider>();
 
 	public ComponentPropertiesPanelProviderRegistry() {
-		IConfigurationElement[] primitiveExtensions = Platform
-				.getExtensionRegistry().getConfigurationElementsFor(
-						PANEL_PROVIDER_EXTENSION_ID);
+		IConfigurationElement[] primitiveExtensions = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(PANEL_PROVIDER_EXTENSION_ID);
 		for (IConfigurationElement primitiveExtension : primitiveExtensions) {
 			String className = primitiveExtension.getAttribute("class");
-			Bundle contributor = Platform.getBundle(primitiveExtension
-					.getContributor().getName());
+			Bundle contributor = Platform.getBundle(primitiveExtension.getContributor().getName());
 			try {
 				@SuppressWarnings("rawtypes")
 				Class providerClass = contributor.loadClass(className);
-				if (!ComponentPropertiesPanelProvider.class
-						.isAssignableFrom(providerClass)) {
-					throw new IllegalArgumentException(
-							"The provided class is not a ComponentPropertiesPanelProvider: "
-									+ providerClass);
-				}
+				if (!ComponentPropertiesPanelProvider.class.isAssignableFrom(providerClass)) { throw new IllegalArgumentException(
+						"The provided class is not a ComponentPropertiesPanelProvider: "
+								+ providerClass); }
 				ComponentPropertiesPanelProvider providerObject = (ComponentPropertiesPanelProvider) providerClass
 						.newInstance();
 				providers.add(providerObject);
@@ -60,20 +55,16 @@ public class ComponentPropertiesPanelProviderRegistry {
 
 	public boolean hasPropertiesPanels(IDesignComponent component) {
 		for (ComponentPropertiesPanelProvider provider : providers) {
-			if (provider.isApplicableFor(component)) {
-				return true;
-			}
+			if (provider.isApplicableFor(component)) { return true; }
 		}
 		return false;
 	}
 
-	public List<ComponentPropertiesPanel> getPropertiesPanels(
-			IDesignComponent component) {
+	public List<ComponentPropertiesPanel> getPropertiesPanels(IDesignComponent component) {
 		List<ComponentPropertiesPanel> ret = new ArrayList<ComponentPropertiesPanel>();
 		for (ComponentPropertiesPanelProvider provider : providers) {
 			if (provider.isApplicableFor(component)) {
-				List<ComponentPropertiesPanel> ps = provider
-						.getPropertiesPanels(component);
+				List<ComponentPropertiesPanel> ps = provider.getPropertiesPanels(component);
 				for (ComponentPropertiesPanel cpp : ps) {
 					boolean inserted = false;
 					for (int i = 0; i < ret.size(); i++) {

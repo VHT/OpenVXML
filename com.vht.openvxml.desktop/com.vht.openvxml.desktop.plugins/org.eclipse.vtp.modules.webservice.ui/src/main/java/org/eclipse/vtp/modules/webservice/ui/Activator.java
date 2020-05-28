@@ -15,12 +15,11 @@ public class Activator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static Activator plugin;
-	
+
 	/**
 	 * The constructor
 	 */
-	public Activator() {
-	}
+	public Activator() {}
 
 	/*
 	 * (non-Javadoc)
@@ -49,43 +48,31 @@ public class Activator extends AbstractUIPlugin {
 		return plugin;
 	}
 
-	protected void initializeImageRegistry(ImageRegistry reg)
-	{
+	protected void initializeImageRegistry(ImageRegistry reg) {
 		super.initializeImageRegistry(reg);
 		System.err.println("initializing the image registry");
-		
-		try
-		{
-			ImageDescriptor xmlElementDescriptor =
-				ImageDescriptor.createFromURL(getBundle()
-												  .getEntry("icons/XSDElement.gif"));
-			ImageDescriptor complexTypeDescriptor =
-				ImageDescriptor.createFromURL(getBundle()
-												  .getEntry("icons/XSDComplexType.gif"));
-			ImageDescriptor attributeGroupDescriptor =
-				ImageDescriptor.createFromURL(getBundle()
-												  .getEntry("icons/XSDAttributeGroup.gif"));
-			ImageDescriptor choiceSuggestionDescriptor =
-				ImageDescriptor.createFromURL(getBundle()
-												  .getEntry("icons/XSDChoice.gif"));
-			ImageDescriptor conditionalElementDescriptor =
-				ImageDescriptor.createFromURL(getBundle()
-												  .getEntry("icons/conditional.gif"));
-			ImageDescriptor moveUpDescriptor =
-				ImageDescriptor.createFromURL(getBundle()
-												  .getEntry("icons/move_up.gif"));
-			ImageDescriptor moveUpDisabledDescriptor =
-				ImageDescriptor.createFromURL(getBundle()
-												  .getEntry("icons/move_up_disabled.gif"));
-			ImageDescriptor moveDownDescriptor =
-				ImageDescriptor.createFromURL(getBundle()
-												  .getEntry("icons/move_down.gif"));
-			ImageDescriptor moveDownDisabledDescriptor =
-				ImageDescriptor.createFromURL(getBundle()
-												  .getEntry("icons/move_down_disabled.gif"));
-			ImageDescriptor scriptDescriptor =
-				ImageDescriptor.createFromURL(getBundle()
-												  .getEntry("icons/javascript_view.gif"));
+
+		try {
+			ImageDescriptor xmlElementDescriptor = ImageDescriptor.createFromURL(getBundle()
+					.getEntry("icons/XSDElement.gif"));
+			ImageDescriptor complexTypeDescriptor = ImageDescriptor.createFromURL(getBundle()
+					.getEntry("icons/XSDComplexType.gif"));
+			ImageDescriptor attributeGroupDescriptor = ImageDescriptor.createFromURL(getBundle()
+					.getEntry("icons/XSDAttributeGroup.gif"));
+			ImageDescriptor choiceSuggestionDescriptor = ImageDescriptor.createFromURL(getBundle()
+					.getEntry("icons/XSDChoice.gif"));
+			ImageDescriptor conditionalElementDescriptor = ImageDescriptor
+					.createFromURL(getBundle().getEntry("icons/conditional.gif"));
+			ImageDescriptor moveUpDescriptor = ImageDescriptor.createFromURL(getBundle().getEntry(
+					"icons/move_up.gif"));
+			ImageDescriptor moveUpDisabledDescriptor = ImageDescriptor.createFromURL(getBundle()
+					.getEntry("icons/move_up_disabled.gif"));
+			ImageDescriptor moveDownDescriptor = ImageDescriptor.createFromURL(getBundle()
+					.getEntry("icons/move_down.gif"));
+			ImageDescriptor moveDownDisabledDescriptor = ImageDescriptor.createFromURL(getBundle()
+					.getEntry("icons/move_down_disabled.gif"));
+			ImageDescriptor scriptDescriptor = ImageDescriptor.createFromURL(getBundle().getEntry(
+					"icons/javascript_view.gif"));
 			reg.put("XML_ELEMENT", xmlElementDescriptor);
 			reg.put("COMPLEX_TYPE", complexTypeDescriptor);
 			reg.put("ATTRIBUTE_GROUP", attributeGroupDescriptor);
@@ -96,9 +83,7 @@ public class Activator extends AbstractUIPlugin {
 			reg.put("MOVE_DOWN", moveDownDescriptor);
 			reg.put("MOVE_DOWN_DISABLED", moveDownDisabledDescriptor);
 			reg.put("SCRIPT", scriptDescriptor);
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

@@ -23,8 +23,7 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElementConn
 import com.openmethods.openvxml.desktop.model.workflow.design.Variable;
 import com.openmethods.openvxml.desktop.model.workflow.internal.design.ConnectorRecord;
 
-public class AttachedDataRequestInformationProvider extends
-		PrimitiveInformationProvider {
+public class AttachedDataRequestInformationProvider extends PrimitiveInformationProvider {
 	List<ConnectorRecord> connectorRecords = new ArrayList<ConnectorRecord>();
 
 	public AttachedDataRequestInformationProvider(PrimitiveElement element) {
@@ -32,8 +31,7 @@ public class AttachedDataRequestInformationProvider extends
 		System.out.println("ATTACHED DATA REQUEST INFO PROVIDER");
 		connectorRecords.add(new ConnectorRecord(element, "Continue",
 				IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
-		connectorRecords.add(new ConnectorRecord(element,
-				"error.disconnect.hangup",
+		connectorRecords.add(new ConnectorRecord(element, "error.disconnect.hangup",
 				IDesignElementConnectionPoint.ConnectionPointType.ERROR_POINT));
 	}
 
@@ -46,9 +44,7 @@ public class AttachedDataRequestInformationProvider extends
 	public ConnectorRecord getConnectorRecord(String recordName) {
 		for (int i = 0; i < connectorRecords.size(); i++) {
 			ConnectorRecord cr = connectorRecords.get(i);
-			if (cr.getName().equals(recordName)) {
-				return cr;
-			}
+			if (cr.getName().equals(recordName)) { return cr; }
 		}
 		return null;
 	}
@@ -65,8 +61,7 @@ public class AttachedDataRequestInformationProvider extends
 		for (int i = 0; i < connectorRecords.size(); i++) {
 			ConnectorRecord cr = connectorRecords.get(i);
 			if (cr.getType().isSet(
-					IDesignElementConnectionPoint.ConnectionPointType
-							.getFlagSet(types))) {
+					IDesignElementConnectionPoint.ConnectionPointType.getFlagSet(types))) {
 				ret.add(cr);
 			}
 		}
@@ -74,59 +69,45 @@ public class AttachedDataRequestInformationProvider extends
 	}
 
 	@Override
-	public void readConfiguration(org.w3c.dom.Element configuration) {
-	}
+	public void readConfiguration(org.w3c.dom.Element configuration) {}
 
 	@Override
-	public void writeConfiguration(org.w3c.dom.Element configuration) {
-	}
+	public void writeConfiguration(org.w3c.dom.Element configuration) {}
 
 	/*
-	 * public List getPropertiesPanels() { AttachedDataManager manager =
-	 * (AttachedDataManager
-	 * )getElement().getConfigurationManager(AttachedDataManager
-	 * .CONFIGURATION_TYPE_ID); AttachedDataBinding binding =
-	 * manager.getAttachedDataBinding("default"); AttachedDataBindingItem adbi =
-	 * binding.getAttachedDataItem("Default", "", ""); adbi.clearEntries();
-	 * AttachedDataItemEntry attachedDataItemEntry = new
+	 * public List getPropertiesPanels() { AttachedDataManager manager = (AttachedDataManager
+	 * )getElement().getConfigurationManager(AttachedDataManager .CONFIGURATION_TYPE_ID);
+	 * AttachedDataBinding binding = manager.getAttachedDataBinding("default");
+	 * AttachedDataBindingItem adbi = binding.getAttachedDataItem("Default", "", "");
+	 * adbi.clearEntries(); AttachedDataItemEntry attachedDataItemEntry = new
 	 * AttachedDataItemEntry(); attachedDataItemEntry.setName("Residential");
-	 * attachedDataItemEntry.setValue("Residential");
-	 * adbi.addEntry(attachedDataItemEntry); attachedDataItemEntry = new
-	 * AttachedDataItemEntry(); attachedDataItemEntry.setName("Business");
-	 * attachedDataItemEntry.setValue("Business");
-	 * adbi.addEntry(attachedDataItemEntry); attachedDataItemEntry = new
-	 * AttachedDataItemEntry(); attachedDataItemEntry.setName("EasyMax");
-	 * attachedDataItemEntry.setValue("EasyMax");
-	 * adbi.addEntry(attachedDataItemEntry); attachedDataItemEntry = new
-	 * AttachedDataItemEntry(); attachedDataItemEntry.setName("PA");
-	 * attachedDataItemEntry.setValue("PA");
-	 * adbi.addEntry(attachedDataItemEntry); attachedDataItemEntry = new
-	 * AttachedDataItemEntry(); attachedDataItemEntry.setName("IsHoliday");
-	 * attachedDataItemEntry.setValue("IsHoliday");
-	 * adbi.addEntry(attachedDataItemEntry); attachedDataItemEntry = new
-	 * AttachedDataItemEntry(); attachedDataItemEntry.setName("IsClosure");
-	 * attachedDataItemEntry.setValue("IsClosure");
-	 * adbi.addEntry(attachedDataItemEntry); attachedDataItemEntry = new
-	 * AttachedDataItemEntry(); attachedDataItemEntry.setName("WorkingHours");
-	 * attachedDataItemEntry.setValue("WorkingHours");
-	 * adbi.addEntry(attachedDataItemEntry);
+	 * attachedDataItemEntry.setValue("Residential"); adbi.addEntry(attachedDataItemEntry);
+	 * attachedDataItemEntry = new AttachedDataItemEntry();
+	 * attachedDataItemEntry.setName("Business"); attachedDataItemEntry.setValue("Business");
+	 * adbi.addEntry(attachedDataItemEntry); attachedDataItemEntry = new AttachedDataItemEntry();
+	 * attachedDataItemEntry.setName("EasyMax"); attachedDataItemEntry.setValue("EasyMax");
+	 * adbi.addEntry(attachedDataItemEntry); attachedDataItemEntry = new AttachedDataItemEntry();
+	 * attachedDataItemEntry.setName("PA"); attachedDataItemEntry.setValue("PA");
+	 * adbi.addEntry(attachedDataItemEntry); attachedDataItemEntry = new AttachedDataItemEntry();
+	 * attachedDataItemEntry.setName("IsHoliday"); attachedDataItemEntry.setValue("IsHoliday");
+	 * adbi.addEntry(attachedDataItemEntry); attachedDataItemEntry = new AttachedDataItemEntry();
+	 * attachedDataItemEntry.setName("IsClosure"); attachedDataItemEntry.setValue("IsClosure");
+	 * adbi.addEntry(attachedDataItemEntry); attachedDataItemEntry = new AttachedDataItemEntry();
+	 * attachedDataItemEntry.setName("WorkingHours");
+	 * attachedDataItemEntry.setValue("WorkingHours"); adbi.addEntry(attachedDataItemEntry);
 	 * binding.putAttachedDataItem("Default", "", "", adbi);
-	 * getElement().commitConfigurationChanges(manager); List ret = new
-	 * ArrayList(); ret.add(new PrimitiveGeneralPropertiesPanel("General",
-	 * getElement())); return ret; }
+	 * getElement().commitConfigurationChanges(manager); List ret = new ArrayList(); ret.add(new
+	 * PrimitiveGeneralPropertiesPanel("General", getElement())); return ret; }
 	 */
 	@Override
-	public List<Variable> getOutgoingVariables(String exitPoint,
-			boolean localOnly) {
+	public List<Variable> getOutgoingVariables(String exitPoint, boolean localOnly) {
 		/*
-		 * List ret = new ArrayList(); if(exitPoint.equals("Continue")) {
-		 * Variable var = new Variable("Residential", FieldType.STRING);
-		 * ret.add(var); var = new Variable("Business", FieldType.STRING);
-		 * ret.add(var); var = new Variable("EasyMax", FieldType.STRING);
-		 * ret.add(var); var = new Variable("PA", FieldType.STRING);
-		 * ret.add(var); var = new Variable("IsHoliday", FieldType.STRING);
-		 * ret.add(var); var = new Variable("IsClosure", FieldType.STRING);
-		 * ret.add(var); var = new Variable("WorkingHours", FieldType.STRING);
+		 * List ret = new ArrayList(); if(exitPoint.equals("Continue")) { Variable var = new
+		 * Variable("Residential", FieldType.STRING); ret.add(var); var = new Variable("Business",
+		 * FieldType.STRING); ret.add(var); var = new Variable("EasyMax", FieldType.STRING);
+		 * ret.add(var); var = new Variable("PA", FieldType.STRING); ret.add(var); var = new
+		 * Variable("IsHoliday", FieldType.STRING); ret.add(var); var = new Variable("IsClosure",
+		 * FieldType.STRING); ret.add(var); var = new Variable("WorkingHours", FieldType.STRING);
 		 * ret.add(var); } return ret;
 		 */return Collections.emptyList();
 	}

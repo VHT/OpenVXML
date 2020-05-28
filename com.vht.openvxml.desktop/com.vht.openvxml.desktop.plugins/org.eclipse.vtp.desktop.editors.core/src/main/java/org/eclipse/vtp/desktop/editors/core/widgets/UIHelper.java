@@ -23,8 +23,7 @@ public class UIHelper {
 		Composite containerComp = new Composite(parent, SWT.NONE);
 		containerComp.setBackground(parent.getBackground());
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL
-				| GridData.HORIZONTAL_ALIGN_BEGINNING
-				| GridData.VERTICAL_ALIGN_BEGINNING);
+				| GridData.HORIZONTAL_ALIGN_BEGINNING | GridData.VERTICAL_ALIGN_BEGINNING);
 		gridData.horizontalIndent = indent;
 		gridData.widthHint = 150;
 		// gridData.grabExcessVerticalSpace = true;
@@ -52,8 +51,7 @@ public class UIHelper {
 		return ret;
 	}
 
-	public static RowDivider createRowDivider(Composite parent,
-			Color dividerColor) {
+	public static RowDivider createRowDivider(Composite parent, Color dividerColor) {
 		RowDivider rd1 = new RowDivider(parent, SWT.NONE);
 		rd1.setBackground(parent.getBackground());
 		rd1.setForeground(dividerColor);
@@ -68,8 +66,7 @@ public class UIHelper {
 	}
 
 	public static Combo createValueDropDown(Composite parent) {
-		Combo ret = new Combo(parent, SWT.BORDER | SWT.READ_ONLY
-				| SWT.DROP_DOWN);
+		Combo ret = new Combo(parent, SWT.BORDER | SWT.READ_ONLY | SWT.DROP_DOWN);
 		GridData gd = new GridData();
 		gd.verticalIndent = 2;
 		gd.horizontalAlignment = SWT.RIGHT;
@@ -108,8 +105,7 @@ public class UIHelper {
 	}
 
 	public static Text createValueTextArea(Composite parent) {
-		Text ret = new Text(parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL
-				| SWT.H_SCROLL);
+		Text ret = new Text(parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
 		GridData gd = new GridData();
 		gd.verticalIndent = 2;
 		gd.heightHint = 75;
@@ -132,8 +128,8 @@ public class UIHelper {
 		return ret;
 	}
 
-	public static Spinner createValueSpinner(Composite parent, int min,
-			int max, int digits, int value) {
+	public static Spinner createValueSpinner(Composite parent, int min, int max, int digits,
+			int value) {
 		Spinner ret = new Spinner(parent, SWT.BORDER);
 		ret.setMinimum(min);
 		ret.setMaximum(max);
@@ -149,8 +145,8 @@ public class UIHelper {
 		return ret;
 	}
 
-	public static Slider createValueSlider(Composite parent, int min, int max,
-			String leftName, String rightName) {
+	public static Slider createValueSlider(Composite parent, int min, int max, String leftName,
+			String rightName) {
 		Composite sliderComp = new Composite(parent, SWT.NONE);
 		sliderComp.setBackground(parent.getBackground());
 		GridData gd = new GridData();
@@ -181,8 +177,8 @@ public class UIHelper {
 		ret.setMaximum(max);
 		fd = new FormData();
 		fd.left = new FormAttachment(leftLabel, /*
-												 * leftLabel.computeSize(SWT.DEFAULT
-												 * , SWT.DEFAULT).x / 2
+												 * leftLabel.computeSize(SWT.DEFAULT ,
+												 * SWT.DEFAULT).x / 2
 												 */0, SWT.LEFT);
 		fd.right = new FormAttachment(rightLabel, /*-1 * (rightLabel.computeSize(SWT.DEFAULT, SWT.DEFAULT).x / 2)*/
 		0, SWT.RIGHT);

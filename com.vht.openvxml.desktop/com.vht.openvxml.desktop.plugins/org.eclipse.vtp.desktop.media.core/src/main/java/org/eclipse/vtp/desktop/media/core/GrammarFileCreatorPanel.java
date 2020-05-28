@@ -23,7 +23,8 @@ import org.eclipse.vtp.framework.interactions.core.media.FileInputGrammar;
 import org.eclipse.vtp.framework.interactions.core.media.InputGrammar;
 
 public abstract class GrammarFileCreatorPanel extends InputGrammarCreatorPanel
-		implements SelectionListener {
+	implements
+	SelectionListener {
 	Text text = null;
 
 	public GrammarFileCreatorPanel() {
@@ -32,16 +33,11 @@ public abstract class GrammarFileCreatorPanel extends InputGrammarCreatorPanel
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.media.core.InputGrammarCreatorPanel#createGrammar
-	 * ()
+	 * @see org.eclipse.vtp.desktop.media.core.InputGrammarCreatorPanel#createGrammar ()
 	 */
 	@Override
 	public InputGrammar createGrammar() {
-		if (text.getText().equals("")) {
-			return null;
-		}
+		if (text.getText().equals("")) { return null; }
 		FileInputGrammar content = createNewGrammar();
 		content.setStaticPath(text.getText());
 		return content;
@@ -49,9 +45,7 @@ public abstract class GrammarFileCreatorPanel extends InputGrammarCreatorPanel
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.media.core.InputGrammarCreatorPanel#createControls
+	 * @see org.eclipse.vtp.desktop.media.core.InputGrammarCreatorPanel#createControls
 	 * (org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -59,22 +53,18 @@ public abstract class GrammarFileCreatorPanel extends InputGrammarCreatorPanel
 		Composite comp = new Composite(parent, SWT.NONE);
 		comp.setLayout(new GridLayout(1, false));
 		text = new Text(comp, SWT.BORDER | SWT.FLAT | SWT.SINGLE);
-		text.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true,
-				false));
+		text.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, false));
 		// text.setEditable(false);
 		Button browseButton = new Button(comp, SWT.PUSH);
 		browseButton.setText("Browse...");
-		browseButton.setLayoutData(new GridData(GridData.FILL, GridData.FILL,
-				false, false));
+		browseButton.setLayoutData(new GridData(GridData.FILL, GridData.FILL, false, false));
 		browseButton.addSelectionListener(this);
 		setControl(comp);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.media.core.InputGrammarCreatorPanel#setInitialInput
+	 * @see org.eclipse.vtp.desktop.media.core.InputGrammarCreatorPanel#setInitialInput
 	 * (org.eclipse.vtp.framework.interactions.core.media.InputGrammar)
 	 */
 	@Override
@@ -86,32 +76,24 @@ public abstract class GrammarFileCreatorPanel extends InputGrammarCreatorPanel
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
+	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
 	 * .events.SelectionEvent)
 	 */
 	@Override
 	public void widgetSelected(SelectionEvent e) {
-		ResourceChooserDialog dialog = new ResourceChooserDialog(
-				text.getShell(), getMediaProvider().getResourceManager(),
-				text.getText());
-		if (dialog.open() != ResourceChooserDialog.OK) {
-			return;
-		}
+		ResourceChooserDialog dialog = new ResourceChooserDialog(text.getShell(),
+				getMediaProvider().getResourceManager(), text.getText());
+		if (dialog.open() != ResourceChooserDialog.OK) { return; }
 		text.setText(dialog.getValue());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse
+	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse
 	 * .swt.events.SelectionEvent)
 	 */
 	@Override
-	public void widgetDefaultSelected(SelectionEvent e) {
-	}
+	public void widgetDefaultSelected(SelectionEvent e) {}
 
 	/**
 	 * @return

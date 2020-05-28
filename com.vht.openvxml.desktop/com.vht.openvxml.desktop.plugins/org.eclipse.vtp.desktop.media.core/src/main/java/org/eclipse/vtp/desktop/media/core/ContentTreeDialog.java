@@ -74,8 +74,7 @@ public abstract class ContentTreeDialog extends Dialog {
 	/**
 	 * Creates a new <code>ContentDialog</code>.
 	 * 
-	 * @param parentShell
-	 *            The shell to create the dialog from.
+	 * @param parentShell The shell to create the dialog from.
 	 */
 	public ContentTreeDialog(Shell parentShell) {
 		super(parentShell);
@@ -84,8 +83,7 @@ public abstract class ContentTreeDialog extends Dialog {
 	/**
 	 * Creates a new <code>ContentDialog</code>.
 	 * 
-	 * @param parentShellProvider
-	 *            The shell provider to create the dialog from.
+	 * @param parentShellProvider The shell provider to create the dialog from.
 	 */
 	public ContentTreeDialog(IShellProvider parentShellProvider) {
 		super(parentShellProvider);
@@ -111,8 +109,7 @@ public abstract class ContentTreeDialog extends Dialog {
 	/**
 	 * Sets the media provider the list is bound to.
 	 * 
-	 * @param mediaProvider
-	 *            The media provider the list is bound to.
+	 * @param mediaProvider The media provider the list is bound to.
 	 */
 	public void setMediaProvider(IMediaProvider mediaProvider) {
 		this.mediaProvider = mediaProvider;
@@ -126,11 +123,9 @@ public abstract class ContentTreeDialog extends Dialog {
 	}
 
 	/**
-	 * Returns true if the content of this dialog is valid and the OK button
-	 * should be enabled.
+	 * Returns true if the content of this dialog is valid and the OK button should be enabled.
 	 * 
-	 * @return True if the content of this dialog is valid and the OK button
-	 *         should be enabled.
+	 * @return True if the content of this dialog is valid and the OK button should be enabled.
 	 */
 	protected boolean isContentValid() {
 		return true;
@@ -152,11 +147,9 @@ public abstract class ContentTreeDialog extends Dialog {
 		if (result == ContentEntryDialog.OK) {
 			Content c = pbed.getContent();
 			if (parent instanceof PromptBindingCase) {
-				((PromptBindingCase) parent)
-						.addChild(new PromptBindingEntry(c));
+				((PromptBindingCase) parent).addChild(new PromptBindingEntry(c));
 			} else if (parent instanceof PromptBindingItem) {
-				((PromptBindingItem) parent)
-						.addEntry(new PromptBindingEntry(c));
+				((PromptBindingItem) parent).addEntry(new PromptBindingEntry(c));
 			}
 			viewer.refresh();
 			contentChanged();
@@ -177,8 +170,7 @@ public abstract class ContentTreeDialog extends Dialog {
 		if (parent instanceof PromptBindingSwitch) {
 			ScriptDialog sd = new ScriptDialog(getShell());
 			if (sd.open() == ScriptDialog.OK) {
-				((PromptBindingSwitch) parent).addChild(new PromptBindingCase(
-						sd.getScript()));
+				((PromptBindingSwitch) parent).addChild(new PromptBindingCase(sd.getScript()));
 				viewer.refresh();
 				contentChanged();
 			}
@@ -225,10 +217,7 @@ public abstract class ContentTreeDialog extends Dialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets
-	 * .Composite)
+	 * @see org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets .Composite)
 	 */
 	@Override
 	protected Control createContents(Composite parent) {
@@ -239,9 +228,7 @@ public abstract class ContentTreeDialog extends Dialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(
-	 * org.eclipse.swt.widgets.Composite)
+	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea( org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
@@ -249,8 +236,7 @@ public abstract class ContentTreeDialog extends Dialog {
 		Composite comp = new Composite(parent, SWT.NONE);
 		comp.setLayout(new GridLayout(2, false));
 		comp.setLayoutData(new GridData());
-		Tree tree = new Tree(comp, SWT.FULL_SELECTION | SWT.V_SCROLL
-				| SWT.SINGLE);
+		Tree tree = new Tree(comp, SWT.FULL_SELECTION | SWT.V_SCROLL | SWT.SINGLE);
 		tree.setHeaderVisible(true);
 		GridData gd = new GridData();
 		gd.widthHint = 255;
@@ -272,8 +258,7 @@ public abstract class ContentTreeDialog extends Dialog {
 					try {
 						IStructuredSelection selection = (IStructuredSelection) event
 								.getSelection();
-						editNode((PromptBindingNode) selection
-								.getFirstElement());
+						editNode((PromptBindingNode) selection.getFirstElement());
 					} catch (Exception ex) {
 						ex.printStackTrace();
 					}
@@ -282,15 +267,13 @@ public abstract class ContentTreeDialog extends Dialog {
 		});
 		viewer.getControl().addKeyListener(new KeyListener() {
 			@Override
-			public void keyPressed(KeyEvent e) {
-			}
+			public void keyPressed(KeyEvent e) {}
 
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.keyCode == SWT.DEL || e.keyCode == SWT.BS) {
-					MessageBox confirmationDialog = new MessageBox(Display
-							.getCurrent().getActiveShell(), SWT.YES | SWT.NO
-							| SWT.ICON_WARNING);
+					MessageBox confirmationDialog = new MessageBox(Display.getCurrent()
+							.getActiveShell(), SWT.YES | SWT.NO | SWT.ICON_WARNING);
 					confirmationDialog
 							.setMessage("Are you sure you want to delete the selected item?");
 					int result = confirmationDialog.open();
@@ -298,8 +281,7 @@ public abstract class ContentTreeDialog extends Dialog {
 						try {
 							IStructuredSelection selection = (IStructuredSelection) viewer
 									.getSelection();
-							removeNode((PromptBindingNode) selection
-									.getFirstElement());
+							removeNode((PromptBindingNode) selection.getFirstElement());
 						} catch (Exception ex) {
 							ex.printStackTrace();
 						}
@@ -318,14 +300,12 @@ public abstract class ContentTreeDialog extends Dialog {
 		addEntryButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		addEntryButton.addSelectionListener(new SelectionListener() {
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
-					IStructuredSelection selection = (IStructuredSelection) viewer
-							.getSelection();
+					IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
 					Object selected = selection.getFirstElement();
 					if (selected == null) {
 						addEntry(treeContent);
@@ -346,14 +326,12 @@ public abstract class ContentTreeDialog extends Dialog {
 		addChoicesButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		addChoicesButton.addSelectionListener(new SelectionListener() {
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
-					IStructuredSelection selection = (IStructuredSelection) viewer
-							.getSelection();
+					IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
 					Object selected = selection.getFirstElement();
 					if (selected == null) {
 						addSwitch(treeContent);
@@ -375,14 +353,12 @@ public abstract class ContentTreeDialog extends Dialog {
 		addChoiceButton.setEnabled(false);
 		addChoiceButton.addSelectionListener(new SelectionListener() {
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
-					IStructuredSelection selection = (IStructuredSelection) viewer
-							.getSelection();
+					IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
 					Object selected = selection.getFirstElement();
 					if (selected instanceof PromptBindingCase) {
 						addCase(parentOf(selected));
@@ -400,14 +376,12 @@ public abstract class ContentTreeDialog extends Dialog {
 		editButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		editButton.addSelectionListener(new SelectionListener() {
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
-					IStructuredSelection selection = (IStructuredSelection) viewer
-							.getSelection();
+					IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
 					editNode((PromptBindingNode) selection.getFirstElement());
 				} catch (Exception ex) {
 					ex.printStackTrace();
@@ -420,16 +394,13 @@ public abstract class ContentTreeDialog extends Dialog {
 		removeButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		removeButton.addSelectionListener(new SelectionListener() {
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				MessageBox confirmationDialog = new MessageBox(Display
-						.getCurrent().getActiveShell(), SWT.YES | SWT.NO
-						| SWT.ICON_WARNING);
-				confirmationDialog
-						.setMessage("Are you sure you want to delete the selected item?");
+				MessageBox confirmationDialog = new MessageBox(Display.getCurrent()
+						.getActiveShell(), SWT.YES | SWT.NO | SWT.ICON_WARNING);
+				confirmationDialog.setMessage("Are you sure you want to delete the selected item?");
 
 				int result = confirmationDialog.open();
 
@@ -437,8 +408,7 @@ public abstract class ContentTreeDialog extends Dialog {
 					try {
 						IStructuredSelection selection = (IStructuredSelection) viewer
 								.getSelection();
-						removeNode((PromptBindingNode) selection
-								.getFirstElement());
+						removeNode((PromptBindingNode) selection.getFirstElement());
 					} catch (Exception ex) {
 						ex.printStackTrace();
 					}
@@ -449,11 +419,12 @@ public abstract class ContentTreeDialog extends Dialog {
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
-				IStructuredSelection selection = (IStructuredSelection) event
-						.getSelection();
-				addChoiceButton.setEnabled((selection.getFirstElement() instanceof PromptBindingSwitch)
-						|| (selection.getFirstElement() instanceof PromptBindingCase));
-				editButton.setEnabled(!(selection.getFirstElement() instanceof PromptBindingSwitch));
+				IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+				addChoiceButton
+						.setEnabled((selection.getFirstElement() instanceof PromptBindingSwitch)
+								|| (selection.getFirstElement() instanceof PromptBindingCase));
+				editButton
+						.setEnabled(!(selection.getFirstElement() instanceof PromptBindingSwitch));
 				removeButton.setEnabled(!selection.isEmpty());
 			}
 		});
@@ -462,8 +433,7 @@ public abstract class ContentTreeDialog extends Dialog {
 
 	private Object parentOf(Object element) {
 		if (element instanceof PromptBindingNode) {
-			PromptBindingNode parent = ((PromptBindingNode) element)
-					.getParent();
+			PromptBindingNode parent = ((PromptBindingNode) element).getParent();
 			return parent == null ? treeContent : parent;
 		}
 		return null;
@@ -485,27 +455,18 @@ public abstract class ContentTreeDialog extends Dialog {
 
 		@Override
 		public Object[] getChildren(Object parentElement) {
-			if (parentElement instanceof PromptBindingItem) {
-				return ((PromptBindingItem) parentElement).getEntries()
-						.toArray();
-			}
-			if (parentElement instanceof PromptBindingSwitch) {
-				return ((PromptBindingSwitch) parentElement).getChildren()
-						.toArray();
-			}
-			if (parentElement instanceof PromptBindingCase) {
-				return ((PromptBindingCase) parentElement).getChildren()
-						.toArray();
-			}
+			if (parentElement instanceof PromptBindingItem) { return ((PromptBindingItem) parentElement)
+					.getEntries().toArray(); }
+			if (parentElement instanceof PromptBindingSwitch) { return ((PromptBindingSwitch) parentElement)
+					.getChildren().toArray(); }
+			if (parentElement instanceof PromptBindingCase) { return ((PromptBindingCase) parentElement)
+					.getChildren().toArray(); }
 			return new Object[0];
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
-		 * java.lang.Object)
+		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements( java.lang.Object)
 		 */
 		@Override
 		public Object[] getElements(Object inputElement) {
@@ -514,35 +475,26 @@ public abstract class ContentTreeDialog extends Dialog {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 		 */
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
+		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
 		 * .jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
 		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 
 	}
 
-	private class PromptBindingLabelProvider extends LabelProvider implements
-			ITableLabelProvider {
+	private class PromptBindingLabelProvider extends LabelProvider implements ITableLabelProvider {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java
-		 * .lang.Object, int)
+		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java .lang.Object, int)
 		 */
 		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
@@ -551,10 +503,7 @@ public abstract class ContentTreeDialog extends Dialog {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.
-		 * lang.Object, int)
+		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java. lang.Object, int)
 		 */
 		@Override
 		public String getColumnText(Object element, int columnIndex) {
@@ -567,13 +516,12 @@ public abstract class ContentTreeDialog extends Dialog {
 				Content content = ((PromptBindingEntry) element).getContent();
 				if (content instanceof FormattableContent) {
 					FormattableContent fc = (FormattableContent) content;
-					buf.append(fc.getContentTypeName() + "("
-							+ fc.getFormatName() + ", " + fc.getValue() + ")");
+					buf.append(fc.getContentTypeName() + "(" + fc.getFormatName() + ", "
+							+ fc.getValue() + ")");
 				} else if (content instanceof TextContent) {
 					buf.append(((TextContent) content).getText());
 				} else if (content instanceof ReferencedContent) {
-					buf.append("REFERENCE("
-							+ ((ReferencedContent) content).getReferencedName()
+					buf.append("REFERENCE(" + ((ReferencedContent) content).getReferencedName()
 							+ ")");
 				} else if (content instanceof FileContent) {
 					FileContent fc = (FileContent) content;

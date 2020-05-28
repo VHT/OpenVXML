@@ -32,9 +32,7 @@ public class DerivedComplexContentModel extends ComplexContentModel {
 
 	@Override
 	public boolean isMixedContent() {
-		if (!overridesMixedContent) {
-			return getSuperTypeContentModel().isMixedContent();
-		}
+		if (!overridesMixedContent) { return getSuperTypeContentModel().isMixedContent(); }
 		return super.isMixedContent();
 	}
 

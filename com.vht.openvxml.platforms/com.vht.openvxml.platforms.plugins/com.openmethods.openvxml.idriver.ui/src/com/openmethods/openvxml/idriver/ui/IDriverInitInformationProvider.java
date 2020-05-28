@@ -23,8 +23,9 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElementConn
 import com.openmethods.openvxml.desktop.model.workflow.design.ISecurableElement;
 import com.openmethods.openvxml.desktop.model.workflow.internal.design.ConnectorRecord;
 
-public class IDriverInitInformationProvider extends
-		PrimitiveInformationProvider implements ISecurableElement {
+public class IDriverInitInformationProvider extends PrimitiveInformationProvider
+	implements
+	ISecurableElement {
 	List<ConnectorRecord> connectorRecords = new ArrayList<ConnectorRecord>();
 	private String callIdVariable = "";
 	private String connIdVariable = "";
@@ -72,9 +73,7 @@ public class IDriverInitInformationProvider extends
 	public ConnectorRecord getConnectorRecord(String recordName) {
 		for (int i = 0; i < connectorRecords.size(); i++) {
 			ConnectorRecord cr = connectorRecords.get(i);
-			if (cr.getName().equals(recordName)) {
-				return cr;
-			}
+			if (cr.getName().equals(recordName)) { return cr; }
 		}
 		return null;
 	}
@@ -91,8 +90,7 @@ public class IDriverInitInformationProvider extends
 		for (int i = 0; i < connectorRecords.size(); i++) {
 			ConnectorRecord cr = connectorRecords.get(i);
 			if (cr.getType().isSet(
-					IDesignElementConnectionPoint.ConnectionPointType
-							.getFlagSet(types))) {
+					IDesignElementConnectionPoint.ConnectionPointType.getFlagSet(types))) {
 				ret.add(cr);
 			}
 		}
@@ -103,10 +101,8 @@ public class IDriverInitInformationProvider extends
 	public void readConfiguration(org.w3c.dom.Element configuration) {
 		NodeList nl = configuration.getElementsByTagName("idriver-init");
 		if (nl.getLength() > 0) {
-			org.w3c.dom.Element scriptElement = (org.w3c.dom.Element) nl
-					.item(0);
-			secured = Boolean.parseBoolean(scriptElement
-					.getAttribute("secured"));
+			org.w3c.dom.Element scriptElement = (org.w3c.dom.Element) nl.item(0);
+			secured = Boolean.parseBoolean(scriptElement.getAttribute("secured"));
 			callIdVariable = scriptElement.getAttribute("call-id-variable");
 			connIdVariable = scriptElement.getAttribute("conn-id-variable");
 			portVariable = scriptElement.getAttribute("port-variable");
@@ -115,8 +111,8 @@ public class IDriverInitInformationProvider extends
 
 	@Override
 	public void writeConfiguration(org.w3c.dom.Element configuration) {
-		org.w3c.dom.Element scriptElement = configuration.getOwnerDocument()
-				.createElement("idriver-init");
+		org.w3c.dom.Element scriptElement = configuration.getOwnerDocument().createElement(
+				"idriver-init");
 		configuration.appendChild(scriptElement);
 		scriptElement.setAttribute("secured", Boolean.toString(secured));
 		scriptElement.setAttribute("call-id-variable", callIdVariable);

@@ -18,14 +18,13 @@ import com.openmethods.openvxml.desktop.model.businessobjects.FieldType;
 import com.openmethods.openvxml.desktop.model.businessobjects.IBusinessObjectField;
 
 /**
- * This is a concrete implementation of <code>IBusinessObjectField</code> and
- * provides the default behavior of that interface.
+ * This is a concrete implementation of <code>IBusinessObjectField</code> and provides the default
+ * behavior of that interface.
  *
  * @author Trip Gilman
  * @version 2.0
  */
-public class BusinessObjectField extends WorkflowResource implements
-		IBusinessObjectField {
+public class BusinessObjectField extends WorkflowResource implements IBusinessObjectField {
 	/**
 	 * The business object defintion this field is a member of.
 	 */
@@ -42,29 +41,24 @@ public class BusinessObjectField extends WorkflowResource implements
 	private FieldType dataType;
 
 	/**
-	 * The initial value this field will have when a new instance of the
-	 * containing business object type is created.
+	 * The initial value this field will have when a new instance of the containing business object
+	 * type is created.
 	 */
 	private String initialValue;
 
 	private boolean secured = false;
 
 	/**
-	 * Creates a new <code>BusinessObjectField</code> with the given name, data
-	 * type, initial value. The parent business object is also provided by the
-	 * businessObject parameter.
+	 * Creates a new <code>BusinessObjectField</code> with the given name, data type, initial value.
+	 * The parent business object is also provided by the businessObject parameter.
 	 *
-	 * @param businessObject
-	 *            The parent business object
-	 * @param name
-	 *            The name of this business object field
-	 * @param dataType
-	 *            The data type of this business object field
-	 * @param initialValue
-	 *            The initial value for this business object field
+	 * @param businessObject The parent business object
+	 * @param name The name of this business object field
+	 * @param dataType The data type of this business object field
+	 * @param initialValue The initial value for this business object field
 	 */
-	public BusinessObjectField(BusinessObject businessObject, String name,
-			FieldType dataType, String initialValue, boolean secured) {
+	public BusinessObjectField(BusinessObject businessObject, String name, FieldType dataType,
+			String initialValue, boolean secured) {
 		super();
 		this.businessObject = businessObject;
 		this.name = name;
@@ -76,10 +70,7 @@ public class BusinessObjectField extends WorkflowResource implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.internals.VoiceResource#getObjectId
-	 * ()
+	 * @see org.eclipse.vtp.desktop.core.project.internals.VoiceResource#getObjectId ()
 	 */
 	@Override
 	protected String getObjectId() {
@@ -88,7 +79,6 @@ public class BusinessObjectField extends WorkflowResource implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IBusinessObjectField#getName()
 	 */
 	@Override
@@ -98,9 +88,7 @@ public class BusinessObjectField extends WorkflowResource implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IBusinessObjectField#getDataType()
+	 * @see org.eclipse.vtp.desktop.core.project.IBusinessObjectField#getDataType()
 	 */
 	@Override
 	public FieldType getDataType() {
@@ -109,10 +97,7 @@ public class BusinessObjectField extends WorkflowResource implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IBusinessObjectField#getInitialValue
-	 * ()
+	 * @see org.eclipse.vtp.desktop.core.project.IBusinessObjectField#getInitialValue ()
 	 */
 	@Override
 	public String getInitialValue() {
@@ -121,7 +106,6 @@ public class BusinessObjectField extends WorkflowResource implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IVoiceResource#getParent()
 	 */
 	@Override
@@ -131,9 +115,7 @@ public class BusinessObjectField extends WorkflowResource implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.projects.core.IBusinessObjectField#isSecured()
+	 * @see org.eclipse.vtp.desktop.projects.core.IBusinessObjectField#isSecured()
 	 */
 	@Override
 	public boolean isSecured() {

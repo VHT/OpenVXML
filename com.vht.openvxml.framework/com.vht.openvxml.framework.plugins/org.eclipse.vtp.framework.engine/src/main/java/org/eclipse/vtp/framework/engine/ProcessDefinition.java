@@ -49,28 +49,18 @@ public class ProcessDefinition implements IProcessDefinition {
 	/**
 	 * Creates a new ProccessDefinition.
 	 * 
-	 * @param document
-	 *            The document to load.
-	 * @throws IllegalArgumentException
-	 *             If the specified document is invalid.
-	 * @throws NullPointerException
-	 *             If the specified document is <code>null</code>.
+	 * @param document The document to load.
+	 * @throws IllegalArgumentException If the specified document is invalid.
+	 * @throws NullPointerException If the specified document is <code>null</code>.
 	 */
-	public ProcessDefinition(Document document)
-			throws IllegalArgumentException, NullPointerException {
-		if (document == null) {
-			throw new NullPointerException("document"); //$NON-NLS-1$
+	public ProcessDefinition(Document document) throws IllegalArgumentException,
+			NullPointerException {
+		if (document == null) { throw new NullPointerException("document"); //$NON-NLS-1$
 		}
 		Element definition = document.getDocumentElement();
-		if (definition == null) {
-			throw new IllegalArgumentException();
-		}
-		if (!URI.equals(definition.getNamespaceURI())) {
-			throw new IllegalArgumentException();
-		}
-		if (!"definition".equals(definition.getLocalName())) {
-			throw new IllegalArgumentException();
-		}
+		if (definition == null) { throw new IllegalArgumentException(); }
+		if (!URI.equals(definition.getNamespaceURI())) { throw new IllegalArgumentException(); }
+		if (!"definition".equals(definition.getLocalName())) { throw new IllegalArgumentException(); }
 		// Load the services.
 		Element services = null;
 		NodeList list = definition.getElementsByTagNameNS(URI, "services"); //$NON-NLS-1$
@@ -105,8 +95,8 @@ public class ProcessDefinition implements IProcessDefinition {
 			Element action = (Element) list.item(i);
 			String id = action.getAttribute("id"); //$NON-NLS-1$
 			actionNames.put(id, action.getAttribute("name"));
-			SequenceDefinition sequence = new SequenceDefinition(id,
-					action.getAttribute("descriptor-id"), //$NON-NLS-1$
+			SequenceDefinition sequence = new SequenceDefinition(id, action
+					.getAttribute("descriptor-id"), //$NON-NLS-1$
 					action.getChildNodes());
 			sequenceDefinitions.put(sequence.actionInstanceID, sequence);
 		}
@@ -122,8 +112,7 @@ public class ProcessDefinition implements IProcessDefinition {
 		for (int i = 0; i < list.getLength(); ++i) {
 			Element observer = (Element) list.item(i);
 			String id = observer.getAttribute("id"); //$NON-NLS-1$
-			observerDescriptorIDs.put(id,
-					observer.getAttribute("descriptor-id")); //$NON-NLS-1$
+			observerDescriptorIDs.put(id, observer.getAttribute("descriptor-id")); //$NON-NLS-1$
 			NodeList elements = observer.getChildNodes();
 			List configurations = new ArrayList(elements.getLength());
 			for (int j = 0; j < elements.getLength(); ++j) {
@@ -145,22 +134,14 @@ public class ProcessDefinition implements IProcessDefinition {
 		for (int i = 0; i < list.getLength(); ++i) {
 			Element before = (Element) list.item(i);
 			String action = before.getAttribute("action"); //$NON-NLS-1$
-			SequenceDefinition sequence = (SequenceDefinition) sequenceDefinitions
-					.get(action);
-			if (sequence == null) {
-				throw new IllegalArgumentException();
-			}
-			if (sequence.beforeObservers != null) {
-				throw new IllegalArgumentException();
-			}
+			SequenceDefinition sequence = (SequenceDefinition) sequenceDefinitions.get(action);
+			if (sequence == null) { throw new IllegalArgumentException(); }
+			if (sequence.beforeObservers != null) { throw new IllegalArgumentException(); }
 			NodeList notify = before.getElementsByTagNameNS(URI, "notify"); //$NON-NLS-1$
 			sequence.beforeObservers = new ArrayList(notify.getLength());
 			for (int j = 0; j < notify.getLength(); ++j) {
-				String observer = ((Element) notify.item(j))
-						.getAttribute("observer"); //$NON-NLS-1$
-				if (!observerDescriptorIDs.containsKey(observer)) {
-					throw new IllegalArgumentException();
-				}
+				String observer = ((Element) notify.item(j)).getAttribute("observer"); //$NON-NLS-1$
+				if (!observerDescriptorIDs.containsKey(observer)) { throw new IllegalArgumentException(); }
 				sequence.beforeObservers.add(observer);
 			}
 		}
@@ -170,29 +151,19 @@ public class ProcessDefinition implements IProcessDefinition {
 			String action = after.getAttribute("action"); //$NON-NLS-1$
 			String path = after.getAttribute("path"); //$NON-NLS-1$
 			String target = after.getAttribute("target"); //$NON-NLS-1$
-			SequenceDefinition sequence = (SequenceDefinition) sequenceDefinitions
-					.get(action);
-			if (sequence == null) {
-				throw new IllegalArgumentException();
-			}
-			if (sequence.targets.containsKey(path)) {
-				throw new IllegalArgumentException();
-			}
+			SequenceDefinition sequence = (SequenceDefinition) sequenceDefinitions.get(action);
+			if (sequence == null) { throw new IllegalArgumentException(); }
+			if (sequence.targets.containsKey(path)) { throw new IllegalArgumentException(); }
 			SequenceDefinition targetSequence = (SequenceDefinition) sequenceDefinitions
 					.get(target);
-			if (targetSequence == null) {
-				throw new IllegalArgumentException();
-			}
+			if (targetSequence == null) { throw new IllegalArgumentException(); }
 			sequence.targets.put(path, target);
 			NodeList notify = after.getElementsByTagNameNS(URI, "notify"); //$NON-NLS-1$
 			List afterObservers = new ArrayList(notify.getLength());
 			sequence.afterObservers.put(path, afterObservers);
 			for (int j = 0; j < notify.getLength(); ++j) {
-				String observer = ((Element) notify.item(j))
-						.getAttribute("observer"); //$NON-NLS-1$
-				if (!observerDescriptorIDs.containsKey(observer)) {
-					throw new IllegalArgumentException();
-				}
+				String observer = ((Element) notify.item(j)).getAttribute("observer"); //$NON-NLS-1$
+				if (!observerDescriptorIDs.containsKey(observer)) { throw new IllegalArgumentException(); }
 				afterObservers.add(observer);
 			}
 		}
@@ -209,24 +180,19 @@ public class ProcessDefinition implements IProcessDefinition {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.IProcessDefinition#
 	 * getServiceConfiguration(java.lang.String)
 	 */
 	@Override
 	public Element[] getServiceConfiguration(String serviceDescriptorID) {
 		List list = (List) serviceConfigurations.get(serviceDescriptorID);
-		if (list == null) {
-			return new Element[0];
-		}
+		if (list == null) { return new Element[0]; }
 		return (Element[]) list.toArray(new Element[list.size()]);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.IProcessDefinition#
-	 * getStartActionInstanceID()
+	 * @see org.eclipse.vtp.framework.spi.IProcessDefinition# getStartActionInstanceID()
 	 */
 	@Override
 	public String[] getStartActionInstanceIDs() {
@@ -235,9 +201,7 @@ public class ProcessDefinition implements IProcessDefinition {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.IProcessDefinition#
-	 * getActionInstanceIDs()
+	 * @see org.eclipse.vtp.framework.spi.IProcessDefinition# getActionInstanceIDs()
 	 */
 	@Override
 	public String[] getActionInstanceIDs() {
@@ -247,10 +211,7 @@ public class ProcessDefinition implements IProcessDefinition {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.spi.IProcessDefinition#getActionName(java.lang
-	 * .String)
+	 * @see org.eclipse.vtp.framework.spi.IProcessDefinition#getActionName(java.lang .String)
 	 */
 	@Override
 	public String getActionName(String actionInstanceID) {
@@ -259,7 +220,6 @@ public class ProcessDefinition implements IProcessDefinition {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.IProcessDefinition#
 	 * getActionDescriptorID(java.lang.String)
 	 */
@@ -267,15 +227,12 @@ public class ProcessDefinition implements IProcessDefinition {
 	public String getActionDescriptorID(String actionInstanceID) {
 		SequenceDefinition sequence = (SequenceDefinition) sequenceDefinitions
 				.get(actionInstanceID);
-		if (sequence == null) {
-			return null;
-		}
+		if (sequence == null) { return null; }
 		return sequence.actionDescriptorID;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.IProcessDefinition#
 	 * getActionConfiguration(java.lang.String)
 	 */
@@ -283,50 +240,38 @@ public class ProcessDefinition implements IProcessDefinition {
 	public Element[] getActionConfiguration(String actionInstanceID) {
 		SequenceDefinition sequence = (SequenceDefinition) sequenceDefinitions
 				.get(actionInstanceID);
-		if (sequence == null) {
-			return new Element[0];
-		}
-		return (Element[]) sequence.configurations
-				.toArray(new Element[sequence.configurations.size()]);
+		if (sequence == null) { return new Element[0]; }
+		return (Element[]) sequence.configurations.toArray(new Element[sequence.configurations
+				.size()]);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.IProcessDefinition#getActionResultIDs(
-	 * java.lang.String)
+	 * @see org.eclipse.vtp.framework.spi.IProcessDefinition#getActionResultIDs( java.lang.String)
 	 */
 	@Override
 	public String[] getActionResultIDs(String actionInstanceID) {
 		SequenceDefinition sequence = (SequenceDefinition) sequenceDefinitions
 				.get(actionInstanceID);
-		if (sequence == null) {
-			return new String[0];
-		}
-		return (String[]) sequence.targets.keySet().toArray(
-				new String[sequence.targets.size()]);
+		if (sequence == null) { return new String[0]; }
+		return (String[]) sequence.targets.keySet().toArray(new String[sequence.targets.size()]);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.IProcessDefinition#
 	 * getActionResultTargetInstanceID(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public String getActionResultTargetInstanceID(String actionInstanceID,
-			String actionResultID) {
+	public String getActionResultTargetInstanceID(String actionInstanceID, String actionResultID) {
 		SequenceDefinition sequence = (SequenceDefinition) sequenceDefinitions
 				.get(actionInstanceID);
-		if (sequence == null) {
-			return null;
-		}
+		if (sequence == null) { return null; }
 		return (String) sequence.targets.get(actionResultID);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.IProcessDefinition#
 	 * getBeforeObserverInstanceIDs(java.lang.String)
 	 */
@@ -334,42 +279,29 @@ public class ProcessDefinition implements IProcessDefinition {
 	public String[] getBeforeObserverInstanceIDs(String actionInstanceID) {
 		SequenceDefinition sequence = (SequenceDefinition) sequenceDefinitions
 				.get(actionInstanceID);
-		if (sequence == null) {
-			return new String[0];
-		}
-		if (sequence.beforeObservers == null) {
-			return new String[0];
-		}
-		return (String[]) sequence.beforeObservers
-				.toArray(new String[sequence.beforeObservers.size()]);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.IProcessDefinition#
-	 * getAfterObserverInstanceIDs(java.lang.String, java.lang.String)
-	 */
-	@Override
-	public String[] getAfterObserverInstanceIDs(String actionInstanceID,
-			String actionResultID) {
-		SequenceDefinition sequence = (SequenceDefinition) sequenceDefinitions
-				.get(actionInstanceID);
-		if (sequence == null) {
-			return new String[0];
-		}
-		List afterObservers = (List) sequence.afterObservers
-				.get(actionResultID);
-		if (afterObservers == null) {
-			return new String[0];
-		}
-		return (String[]) afterObservers.toArray(new String[afterObservers
+		if (sequence == null) { return new String[0]; }
+		if (sequence.beforeObservers == null) { return new String[0]; }
+		return (String[]) sequence.beforeObservers.toArray(new String[sequence.beforeObservers
 				.size()]);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 * @see org.eclipse.vtp.framework.spi.IProcessDefinition#
+	 * getAfterObserverInstanceIDs(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public String[] getAfterObserverInstanceIDs(String actionInstanceID, String actionResultID) {
+		SequenceDefinition sequence = (SequenceDefinition) sequenceDefinitions
+				.get(actionInstanceID);
+		if (sequence == null) { return new String[0]; }
+		List afterObservers = (List) sequence.afterObservers.get(actionResultID);
+		if (afterObservers == null) { return new String[0]; }
+		return (String[]) afterObservers.toArray(new String[afterObservers.size()]);
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.vtp.framework.spi.IProcessDefinition#
 	 * getObserverDescriptorID(java.lang.String)
 	 */
@@ -380,16 +312,13 @@ public class ProcessDefinition implements IProcessDefinition {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.IProcessDefinition#
 	 * getObserverConfiguration(java.lang.String)
 	 */
 	@Override
 	public Element[] getObserverConfiguration(String observerInstanceID) {
 		List elements = (List) observerConfigurations.get(observerInstanceID);
-		if (elements == null) {
-			return new Element[0];
-		}
+		if (elements == null) { return new Element[0]; }
 		return (Element[]) elements.toArray(new Element[elements.size()]);
 	}
 

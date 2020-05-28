@@ -16,11 +16,9 @@ import com.openmethods.openvxml.desktop.model.webservices.IWebserviceProjectAspe
 import com.openmethods.openvxml.desktop.model.webservices.builders.WebserviceModelBuilder;
 import com.openmethods.openvxml.desktop.model.workflow.IWorkflowProjectAspect;
 
-public class WebserviceProjectAspectFactory implements
-		IOpenVXMLProjectAspectFactory {
+public class WebserviceProjectAspectFactory implements IOpenVXMLProjectAspectFactory {
 
-	public WebserviceProjectAspectFactory() {
-	}
+	public WebserviceProjectAspectFactory() {}
 
 	@Override
 	public String getAspectId() {
@@ -35,15 +33,12 @@ public class WebserviceProjectAspectFactory implements
 	}
 
 	@Override
-	public boolean configureProject(IOpenVXMLProject project,
-			IProjectDescription desc, Element aspectConfiguration) {
+	public boolean configureProject(IOpenVXMLProject project, IProjectDescription desc,
+			Element aspectConfiguration) {
 		ICommand[] commands = desc.getBuildSpec();
 
 		for (ICommand command : commands) {
-			if (command.getBuilderName().equals(
-					WebserviceModelBuilder.BUILDER_ID)) {
-				return false;
-			}
+			if (command.getBuilderName().equals(WebserviceModelBuilder.BUILDER_ID)) { return false; }
 		}
 
 		ICommand[] newCommands = new ICommand[commands.length + 1];
@@ -57,10 +52,8 @@ public class WebserviceProjectAspectFactory implements
 	}
 
 	@Override
-	public void createProjectLayout(IOpenVXMLProject project,
-			Element aspectConfiguration) {
-		IFolder webservicesFolder = project.getUnderlyingProject().getFolder(
-				"Webservices");
+	public void createProjectLayout(IOpenVXMLProject project, Element aspectConfiguration) {
+		IFolder webservicesFolder = project.getUnderlyingProject().getFolder("Webservices");
 		if (!webservicesFolder.exists()) {
 			try {
 				webservicesFolder.create(true, true, null);

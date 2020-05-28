@@ -22,8 +22,7 @@ public interface IDataType {
 	/**
 	 * Returns the initial value for new instances of the specified field.
 	 * 
-	 * @param fieldName
-	 *            The name of the field to determine the initial value of.
+	 * @param fieldName The name of the field to determine the initial value of.
 	 * @return The initial value for new instances of the specified field.
 	 */
 	String getFieldInitialValue(String fieldName);
@@ -36,13 +35,10 @@ public interface IDataType {
 	String[] getFieldNames();
 
 	/**
-	 * Returns the type of the specified field or <code>null</code> if no such
-	 * field exists.
+	 * Returns the type of the specified field or <code>null</code> if no such field exists.
 	 * 
-	 * @param fieldName
-	 *            The name of the field to determine the type of.
-	 * @return The type of the specified field or <code>null</code> if no such
-	 *         field exists.
+	 * @param fieldName The name of the field to determine the type of.
+	 * @return The type of the specified field or <code>null</code> if no such field exists.
 	 */
 	IDataType getFieldType(String fieldName);
 
@@ -54,11 +50,11 @@ public interface IDataType {
 	String getName();
 
 	/**
-	 * Returns the name of the field that objects of this type treat as their
-	 * primary value or <code>null</code> if no such field is defined.
+	 * Returns the name of the field that objects of this type treat as their primary value or
+	 * <code>null</code> if no such field is defined.
 	 * 
-	 * @return The name of the field that objects of this type treat as their
-	 *         primary value if no such field is defined.
+	 * @return The name of the field that objects of this type treat as their primary value if no
+	 *         such field is defined.
 	 */
 	String getPrimaryFieldName();
 
@@ -81,11 +77,9 @@ public interface IDataType {
 	boolean isFieldSecured(String fieldName);
 
 	/**
-	 * Returns true if this type represents a boolean, date, decimal, number, or
-	 * string type.
+	 * Returns true if this type represents a boolean, date, decimal, number, or string type.
 	 * 
-	 * @return True if this type represents a boolean, date, decimal, number, or
-	 *         string type.
+	 * @return True if this type represents a boolean, date, decimal, number, or string type.
 	 */
 	boolean isSimpleType();
 }

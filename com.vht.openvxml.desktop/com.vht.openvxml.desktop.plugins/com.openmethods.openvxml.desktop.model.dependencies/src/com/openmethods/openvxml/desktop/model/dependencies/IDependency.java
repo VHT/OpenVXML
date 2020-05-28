@@ -15,8 +15,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.vtp.desktop.model.core.IWorkflowResource;
 
 /**
- * This interface represents the file resource of an application project that is
- * a custom dependency of a project.
+ * This interface represents the file resource of an application project that is a custom dependency
+ * of a project.
  *
  * @author Trip Gilman
  * @version 1.0
@@ -32,16 +32,14 @@ public interface IDependency extends IWorkflowResource {
 	/**
 	 * Determines if this dependency exists.
 	 *
-	 * @return <code>true</code> if the dependency exists, <code>false</code>
-	 *         otherwise
+	 * @return <code>true</code> if the dependency exists, <code>false</code> otherwise
 	 */
 	public boolean exists();
 
 	/**
 	 * Removes this dependency from the project structure.
 	 *
-	 * @throws CoreException
-	 *             If an error occured during the deletion
+	 * @throws CoreException If an error occured during the deletion
 	 */
 	public void delete() throws CoreException;
 

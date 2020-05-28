@@ -20,8 +20,7 @@ public final class PromptBindingCase extends PromptBindingNode {
 
 	private List<PromptBindingNode> children = new ArrayList<PromptBindingNode>();
 
-	public PromptBindingCase() {
-	}
+	public PromptBindingCase() {}
 
 	public PromptBindingCase(String condition) {
 		this.condition = condition;
@@ -58,8 +57,7 @@ public final class PromptBindingCase extends PromptBindingNode {
 	}
 
 	public void removeChild(PromptBindingNode child) {
-		if (children.remove(child))
-			child.setParent(null);
+		if (children.remove(child)) child.setParent(null);
 	}
 
 	public void clearChildren() {
@@ -72,29 +70,25 @@ public final class PromptBindingCase extends PromptBindingNode {
 	@Override
 	void readConfiguration(Element configuration) {
 		condition = configuration.getAttribute("condition");
-		if (condition.length() == 0)
-			condition = null;
+		if (condition.length() == 0) condition = null;
 		NodeList contentList = configuration.getChildNodes();
 		for (int i = 0; i < contentList.getLength(); i++)
-			if (contentList.item(i) instanceof Element)
-				addChild(PromptBindingNode.load((Element) contentList.item(i)));
+			if (contentList.item(i) instanceof Element) addChild(PromptBindingNode
+					.load((Element) contentList.item(i)));
 	}
 
 	/* Write the configuration for this node. */
 	@Override
 	void writeConfiguration(Element configuration) {
-		Element thisElement = configuration.getOwnerDocument().createElement(
-				"binding-case");
+		Element thisElement = configuration.getOwnerDocument().createElement("binding-case");
 		configuration.appendChild(thisElement);
-		if (condition != null)
-			thisElement.setAttribute("condition", condition);
+		if (condition != null) thisElement.setAttribute("condition", condition);
 		for (PromptBindingNode child : children)
 			child.writeConfiguration(thisElement);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.lang.Object#clone()
 	 */
 	@Override

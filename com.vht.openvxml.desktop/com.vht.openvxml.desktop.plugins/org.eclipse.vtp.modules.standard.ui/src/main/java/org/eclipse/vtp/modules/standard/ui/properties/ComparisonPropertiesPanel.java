@@ -47,14 +47,12 @@ import com.openmethods.openvxml.desktop.model.workflow.design.ObjectDefinition;
 import com.openmethods.openvxml.desktop.model.workflow.design.ObjectField;
 import com.openmethods.openvxml.desktop.model.workflow.design.Variable;
 
-
 /**
  * The graphical user interface used to configure the Decision module
  *
  * @author Lonnie Pryor
  */
-public class ComparisonPropertiesPanel extends DesignElementPropertiesPanel
-{
+public class ComparisonPropertiesPanel extends DesignElementPropertiesPanel {
 	static final String lastString = "LastResult";
 	/** The InformationProvider for this particular Decision module */
 	ComparisonInformationProvider info = null;
@@ -73,32 +71,24 @@ public class ComparisonPropertiesPanel extends DesignElementPropertiesPanel
 
 	/**
 	 * Creates a new LanguageSelectionGeneralPropertiesPanel.
-	 *
-	 *
 	 */
-	public ComparisonPropertiesPanel(String name, IDesignElement ppe)
-	{
+	public ComparisonPropertiesPanel(String name, IDesignElement ppe) {
 		super(name, ppe);
-		info = (ComparisonInformationProvider)((PrimitiveElement)ppe).getInformationProvider();
+		info = (ComparisonInformationProvider) ((PrimitiveElement) ppe).getInformationProvider();
 		List<Variable> vars = ppe.getDesign().getVariablesFor(ppe);
-		outer:	for(Variable v : vars)
-		{
-			for(int i = 0; i < this.variables.size(); i++)
-			{
-				Variable cur = (Variable)this.variables.get(i);
-				if(cur.getName().compareToIgnoreCase(v.getName()) > 0)
-				{
+		outer: for (Variable v : vars) {
+			for (int i = 0; i < this.variables.size(); i++) {
+				Variable cur = (Variable) this.variables.get(i);
+				if (cur.getName().compareToIgnoreCase(v.getName()) > 0) {
 					this.variables.add(i, v);
 					continue outer;
 				}
 			}
 			this.variables.add(v);
 		}
-		for(int i = 0; i < this.variables.size(); i++)
-		{
-			Variable cur = (Variable)this.variables.get(i);
-			if(cur.getName().compareToIgnoreCase(lastString) > 0)
-			{
+		for (int i = 0; i < this.variables.size(); i++) {
+			Variable cur = (Variable) this.variables.get(i);
+			if (cur.getName().compareToIgnoreCase(lastString) > 0) {
 				this.variables.add(i, lastString);
 				break;
 			}
@@ -107,11 +97,11 @@ public class ComparisonPropertiesPanel extends DesignElementPropertiesPanel
 
 	/*
 	 * (non-Javadoc)
-	 *
-	 * @see org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel#createControls(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel#createControls(org.eclipse
+	 * .swt.widgets.Composite)
 	 */
-	public void createControls(Composite parent)
-	{
+	public void createControls(Composite parent) {
 		parent.setLayout(new FillLayout());
 
 		Composite comp = new Composite(parent, SWT.NONE);
@@ -158,8 +148,7 @@ public class ComparisonPropertiesPanel extends DesignElementPropertiesPanel
 		final StackLayout sl1 = new StackLayout();
 		stackComp1.setLayout(sl1);
 		stackComp1.setBackground(lGroup.getBackground());
-		lVarTree = new TreeViewer(stackComp1,
-				SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.SINGLE);
+		lVarTree = new TreeViewer(stackComp1, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.SINGLE);
 		lVarTree.setContentProvider(new VariableContentProvider());
 		lVarTree.setLabelProvider(new VariableLabelProvider());
 		lVarTree.setInput(this);
@@ -175,27 +164,20 @@ public class ComparisonPropertiesPanel extends DesignElementPropertiesPanel
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		secureLeftButton.setLayoutData(gridData);
 		secureLeftButton.setSelection(info.isLeftSecured());
-		
-		lType.addSelectionListener(new SelectionListener()
-			{
-				public void widgetSelected(SelectionEvent e)
-				{
-					if(lType.getSelectionIndex() == 0)
-					{
-						sl1.topControl = lVarTree.getControl();
-					}
-					else
-					{
-						sl1.topControl = lEFComp;
-					}
 
-					stackComp1.layout(true, true);
+		lType.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				if (lType.getSelectionIndex() == 0) {
+					sl1.topControl = lVarTree.getControl();
+				} else {
+					sl1.topControl = lEFComp;
 				}
 
-				public void widgetDefaultSelected(SelectionEvent e)
-				{
-				}
-			});
+				stackComp1.layout(true, true);
+			}
+
+			public void widgetDefaultSelected(SelectionEvent e) {}
+		});
 
 		Group cGroup = new Group(builderComp, SWT.NONE);
 		cGroup.setBackground(builderComp.getBackground());
@@ -239,8 +221,7 @@ public class ComparisonPropertiesPanel extends DesignElementPropertiesPanel
 
 		final StackLayout sl2 = new StackLayout();
 		stackComp2.setLayout(sl2);
-		rVarTree = new TreeViewer(stackComp2,
-				SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.SINGLE);
+		rVarTree = new TreeViewer(stackComp2, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.SINGLE);
 		rVarTree.setContentProvider(new VariableContentProvider());
 		rVarTree.setLabelProvider(new VariableLabelProvider());
 		rVarTree.setInput(this);
@@ -256,55 +237,37 @@ public class ComparisonPropertiesPanel extends DesignElementPropertiesPanel
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		secureRightButton.setLayoutData(gridData);
 		secureRightButton.setSelection(info.isRightSecured());
-		
-		rType.addSelectionListener(new SelectionListener()
-			{
-				public void widgetSelected(SelectionEvent e)
-				{
-					if(rType.getSelectionIndex() == 0)
-					{
-						sl2.topControl = rVarTree.getControl();
-					}
-					else
-					{
-						sl2.topControl = rEFComp;
-					}
 
-					stackComp2.layout(true, true);
+		rType.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				if (rType.getSelectionIndex() == 0) {
+					sl2.topControl = rVarTree.getControl();
+				} else {
+					sl2.topControl = rEFComp;
 				}
 
-				public void widgetDefaultSelected(SelectionEvent e)
-				{
-				}
-			});
+				stackComp2.layout(true, true);
+			}
+
+			public void widgetDefaultSelected(SelectionEvent e) {}
+		});
 		lType.select(info.getLType());
 
-		if(info.getLType() == 0)
-		{
-			//set the tree viewer selection
-			if(info.getLValue().startsWith("LastResult"))
-			{
-				if(info.getLValue().equals("LastResult"))
-				{
+		if (info.getLType() == 0) {
+			// set the tree viewer selection
+			if (info.getLValue().startsWith("LastResult")) {
+				if (info.getLValue().equals("LastResult")) {
 					lVarTree.setSelection(new StructuredSelection(info.getLValue()));
-				}
-				else
-				{
+				} else {
 					lVarTree.setSelection(new StructuredSelection(info.getLValue().substring(11)));
 				}
-			}
-			else
-			{
-				ObjectDefinition od =
-					getObjectDefinitionFromVariables(info.getLValue());
-				StructuredSelection ss =
-					(od == null) ? StructuredSelection.EMPTY
-								 : new StructuredSelection(od);
+			} else {
+				ObjectDefinition od = getObjectDefinitionFromVariables(info.getLValue());
+				StructuredSelection ss = (od == null) ? StructuredSelection.EMPTY
+						: new StructuredSelection(od);
 				lVarTree.setSelection(ss);
 			}
-		}
-		else
-		{
+		} else {
 			lExprField.setText(info.getLValue());
 			sl1.topControl = lEFComp;
 			stackComp1.layout(true, true);
@@ -313,83 +276,58 @@ public class ComparisonPropertiesPanel extends DesignElementPropertiesPanel
 		cType.select(info.getCompType());
 		rType.select(info.getRType());
 
-		if(info.getRType() == 0)
-		{
-			//set the tree viewer selection
-			if(info.getRValue().startsWith("LastResult"))
-			{
-				if(info.getRValue().equals("LastResult"))
-				{
+		if (info.getRType() == 0) {
+			// set the tree viewer selection
+			if (info.getRValue().startsWith("LastResult")) {
+				if (info.getRValue().equals("LastResult")) {
 					rVarTree.setSelection(new StructuredSelection(info.getRValue()));
-				}
-				else
-				{
+				} else {
 					rVarTree.setSelection(new StructuredSelection(info.getRValue().substring(11)));
 				}
-			}
-			else
-			{
-				ObjectDefinition od =
-					getObjectDefinitionFromVariables(info.getRValue());
-				StructuredSelection ss =
-					(od == null) ? StructuredSelection.EMPTY
-								 : new StructuredSelection(od);
+			} else {
+				ObjectDefinition od = getObjectDefinitionFromVariables(info.getRValue());
+				StructuredSelection ss = (od == null) ? StructuredSelection.EMPTY
+						: new StructuredSelection(od);
 				rVarTree.setSelection(ss);
 			}
-		}
-		else
-		{
+		} else {
 			rExprField.setText(info.getRValue());
 			sl2.topControl = rEFComp;
 			stackComp2.layout(true, true);
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel#save()
 	 */
-	public void save()
-	{
+	public void save() {
 		getElement().setName(nameField.getText());
 		info.setLType(lType.getSelectionIndex());
 
-		if(info.getLType() == 0)
-		{
+		if (info.getLType() == 0) {
 			ISelection selection = lVarTree.getSelection();
 
-			if((selection != null) && !selection.isEmpty()
-					&& selection instanceof IStructuredSelection)
-			{
-				IStructuredSelection ss = (IStructuredSelection)selection;
+			if ((selection != null) && !selection.isEmpty()
+					&& selection instanceof IStructuredSelection) {
+				IStructuredSelection ss = (IStructuredSelection) selection;
 				Object selObj = ss.getFirstElement();
 
-				if(selObj instanceof ObjectDefinition)
-				{
-					ObjectDefinition objDef = (ObjectDefinition)selObj;
+				if (selObj instanceof ObjectDefinition) {
+					ObjectDefinition objDef = (ObjectDefinition) selObj;
 					info.setLValue(objDef.getPath());
-				}
-				else if(selObj instanceof String)
-				{
-					String selString = (String)selObj;
-					if(!selString.equals("LastResult"))
-					{
+				} else if (selObj instanceof String) {
+					String selString = (String) selObj;
+					if (!selString.equals("LastResult")) {
 						info.setLValue("LastResult." + selString);
-					}
-					else
-						info.setLValue(selString);
-				}
-				else
-				{
+					} else info.setLValue(selString);
+				} else {
 					info.setLValue("");
 				}
-			}
-			else
-			{
+			} else {
 				info.setLValue("");
 			}
-		}
-		else
-		{
+		} else {
 			info.setLValue(lExprField.getText());
 			info.setLeftSecured(secureLeftButton.getSelection());
 		}
@@ -397,88 +335,66 @@ public class ComparisonPropertiesPanel extends DesignElementPropertiesPanel
 		info.setCompType(cType.getSelectionIndex());
 		info.setRType(rType.getSelectionIndex());
 
-		if(info.getRType() == 0)
-		{
+		if (info.getRType() == 0) {
 			ISelection selection = rVarTree.getSelection();
 
-			if((selection != null) && !selection.isEmpty()
-					&& selection instanceof IStructuredSelection)
-			{
-				IStructuredSelection ss = (IStructuredSelection)selection;
+			if ((selection != null) && !selection.isEmpty()
+					&& selection instanceof IStructuredSelection) {
+				IStructuredSelection ss = (IStructuredSelection) selection;
 				Object selObj = ss.getFirstElement();
 
-				if(selObj instanceof ObjectDefinition)
-				{
-					ObjectDefinition objDef = (ObjectDefinition)selObj;
+				if (selObj instanceof ObjectDefinition) {
+					ObjectDefinition objDef = (ObjectDefinition) selObj;
 					info.setRValue(objDef.getPath());
-				}
-				else if(selObj instanceof String)
-				{
-					String selString = (String)selObj;
-					if(!selString.equals("LastResult"))
-					{
+				} else if (selObj instanceof String) {
+					String selString = (String) selObj;
+					if (!selString.equals("LastResult")) {
 						info.setRValue("LastResult." + selString);
-					}
-					else
-						info.setRValue(selString);
-				}
-				else
-				{
+					} else info.setRValue(selString);
+				} else {
 					info.setRValue("");
 				}
-			}
-			else
-			{
+			} else {
 				info.setRValue("");
 			}
-		}
-		else
-		{
+		} else {
 			info.setRValue(rExprField.getText());
 			info.setRightSecured(secureRightButton.getSelection());
 		}
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.vtp.desktop.model.core.configuration.ComponentPropertiesPanel#cancel()
 	 */
-	public void cancel()
-	{
-		
+	public void cancel() {
+
 	}
 
 	/**
 	 * @param name
 	 * @return
 	 */
-	public ObjectDefinition getObjectDefinitionFromVariables(String name)
-	{
+	public ObjectDefinition getObjectDefinitionFromVariables(String name) {
 		ObjectDefinition ret = null;
 		List<Variable> vars = getElement().getDesign().getVariablesFor(getElement());
 
-		for(int i = 0; i < vars.size(); i++)
-		{
+		for (int i = 0; i < vars.size(); i++) {
 			String varName = name;
 			boolean sub = false;
 
-			if(name.indexOf(".") != -1)
-			{
+			if (name.indexOf(".") != -1) {
 				varName = name.substring(0, name.indexOf("."));
 				sub = true;
 			}
 
 			Variable v = vars.get(i);
 
-			if(v.getName().equals(varName))
-			{
-				if(sub)
-				{
-					//dig deeper
-					ret = getObjectDefinitionFromFields(name.substring(name
-								.indexOf(".") + 1), v);
-				}
-				else
-				{
+			if (v.getName().equals(varName)) {
+				if (sub) {
+					// dig deeper
+					ret = getObjectDefinitionFromFields(name.substring(name.indexOf(".") + 1), v);
+				} else {
 					ret = v;
 
 					break;
@@ -494,34 +410,25 @@ public class ComparisonPropertiesPanel extends DesignElementPropertiesPanel
 	 * @param parent
 	 * @return
 	 */
-	public ObjectDefinition getObjectDefinitionFromFields(String name,
-		ObjectDefinition parent)
-	{
+	public ObjectDefinition getObjectDefinitionFromFields(String name, ObjectDefinition parent) {
 		ObjectDefinition ret = null;
 		List<ObjectField> fields = parent.getFields();
 
-		for(int i = 0; i < fields.size(); i++)
-		{
+		for (int i = 0; i < fields.size(); i++) {
 			String varName = name;
 			boolean sub = false;
 
-			if(name.indexOf('.') != -1)
-			{
+			if (name.indexOf('.') != -1) {
 				varName = name.substring(0, name.indexOf("."));
 				sub = true;
 			}
 
 			ObjectField of = fields.get(i);
 
-			if(of.getName().equals(varName))
-			{
-				if(sub)
-				{
-					ret = getObjectDefinitionFromFields(name.substring(name
-								.indexOf(".") + 1), of);
-				}
-				else
-				{
+			if (of.getName().equals(varName)) {
+				if (sub) {
+					ret = getObjectDefinitionFromFields(name.substring(name.indexOf(".") + 1), of);
+				} else {
 					ret = of;
 
 					break;
@@ -532,142 +439,127 @@ public class ComparisonPropertiesPanel extends DesignElementPropertiesPanel
 		return ret;
 	}
 
-	public class VariableContentProvider implements ITreeContentProvider
-	{
-		/* (non-Javadoc)
+	public class VariableContentProvider implements ITreeContentProvider {
+		/*
+		 * (non-Javadoc)
 		 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
 		 */
-		public Object[] getChildren(Object parentElement)
-		{
-			if(parentElement instanceof ObjectDefinition)
-			{
-				ObjectDefinition v = (ObjectDefinition)parentElement;
+		public Object[] getChildren(Object parentElement) {
+			if (parentElement instanceof ObjectDefinition) {
+				ObjectDefinition v = (ObjectDefinition) parentElement;
 
 				return v.getFields().toArray();
-			}
-			else if(parentElement instanceof String && ((String)parentElement).equals(lastString))
-			{
-				return new String [] {"markname", "marktime", "confidence", "inputmode", "interpretation", "utterance"};
-			}
+			} else if (parentElement instanceof String
+					&& ((String) parentElement).equals(lastString)) { return new String[] {
+					"markname", "marktime", "confidence", "inputmode", "interpretation",
+					"utterance" }; }
 			return null;
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
 		 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object)
 		 */
-		public Object getParent(Object element)
-		{
-			if(element instanceof Variable)
-			{
+		public Object getParent(Object element) {
+			if (element instanceof Variable) {
 				return null;
-			}
-			else if(element instanceof String)
-			{
-				if(((String)element).equals(lastString))
-					return null;
+			} else if (element instanceof String) {
+				if (((String) element).equals(lastString)) return null;
 				return lastString;
-			}
-			else
-			{
-				return ((ObjectField)element).getParent();
+			} else {
+				return ((ObjectField) element).getParent();
 			}
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
 		 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.Object)
 		 */
-		public boolean hasChildren(Object element)
-		{
-			if(element instanceof String)
-			{
-				if(((String)element).equals(lastString))
-					return true;
+		public boolean hasChildren(Object element) {
+			if (element instanceof String) {
+				if (((String) element).equals(lastString)) return true;
 				return false;
 			}
-			return ((ObjectDefinition)element).getFields().size() > 0;
+			return ((ObjectDefinition) element).getFields().size() > 0;
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
 		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)
 		 */
-		public Object[] getElements(Object inputElement)
-		{
+		public Object[] getElements(Object inputElement) {
 			return variables.toArray();
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
 		 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 		 */
-		public void dispose()
-		{
-		}
+		public void dispose() {}
 
-		/* (non-Javadoc)
-		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
+		/*
+		 * (non-Javadoc)
+		 * @see
+		 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer,
+		 * java.lang.Object, java.lang.Object)
 		 */
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput)
-		{
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 	}
 
-	public class VariableLabelProvider implements ILabelProvider
-	{
-		/* (non-Javadoc)
+	public class VariableLabelProvider implements ILabelProvider {
+		/*
+		 * (non-Javadoc)
 		 * @see org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
 		 */
-		public Image getImage(Object element)
-		{
+		public Image getImage(Object element) {
 			return null;
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
 		 * @see org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
 		 */
-		public String getText(Object element)
-		{
-			if(element instanceof String)
-				return (String)element;
-			return ((ObjectDefinition)element).getName();
+		public String getText(Object element) {
+			if (element instanceof String) return (String) element;
+			return ((ObjectDefinition) element).getName();
 		}
 
-		/* (non-Javadoc)
-		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.jface.viewers.ILabelProviderListener)
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.jface.viewers.
+		 * ILabelProviderListener)
 		 */
-		public void addListener(ILabelProviderListener listener)
-		{
-		}
+		public void addListener(ILabelProviderListener listener) {}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
 		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#dispose()
 		 */
-		public void dispose()
-		{
-		}
+		public void dispose() {}
 
-		/* (non-Javadoc)
-		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java.lang.Object, java.lang.String)
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java.lang.Object,
+		 * java.lang.String)
 		 */
-		public boolean isLabelProperty(Object element, String property)
-		{
+		public boolean isLabelProperty(Object element, String property) {
 			return true;
 		}
 
-		/* (non-Javadoc)
-		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse.jface.viewers.ILabelProviderListener)
+		/*
+		 * (non-Javadoc)
+		 * @see
+		 * org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse.jface.viewers
+		 * .ILabelProviderListener)
 		 */
-		public void removeListener(ILabelProviderListener listener)
-		{
-		}
+		public void removeListener(ILabelProviderListener listener) {}
 	}
 
 	@Override
-	public void setConfigurationContext(Map<String, Object> values)
-	{
-	}
+	public void setConfigurationContext(Map<String, Object> values) {}
 
 	@Override
-	public List<String> getApplicableContexts()
-	{
+	public List<String> getApplicableContexts() {
 		return Collections.emptyList();
 	}
 

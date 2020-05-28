@@ -18,16 +18,14 @@ public interface IWebserviceDescriptor extends IWorkflowResource {
 	/**
 	 * Determines if this dependency exists.
 	 *
-	 * @return <code>true</code> if the dependency exists, <code>false</code>
-	 *         otherwise
+	 * @return <code>true</code> if the dependency exists, <code>false</code> otherwise
 	 */
 	public boolean exists();
 
 	/**
 	 * Removes this dependency from the project structure.
 	 *
-	 * @throws CoreException
-	 *             If an error occured during the deletion
+	 * @throws CoreException If an error occured during the deletion
 	 */
 	public void delete() throws CoreException;
 

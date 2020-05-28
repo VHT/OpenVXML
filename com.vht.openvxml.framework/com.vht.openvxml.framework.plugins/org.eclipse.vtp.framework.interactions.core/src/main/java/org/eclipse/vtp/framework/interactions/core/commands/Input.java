@@ -9,7 +9,6 @@ import java.util.Set;
 
 /**
  * @author trip
- *
  */
 public class Input {
 	private int type = 0;

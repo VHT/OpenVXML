@@ -29,8 +29,7 @@ public class MediaRenderingManager {
 		this.dataSet = dataSet;
 	}
 
-	public List<Content> renderContent(int renderingFlags,
-			List<Content> contentSet) {
+	public List<Content> renderContent(int renderingFlags, List<Content> contentSet) {
 		List<Content> inputList = contentSet;
 		List<Content> renderedList = contentSet;
 		if ((renderingFlags & CAPTURE) > 0) {
@@ -59,8 +58,8 @@ public class MediaRenderingManager {
 			renderedList = new LinkedList<Content>();
 			for (Content c : inputList) {
 				if (c instanceof FormattableContent) {
-					renderedList.addAll(((FormattableContent) c).format(
-							mediaProvider.getFormatter(), mediaProvider));
+					renderedList.addAll(((FormattableContent) c).format(mediaProvider
+							.getFormatter(), mediaProvider));
 				} else {
 					renderedList.add(c);
 				}

@@ -81,14 +81,11 @@ public class SelectionStructure {
 		if (moving) {
 			moving = false;
 			try {
-				IDesignDocument designDocument = renderedCanvas.getUIModel()
-						.getDocument();
+				IDesignDocument designDocument = renderedCanvas.getUIModel().getDocument();
 				Document document = renderedCanvas.getSelectionDocument(true);
-				PartialDesignDocument pdd = new PartialDesignDocument(
-						designDocument, (Design) renderedCanvas.getUIModel(),
-						document);
-				MoveOperation delo = new MoveOperation(pdd, moveOffsetX,
-						moveOffsetY);
+				PartialDesignDocument pdd = new PartialDesignDocument(designDocument,
+						(Design) renderedCanvas.getUIModel(), document);
+				MoveOperation delo = new MoveOperation(pdd, moveOffsetX, moveOffsetY);
 				delo.addContext(renderedCanvas.getUndoContext());
 				renderedCanvas.getOperationHistory().execute(delo, null, null);
 			} catch (Exception e) {
@@ -148,11 +145,10 @@ public class SelectionStructure {
 				result.setPrimaryChanged(true);
 				return result;
 			}
-			if (primarySelection != null
-					&& primarySelection instanceof ConnectorFrame) // existing
-																	// selection
-																	// is a
-																	// connector
+			if (primarySelection != null && primarySelection instanceof ConnectorFrame) // existing
+																						// selection
+																						// is a
+																						// connector
 			{
 				primarySelection.setSelected(false);
 				selectedItems.clear();
@@ -267,12 +263,10 @@ public class SelectionStructure {
 			ElementFrame destinationFrame = null;
 			for (ComponentFrame componentFrame : selectedItems) {
 				ElementFrame ef = (ElementFrame) componentFrame;
-				if (cf.getDesignConnector().getOrigin() == ef
-						.getDesignElement()) {
+				if (cf.getDesignConnector().getOrigin() == ef.getDesignElement()) {
 					originFrame = ef;
 				}
-				if (cf.getDesignConnector().getDestination() == ef
-						.getDesignElement()) {
+				if (cf.getDesignConnector().getDestination() == ef.getDesignElement()) {
 					destinationFrame = ef;
 				}
 				if (originFrame != null && destinationFrame != null) {
@@ -300,16 +294,13 @@ public class SelectionStructure {
 				selectionBounds.add(componentFrame.getBounds());
 			}
 		}
-		return selectionBounds == null ? (Rectangle) null : new Rectangle(
-				selectionBounds.x, selectionBounds.y, selectionBounds.width,
-				selectionBounds.height);
+		return selectionBounds == null ? (Rectangle) null : new Rectangle(selectionBounds.x,
+				selectionBounds.y, selectionBounds.width, selectionBounds.height);
 	}
 
 	public Rectangle getTertiaryBounds() {
 		Rectangle sb = getBounds();
-		if (sb == null) {
-			return null;
-		}
+		if (sb == null) { return null; }
 		Rectangle rect = new Rectangle(sb.x, sb.y, sb.width, sb.height);
 		for (ComponentFrame componentFrame : tertiarySelections) {
 			rect.add(componentFrame.getBounds());
@@ -344,11 +335,9 @@ public class SelectionStructure {
 
 	public void alignCenter(int orientation) {
 		if (primarySelection instanceof ElementFrame) {
-			Point p = ((ElementFrame) primarySelection).getDesignElement()
-					.getCenterPoint();
+			Point p = ((ElementFrame) primarySelection).getDesignElement().getCenterPoint();
 			try {
-				AlignCenterOperation delo = new AlignCenterOperation(
-						orientation, p);
+				AlignCenterOperation delo = new AlignCenterOperation(orientation, p);
 				delo.addContext(renderedCanvas.getUndoContext());
 				renderedCanvas.getOperationHistory().execute(delo, null, null);
 			} catch (Exception e) {
@@ -387,9 +376,14 @@ public class SelectionStructure {
 			}
 		} else if (xoffset > 0) // moving to the right
 		{
-			if (rect.x + rect.width + xoffset > renderedCanvas.getUIModel()
-					.getWidth()) // offset would move something off the screen,
-									// need to buffer
+			if (rect.x + rect.width + xoffset > renderedCanvas.getUIModel().getWidth()) // offset
+																						// would
+																						// move
+																						// something
+																						// off the
+																						// screen,
+																						// need to
+																						// buffer
 			{
 				bufferedXoffset += xoffset
 						- (renderedCanvas.getUIModel().getWidth() - (rect.x + rect.width));
@@ -433,9 +427,16 @@ public class SelectionStructure {
 			}
 		} else if (yoffset > 0)// moving down
 		{
-			if (rect.y + rect.height + yoffset > renderedCanvas.getUIModel()
-					.getHeight()) // offset would move something off the screen,
-									// need to buffer
+			if (rect.y + rect.height + yoffset > renderedCanvas.getUIModel().getHeight()) // offset
+																							// would
+																							// move
+																							// something
+																							// off
+																							// the
+																							// screen,
+																							// need
+																							// to
+																							// buffer
 			{
 				bufferedYoffset += yoffset
 						- (renderedCanvas.getUIModel().getHeight() - (rect.y + rect.height));
@@ -501,8 +502,7 @@ public class SelectionStructure {
 		}
 
 		@Override
-		public IStatus execute(IProgressMonitor monitor, IAdaptable info)
-				throws ExecutionException {
+		public IStatus execute(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 			// this is a no-op for this operation. the move already happened
 			// piecemeal.
 			if (monitor != null) {
@@ -512,8 +512,7 @@ public class SelectionStructure {
 		}
 
 		@Override
-		public IStatus redo(IProgressMonitor monitor, IAdaptable info)
-				throws ExecutionException {
+		public IStatus redo(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 			renderedCanvas.startBatchUpdate();
 			renderedCanvas.selectPartialDocument(pdd);
 			adjustPosition(xOffset, yOffset);
@@ -525,8 +524,7 @@ public class SelectionStructure {
 		}
 
 		@Override
-		public IStatus undo(IProgressMonitor monitor, IAdaptable info)
-				throws ExecutionException {
+		public IStatus undo(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 			renderedCanvas.startBatchUpdate();
 			renderedCanvas.selectPartialDocument(pdd);
 			adjustPosition(xOffset * -1, yOffset * -1);
@@ -550,8 +548,7 @@ public class SelectionStructure {
 		}
 
 		@Override
-		public IStatus execute(IProgressMonitor monitor, IAdaptable info)
-				throws ExecutionException {
+		public IStatus execute(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 			renderedCanvas.startBatchUpdate();
 			int xy = 0;
 			if (orientation == SWT.HORIZONTAL) {
@@ -561,11 +558,10 @@ public class SelectionStructure {
 			} else {
 				return Status.CANCEL_STATUS;
 			}
-			IDesignDocument designDocument = renderedCanvas.getUIModel()
-					.getDocument();
+			IDesignDocument designDocument = renderedCanvas.getUIModel().getDocument();
 			Document document = renderedCanvas.getSelectionDocument(true);
-			pdd = new PartialDesignDocument(designDocument,
-					(Design) renderedCanvas.getUIModel(), document);
+			pdd = new PartialDesignDocument(designDocument, (Design) renderedCanvas.getUIModel(),
+					document);
 			for (ComponentFrame componentFrame : selectedItems) {
 				((ElementFrame) componentFrame).alignCenter(orientation, xy);
 			}
@@ -577,8 +573,7 @@ public class SelectionStructure {
 		}
 
 		@Override
-		public IStatus redo(IProgressMonitor monitor, IAdaptable info)
-				throws ExecutionException {
+		public IStatus redo(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 			renderedCanvas.startBatchUpdate();
 			int xy = 0;
 			if (orientation == SWT.HORIZONTAL) {
@@ -586,14 +581,10 @@ public class SelectionStructure {
 			} else if (orientation == SWT.VERTICAL) {
 				xy = p.x;
 			}
-			outer: for (IDesignElement designElement : pdd.getMainDesign()
-					.getDesignElements()) {
-				for (ComponentFrame componentFrame : renderedCanvas
-						.getElementFrames()) {
-					if (componentFrame.getDesignComponent().getId()
-							.equals(designElement.getId())) {
-						((ElementFrame) componentFrame).alignCenter(
-								orientation, xy);
+			outer: for (IDesignElement designElement : pdd.getMainDesign().getDesignElements()) {
+				for (ComponentFrame componentFrame : renderedCanvas.getElementFrames()) {
+					if (componentFrame.getDesignComponent().getId().equals(designElement.getId())) {
+						((ElementFrame) componentFrame).alignCenter(orientation, xy);
 						continue outer;
 					}
 				}
@@ -606,23 +597,18 @@ public class SelectionStructure {
 		}
 
 		@Override
-		public IStatus undo(IProgressMonitor monitor, IAdaptable info)
-				throws ExecutionException {
+		public IStatus undo(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 			renderedCanvas.startBatchUpdate();
-			outer: for (IDesignElement designElement : pdd.getMainDesign()
-					.getDesignElements()) {
+			outer: for (IDesignElement designElement : pdd.getMainDesign().getDesignElements()) {
 				int xy = 0;
 				if (orientation == SWT.HORIZONTAL) {
 					xy = designElement.getCenterPoint().y;
 				} else if (orientation == SWT.VERTICAL) {
 					xy = designElement.getCenterPoint().x;
 				}
-				for (ComponentFrame componentFrame : renderedCanvas
-						.getElementFrames()) {
-					if (componentFrame.getDesignComponent().getId()
-							.equals(designElement.getId())) {
-						((ElementFrame) componentFrame).alignCenter(
-								orientation, xy);
+				for (ComponentFrame componentFrame : renderedCanvas.getElementFrames()) {
+					if (componentFrame.getDesignComponent().getId().equals(designElement.getId())) {
+						((ElementFrame) componentFrame).alignCenter(orientation, xy);
 						continue outer;
 					}
 				}
@@ -649,18 +635,16 @@ public class SelectionStructure {
 		}
 
 		@Override
-		public IStatus execute(IProgressMonitor monitor, IAdaptable info)
-				throws ExecutionException {
-			IDesignDocument designDocument = renderedCanvas.getUIModel()
-					.getDocument();
+		public IStatus execute(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
+			IDesignDocument designDocument = renderedCanvas.getUIModel().getDocument();
 			Document document = renderedCanvas.getSelectionDocument(true);
-			pdd = new PartialDesignDocument(designDocument,
-					(Design) renderedCanvas.getUIModel(), document);
+			pdd = new PartialDesignDocument(designDocument, (Design) renderedCanvas.getUIModel(),
+					document);
 			renderedCanvas.startBatchUpdate();
 			for (ComponentFrame componentFrame : selectedItems) {
 				ElementFrame ef = (ElementFrame) componentFrame;
-				Point p = new Point(ef.getDesignElement().getCenterPoint().x,
-						ef.getDesignElement().getCenterPoint().y);
+				Point p = new Point(ef.getDesignElement().getCenterPoint().x, ef.getDesignElement()
+						.getCenterPoint().y);
 				ef.alignEdge(edge, xy);
 				Point newLocation = ef.getDesignElement().getCenterPoint();
 				p.x = newLocation.x - p.x;
@@ -675,8 +659,7 @@ public class SelectionStructure {
 		}
 
 		@Override
-		public IStatus redo(IProgressMonitor monitor, IAdaptable info)
-				throws ExecutionException {
+		public IStatus redo(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 			renderedCanvas.startBatchUpdate();
 			renderedCanvas.selectPartialDocument(pdd);
 			for (ComponentFrame componentFrame : selectedItems) {
@@ -691,14 +674,12 @@ public class SelectionStructure {
 		}
 
 		@Override
-		public IStatus undo(IProgressMonitor monitor, IAdaptable info)
-				throws ExecutionException {
+		public IStatus undo(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 			renderedCanvas.startBatchUpdate();
 			renderedCanvas.selectPartialDocument(pdd);
 			for (ComponentFrame componentFrame : selectedItems) {
 				ElementFrame ef = (ElementFrame) componentFrame;
-				Point offsets = locationOffsets.get(ef.getDesignElement()
-						.getId());
+				Point offsets = locationOffsets.get(ef.getDesignElement().getId());
 				if (offsets != null) {
 					ef.adjustPosition(offsets.x * -1, offsets.y * -1);
 				}

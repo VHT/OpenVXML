@@ -32,8 +32,7 @@ public interface IDatabaseTable extends IWorkflowResource {
 	public String getName();
 
 	/**
-	 * @return The list of <code>IDatabaseTableColumn</code>s defined for this
-	 *         database table
+	 * @return The list of <code>IDatabaseTableColumn</code>s defined for this database table
 	 */
 	public List<IDatabaseTableColumn> getColumns();
 

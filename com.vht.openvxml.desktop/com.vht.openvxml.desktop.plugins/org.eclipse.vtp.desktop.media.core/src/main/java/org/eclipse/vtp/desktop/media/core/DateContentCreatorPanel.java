@@ -44,26 +44,20 @@ public class DateContentCreatorPanel extends DynamicContentCreatorPanel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.media.core.ContentCreatorPanel#createContent()
+	 * @see org.eclipse.vtp.desktop.media.core.ContentCreatorPanel#createContent()
 	 */
 	public Content createContent() {
 		DateContent content = new DateContent();
-		if (isDynamicSelected())
-			content.setVariableValue(getDynamicSelection());
-		else
-			content.setStaticValue(text.getText());
+		if (isDynamicSelected()) content.setVariableValue(getDynamicSelection());
+		else content.setStaticValue(text.getText());
 		content.setFormatName(getFormat());
 		FormatOptions formatOptions = optionMap.get(getFormat());
-		if (formatOptions != null)
-			content.setFormatOptions(formatOptions.getEncodedOptions());
+		if (formatOptions != null) content.setFormatOptions(formatOptions.getEncodedOptions());
 		return content;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.media.core.DynamicContentCreatorPanel#
 	 * createStaticControls(org.eclipse.swt.widgets.Composite)
 	 */
@@ -98,17 +92,14 @@ public class DateContentCreatorPanel extends DynamicContentCreatorPanel {
 			}
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
 		return composite;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.media.core.DynamicContentCreatorPanel#
-	 * setInitialContent
+	 * @see org.eclipse.vtp.desktop.media.core.DynamicContentCreatorPanel# setInitialContent
 	 * (org.eclipse.vtp.framework.interactions.core.media.Content)
 	 */
 	public void setInitialContent(Content content) {
@@ -124,15 +115,13 @@ public class DateContentCreatorPanel extends DynamicContentCreatorPanel {
 		}
 		super.setInitialContent(content);
 		FormatOptions formatOptions = updateFormatOptions();
-		if (formatOptions != null && content instanceof DateContent)
-			formatOptions.setEncodedOptions(((DateContent) content)
-					.getFormatOptions());
+		if (formatOptions != null && content instanceof DateContent) formatOptions
+				.setEncodedOptions(((DateContent) content).getFormatOptions());
 	}
 
 	private FormatOptions updateFormatOptions() {
 		FormatOptions formatOptions = optionMap.get(getFormat());
-		optionsLayout.topControl = formatOptions == null ? noOptions
-				: formatOptions.getControl();
+		optionsLayout.topControl = formatOptions == null ? noOptions : formatOptions.getControl();
 		options.layout(true, true);
 		return formatOptions;
 	}
@@ -163,22 +152,16 @@ public class DateContentCreatorPanel extends DynamicContentCreatorPanel {
 
 		String getEncodedOptions() {
 			StringBuilder builder = new StringBuilder();
-			if (dayOfWeekToday.getSelection())
-				builder.append("today,");
-			if (dayOfWeekTomorrow.getSelection())
-				builder.append("tomorrow,");
-			if (dayOfWeekThisXXX.getSelection())
-				builder.append("this,");
-			if (dayOfWeekNextXXX.getSelection())
-				builder.append("next,");
-			if (builder.length() > 0)
-				builder.setLength(builder.length() - 1);
+			if (dayOfWeekToday.getSelection()) builder.append("today,");
+			if (dayOfWeekTomorrow.getSelection()) builder.append("tomorrow,");
+			if (dayOfWeekThisXXX.getSelection()) builder.append("this,");
+			if (dayOfWeekNextXXX.getSelection()) builder.append("next,");
+			if (builder.length() > 0) builder.setLength(builder.length() - 1);
 			return builder.toString();
 		}
 
 		void setEncodedOptions(String options) {
-			Set<String> set = new HashSet<String>(Arrays.asList(options
-					.split(",")));
+			Set<String> set = new HashSet<String>(Arrays.asList(options.split(",")));
 			dayOfWeekToday.setSelection(set.contains("today"));
 			dayOfWeekTomorrow.setSelection(set.contains("tomorrow"));
 			dayOfWeekThisXXX.setSelection(set.contains("this"));
@@ -188,24 +171,19 @@ public class DateContentCreatorPanel extends DynamicContentCreatorPanel {
 		void createOptionsControls(Composite parent) {
 			dayOfWeekOptions = new Composite(parent, SWT.NONE);
 			dayOfWeekOptions.setLayout(new GridLayout(2, true));
-			dayOfWeekOptions.setLayoutData(new GridData(
-					GridData.FILL_HORIZONTAL));
+			dayOfWeekOptions.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			dayOfWeekToday = new Button(dayOfWeekOptions, SWT.CHECK);
 			dayOfWeekToday.setText("Today");
-			dayOfWeekToday
-					.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+			dayOfWeekToday.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			dayOfWeekTomorrow = new Button(dayOfWeekOptions, SWT.CHECK);
 			dayOfWeekTomorrow.setText("Tomorrow");
-			dayOfWeekTomorrow.setLayoutData(new GridData(
-					GridData.FILL_HORIZONTAL));
+			dayOfWeekTomorrow.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			dayOfWeekThisXXX = new Button(dayOfWeekOptions, SWT.CHECK);
 			dayOfWeekThisXXX.setText("This ...");
-			dayOfWeekThisXXX.setLayoutData(new GridData(
-					GridData.FILL_HORIZONTAL));
+			dayOfWeekThisXXX.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			dayOfWeekNextXXX = new Button(dayOfWeekOptions, SWT.CHECK);
 			dayOfWeekNextXXX.setText("Next ...");
-			dayOfWeekNextXXX.setLayoutData(new GridData(
-					GridData.FILL_HORIZONTAL));
+			dayOfWeekNextXXX.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		}
 
 	}
@@ -221,29 +199,24 @@ public class DateContentCreatorPanel extends DynamicContentCreatorPanel {
 
 		String getEncodedOptions() {
 			StringBuilder builder = new StringBuilder();
-			if (hourOfDayMinutes != null && hourOfDayMinutes.getSelection())
-				builder.append("minutes,");
-			if (builder.length() > 0)
-				builder.setLength(builder.length() - 1);
+			if (hourOfDayMinutes != null && hourOfDayMinutes.getSelection()) builder
+					.append("minutes,");
+			if (builder.length() > 0) builder.setLength(builder.length() - 1);
 			return builder.toString();
 		}
 
 		void setEncodedOptions(String options) {
-			Set<String> set = new HashSet<String>(Arrays.asList(options
-					.split(",")));
-			if (hourOfDayMinutes != null)
-				hourOfDayMinutes.setSelection(set.contains("minutes"));
+			Set<String> set = new HashSet<String>(Arrays.asList(options.split(",")));
+			if (hourOfDayMinutes != null) hourOfDayMinutes.setSelection(set.contains("minutes"));
 		}
 
 		void createOptionsControls(Composite parent) {
 			hourOfDayOptions = new Composite(options, SWT.NONE);
 			hourOfDayOptions.setLayout(new GridLayout(1, true));
-			hourOfDayOptions.setLayoutData(new GridData(
-					GridData.FILL_HORIZONTAL));
+			hourOfDayOptions.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			hourOfDayMinutes = new Button(hourOfDayOptions, SWT.CHECK);
 			hourOfDayMinutes.setText("Minutes");
-			hourOfDayMinutes.setLayoutData(new GridData(
-					GridData.FILL_HORIZONTAL));
+			hourOfDayMinutes.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		}
 
 	}

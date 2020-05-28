@@ -14,21 +14,19 @@ package org.eclipse.vtp.desktop.model.core.event;
 import org.eclipse.vtp.desktop.model.core.IWorkflowResource;
 
 /**
- * This interface is used to notify listners when a resource should be
- * refreshed. This is mainly used in conjunction with JFace widgets so the data
- * displayed in the viewers can be updated when a change is made by some other
- * entity.
+ * This interface is used to notify listners when a resource should be refreshed. This is mainly
+ * used in conjunction with JFace widgets so the data displayed in the viewers can be updated when a
+ * change is made by some other entity.
  *
  * @author Trip Gilman
  * @version 2.0
  */
 public interface IRefreshListener {
 	/**
-	 * Called when a resource has changed in some way and indicates any visual
-	 * display of its data should be updated.
+	 * Called when a resource has changed in some way and indicates any visual display of its data
+	 * should be updated.
 	 *
-	 * @param resource
-	 *            The resource that changed
+	 * @param resource The resource that changed
 	 */
 	public void refreshResource(IWorkflowResource resource);
 }

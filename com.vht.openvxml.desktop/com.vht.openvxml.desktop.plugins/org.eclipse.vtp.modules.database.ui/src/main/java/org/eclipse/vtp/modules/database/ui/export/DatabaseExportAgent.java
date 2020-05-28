@@ -58,15 +58,14 @@ public class DatabaseExportAgent implements IExportAgent {
 
 	private static final Comparator<IWorkflowExporter> WORKFLOW_COMPARE = new Comparator<IWorkflowExporter>() {
 		public int compare(IWorkflowExporter left, IWorkflowExporter right) {
-			return left.getProject().getFullPath().toString()
-					.compareTo(right.getProject().getFullPath().toString());
+			return left.getProject().getFullPath().toString().compareTo(
+					right.getProject().getFullPath().toString());
 		}
 	};
 
 	private static final Comparator<IFolder> RESOURCE_COMPARE = new Comparator<IFolder>() {
 		public int compare(IFolder left, IFolder right) {
-			return left.getFullPath().toString()
-					.compareTo(right.getFullPath().toString());
+			return left.getFullPath().toString().compareTo(right.getFullPath().toString());
 		}
 	};
 
@@ -82,31 +81,27 @@ public class DatabaseExportAgent implements IExportAgent {
 	}
 
 	@Override
-	public void setProjects(
-			Collection<? extends IWorkflowExporter> workflowProjects,
+	public void setProjects(Collection<? extends IWorkflowExporter> workflowProjects,
 			Collection<? extends IMediaExporter> mediaProjects) {
 		settings.clear();
 		for (IWorkflowExporter workflow : workflowProjects) {
 			try {
 				IProject project = workflow.getProject();
 				IFolder databases = project.getFolder("Databases"); //$NON-NLS-1$
-				if (databases == null || !databases.exists())
-					continue;
+				if (databases == null || !databases.exists()) continue;
 				IResource[] children = null;
 				try {
 					children = databases.members();
 				} catch (CoreException e) {
 					e.printStackTrace();
 				}
-				if (children == null || children.length == 0)
-					continue;
+				if (children == null || children.length == 0) continue;
 				Map<IFolder, Map<String, String>> folders = new TreeMap<IFolder, Map<String, String>>(
 						RESOURCE_COMPARE);
 				for (int j = 0; j < children.length; ++j)
-					if (IResource.FOLDER == children[j].getType())
-						folders.put((IFolder) children[j], null);
-				if (!folders.isEmpty())
-					settings.put(workflow, folders);
+					if (IResource.FOLDER == children[j].getType()) folders.put(
+							(IFolder) children[j], null);
+				if (!folders.isEmpty()) settings.put(workflow, folders);
 			} catch (RuntimeException e) {
 				e.printStackTrace();
 			}
@@ -126,15 +121,18 @@ public class DatabaseExportAgent implements IExportAgent {
 	}
 
 	@Override
-	public void configureServices(IWorkflowExporter exporter,
-			Element servicesElement) {
+	public void configureServices(IWorkflowExporter exporter, Element servicesElement) {
 		page.createServiceConfigurations(exporter, servicesElement);
 		page.savePrefrences();
 	}
 
-	public class ConfigureDatabasesPage extends WizardPage implements
-			ISelectionChangedListener, ModifyListener, SelectionListener,
-			ITreeContentProvider, ILabelProvider {
+	public class ConfigureDatabasesPage extends WizardPage
+		implements
+		ISelectionChangedListener,
+		ModifyListener,
+		SelectionListener,
+		ITreeContentProvider,
+		ILabelProvider {
 
 		/** The settings structure. */
 		private Map<String, String> selectedDatabase = null;
@@ -157,8 +155,7 @@ public class DatabaseExportAgent implements IExportAgent {
 		/**
 		 * Creates a new ConfigureDatabasesPage.
 		 * 
-		 * @param exporter
-		 *            The exporter to use.
+		 * @param exporter The exporter to use.
 		 */
 		public ConfigureDatabasesPage() {
 			super("ConfigureDatabasesPage", //$NON-NLS-1$
@@ -172,20 +169,17 @@ public class DatabaseExportAgent implements IExportAgent {
 		 * @param folderName
 		 * @param properties
 		 */
-		private void loadDefaults(IWorkflowExporter exporter,
-				String folderName, Map<String, String> properties) {
+		private void loadDefaults(IWorkflowExporter exporter, String folderName,
+				Map<String, String> properties) {
 			String prefix = "db." + folderName + ".";
 			String type = exporter.getSetting(prefix + "type");
-			if ("jdbc".equalsIgnoreCase(type))
-				type = "jdbc";
-			else
-				type = "jndi";
+			if ("jdbc".equalsIgnoreCase(type)) type = "jdbc";
+			else type = "jndi";
 			properties.put("type", type);
 			properties.put("dvr", exporter.getSetting(prefix + "dvr", ""));
 			properties.put("url", exporter.getSetting(prefix + "url", ""));
 			String uri = exporter.getSetting(prefix + "uri", "");
-			if (uri.length() == 0)
-				uri = "java:comp/env/jdbc/" + folderName;
+			if (uri.length() == 0) uri = "java:comp/env/jdbc/" + folderName;
 			properties.put("uri", uri);
 			properties.put("usr", exporter.getSetting(prefix + "usr", ""));
 			properties.put("pwd", exporter.getSetting(prefix + "pwd", ""));
@@ -216,7 +210,6 @@ public class DatabaseExportAgent implements IExportAgent {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(
 		 * org.eclipse.swt.widgets.Composite)
 		 */
@@ -235,85 +228,67 @@ public class DatabaseExportAgent implements IExportAgent {
 			composite.setLayout(new GridLayout(2, false));
 			// Lookup type selection.
 			Label typeLabel = new Label(composite, SWT.NONE);
-			typeLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
-					false));
+			typeLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 			typeLabel.setText("Database lookup method:");
 			typeCombo = new Combo(composite, SWT.DROP_DOWN | SWT.READ_ONLY);
-			typeCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
-					false));
+			typeCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 			typeCombo.add("JNDI Lookup");
 			typeCombo.add("JDBC Driver");
 			typeCombo.addSelectionListener(this);
-			new Label(composite, SWT.SEPARATOR | SWT.HORIZONTAL)
-					.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
-							false, 2, 1));
+			new Label(composite, SWT.SEPARATOR | SWT.HORIZONTAL).setLayoutData(new GridData(
+					SWT.FILL, SWT.FILL, true, false, 2, 1));
 			// Configuration form stack.
 			stackComposite = new Composite(composite, SWT.NONE);
-			stackComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
-					true, 2, 1));
+			stackComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 			stackLayout = new StackLayout();
 			stackComposite.setLayout(stackLayout);
 			// JNDI Lookup form.
 			jndiComposite = new Composite(stackComposite, SWT.NONE);
 			jndiComposite.setLayout(new GridLayout(2, false));
 			Label jndiUriLabel = new Label(jndiComposite, SWT.NONE);
-			jndiUriLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
-					false, false));
+			jndiUriLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 			jndiUriLabel.setText("JNDI URI:");
 			jndiUriText = new Text(jndiComposite, SWT.BORDER);
-			jndiUriText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-					false));
+			jndiUriText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 			jndiUriText.addModifyListener(this);
 			Label jndiUsrLabel = new Label(jndiComposite, SWT.NONE);
-			jndiUsrLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
-					false, false));
+			jndiUsrLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 			jndiUsrLabel.setText("User Name:");
 			jndiUsrText = new Text(jndiComposite, SWT.BORDER);
-			jndiUsrText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-					false));
+			jndiUsrText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 			jndiUsrText.addModifyListener(this);
 			Label jndiPwdLabel = new Label(jndiComposite, SWT.NONE);
-			jndiPwdLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
-					false, false));
+			jndiPwdLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 			jndiPwdLabel.setText("Password:");
 			jndiPwdText = new Text(jndiComposite, SWT.BORDER);
-			jndiPwdText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-					false));
+			jndiPwdText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 			jndiPwdText.addModifyListener(this);
 			// JDBC Driver form.
 			jdbcComposite = new Composite(stackComposite, SWT.NONE);
 			jdbcComposite.setLayout(new GridLayout(2, false));
 			Label jdbcDvrLabel = new Label(jdbcComposite, SWT.NONE);
-			jdbcDvrLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
-					false, false));
+			jdbcDvrLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 			jdbcDvrLabel.setText("JDBC Driver:");
 			jdbcDvrText = new Text(jdbcComposite, SWT.BORDER);
-			jdbcDvrText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-					false));
+			jdbcDvrText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 			jdbcDvrText.addModifyListener(this);
 			Label jdbcUrlLabel = new Label(jdbcComposite, SWT.NONE);
-			jdbcUrlLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
-					false, false));
+			jdbcUrlLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 			jdbcUrlLabel.setText("JDBC URL:");
 			jdbcUrlText = new Text(jdbcComposite, SWT.BORDER);
-			jdbcUrlText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-					false));
+			jdbcUrlText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 			jdbcUrlText.addModifyListener(this);
 			Label jdbcUsrLabel = new Label(jdbcComposite, SWT.NONE);
-			jdbcUsrLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
-					false, false));
+			jdbcUsrLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 			jdbcUsrLabel.setText("User Name:");
 			jdbcUsrText = new Text(jdbcComposite, SWT.BORDER);
-			jdbcUsrText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-					false));
+			jdbcUsrText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 			jdbcUsrText.addModifyListener(this);
 			Label jdbcPwdLabel = new Label(jdbcComposite, SWT.NONE);
-			jdbcPwdLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,
-					false, false));
+			jdbcPwdLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 			jdbcPwdLabel.setText("Password:");
 			jdbcPwdText = new Text(jdbcComposite, SWT.BORDER);
-			jdbcPwdText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-					false));
+			jdbcPwdText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 			jdbcPwdText.addModifyListener(this);
 			// Empty form.
 			emptyComposite = new Composite(stackComposite, SWT.NONE);
@@ -326,77 +301,56 @@ public class DatabaseExportAgent implements IExportAgent {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.desktop.projects.core.export.ExportWebappPage#
-		 * projectSelectionChanged(
-		 * org.eclipse.vtp.desktop.projects.core.export.Exporter)
+		 * projectSelectionChanged( org.eclipse.vtp.desktop.projects.core.export.Exporter)
 		 */
 		public void projectSelectionChanged() {
-			if (viewer == null)
-				return;
+			if (viewer == null) return;
 			viewer.refresh();
 			viewer.expandAll();
 			if (viewer.getSelection().isEmpty() && !settings.isEmpty()) {
-				Map<IFolder, Map<String, String>> folders = settings.values()
-						.iterator().next();
-				if (!folders.isEmpty())
-					viewer.setSelection(new StructuredSelection(folders
-							.keySet().iterator().next()));
+				Map<IFolder, Map<String, String>> folders = settings.values().iterator().next();
+				if (!folders.isEmpty()) viewer.setSelection(new StructuredSelection(folders
+						.keySet().iterator().next()));
 			}
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.vtp.desktop.projects.core.export.ExportWebappPage#
-		 * savePrefrences()
+		 * @see org.eclipse.vtp.desktop.projects.core.export.ExportWebappPage# savePrefrences()
 		 */
 		public void savePrefrences() {
-			for (Iterator<IWorkflowExporter> i = settings.keySet().iterator(); i
-					.hasNext();) {
+			for (Iterator<IWorkflowExporter> i = settings.keySet().iterator(); i.hasNext();) {
 				IWorkflowExporter project = i.next();
-				Map<IFolder, Map<String, String>> folders = settings
-						.get(project);
-				for (Iterator<IFolder> j = folders.keySet().iterator(); j
-						.hasNext();) {
+				Map<IFolder, Map<String, String>> folders = settings.get(project);
+				for (Iterator<IFolder> j = folders.keySet().iterator(); j.hasNext();) {
 					IFolder folder = j.next();
 					Map<String, String> config = folders.get(folder);
-					if (config == null)
-						continue;
+					if (config == null) continue;
 					String prefix = "db." + folder.getName() + ".";
 					for (Map.Entry<String, String> entry : config.entrySet())
-						project.putSetting(prefix + entry.getKey(),
-								entry.getValue());
+						project.putSetting(prefix + entry.getKey(), entry.getValue());
 				}
 			}
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.desktop.projects.core.export.ExportWebappPage#
 		 * createServiceConfigurations(java.lang.String, org.w3c.dom.Element)
 		 */
-		public void createServiceConfigurations(IWorkflowExporter exporter,
-				Element servicesElement) {
+		public void createServiceConfigurations(IWorkflowExporter exporter, Element servicesElement) {
 			Map<IFolder, Map<String, String>> folders = settings.get(exporter);
-			if (folders == null)
-				return;
-			Element serviceElement = servicesElement
-					.getOwnerDocument()
-					.createElementNS(
-							IDefinitionBuilder.NAMESPACE_URI_PROCESS_DEFINITION,
-							"process:service"); //$NON-NLS-1$
-			serviceElement
-					.setAttribute("id", //$NON-NLS-1$
-							"org.eclipse.vtp.framework.databases.services.database-registry"); //$NON-NLS-1$
-			for (Map.Entry<IFolder, Map<String, String>> folderEntry : folders
-					.entrySet()) {
+			if (folders == null) return;
+			Element serviceElement = servicesElement.getOwnerDocument().createElementNS(
+					IDefinitionBuilder.NAMESPACE_URI_PROCESS_DEFINITION, "process:service"); //$NON-NLS-1$
+			serviceElement.setAttribute("id", //$NON-NLS-1$
+					"org.eclipse.vtp.framework.databases.services.database-registry"); //$NON-NLS-1$
+			for (Map.Entry<IFolder, Map<String, String>> folderEntry : folders.entrySet()) {
 				IFolder folder = folderEntry.getKey();
 				Map<String, String> properties = folderEntry.getValue();
-				if (properties == null)
-					loadDefaults(exporter, folder.getName(),
-							properties = new HashMap<String, String>());
+				if (properties == null) loadDefaults(exporter, folder.getName(),
+						properties = new HashMap<String, String>());
 				DatabaseConfiguration database = null;
 				Element databaseElement = null;
 				if ("jdbc".equals(properties.get("type"))) {
@@ -404,69 +358,56 @@ public class DatabaseExportAgent implements IExportAgent {
 					jdbc.setDriver(properties.get("dvr"));
 					jdbc.setUrl(properties.get("url"));
 					database = jdbc;
-					databaseElement = servicesElement.getOwnerDocument()
-							.createElementNS(
-									IDefinitionBuilder.NAMESPACE_URI_DATABASES,
-									"database:jdbc-database"); //$NON-NLS-1$
+					databaseElement = servicesElement.getOwnerDocument().createElementNS(
+							IDefinitionBuilder.NAMESPACE_URI_DATABASES, "database:jdbc-database"); //$NON-NLS-1$
 				} else {
 					JndiDatabaseConfiguration jndi = new JndiDatabaseConfiguration();
 					jndi.setUri(properties.get("uri"));
 					database = jndi;
-					databaseElement = servicesElement.getOwnerDocument()
-							.createElementNS(
-									IDefinitionBuilder.NAMESPACE_URI_DATABASES,
-									"database:jndi-database"); //$NON-NLS-1$
+					databaseElement = servicesElement.getOwnerDocument().createElementNS(
+							IDefinitionBuilder.NAMESPACE_URI_DATABASES, "database:jndi-database"); //$NON-NLS-1$
 				}
 				database.setName(folder.getName());
 				String usr = properties.get("usr");
-				if (usr.length() > 0)
-					database.setUsername(usr);
+				if (usr.length() > 0) database.setUsername(usr);
 				String pwd = properties.get("pwd");
-				if (pwd.length() > 0)
-					database.setPassword(pwd);
+				if (pwd.length() > 0) database.setPassword(pwd);
 				try {
-					DocumentBuilderFactory factory = DocumentBuilderFactory
-							.newInstance();
+					DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 					factory.setValidating(false);
 					factory.setNamespaceAware(true);
 					DocumentBuilder builder = factory.newDocumentBuilder();
 					IResource[] files = folder.members();
 					for (int k = 0; k < files.length; ++k) {
 						if (IResource.FILE != files[k].getType()
-								|| !((IFile) files[k]).getFileExtension()
-										.equals(".dot"))
-							continue;
-						Element root = builder.parse(
-								((IFile) files[k]).getLocation().toFile())
+								|| !((IFile) files[k]).getFileExtension().equals(".dot")) continue;
+						Element root = builder.parse(((IFile) files[k]).getLocation().toFile())
 								.getDocumentElement();
 						DatabaseTableConfiguration table = new DatabaseTableConfiguration();
 						table.setName(root.getAttribute("name"));
-						NodeList list = ((Element) root.getElementsByTagName(
-								"columns").item(0))
+						NodeList list = ((Element) root.getElementsByTagName("columns").item(0))
 								.getElementsByTagName("column");
 						for (int m = 0; m < list.getLength(); ++m) {
 							Element element = (Element) list.item(m);
 							DatabaseColumnConfiguration column = new DatabaseColumnConfiguration();
 							column.setName(element.getAttribute("name"));
-							String type = ((Element) element
-									.getElementsByTagName("column-type")
+							String type = ((Element) element.getElementsByTagName("column-type")
 									.item(0)).getAttribute("type");
-							if ("Varchar".equalsIgnoreCase(type))
-								column.setType(DatabaseColumnConfiguration.TYPE_VARCHAR);
-							else if ("Number".equalsIgnoreCase(type))
-								column.setType(DatabaseColumnConfiguration.TYPE_NUMBER);
-							else if ("Big Number".equalsIgnoreCase(type))
-								column.setType(DatabaseColumnConfiguration.TYPE_BIG_NUMBER);
-							else if ("Decimal".equalsIgnoreCase(type))
-								column.setType(DatabaseColumnConfiguration.TYPE_DECIMAL);
-							else if ("Big Decimal".equalsIgnoreCase(type))
-								column.setType(DatabaseColumnConfiguration.TYPE_BIG_DECIMAL);
-							else if ("Boolean".equalsIgnoreCase(type))
-								column.setType(DatabaseColumnConfiguration.TYPE_BOOLEAN);
-							else if ("DateTime".equalsIgnoreCase(type))
-								column.setType(DatabaseColumnConfiguration.TYPE_DATETIME);
-							else
-								column.setType(DatabaseColumnConfiguration.TYPE_TEXT);
+							if ("Varchar".equalsIgnoreCase(type)) column
+									.setType(DatabaseColumnConfiguration.TYPE_VARCHAR);
+							else if ("Number".equalsIgnoreCase(type)) column
+									.setType(DatabaseColumnConfiguration.TYPE_NUMBER);
+							else if ("Big Number".equalsIgnoreCase(type)) column
+									.setType(DatabaseColumnConfiguration.TYPE_BIG_NUMBER);
+							else if ("Decimal".equalsIgnoreCase(type)) column
+									.setType(DatabaseColumnConfiguration.TYPE_DECIMAL);
+							else if ("Big Decimal".equalsIgnoreCase(type)) column
+									.setType(DatabaseColumnConfiguration.TYPE_BIG_DECIMAL);
+							else if ("Boolean".equalsIgnoreCase(type)) column
+									.setType(DatabaseColumnConfiguration.TYPE_BOOLEAN);
+							else if ("DateTime".equalsIgnoreCase(type)) column
+									.setType(DatabaseColumnConfiguration.TYPE_DATETIME);
+							else column.setType(DatabaseColumnConfiguration.TYPE_TEXT);
 							table.addColumn(column);
 						}
 						database.addTable(table);
@@ -483,19 +424,14 @@ public class DatabaseExportAgent implements IExportAgent {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(
+		 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(
 		 * org.eclipse.jface.viewers.SelectionChangedEvent)
 		 */
 		public void selectionChanged(SelectionChangedEvent event) {
 			Object value = null;
-			IStructuredSelection selection = (IStructuredSelection) event
-					.getSelection();
-			if (!selection.isEmpty())
-				value = selection.getFirstElement();
-			if (value instanceof IProject)
-				value = null;
+			IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+			if (!selection.isEmpty()) value = selection.getFirstElement();
+			if (value instanceof IProject) value = null;
 			if (value == null) {
 				selectedDatabase = null;
 				typeCombo.setEnabled(false);
@@ -508,8 +444,7 @@ public class DatabaseExportAgent implements IExportAgent {
 			Map<IFolder, Map<String, String>> folders = settings.get(exporter);
 			selectedDatabase = folders.get(folder);
 			if (selectedDatabase == null) {
-				folders.put(folder,
-						selectedDatabase = new HashMap<String, String>());
+				folders.put(folder, selectedDatabase = new HashMap<String, String>());
 				loadDefaults(exporter, folder.getName(), selectedDatabase);
 			}
 			typeCombo.setEnabled(true);
@@ -518,31 +453,22 @@ public class DatabaseExportAgent implements IExportAgent {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.swt.events.ModifyListener#modifyText(
 		 * org.eclipse.swt.events.ModifyEvent)
 		 */
 		public void modifyText(ModifyEvent e) {
 			Object source = e.getSource();
-			if (jndiUriText == source)
-				selectedDatabase.put("uri", jndiUriText.getText());
-			else if (jndiUsrText == source)
-				selectedDatabase.put("usr", jndiUsrText.getText());
-			else if (jndiPwdText == source)
-				selectedDatabase.put("pwd", jndiPwdText.getText());
-			else if (jdbcDvrText == source)
-				selectedDatabase.put("dvr", jdbcDvrText.getText());
-			else if (jdbcUrlText == source)
-				selectedDatabase.put("url", jdbcUrlText.getText());
-			else if (jdbcUsrText == source)
-				selectedDatabase.put("usr", jdbcUsrText.getText());
-			else if (jdbcPwdText == source)
-				selectedDatabase.put("pwd", jdbcPwdText.getText());
+			if (jndiUriText == source) selectedDatabase.put("uri", jndiUriText.getText());
+			else if (jndiUsrText == source) selectedDatabase.put("usr", jndiUsrText.getText());
+			else if (jndiPwdText == source) selectedDatabase.put("pwd", jndiPwdText.getText());
+			else if (jdbcDvrText == source) selectedDatabase.put("dvr", jdbcDvrText.getText());
+			else if (jdbcUrlText == source) selectedDatabase.put("url", jdbcUrlText.getText());
+			else if (jdbcUsrText == source) selectedDatabase.put("usr", jdbcUsrText.getText());
+			else if (jdbcPwdText == source) selectedDatabase.put("pwd", jdbcPwdText.getText());
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(
 		 * org.eclipse.swt.events.SelectionEvent)
 		 */
@@ -563,28 +489,21 @@ public class DatabaseExportAgent implements IExportAgent {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(
 		 * org.eclipse.swt.events.SelectionEvent)
 		 */
-		public void widgetDefaultSelected(SelectionEvent e) {
-		}
+		public void widgetDefaultSelected(SelectionEvent e) {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(
 		 * org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
-		 * java.lang.Object)
+		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements( java.lang.Object)
 		 */
 		public Object[] getElements(Object inputElement) {
 			return settings.keySet().toArray();
@@ -592,17 +511,13 @@ public class DatabaseExportAgent implements IExportAgent {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(
-		 * java.lang.Object)
+		 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent( java.lang.Object)
 		 */
 		public Object getParent(Object element) {
-			if (element instanceof IWorkflowExporter)
-				return null;
+			if (element instanceof IWorkflowExporter) return null;
 			else if (element instanceof IResource) {
 				IWorkflowExporter exporter = getExporter((IResource) element);
-				if (exporter != null)
-					return exporter;
+				if (exporter != null) return exporter;
 			}
 			return null;
 		}
@@ -610,60 +525,47 @@ public class DatabaseExportAgent implements IExportAgent {
 		private IWorkflowExporter getExporter(IResource resource) {
 			IProject project = resource.getProject();
 			for (IWorkflowExporter exporter : settings.keySet()) {
-				if (exporter.getProject().getName().equals(project.getName()))
-					return exporter;
+				if (exporter.getProject().getName().equals(project.getName())) return exporter;
 			}
 			return null;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(
-		 * java.lang.Object)
+		 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren( java.lang.Object)
 		 */
 		public boolean hasChildren(Object element) {
-			return element instanceof IWorkflowExporter
-					&& settings.containsKey(element);
+			return element instanceof IWorkflowExporter && settings.containsKey(element);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(
-		 * java.lang.Object)
+		 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren( java.lang.Object)
 		 */
 		public Object[] getChildren(Object parentElement) {
-			Map<IFolder, Map<String, String>> folders = settings
-					.get(parentElement);
-			if (folders == null)
-				return new Object[0];
+			Map<IFolder, Map<String, String>> folders = settings.get(parentElement);
+			if (folders == null) return new Object[0];
 			return folders.keySet().toArray();
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(
 		 * org.eclipse.jface.viewers.ILabelProviderListener)
 		 */
-		public void addListener(ILabelProviderListener listener) {
-		}
+		public void addListener(ILabelProviderListener listener) {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(
 		 * org.eclipse.jface.viewers.ILabelProviderListener)
 		 */
-		public void removeListener(ILabelProviderListener listener) {
-		}
+		public void removeListener(ILabelProviderListener listener) {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(
-		 * java.lang.Object, java.lang.String)
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty( java.lang.Object,
+		 * java.lang.String)
 		 */
 		public boolean isLabelProperty(Object element, String property) {
 			return false;
@@ -671,23 +573,18 @@ public class DatabaseExportAgent implements IExportAgent {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
+		 * @see org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
 		 */
 		public String getText(Object element) {
-			if (element instanceof IWorkflowExporter)
-				return ((IWorkflowExporter) element).getProject().getName();
-			else if (element instanceof IResource)
-				return ((IResource) element).getName();
+			if (element instanceof IWorkflowExporter) return ((IWorkflowExporter) element)
+					.getProject().getName();
+			else if (element instanceof IResource) return ((IResource) element).getName();
 			return element.toString();
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
+		 * @see org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
 		 */
 		public Image getImage(Object element) {
 			return null;

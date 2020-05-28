@@ -16,8 +16,8 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
 /**
- * The <code>Throw</code> class represents the &lt;throw&gt; VXML element. When
- * processed, this action causes the named event to be raised.
+ * The <code>Throw</code> class represents the &lt;throw&gt; VXML element. When processed, this
+ * action causes the named event to be raised.
  * 
  * @author Trip Gilman
  * @author Lonnie Pryor
@@ -28,15 +28,11 @@ public class Throw extends Action {
 	private String eventName;
 
 	/**
-	 * Creates a new instance of <code>Throw</code> with the specified event
-	 * name.
+	 * Creates a new instance of <code>Throw</code> with the specified event name.
 	 * 
-	 * @param eventName
-	 *            The name of the event to raise.
-	 * @throws IllegalArgumentException
-	 *             If the supplied event name is empty.
-	 * @throws NullPointerException
-	 *             If the supplied event name is <code>null</code>.
+	 * @param eventName The name of the event to raise.
+	 * @throws IllegalArgumentException If the supplied event name is empty.
+	 * @throws NullPointerException If the supplied event name is <code>null</code>.
 	 */
 	public Throw(String eventName) {
 		setEventName(eventName);
@@ -52,54 +48,42 @@ public class Throw extends Action {
 	/**
 	 * Sets the name of the event this throw raises.
 	 * 
-	 * @param eventName
-	 *            The name of the event this throw raises.
-	 * @throws IllegalArgumentException
-	 *             If the supplied event name is empty.
-	 * @throws NullPointerException
-	 *             If the supplied event name is <code>null</code>.
+	 * @param eventName The name of the event this throw raises.
+	 * @throws IllegalArgumentException If the supplied event name is empty.
+	 * @throws NullPointerException If the supplied event name is <code>null</code>.
 	 */
 	public void setEventName(String eventName) throws IllegalArgumentException,
 			NullPointerException {
-		if (eventName == null) {
-			throw new NullPointerException("eventName"); //$NON-NLS-1$
+		if (eventName == null) { throw new NullPointerException("eventName"); //$NON-NLS-1$
 		}
-		if (eventName.length() == 0) {
-			throw new IllegalArgumentException("eventName"); //$NON-NLS-1$
+		if (eventName.length() == 0) { throw new IllegalArgumentException("eventName"); //$NON-NLS-1$
 		}
 		this.eventName = eventName;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.core.output.Widget#writeWidget(
 	 * org.xml.sax.ContentHandler)
 	 */
 	@Override
-	public void writeWidget(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
-		if (outputHandler == null) {
-			throw new NullPointerException("outputHandler"); //$NON-NLS-1$
+	public void writeWidget(ContentHandler outputHandler) throws NullPointerException, SAXException {
+		if (outputHandler == null) { throw new NullPointerException("outputHandler"); //$NON-NLS-1$
 		}
 		// Start and end the element.
 		AttributesImpl attributes = new AttributesImpl();
 		writeAttributes(attributes);
-		outputHandler.startElement(NAMESPACE_URI_VXML, NAME_THROW, NAME_THROW,
-				attributes);
+		outputHandler.startElement(NAMESPACE_URI_VXML, NAME_THROW, NAME_THROW, attributes);
 		outputHandler.endElement(NAMESPACE_URI_VXML, NAME_THROW, NAME_THROW);
 	}
 
 	/**
 	 * Write the attribute members of this action to the supplied set.
 	 * 
-	 * @param attributes
-	 *            The attribute set to write to.
-	 * @throws NullPointerException
-	 *             If the supplied attribute set is <code>null</code>.
+	 * @param attributes The attribute set to write to.
+	 * @throws NullPointerException If the supplied attribute set is <code>null</code>.
 	 */
 	protected void writeAttributes(AttributesImpl attributes) {
-		writeAttribute(attributes, null, null, NAME_EVENTEXPR, TYPE_CDATA,
-				eventName);
+		writeAttribute(attributes, null, null, NAME_EVENTEXPR, TYPE_CDATA, eventName);
 	}
 }

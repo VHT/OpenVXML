@@ -30,14 +30,13 @@ public class DesignDropAssistant extends CommonDropAdapterAssistant {
 	}
 
 	@Override
-	public IStatus handleDrop(CommonDropAdapter aDropAdapter,
-			DropTargetEvent aDropTargetEvent, Object aTarget) {
+	public IStatus handleDrop(CommonDropAdapter aDropAdapter, DropTargetEvent aDropTargetEvent,
+			Object aTarget) {
 		IDesignItemContainer designItemContainer = null;
 		if (aTarget instanceof IDesignItemContainer) {
 			designItemContainer = (IDesignItemContainer) aTarget;
 		} else if (aTarget instanceof IDesignDocument) {
-			designItemContainer = ((IDesignDocument) aTarget)
-					.getParentDesignContainer();
+			designItemContainer = ((IDesignDocument) aTarget).getParentDesignContainer();
 		} else {
 			return Status.CANCEL_STATUS;
 		}
@@ -47,8 +46,7 @@ public class DesignDropAssistant extends CommonDropAdapterAssistant {
 		} else {
 			operation = new CopyFilesAndFoldersOperation(this.getShell());
 		}
-		Object objs = FileTransfer.getInstance().nativeToJava(
-				aDropTargetEvent.currentDataType);
+		Object objs = FileTransfer.getInstance().nativeToJava(aDropTargetEvent.currentDataType);
 		if (objs instanceof String[]) {
 			String[] files = (String[]) objs;
 			IContainer container = designItemContainer.getUnderlyingFolder();
@@ -68,15 +66,13 @@ public class DesignDropAssistant extends CommonDropAdapterAssistant {
 						if (obj instanceof IResource) {
 							resource = (IResource) obj;
 						} else if (obj instanceof IAdaptable) {
-							resource = (IResource) ((IAdaptable) obj)
-									.getAdapter(IResource.class);
+							resource = (IResource) ((IAdaptable) obj).getAdapter(IResource.class);
 						}
 						if (resource != null) {
 							toCopy.add(resource);
 						}
 					}
-					operation.copyResources(
-							toCopy.toArray(new IResource[toCopy.size()]),
+					operation.copyResources(toCopy.toArray(new IResource[toCopy.size()]),
 							designItemContainer.getUnderlyingFolder());
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -88,37 +84,29 @@ public class DesignDropAssistant extends CommonDropAdapterAssistant {
 	}
 
 	@Override
-	public IStatus validateDrop(Object aTarget, int operation,
-			TransferData transferType) {
+	public IStatus validateDrop(Object aTarget, int operation, TransferData transferType) {
 		IDesignItemContainer designItemContainer = null;
 		if (aTarget instanceof IDesignItemContainer) {
 			designItemContainer = (IDesignItemContainer) aTarget;
 		} else if (aTarget instanceof IDesignDocument) {
-			designItemContainer = ((IDesignDocument) aTarget)
-					.getParentDesignContainer();
+			designItemContainer = ((IDesignDocument) aTarget).getParentDesignContainer();
 		} else {
 			return Status.CANCEL_STATUS;
 		}
-		if (FileTransfer.getInstance().isSupportedType(transferType)) {
-			return Status.OK_STATUS;
-		}
+		if (FileTransfer.getInstance().isSupportedType(transferType)) { return Status.OK_STATUS; }
 		if (LocalSelectionTransfer.getTransfer().isSupportedType(transferType)) {
 			IStructuredSelection selection = (IStructuredSelection) LocalSelectionTransfer
 					.getTransfer().getSelection();
 			for (Object obj : selection.toList()) {
 				System.out.println("selection object: " + obj);
 				if (obj instanceof IDesignDocument) {
-					if (((IDesignDocument) obj).getParentDesignContainer()
-							.equals(designItemContainer)) // same parent
-					{
-						return Status.CANCEL_STATUS;
-					}
+					if (((IDesignDocument) obj).getParentDesignContainer().equals(
+							designItemContainer)) // same parent
+					{ return Status.CANCEL_STATUS; }
 				} else if (obj instanceof IDesignFolder) {
 					if (((IDesignFolder) obj).getParentDesignContainer()
 							.equals(designItemContainer)) // same parent
-					{
-						return Status.CANCEL_STATUS;
-					}
+					{ return Status.CANCEL_STATUS; }
 				}
 			}
 			return Status.OK_STATUS;

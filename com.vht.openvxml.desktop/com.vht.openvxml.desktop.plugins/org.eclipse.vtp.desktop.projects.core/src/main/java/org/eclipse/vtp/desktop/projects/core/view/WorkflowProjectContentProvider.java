@@ -44,42 +44,33 @@ import com.openmethods.openvxml.desktop.model.workflow.IDesignDocument;
 
 /**
  * @author trip
- *
  */
-public class WorkflowProjectContentProvider implements
-		IPipelinedTreeContentProvider, IDoubleClickListener {
+public class WorkflowProjectContentProvider
+	implements
+	IPipelinedTreeContentProvider,
+	IDoubleClickListener {
 	private Viewer viewer = null;
 
-	public WorkflowProjectContentProvider() {
-	}
+	public WorkflowProjectContentProvider() {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.
-	 * Object)
+	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang. Object)
 	 */
 	@Override
 	public Object[] getChildren(Object parentElement) {
 		if (parentElement instanceof IProject) {
-			IOpenVXMLProject workflowProject = WorkflowCore.getDefault()
-					.getWorkflowModel()
+			IOpenVXMLProject workflowProject = WorkflowCore.getDefault().getWorkflowModel()
 					.convertToWorkflowProject((IProject) parentElement);
 			return workflowProject.getChildren().toArray();
-		} else if (parentElement instanceof IWorkflowResourceContainer) {
-			return ((IWorkflowResourceContainer) parentElement).getChildren()
-					.toArray();
-		}
+		} else if (parentElement instanceof IWorkflowResourceContainer) { return ((IWorkflowResourceContainer) parentElement)
+				.getChildren().toArray(); }
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object
-	 * )
+	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object )
 	 */
 	@Override
 	public Object getParent(Object element) {
@@ -87,9 +78,7 @@ public class WorkflowProjectContentProvider implements
 			return ((IProject) element).getWorkspace().getRoot();
 		} else if (element instanceof IWorkflowResource) {
 			IWorkflowResource con = ((IWorkflowResource) element).getParent();
-			if (con instanceof IOpenVXMLProject) {
-				return con.getAdapter(IResource.class);
-			}
+			if (con instanceof IOpenVXMLProject) { return con.getAdapter(IResource.class); }
 			return con;
 		}
 		return null;
@@ -97,54 +86,37 @@ public class WorkflowProjectContentProvider implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.
-	 * Object)
+	 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang. Object)
 	 */
 	@Override
 	public boolean hasChildren(Object element) {
-		if (element instanceof IProject) {
-			return true;
-		}
-		if (element instanceof IDesignDocument) {
-			return false;
-		}
-		if (element instanceof IWorkflowResourceContainer) {
-			return true;
-		}
+		if (element instanceof IProject) { return true; }
+		if (element instanceof IDesignDocument) { return false; }
+		if (element instanceof IWorkflowResourceContainer) { return true; }
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java
-	 * .lang.Object)
+	 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java .lang.Object)
 	 */
 	@Override
 	public Object[] getElements(Object inputElement) {
-		if (inputElement instanceof IWorkspaceRoot) {
-			return ((IWorkspaceRoot) inputElement).getProjects();
-		}
+		if (inputElement instanceof IWorkspaceRoot) { return ((IWorkspaceRoot) inputElement)
+				.getProjects(); }
 		return getChildren(inputElement);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 	 */
 	@Override
-	public void dispose() {
-	}
+	public void dispose() {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface
+	 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface
 	 * .viewers.Viewer, java.lang.Object, java.lang.Object)
 	 */
 	@Override
@@ -165,21 +137,17 @@ public class WorkflowProjectContentProvider implements
 		if (aParent instanceof IProject) {
 			IProject project = (IProject) aParent;
 			try {
-				if (WorkflowCore.getDefault().getWorkflowModel()
-						.isWorkflowProject(project)) {
-					IOpenVXMLProject workflowProject = WorkflowCore
-							.getDefault().getWorkflowModel()
+				if (WorkflowCore.getDefault().getWorkflowModel().isWorkflowProject(project)) {
+					IOpenVXMLProject workflowProject = WorkflowCore.getDefault().getWorkflowModel()
 							.convertToWorkflowProject(project);
-					List<IWorkflowResource> workflowResources = workflowProject
-							.getChildren();
+					List<IWorkflowResource> workflowResources = workflowProject.getChildren();
 					Iterator<?> iterator = theCurrentChildren.iterator();
 					while (iterator.hasNext()) {
 						Object child = iterator.next();
 						if (child instanceof IResource) {
 							IResource resource = (IResource) child;
 							for (IWorkflowResource workflowResource : workflowResources) {
-								if (workflowResource.getName().equals(
-										resource.getName())) {
+								if (workflowResource.getName().equals(resource.getName())) {
 									iterator.remove();
 									newChildren.add(workflowResource);
 									break;
@@ -205,12 +173,10 @@ public class WorkflowProjectContentProvider implements
 	public Object getPipelinedParent(Object anObject, Object aSuggestedParent) {
 		if (aSuggestedParent instanceof IResource) {
 			IResource resource = (IResource) aSuggestedParent;
-			IWorkflowResource workflowResource = WorkflowCore.getDefault()
-					.getWorkflowModel().convertToWorkflowResource(resource);
+			IWorkflowResource workflowResource = WorkflowCore.getDefault().getWorkflowModel()
+					.convertToWorkflowResource(resource);
 			if (workflowResource != null) {
-				if (!(workflowResource instanceof IOpenVXMLProject)) {
-					return workflowResource;
-				}
+				if (!(workflowResource instanceof IOpenVXMLProject)) { return workflowResource; }
 			}
 		}
 		return aSuggestedParent;
@@ -223,10 +189,9 @@ public class WorkflowProjectContentProvider implements
 		Object parentObj = anAddModification.getParent();
 		if (parentObj instanceof IResource) {
 			IResource parent = (IResource) parentObj;
-			IWorkflowResource workflowParent = WorkflowCore.getDefault()
-					.getWorkflowModel().convertToWorkflowResource(parent);
-			if (workflowParent != null
-					&& !(workflowParent instanceof IOpenVXMLProject)) {
+			IWorkflowResource workflowParent = WorkflowCore.getDefault().getWorkflowModel()
+					.convertToWorkflowResource(parent);
+			if (workflowParent != null && !(workflowParent instanceof IOpenVXMLProject)) {
 				anAddModification.setParent(workflowParent);
 			}
 			Set children = anAddModification.getChildren();
@@ -236,8 +201,7 @@ public class WorkflowProjectContentProvider implements
 				Object childObj = iterator.next();
 				if (childObj instanceof IResource) {
 					IResource childResource = (IResource) childObj;
-					IWorkflowResource workflowChild = WorkflowCore.getDefault()
-							.getWorkflowModel()
+					IWorkflowResource workflowChild = WorkflowCore.getDefault().getWorkflowModel()
 							.convertToWorkflowResource(childResource);
 					if (workflowChild != null) {
 						iterator.remove();
@@ -252,8 +216,7 @@ public class WorkflowProjectContentProvider implements
 
 	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public boolean interceptRefresh(
-			PipelinedViewerUpdate aRefreshSynchronization) {
+	public boolean interceptRefresh(PipelinedViewerUpdate aRefreshSynchronization) {
 		boolean changed = false;
 		Set children = aRefreshSynchronization.getRefreshTargets();
 		List newTargets = new LinkedList();
@@ -262,8 +225,7 @@ public class WorkflowProjectContentProvider implements
 			Object childObj = iterator.next();
 			if (childObj instanceof IResource) {
 				IResource childResource = (IResource) childObj;
-				IWorkflowResource workflowChild = WorkflowCore.getDefault()
-						.getWorkflowModel()
+				IWorkflowResource workflowChild = WorkflowCore.getDefault().getWorkflowModel()
 						.convertToWorkflowResource(childResource);
 				if (workflowChild != null) {
 					iterator.remove();
@@ -278,8 +240,7 @@ public class WorkflowProjectContentProvider implements
 
 	@Override
 	@SuppressWarnings({ "rawtypes" })
-	public PipelinedShapeModification interceptRemove(
-			PipelinedShapeModification aRemoveModification) {
+	public PipelinedShapeModification interceptRemove(PipelinedShapeModification aRemoveModification) {
 		Set children = aRemoveModification.getChildren();
 		final List<IWorkflowResource> parents = new LinkedList<IWorkflowResource>();
 		Iterator iterator = children.iterator();
@@ -287,8 +248,7 @@ public class WorkflowProjectContentProvider implements
 			Object childObj = iterator.next();
 			if (childObj instanceof IResource) {
 				IResource childResource = (IResource) childObj;
-				IWorkflowResource workflowParent = WorkflowCore.getDefault()
-						.getWorkflowModel()
+				IWorkflowResource workflowParent = WorkflowCore.getDefault().getWorkflowModel()
 						.convertToWorkflowResource(childResource.getParent());
 				if (workflowParent != null) {
 					parents.add(workflowParent);
@@ -312,32 +272,26 @@ public class WorkflowProjectContentProvider implements
 	}
 
 	@Override
-	public void init(ICommonContentExtensionSite aConfig) {
-	}
+	public void init(ICommonContentExtensionSite aConfig) {}
 
 	@Override
-	public void restoreState(IMemento aMemento) {
-	}
+	public void restoreState(IMemento aMemento) {}
 
 	@Override
-	public void saveState(IMemento aMemento) {
-	}
+	public void saveState(IMemento aMemento) {}
 
 	@Override
 	public void doubleClick(DoubleClickEvent event) {
-		IStructuredSelection selection = (IStructuredSelection) event
-				.getSelection();
+		IStructuredSelection selection = (IStructuredSelection) event.getSelection();
 		Object sel = selection.getFirstElement();
 		if (sel instanceof IAdaptable) {
-			IResource resource = (IResource) ((IAdaptable) sel)
-					.getAdapter(IResource.class);
+			IResource resource = (IResource) ((IAdaptable) sel).getAdapter(IResource.class);
 			if (resource instanceof IFile) {
 				IFile underlyingFile = (IFile) resource;
 				if (underlyingFile != null) {
 					try {
-						IDE.openEditor(PlatformUI.getWorkbench()
-								.getActiveWorkbenchWindow().getActivePage(),
-								underlyingFile);
+						IDE.openEditor(PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+								.getActivePage(), underlyingFile);
 					} catch (PartInitException e) {
 						e.printStackTrace();
 					}

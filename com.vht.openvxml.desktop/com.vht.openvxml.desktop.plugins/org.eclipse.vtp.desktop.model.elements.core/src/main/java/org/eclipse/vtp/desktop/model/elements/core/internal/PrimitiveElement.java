@@ -42,8 +42,8 @@ public class PrimitiveElement extends DesignElement {
 		super(name);
 		getProperties().setProperty("type", subTypeId);
 		this.subTypeId = subTypeId;
-		PrimitiveElementTemplate template = PrimitiveElementManager
-				.getDefault().getElementTemplate(subTypeId);
+		PrimitiveElementTemplate template = PrimitiveElementManager.getDefault()
+				.getElementTemplate(subTypeId);
 		this.subTypeName = template.getName();
 		this.info = template.getInformationProviderInstance(this);
 		this.filter = template.getFilter();
@@ -52,8 +52,8 @@ public class PrimitiveElement extends DesignElement {
 	public PrimitiveElement(String id, String name, Properties properties) {
 		super(id, name, properties);
 		this.subTypeId = properties.getProperty("type");
-		PrimitiveElementTemplate template = PrimitiveElementManager
-				.getDefault().getElementTemplate(subTypeId);
+		PrimitiveElementTemplate template = PrimitiveElementManager.getDefault()
+				.getElementTemplate(subTypeId);
 		this.subTypeName = template.getName();
 		this.info = template.getInformationProviderInstance(this);
 		this.filter = template.getFilter();
@@ -80,15 +80,13 @@ public class PrimitiveElement extends DesignElement {
 
 	@Override
 	public List<IDesignElementConnectionPoint> getConnectorRecords() {
-		return new LinkedList<IDesignElementConnectionPoint>(
-				info.getConnectorRecords());
+		return new LinkedList<IDesignElementConnectionPoint>(info.getConnectorRecords());
 	}
 
 	@Override
 	public List<IDesignElementConnectionPoint> getConnectorRecords(
 			IDesignElementConnectionPoint.ConnectionPointType... types) {
-		return new LinkedList<IDesignElementConnectionPoint>(
-				info.getConnectorRecords(types));
+		return new LinkedList<IDesignElementConnectionPoint>(info.getConnectorRecords(types));
 	}
 
 	@Override
@@ -106,8 +104,7 @@ public class PrimitiveElement extends DesignElement {
 		return info.acceptsConnector(origin);
 	}
 
-	public void showProperties() {
-	}
+	public void showProperties() {}
 
 	@Override
 	public String getType() {
@@ -129,14 +126,13 @@ public class PrimitiveElement extends DesignElement {
 
 	@Override
 	public Image getIcon() {
-		ImageRegistry imageRegistry = org.eclipse.vtp.desktop.core.Activator
-				.getDefault().getImageRegistry();
+		ImageRegistry imageRegistry = org.eclipse.vtp.desktop.core.Activator.getDefault()
+				.getImageRegistry();
 		return imageRegistry.get(subTypeId);
 	}
 
 	@Override
-	public List<Variable> getOutgoingVariables(String exitPoint,
-			boolean localOnly) {
+	public List<Variable> getOutgoingVariables(String exitPoint, boolean localOnly) {
 		return info.getOutgoingVariables(exitPoint, localOnly);
 	}
 
@@ -156,8 +152,7 @@ public class PrimitiveElement extends DesignElement {
 		if (originPath == null) {
 			originPath = new HashMap<String, IDesignElement>();
 		}
-		return super.hasPathToStart(originPath)
-				|| info.hasPathToStart(originPath);
+		return super.hasPathToStart(originPath) || info.hasPathToStart(originPath);
 	}
 
 	@Override
@@ -167,18 +162,14 @@ public class PrimitiveElement extends DesignElement {
 
 	@Override
 	public List<IExitBroadcastReceiver> getExitBroadcastReceivers() {
-		if (info instanceof PrimitiveBroadcastReceiverProvider) {
-			return ((PrimitiveBroadcastReceiverProvider) info)
-					.getExitBroadcastReceivers();
-		}
+		if (info instanceof PrimitiveBroadcastReceiverProvider) { return ((PrimitiveBroadcastReceiverProvider) info)
+				.getExitBroadcastReceivers(); }
 		return super.getExitBroadcastReceivers();
 	}
 
 	@Override
 	public boolean canBeContainedBy(IDesign design) {
-		if (filter == null) {
-			return true;
-		}
+		if (filter == null) { return true; }
 		return filter.canBeContainedBy(design);
 	}
 

@@ -37,8 +37,8 @@ public class SubmitAction implements IAction {
 	 * @param configuration
 	 */
 	public SubmitAction(IActionContext context, IController controller,
-			SubmitConfiguration submitConfiguration,
-			IConversation conversation, AssignmentConfiguration[] configurations) {
+			SubmitConfiguration submitConfiguration, IConversation conversation,
+			AssignmentConfiguration[] configurations) {
 		this.context = context;
 		this.conversation = conversation;
 		this.configurations = configurations;
@@ -47,21 +47,16 @@ public class SubmitAction implements IAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.common.actions.ExitAction#execute()
 	 */
 	@Override
 	public IActionResult execute() {
 		IEndMessage endMessage = conversation.createEndMessage(configurations);
-		MediaConfiguration mediaConfig = submitConfiguration
-				.getMediaConfiguration();
-		endMessage.setVariableValue("*submit_url", conversation
-				.resolveProperty(mediaConfig.getPropertyConfiguration("url"),
-						false, false));
-		endMessage.setVariableValue("*submit_method", conversation
-				.resolveProperty(
-						mediaConfig.getPropertyConfiguration("method"), false,
-						false));
+		MediaConfiguration mediaConfig = submitConfiguration.getMediaConfiguration();
+		endMessage.setVariableValue("*submit_url", conversation.resolveProperty(mediaConfig
+				.getPropertyConfiguration("url"), false, false));
+		endMessage.setVariableValue("*submit_method", conversation.resolveProperty(mediaConfig
+				.getPropertyConfiguration("method"), false, false));
 		endMessage.setVariableValue("*submit_isSubmit", "true");
 
 		List<String> inputNames = new ArrayList<String>();
@@ -71,8 +66,7 @@ public class SubmitAction implements IAction {
 				endMessage.setVariableValue("*submit_inputVariable", name + ":"
 						+ submitConfiguration.getInputValue(name));
 			} else {
-				endMessage.setVariableValue(name,
-						submitConfiguration.getInputValue(name));
+				endMessage.setVariableValue(name, submitConfiguration.getInputValue(name));
 			}
 		}
 

@@ -74,7 +74,6 @@ import com.openmethods.openvxml.desktop.model.databases.IDatabaseTableColumn;
 
 /**
  * @author Trip
- *
  */
 public class DatabaseTableEditor extends EditorPart {
 	IDatabaseTable databaseTable;
@@ -106,39 +105,33 @@ public class DatabaseTableEditor extends EditorPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.
-	 * IProgressMonitor)
+	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime. IProgressMonitor)
 	 */
 	@Override
 	public void doSave(IProgressMonitor monitor) {
 		try {
-			Document doc = DocumentBuilderFactory.newInstance()
-					.newDocumentBuilder().newDocument();
+			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 			Element rootElement = doc.createElement("database-table");
 			doc.appendChild(rootElement);
 			rootElement.setAttribute("name", databaseTable.getName());
 
-			Element fields = rootElement.getOwnerDocument().createElement(
-					"columns");
+			Element fields = rootElement.getOwnerDocument().createElement("columns");
 			rootElement.appendChild(fields);
 
 			for (int i = 0; i < columnRecords.size(); i++) {
 				ColumnRecord fr = columnRecords.get(i);
-				Element fieldElement = fields.getOwnerDocument().createElement(
-						"column");
+				Element fieldElement = fields.getOwnerDocument().createElement("column");
 				fields.appendChild(fieldElement);
 				fieldElement.setAttribute("name", fr.name);
 
-				ColumnType dt = ColumnType.custom(fr.type, fr.length,
-						fr.autoIncrement, fr.nullable);
+				ColumnType dt = ColumnType
+						.custom(fr.type, fr.length, fr.autoIncrement, fr.nullable);
 				dt.write(fieldElement);
 			}
 
 			DOMSource source = new DOMSource(doc);
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			Transformer trans = TransformerFactory.newInstance()
-					.newTransformer();
+			Transformer trans = TransformerFactory.newInstance().newTransformer();
 			trans.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 			trans.transform(source, new XMLWriter(baos).toXMLResult());
 			databaseTable.write(new ByteArrayInputStream(baos.toByteArray()));
@@ -155,23 +148,20 @@ public class DatabaseTableEditor extends EditorPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.ui.part.EditorPart#init(org.eclipse.ui.IEditorSite,
 	 * org.eclipse.ui.IEditorInput)
 	 */
 	@Override
-	public void init(IEditorSite site, IEditorInput input)
-			throws PartInitException {
-		if (!(input instanceof FileEditorInput)) {
-			throw new PartInitException("Cannot edit: " + input);
-		}
+	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
+		if (!(input instanceof FileEditorInput)) { throw new PartInitException("Cannot edit: "
+				+ input); }
 
 		setInput(input);
 		setSite(site);
 		setPartName(input.getName());
 		IFile file = ((FileEditorInput) input).getFile();
-		databaseTable = (IDatabaseTable) WorkflowCore.getDefault()
-				.getWorkflowModel().convertToWorkflowResource(file);
+		databaseTable = (IDatabaseTable) WorkflowCore.getDefault().getWorkflowModel()
+				.convertToWorkflowResource(file);
 
 		List<IDatabaseTableColumn> fields = databaseTable.getColumns();
 		Iterator<IDatabaseTableColumn> iterator = fields.iterator();
@@ -190,7 +180,6 @@ public class DatabaseTableEditor extends EditorPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.ui.part.EditorPart#isDirty()
 	 */
 	@Override
@@ -200,7 +189,6 @@ public class DatabaseTableEditor extends EditorPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.ui.part.EditorPart#isSaveAsAllowed()
 	 */
 	@Override
@@ -210,19 +198,14 @@ public class DatabaseTableEditor extends EditorPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.ui.part.EditorPart#doSaveAs()
 	 */
 	@Override
-	public void doSaveAs() {
-	}
+	public void doSaveAs() {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets
-	 * .Composite)
+	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets .Composite)
 	 */
 	@Override
 	public void createPartControl(Composite parent) {
@@ -259,14 +242,12 @@ public class DatabaseTableEditor extends EditorPart {
 					text = "";
 				}
 
-				ColumnRecord fr = (ColumnRecord) ((IStructuredSelection) viewer
-						.getSelection()).getFirstElement();
+				ColumnRecord fr = (ColumnRecord) ((IStructuredSelection) viewer.getSelection())
+						.getFirstElement();
 
 				for (int i = 0; i < columnRecords.size(); i++) {
 					if (fr != columnRecords.get(i)) {
-						if (columnRecords.get(i).name.equalsIgnoreCase(text)) {
-							return "A column with that name already exists.";
-						}
+						if (columnRecords.get(i).name.equalsIgnoreCase(text)) { return "A column with that name already exists."; }
 					}
 				}
 
@@ -275,39 +256,31 @@ public class DatabaseTableEditor extends EditorPart {
 		});
 		nameEditor.addListener(new ICellEditorListener() {
 			@Override
-			public void applyEditorValue() {
-			}
+			public void applyEditorValue() {}
 
 			@Override
-			public void cancelEditor() {
-			}
+			public void cancelEditor() {}
 
 			@Override
-			public void editorValueChanged(boolean oldValidState,
-					boolean newValidState) {
+			public void editorValueChanged(boolean oldValidState, boolean newValidState) {
 				if (!newValidState) {
 					nameEditor.getControl().setForeground(
-							nameEditor.getControl().getDisplay()
-									.getSystemColor(SWT.COLOR_RED));
+							nameEditor.getControl().getDisplay().getSystemColor(SWT.COLOR_RED));
 				} else {
 					nameEditor.getControl().setForeground(
-							nameEditor.getControl().getDisplay()
-									.getSystemColor(SWT.COLOR_BLACK));
+							nameEditor.getControl().getDisplay().getSystemColor(SWT.COLOR_BLACK));
 				}
 			}
 		});
-		typeEditor = new ComboBoxCellEditor(table,
-				currentTypes.toArray(new String[currentTypes.size()]),
-				SWT.READ_ONLY | SWT.DROP_DOWN);
+		typeEditor = new ComboBoxCellEditor(table, currentTypes.toArray(new String[currentTypes
+				.size()]), SWT.READ_ONLY | SWT.DROP_DOWN);
 		lengthEditor = new TextCellEditor(table);
 		lengthEditor.setValidator(new ICellEditorValidator() {
 			@Override
 			public String isValid(Object value) {
 				String text = (String) value;
 
-				if (text == null) {
-					return "Must be a number";
-				}
+				if (text == null) { return "Must be a number"; }
 
 				try {
 					Integer.parseInt(text);
@@ -320,37 +293,32 @@ public class DatabaseTableEditor extends EditorPart {
 		});
 		lengthEditor.addListener(new ICellEditorListener() {
 			@Override
-			public void applyEditorValue() {
-			}
+			public void applyEditorValue() {}
 
 			@Override
-			public void cancelEditor() {
-			}
+			public void cancelEditor() {}
 
 			@Override
-			public void editorValueChanged(boolean oldValidState,
-					boolean newValidState) {
+			public void editorValueChanged(boolean oldValidState, boolean newValidState) {
 				if (!newValidState) {
 					lengthEditor.getControl().setForeground(
-							nameEditor.getControl().getDisplay()
-									.getSystemColor(SWT.COLOR_RED));
+							nameEditor.getControl().getDisplay().getSystemColor(SWT.COLOR_RED));
 				} else {
 					lengthEditor.getControl().setForeground(
-							nameEditor.getControl().getDisplay()
-									.getSystemColor(SWT.COLOR_BLACK));
+							nameEditor.getControl().getDisplay().getSystemColor(SWT.COLOR_BLACK));
 				}
 			}
 		});
 		nullableEditor = new CheckboxCellEditor(table);
 		autoIncrementEditor = new CheckboxCellEditor(table);
 		viewer = new TableViewer(table);
-		viewer.setColumnProperties(new String[] { "Name", "Type", "Length",
-				"Nullable", "AutoIncrement" });
+		viewer.setColumnProperties(new String[] { "Name", "Type", "Length", "Nullable",
+				"AutoIncrement" });
 		viewer.setContentProvider(new FieldContentProvider());
 		viewer.setLabelProvider(new FieldLabelProvider());
 		viewer.setCellModifier(new FieldCellModifier());
-		viewer.setCellEditors(new CellEditor[] { nameEditor, typeEditor,
-				lengthEditor, nullableEditor, autoIncrementEditor });
+		viewer.setCellEditors(new CellEditor[] { nameEditor, typeEditor, lengthEditor,
+				nullableEditor, autoIncrementEditor });
 		viewer.setInput(this);
 		hookContextMenu();
 	}
@@ -388,13 +356,13 @@ public class DatabaseTableEditor extends EditorPart {
 		});
 
 		if (!viewer.getSelection().isEmpty()) {
-			final ColumnRecord fr = (ColumnRecord) ((IStructuredSelection) viewer
-					.getSelection()).getFirstElement();
+			final ColumnRecord fr = (ColumnRecord) ((IStructuredSelection) viewer.getSelection())
+					.getFirstElement();
 			manager.add(new Action("Remove Column") {
 				@Override
 				public void run() {
-					MessageBox mb = new MessageBox(viewer.getControl()
-							.getShell(), SWT.YES | SWT.NO | SWT.ICON_WARNING);
+					MessageBox mb = new MessageBox(viewer.getControl().getShell(), SWT.YES | SWT.NO
+							| SWT.ICON_WARNING);
 					mb.setMessage("Are you sure you want to delete this?");
 
 					int result = mb.open();
@@ -411,12 +379,10 @@ public class DatabaseTableEditor extends EditorPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
 	 */
 	@Override
-	public void setFocus() {
-	}
+	public void setFocus() {}
 
 	private void fireModified() {
 		dirty = true;
@@ -432,22 +398,16 @@ public class DatabaseTableEditor extends EditorPart {
 		}
 
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 	}
 
-	public class FieldLabelProvider implements ITableLabelProvider,
-			IColorProvider {
-		Color alternateBackground = new Color(viewer.getControl().getDisplay(),
-				216, 238, 255);
-		Color background = viewer.getControl().getDisplay()
-				.getSystemColor(SWT.COLOR_WHITE);
-		Color foreground = viewer.getControl().getDisplay()
-				.getSystemColor(SWT.COLOR_BLACK);
+	public class FieldLabelProvider implements ITableLabelProvider, IColorProvider {
+		Color alternateBackground = new Color(viewer.getControl().getDisplay(), 216, 238, 255);
+		Color background = viewer.getControl().getDisplay().getSystemColor(SWT.COLOR_WHITE);
+		Color foreground = viewer.getControl().getDisplay().getSystemColor(SWT.COLOR_BLACK);
 
 		public FieldLabelProvider() {
 			super();
@@ -458,26 +418,24 @@ public class DatabaseTableEditor extends EditorPart {
 			ColumnRecord fr = (ColumnRecord) element;
 
 			if (columnIndex == 0) {
-				return org.eclipse.vtp.desktop.core.Activator.getDefault()
-						.getImageRegistry().get("ICON_TINY_SQUARE");
+				return org.eclipse.vtp.desktop.core.Activator.getDefault().getImageRegistry().get(
+						"ICON_TINY_SQUARE");
 			} else if (columnIndex == 3) {
 				if (fr.nullable) {
-					return org.eclipse.vtp.desktop.core.Activator.getDefault()
-							.getImageRegistry().get("ICON_CHECKBOX_TRUE");
+					return org.eclipse.vtp.desktop.core.Activator.getDefault().getImageRegistry()
+							.get("ICON_CHECKBOX_TRUE");
 				} else {
-					return org.eclipse.vtp.desktop.core.Activator.getDefault()
-							.getImageRegistry().get("ICON_CHECKBOX_FALSE");
+					return org.eclipse.vtp.desktop.core.Activator.getDefault().getImageRegistry()
+							.get("ICON_CHECKBOX_FALSE");
 				}
 			} else if (columnIndex == 4) {
 				if (fr.type.equals("Big Number") || fr.type.equals("Number")) {
 					if (fr.autoIncrement) {
-						return org.eclipse.vtp.desktop.core.Activator
-								.getDefault().getImageRegistry()
-								.get("ICON_CHECKBOX_TRUE");
+						return org.eclipse.vtp.desktop.core.Activator.getDefault()
+								.getImageRegistry().get("ICON_CHECKBOX_TRUE");
 					} else {
-						return org.eclipse.vtp.desktop.core.Activator
-								.getDefault().getImageRegistry()
-								.get("ICON_CHECKBOX_FALSE");
+						return org.eclipse.vtp.desktop.core.Activator.getDefault()
+								.getImageRegistry().get("ICON_CHECKBOX_FALSE");
 					}
 				}
 			}
@@ -493,16 +451,13 @@ public class DatabaseTableEditor extends EditorPart {
 				return fr.name;
 			} else if (columnIndex == 1) {
 				return fr.type;
-			} else if (columnIndex == 2) {
-				return Integer.toString(fr.length);
-			}
+			} else if (columnIndex == 2) { return Integer.toString(fr.length); }
 
 			return null;
 		}
 
 		@Override
-		public void addListener(ILabelProviderListener listener) {
-		}
+		public void addListener(ILabelProviderListener listener) {}
 
 		@Override
 		public void dispose() {
@@ -515,15 +470,11 @@ public class DatabaseTableEditor extends EditorPart {
 		}
 
 		@Override
-		public void removeListener(ILabelProviderListener listener) {
-		}
+		public void removeListener(ILabelProviderListener listener) {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IColorProvider#getForeground(java.lang.
-		 * Object)
+		 * @see org.eclipse.jface.viewers.IColorProvider#getForeground(java.lang. Object)
 		 */
 		@Override
 		public Color getForeground(Object element) {
@@ -532,10 +483,7 @@ public class DatabaseTableEditor extends EditorPart {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IColorProvider#getBackground(java.lang.
-		 * Object)
+		 * @see org.eclipse.jface.viewers.IColorProvider#getBackground(java.lang. Object)
 		 */
 		@Override
 		public Color getBackground(Object element) {
@@ -558,14 +506,12 @@ public class DatabaseTableEditor extends EditorPart {
 		public boolean canModify(Object element, String property) {
 			ColumnRecord fr = (ColumnRecord) element;
 
-			if (property.equals("Nullable") || property.equals("Type")
-					|| property.equals("Name")) {
+			if (property.equals("Nullable") || property.equals("Type") || property.equals("Name")) {
 				return true;
 			} else if (property.equals("Length")) {
 				return fr.type.equals("Varchar");
-			} else if (property.equals("AutoIncrement")) {
-				return fr.type.equals("Big Number") || fr.type.equals("Number");
-			}
+			} else if (property.equals("AutoIncrement")) { return fr.type.equals("Big Number")
+					|| fr.type.equals("Number"); }
 
 			return false;
 		}
@@ -595,12 +541,8 @@ public class DatabaseTableEditor extends EditorPart {
 					return new Integer(5);
 				} else if (fr.type.equals("DateTime")) {
 					return new Integer(6);
-				} else if (fr.type.equals("Text")) {
-					return new Integer(7);
-				}
-			} else if (property.equals("AutoIncrement")) {
-				return new Boolean(fr.autoIncrement);
-			}
+				} else if (fr.type.equals("Text")) { return new Integer(7); }
+			} else if (property.equals("AutoIncrement")) { return new Boolean(fr.autoIncrement); }
 
 			return null;
 		}
@@ -650,11 +592,9 @@ public class DatabaseTableEditor extends EditorPart {
 				if (!fr.type.equals(oldType)) {
 					if (fr.type.equals("Varchar")) {
 						fr.length = 45;
-					} else if (fr.type.equals("Number")
-							|| fr.type.equals("Decimal")) {
+					} else if (fr.type.equals("Number") || fr.type.equals("Decimal")) {
 						fr.length = 4;
-					} else if (fr.type.equals("Big Number")
-							|| fr.type.equals("Big Decimal")) {
+					} else if (fr.type.equals("Big Number") || fr.type.equals("Big Decimal")) {
 						fr.length = 8;
 					} else if (fr.type.equals("Text")) {
 						fr.length = 16;

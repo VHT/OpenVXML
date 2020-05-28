@@ -33,17 +33,14 @@ public class MediaConfigurationScreenManager {
 	public MediaConfigurationScreenManager() {
 		super();
 		configurationScreens = new HashMap<String, Map<String, ConfigurationScreenRecord>>();
-		IConfigurationElement[] screenExtensions = Platform
-				.getExtensionRegistry().getConfigurationElementsFor(
-						mediaConfigurationScreenExtensionId);
+		IConfigurationElement[] screenExtensions = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(mediaConfigurationScreenExtensionId);
 		for (IConfigurationElement screenExtension : screenExtensions) {
 			ConfigurationScreenRecord csr = new ConfigurationScreenRecord();
 			csr.primitiveTypeId = screenExtension.getAttribute("primitive-id");
-			csr.interactionType = screenExtension
-					.getAttribute("interaction-type");
+			csr.interactionType = screenExtension.getAttribute("interaction-type");
 			String className = screenExtension.getAttribute("class");
-			Bundle contributor = Platform.getBundle(screenExtension
-					.getContributor().getName());
+			Bundle contributor = Platform.getBundle(screenExtension.getContributor().getName());
 			try {
 				csr.screenClass = (Class<MediaConfigurationScreen>) contributor
 						.loadClass(className);
@@ -66,8 +63,8 @@ public class MediaConfigurationScreenManager {
 	 * @param interactionType
 	 * @return
 	 */
-	public MediaConfigurationScreen getMediaConfigurationScreen(
-			String primitiveTypeId, String interactionType) {
+	public MediaConfigurationScreen getMediaConfigurationScreen(String primitiveTypeId,
+			String interactionType) {
 		MediaConfigurationScreen ret = null;
 		Map<String, ConfigurationScreenRecord> byInteraction = configurationScreens
 				.get(primitiveTypeId);
@@ -95,15 +92,13 @@ public class MediaConfigurationScreenManager {
 		Map<String, ConfigurationScreenRecord> byInteraction = configurationScreens
 				.get(primitiveTypeId);
 		if (byInteraction != null) {
-			for (Map.Entry<String, ConfigurationScreenRecord> entry : byInteraction
-					.entrySet()) {
+			for (Map.Entry<String, ConfigurationScreenRecord> entry : byInteraction.entrySet()) {
 				ConfigurationScreenRecord csr = entry.getValue();
 				if (csr != null) {
 					try {
 						Constructor<MediaConfigurationScreen> con = csr.screenClass
 								.getConstructor(new Class[] { MediaConfigurationScreenContainer.class });
-						ret.put(entry.getKey(),
-								con.newInstance(new Object[] { container }));
+						ret.put(entry.getKey(), con.newInstance(new Object[] { container }));
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

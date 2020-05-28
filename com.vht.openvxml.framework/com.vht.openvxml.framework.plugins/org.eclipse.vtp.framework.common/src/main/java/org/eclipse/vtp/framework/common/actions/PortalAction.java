@@ -32,8 +32,7 @@ public class PortalAction implements IAction {
 	/**
 	 * Creates a new BranchAction.
 	 * 
-	 * @param context
-	 *            The context to use.
+	 * @param context The context to use.
 	 */
 	public PortalAction(IActionContext context) {
 		this.context = context;
@@ -41,7 +40,6 @@ public class PortalAction implements IAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.core.IAction#execute()
 	 */
 	@Override
@@ -49,8 +47,7 @@ public class PortalAction implements IAction {
 		if (context.isReportingEnabled()) {
 			final Dictionary<String, Object> props = new Hashtable<String, Object>();
 			props.put("event", "portal");
-			context.report(IReporter.SEVERITY_INFO, "Passing through portal.",
-					props);
+			context.report(IReporter.SEVERITY_INFO, "Passing through portal.", props);
 		}
 		return context.createResult(IActionResult.RESULT_NAME_DEFAULT);
 	}

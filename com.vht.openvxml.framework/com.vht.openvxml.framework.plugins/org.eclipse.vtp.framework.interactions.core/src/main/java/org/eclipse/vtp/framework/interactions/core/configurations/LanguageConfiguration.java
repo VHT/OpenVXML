@@ -19,8 +19,7 @@ import org.w3c.dom.Element;
  * 
  * @author Lonnie Pryor
  */
-public class LanguageConfiguration implements IConfiguration,
-		InteractionsConstants {
+public class LanguageConfiguration implements IConfiguration, InteractionsConstants {
 	/** The ID of this language. */
 	private String id = ""; //$NON-NLS-1$
 	/** The id of the interaction type this language is associated with */
@@ -29,8 +28,7 @@ public class LanguageConfiguration implements IConfiguration,
 	/**
 	 * Creates a new LanguageConfiguration.
 	 */
-	public LanguageConfiguration() {
-	}
+	public LanguageConfiguration() {}
 
 	/**
 	 * Returns the ID of this language.
@@ -44,8 +42,7 @@ public class LanguageConfiguration implements IConfiguration,
 	/**
 	 * Sets the ID of this language.
 	 * 
-	 * @param id
-	 *            The ID of this language.
+	 * @param id The ID of this language.
 	 */
 	public void setID(String id) {
 		this.id = id == null ? "" : id; //$NON-NLS-1$
@@ -63,8 +60,7 @@ public class LanguageConfiguration implements IConfiguration,
 	/**
 	 * Associates this language with the given interaction type
 	 * 
-	 * @param interactionType
-	 *            The ID of the interaction type
+	 * @param interactionType The ID of the interaction type
 	 */
 	public void setInteractionType(String interactionType) {
 		this.interactionType = interactionType == null ? "" : interactionType; //$NON-NLS-1$
@@ -72,9 +68,7 @@ public class LanguageConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#load( org.w3c.dom.Element)
 	 */
 	@Override
 	public void load(Element configurationElement) {
@@ -84,9 +78,7 @@ public class LanguageConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#save( org.w3c.dom.Element)
 	 */
 	@Override
 	public void save(Element configurationElement) {

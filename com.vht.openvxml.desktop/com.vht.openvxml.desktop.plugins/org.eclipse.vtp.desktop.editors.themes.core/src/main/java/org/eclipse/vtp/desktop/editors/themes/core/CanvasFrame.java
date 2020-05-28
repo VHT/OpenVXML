@@ -14,23 +14,21 @@ package org.eclipse.vtp.desktop.editors.themes.core;
 import org.eclipse.swt.graphics.Rectangle;
 
 /**
- * Represents the a themed frame for rendering the border area of a design
- * canvas.
+ * Represents the a themed frame for rendering the border area of a design canvas.
  * 
  * @author trip
  */
 public interface CanvasFrame extends ThematicFrame {
 	/**
-	 * @return A Rectangle that indicates the amount of space on each side of
-	 *         the frame that is needed to render the frame border
+	 * @return A Rectangle that indicates the amount of space on each side of the frame that is
+	 *         needed to render the frame border
 	 */
 	public Rectangle getInsets();
 
 	/**
 	 * Sets the boundaries of the canvas frame
 	 * 
-	 * @param rect
-	 *            a Rectangle defining the bounds of the canvas frame
+	 * @param rect a Rectangle defining the bounds of the canvas frame
 	 */
 	public void setBounds(Rectangle rect);
 

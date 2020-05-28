@@ -15,7 +15,6 @@ import com.openmethods.openvxml.desktop.model.branding.IBrandingProjectAspect;
 
 /**
  * @author trip
- *
  */
 public class BrandContext implements ConfigurationContext {
 	public static final String CONTEXT_ID = "com.openmethods.openvxml.desktop.model.branding.brandcontext";
@@ -25,15 +24,11 @@ public class BrandContext implements ConfigurationContext {
 	/**
 	 * 
 	 */
-	public BrandContext() {
-	}
+	public BrandContext() {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.configuration.ConfigurationContext
-	 * #getId()
+	 * @see org.eclipse.vtp.desktop.model.core.configuration.ConfigurationContext #getId()
 	 */
 	@Override
 	public String getId() {
@@ -54,9 +49,7 @@ public class BrandContext implements ConfigurationContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.configuration.ConfigurationContext
+	 * @see org.eclipse.vtp.desktop.model.core.configuration.ConfigurationContext
 	 * #getLabel(java.lang.Object)
 	 */
 	@Override
@@ -81,16 +74,12 @@ public class BrandContext implements ConfigurationContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.configuration.ConfigurationContext
-	 * #getValues()
+	 * @see org.eclipse.vtp.desktop.model.core.configuration.ConfigurationContext #getValues()
 	 */
 	@Override
 	public List<Object> getValues() {
 		List<Object> ret = new ArrayList<Object>();
-		IBrand defaultBrand = brandingAspect.getBrandManager()
-				.getDefaultBrand();
+		IBrand defaultBrand = brandingAspect.getBrandManager().getDefaultBrand();
 		ret.add(defaultBrand);
 		traverseBrands(defaultBrand, ret);
 		for (Object obj : ret) {

@@ -72,8 +72,9 @@ import org.eclipse.vtp.modules.interactive.ui.properties.MenuChoiceBindingManage
 
 import com.openmethods.openvxml.desktop.model.branding.IBrand;
 
-public class OptionSetMediaScreen extends MediaConfigurationScreen implements
-		PromptBindingViewerListener {
+public class OptionSetMediaScreen extends MediaConfigurationScreen
+	implements
+	PromptBindingViewerListener {
 	private static final String elementType = "org.eclipse.vtp.modules.interactive.optionSet";
 	private FormToolkit toolkit;
 	MenuChoiceBindingManager mcBindingManager;
@@ -96,8 +97,7 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 	Map<MenuChoice, GrammarBindingViewer> optionGrammarMap = new HashMap<MenuChoice, GrammarBindingViewer>();
 	MouseListener focusMaster = new MouseListener() {
 		@Override
-		public void mouseDoubleClick(MouseEvent e) {
-		}
+		public void mouseDoubleClick(MouseEvent e) {}
 
 		@Override
 		public void mouseDown(MouseEvent e) {
@@ -105,8 +105,7 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 		}
 
 		@Override
-		public void mouseUp(MouseEvent e) {
-		}
+		public void mouseUp(MouseEvent e) {}
 	};
 	Map<String, ValueStack> valueStacks = new HashMap<String, ValueStack>();
 	IBrand currentBrand = null;
@@ -117,19 +116,17 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 	 */
 	public OptionSetMediaScreen(MediaConfigurationScreenContainer container) {
 		super(container);
-		mcBindingManager = (MenuChoiceBindingManager) getElement()
-				.getConfigurationManager(MenuChoiceBindingManager.TYPE_ID);
-		genericManager = (GenericBindingManager) getElement()
-				.getConfigurationManager(GenericBindingManager.TYPE_ID);
-		interactionBinding = genericManager
-				.getInteractionBinding(getInteractionType());
-		info = (OptionSetInformationProvider) ((PrimitiveElement) container
-				.getDesignElement()).getInformationProvider();
+		mcBindingManager = (MenuChoiceBindingManager) getElement().getConfigurationManager(
+				MenuChoiceBindingManager.TYPE_ID);
+		genericManager = (GenericBindingManager) getElement().getConfigurationManager(
+				GenericBindingManager.TYPE_ID);
+		interactionBinding = genericManager.getInteractionBinding(getInteractionType());
+		info = (OptionSetInformationProvider) ((PrimitiveElement) container.getDesignElement())
+				.getInformationProvider();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.media.core.MediaConfigurationScreen#save()
 	 */
 	@Override
@@ -143,7 +140,6 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.media.core.MediaConfigurationScreen#cancel()
 	 */
 	@Override
@@ -154,16 +150,13 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.media.core.MediaConfigurationScreen#createControls
+	 * @see org.eclipse.vtp.desktop.media.core.MediaConfigurationScreen#createControls
 	 * (org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
 	public void createControls(Composite parent) {
-		boldFont = new Font(parent.getDisplay(),
-				parent.getFont().getFontData()[0].getName(), parent.getFont()
-						.getFontData()[0].getHeight(), SWT.BOLD);
+		boldFont = new Font(parent.getDisplay(), parent.getFont().getFontData()[0].getName(),
+				parent.getFont().getFontData()[0].getHeight(), SWT.BOLD);
 		toolkit = new FormToolkit(parent.getDisplay());
 		sc = new ScrolledComposite(parent, SWT.V_SCROLL);
 		sc.getVerticalBar().setIncrement(30);
@@ -179,8 +172,7 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 		GridLayout gridLayout = new GridLayout(2, false);
 		gridLayout.verticalSpacing = 1;
 		mediaComposite.setLayout(gridLayout);
-		contentSection = toolkit.createSection(mediaComposite,
-				Section.TITLE_BAR);
+		contentSection = toolkit.createSection(mediaComposite, Section.TITLE_BAR);
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL
 				| GridData.VERTICAL_ALIGN_BEGINNING);
 		gridData.horizontalSpan = 2;
@@ -194,15 +186,13 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 		addOptionButton.setLayoutData(new GridData());
 		addOptionButton.addSelectionListener(new SelectionListener() {
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				NewMenuChoiceWizard nmo = new NewMenuChoiceWizard(currentBrand,
-						info, mcBindingManager);
-				WizardDialog wd = new WizardDialog(Display.getCurrent()
-						.getActiveShell(), nmo);
+				NewMenuChoiceWizard nmo = new NewMenuChoiceWizard(currentBrand, info,
+						mcBindingManager);
+				WizardDialog wd = new WizardDialog(Display.getCurrent().getActiveShell(), nmo);
 
 				if (wd.open() == WizardDialog.OK) {
 					setBrand(currentBrand);
@@ -223,25 +213,21 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 		settingsComposite.setBackground(comp.getBackground());
 		settingsComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		settingsComposite.setLayout(new GridLayout(2, false));
-		final Section settingsSection = toolkit.createSection(
-				settingsComposite, Section.TITLE_BAR);
-		gridData = new GridData(GridData.FILL_HORIZONTAL
-				| GridData.VERTICAL_ALIGN_BEGINNING);
+		final Section settingsSection = toolkit.createSection(settingsComposite, Section.TITLE_BAR);
+		gridData = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
 		gridData.horizontalSpan = 2;
 		settingsSection.setLayoutData(gridData);
 		settingsSection.setText("Settings");
 
-		Label inputModeLabel = createPropertyLabel(settingsComposite,
-				"User Input Style");
+		Label inputModeLabel = createPropertyLabel(settingsComposite, "User Input Style");
 		inputModeLabel
 				.setToolTipText("This property selects the valid ways\r\n"
-						+ "a caller can provide input:\r\n"
-						+ "\t*DTMF - Touchtone keypad only"
+						+ "a caller can provide input:\r\n" + "\t*DTMF - Touchtone keypad only"
 						+ "\t*Voice - Speech recognition only"
 						+ "\t*Hybrid - Touchtone or speech accepted");
 		containerComp = createWrapperComposite(settingsComposite);
-		ValueStack lastStack = new ValueStack("input-mode",
-				getInteractionType(), elementType, "Dtmf Only", 0);
+		ValueStack lastStack = new ValueStack("input-mode", getInteractionType(), elementType,
+				"Dtmf Only", 0);
 		lastStack.createControls(containerComp);
 		containerComp = lastStack.getValueComposite();
 		valueStacks.put("input-mode", lastStack);
@@ -253,8 +239,7 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 		lastStack.setValueControl(new ValueControl() {
 			@Override
 			public String getValue() {
-				return inputModeCombo.getItem(inputModeCombo
-						.getSelectionIndex());
+				return inputModeCombo.getItem(inputModeCombo.getSelectionIndex());
 			}
 
 			@Override
@@ -281,8 +266,7 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 		});
 		inputModeCombo.addSelectionListener(new SelectionListener() {
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -290,13 +274,11 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 			}
 		});
 
-		Label bargeLabel = createPropertyLabel(settingsComposite,
-				"Barge-in Enabled");
+		Label bargeLabel = createPropertyLabel(settingsComposite, "Barge-in Enabled");
 		bargeLabel.setToolTipText("Determines whether the caller can\r\n"
 				+ "interrupt the prompt to begin entry");
 		containerComp = createWrapperComposite(settingsComposite);
-		lastStack = new ValueStack("barge-in", getInteractionType(),
-				elementType, "true", 0);
+		lastStack = new ValueStack("barge-in", getInteractionType(), elementType, "true", 0);
 		lastStack.createControls(containerComp);
 		containerComp = lastStack.getValueComposite();
 		valueStacks.put("barge-in", lastStack);
@@ -326,18 +308,14 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 
 		Label initialTimeoutLabel = createPropertyLabel(settingsComposite,
 				"Initial Input Timeout (Seconds)");
-		initialTimeoutLabel
-				.setToolTipText("The amount of time in seconds to wait\r\n"
-						+ "for the caller to begin input before\r\n"
-						+ "a NoInput event.");
+		initialTimeoutLabel.setToolTipText("The amount of time in seconds to wait\r\n"
+				+ "for the caller to begin input before\r\n" + "a NoInput event.");
 		containerComp = createWrapperComposite(settingsComposite);
-		lastStack = new ValueStack("initial-timeout", getInteractionType(),
-				elementType, "3", 0);
+		lastStack = new ValueStack("initial-timeout", getInteractionType(), elementType, "3", 0);
 		lastStack.createControls(containerComp);
 		containerComp = lastStack.getValueComposite();
 		valueStacks.put("initial-timeout", lastStack);
-		final Spinner initialTimeoutSpinner = createValueSpinner(containerComp,
-				0, 100, 0, 0);
+		final Spinner initialTimeoutSpinner = createValueSpinner(containerComp, 0, 100, 0, 0);
 		lastStack.setValueControl(new ValueControl() {
 			@Override
 			public String getValue() {
@@ -352,21 +330,17 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 
 		Label interdigitTimeoutLabel = createPropertyLabel(settingsComposite,
 				"Interdigit Timeout (Seconds)");
-		interdigitTimeoutLabel
-				.setToolTipText("The amount of time in seconds to wait\r\n"
-						+ "for additional touchtone if the current\r\n"
-						+ "input does not match the grammar before\r\n"
-						+ "a NoMatch event.");
+		interdigitTimeoutLabel.setToolTipText("The amount of time in seconds to wait\r\n"
+				+ "for additional touchtone if the current\r\n"
+				+ "input does not match the grammar before\r\n" + "a NoMatch event.");
 		dtmfWidgets.add(interdigitTimeoutLabel);
 		containerComp = createWrapperComposite(settingsComposite);
 		dtmfWidgets.add(containerComp);
-		lastStack = new ValueStack("interdigit-timeout", getInteractionType(),
-				elementType, "2", 0);
+		lastStack = new ValueStack("interdigit-timeout", getInteractionType(), elementType, "2", 0);
 		lastStack.createControls(containerComp);
 		containerComp = lastStack.getValueComposite();
 		valueStacks.put("interdigit-timeout", lastStack);
-		final Spinner interdigitTimeoutSpinner = createValueSpinner(
-				containerComp, 0, 100, 0, 0);
+		final Spinner interdigitTimeoutSpinner = createValueSpinner(containerComp, 0, 100, 0, 0);
 		lastStack.setValueControl(new ValueControl() {
 			@Override
 			public String getValue() {
@@ -381,25 +355,20 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 
 		Label terminationTimeoutLabel = createPropertyLabel(settingsComposite,
 				"Termination Timeout (Seconds)");
-		terminationTimeoutLabel
-				.setToolTipText("The amount of time in seconds to wait\r\n"
-						+ "for additional input after a selection\r\n"
-						+ "has been matched.");
+		terminationTimeoutLabel.setToolTipText("The amount of time in seconds to wait\r\n"
+				+ "for additional input after a selection\r\n" + "has been matched.");
 		dtmfWidgets.add(terminationTimeoutLabel);
 		containerComp = createWrapperComposite(settingsComposite);
 		dtmfWidgets.add(containerComp);
-		lastStack = new ValueStack("termination-timeout", getInteractionType(),
-				elementType, "3", 0);
+		lastStack = new ValueStack("termination-timeout", getInteractionType(), elementType, "3", 0);
 		lastStack.createControls(containerComp);
 		containerComp = lastStack.getValueComposite();
 		valueStacks.put("termination-timeout", lastStack);
-		final Spinner terminationTimeoutSpinner = createValueSpinner(
-				containerComp, 0, 100, 0, 0);
+		final Spinner terminationTimeoutSpinner = createValueSpinner(containerComp, 0, 100, 0, 0);
 		lastStack.setValueControl(new ValueControl() {
 			@Override
 			public String getValue() {
-				return Integer.toString(terminationTimeoutSpinner
-						.getSelection());
+				return Integer.toString(terminationTimeoutSpinner.getSelection());
 			}
 
 			@Override
@@ -408,81 +377,72 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 			}
 		});
 
-		Label speechIncompleteTimeoutLabel = createPropertyLabel(
-				settingsComposite, "Speech Incomplete Timeout (Seconds)");
-		speechIncompleteTimeoutLabel
-				.setToolTipText("The amount of time in seconds to wait\r\n"
-						+ "for additional input if the current entry\r\n"
-						+ "does not match the provided grammar.");
+		Label speechIncompleteTimeoutLabel = createPropertyLabel(settingsComposite,
+				"Speech Incomplete Timeout (Seconds)");
+		speechIncompleteTimeoutLabel.setToolTipText("The amount of time in seconds to wait\r\n"
+				+ "for additional input if the current entry\r\n"
+				+ "does not match the provided grammar.");
 		voiceWidgets.add(speechIncompleteTimeoutLabel);
 		containerComp = createWrapperComposite(settingsComposite);
 		voiceWidgets.add(containerComp);
-		lastStack = new ValueStack("speech-incomplete-timeout",
-				getInteractionType(), elementType, "1", 0);
+		lastStack = new ValueStack("speech-incomplete-timeout", getInteractionType(), elementType,
+				"1", 0);
 		lastStack.createControls(containerComp);
 		containerComp = lastStack.getValueComposite();
 		valueStacks.put("speech-incomplete-timeout", lastStack);
-		final Spinner speechIncompleteTimeoutSpinner = createValueSpinner(
-				containerComp, 0, 100, 0, 0);
+		final Spinner speechIncompleteTimeoutSpinner = createValueSpinner(containerComp, 0, 100, 0,
+				0);
 		lastStack.setValueControl(new ValueControl() {
 			@Override
 			public String getValue() {
-				return Integer.toString(speechIncompleteTimeoutSpinner
-						.getSelection());
+				return Integer.toString(speechIncompleteTimeoutSpinner.getSelection());
 			}
 
 			@Override
 			public void setValue(String value) {
-				speechIncompleteTimeoutSpinner.setSelection(Integer
-						.parseInt(value));
+				speechIncompleteTimeoutSpinner.setSelection(Integer.parseInt(value));
 			}
 		});
 
-		Label speechCompleteTimeoutLabel = createPropertyLabel(
-				settingsComposite, "Speech Completion Timeout (Seconds)");
-		speechCompleteTimeoutLabel
-				.setToolTipText("The amount of time in seconds to wait\r\n"
-						+ "for additional input if the current entry\r\n"
-						+ "already matches the provided grammar.");
+		Label speechCompleteTimeoutLabel = createPropertyLabel(settingsComposite,
+				"Speech Completion Timeout (Seconds)");
+		speechCompleteTimeoutLabel.setToolTipText("The amount of time in seconds to wait\r\n"
+				+ "for additional input if the current entry\r\n"
+				+ "already matches the provided grammar.");
 		voiceWidgets.add(speechCompleteTimeoutLabel);
 		containerComp = createWrapperComposite(settingsComposite);
 		voiceWidgets.add(containerComp);
-		lastStack = new ValueStack("speech-complete-timeout",
-				getInteractionType(), elementType, "1", 0);
+		lastStack = new ValueStack("speech-complete-timeout", getInteractionType(), elementType,
+				"1", 0);
 		lastStack.createControls(containerComp);
 		containerComp = lastStack.getValueComposite();
 		valueStacks.put("speech-complete-timeout", lastStack);
-		final Spinner speechCompleteTimeoutSpinner = createValueSpinner(
-				containerComp, 0, 100, 0, 0);
+		final Spinner speechCompleteTimeoutSpinner = createValueSpinner(containerComp, 0, 100, 0, 0);
 		lastStack.setValueControl(new ValueControl() {
 			@Override
 			public String getValue() {
-				return Integer.toString(speechCompleteTimeoutSpinner
-						.getSelection());
+				return Integer.toString(speechCompleteTimeoutSpinner.getSelection());
 			}
 
 			@Override
 			public void setValue(String value) {
-				speechCompleteTimeoutSpinner.setSelection(Integer
-						.parseInt(value));
+				speechCompleteTimeoutSpinner.setSelection(Integer.parseInt(value));
 			}
 		});
 
 		Label maxSpeechTimeoutLabel = createPropertyLabel(settingsComposite,
 				"Maximum Speech Length (Seconds)");
-		maxSpeechTimeoutLabel
-				.setToolTipText("The maximum length of speech input\r\n"
-						+ "in seconds that will be accepted.");
+		maxSpeechTimeoutLabel.setToolTipText("The maximum length of speech input\r\n"
+				+ "in seconds that will be accepted.");
 		voiceWidgets.add(maxSpeechTimeoutLabel);
 		containerComp = createWrapperComposite(settingsComposite);
 		voiceWidgets.add(containerComp);
-		lastStack = new ValueStack("max-speech-timeout", getInteractionType(),
-				elementType, "300", 0);
+		lastStack = new ValueStack("max-speech-timeout", getInteractionType(), elementType, "300",
+				0);
 		lastStack.createControls(containerComp);
 		containerComp = lastStack.getValueComposite();
 		valueStacks.put("max-speech-timeout", lastStack);
-		final Spinner maxSpeechTimeoutSpinner = createValueSpinner(
-				containerComp, 10, 300, 0, 0);
+		final Spinner maxSpeechTimeoutSpinner = createValueSpinner(containerComp, 10, 300, 0, 0);
 		lastStack.setValueControl(new ValueControl() {
 			@Override
 			public String getValue() {
@@ -497,19 +457,16 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 
 		Label confidenceLevelLabel = createPropertyLabel(settingsComposite,
 				"Confidence Level Accepted");
-		confidenceLevelLabel
-				.setToolTipText("The minimum level of confidence accepted\r\n"
-						+ "by the speech recognition provider.");
+		confidenceLevelLabel.setToolTipText("The minimum level of confidence accepted\r\n"
+				+ "by the speech recognition provider.");
 		voiceWidgets.add(confidenceLevelLabel);
 		containerComp = createWrapperComposite(settingsComposite);
 		voiceWidgets.add(containerComp);
-		lastStack = new ValueStack("confidence-level", getInteractionType(),
-				elementType, "50", 0);
+		lastStack = new ValueStack("confidence-level", getInteractionType(), elementType, "50", 0);
 		lastStack.createControls(containerComp);
 		containerComp = lastStack.getValueComposite();
 		valueStacks.put("confidence-level", lastStack);
-		final Spinner confidenceLevelSpinner = createValueSpinner(
-				containerComp, 0, 100, 0, 0);
+		final Spinner confidenceLevelSpinner = createValueSpinner(containerComp, 0, 100, 0, 0);
 		lastStack.setValueControl(new ValueControl() {
 			@Override
 			public String getValue() {
@@ -522,22 +479,18 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 			}
 		});
 
-		Label sensitivityLabel = createPropertyLabel(settingsComposite,
-				"Caller Environment");
-		sensitivityLabel
-				.setToolTipText("Determines how sensitive the speech recognition\r\n"
-						+ "will be to background noise.  The lower the number,\r\n"
-						+ "the less senitive the system will be");
+		Label sensitivityLabel = createPropertyLabel(settingsComposite, "Caller Environment");
+		sensitivityLabel.setToolTipText("Determines how sensitive the speech recognition\r\n"
+				+ "will be to background noise.  The lower the number,\r\n"
+				+ "the less senitive the system will be");
 		voiceWidgets.add(sensitivityLabel);
 		containerComp = createWrapperComposite(settingsComposite);
 		voiceWidgets.add(containerComp);
-		lastStack = new ValueStack("sensitivity-level", getInteractionType(),
-				elementType, "50", 0);
+		lastStack = new ValueStack("sensitivity-level", getInteractionType(), elementType, "50", 0);
 		lastStack.createControls(containerComp);
 		containerComp = lastStack.getValueComposite();
 		valueStacks.put("sensitivity-level", lastStack);
-		final Spinner sensitivitySpinner = createValueSpinner(containerComp, 0,
-				100, 0, 0);
+		final Spinner sensitivitySpinner = createValueSpinner(containerComp, 0, 100, 0, 0);
 		lastStack.setValueControl(new ValueControl() {
 			@Override
 			public String getValue() {
@@ -550,8 +503,7 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 			}
 		});
 
-		Label speedVsAccuracyLabel = createPropertyLabel(settingsComposite,
-				"Speed Vs Accuracy");
+		Label speedVsAccuracyLabel = createPropertyLabel(settingsComposite, "Speed Vs Accuracy");
 		speedVsAccuracyLabel
 				.setToolTipText("A hint to the speech recognition platform indicating\r\n"
 						+ "relative focus between the speed in which the result\r\n"
@@ -561,13 +513,11 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 		voiceWidgets.add(speedVsAccuracyLabel);
 		containerComp = createWrapperComposite(settingsComposite);
 		voiceWidgets.add(containerComp);
-		lastStack = new ValueStack("speed-vs-accuracy", getInteractionType(),
-				elementType, "50", 0);
+		lastStack = new ValueStack("speed-vs-accuracy", getInteractionType(), elementType, "50", 0);
 		lastStack.createControls(containerComp);
 		containerComp = lastStack.getValueComposite();
 		valueStacks.put("speed-vs-accuracy", lastStack);
-		final Spinner speedVsAccuracySpinner = createValueSpinner(
-				containerComp, 0, 100, 0, 0);
+		final Spinner speedVsAccuracySpinner = createValueSpinner(containerComp, 0, 100, 0, 0);
 		lastStack.setValueControl(new ValueControl() {
 			@Override
 			public String getValue() {
@@ -583,8 +533,7 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 		comp.addControlListener(new ControlListener() {
 
 			@Override
-			public void controlMoved(ControlEvent e) {
-			}
+			public void controlMoved(ControlEvent e) {}
 
 			@Override
 			public void controlResized(ControlEvent e) {
@@ -663,8 +612,7 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 						gd.exclude = false;
 					}
 				}
-				Point preferred = comp.computeSize(sc.getMinWidth(),
-						SWT.DEFAULT, true);
+				Point preferred = comp.computeSize(sc.getMinWidth(), SWT.DEFAULT, true);
 				sc.setMinSize(preferred);
 				comp.layout();
 				if (preferred.y > sc.getClientArea().height) // need to
@@ -673,8 +621,7 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 																// scroll bar
 																// appeared
 				{
-					preferred = comp.computeSize(sc.getClientArea().width,
-							SWT.DEFAULT, true);
+					preferred = comp.computeSize(sc.getClientArea().width, SWT.DEFAULT, true);
 					sc.setMinSize(preferred);
 					comp.layout();
 				}
@@ -685,9 +632,7 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.media.core.MediaConfigurationScreen#
-	 * getInteractionType()
+	 * @see org.eclipse.vtp.desktop.media.core.MediaConfigurationScreen# getInteractionType()
 	 */
 	@Override
 	public String getInteractionType() {
@@ -696,9 +641,7 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.media.core.MediaConfigurationScreen#setLanguage
+	 * @see org.eclipse.vtp.desktop.media.core.MediaConfigurationScreen#setLanguage
 	 * (java.lang.String)
 	 */
 	@Override
@@ -711,9 +654,7 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.media.core.MediaConfigurationScreen#setBrand(
+	 * @see org.eclipse.vtp.desktop.media.core.MediaConfigurationScreen#setBrand(
 	 * org.eclipse.vtp.desktop.core.configuration.Brand)
 	 */
 	@Override
@@ -738,12 +679,10 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 			optionControlMap = new HashMap<MenuChoice, List<Control>>();
 			optionPromptMap = new HashMap<MenuChoice, PromptBindingViewer>();
 			optionGrammarMap = new HashMap<MenuChoice, GrammarBindingViewer>();
-			List<MenuChoice> options = mcBindingManager
-					.getChoicesByBrand(currentBrand);
+			List<MenuChoice> options = mcBindingManager.getChoicesByBrand(currentBrand);
 			for (int i = 0; i < options.size(); i++) {
 				MenuChoice mc = options.get(i);
-				List<Control> createOptionControls = createOptionControls(
-						mediaComposite, mc);
+				List<Control> createOptionControls = createOptionControls(mediaComposite, mc);
 				for (Control control : createOptionControls) {
 					control.moveAbove(addOptionComposite);
 				}
@@ -757,95 +696,71 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 				viewer.setCurrentBrand(currentBrand);
 				viewer.setCurrentLanguage(currentLanguage);
 			}
-			NamedBinding namedBinding = interactionBinding
-					.getNamedBinding("input-mode");
-			LanguageBinding languageBinding = namedBinding
-					.getLanguageBinding("");
-			BrandBinding brandBinding = languageBinding
-					.getBrandBinding(currentBrand);
-			ValueStack valueStack = this.valueStacks
-					.get(namedBinding.getName());
-			valueStack.setSetting(genericManager.getMediaDefaults(),
-					brandBinding);
+			NamedBinding namedBinding = interactionBinding.getNamedBinding("input-mode");
+			LanguageBinding languageBinding = namedBinding.getLanguageBinding("");
+			BrandBinding brandBinding = languageBinding.getBrandBinding(currentBrand);
+			ValueStack valueStack = this.valueStacks.get(namedBinding.getName());
+			valueStack.setSetting(genericManager.getMediaDefaults(), brandBinding);
 
 			namedBinding = interactionBinding.getNamedBinding("barge-in");
 			languageBinding = namedBinding.getLanguageBinding("");
 			brandBinding = languageBinding.getBrandBinding(currentBrand);
 			valueStack = this.valueStacks.get(namedBinding.getName());
-			valueStack.setSetting(genericManager.getMediaDefaults(),
-					brandBinding);
+			valueStack.setSetting(genericManager.getMediaDefaults(), brandBinding);
 
-			namedBinding = interactionBinding
-					.getNamedBinding("initial-timeout");
+			namedBinding = interactionBinding.getNamedBinding("initial-timeout");
 			languageBinding = namedBinding.getLanguageBinding("");
 			brandBinding = languageBinding.getBrandBinding(currentBrand);
 			valueStack = this.valueStacks.get(namedBinding.getName());
-			valueStack.setSetting(genericManager.getMediaDefaults(),
-					brandBinding);
+			valueStack.setSetting(genericManager.getMediaDefaults(), brandBinding);
 
-			namedBinding = interactionBinding
-					.getNamedBinding("interdigit-timeout");
+			namedBinding = interactionBinding.getNamedBinding("interdigit-timeout");
 			languageBinding = namedBinding.getLanguageBinding("");
 			brandBinding = languageBinding.getBrandBinding(currentBrand);
 			valueStack = this.valueStacks.get(namedBinding.getName());
-			valueStack.setSetting(genericManager.getMediaDefaults(),
-					brandBinding);
+			valueStack.setSetting(genericManager.getMediaDefaults(), brandBinding);
 
-			namedBinding = interactionBinding
-					.getNamedBinding("termination-timeout");
+			namedBinding = interactionBinding.getNamedBinding("termination-timeout");
 			languageBinding = namedBinding.getLanguageBinding("");
 			brandBinding = languageBinding.getBrandBinding(currentBrand);
 			valueStack = this.valueStacks.get(namedBinding.getName());
-			valueStack.setSetting(genericManager.getMediaDefaults(),
-					brandBinding);
+			valueStack.setSetting(genericManager.getMediaDefaults(), brandBinding);
 
-			namedBinding = interactionBinding
-					.getNamedBinding("speech-incomplete-timeout");
+			namedBinding = interactionBinding.getNamedBinding("speech-incomplete-timeout");
 			languageBinding = namedBinding.getLanguageBinding("");
 			brandBinding = languageBinding.getBrandBinding(currentBrand);
 			valueStack = this.valueStacks.get(namedBinding.getName());
-			valueStack.setSetting(genericManager.getMediaDefaults(),
-					brandBinding);
+			valueStack.setSetting(genericManager.getMediaDefaults(), brandBinding);
 
-			namedBinding = interactionBinding
-					.getNamedBinding("speech-complete-timeout");
+			namedBinding = interactionBinding.getNamedBinding("speech-complete-timeout");
 			languageBinding = namedBinding.getLanguageBinding("");
 			brandBinding = languageBinding.getBrandBinding(currentBrand);
 			valueStack = this.valueStacks.get(namedBinding.getName());
-			valueStack.setSetting(genericManager.getMediaDefaults(),
-					brandBinding);
+			valueStack.setSetting(genericManager.getMediaDefaults(), brandBinding);
 
-			namedBinding = interactionBinding
-					.getNamedBinding("max-speech-timeout");
+			namedBinding = interactionBinding.getNamedBinding("max-speech-timeout");
 			languageBinding = namedBinding.getLanguageBinding("");
 			brandBinding = languageBinding.getBrandBinding(currentBrand);
 			valueStack = this.valueStacks.get(namedBinding.getName());
-			valueStack.setSetting(genericManager.getMediaDefaults(),
-					brandBinding);
+			valueStack.setSetting(genericManager.getMediaDefaults(), brandBinding);
 
-			namedBinding = interactionBinding
-					.getNamedBinding("confidence-level");
+			namedBinding = interactionBinding.getNamedBinding("confidence-level");
 			languageBinding = namedBinding.getLanguageBinding("");
 			brandBinding = languageBinding.getBrandBinding(currentBrand);
 			valueStack = this.valueStacks.get(namedBinding.getName());
-			valueStack.setSetting(genericManager.getMediaDefaults(),
-					brandBinding);
+			valueStack.setSetting(genericManager.getMediaDefaults(), brandBinding);
 
-			namedBinding = interactionBinding
-					.getNamedBinding("sensitivity-level");
+			namedBinding = interactionBinding.getNamedBinding("sensitivity-level");
 			languageBinding = namedBinding.getLanguageBinding("");
 			brandBinding = languageBinding.getBrandBinding(currentBrand);
 			valueStack = this.valueStacks.get(namedBinding.getName());
-			valueStack.setSetting(genericManager.getMediaDefaults(),
-					brandBinding);
+			valueStack.setSetting(genericManager.getMediaDefaults(), brandBinding);
 
-			namedBinding = interactionBinding
-					.getNamedBinding("speed-vs-accuracy");
+			namedBinding = interactionBinding.getNamedBinding("speed-vs-accuracy");
 			languageBinding = namedBinding.getLanguageBinding("");
 			brandBinding = languageBinding.getBrandBinding(currentBrand);
 			valueStack = this.valueStacks.get(namedBinding.getName());
-			valueStack.setSetting(genericManager.getMediaDefaults(),
-					brandBinding);
+			valueStack.setSetting(genericManager.getMediaDefaults(), brandBinding);
 			updateButtons();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -888,8 +803,7 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 														// because the scroll
 														// bar appeared
 		{
-			preferred = comp.computeSize(sc.getClientArea().width, SWT.DEFAULT,
-					true);
+			preferred = comp.computeSize(sc.getClientArea().width, SWT.DEFAULT, true);
 			sc.setMinSize(preferred);
 			comp.layout();
 		}
@@ -919,8 +833,7 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 		containerComp.addMouseListener(focusMaster);
 		containerComp.setBackground(parent.getBackground());
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL
-				| GridData.HORIZONTAL_ALIGN_BEGINNING
-				| GridData.VERTICAL_ALIGN_BEGINNING);
+				| GridData.HORIZONTAL_ALIGN_BEGINNING | GridData.VERTICAL_ALIGN_BEGINNING);
 		gridData.horizontalIndent = indent;
 		gridData.widthHint = 175;
 		// gridData.grabExcessVerticalSpace = true;
@@ -946,10 +859,9 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				String oldName = option.getOptionName();
-				RenameMenuChoiceWizard rmo = new RenameMenuChoiceWizard(
-						currentBrand, option, mcBindingManager);
-				WizardDialog wd = new WizardDialog(Display.getCurrent()
-						.getActiveShell(), rmo);
+				RenameMenuChoiceWizard rmo = new RenameMenuChoiceWizard(currentBrand, option,
+						mcBindingManager);
+				WizardDialog wd = new WizardDialog(Display.getCurrent().getActiveShell(), rmo);
 				if (wd.open() == WizardDialog.OK) {
 					setBrand(currentBrand);
 					setLanguage(currentLanguage);
@@ -957,12 +869,10 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 
 				if (!oldName.equals(option.getOptionName())) {
 					info.updateChoice(option, oldName);
-					String bindingTypes[] = { "-dtmf", "-grammar", "-prompt",
-							"-silent" };
+					String bindingTypes[] = { "-dtmf", "-grammar", "-prompt", "-silent" };
 					for (String bindingType : bindingTypes) {
-						genericManager.renameNamedBinding(getInteractionType(),
-								oldName + bindingType, option.getOptionName()
-										+ bindingType);
+						genericManager.renameNamedBinding(getInteractionType(), oldName
+								+ bindingType, option.getOptionName() + bindingType);
 						updateValues();
 					}
 				}
@@ -974,8 +884,7 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 			}
 
 			@Override
-			public void mouseUp(MouseEvent e) {
-			}
+			public void mouseUp(MouseEvent e) {}
 		});
 
 		ret.setText(option.getOptionName());
@@ -1038,8 +947,7 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 	 * @return
 	 */
 	private Combo createValueDropDown(Composite parent) {
-		Combo ret = new Combo(parent, SWT.BORDER | SWT.READ_ONLY
-				| SWT.DROP_DOWN);
+		Combo ret = new Combo(parent, SWT.BORDER | SWT.READ_ONLY | SWT.DROP_DOWN);
 		GridData gd = new GridData();
 		gd.verticalIndent = 1;
 		gd.horizontalAlignment = SWT.RIGHT;
@@ -1057,8 +965,7 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 	 * @param value
 	 * @return
 	 */
-	public Spinner createValueSpinner(Composite parent, int min, int max,
-			int digits, int value) {
+	public Spinner createValueSpinner(Composite parent, int min, int max, int digits, int value) {
 		Spinner ret = new Spinner(parent, SWT.BORDER);
 		ret.setMinimum(min);
 		ret.setMaximum(max);
@@ -1087,9 +994,7 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt
+		 * @see org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt
 		 * .events.PaintEvent)
 		 */
 		@Override
@@ -1104,8 +1009,7 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 	 * @param option
 	 * @return
 	 */
-	public List<Control> createOptionControls(final Composite canvas,
-			final MenuChoice option) {
+	public List<Control> createOptionControls(final Composite canvas, final MenuChoice option) {
 		List<Control> controlList = new ArrayList<Control>();
 		Label option1Label = createOptionLabel(canvas, option);
 		option1Label.setFont(boldFont);
@@ -1126,11 +1030,11 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 
 		ToolItem guardScriptButton = new ToolItem(tb, SWT.PUSH);
 		if (!("".equals(option.getScriptText()) && option.getScriptText() != null)) {
-			guardScriptButton.setImage(org.eclipse.vtp.desktop.core.Activator
-					.getDefault().getImageRegistry().get("ICON_SCRIPT"));
+			guardScriptButton.setImage(org.eclipse.vtp.desktop.core.Activator.getDefault()
+					.getImageRegistry().get("ICON_SCRIPT"));
 		} else {
-			guardScriptButton.setImage(org.eclipse.vtp.desktop.core.Activator
-					.getDefault().getImageRegistry().get("ICON_NOSCRIPT"));
+			guardScriptButton.setImage(org.eclipse.vtp.desktop.core.Activator.getDefault()
+					.getImageRegistry().get("ICON_NOSCRIPT"));
 		}
 
 		guardScriptButton.setToolTipText("Edit Guard Condition");
@@ -1138,8 +1042,8 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
-					MenuOptionScriptDialog mosd = new MenuOptionScriptDialog(
-							Display.getCurrent().getActiveShell());
+					MenuOptionScriptDialog mosd = new MenuOptionScriptDialog(Display.getCurrent()
+							.getActiveShell());
 					mosd.setMenuChoice(option);
 					mosd.open();
 					updateValues();
@@ -1149,20 +1053,18 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 			}
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
 
 		ToolItem moveUpButton = new ToolItem(tb, SWT.PUSH);
-		moveUpButton.setImage(org.eclipse.vtp.desktop.core.Activator
-				.getDefault().getImageRegistry().get("ICON_MOVE_UP"));
+		moveUpButton.setImage(org.eclipse.vtp.desktop.core.Activator.getDefault()
+				.getImageRegistry().get("ICON_MOVE_UP"));
 		moveUpButton.setToolTipText("Move Option Up");
 		moveUpButtons.put(option, moveUpButton);
 		moveUpButton.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				List<MenuChoice> currentOptions = mcBindingManager
-						.getChoicesByBrand(currentBrand);
+				List<MenuChoice> currentOptions = mcBindingManager.getChoicesByBrand(currentBrand);
 				MenuChoice targetOption = null;
 
 				for (int i = 0; i < currentOptions.size(); i++) {
@@ -1174,13 +1076,10 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 				}
 
 				if (targetOption != null) {
-					List<Control> targetControlList = optionControlMap
-							.get(targetOption);
-					List<Control> mobileControlList = optionControlMap
-							.get(option);
+					List<Control> targetControlList = optionControlMap.get(targetOption);
+					List<Control> mobileControlList = optionControlMap.get(option);
 					for (int i = 0; i < mobileControlList.size(); i++) {
-						mobileControlList.get(i).moveAbove(
-								targetControlList.get(0));
+						mobileControlList.get(i).moveAbove(targetControlList.get(0));
 					}
 
 					mcBindingManager.moveChoiceUp(currentBrand.getId(), option);
@@ -1190,20 +1089,18 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 			}
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
 
 		ToolItem moveDownButton = new ToolItem(tb, SWT.PUSH);
-		moveDownButton.setImage(org.eclipse.vtp.desktop.core.Activator
-				.getDefault().getImageRegistry().get("ICON_MOVE_DOWN"));
+		moveDownButton.setImage(org.eclipse.vtp.desktop.core.Activator.getDefault()
+				.getImageRegistry().get("ICON_MOVE_DOWN"));
 		moveDownButton.setToolTipText("Move Option Down");
 		moveDownButtons.put(option, moveDownButton);
 		moveDownButton.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				List<MenuChoice> currentOptions = mcBindingManager
-						.getChoicesByBrand(currentBrand);
+				List<MenuChoice> currentOptions = mcBindingManager.getChoicesByBrand(currentBrand);
 				MenuChoice targetOption = option;
 				MenuChoice mobileOption = null;
 
@@ -1216,30 +1113,25 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 				}
 
 				if (mobileOption != null) {
-					List<Control> targetControlList = optionControlMap
-							.get(targetOption);
-					List<Control> mobileControlList = optionControlMap
-							.get(mobileOption);
+					List<Control> targetControlList = optionControlMap.get(targetOption);
+					List<Control> mobileControlList = optionControlMap.get(mobileOption);
 					for (int i = 0; i < mobileControlList.size(); i++) {
-						mobileControlList.get(i).moveAbove(
-								targetControlList.get(0));
+						mobileControlList.get(i).moveAbove(targetControlList.get(0));
 					}
 
-					mcBindingManager.moveChoiceDown(currentBrand.getId(),
-							option);
+					mcBindingManager.moveChoiceDown(currentBrand.getId(), option);
 					updateButtons();
 					canvas.layout(true, true);
 				}
 			}
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
 
 		ToolItem deleteButton = new ToolItem(tb, SWT.PUSH);
-		deleteButton.setImage(PlatformUI.getWorkbench().getSharedImages()
-				.getImage(ISharedImages.IMG_TOOL_DELETE));
+		deleteButton.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(
+				ISharedImages.IMG_TOOL_DELETE));
 		deleteButton.setToolTipText("Remove Option");
 		deleteButton.addSelectionListener(new SelectionListener() {
 			@Override
@@ -1257,16 +1149,15 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 				}
 
 				optionControlMap.remove(option);
-				info.removeChoice(option, mcBindingManager.removeChoice(
-						currentBrand.getId(), option));
+				info.removeChoice(option, mcBindingManager.removeChoice(currentBrand.getId(),
+						option));
 				updateButtons();
 				canvas.layout(true, true);
 				comp.layout();
 			}
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
 
 		GridData gd = new GridData();
@@ -1288,11 +1179,11 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 		Label optionPromptLabel = createPropertyLabel(canvas, "Prompt");
 		controlList.add(optionPromptLabel);
 
-		NamedBinding promptBinding = interactionBinding.getNamedBinding(option
-				.getOptionName() + "-prompt");
-		final PromptBindingViewer optionPromptText = new PromptBindingViewer(
-				getElement(), promptBinding, this.getInteractionType(),
-				getElement().getDesign().getVariablesFor(getElement()));
+		NamedBinding promptBinding = interactionBinding.getNamedBinding(option.getOptionName()
+				+ "-prompt");
+		final PromptBindingViewer optionPromptText = new PromptBindingViewer(getElement(),
+				promptBinding, this.getInteractionType(), getElement().getDesign().getVariablesFor(
+						getElement()));
 		Composite containerComp = createWrapperComposite(canvas, 100);
 		optionPromptText.createControls(containerComp);
 		optionPromptText.addListener(this);
@@ -1311,10 +1202,10 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 		controlList.add(optionGrammarLabel);
 		voiceWidgets.add(optionGrammarLabel);
 
-		NamedBinding grammarBinding = interactionBinding.getNamedBinding(option
-				.getOptionName() + "-grammar");
-		final GrammarBindingViewer grammarPromptText = new GrammarBindingViewer(
-				getElement(), grammarBinding, this.getInteractionType());
+		NamedBinding grammarBinding = interactionBinding.getNamedBinding(option.getOptionName()
+				+ "-grammar");
+		final GrammarBindingViewer grammarPromptText = new GrammarBindingViewer(getElement(),
+				grammarBinding, this.getInteractionType());
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalAlignment = SWT.RIGHT;
 		grammarPromptText.createControls(canvas);
@@ -1344,14 +1235,11 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 		dtmfCombo.add("9");
 		dtmfCombo.add("*");
 		dtmfCombo.add("#");
-		NamedBinding dtmfNamedBinding = interactionBinding
-				.getNamedBinding(option.getOptionName() + "-dtmf");
-		LanguageBinding dtmfLanguageBinding = dtmfNamedBinding
-				.getLanguageBinding("");
-		BrandBinding dtmfBrandBinding = dtmfLanguageBinding
-				.getBrandBinding(currentBrand);
-		PropertyBindingItem pbi = (PropertyBindingItem) dtmfBrandBinding
-				.getBindingItem();
+		NamedBinding dtmfNamedBinding = interactionBinding.getNamedBinding(option.getOptionName()
+				+ "-dtmf");
+		LanguageBinding dtmfLanguageBinding = dtmfNamedBinding.getLanguageBinding("");
+		BrandBinding dtmfBrandBinding = dtmfLanguageBinding.getBrandBinding(currentBrand);
+		PropertyBindingItem pbi = (PropertyBindingItem) dtmfBrandBinding.getBindingItem();
 		if (pbi == null) {
 			pbi = new PropertyBindingItem();
 		}
@@ -1369,14 +1257,12 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 		dtmfCombo.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				NamedBinding dtmfNamedBinding = interactionBinding
-						.getNamedBinding(option.getOptionName() + "-dtmf");
-				LanguageBinding dtmfLanguageBinding = dtmfNamedBinding
-						.getLanguageBinding("");
-				BrandBinding dtmfBrandBinding = dtmfLanguageBinding
-						.getBrandBinding(currentBrand);
-				PropertyBindingItem pbi = (PropertyBindingItem) dtmfBrandBinding
-						.getBindingItem();
+				NamedBinding dtmfNamedBinding = interactionBinding.getNamedBinding(option
+						.getOptionName()
+						+ "-dtmf");
+				LanguageBinding dtmfLanguageBinding = dtmfNamedBinding.getLanguageBinding("");
+				BrandBinding dtmfBrandBinding = dtmfLanguageBinding.getBrandBinding(currentBrand);
+				PropertyBindingItem pbi = (PropertyBindingItem) dtmfBrandBinding.getBindingItem();
 				if (pbi == null) {
 					pbi = new PropertyBindingItem();
 				} else {
@@ -1387,8 +1273,7 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 			}
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
 		controlList.add(dtmfCombo);
 		dtmfWidgets.add(dtmfCombo);
@@ -1396,19 +1281,16 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 		ord1 = createRowDivider(canvas, dividerColor);
 		controlList.add(ord1);
 
-		Label optionSilentLabel = createPropertyLabel(canvas,
-				"Option is Silent");
+		Label optionSilentLabel = createPropertyLabel(canvas, "Option is Silent");
 		controlList.add(optionSilentLabel);
 
 		final Combo silentCombo = createValueDropDown(canvas);
 		silentCombo.add("true");
 		silentCombo.add("false");
-		NamedBinding silentNamedBinding = interactionBinding
-				.getNamedBinding(option.getOptionName() + "-silent");
-		LanguageBinding silentLanguageBinding = silentNamedBinding
-				.getLanguageBinding("");
-		BrandBinding silentBrandBinding = silentLanguageBinding
-				.getBrandBinding(currentBrand);
+		NamedBinding silentNamedBinding = interactionBinding.getNamedBinding(option.getOptionName()
+				+ "-silent");
+		LanguageBinding silentLanguageBinding = silentNamedBinding.getLanguageBinding("");
+		BrandBinding silentBrandBinding = silentLanguageBinding.getBrandBinding(currentBrand);
 		pbi = (PropertyBindingItem) silentBrandBinding.getBindingItem();
 		if (pbi == null) {
 			pbi = new PropertyBindingItem();
@@ -1425,27 +1307,24 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 		silentCombo.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				NamedBinding silentNamedBinding = interactionBinding
-						.getNamedBinding(option.getOptionName() + "-silent");
-				LanguageBinding silentLanguageBinding = silentNamedBinding
-						.getLanguageBinding("");
+				NamedBinding silentNamedBinding = interactionBinding.getNamedBinding(option
+						.getOptionName()
+						+ "-silent");
+				LanguageBinding silentLanguageBinding = silentNamedBinding.getLanguageBinding("");
 				BrandBinding silentBrandBinding = silentLanguageBinding
 						.getBrandBinding(currentBrand);
-				PropertyBindingItem pbi = (PropertyBindingItem) silentBrandBinding
-						.getBindingItem();
+				PropertyBindingItem pbi = (PropertyBindingItem) silentBrandBinding.getBindingItem();
 				if (pbi == null) {
 					pbi = new PropertyBindingItem();
 				} else {
 					pbi = (PropertyBindingItem) pbi.clone();
 				}
-				pbi.setValue(silentCombo.getItem(silentCombo
-						.getSelectionIndex()));
+				pbi.setValue(silentCombo.getItem(silentCombo.getSelectionIndex()));
 				silentBrandBinding.setBindingItem(pbi);
 			}
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
 		// silentControls.put(option, silentCombo);
 		controlList.add(silentCombo);
@@ -1456,22 +1335,18 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 	}
 
 	public void updateButtons() {
-		List<MenuChoice> currentOptions = mcBindingManager
-				.getChoicesByBrand(currentBrand);
+		List<MenuChoice> currentOptions = mcBindingManager.getChoicesByBrand(currentBrand);
 
 		for (int i = 0; i < currentOptions.size(); i++) {
 			MenuChoice lastOption = currentOptions.get(i);
 			moveUpButtons.get(lastOption).setEnabled(i != 0);
-			moveDownButtons.get(lastOption).setEnabled(
-					i < (currentOptions.size() - 1));
+			moveDownButtons.get(lastOption).setEnabled(i < (currentOptions.size() - 1));
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.media.core.PromptBindingViewerListener#valueChanged
+	 * @see org.eclipse.vtp.desktop.media.core.PromptBindingViewerListener#valueChanged
 	 * (org.eclipse.vtp.desktop.media.core.PromptBindingViewer)
 	 */
 	@Override
@@ -1510,8 +1385,7 @@ public class OptionSetMediaScreen extends MediaConfigurationScreen implements
 														// because the scroll
 														// bar appeared
 		{
-			preferred = comp.computeSize(sc.getClientArea().width, SWT.DEFAULT,
-					true);
+			preferred = comp.computeSize(sc.getClientArea().width, SWT.DEFAULT, true);
 			sc.setMinSize(preferred);
 			comp.layout();
 		}

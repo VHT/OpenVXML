@@ -18,32 +18,28 @@ package org.eclipse.vtp.framework.spi;
  */
 public interface ICommand {
 	/**
-	 * Attempts to invoke an implementation-dependent visit method on the
-	 * supplied visitor, calling {@link ICommandVisitor#visitUnknown(ICommand)}
-	 * if such a method is not available.
+	 * Attempts to invoke an implementation-dependent visit method on the supplied visitor, calling
+	 * {@link ICommandVisitor#visitUnknown(ICommand)} if such a method is not available.
 	 * 
-	 * @param visitor
-	 *            The visitor to accept.
+	 * @param visitor The visitor to accept.
 	 * @return The value returned by the visitor's visit method.
-	 * @throws NullPointerException
-	 *             If the supplied visitor is <code>null</code>.
+	 * @throws NullPointerException If the supplied visitor is <code>null</code>.
 	 */
 	Object accept(ICommandVisitor visitor) throws NullPointerException;
 
 	/**
-	 * Exports the contents of this command to a simple structure of arrays and
-	 * serializable values from <code>java.lang</code>.
+	 * Exports the contents of this command to a simple structure of arrays and serializable values
+	 * from <code>java.lang</code>.
 	 * 
 	 * @return A serializable structure this command can be re-constituted from.
 	 */
 	Object exportContents();
 
 	/**
-	 * Configures the contents of this command with a structure previously
-	 * returned from {@link #exportContents()}.
+	 * Configures the contents of this command with a structure previously returned from
+	 * {@link #exportContents()}.
 	 * 
-	 * @param contents
-	 *            The exported contents structure to load from.
+	 * @param contents The exported contents structure to load from.
 	 */
 	void importContents(Object contents);
 }

@@ -37,11 +37,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import com.openmethods.openvxml.desktop.model.businessobjects.FieldType;
+import com.openmethods.openvxml.desktop.model.businessobjects.FieldType.Primitive;
 import com.openmethods.openvxml.desktop.model.businessobjects.IBusinessObject;
 import com.openmethods.openvxml.desktop.model.businessobjects.IBusinessObjectField;
 import com.openmethods.openvxml.desktop.model.businessobjects.IBusinessObjectProjectAspect;
 import com.openmethods.openvxml.desktop.model.businessobjects.IBusinessObjectSet;
-import com.openmethods.openvxml.desktop.model.businessobjects.FieldType.Primitive;
 import com.openmethods.openvxml.desktop.model.businessobjects.internal.BusinessObject;
 import com.openmethods.openvxml.desktop.model.workflow.IWorkflowEntry;
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElement;
@@ -50,271 +50,225 @@ import com.openmethods.openvxml.desktop.model.workflow.design.Variable;
 import com.openmethods.openvxml.desktop.model.workflow.internal.VariableHelper;
 import com.openmethods.openvxml.desktop.model.workflow.internal.design.ConnectorRecord;
 
-public class BeginInformationProvider extends PrimitiveInformationProvider implements IWorkflowEntry
-{
+public class BeginInformationProvider extends PrimitiveInformationProvider
+	implements
+	IWorkflowEntry {
 	private IBusinessObjectSet businessObjectSet = null;
 	List<ConnectorRecord> connectorRecords = new ArrayList<ConnectorRecord>();
 	private List<VariableDeclaration> variableDeclarations;
 	private String defaultBrandId;
 	private String defaultLanguage;
-	
-	public BeginInformationProvider(PrimitiveElement element)
-	{
+
+	public BeginInformationProvider(PrimitiveElement element) {
 		super(element);
-		connectorRecords.add(new ConnectorRecord(element, "Continue", IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
-		connectorRecords.add(new ConnectorRecord(element, "error.disconnect.hangup", IDesignElementConnectionPoint.ConnectionPointType.ERROR_POINT));
+		connectorRecords.add(new ConnectorRecord(element, "Continue",
+				IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
+		connectorRecords.add(new ConnectorRecord(element, "error.disconnect.hangup",
+				IDesignElementConnectionPoint.ConnectionPointType.ERROR_POINT));
 		List<String> events = ExtendedInteractiveEventManager.getDefault().getExtendedEvents();
-		for(String event : events)
-		{
-			connectorRecords.add(new ConnectorRecord(element, event, IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
+		for (String event : events) {
+			connectorRecords.add(new ConnectorRecord(element, event,
+					IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
 		}
 		variableDeclarations = new ArrayList<VariableDeclaration>();
 	}
-	
-	public List<VariableDeclaration> getDeclarations()
-	{
+
+	public List<VariableDeclaration> getDeclarations() {
 		List<VariableDeclaration> copy = new ArrayList<VariableDeclaration>();
 		copy.addAll(variableDeclarations);
 		return copy;
 	}
-	
-	public void setDeclarations(List<VariableDeclaration> declarations)
-	{
-		this.variableDeclarations = declarations;
-//TODO		getElement().fireChange();
-	}
-	
-	
 
-	public String getDefaultBrand()
-	{
+	public void setDeclarations(List<VariableDeclaration> declarations) {
+		this.variableDeclarations = declarations;
+		// TODO getElement().fireChange();
+	}
+
+	public String getDefaultBrand() {
 		return defaultBrandId;
 	}
 
-	public void setDefaultBrand(String defaultBrandId)
-	{
+	public void setDefaultBrand(String defaultBrandId) {
 		this.defaultBrandId = defaultBrandId;
 	}
 
-	public String getDefaultLanguage()
-	{
+	public String getDefaultLanguage() {
 		return defaultLanguage;
 	}
 
-	public void setDefaultLanguage(String defaultLanguage)
-	{
+	public void setDefaultLanguage(String defaultLanguage) {
 		this.defaultLanguage = defaultLanguage;
 	}
 
-	public boolean acceptsConnector(IDesignElement origin)
-	{
+	public boolean acceptsConnector(IDesignElement origin) {
 		return false;
 	}
 
-	public ConnectorRecord getConnectorRecord(String recordName)
-	{
-		for(int i = 0; i < connectorRecords.size(); i++)
-		{
+	public ConnectorRecord getConnectorRecord(String recordName) {
+		for (int i = 0; i < connectorRecords.size(); i++) {
 			ConnectorRecord cr = connectorRecords.get(i);
-			if(cr.getName().equals(recordName))
-				return cr;
+			if (cr.getName().equals(recordName)) return cr;
 		}
 		return null;
 	}
 
-	public List<ConnectorRecord> getConnectorRecords()
-	{
+	public List<ConnectorRecord> getConnectorRecords() {
 		return connectorRecords;
 	}
 
-	public List<ConnectorRecord> getConnectorRecords(IDesignElementConnectionPoint.ConnectionPointType... types)
-	{
+	public List<ConnectorRecord> getConnectorRecords(
+			IDesignElementConnectionPoint.ConnectionPointType... types) {
 		List<ConnectorRecord> ret = new ArrayList<ConnectorRecord>();
-		for(int i = 0; i < connectorRecords.size(); i++)
-		{
+		for (int i = 0; i < connectorRecords.size(); i++) {
 			ConnectorRecord cr = connectorRecords.get(i);
-			if(cr.getType().isSet(IDesignElementConnectionPoint.ConnectionPointType.getFlagSet(types)))
-				ret.add(cr);
+			if (cr.getType().isSet(
+					IDesignElementConnectionPoint.ConnectionPointType.getFlagSet(types))) ret
+					.add(cr);
 		}
 		return ret;
 	}
 
-	public void readConfiguration(org.w3c.dom.Element configuration)
-	{
+	public void readConfiguration(org.w3c.dom.Element configuration) {
 		IOpenVXMLProject project = getElement().getDesign().getDocument().getProject();
-		IBusinessObjectProjectAspect businessObjectAspect = (IBusinessObjectProjectAspect)project.getProjectAspect(IBusinessObjectProjectAspect.ASPECT_ID);
+		IBusinessObjectProjectAspect businessObjectAspect = (IBusinessObjectProjectAspect) project
+				.getProjectAspect(IBusinessObjectProjectAspect.ASPECT_ID);
 		businessObjectSet = businessObjectAspect.getBusinessObjectSet();
 		defaultBrandId = configuration.getAttribute("default-brand");
 		defaultLanguage = configuration.getAttribute("default-language");
 		NodeList decGroupList = configuration.getElementsByTagName("declarations");
-		if(decGroupList.getLength() != 1)
-			return;
-		org.w3c.dom.Element decGroupElement = (org.w3c.dom.Element)decGroupList.item(0);
-		NodeList varList =
-			decGroupElement.getElementsByTagName("variable");
+		if (decGroupList.getLength() != 1) return;
+		org.w3c.dom.Element decGroupElement = (org.w3c.dom.Element) decGroupList.item(0);
+		NodeList varList = decGroupElement.getElementsByTagName("variable");
 
-		for(int v = 0; v < varList.getLength(); v++)
-		{
-			org.w3c.dom.Element varElement =
-				(org.w3c.dom.Element)varList.item(v);
+		for (int v = 0; v < varList.getLength(); v++) {
+			org.w3c.dom.Element varElement = (org.w3c.dom.Element) varList.item(v);
 			String vname = varElement.getAttribute("name");
 			FieldType type = null;
-			if(varElement.getAttributeNode("type") != null) //legacy support
+			if (varElement.getAttributeNode("type") != null) // legacy support
 			{
 				String vtype = varElement.getAttribute("type");
 				System.err.println("Legacy Type: " + vtype);
-				int vmulti =
-					varElement.getAttribute("multiplicity").equals("") ? 0
-																	   : Integer
-					.parseInt(varElement.getAttribute("multiplicity"));
-				if(vmulti == 1)
-				{
+				int vmulti = varElement.getAttribute("multiplicity").equals("") ? 0 : Integer
+						.parseInt(varElement.getAttribute("multiplicity"));
+				if (vmulti == 1) {
 					Primitive prim = Primitive.find(vtype);
-					if(prim != null)
-						type = new FieldType(Primitive.ARRAY, prim);
-					else
-						type = new FieldType(Primitive.ARRAY, businessObjectSet.getBusinessObject(vtype));
-				}
-				else
-				{
+					if (prim != null) type = new FieldType(Primitive.ARRAY, prim);
+					else type = new FieldType(Primitive.ARRAY, businessObjectSet
+							.getBusinessObject(vtype));
+				} else {
 					Primitive prim = Primitive.find(vtype);
-					if(prim != null)
-						type = new FieldType(prim);
-					else
-						type = new FieldType(businessObjectSet.getBusinessObject(vtype));
+					if (prim != null) type = new FieldType(prim);
+					else type = new FieldType(businessObjectSet.getBusinessObject(vtype));
 				}
-			}
-			else
-			{
-				List<org.w3c.dom.Element> typeElements = XMLUtilities.getElementsByTagName(varElement, "data-type", true);
-				if(typeElements.size() > 0)
-				{
+			} else {
+				List<org.w3c.dom.Element> typeElements = XMLUtilities.getElementsByTagName(
+						varElement, "data-type", true);
+				if (typeElements.size() > 0) {
 					type = FieldType.load(businessObjectSet, typeElements.get(0));
 				}
 			}
-			int vvaluetype =
-				varElement.getAttribute("value-type").equals("") ? 0
-																 : Integer
-				.parseInt(varElement.getAttribute("value-type"));
+			int vvaluetype = varElement.getAttribute("value-type").equals("") ? 0 : Integer
+					.parseInt(varElement.getAttribute("value-type"));
 			String vvalue = varElement.getAttribute("value");
 			String secureAtt = varElement.getAttribute("secured");
 			boolean secure = false;
-			if(secureAtt != null && !secureAtt.equals(""))
-				secure = Boolean.parseBoolean(secureAtt);
-			VariableDeclaration vd =
-				new VariableDeclaration(vname, type, vvaluetype, vvalue, secure);
+			if (secureAtt != null && !secureAtt.equals("")) secure = Boolean
+					.parseBoolean(secureAtt);
+			VariableDeclaration vd = new VariableDeclaration(vname, type, vvaluetype, vvalue,
+					secure);
 			variableDeclarations.add(vd);
 		}
 
 	}
 
-	public void writeConfiguration(org.w3c.dom.Element configuration)
-	{
+	public void writeConfiguration(org.w3c.dom.Element configuration) {
 		configuration.setAttribute("default-brand", defaultBrandId);
 		configuration.setAttribute("default-language", defaultLanguage);
-		org.w3c.dom.Element declarationsElement =
-			configuration.getOwnerDocument().createElement("declarations");
+		org.w3c.dom.Element declarationsElement = configuration.getOwnerDocument().createElement(
+				"declarations");
 		configuration.appendChild(declarationsElement);
 
-		for(int i = 0; i < variableDeclarations.size(); i++)
-		{
+		for (int i = 0; i < variableDeclarations.size(); i++) {
 			VariableDeclaration vd = variableDeclarations.get(i);
-			org.w3c.dom.Element declarationElement =
-				declarationsElement.getOwnerDocument().createElement("variable");
+			org.w3c.dom.Element declarationElement = declarationsElement.getOwnerDocument()
+					.createElement("variable");
 			declarationsElement.appendChild(declarationElement);
-			declarationElement.setAttribute("name",
-				(vd.name == null) ? "" : vd.name);
+			declarationElement.setAttribute("name", (vd.name == null) ? "" : vd.name);
 			vd.type.write(declarationElement);
-			declarationElement.setAttribute("value-type",
-				Integer.toString(vd.valueType));
-			declarationElement.setAttribute("value",
-				(vd.value == null) ? "" : vd.value);
+			declarationElement.setAttribute("value-type", Integer.toString(vd.valueType));
+			declarationElement.setAttribute("value", (vd.value == null) ? "" : vd.value);
 			declarationElement.setAttribute("secured", vd.isSecure() ? "true" : "false");
 		}
 	}
 
-//	public List getPropertiesPanels()
-//	{
-//		List ret = new ArrayList();
-//		ret.add(new ApplicationStartVariablesPropertyPanel("Variables", getElement()));
-//		return ret;
-//	}
-	
-	public List<Variable> getOutgoingVariables(String exitPoint, boolean localOnly)
-    {
+	// public List getPropertiesPanels()
+	// {
+	// List ret = new ArrayList();
+	// ret.add(new ApplicationStartVariablesPropertyPanel("Variables", getElement()));
+	// return ret;
+	// }
+
+	public List<Variable> getOutgoingVariables(String exitPoint, boolean localOnly) {
 		List<Variable> variables = new ArrayList<Variable>();
-		Variable platform = VariableHelper.constructVariable("Platform", businessObjectSet, new FieldType(businessObjectSet.getBusinessObject("Platform")));
+		Variable platform = VariableHelper.constructVariable("Platform", businessObjectSet,
+				new FieldType(businessObjectSet.getBusinessObject("Platform")));
 		variables.add(platform);
 		HashMap<String, Variable> map = new HashMap<String, Variable>();
 
-		for(int i = 0; i < variables.size(); i++)
-		{
+		for (int i = 0; i < variables.size(); i++) {
 			map.put((variables.get(i)).getName(), variables.get(i));
 		}
-		for(int i = 0; i < variableDeclarations.size(); i++)
-		{
+		for (int i = 0; i < variableDeclarations.size(); i++) {
 			VariableDeclaration vd = variableDeclarations.get(i);
-			if(map.get(vd.name) == null)
-			{
-				Variable v = VariableHelper.constructVariable(vd.name, businessObjectSet, vd.getType());
-				if(v != null)
-				{
+			if (map.get(vd.name) == null) {
+				Variable v = VariableHelper.constructVariable(vd.name, businessObjectSet, vd
+						.getType());
+				if (v != null) {
 					v.setSecure(vd.isSecure());
 					variables.add(v);
 				}
 			}
 		}
-	    return variables;
-    }
+		return variables;
+	}
 
 	@Override
-	public void declareBusinessObjects()
-	{
+	public void declareBusinessObjects() {
 		IOpenVXMLProject project = getElement().getDesign().getDocument().getProject();
-		IBusinessObjectProjectAspect businessObjectAspect = (IBusinessObjectProjectAspect)project.getProjectAspect(IBusinessObjectProjectAspect.ASPECT_ID);
+		IBusinessObjectProjectAspect businessObjectAspect = (IBusinessObjectProjectAspect) project
+				.getProjectAspect(IBusinessObjectProjectAspect.ASPECT_ID);
 		businessObjectSet = businessObjectAspect.getBusinessObjectSet();
 		boolean foundPlatform = false;
 		List<IBusinessObject> currentObjects = businessObjectSet.getBusinessObjects();
-ex:		for(IBusinessObject businessObject : currentObjects)
-		{
-			if(businessObject.getName().equals("Platform"))
-			{
-				for(IBusinessObjectField field : businessObject.getFields())
-				{
-					if(field.getName().equals("PLATFORM_ANI"))
-					{
+		ex: for (IBusinessObject businessObject : currentObjects) {
+			if (businessObject.getName().equals("Platform")) {
+				for (IBusinessObjectField field : businessObject.getFields()) {
+					if (field.getName().equals("PLATFORM_ANI")) {
 						foundPlatform = true;
 						break ex;
 					}
 				}
-				try
-				{
+				try {
 					businessObjectSet.deleteBusinessObject(businessObject);
-				}
-				catch (CoreException e)
-				{
+				} catch (CoreException e) {
 					e.printStackTrace();
 				}
 				break;
 			}
 		}
-		if(!foundPlatform)
-		{
-			try
-			{
-				BusinessObject platform = (BusinessObject)businessObjectSet.createBusinessObject("Platform");
-				try
-				{
-					Document doc =
-						DocumentBuilderFactory.newInstance().newDocumentBuilder()
-											  .newDocument();
+		if (!foundPlatform) {
+			try {
+				BusinessObject platform = (BusinessObject) businessObjectSet
+						.createBusinessObject("Platform");
+				try {
+					Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder()
+							.newDocument();
 					Element rootElement = doc.createElement("business-object");
 					doc.appendChild(rootElement);
 					rootElement.setAttribute("id", platform.getId());
 					rootElement.setAttribute("name", platform.getName());
 
-					Element fields =
-						rootElement.getOwnerDocument().createElement("fields");
+					Element fields = rootElement.getOwnerDocument().createElement("fields");
 					rootElement.appendChild(fields);
 
 					Element aniElement = fields.getOwnerDocument().createElement("field");
@@ -337,75 +291,61 @@ ex:		for(IBusinessObject businessObject : currentObjects)
 					dnisElement.setAttribute("initialValue", "");
 					dnisElement.setAttribute("secured", "false");
 					FieldType.STRING.write(dnisElement);
-					
+
 					Element dnis2Element = fields.getOwnerDocument().createElement("field");
 					fields.appendChild(dnis2Element);
 					dnis2Element.setAttribute("name", "PLATFORM_DNIS");
 					dnis2Element.setAttribute("initialValue", "");
 					dnis2Element.setAttribute("secured", "false");
 					FieldType.STRING.write(dnis2Element);
-					
+
 					Element brandElement = fields.getOwnerDocument().createElement("field");
 					fields.appendChild(brandElement);
 					brandElement.setAttribute("name", "Brand");
 					brandElement.setAttribute("initialValue", "");
 					brandElement.setAttribute("secured", "false");
 					FieldType.STRING.write(brandElement);
-					
+
 					DOMSource source = new DOMSource(doc);
 					ByteArrayOutputStream baos = new ByteArrayOutputStream();
-					Transformer trans =
-						TransformerFactory.newInstance().newTransformer();
+					Transformer trans = TransformerFactory.newInstance().newTransformer();
 					trans.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 					trans.transform(source, new XMLWriter(baos).toXMLResult());
 					platform.write(new ByteArrayInputStream(baos.toByteArray()));
-				}
-				catch(Exception e)
-				{
+				} catch (Exception e) {
+					e.printStackTrace();
+				} catch (FactoryConfigurationError e) {
+					e.printStackTrace();
+				} catch (TransformerFactoryConfigurationError e) {
 					e.printStackTrace();
 				}
-				catch(FactoryConfigurationError e)
-				{
-					e.printStackTrace();
-				}
-				catch(TransformerFactoryConfigurationError e)
-				{
-					e.printStackTrace();
-				}
-			}
-			catch (CoreException e)
-			{
+			} catch (CoreException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
-	public boolean canDelete()
-	{
+	public boolean canDelete() {
 		return true;
 	}
-	
-	public boolean hasPathToStart(Map<String, IDesignElement> path)
-	{
-		return true;
-	}
-	public boolean hasConnectors()
-    {
-	    return true;
-    }
 
-	public String getId()
-	{
+	public boolean hasPathToStart(Map<String, IDesignElement> path) {
+		return true;
+	}
+
+	public boolean hasConnectors() {
+		return true;
+	}
+
+	public String getId() {
 		return getElement().getId();
 	}
 
-	public List<Variable> getInputVariables()
-	{
+	public List<Variable> getInputVariables() {
 		return getOutgoingVariables(null, true);
 	}
 
-	public String getName()
-	{
+	public String getName() {
 		return getElement().getName();
 	}
 }

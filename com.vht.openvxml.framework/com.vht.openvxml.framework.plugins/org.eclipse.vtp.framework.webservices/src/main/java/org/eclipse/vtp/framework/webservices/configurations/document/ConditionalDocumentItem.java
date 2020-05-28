@@ -19,8 +19,8 @@ public class ConditionalDocumentItem extends DocumentItemContainer {
 
 	@Override
 	public Element createConfigurationElement(Element parentElement) {
-		Element conditionalItemElement = parentElement.getOwnerDocument()
-				.createElementNS(null, "conditional-item");
+		Element conditionalItemElement = parentElement.getOwnerDocument().createElementNS(null,
+				"conditional-item");
 		parentElement.appendChild(conditionalItemElement);
 		return conditionalItemElement;
 	}

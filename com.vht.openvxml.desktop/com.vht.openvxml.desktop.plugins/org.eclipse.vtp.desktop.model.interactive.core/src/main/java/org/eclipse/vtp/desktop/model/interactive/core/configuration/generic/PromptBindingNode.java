@@ -35,8 +35,7 @@ public abstract class PromptBindingNode implements Cloneable {
 	/**
 	 * Sets the parent of this entry. Any previous content is forgotten.
 	 * 
-	 * @param parent
-	 *            The new parent of this entry
+	 * @param parent The new parent of this entry
 	 */
 	void setParent(PromptBindingNode parent) {
 		this.parent = parent;

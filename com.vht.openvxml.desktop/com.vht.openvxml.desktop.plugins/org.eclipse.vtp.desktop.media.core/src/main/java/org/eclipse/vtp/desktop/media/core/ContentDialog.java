@@ -68,8 +68,7 @@ public abstract class ContentDialog extends Dialog {
 	/**
 	 * Creates a new <code>ContentDialog</code>.
 	 * 
-	 * @param parentShell
-	 *            The shell to create the dialog from.
+	 * @param parentShell The shell to create the dialog from.
 	 */
 	public ContentDialog(Shell parentShell) {
 		super(parentShell);
@@ -78,8 +77,7 @@ public abstract class ContentDialog extends Dialog {
 	/**
 	 * Creates a new <code>ContentDialog</code>.
 	 * 
-	 * @param parentShellProvider
-	 *            The shell provider to create the dialog from.
+	 * @param parentShellProvider The shell provider to create the dialog from.
 	 */
 	public ContentDialog(IShellProvider parentShellProvider) {
 		super(parentShellProvider);
@@ -88,8 +86,7 @@ public abstract class ContentDialog extends Dialog {
 	/**
 	 * Sets the media provider the list is bound to.
 	 * 
-	 * @param mediaProvider
-	 *            The media provider the list is bound to.
+	 * @param mediaProvider The media provider the list is bound to.
 	 */
 	public void setMediaProvider(IMediaProvider mediaProvider) {
 		this.mediaProvider = mediaProvider;
@@ -103,11 +100,9 @@ public abstract class ContentDialog extends Dialog {
 	}
 
 	/**
-	 * Returns true if the content of this dialog is valid and the OK button
-	 * should be enabled.
+	 * Returns true if the content of this dialog is valid and the OK button should be enabled.
 	 * 
-	 * @return True if the content of this dialog is valid and the OK button
-	 *         should be enabled.
+	 * @return True if the content of this dialog is valid and the OK button should be enabled.
 	 */
 	protected boolean isContentValid() {
 		return true;
@@ -122,10 +117,7 @@ public abstract class ContentDialog extends Dialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets
-	 * .Composite)
+	 * @see org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets .Composite)
 	 */
 	@Override
 	protected Control createContents(Composite parent) {
@@ -136,9 +128,7 @@ public abstract class ContentDialog extends Dialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(
-	 * org.eclipse.swt.widgets.Composite)
+	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea( org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
@@ -146,8 +136,7 @@ public abstract class ContentDialog extends Dialog {
 		Composite comp = new Composite(parent, SWT.NONE);
 		comp.setLayout(new GridLayout(2, false));
 		comp.setLayoutData(new GridData());
-		Table table = new Table(comp, SWT.FULL_SELECTION | SWT.V_SCROLL
-				| SWT.BORDER | SWT.SINGLE);
+		Table table = new Table(comp, SWT.FULL_SELECTION | SWT.V_SCROLL | SWT.BORDER | SWT.SINGLE);
 		table.setHeaderVisible(true);
 		GridData gd = new GridData();
 		gd.widthHint = 255;
@@ -165,8 +154,7 @@ public abstract class ContentDialog extends Dialog {
 			public void doubleClick(DoubleClickEvent event) {
 				if (!event.getSelection().isEmpty()) {
 					try {
-						ContentEntryDialog pbed = new ContentEntryDialog(
-								getShell());
+						ContentEntryDialog pbed = new ContentEntryDialog(getShell());
 						pbed.setMediaProvider(mediaProvider);
 						pbed.setVariables(getVariables());
 						IStructuredSelection selection = (IStructuredSelection) event
@@ -175,8 +163,7 @@ public abstract class ContentDialog extends Dialog {
 						int result = pbed.open();
 						if (result == ContentEntryDialog.OK) {
 							Content c = pbed.getContent();
-							int idex = contents.indexOf(selection
-									.getFirstElement());
+							int idex = contents.indexOf(selection.getFirstElement());
 							contents.remove(idex);
 							contents.add(idex, c);
 							viewer.refresh();
@@ -190,15 +177,13 @@ public abstract class ContentDialog extends Dialog {
 		});
 		viewer.getControl().addKeyListener(new KeyListener() {
 			@Override
-			public void keyPressed(KeyEvent e) {
-			}
+			public void keyPressed(KeyEvent e) {}
 
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.keyCode == SWT.DEL || e.keyCode == SWT.BS) {
-					MessageBox confirmationDialog = new MessageBox(Display
-							.getCurrent().getActiveShell(), SWT.YES | SWT.NO
-							| SWT.ICON_WARNING);
+					MessageBox confirmationDialog = new MessageBox(Display.getCurrent()
+							.getActiveShell(), SWT.YES | SWT.NO | SWT.ICON_WARNING);
 					confirmationDialog
 							.setMessage("Are you sure you want to delete the selected item?");
 
@@ -229,8 +214,7 @@ public abstract class ContentDialog extends Dialog {
 		addButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		addButton.addSelectionListener(new SelectionListener() {
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -256,8 +240,7 @@ public abstract class ContentDialog extends Dialog {
 		editButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		editButton.addSelectionListener(new SelectionListener() {
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -265,8 +248,7 @@ public abstract class ContentDialog extends Dialog {
 					ContentEntryDialog pbed = new ContentEntryDialog(getShell());
 					pbed.setMediaProvider(mediaProvider);
 					pbed.setVariables(getVariables());
-					IStructuredSelection selection = (IStructuredSelection) viewer
-							.getSelection();
+					IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
 					pbed.setContent((Content) selection.getFirstElement());
 					int result = pbed.open();
 					if (result == ContentEntryDialog.OK) {
@@ -288,16 +270,13 @@ public abstract class ContentDialog extends Dialog {
 		removeButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		removeButton.addSelectionListener(new SelectionListener() {
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				MessageBox confirmationDialog = new MessageBox(Display
-						.getCurrent().getActiveShell(), SWT.YES | SWT.NO
-						| SWT.ICON_WARNING);
-				confirmationDialog
-						.setMessage("Are you sure you want to delete the selected item?");
+				MessageBox confirmationDialog = new MessageBox(Display.getCurrent()
+						.getActiveShell(), SWT.YES | SWT.NO | SWT.ICON_WARNING);
+				confirmationDialog.setMessage("Are you sure you want to delete the selected item?");
 
 				int result = confirmationDialog.open();
 
@@ -318,8 +297,7 @@ public abstract class ContentDialog extends Dialog {
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
-				IStructuredSelection selection = (IStructuredSelection) event
-						.getSelection();
+				IStructuredSelection selection = (IStructuredSelection) event.getSelection();
 				editButton.setEnabled(!selection.isEmpty());
 				removeButton.setEnabled(!selection.isEmpty());
 			}
@@ -327,15 +305,11 @@ public abstract class ContentDialog extends Dialog {
 		return comp;
 	}
 
-	private class PromptBindingContentProvider implements
-			IStructuredContentProvider {
+	private class PromptBindingContentProvider implements IStructuredContentProvider {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
-		 * java.lang.Object)
+		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements( java.lang.Object)
 		 */
 		@Override
 		public Object[] getElements(Object inputElement) {
@@ -344,35 +318,26 @@ public abstract class ContentDialog extends Dialog {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 		 */
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
+		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
 		 * .jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
 		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 
 	}
 
-	private class PromptBindingLabelProvider extends LabelProvider implements
-			ITableLabelProvider {
+	private class PromptBindingLabelProvider extends LabelProvider implements ITableLabelProvider {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java
-		 * .lang.Object, int)
+		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java .lang.Object, int)
 		 */
 		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
@@ -381,10 +346,7 @@ public abstract class ContentDialog extends Dialog {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.
-		 * lang.Object, int)
+		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java. lang.Object, int)
 		 */
 		@Override
 		public String getColumnText(Object element, int columnIndex) {
@@ -392,14 +354,12 @@ public abstract class ContentDialog extends Dialog {
 			Content content = (Content) element;
 			if (content instanceof FormattableContent) {
 				FormattableContent fc = (FormattableContent) content;
-				buf.append(fc.getContentTypeName() + "(" + fc.getFormatName()
-						+ ", " + fc.getValue() + ")");
+				buf.append(fc.getContentTypeName() + "(" + fc.getFormatName() + ", "
+						+ fc.getValue() + ")");
 			} else if (content instanceof TextContent) {
 				buf.append(((TextContent) content).getText());
 			} else if (content instanceof ReferencedContent) {
-				buf.append("REFERENCE("
-						+ ((ReferencedContent) content).getReferencedName()
-						+ ")");
+				buf.append("REFERENCE(" + ((ReferencedContent) content).getReferencedName() + ")");
 			} else if (content instanceof FileContent) {
 				FileContent fc = (FileContent) content;
 				buf.append(fc.getFileTypeName() + "(" + fc.getPath() + ")");

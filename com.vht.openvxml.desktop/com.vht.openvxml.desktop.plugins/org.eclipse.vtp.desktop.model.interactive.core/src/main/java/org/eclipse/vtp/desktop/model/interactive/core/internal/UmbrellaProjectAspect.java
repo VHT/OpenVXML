@@ -6,11 +6,9 @@ import org.eclipse.vtp.desktop.model.core.spi.OpenVXMLProjectAspect;
 import org.eclipse.vtp.desktop.model.interactive.core.IUmbrellaProjectAspect;
 import org.w3c.dom.Element;
 
-public class UmbrellaProjectAspect extends OpenVXMLProjectAspect implements
-		IUmbrellaProjectAspect {
+public class UmbrellaProjectAspect extends OpenVXMLProjectAspect implements IUmbrellaProjectAspect {
 
-	public UmbrellaProjectAspect(IOpenVXMLProject hostProject,
-			Element aspectConfiguration) {
+	public UmbrellaProjectAspect(IOpenVXMLProject hostProject, Element aspectConfiguration) {
 		super(hostProject);
 	}
 
@@ -25,11 +23,9 @@ public class UmbrellaProjectAspect extends OpenVXMLProjectAspect implements
 	}
 
 	@Override
-	public void removeProjectLayout() {
-	}
+	public void removeProjectLayout() {}
 
 	@Override
-	public void writeConfiguration(Element aspectElement) {
-	}
+	public void writeConfiguration(Element aspectElement) {}
 
 }

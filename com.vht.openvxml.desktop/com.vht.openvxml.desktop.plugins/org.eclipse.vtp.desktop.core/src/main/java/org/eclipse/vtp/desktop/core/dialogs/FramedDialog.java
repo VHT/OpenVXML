@@ -31,8 +31,8 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- * This is a dialog type window the presents its contents within a stylized
- * border. It also provides a side bar area that can be used for navigation.
+ * This is a dialog type window the presents its contents within a stylized border. It also provides
+ * a side bar area that can be used for navigation.
  * 
  * @author Trip
  */
@@ -59,51 +59,41 @@ public class FramedDialog extends Window {
 	/**
 	 * Constructs a new FramedDialog with the given shell as its parent window.
 	 * 
-	 * @param parentShell
-	 *            The parent window of this dialog
+	 * @param parentShell The parent window of this dialog
 	 */
 	public FramedDialog(Shell parentShell) {
 		this(new SameShellProvider(parentShell));
 
 		if ((parentShell == null) && Policy.DEBUG_DIALOG_NO_PARENT) {
 			Policy.getLog().log(
-					new Status(IStatus.INFO, Policy.JFACE, IStatus.INFO, this
-							.getClass() + " created with no shell", //$NON-NLS-1$
+					new Status(IStatus.INFO, Policy.JFACE, IStatus.INFO, this.getClass()
+							+ " created with no shell", //$NON-NLS-1$
 							new Exception()));
 		}
 	}
 
 	/**
-	 * Constructs a new FramedDialog with the information provided from the
-	 * given shell provider.
+	 * Constructs a new FramedDialog with the information provided from the given shell provider.
 	 * 
-	 * @param shellProvider
-	 *            The shell provider
+	 * @param shellProvider The shell provider
 	 */
 	public FramedDialog(IShellProvider shellProvider) {
 		super(shellProvider);
 		setShellStyle(SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL
 				| getDefaultOrientation());
 		setBlockOnOpen(true);
-		contentBackground = shellProvider.getShell().getDisplay()
-				.getSystemColor(SWT.COLOR_WHITE);
-		frameColor = shellProvider.getShell().getDisplay()
-				.getSystemColor(SWT.COLOR_DARK_GRAY);
-		sideBarColor = shellProvider.getShell().getDisplay()
-				.getSystemColor(SWT.COLOR_GRAY);
+		contentBackground = shellProvider.getShell().getDisplay().getSystemColor(SWT.COLOR_WHITE);
+		frameColor = shellProvider.getShell().getDisplay().getSystemColor(SWT.COLOR_DARK_GRAY);
+		sideBarColor = shellProvider.getShell().getDisplay().getSystemColor(SWT.COLOR_GRAY);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.window.Window#createContents(org.eclipse.swt.widgets
-	 * .Composite)
+	 * @see org.eclipse.jface.window.Window#createContents(org.eclipse.swt.widgets .Composite)
 	 */
 	@Override
 	protected Control createContents(Composite parent) {
-		frameComposite = new Composite(parent, SWT.NO_BACKGROUND
-				| SWT.DOUBLE_BUFFERED);
+		frameComposite = new Composite(parent, SWT.NO_BACKGROUND | SWT.DOUBLE_BUFFERED);
 		frameComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
 		frameComposite.addPaintListener(new PaintListener() {
 			@Override
@@ -111,25 +101,20 @@ public class FramedDialog extends Window {
 				GC g = e.gc;
 				g.setAntialias(SWT.ON);
 				g.setBackground(contentBackground);
-				g.fillRectangle(0, 0, frameComposite.getSize().x,
-						frameComposite.getSize().y);
+				g.fillRectangle(0, 0, frameComposite.getSize().x, frameComposite.getSize().y);
 				g.setBackground(frameColor);
 				g.fillRectangle(0, 0, frameComposite.getSize().x, 30);
-				g.fillRectangle(0, frameComposite.getSize().y - 10,
-						frameComposite.getSize().x, 10);
-				g.fillRectangle(0, 30, sideBarSize,
-						frameComposite.getSize().y - 35);
-				g.fillRectangle(sideBarSize, 30, contentControl.getLocation().x
+				g.fillRectangle(0, frameComposite.getSize().y - 10, frameComposite.getSize().x, 10);
+				g.fillRectangle(0, 30, sideBarSize, frameComposite.getSize().y - 35);
+				g.fillRectangle(sideBarSize, 30, contentControl.getLocation().x - sideBarSize, 20);
+				g.fillRectangle(sideBarSize, frameComposite.getSize().y - 30, contentControl
+						.getLocation().x
 						- sideBarSize, 20);
-				g.fillRectangle(sideBarSize, frameComposite.getSize().y - 30,
-						contentControl.getLocation().x - sideBarSize, 20);
 				g.setBackground(contentBackground);
-				g.fillArc(sideBarSize, 30,
-						(contentControl.getLocation().x - sideBarSize) * 2, 40,
+				g.fillArc(sideBarSize, 30, (contentControl.getLocation().x - sideBarSize) * 2, 40,
 						180, -90);
-				g.fillArc(sideBarSize, frameComposite.getSize().y - 50,
-						(contentControl.getLocation().x - sideBarSize) * 2, 40,
-						180, 90);
+				g.fillArc(sideBarSize, frameComposite.getSize().y - 50, (contentControl
+						.getLocation().x - sideBarSize) * 2, 40, 180, 90);
 			}
 		});
 		frameComposite.setLayout(new FormLayout());
@@ -167,11 +152,10 @@ public class FramedDialog extends Window {
 	}
 
 	/**
-	 * Creates the contents of the button bar area of this dialog. Subclasses
-	 * should override this method to provide an appropriate UI.
+	 * Creates the contents of the button bar area of this dialog. Subclasses should override this
+	 * method to provide an appropriate UI.
 	 * 
-	 * @param parent
-	 *            The parent composite for button bar controls
+	 * @param parent The parent composite for button bar controls
 	 */
 	protected void createButtonBar(Composite parent) {
 		FormData data = (FormData) parent.getLayoutData();
@@ -179,24 +163,20 @@ public class FramedDialog extends Window {
 	}
 
 	/**
-	 * Creates the contents of the side bar area of this dialog. Subclasses
-	 * should override this method to provide an appropriate UI.
+	 * Creates the contents of the side bar area of this dialog. Subclasses should override this
+	 * method to provide an appropriate UI.
 	 * 
-	 * @param parent
-	 *            The parent composite for side bar controls
+	 * @param parent The parent composite for side bar controls
 	 */
-	protected void createSideBar(Composite parent) {
-	}
+	protected void createSideBar(Composite parent) {}
 
 	/**
-	 * Creates the contents of the dialog content area of this dialog.
-	 * Subclasses should override this method to provide an appropriate UI.
+	 * Creates the contents of the dialog content area of this dialog. Subclasses should override
+	 * this method to provide an appropriate UI.
 	 * 
-	 * @param parent
-	 *            The parent composite for this dialog's contents
+	 * @param parent The parent composite for this dialog's contents
 	 */
-	protected void createDialogContents(Composite parent) {
-	}
+	protected void createDialogContents(Composite parent) {}
 
 	/**
 	 * @return The background color for the frame border
@@ -208,8 +188,7 @@ public class FramedDialog extends Window {
 	/**
 	 * Sets the background color used to paint the frame border.
 	 * 
-	 * @param frameColor
-	 *            The new background color
+	 * @param frameColor The new background color
 	 */
 	public void setFrameColor(Color frameColor) {
 		this.frameColor = frameColor;
@@ -225,8 +204,7 @@ public class FramedDialog extends Window {
 	/**
 	 * Sets the background color of the side bar area.
 	 * 
-	 * @param sideBarColor
-	 *            The new background color
+	 * @param sideBarColor The new background color
 	 */
 	public void setSideBarColor(Color sideBarColor) {
 		this.sideBarColor = sideBarColor;
@@ -246,8 +224,7 @@ public class FramedDialog extends Window {
 	/**
 	 * Sets the control to be hosted in the side bar area.
 	 * 
-	 * @param sideBarControl
-	 *            The control to host in the side bar area
+	 * @param sideBarControl The control to host in the side bar area
 	 */
 	public void setSideBarControl(Control sideBarControl) {
 		this.sideBarControl = sideBarControl;
@@ -263,8 +240,7 @@ public class FramedDialog extends Window {
 	/**
 	 * Sets the width of the side bar area.
 	 * 
-	 * @param sideBarSize
-	 *            The new width of the side bar area
+	 * @param sideBarSize The new width of the side bar area
 	 */
 	public void setSideBarSize(int sideBarSize) {
 		this.sideBarSize = sideBarSize;
@@ -287,8 +263,7 @@ public class FramedDialog extends Window {
 	/**
 	 * Sets the title of this dialog.
 	 * 
-	 * @param title
-	 *            The new title of this dialog
+	 * @param title The new title of this dialog
 	 */
 	public void setTitle(String title) {
 		this.title = (title == null) ? "" : title;
@@ -300,7 +275,6 @@ public class FramedDialog extends Window {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.window.Window#create()
 	 */
 	@Override
@@ -311,7 +285,6 @@ public class FramedDialog extends Window {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.window.Window#getParentShell()
 	 */
 	@Override

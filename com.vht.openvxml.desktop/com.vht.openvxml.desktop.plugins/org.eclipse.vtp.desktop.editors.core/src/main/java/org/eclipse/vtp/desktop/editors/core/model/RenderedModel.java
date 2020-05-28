@@ -90,20 +90,18 @@ public class RenderedModel implements ComponentFrameListener, ModelListener {
 			ElementFrame source = null;
 			ElementFrame destination = null;
 			for (ElementFrame ef : elementFrames) {
-				if (ef.getDesignElement().getId()
-						.equals(uiConnector.getOrigin().getId())) {
+				if (ef.getDesignElement().getId().equals(uiConnector.getOrigin().getId())) {
 					source = ef;
 				}
-				if (ef.getDesignElement().getId()
-						.equals(uiConnector.getDestination().getId())) {
+				if (ef.getDesignElement().getId().equals(uiConnector.getDestination().getId())) {
 					destination = ef;
 				}
 				if (source != null && destination != null) {
 					break;
 				}
 			}
-			ConnectorFrame connectorFrame = theme.createConnectorFrame(source,
-					destination, uiConnector);
+			ConnectorFrame connectorFrame = theme.createConnectorFrame(source, destination,
+					uiConnector);
 			connectorFrame.addListener(this);
 			connectorFrames.add(connectorFrame);
 		}
@@ -169,18 +167,14 @@ public class RenderedModel implements ComponentFrameListener, ModelListener {
 	public ElementFrame findElementAt(int x, int y) {
 		for (int i = elementFrames.size() - 1; i > -1; i--) {
 			ElementFrame df = elementFrames.get(i);
-			if (df.touchesComponent(x, y)) {
-				return df;
-			}
+			if (df.touchesComponent(x, y)) { return df; }
 		}
 		return null;
 	}
 
 	public ConnectorFrame findConnectorAt(int x, int y) {
 		for (ConnectorFrame cf : connectorFrames) {
-			if (cf.touchesComponent(x, y)) {
-				return cf;
-			}
+			if (cf.touchesComponent(x, y)) { return cf; }
 		}
 		return null;
 	}
@@ -207,14 +201,12 @@ public class RenderedModel implements ComponentFrameListener, ModelListener {
 		return ret;
 	}
 
-	public ConnectorFrame connectElements(ElementFrame source,
-			ElementFrame destination) {
+	public ConnectorFrame connectElements(ElementFrame source, ElementFrame destination) {
 		adding = true;
-		IDesignConnector connector = uiModel.createDesignConnector(
-				source.getDesignElement(), destination.getDesignElement());
+		IDesignConnector connector = uiModel.createDesignConnector(source.getDesignElement(),
+				destination.getDesignElement());
 		adding = false;
-		ConnectorFrame ret = theme.createConnectorFrame(source, destination,
-				connector);
+		ConnectorFrame ret = theme.createConnectorFrame(source, destination, connector);
 		ret.addListener(this);
 		connectorFrames.add(ret);
 		this.fireChange();
@@ -261,10 +253,8 @@ public class RenderedModel implements ComponentFrameListener, ModelListener {
 																			// selection
 		{
 			for (ConnectorFrame ef : connectorFrames) {
-				if (ef.getDesignComponent()
-						.getId()
-						.equals(pdd.getMainDesign().getDesignConnectors()
-								.get(0).getId())) {
+				if (ef.getDesignComponent().getId().equals(
+						pdd.getMainDesign().getDesignConnectors().get(0).getId())) {
 					selection.select(ef, true);
 					return;
 				}
@@ -284,8 +274,8 @@ public class RenderedModel implements ComponentFrameListener, ModelListener {
 		try {
 			IDesignDocument designDocument = uiModel.getDocument();
 			Document document = getSelectionDocument(true);
-			PartialDesignDocument pdd = new PartialDesignDocument(
-					designDocument, (Design) uiModel, document);
+			PartialDesignDocument pdd = new PartialDesignDocument(designDocument, (Design) uiModel,
+					document);
 			DeleteOperation delo = new DeleteOperation(pdd);
 			delo.addContext(undoContext);
 			getOperationHistory().execute(delo, null, null);
@@ -298,8 +288,8 @@ public class RenderedModel implements ComponentFrameListener, ModelListener {
 		try {
 			IDesignDocument designDocument = uiModel.getDocument();
 			Document document = getSelectionDocument(true);
-			PartialDesignDocument pdd = new PartialDesignDocument(
-					designDocument, (Design) uiModel, document);
+			PartialDesignDocument pdd = new PartialDesignDocument(designDocument, (Design) uiModel,
+					document);
 			AddComponentOperation delo = new AddComponentOperation(pdd);
 			delo.addContext(undoContext);
 			getOperationHistory().execute(delo, null, null);
@@ -319,8 +309,7 @@ public class RenderedModel implements ComponentFrameListener, ModelListener {
 					components.add(cf.getDesignComponent());
 				}
 				if (includeTertiaryConnectors) {
-					for (ComponentFrame cf : selection
-							.getTertiarySelectedItems()) {
+					for (ComponentFrame cf : selection.getTertiarySelectedItems()) {
 						components.add(cf.getDesignComponent());
 					}
 				}
@@ -329,9 +318,7 @@ public class RenderedModel implements ComponentFrameListener, ModelListener {
 			@Override
 			public boolean matches(IDesignComponent component) {
 				for (IDesignComponent dc : components) {
-					if (dc.getId().equals(component.getId())) {
-						return true;
-					}
+					if (dc.getId().equals(component.getId())) { return true; }
 				}
 				return false;
 			}
@@ -339,33 +326,28 @@ public class RenderedModel implements ComponentFrameListener, ModelListener {
 		try {
 			DesignWriter writer = new DesignWriter();
 			// build document contents
-			DocumentBuilderFactory factory = DocumentBuilderFactory
-					.newInstance();
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			factory.setNamespaceAware(true);
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document document = builder.getDOMImplementation().createDocument(
-					null, "design-fragment", null);
+			Document document = builder.getDOMImplementation().createDocument(null,
+					"design-fragment", null);
 			org.w3c.dom.Element rootElement = document.getDocumentElement();
 			rootElement.setAttribute("xml-version", "4.0.0");
 			IDesignDocument designDocument = getUIModel().getDocument();
 			if (!uiModel.equals(designDocument.getMainDesign())) {
 				rootElement.setAttribute("dialog-only", "true");
-				writer.writeDesign(rootElement, (Design) uiModel,
-						selectionFilter);
+				writer.writeDesign(rootElement, (Design) uiModel, selectionFilter);
 			} else {
-				writer.writeDesign(rootElement,
-						(Design) designDocument.getMainDesign(),
+				writer.writeDesign(rootElement, (Design) designDocument.getMainDesign(),
 						selectionFilter);
-				org.w3c.dom.Element dialogsElement = rootElement
-						.getOwnerDocument().createElement("dialogs");
+				org.w3c.dom.Element dialogsElement = rootElement.getOwnerDocument().createElement(
+						"dialogs");
 				rootElement.appendChild(dialogsElement);
 				for (IDesign dialogDesign : designDocument.getDialogDesigns()) {
 					List<ComponentFrame> items = selection.getSelectedItems();
 					for (ComponentFrame cf : items) {
-						if (cf.getDesignComponent().getId()
-								.equals(dialogDesign.getDesignId())) {
-							writer.writeDesign(dialogsElement,
-									(Design) dialogDesign);
+						if (cf.getDesignComponent().getId().equals(dialogDesign.getDesignId())) {
+							writer.writeDesign(dialogsElement, (Design) dialogDesign);
 							break;
 						}
 					}
@@ -387,12 +369,10 @@ public class RenderedModel implements ComponentFrameListener, ModelListener {
 			t.setOutputProperty(OutputKeys.METHOD, "xml");
 			t.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 			t.setOutputProperty(OutputKeys.INDENT, "yes");
-			t.setOutputProperty("{http://xml.apache.org/xslt}indent-amount",
-					"4");
-			t.transform(new DOMSource(document),
-					new XMLWriter(baos).toXMLResult());
-			clipboard.setContents(new Object[] { baos.toString() },
-					new Transfer[] { TextTransfer.getInstance() });
+			t.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+			t.transform(new DOMSource(document), new XMLWriter(baos).toXMLResult());
+			clipboard.setContents(new Object[] { baos.toString() }, new Transfer[] { TextTransfer
+					.getInstance() });
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -509,8 +489,7 @@ public class RenderedModel implements ComponentFrameListener, ModelListener {
 	public void componentAdded(IDesign model, IDesignComponent component) {
 		if (!adding) {
 			if (component instanceof IDesignElement) {
-				ElementFrame elementFrame = theme
-						.createElementFrame((IDesignElement) component);
+				ElementFrame elementFrame = theme.createElementFrame((IDesignElement) component);
 				elementFrame.addListener(this);
 				elementFrames.add(elementFrame);
 			} else {
@@ -518,20 +497,18 @@ public class RenderedModel implements ComponentFrameListener, ModelListener {
 				ElementFrame source = null;
 				ElementFrame destination = null;
 				for (ElementFrame ef : elementFrames) {
-					if (ef.getDesignElement().getId()
-							.equals(uiConnector.getOrigin().getId())) {
+					if (ef.getDesignElement().getId().equals(uiConnector.getOrigin().getId())) {
 						source = ef;
 					}
-					if (ef.getDesignElement().getId()
-							.equals(uiConnector.getDestination().getId())) {
+					if (ef.getDesignElement().getId().equals(uiConnector.getDestination().getId())) {
 						destination = ef;
 					}
 					if (source != null && destination != null) {
 						break;
 					}
 				}
-				ConnectorFrame connectorFrame = theme.createConnectorFrame(
-						source, destination, uiConnector);
+				ConnectorFrame connectorFrame = theme.createConnectorFrame(source, destination,
+						uiConnector);
 				connectorFrame.addListener(this);
 				connectorFrames.add(connectorFrame);
 			}
@@ -553,10 +530,8 @@ public class RenderedModel implements ComponentFrameListener, ModelListener {
 		}
 
 		@Override
-		public IStatus execute(IProgressMonitor monitor, IAdaptable info)
-				throws ExecutionException {
-			((DesignDocument) uiModel.getDocument()).reverse(uiModel,
-					pdd.clone());
+		public IStatus execute(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
+			((DesignDocument) uiModel.getDocument()).reverse(uiModel, pdd.clone());
 			selection.clear();
 			fireChange();
 			if (monitor != null) {
@@ -566,11 +541,9 @@ public class RenderedModel implements ComponentFrameListener, ModelListener {
 		}
 
 		@Override
-		public IStatus redo(IProgressMonitor monitor, IAdaptable info)
-				throws ExecutionException {
+		public IStatus redo(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 			System.out.println("redoing delete operation");
-			((DesignDocument) uiModel.getDocument()).reverse(uiModel,
-					pdd.clone());
+			((DesignDocument) uiModel.getDocument()).reverse(uiModel, pdd.clone());
 			selection.clear();
 			fireChange();
 			if (monitor != null) {
@@ -580,12 +553,10 @@ public class RenderedModel implements ComponentFrameListener, ModelListener {
 		}
 
 		@Override
-		public IStatus undo(IProgressMonitor monitor, IAdaptable info)
-				throws ExecutionException {
+		public IStatus undo(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 			System.out.println("undoing delete operation");
 			PartialDesignDocument clone = pdd.clone();
-			((DesignDocument) uiModel.getDocument()).merge(uiModel, clone,
-					false);
+			((DesignDocument) uiModel.getDocument()).merge(uiModel, clone, false);
 			selectPartialDocument(clone);
 			fireChange();
 			if (monitor != null) {
@@ -604,8 +575,7 @@ public class RenderedModel implements ComponentFrameListener, ModelListener {
 		}
 
 		@Override
-		public IStatus execute(IProgressMonitor monitor, IAdaptable info)
-				throws ExecutionException {
+		public IStatus execute(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 			// the initial work is already done elsewhere. also pop-on-drop
 			// items
 			// are supported because the snapshot is after that process has been
@@ -617,12 +587,10 @@ public class RenderedModel implements ComponentFrameListener, ModelListener {
 		}
 
 		@Override
-		public IStatus redo(IProgressMonitor monitor, IAdaptable info)
-				throws ExecutionException {
+		public IStatus redo(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 			System.out.println("undoing add operation");
 			PartialDesignDocument clone = pdd.clone();
-			((DesignDocument) uiModel.getDocument()).merge(uiModel, clone,
-					false);
+			((DesignDocument) uiModel.getDocument()).merge(uiModel, clone, false);
 			selectPartialDocument(clone);
 			fireChange();
 			if (monitor != null) {
@@ -632,11 +600,9 @@ public class RenderedModel implements ComponentFrameListener, ModelListener {
 		}
 
 		@Override
-		public IStatus undo(IProgressMonitor monitor, IAdaptable info)
-				throws ExecutionException {
+		public IStatus undo(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 			System.out.println("redoing add operation");
-			((DesignDocument) uiModel.getDocument()).reverse(uiModel,
-					pdd.clone());
+			((DesignDocument) uiModel.getDocument()).reverse(uiModel, pdd.clone());
 			selection.clear();
 			fireChange();
 			if (monitor != null) {

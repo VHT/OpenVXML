@@ -62,8 +62,7 @@ public class AvpWithIDriverPlatform extends VoicePlatform {
 	/**
 	 * Creates a new AvpPlatform.
 	 */
-	public AvpWithIDriverPlatform(IExecutionContext context,
-			IVariableRegistry variables) {
+	public AvpWithIDriverPlatform(IExecutionContext context, IVariableRegistry variables) {
 		super(context);
 		this.context = context;
 		this.variables = variables;
@@ -93,16 +92,12 @@ public class AvpWithIDriverPlatform extends VoicePlatform {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.support.AbstractPlatform#
-	 * createDocument(
+	 * @see org.eclipse.vtp.framework.interactions.core.support.AbstractPlatform# createDocument(
 	 * org.eclipse.vtp.framework.interactions.core.platforms.ILinkFactory,
 	 * org.eclipse.vtp.framework.interactions.core.platforms.IRenderingQueue)
 	 */
 	@Override
-	public IDocument createDocument(ILinkFactory links,
-			IRenderingQueue renderingQueue) {
+	public IDocument createDocument(ILinkFactory links, IRenderingQueue renderingQueue) {
 		links.setUrlEncoded(false);
 		return super.createDocument(links, renderingQueue);
 	}
@@ -131,88 +126,78 @@ public class AvpWithIDriverPlatform extends VoicePlatform {
 		} else {
 			bargeIn = null;
 		}
-		TimeValue timeout = resolveTimeValue("initial-timeout",
-				inputRequestCommand.getPropertyValue("initial-timeout")); //$NON-NLS-1$
+		TimeValue timeout = resolveTimeValue("initial-timeout", inputRequestCommand
+				.getPropertyValue("initial-timeout")); //$NON-NLS-1$
 		String inputMode = inputRequestCommand.getPropertyValue("input-mode"); //$NON-NLS-1$
 		if (inputMode == null || inputMode.length() == 0) {
 			inputMode = "dtmf only"; //$NON-NLS-1$
 		}
-		String confidenceLevel = inputRequestCommand
-				.getPropertyValue("confidence-level"); //$NON-NLS-1$
-		String sensitivity = inputRequestCommand
-				.getPropertyValue("sensitivity-level"); //$NON-NLS-1$
-		String speedVsAccuracy = inputRequestCommand
-				.getPropertyValue("speed-vs-accuracy"); //$NON-NLS-1$
-		TimeValue speechCompletionTimeout = resolveTimeValue(
-				"speech-complete-timeout",
+		String confidenceLevel = inputRequestCommand.getPropertyValue("confidence-level"); //$NON-NLS-1$
+		String sensitivity = inputRequestCommand.getPropertyValue("sensitivity-level"); //$NON-NLS-1$
+		String speedVsAccuracy = inputRequestCommand.getPropertyValue("speed-vs-accuracy"); //$NON-NLS-1$
+		TimeValue speechCompletionTimeout = resolveTimeValue("speech-complete-timeout",
 				inputRequestCommand.getPropertyValue("speech-complete-timeout")); //$NON-NLS-1$
-		TimeValue speechIncompleteTimeout = resolveTimeValue(
-				"speech-incomplete-timeout",
-				inputRequestCommand
-						.getPropertyValue("speech-incomplete-timeout")); //$NON-NLS-1$
-		TimeValue maxSpeechLength = resolveTimeValue("max-speech-timeout",
-				inputRequestCommand.getPropertyValue("max-speech-timeout")); //$NON-NLS-1$
+		TimeValue speechIncompleteTimeout = resolveTimeValue("speech-incomplete-timeout",
+				inputRequestCommand.getPropertyValue("speech-incomplete-timeout")); //$NON-NLS-1$
+		TimeValue maxSpeechLength = resolveTimeValue("max-speech-timeout", inputRequestCommand
+				.getPropertyValue("max-speech-timeout")); //$NON-NLS-1$
 		String maxNBest = inputRequestCommand.getPropertyValue("max-n-best"); //$NON-NLS-1$
-		TimeValue interDigitTimeout = resolveTimeValue("interdigit-timeout",
-				inputRequestCommand.getPropertyValue("interdigit-timeout")); //$NON-NLS-1$
-		TimeValue terminationTimeout = resolveTimeValue("termination-timeout",
-				inputRequestCommand.getPropertyValue("termination-timeout")); //$NON-NLS-1$
-		String terminationCharacter = inputRequestCommand
-				.getPropertyValue("termination-character"); //$NON-NLS-1$
+		TimeValue interDigitTimeout = resolveTimeValue("interdigit-timeout", inputRequestCommand
+				.getPropertyValue("interdigit-timeout")); //$NON-NLS-1$
+		TimeValue terminationTimeout = resolveTimeValue("termination-timeout", inputRequestCommand
+				.getPropertyValue("termination-timeout")); //$NON-NLS-1$
+		String terminationCharacter = inputRequestCommand.getPropertyValue("termination-character"); //$NON-NLS-1$
 		Field field = new Field(inputRequestCommand.getDataName());
 		if (bargeIn != null) {
 			field.setProperty(NAME_BARGEIN, bargeIn);
 		}
 		if (timeout != null) {
-			field.setProperty(NAME_TIMEOUT,
-					timeout.toTimeString(TimeValue.SECONDS));
+			field.setProperty(NAME_TIMEOUT, timeout.toTimeString(TimeValue.SECONDS));
 		}
 		if ("hybrid".equalsIgnoreCase(inputMode)) {
 			field.setProperty(NAME_INPUTMODES, "dtmf voice"); //$NON-NLS-1$
-			field.setProperty(
-					"com.telera.speechenabled", Boolean.TRUE.toString()); //$NON-NLS-1$
+			field.setProperty("com.telera.speechenabled", Boolean.TRUE.toString()); //$NON-NLS-1$
 		}
 		if ("dtmf only".equalsIgnoreCase(inputMode)) //$NON-NLS-1$
 		{
 			field.setProperty(NAME_INPUTMODES, "dtmf"); //$NON-NLS-1$
-			field.setProperty(
-					"com.telera.speechenabled", Boolean.FALSE.toString()); //$NON-NLS-1$
+			field.setProperty("com.telera.speechenabled", Boolean.FALSE.toString()); //$NON-NLS-1$
 		} else {
 			try {
 				if (confidenceLevel != null && confidenceLevel.length() > 0) {
-					field.setProperty(NAME_CONFIDENCELEVEL, new BigDecimal(
-							confidenceLevel).divide(ONE_HUNDRED).toString());
+					field.setProperty(NAME_CONFIDENCELEVEL, new BigDecimal(confidenceLevel).divide(
+							ONE_HUNDRED).toString());
 				}
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}
 			try {
 				if (sensitivity != null && sensitivity.length() > 0) {
-					field.setProperty(NAME_SENSITIVITY, new BigDecimal(
-							sensitivity).divide(ONE_HUNDRED).toString());
+					field.setProperty(NAME_SENSITIVITY, new BigDecimal(sensitivity).divide(
+							ONE_HUNDRED).toString());
 				}
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}
 			try {
 				if (speedVsAccuracy != null && speedVsAccuracy.length() > 0) {
-					field.setProperty(NAME_SPEEDVSACCURACY, new BigDecimal(
-							speedVsAccuracy).divide(ONE_HUNDRED).toString());
+					field.setProperty(NAME_SPEEDVSACCURACY, new BigDecimal(speedVsAccuracy).divide(
+							ONE_HUNDRED).toString());
 				}
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}
 			if (speechCompletionTimeout != null) {
-				field.setProperty(NAME_COMPLETETIMEOUT,
-						speechCompletionTimeout.toTimeString(TimeValue.SECONDS));
+				field.setProperty(NAME_COMPLETETIMEOUT, speechCompletionTimeout
+						.toTimeString(TimeValue.SECONDS));
 			}
 			if (speechIncompleteTimeout != null) {
-				field.setProperty(NAME_INCOMPLETETIMEOUT,
-						speechIncompleteTimeout.toTimeString(TimeValue.SECONDS));
+				field.setProperty(NAME_INCOMPLETETIMEOUT, speechIncompleteTimeout
+						.toTimeString(TimeValue.SECONDS));
 			}
 			if (maxSpeechLength != null) {
-				field.setProperty(NAME_MAXSPEECHTIMEOUT,
-						maxSpeechLength.toTimeString(TimeValue.SECONDS));
+				field.setProperty(NAME_MAXSPEECHTIMEOUT, maxSpeechLength
+						.toTimeString(TimeValue.SECONDS));
 			} else {
 				field.setProperty(NAME_MAXSPEECHTIMEOUT, "10s"); //$NON-NLS-1$
 			}
@@ -223,19 +208,17 @@ public class AvpWithIDriverPlatform extends VoicePlatform {
 		if ("voice only".equalsIgnoreCase(inputMode)) //$NON-NLS-1$
 		{
 			field.setProperty(NAME_INPUTMODES, "voice"); //$NON-NLS-1$
-			field.setProperty(
-					"com.telera.speechenabled", Boolean.TRUE.toString()); //$NON-NLS-1$
+			field.setProperty("com.telera.speechenabled", Boolean.TRUE.toString()); //$NON-NLS-1$
 		} else {
 			if (interDigitTimeout != null) {
-				field.setProperty(NAME_INTERDIGITTIMEOUT,
-						interDigitTimeout.toTimeString(TimeValue.SECONDS));
+				field.setProperty(NAME_INTERDIGITTIMEOUT, interDigitTimeout
+						.toTimeString(TimeValue.SECONDS));
 			}
 			if (terminationTimeout != null) {
-				field.setProperty(NAME_TERMTIMEOUT,
-						terminationTimeout.toTimeString(TimeValue.SECONDS));
+				field.setProperty(NAME_TERMTIMEOUT, terminationTimeout
+						.toTimeString(TimeValue.SECONDS));
 			}
-			if (terminationCharacter != null
-					&& terminationCharacter.length() > 0
+			if (terminationCharacter != null && terminationCharacter.length() > 0
 					&& !"none".equalsIgnoreCase(terminationCharacter)) {
 				field.setProperty(NAME_TERMCHAR, terminationCharacter);
 			} else {
@@ -251,8 +234,7 @@ public class AvpWithIDriverPlatform extends VoicePlatform {
 				break;
 			case InputRequestCommand.OUTPUT_TYPE_TEXT:
 				if (outputValue.startsWith("@@mark ")) {
-					outputs.addOutput(new SSMLMarkOutput(outputValue
-							.substring(7)));
+					outputs.addOutput(new SSMLMarkOutput(outputValue.substring(7)));
 				} else {
 					outputs.addOutput(new TextOutput(outputValue));
 				}
@@ -268,54 +250,47 @@ public class AvpWithIDriverPlatform extends VoicePlatform {
 		if (inputRequestCommand.getInputValue() != null) {
 			switch (inputRequestCommand.getInputType()) {
 			case InputRequestCommand.INPUT_TYPE_FILE:
-				field.addGrammar(new ExternalGrammar("dtmf",
-						links.createResourceLink(
-								inputRequestCommand.getInputValue()).toString()));
+				field.addGrammar(new ExternalGrammar("dtmf", links.createResourceLink(
+						inputRequestCommand.getInputValue()).toString()));
 				break;
 			case InputRequestCommand.INPUT_TYPE_CUSTOM:
 				String customData = inputRequestCommand.getInputValue();
-				if (customData != null
-						&& customData.startsWith(VXML_BUILTIN_PREFIX)) {
+				if (customData != null && customData.startsWith(VXML_BUILTIN_PREFIX)) {
 					// field.setType(customData.substring(VXML_BUILTIN_PREFIX.length()));
 					field.addGrammar(new ExternalGrammar("dtmf", customData));
 				}
 				break;
 			case InputRequestCommand.INPUT_TYPE_INLINE:
-				field.addGrammar(new RawInlineGrammar(inputRequestCommand
-						.getInputValue()));
+				field.addGrammar(new RawInlineGrammar(inputRequestCommand.getInputValue()));
 				break;
 			}
 		}
 		if (inputRequestCommand.getInput2Value() != null) {
 			switch (inputRequestCommand.getInput2Type()) {
 			case InputRequestCommand.INPUT_TYPE_FILE:
-				field.addGrammar(new ExternalGrammar("voice", links
-						.createResourceLink(
-								inputRequestCommand.getInput2Value())
-						.toString()));
+				field.addGrammar(new ExternalGrammar("voice", links.createResourceLink(
+						inputRequestCommand.getInput2Value()).toString()));
 				break;
 			case InputRequestCommand.INPUT_TYPE_CUSTOM:
 				String customData = inputRequestCommand.getInput2Value();
-				if (customData != null
-						&& customData.startsWith(VXML_BUILTIN_PREFIX)) {
+				if (customData != null && customData.startsWith(VXML_BUILTIN_PREFIX)) {
 					// field.setType(customData.substring(VXML_BUILTIN_PREFIX.length()));
 					field.addGrammar(new ExternalGrammar("dtmf", customData));
 				}
 				break;
 			case InputRequestCommand.INPUT_TYPE_INLINE:
-				field.addGrammar(new RawInlineGrammar(inputRequestCommand
-						.getInput2Value()));
+				field.addGrammar(new RawInlineGrammar(inputRequestCommand.getInput2Value()));
 				break;
 			}
 		}
 		String[] parameterNames = inputRequestCommand.getParameterNames();
 		ILink filledLink = links.createNextLink();
 		for (String parameterName : parameterNames) {
-			filledLink.setParameters(parameterName,
-					inputRequestCommand.getParameterValues(parameterName));
+			filledLink.setParameters(parameterName, inputRequestCommand
+					.getParameterValues(parameterName));
 		}
-		filledLink.setParameter(inputRequestCommand.getResultName(),
-				inputRequestCommand.getFilledResultValue());
+		filledLink.setParameter(inputRequestCommand.getResultName(), inputRequestCommand
+				.getFilledResultValue());
 		Filled filled = new Filled();
 		filled.addVariable(new Variable("lastresult", "'<lastresult>'"));
 		Script script = new Script();
@@ -338,26 +313,25 @@ public class AvpWithIDriverPlatform extends VoicePlatform {
 		field.addFilledHandler(filled);
 		ILink noInputLink = links.createNextLink();
 		for (String parameterName : parameterNames) {
-			noInputLink.setParameters(parameterName,
-					inputRequestCommand.getParameterValues(parameterName));
+			noInputLink.setParameters(parameterName, inputRequestCommand
+					.getParameterValues(parameterName));
 		}
-		noInputLink.setParameter(inputRequestCommand.getResultName(),
-				inputRequestCommand.getNoInputResultValue());
+		noInputLink.setParameter(inputRequestCommand.getResultName(), inputRequestCommand
+				.getNoInputResultValue());
 		NoInput noInput = new NoInput();
-		noInput.addAction(new Submit(noInputLink.toString(),
-				new String[] { inputRequestCommand.getDataName() }));
+		noInput.addAction(new Submit(noInputLink.toString(), new String[] { inputRequestCommand
+				.getDataName() }));
 		field.addEventHandler(noInput);
 		ILink noMatchLink = links.createNextLink();
 		for (String parameterName : parameterNames) {
-			noMatchLink.setParameters(parameterName,
-					inputRequestCommand.getParameterValues(parameterName));
+			noMatchLink.setParameters(parameterName, inputRequestCommand
+					.getParameterValues(parameterName));
 		}
-		noMatchLink.setParameter(inputRequestCommand.getResultName(),
-				inputRequestCommand.getNoMatchResultValue());
+		noMatchLink.setParameter(inputRequestCommand.getResultName(), inputRequestCommand
+				.getNoMatchResultValue());
 		NoMatch noMatch = new NoMatch();
 		noMatch.addVariable(new Variable("lastresult", "'<lastresult>'"));
-		If ifTag = new If(
-				"typeof(application.lastresult$.markname) == 'string'");
+		If ifTag = new If("typeof(application.lastresult$.markname) == 'string'");
 		Script markScript = new Script();
 		markScript
 				.setText("		lastresult = lastresult + '<mark name=\"' + application.lastresult$.markname + '\" offset=\"' + application.lastresult$.marktime + '\"/>';\r\n"
@@ -411,11 +385,11 @@ public class AvpWithIDriverPlatform extends VoicePlatform {
 		field.addEventHandler(noMatch);
 		ILink hangupLink = links.createNextLink();
 		for (String parameterName : parameterNames) {
-			hangupLink.setParameters(parameterName,
-					inputRequestCommand.getParameterValues(parameterName));
+			hangupLink.setParameters(parameterName, inputRequestCommand
+					.getParameterValues(parameterName));
 		}
-		hangupLink.setParameter(inputRequestCommand.getResultName(),
-				inputRequestCommand.getHangupResultValue());
+		hangupLink.setParameter(inputRequestCommand.getResultName(), inputRequestCommand
+				.getHangupResultValue());
 		Catch disconnectCatch = new Catch("connection.disconnect.hangup");
 		disconnectCatch.addAction(new Goto(hangupLink.toString()));
 		field.addEventHandler(disconnectCatch);
@@ -424,8 +398,7 @@ public class AvpWithIDriverPlatform extends VoicePlatform {
 	}
 
 	@Override
-	protected IDocument renderEndMessage(ILinkFactory links,
-			EndMessageCommand endMessageCommand) {
+	protected IDocument renderEndMessage(ILinkFactory links, EndMessageCommand endMessageCommand) {
 		IDocument ret = super.renderEndMessage(links, endMessageCommand);
 		Long port = (Long) this.context.getRootAttribute("idriver.port");
 		if (port != null) {

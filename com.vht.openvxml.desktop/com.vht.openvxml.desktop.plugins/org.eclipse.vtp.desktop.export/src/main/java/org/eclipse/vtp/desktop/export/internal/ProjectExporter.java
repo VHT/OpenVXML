@@ -8,8 +8,7 @@ import java.util.Map;
 import org.eclipse.vtp.desktop.export.IProjectExporter;
 import org.eclipse.vtp.framework.util.ConfigurationDictionary;
 
-public abstract class ProjectExporter implements IProjectExporter,
-		Comparable<ProjectExporter> {
+public abstract class ProjectExporter implements IProjectExporter, Comparable<ProjectExporter> {
 	private boolean dirty = false;
 	private final Map<String, String> settings = new HashMap<String, String>();
 
@@ -37,9 +36,7 @@ public abstract class ProjectExporter implements IProjectExporter,
 	@Override
 	public String getSetting(String key, String defaultValue) {
 		String value = settings.get(key);
-		if (value == null) {
-			return defaultValue;
-		}
+		if (value == null) { return defaultValue; }
 		return value;
 	}
 
@@ -53,8 +50,7 @@ public abstract class ProjectExporter implements IProjectExporter,
 		settings.remove(key);
 	}
 
-	public Collection<ConfigurationDictionary> getConfigurationDictionaries(
-			String uniqueToken) {
+	public Collection<ConfigurationDictionary> getConfigurationDictionaries(String uniqueToken) {
 		return Collections.emptyList();
 	}
 

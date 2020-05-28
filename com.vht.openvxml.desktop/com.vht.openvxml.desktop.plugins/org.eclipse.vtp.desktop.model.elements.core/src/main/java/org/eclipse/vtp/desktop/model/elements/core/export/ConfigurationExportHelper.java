@@ -14,24 +14,21 @@ public class ConfigurationExportHelper {
 	 * @param configuration
 	 * @param actionElement
 	 */
-	public static void configureAssignmentAction(Element configuration,
-			Element actionElement) {
+	public static void configureAssignmentAction(Element configuration, Element actionElement) {
 		String uri = "http://www.eclipse.org/vtp/namespaces/config";//$NON-NLS-1$
-		NodeList variableList = ((Element) ((Element) configuration
-				.getElementsByTagNameNS(uri, "custom-config").item(0)) //$NON-NLS-1$
+		NodeList variableList = ((Element) ((Element) configuration.getElementsByTagNameNS(uri,
+				"custom-config").item(0)) //$NON-NLS-1$
 				.getElementsByTagNameNS(uri, "declarations").item(0)) //$NON-NLS-1$
 				.getElementsByTagNameNS(uri, "variable"); //$NON-NLS-1$
 		for (int i = 0; i < variableList.getLength(); ++i) {
 			Element variable = (Element) variableList.item(i);
 			AssignmentConfiguration config = new AssignmentConfiguration();
 			config.setName(variable.getAttribute("name")); //$NON-NLS-1$
-			config.setSecured(Boolean.parseBoolean(variable
-					.getAttribute("secured")));
+			config.setSecured(Boolean.parseBoolean(variable.getAttribute("secured")));
 			if (variable.getAttributeNode("type") != null) // legacy support
 			{
 				if ("1".equals(variable.getAttribute("multiplicity")) //$NON-NLS-1$ //$NON-NLS-2$
-						|| "array".equalsIgnoreCase(variable
-								.getAttribute("multiplicity"))) {
+						|| "array".equalsIgnoreCase(variable.getAttribute("multiplicity"))) {
 					config.setType(IArrayObject.TYPE_NAME);
 				} else if ("DateTime".equals(variable.getAttribute("type"))) {
 					config.setType(IDateObject.TYPE_NAME);
@@ -54,9 +51,8 @@ public class ConfigurationExportHelper {
 			if (value != null && value.length() > 0) {
 				config.setValue(value);
 			}
-			Element configElement = actionElement.getOwnerDocument()
-					.createElementNS(IDefinitionBuilder.NAMESPACE_URI_COMMON,
-							"common:assignment"); //$NON-NLS-1$
+			Element configElement = actionElement.getOwnerDocument().createElementNS(
+					IDefinitionBuilder.NAMESPACE_URI_COMMON, "common:assignment"); //$NON-NLS-1$
 			config.save(configElement);
 			actionElement.appendChild(configElement);
 		}

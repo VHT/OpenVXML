@@ -40,14 +40,11 @@ public class StaticConfigurationAdmin {
 	/**
 	 * Creates a copy of the supplied dictionary.
 	 * 
-	 * @param input
-	 *            The dictionary to copy.
+	 * @param input The dictionary to copy.
 	 * @return The copy of the supplied dictionary.
 	 */
 	private static Dictionary copy(Dictionary input) {
-		if (input == null) {
-			return null;
-		}
+		if (input == null) { return null; }
 		Dictionary output = new Hashtable(input.size());
 		for (Enumeration e = input.keys(); e.hasMoreElements();) {
 			String key = (String) e.nextElement();
@@ -57,19 +54,14 @@ public class StaticConfigurationAdmin {
 	}
 
 	/**
-	 * Returns the pid of the specified reference or <code>null</code> if it has
-	 * no pid.
+	 * Returns the pid of the specified reference or <code>null</code> if it has no pid.
 	 * 
-	 * @param reference
-	 *            The reference to examine.
-	 * @return The pid of the specified reference or <code>null</code> if it has
-	 *         no pid.
+	 * @param reference The reference to examine.
+	 * @return The pid of the specified reference or <code>null</code> if it has no pid.
 	 */
 	private static String pid(ServiceReference reference) {
 		Object pid = reference.getProperty(Constants.SERVICE_PID);
-		if (pid instanceof String) {
-			return (String) pid;
-		}
+		if (pid instanceof String) { return (String) pid; }
 		return null;
 	}
 
@@ -91,12 +83,9 @@ public class StaticConfigurationAdmin {
 	/**
 	 * Creates a new StaticConfigurationAdmin.
 	 * 
-	 * @param context
-	 *            The context to operate under.
-	 * @param log
-	 *            The log service to use.
-	 * @param configurationsData
-	 *            The configuration data to load.
+	 * @param context The context to operate under.
+	 * @param log The log service to use.
+	 * @param configurationsData The configuration data to load.
 	 */
 	public StaticConfigurationAdmin(BundleContext context, LogService log,
 			Element configurationsData) {
@@ -138,9 +127,7 @@ public class StaticConfigurationAdmin {
 	 * Starts this service implementation.
 	 */
 	public synchronized void start() {
-		if (dispatcher != null) {
-			return;
-		}
+		if (dispatcher != null) { return; }
 		dispatcher = new Dispatcher();
 		boolean failed = true;
 		try {
@@ -158,9 +145,7 @@ public class StaticConfigurationAdmin {
 	 * Stops this service implementation.
 	 */
 	public synchronized void stop() {
-		if (dispatcher == null) {
-			return;
-		}
+		if (dispatcher == null) { return; }
 		try {
 			dispatcher.stop();
 		} finally {
@@ -176,14 +161,11 @@ public class StaticConfigurationAdmin {
 	/**
 	 * Called on the dispatch thread after a service has been added.
 	 * 
-	 * @param reference
-	 *            The reference that was added.
+	 * @param reference The reference that was added.
 	 */
 	private void added(ServiceReference reference, boolean factory) {
 		String pid = pid(reference);
-		if (pid == null) {
-			return;
-		}
+		if (pid == null) { return; }
 		pidsByReference.put(reference, pid);
 		dispatch(reference, pid, factory);
 	}
@@ -191,8 +173,7 @@ public class StaticConfigurationAdmin {
 	/**
 	 * Called on the dispatch thread after a service has been modified.
 	 * 
-	 * @param reference
-	 *            The reference that was modified.
+	 * @param reference The reference that was modified.
 	 */
 	private void modified(ServiceReference reference, boolean factory) {
 		String oldPid = (String) pidsByReference.get(reference);
@@ -212,8 +193,7 @@ public class StaticConfigurationAdmin {
 	/**
 	 * Called on the dispatch thread after a service has been removed.
 	 * 
-	 * @param reference
-	 *            The reference that was removed.
+	 * @param reference The reference that was removed.
 	 */
 	private void removed(ServiceReference reference, boolean factory) {
 		pidsByReference.remove(reference);
@@ -222,36 +202,27 @@ public class StaticConfigurationAdmin {
 	/**
 	 * Configures the specified service.
 	 * 
-	 * @param reference
-	 *            The reference to the service to configure.
-	 * @param pid
-	 *            The pid to configure the service with.
-	 * @param factory
-	 *            Indicator of whether the configuration is provided by a
-	 *            factory.
+	 * @param reference The reference to the service to configure.
+	 * @param pid The pid to configure the service with.
+	 * @param factory Indicator of whether the configuration is provided by a factory.
 	 */
-	private void dispatch(ServiceReference reference, String pid,
-			boolean factory) {
+	private void dispatch(ServiceReference reference, String pid, boolean factory) {
 		Object instance = null;
 		try {
 			if (factory) {
-				ConfigurationDictionary[] configs = (ConfigurationDictionary[]) factories
-						.get(pid);
-				if (configs == null) {
-					return;
-				}
+				ConfigurationDictionary[] configs = (ConfigurationDictionary[]) factories.get(pid);
+				if (configs == null) { return; }
 				instance = context.getService(reference);
 				if (instance instanceof ManagedServiceFactory) {
 					configure(reference.getBundle().getLocation(),
 							(ManagedServiceFactory) instance, configs);
 				}
 			} else {
-				ConfigurationDictionary config = (ConfigurationDictionary) services
-						.get(pid);
+				ConfigurationDictionary config = (ConfigurationDictionary) services.get(pid);
 				instance = context.getService(reference);
 				if (instance instanceof ManagedService) {
-					configure(reference.getBundle().getLocation(),
-							(ManagedService) instance, config);
+					configure(reference.getBundle().getLocation(), (ManagedService) instance,
+							config);
 				}
 			}
 		} finally {
@@ -264,22 +235,16 @@ public class StaticConfigurationAdmin {
 	/**
 	 * Configures a managed service.
 	 * 
-	 * @param bundleLocation
-	 *            The location of the bundle that registered the service.
-	 * @param service
-	 *            The service to configure.
-	 * @param serviceConfiguration
-	 *            The configuration dictionary.
+	 * @param bundleLocation The location of the bundle that registered the service.
+	 * @param service The service to configure.
+	 * @param serviceConfiguration The configuration dictionary.
 	 */
 	private void configure(String bundleLocation, ManagedService service,
 			ConfigurationDictionary serviceConfiguration) {
 		if (serviceConfiguration != null) {
 			if (serviceConfiguration.getBundleLocation() == null) {
 				serviceConfiguration.setBundleLocation(bundleLocation);
-			} else if (!serviceConfiguration.getBundleLocation().equals(
-					bundleLocation)) {
-				return;
-			}
+			} else if (!serviceConfiguration.getBundleLocation().equals(bundleLocation)) { return; }
 		}
 		Dictionary dictionary = copy(serviceConfiguration);
 		if (dictionary != null) {
@@ -295,29 +260,22 @@ public class StaticConfigurationAdmin {
 	/**
 	 * Configures a managed service factory.
 	 * 
-	 * @param bundleLocation
-	 *            The location of the bundle that registered the service.
-	 * @param serviceFactory
-	 *            The service factory to configure.
-	 * @param serviceFactoryConfiguration
-	 *            The configuration dictionaries.
+	 * @param bundleLocation The location of the bundle that registered the service.
+	 * @param serviceFactory The service factory to configure.
+	 * @param serviceFactoryConfiguration The configuration dictionaries.
 	 */
-	private void configure(String bundleLocation,
-			ManagedServiceFactory serviceFactory,
+	private void configure(String bundleLocation, ManagedServiceFactory serviceFactory,
 			ConfigurationDictionary[] serviceFactoryConfiguration) {
 		for (int i = 0; i < serviceFactoryConfiguration.length; ++i) {
 			if (serviceFactoryConfiguration[i].getBundleLocation() == null) {
-				serviceFactoryConfiguration[i]
-						.setBundleLocation(bundleLocation);
-			} else if (!serviceFactoryConfiguration[i].getBundleLocation()
-					.equals(bundleLocation)) {
+				serviceFactoryConfiguration[i].setBundleLocation(bundleLocation);
+			} else if (!serviceFactoryConfiguration[i].getBundleLocation().equals(bundleLocation)) {
 				continue;
 			}
 			Dictionary dictionary = copy(serviceFactoryConfiguration[i]);
 			dictionary.remove(ConfigurationAdmin.SERVICE_BUNDLELOCATION);
 			try {
-				serviceFactory.updated(serviceFactoryConfiguration[i].getPid(),
-						dictionary);
+				serviceFactory.updated(serviceFactoryConfiguration[i].getPid(), dictionary);
 			} catch (Exception e) {
 				error(e);
 			}
@@ -327,8 +285,7 @@ public class StaticConfigurationAdmin {
 	/**
 	 * Logs an error to the log service.
 	 * 
-	 * @param e
-	 *            The error to log.
+	 * @param e The error to log.
 	 */
 	private void error(Exception e) {
 		log.log(LogService.LOG_ERROR, e.getMessage(), e);
@@ -348,12 +305,10 @@ public class StaticConfigurationAdmin {
 		/**
 		 * Creates a new ConfigurationTargetTracker.
 		 * 
-		 * @param context
-		 *            The context to operate under.
+		 * @param context The context to operate under.
 		 */
 		ConfigurationTargetTracker(BundleContext context) {
-			serviceTracker = new ServiceTracker(context,
-					ManagedService.class.getName(), null) {
+			serviceTracker = new ServiceTracker(context, ManagedService.class.getName(), null) {
 				@Override
 				public Object addingService(ServiceReference reference) {
 					doAddingService(reference, false);
@@ -361,19 +316,17 @@ public class StaticConfigurationAdmin {
 				}
 
 				@Override
-				public void modifiedService(ServiceReference reference,
-						Object service) {
+				public void modifiedService(ServiceReference reference, Object service) {
 					doModifiedService(reference, false);
 				}
 
 				@Override
-				public void removedService(ServiceReference reference,
-						Object service) {
+				public void removedService(ServiceReference reference, Object service) {
 					doRemovedService(reference, false);
 				}
 			};
-			serviceFactoryTracker = new ServiceTracker(context,
-					ManagedServiceFactory.class.getName(), null) {
+			serviceFactoryTracker = new ServiceTracker(context, ManagedServiceFactory.class
+					.getName(), null) {
 				@Override
 				public Object addingService(ServiceReference reference) {
 					doAddingService(reference, true);
@@ -381,14 +334,12 @@ public class StaticConfigurationAdmin {
 				}
 
 				@Override
-				public void modifiedService(ServiceReference reference,
-						Object service) {
+				public void modifiedService(ServiceReference reference, Object service) {
 					doModifiedService(reference, true);
 				}
 
 				@Override
-				public void removedService(ServiceReference reference,
-						Object service) {
+				public void removedService(ServiceReference reference, Object service) {
 					doRemovedService(reference, true);
 				}
 			};
@@ -416,13 +367,10 @@ public class StaticConfigurationAdmin {
 		/**
 		 * Schedules an added event.
 		 * 
-		 * @param reference
-		 *            The reference that caused the event.
-		 * @param factory
-		 *            True if the reference is a managed service factory.
+		 * @param reference The reference that caused the event.
+		 * @param factory True if the reference is a managed service factory.
 		 */
-		private void doAddingService(final ServiceReference reference,
-				final boolean factory) {
+		private void doAddingService(final ServiceReference reference, final boolean factory) {
 			Dispatcher dispatcher = StaticConfigurationAdmin.this.dispatcher;
 			if (dispatcher != null) {
 				dispatcher.enqueue(new Runnable() {
@@ -437,13 +385,10 @@ public class StaticConfigurationAdmin {
 		/**
 		 * Schedules a modified event.
 		 * 
-		 * @param reference
-		 *            The reference that caused the event.
-		 * @param factory
-		 *            True if the reference is a managed service factory.
+		 * @param reference The reference that caused the event.
+		 * @param factory True if the reference is a managed service factory.
 		 */
-		private void doModifiedService(final ServiceReference reference,
-				final boolean factory) {
+		private void doModifiedService(final ServiceReference reference, final boolean factory) {
 			Dispatcher dispatcher = StaticConfigurationAdmin.this.dispatcher;
 			if (dispatcher != null) {
 				dispatcher.enqueue(new Runnable() {
@@ -458,13 +403,10 @@ public class StaticConfigurationAdmin {
 		/**
 		 * Schedules a removed event.
 		 * 
-		 * @param reference
-		 *            The reference that caused the event.
-		 * @param factory
-		 *            True if the reference is a managed service factory.
+		 * @param reference The reference that caused the event.
+		 * @param factory True if the reference is a managed service factory.
 		 */
-		private void doRemovedService(final ServiceReference reference,
-				final boolean factory) {
+		private void doRemovedService(final ServiceReference reference, final boolean factory) {
 			Dispatcher dispatcher = StaticConfigurationAdmin.this.dispatcher;
 			if (dispatcher != null) {
 				dispatcher.enqueue(new Runnable() {
@@ -492,29 +434,23 @@ public class StaticConfigurationAdmin {
 		 * Starts the dispatcher thread.
 		 */
 		synchronized void start() {
-			if (state != 0) {
-				return;
-			}
+			if (state != 0) { return; }
 			state = 1;
 			new Thread(this).start();
 			while (state != 2) {
 				try {
 					wait();
-				} catch (InterruptedException e) {
-				}
+				} catch (InterruptedException e) {}
 			}
 		}
 
 		/**
 		 * Enqueues the supplied task.
 		 * 
-		 * @param runnable
-		 *            The task to enqueue.
+		 * @param runnable The task to enqueue.
 		 */
 		synchronized void enqueue(Runnable runnable) {
-			if (state > 2) {
-				return;
-			}
+			if (state > 2) { return; }
 			queue.addLast(runnable);
 			notify();
 		}
@@ -523,31 +459,25 @@ public class StaticConfigurationAdmin {
 		 * Stops the dispatcher thread.
 		 */
 		synchronized void stop() {
-			if (state != 2) {
-				return;
-			}
+			if (state != 2) { return; }
 			state = 3;
 			queue.clear();
 			notify();
 			while (state != 4) {
 				try {
 					wait();
-				} catch (InterruptedException e) {
-				}
+				} catch (InterruptedException e) {}
 			}
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see java.lang.Runnable#run()
 		 */
 		@Override
 		public void run() {
 			synchronized (this) {
-				if (state != 1) {
-					return;
-				}
+				if (state != 1) { return; }
 				state = 2;
 				notify();
 			}
@@ -557,8 +487,7 @@ public class StaticConfigurationAdmin {
 					while (state == 2 && queue.isEmpty()) {
 						try {
 							wait();
-						} catch (InterruptedException e) {
-						}
+						} catch (InterruptedException e) {}
 					}
 					if (state == 2) {
 						next = (Runnable) queue.removeFirst();

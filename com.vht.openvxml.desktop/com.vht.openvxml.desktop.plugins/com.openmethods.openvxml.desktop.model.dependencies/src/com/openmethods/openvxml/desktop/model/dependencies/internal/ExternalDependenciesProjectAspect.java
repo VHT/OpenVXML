@@ -14,14 +14,13 @@ import com.openmethods.openvxml.desktop.model.dependencies.IDependencySet;
 import com.openmethods.openvxml.desktop.model.dependencies.IExternalDependenciesProjectAspect;
 
 public class ExternalDependenciesProjectAspect extends OpenVXMLProjectAspect
-		implements IExternalDependenciesProjectAspect {
+	implements
+	IExternalDependenciesProjectAspect {
 	private DependencySet dependencySet = null;
 
-	public ExternalDependenciesProjectAspect(IOpenVXMLProject project,
-			Element aspectConfiguration) {
+	public ExternalDependenciesProjectAspect(IOpenVXMLProject project, Element aspectConfiguration) {
 		super(project);
-		IFolder dependenciesFolder = project.getUnderlyingProject().getFolder(
-				"Dependencies");
+		IFolder dependenciesFolder = project.getUnderlyingProject().getFolder("Dependencies");
 		dependencySet = new DependencySet(this, dependenciesFolder);
 	}
 
@@ -31,8 +30,8 @@ public class ExternalDependenciesProjectAspect extends OpenVXMLProjectAspect
 	}
 
 	/**
-	 * @return The <code>IDependencySet</code> folder resource that contains the
-	 *         set of web services defined for this application
+	 * @return The <code>IDependencySet</code> folder resource that contains the set of web services
+	 *         defined for this application
 	 */
 	@Override
 	public IDependencySet getDependencySet() {
@@ -41,9 +40,7 @@ public class ExternalDependenciesProjectAspect extends OpenVXMLProjectAspect
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.model.core.spi.OpenVXMLProjectAspect#
-	 * getAspectResources()
+	 * @see org.eclipse.vtp.desktop.model.core.spi.OpenVXMLProjectAspect# getAspectResources()
 	 */
 	@Override
 	public void getAspectResources(List<IWorkflowResource> resources) {
@@ -51,13 +48,12 @@ public class ExternalDependenciesProjectAspect extends OpenVXMLProjectAspect
 	}
 
 	@Override
-	public void writeConfiguration(Element aspectElement) {
-	}
+	public void writeConfiguration(Element aspectElement) {}
 
 	@Override
 	public void removeProjectLayout() {
-		IFolder dependenciesFolder = getHostProject().getUnderlyingProject()
-				.getFolder("Dependencies");
+		IFolder dependenciesFolder = getHostProject().getUnderlyingProject().getFolder(
+				"Dependencies");
 		try {
 			dependenciesFolder.delete(true, null);
 		} catch (CoreException e) {

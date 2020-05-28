@@ -29,27 +29,14 @@ public class PaperSize {
 	private int landscapePixelHeight = 0;
 
 	/**
-	 * Creates a new PaperSize with the id, name, and dimensions specified by
-	 * the parameters
+	 * Creates a new PaperSize with the id, name, and dimensions specified by the parameters
 	 * 
-	 * @param id
-	 *            - the id that will be used internally to identify this paper
-	 *            size
-	 * @param name
-	 *            - the name that will be displayed to the user for this paper
-	 *            size
-	 * @param ppw
-	 *            - the width in pixels of this paper size in portrait
-	 *            orientation
-	 * @param pph
-	 *            - the height in pixels of this paper size in portrait
-	 *            orientation
-	 * @param lpw
-	 *            - the width in pixels of this paper size in landscape
-	 *            orientation
-	 * @param lph
-	 *            - the height in pixels of this paper size in landscape
-	 *            orientation
+	 * @param id - the id that will be used internally to identify this paper size
+	 * @param name - the name that will be displayed to the user for this paper size
+	 * @param ppw - the width in pixels of this paper size in portrait orientation
+	 * @param pph - the height in pixels of this paper size in portrait orientation
+	 * @param lpw - the width in pixels of this paper size in landscape orientation
+	 * @param lph - the height in pixels of this paper size in landscape orientation
 	 */
 	public PaperSize(String id, String name, int ppw, int pph, int lpw, int lph) {
 		super();

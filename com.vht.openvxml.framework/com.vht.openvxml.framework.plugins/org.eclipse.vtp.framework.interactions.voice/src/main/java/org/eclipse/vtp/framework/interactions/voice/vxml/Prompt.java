@@ -18,9 +18,9 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
 /**
- * The <code>Prompt</code> class represents the &lt;prompt&gt; VXML element. The
- * prompt element is used to designate some output to be rendered to the caller.
- * The output of a prompt can be audio, TTS, or some combination of both.
+ * The <code>Prompt</code> class represents the &lt;prompt&gt; VXML element. The prompt element is
+ * used to designate some output to be rendered to the caller. The output of a prompt can be audio,
+ * TTS, or some combination of both.
  * 
  * @author Trip Gilman
  * @author Lonnie Pryor
@@ -37,29 +37,23 @@ public class Prompt extends Action {
 	private String timeout = null;
 
 	/**
-	 * Creates a new instance of Prompt with the given output. By default, this
-	 * prompt can be barged-in on.
+	 * Creates a new instance of Prompt with the given output. By default, this prompt can be
+	 * barged-in on.
 	 * 
-	 * @param output
-	 *            The output to render.
-	 * @throws NullPointerException
-	 *             If the supplied output is <code>null</code>.
+	 * @param output The output to render.
+	 * @throws NullPointerException If the supplied output is <code>null</code>.
 	 */
 	public Prompt(Output output) throws NullPointerException {
 		setOutput(output);
 	}
 
 	/**
-	 * Creates a new instance of Prompt with the given output. The bargeIn
-	 * argument governs whether or not the prompt can be cut short by caller
-	 * input.
+	 * Creates a new instance of Prompt with the given output. The bargeIn argument governs whether
+	 * or not the prompt can be cut short by caller input.
 	 * 
-	 * @param output
-	 *            The output to render.
-	 * @param bargeIn
-	 *            True if the caller can barge in.
-	 * @throws NullPointerException
-	 *             If the supplied output is <code>null</code>.
+	 * @param output The output to render.
+	 * @param bargeIn True if the caller can barge in.
+	 * @throws NullPointerException If the supplied output is <code>null</code>.
 	 */
 	public Prompt(Output output, boolean bargeIn) throws NullPointerException {
 		setOutput(output);
@@ -105,14 +99,11 @@ public class Prompt extends Action {
 	/**
 	 * Sets the output to render.
 	 * 
-	 * @param output
-	 *            The output to render.
-	 * @throws NullPointerException
-	 *             If the supplied output is <code>null</code>.
+	 * @param output The output to render.
+	 * @throws NullPointerException If the supplied output is <code>null</code>.
 	 */
 	public void setOutput(Output output) throws NullPointerException {
-		if (output == null) {
-			throw new NullPointerException("output"); //$NON-NLS-1$
+		if (output == null) { throw new NullPointerException("output"); //$NON-NLS-1$
 		}
 		this.output = output;
 	}
@@ -120,8 +111,7 @@ public class Prompt extends Action {
 	/**
 	 * Sets the barge in flag.
 	 * 
-	 * @param bargeInEnabled
-	 *            True if the caller can barge in.
+	 * @param bargeInEnabled True if the caller can barge in.
 	 */
 	public void setBargeInEnabled(boolean bargeInEnabled) {
 		this.bargeInEnabled = bargeInEnabled;
@@ -130,14 +120,11 @@ public class Prompt extends Action {
 	/**
 	 * Sets the language the prompt is in.
 	 * 
-	 * @param language
-	 *            The language the prompt is in.
-	 * @throws NullPointerException
-	 *             If the supplied language is <code>null</code>.
+	 * @param language The language the prompt is in.
+	 * @throws NullPointerException If the supplied language is <code>null</code>.
 	 */
 	public void setLanguage(Locale language) throws NullPointerException {
-		if (language == null) {
-			throw new NullPointerException("language"); //$NON-NLS-1$
+		if (language == null) { throw new NullPointerException("language"); //$NON-NLS-1$
 		}
 		this.language = language;
 	}
@@ -145,35 +132,29 @@ public class Prompt extends Action {
 	/**
 	 * Sets the prompt timeout, used for record elements only.
 	 * 
-	 * @param output
-	 *            The prompt timeout, used for record elements only.
-	 * @throws IllegalArgumentException
-	 *             If the specified timeout is empty.
+	 * @param output The prompt timeout, used for record elements only.
+	 * @throws IllegalArgumentException If the specified timeout is empty.
 	 */
 	public void setTimeout(String timeout) throws IllegalArgumentException {
-		if (timeout != null && timeout.length() == 0) {
-			throw new IllegalArgumentException("timeout"); //$NON-NLS-1$
+		if (timeout != null && timeout.length() == 0) { throw new IllegalArgumentException(
+				"timeout"); //$NON-NLS-1$
 		}
 		this.timeout = timeout;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.core.output.Widget#writeWidget(
 	 * org.xml.sax.ContentHandler)
 	 */
 	@Override
-	public void writeWidget(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
-		if (outputHandler == null) {
-			throw new NullPointerException("outputHandler"); //$NON-NLS-1$
+	public void writeWidget(ContentHandler outputHandler) throws NullPointerException, SAXException {
+		if (outputHandler == null) { throw new NullPointerException("outputHandler"); //$NON-NLS-1$
 		}
 		// Start the element.
 		AttributesImpl attributes = new AttributesImpl();
 		writeAttributes(attributes);
-		outputHandler.startElement(NAMESPACE_URI_VXML, NAME_PROMPT,
-				NAME_PROMPT, attributes);
+		outputHandler.startElement(NAMESPACE_URI_VXML, NAME_PROMPT, NAME_PROMPT, attributes);
 		// Write the children.
 		writeOutput(outputHandler);
 		// End the element.
@@ -183,38 +164,31 @@ public class Prompt extends Action {
 	/**
 	 * Write the attribute members of this condition to the supplied set.
 	 * 
-	 * @param attributes
-	 *            The attribute set to write to.
-	 * @throws NullPointerException
-	 *             If the supplied attribute set is <code>null</code>.
+	 * @param attributes The attribute set to write to.
+	 * @throws NullPointerException If the supplied attribute set is <code>null</code>.
 	 */
 	protected void writeAttributes(AttributesImpl attributes) {
-		writeAttribute(attributes, null, null, NAME_BARGEIN, TYPE_CDATA,
-				String.valueOf(bargeInEnabled));
+		writeAttribute(attributes, null, null, NAME_BARGEIN, TYPE_CDATA, String
+				.valueOf(bargeInEnabled));
 		StringBuffer xmlLang = new StringBuffer(language.getLanguage());
 		if (language.getCountry() != null && language.getCountry().length() > 0) {
 			xmlLang.append('-').append(language.getCountry());
 		}
-		writeAttribute(attributes, null, null, QNAME_XML_LANG, TYPE_CDATA,
-				xmlLang.toString());
+		writeAttribute(attributes, null, null, QNAME_XML_LANG, TYPE_CDATA, xmlLang.toString());
 		if (timeout != null) {
-			writeAttribute(attributes, null, null, NAME_TIMEOUT, TYPE_CDATA,
-					timeout);
+			writeAttribute(attributes, null, null, NAME_TIMEOUT, TYPE_CDATA, timeout);
 		}
 	}
 
 	/**
 	 * Write the output in this prompt to the specified content handler.
 	 * 
-	 * @param outputHandler
-	 *            The content handler to write to.
-	 * @throws NullPointerException
-	 *             If the supplied content handler is <code>null</code>.
-	 * @throws SAXException
-	 *             If the writing the output fails.
+	 * @param outputHandler The content handler to write to.
+	 * @throws NullPointerException If the supplied content handler is <code>null</code>.
+	 * @throws SAXException If the writing the output fails.
 	 */
-	protected void writeOutput(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
+	protected void writeOutput(ContentHandler outputHandler) throws NullPointerException,
+			SAXException {
 		output.writeWidget(outputHandler);
 	}
 }

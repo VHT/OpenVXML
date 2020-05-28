@@ -20,8 +20,7 @@ public interface LinkViewerSelectionListener {
 	/**
 	 * Called when the current selection changes for the TextLinkViewer.
 	 * 
-	 * @param selection
-	 *            The new viewer selection
+	 * @param selection The new viewer selection
 	 */
 	public void selectionChanged(String selection);
 }

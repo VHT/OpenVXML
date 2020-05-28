@@ -35,15 +35,12 @@ import com.openmethods.openvxml.desktop.model.workflow.configuration.Configurati
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesign;
 
 /**
- * This class implements the <code>ConfigurationManager</code> interface and is
- * used to manage a generic set of information bindings. The data is held in a
- * hierarchy with interaction type as the root and then progressing through
- * binding name, language, and ending with the brand structure. Only the brand
- * structure supports inheritance in this tree.
- * 
- * This manager also provides access to the media defaults for the workspace and
- * project. The defaults are plugged in at the base of the brand structure to
- * provide default values for each named binding.
+ * This class implements the <code>ConfigurationManager</code> interface and is used to manage a
+ * generic set of information bindings. The data is held in a hierarchy with interaction type as the
+ * root and then progressing through binding name, language, and ending with the brand structure.
+ * Only the brand structure supports inheritance in this tree. This manager also provides access to
+ * the media defaults for the workspace and project. The defaults are plugged in at the base of the
+ * brand structure to provide default values for each named binding.
  * 
  * @author trip
  */
@@ -58,8 +55,8 @@ public class GenericBindingManager implements ConfigurationManager {
 	/** The current set of media defaults available to this manager */
 	private IMediaDefaultSettings mediaDefaults = null;
 	/**
-	 * An index of objects representing configuration data for interaction types
-	 * not supported by this installation
+	 * An index of objects representing configuration data for interaction types not supported by
+	 * this installation
 	 */
 	private Map<String, MissingInteractionBinding> missingInteractionBindings = new TreeMap<String, MissingInteractionBinding>();
 	/** An index of interaction bindings based on interaction type */
@@ -67,10 +64,8 @@ public class GenericBindingManager implements ConfigurationManager {
 	private IDesign hostDesign = null;
 
 	/**
-	 * Creates a new instance of this manager that will use the given brand
-	 * manager to resolve the brand structure and have the provided media
-	 * default values.
-	 * 
+	 * Creates a new instance of this manager that will use the given brand manager to resolve the
+	 * brand structure and have the provided media default values.
 	 */
 	public GenericBindingManager(IDesign design) {
 		super();
@@ -86,9 +81,7 @@ public class GenericBindingManager implements ConfigurationManager {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.configuration.ConfigurationManager#getType()
+	 * @see org.eclipse.vtp.desktop.core.configuration.ConfigurationManager#getType()
 	 */
 	@Override
 	public String getType() {
@@ -97,10 +90,7 @@ public class GenericBindingManager implements ConfigurationManager {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.configuration.ConfigurationManager#getXMLVersion
-	 * ()
+	 * @see org.eclipse.vtp.desktop.core.configuration.ConfigurationManager#getXMLVersion ()
 	 */
 	@Override
 	public String getXMLVersion() {
@@ -110,13 +100,11 @@ public class GenericBindingManager implements ConfigurationManager {
 	/**
 	 * Returns the interaction binding object for the given interaction type
 	 * 
-	 * @param interactionType
-	 *            The id of the interaction type requested
+	 * @param interactionType The id of the interaction type requested
 	 * @return the binding associated with the provided interaction type
 	 */
 	public InteractionBinding getInteractionBinding(String interactionType) {
-		InteractionBinding interactionBinding = interactionBindings
-				.get(interactionType);
+		InteractionBinding interactionBinding = interactionBindings.get(interactionType);
 		if (interactionBinding == null) // auto generate the named binding
 		{
 			interactionBinding = new InteractionBinding(this, interactionType);
@@ -127,38 +115,32 @@ public class GenericBindingManager implements ConfigurationManager {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.configuration.ConfigurationManager#
 	 * readConfiguration(org.w3c.dom.Element)
 	 */
 	@Override
-	public void readConfiguration(Element configuration)
-			throws ConfigurationException {
-		NodeList interactionElementList = configuration
-				.getElementsByTagName("interaction-binding");
+	public void readConfiguration(Element configuration) throws ConfigurationException {
+		NodeList interactionElementList = configuration.getElementsByTagName("interaction-binding");
 		for (int i = 0; i < interactionElementList.getLength(); i++) {
-			Element interactionElement = (Element) interactionElementList
-					.item(i);
+			Element interactionElement = (Element) interactionElementList.item(i);
 			String interactionTypeId = interactionElement.getAttribute("type");
-			InteractionType interactionType = InteractionTypeManager
-					.getInstance().getType(interactionTypeId);
+			InteractionType interactionType = InteractionTypeManager.getInstance().getType(
+					interactionTypeId);
 			if (interactionTypeId.equals("") || interactionType != null) {
-				InteractionBinding interactionBinding = new InteractionBinding(
-						this, interactionTypeId);
+				InteractionBinding interactionBinding = new InteractionBinding(this,
+						interactionTypeId);
 				interactionBinding.readConfiguration(interactionElement);
 				interactionBindings.put(interactionTypeId, interactionBinding);
 			} else {
 				MissingInteractionBinding missingInteractionBinding = new MissingInteractionBinding(
 						interactionElement);
-				missingInteractionBindings.put(interactionTypeId,
-						missingInteractionBinding);
+				missingInteractionBindings.put(interactionTypeId, missingInteractionBinding);
 			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.configuration.ConfigurationManager#
 	 * writeConfiguration(org.w3c.dom.Element)
 	 */
@@ -170,11 +152,10 @@ public class GenericBindingManager implements ConfigurationManager {
 		for (Object obj : tempMap.values()) {
 			if (obj instanceof InteractionBinding) {
 				InteractionBinding interactionBinding = (InteractionBinding) obj;
-				Element interactionElement = configuration.getOwnerDocument()
-						.createElement("interaction-binding");
+				Element interactionElement = configuration.getOwnerDocument().createElement(
+						"interaction-binding");
 				configuration.appendChild(interactionElement);
-				interactionElement.setAttribute("type",
-						interactionBinding.getInteractionType());
+				interactionElement.setAttribute("type", interactionBinding.getInteractionType());
 				interactionBinding.writeConfiguration(interactionElement);
 			} else {
 				MissingInteractionBinding missingBinding = (MissingInteractionBinding) obj;
@@ -185,7 +166,6 @@ public class GenericBindingManager implements ConfigurationManager {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
@@ -193,11 +173,10 @@ public class GenericBindingManager implements ConfigurationManager {
 		GenericBindingManager copy = new GenericBindingManager(hostDesign);
 		try {
 			// build document contents
-			DocumentBuilderFactory factory = DocumentBuilderFactory
-					.newInstance();
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document document = builder.getDOMImplementation().createDocument(
-					null, "temporary-document", null);
+			Document document = builder.getDOMImplementation().createDocument(null,
+					"temporary-document", null);
 			org.w3c.dom.Element rootElement = document.getDocumentElement();
 			rootElement.setAttribute("xml-version", XML_VERSION);
 			writeConfiguration(rootElement);
@@ -223,25 +202,22 @@ public class GenericBindingManager implements ConfigurationManager {
 	}
 
 	/**
-	 * Prints this binding's information to the given print stream. This is
-	 * useful for logging and debugging.
+	 * Prints this binding's information to the given print stream. This is useful for logging and
+	 * debugging.
 	 * 
-	 * @param out
-	 *            The print stream to write the information to
+	 * @param out The print stream to write the information to
 	 */
 	public void dumpContents(PrintStream out) {
 		out.println("Generic Binding Manager\r\n");
 		out.println("Interaction Bindings");
-		Iterator<InteractionBinding> iterator = interactionBindings.values()
-				.iterator();
+		Iterator<InteractionBinding> iterator = interactionBindings.values().iterator();
 		while (iterator.hasNext()) {
 			InteractionBinding interactionBinding = iterator.next();
 			interactionBinding.dumpContents(out);
 		}
 	}
 
-	public void renameNamedBinding(String interactionType, String oldName,
-			String newName) {
+	public void renameNamedBinding(String interactionType, String oldName, String newName) {
 		InteractionBinding ib = interactionBindings.get(interactionType);
 		ib.renameNamedBinding(oldName, newName);
 	}

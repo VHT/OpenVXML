@@ -15,19 +15,17 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class InteractiveProjectAspect extends OpenVXMLProjectAspect implements
-		IInteractiveProjectAspect {
+public class InteractiveProjectAspect extends OpenVXMLProjectAspect
+	implements
+	IInteractiveProjectAspect {
 	private MediaDefaultSettings mediaDefaultSettings = new MediaDefaultSettings();
 
 	/**
-	 * Creates a new <code>InteractiveWorkflowProject</code> for the given
-	 * eclipse project resource.
+	 * Creates a new <code>InteractiveWorkflowProject</code> for the given eclipse project resource.
 	 *
-	 * @param project
-	 *            The underlying eclipse project resource
+	 * @param project The underlying eclipse project resource
 	 */
-	public InteractiveProjectAspect(IOpenVXMLProject project,
-			Element aspectConfiguration) {
+	public InteractiveProjectAspect(IOpenVXMLProject project, Element aspectConfiguration) {
 		super(project);
 		if (aspectConfiguration != null) {
 			NodeList sections = aspectConfiguration.getChildNodes();
@@ -35,21 +33,17 @@ public class InteractiveProjectAspect extends OpenVXMLProjectAspect implements
 				if (sections.item(s).getNodeType() == Node.ELEMENT_NODE) {
 					Element sectionElement = (Element) sections.item(s);
 					if (sectionElement.getNodeName().equals("media-defaults")) {
-						NodeList nl = sectionElement
-								.getElementsByTagName("media-default");
+						NodeList nl = sectionElement.getElementsByTagName("media-default");
 						for (int i = 0; i < nl.getLength(); i++) {
 							Element defaultElement = (Element) nl.item(i);
 							String interactionType = defaultElement
 									.getAttribute("interaction-type");
-							String elementType = defaultElement
-									.getAttribute("element-type");
-							String settingName = defaultElement
-									.getAttribute("name");
+							String elementType = defaultElement.getAttribute("element-type");
+							String settingName = defaultElement.getAttribute("name");
 							String value = defaultElement.getAttribute("value");
 							if (value != null && !value.equals("")) {
-								mediaDefaultSettings.addDefaultSetting(
-										interactionType, elementType,
-										settingName, value);
+								mediaDefaultSettings.addDefaultSetting(interactionType,
+										elementType, settingName, value);
 							}
 						}
 					}
@@ -73,33 +67,27 @@ public class InteractiveProjectAspect extends OpenVXMLProjectAspect implements
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.vtp.desktop.core.configuration.IMediaDefaultSettings#
-		 * getDefaultSetting(java.lang.String, java.lang.String,
-		 * java.lang.String)
+		 * @see org.eclipse.vtp.desktop.core.configuration.IMediaDefaultSettings#
+		 * getDefaultSetting(java.lang.String, java.lang.String, java.lang.String)
 		 */
 		@Override
-		public IMediaDefaultSetting getDefaultSetting(String interactionType,
-				String elementType, String setting) {
+		public IMediaDefaultSetting getDefaultSetting(String interactionType, String elementType,
+				String setting) {
 			String key = interactionType + ":" + elementType + ":" + setting;
 			MediaDefaultSetting defaultSetting = settings.get(key);
 			if (defaultSetting == null) {
-				defaultSetting = new MediaDefaultSetting(interactionType,
-						elementType, setting);
+				defaultSetting = new MediaDefaultSetting(interactionType, elementType, setting);
 				settings.put(key, defaultSetting);
 			}
 			return defaultSetting;
 		}
 
-		void addDefaultSetting(String interactionType, String elementType,
-				String settingName, String value) {
-			String key = interactionType + ":" + elementType + ":"
-					+ settingName;
+		void addDefaultSetting(String interactionType, String elementType, String settingName,
+				String value) {
+			String key = interactionType + ":" + elementType + ":" + settingName;
 			MediaDefaultSetting setting = settings.get(key);
 			if (setting == null) {
-				setting = new MediaDefaultSetting(interactionType, elementType,
-						settingName);
+				setting = new MediaDefaultSetting(interactionType, elementType, settingName);
 				settings.put(key, setting);
 			}
 			setting.setValue(value);
@@ -107,9 +95,7 @@ public class InteractiveProjectAspect extends OpenVXMLProjectAspect implements
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.vtp.desktop.core.configuration.IMediaDefaultSettings#
+		 * @see org.eclipse.vtp.desktop.core.configuration.IMediaDefaultSettings#
 		 * inheritanceSupported()
 		 */
 		@Override
@@ -130,23 +116,19 @@ public class InteractiveProjectAspect extends OpenVXMLProjectAspect implements
 		 * @param elementType
 		 * @param setting
 		 */
-		public MediaDefaultSetting(String interactionType, String elementType,
-				String setting) {
+		public MediaDefaultSetting(String interactionType, String elementType, String setting) {
 			super();
 			this.interactionType = interactionType;
 			this.elementType = elementType;
 			this.setting = setting;
 			inherited = true;
-			settingValue = WorkspaceMediaDefaultSettings.getInstance()
-					.getDefaultSetting(interactionType, elementType, setting)
-					.getValue();
+			settingValue = WorkspaceMediaDefaultSettings.getInstance().getDefaultSetting(
+					interactionType, elementType, setting).getValue();
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.vtp.desktop.core.configuration.IMediaDefaultSetting#
-		 * getElementType()
+		 * @see org.eclipse.vtp.desktop.core.configuration.IMediaDefaultSetting# getElementType()
 		 */
 		@Override
 		public String getElementType() {
@@ -155,7 +137,6 @@ public class InteractiveProjectAspect extends OpenVXMLProjectAspect implements
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.desktop.core.configuration.IMediaDefaultSetting#
 		 * getInteractionType()
 		 */
@@ -166,10 +147,7 @@ public class InteractiveProjectAspect extends OpenVXMLProjectAspect implements
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.vtp.desktop.core.configuration.IMediaDefaultSetting#getName
-		 * ()
+		 * @see org.eclipse.vtp.desktop.core.configuration.IMediaDefaultSetting#getName ()
 		 */
 		@Override
 		public String getName() {
@@ -178,10 +156,7 @@ public class InteractiveProjectAspect extends OpenVXMLProjectAspect implements
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.vtp.desktop.core.configuration.IMediaDefaultSetting#getValue
-		 * ()
+		 * @see org.eclipse.vtp.desktop.core.configuration.IMediaDefaultSetting#getValue ()
 		 */
 		@Override
 		public String getValue() {
@@ -190,9 +165,7 @@ public class InteractiveProjectAspect extends OpenVXMLProjectAspect implements
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.vtp.desktop.core.configuration.IMediaDefaultSetting#
-		 * isValueInherited()
+		 * @see org.eclipse.vtp.desktop.core.configuration.IMediaDefaultSetting# isValueInherited()
 		 */
 		@Override
 		public boolean isValueInherited() {
@@ -201,9 +174,7 @@ public class InteractiveProjectAspect extends OpenVXMLProjectAspect implements
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.vtp.desktop.core.configuration.IMediaDefaultSetting#setValue
+		 * @see org.eclipse.vtp.desktop.core.configuration.IMediaDefaultSetting#setValue
 		 * (java.lang.String)
 		 */
 		@Override
@@ -216,10 +187,8 @@ public class InteractiveProjectAspect extends OpenVXMLProjectAspect implements
 			} else {
 				if (value == null || value.equals("")) {
 					inherited = true;
-					settingValue = WorkspaceMediaDefaultSettings
-							.getInstance()
-							.getDefaultSetting(interactionType, elementType,
-									setting).getValue();
+					settingValue = WorkspaceMediaDefaultSettings.getInstance().getDefaultSetting(
+							interactionType, elementType, setting).getValue();
 				} else {
 					settingValue = value;
 				}
@@ -234,30 +203,24 @@ public class InteractiveProjectAspect extends OpenVXMLProjectAspect implements
 	}
 
 	@Override
-	public void removeProjectLayout() {
-	}
+	public void removeProjectLayout() {}
 
 	@Override
 	public void writeConfiguration(Element aspectElement) {
 		Document document = aspectElement.getOwnerDocument();
 		Element mediaDefaultsElement = document.createElement("media-defaults");
 		aspectElement.appendChild(mediaDefaultsElement);
-		for (MediaDefaultSetting mediaDefaultSetting : mediaDefaultSettings.settings
-				.values()) {
-			if (!mediaDefaultSetting.isValueInherited()
-					&& mediaDefaultSetting.getValue() != null
+		for (MediaDefaultSetting mediaDefaultSetting : mediaDefaultSettings.settings.values()) {
+			if (!mediaDefaultSetting.isValueInherited() && mediaDefaultSetting.getValue() != null
 					&& !(mediaDefaultSetting.getValue().equals(""))) {
-				Element mediaDefaultElement = document
-						.createElement("media-default");
+				Element mediaDefaultElement = document.createElement("media-default");
 				mediaDefaultsElement.appendChild(mediaDefaultElement);
-				mediaDefaultElement.setAttribute("interaction-type",
-						mediaDefaultSetting.getInteractionType());
-				mediaDefaultElement.setAttribute("element-type",
-						mediaDefaultSetting.getElementType());
-				mediaDefaultElement.setAttribute("name",
-						mediaDefaultSetting.getName());
-				mediaDefaultElement.setAttribute("value",
-						mediaDefaultSetting.getValue());
+				mediaDefaultElement.setAttribute("interaction-type", mediaDefaultSetting
+						.getInteractionType());
+				mediaDefaultElement.setAttribute("element-type", mediaDefaultSetting
+						.getElementType());
+				mediaDefaultElement.setAttribute("name", mediaDefaultSetting.getName());
+				mediaDefaultElement.setAttribute("value", mediaDefaultSetting.getValue());
 			}
 		}
 	}

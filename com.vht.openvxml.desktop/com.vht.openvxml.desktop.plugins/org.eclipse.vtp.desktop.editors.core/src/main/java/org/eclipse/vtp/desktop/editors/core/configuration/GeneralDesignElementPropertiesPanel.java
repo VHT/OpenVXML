@@ -27,15 +27,12 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElement;
  *
  * @author Lonnie Pryor
  */
-public class GeneralDesignElementPropertiesPanel extends
-		DesignElementPropertiesPanel {
+public class GeneralDesignElementPropertiesPanel extends DesignElementPropertiesPanel {
 	Label nameLabel;
 	Text nameField;
 
 	/**
 	 * Creates a new LanguageSelectionGeneralPropertiesPanel.
-	 *
-	 *
 	 */
 	public GeneralDesignElementPropertiesPanel(IDesignElement ppe) {
 		super("General", ppe);
@@ -47,9 +44,7 @@ public class GeneralDesignElementPropertiesPanel extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel#
+	 * @see org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel#
 	 * createControls(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -74,10 +69,8 @@ public class GeneralDesignElementPropertiesPanel extends
 	}
 
 	@Override
-	public void cancel() {
-	}
+	public void cancel() {}
 
 	@Override
-	public void setConfigurationContext(Map<String, Object> values) {
-	}
+	public void setConfigurationContext(Map<String, Object> values) {}
 }

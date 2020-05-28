@@ -22,23 +22,18 @@ public class PallateProviderManager {
 	public static String PALLET_PROVIDER_EXTENSION_ID = "org.eclipse.vtp.desktop.views.palletProvider";
 
 	public static List<PalletItemProvider> getPallateProviders() {
-		IConfigurationElement[] primitiveExtensions = Platform
-				.getExtensionRegistry().getConfigurationElementsFor(
-						PALLET_PROVIDER_EXTENSION_ID);
+		IConfigurationElement[] primitiveExtensions = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(PALLET_PROVIDER_EXTENSION_ID);
 		List<PalletItemProvider> providers = new ArrayList<PalletItemProvider>(
 				primitiveExtensions.length);
 		for (IConfigurationElement primitiveExtension : primitiveExtensions) {
 			String className = primitiveExtension.getAttribute("class");
-			Bundle contributor = Platform.getBundle(primitiveExtension
-					.getContributor().getName());
+			Bundle contributor = Platform.getBundle(primitiveExtension.getContributor().getName());
 			try {
 				@SuppressWarnings("rawtypes")
 				Class providerClass = contributor.loadClass(className);
-				if (!PalletItemProvider.class.isAssignableFrom(providerClass)) {
-					throw new IllegalArgumentException(
-							"The provided class is not a PalletItemProvider: "
-									+ providerClass);
-				}
+				if (!PalletItemProvider.class.isAssignableFrom(providerClass)) { throw new IllegalArgumentException(
+						"The provided class is not a PalletItemProvider: " + providerClass); }
 				PalletItemProvider providerObject = (PalletItemProvider) providerClass
 						.newInstance();
 				providers.add(providerObject);

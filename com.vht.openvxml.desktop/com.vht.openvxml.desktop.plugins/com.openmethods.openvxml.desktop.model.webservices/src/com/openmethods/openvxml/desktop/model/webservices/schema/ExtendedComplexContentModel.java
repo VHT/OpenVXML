@@ -11,8 +11,8 @@ public class ExtendedComplexContentModel extends DerivedComplexContentModel {
 
 	@Override
 	public ElementGroup getElementGroup() {
-		ElementGroup sequence = new ElementGroup(getSuperType()
-				.getOwnerSchema(), ElementGroup.SEQUENCE);
+		ElementGroup sequence = new ElementGroup(getSuperType().getOwnerSchema(),
+				ElementGroup.SEQUENCE);
 		sequence.addElementObject(getSuperTypeContentModel().getElementGroup());
 		sequence.addElementObject(super.getElementGroup());
 		return sequence;
@@ -22,9 +22,7 @@ public class ExtendedComplexContentModel extends DerivedComplexContentModel {
 	public void setLocalMixedContent(boolean mixedContent) {
 		if (mixedContent) {
 			super.setLocalMixedContent(mixedContent);
-		} else if (getSuperTypeContentModel().isMixedContent()) {
-			throw new IllegalArgumentException(
-					"Cannot reduce mixed content using extension");
-		}
+		} else if (getSuperTypeContentModel().isMixedContent()) { throw new IllegalArgumentException(
+				"Cannot reduce mixed content using extension"); }
 	}
 }

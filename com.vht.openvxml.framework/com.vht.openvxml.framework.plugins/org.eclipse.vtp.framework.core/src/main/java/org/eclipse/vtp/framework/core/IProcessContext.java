@@ -25,30 +25,24 @@ public interface IProcessContext extends IContext {
 	String getProcessID();
 
 	/**
-	 * Returns the value of the process-level configuration property with the
-	 * specified name or <code>null</code> if no such property exists.
+	 * Returns the value of the process-level configuration property with the specified name or
+	 * <code>null</code> if no such property exists.
 	 * 
-	 * @param propertyName
-	 *            The name of the configuration property to return.
-	 * @return The value of the process-level configuration property with the
-	 *         specified name or <code>null</code> if no such property exists.
-	 * @throws NullPointerException
-	 *             If the supplied property name is <code>null</code>.
+	 * @param propertyName The name of the configuration property to return.
+	 * @return The value of the process-level configuration property with the specified name or
+	 *         <code>null</code> if no such property exists.
+	 * @throws NullPointerException If the supplied property name is <code>null</code>.
 	 */
 	Object getProperty(String propertyName) throws NullPointerException;
 
 	/**
 	 * Loads a class visible to the process.
 	 * 
-	 * @param className
-	 *            The name of the class to load.
+	 * @param className The name of the class to load.
 	 * @return The requested class instance.
-	 * @throws ClassNotFoundException
-	 *             If a class with the specified name cannot be found.
-	 * @throws NullPointerException
-	 *             If the supplied class name is <code>null</code>.
+	 * @throws ClassNotFoundException If a class with the specified name cannot be found.
+	 * @throws NullPointerException If the supplied class name is <code>null</code>.
 	 */
 	@SuppressWarnings("rawtypes")
-	Class loadClass(String className) throws ClassNotFoundException,
-			NullPointerException;
+	Class loadClass(String className) throws ClassNotFoundException, NullPointerException;
 }

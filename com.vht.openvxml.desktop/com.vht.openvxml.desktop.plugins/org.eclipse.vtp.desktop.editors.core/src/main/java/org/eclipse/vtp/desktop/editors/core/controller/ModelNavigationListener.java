@@ -13,11 +13,9 @@ package org.eclipse.vtp.desktop.editors.core.controller;
 
 public interface ModelNavigationListener {
 	/**
-	 * Changes the view to the canvas containing the element identified by
-	 * elementId
+	 * Changes the view to the canvas containing the element identified by elementId
 	 * 
-	 * @param elementId
-	 *            - The id of the element to which to navigate
+	 * @param elementId - The id of the element to which to navigate
 	 */
 	public void navigateToElement(String elementId);
 

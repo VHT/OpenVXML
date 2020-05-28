@@ -36,13 +36,12 @@ import org.eclipse.vtp.framework.interactions.core.media.MoneyContent;
 import org.eclipse.vtp.framework.interactions.core.media.TextContent;
 
 /**
- * This implementation of IFormatter provides basic support for the English
- * language. Audio files are used when available; otherwise text content is
- * used. This formatter does not perform advanced audio selection, such as using
- * specific audio files for numbers in the middle of a grouping.<br>
+ * This implementation of IFormatter provides basic support for the English language. Audio files
+ * are used when available; otherwise text content is used. This formatter does not perform advanced
+ * audio selection, such as using specific audio files for numbers in the middle of a grouping.<br>
  * <br>
- * This class can be used as a guide to construct other formatter
- * implementations, but is not meant to be directly subclassed.
+ * This class can be used as a guide to construct other formatter implementations, but is not meant
+ * to be directly subclassed.
  * 
  * @author Trip Gilman
  * @since 3.0
@@ -52,63 +51,43 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 	private static final Currency USD_CURRENCY = Currency.getInstance("USD");
 
 	/** Array of month names. The index is 0 based. */
-	private static final String[] months = new String[] { "january",
-			"february", "march", "april", "may", "june", "july", "august",
-			"september", "october", "november", "december" };
+	private static final String[] months = new String[] { "january", "february", "march", "april",
+			"may", "june", "july", "august", "september", "october", "november", "december" };
 	/** Array of day names. The index is 0 based. */
-	private static final String[] days = new String[] { "sunday", "monday",
-			"tuesday", "wednesday", "thursday", "friday", "saturday", "sunday" };
+	private static final String[] days = new String[] { "sunday", "monday", "tuesday", "wednesday",
+			"thursday", "friday", "saturday", "sunday" };
 
 	private static final Map<Character, String[]> characterReplacements = new HashMap<Character, String[]>();
 
 	static {
 		characterReplacements.put('#', new String[] { "pound", "Pound" });
-		characterReplacements.put('!', new String[] { "exclamation",
-				"Exclamation Point" });
-		characterReplacements.put('_', new String[] { "underscore",
-				"Under score" });
+		characterReplacements.put('!', new String[] { "exclamation", "Exclamation Point" });
+		characterReplacements.put('_', new String[] { "underscore", "Under score" });
 		characterReplacements.put('-', new String[] { "dash", "Dash" });
-		characterReplacements.put('[', new String[] { "rightsquarebracket",
-				"Right Square Bracket" });
-		characterReplacements.put(']', new String[] { "leftsquarebracket",
-				"Left Square Bracket" });
-		characterReplacements.put('{', new String[] { "rightcurlybrace",
-				"Right Curly Brace" });
-		characterReplacements.put('}', new String[] { "leftcurlybrace",
-				"Left Curly Brace" });
+		characterReplacements.put('[',
+				new String[] { "rightsquarebracket", "Right Square Bracket" });
+		characterReplacements.put(']', new String[] { "leftsquarebracket", "Left Square Bracket" });
+		characterReplacements.put('{', new String[] { "rightcurlybrace", "Right Curly Brace" });
+		characterReplacements.put('}', new String[] { "leftcurlybrace", "Left Curly Brace" });
 		characterReplacements.put('*', new String[] { "asterisk", "Asterisk" });
 		characterReplacements.put('@', new String[] { "atsign", "At Sign" });
-		characterReplacements.put('%', new String[] { "percentsign",
-				"Percent Sign" });
-		characterReplacements.put('&',
-				new String[] { "ampersand", "Ampersand" });
-		characterReplacements
-				.put('+', new String[] { "plussign", "Plus Sign" });
-		characterReplacements.put('=', new String[] { "equalssign",
-				"Equals Sign" });
-		characterReplacements.put('$', new String[] { "dollarsign",
-				"Dollar Sign" });
-		characterReplacements.put('?', new String[] { "questionmark",
-				"Question Mark" });
-		characterReplacements.put('/', new String[] { "forwardslash",
-				"Forward Slash" });
-		characterReplacements.put('\\', new String[] { "backslash",
-				"Back Slash" });
+		characterReplacements.put('%', new String[] { "percentsign", "Percent Sign" });
+		characterReplacements.put('&', new String[] { "ampersand", "Ampersand" });
+		characterReplacements.put('+', new String[] { "plussign", "Plus Sign" });
+		characterReplacements.put('=', new String[] { "equalssign", "Equals Sign" });
+		characterReplacements.put('$', new String[] { "dollarsign", "Dollar Sign" });
+		characterReplacements.put('?', new String[] { "questionmark", "Question Mark" });
+		characterReplacements.put('/', new String[] { "forwardslash", "Forward Slash" });
+		characterReplacements.put('\\', new String[] { "backslash", "Back Slash" });
 		characterReplacements.put('|', new String[] { "bar", "Bar" });
 		characterReplacements.put(',', new String[] { "comma", "Comma" });
 		characterReplacements.put('.', new String[] { "period", "Period" });
-		characterReplacements.put('<', new String[] { "lessthansign",
-				"Less Than Sign" });
-		characterReplacements.put('>', new String[] { "greaterthansign",
-				"Greater Than Sign" });
-		characterReplacements.put('\'', new String[] { "singlequote",
-				"Single Quote" });
-		characterReplacements.put('"', new String[] { "doublequote",
-				"Double Quote" });
-		characterReplacements.put('(', new String[] { "rightparentheses",
-				"Right Parentheses" });
-		characterReplacements.put(')', new String[] { "leftparentheses",
-				"Left Parentheses" });
+		characterReplacements.put('<', new String[] { "lessthansign", "Less Than Sign" });
+		characterReplacements.put('>', new String[] { "greaterthansign", "Greater Than Sign" });
+		characterReplacements.put('\'', new String[] { "singlequote", "Single Quote" });
+		characterReplacements.put('"', new String[] { "doublequote", "Double Quote" });
+		characterReplacements.put('(', new String[] { "rightparentheses", "Right Parentheses" });
+		characterReplacements.put(')', new String[] { "leftparentheses", "Left Parentheses" });
 	}
 
 	/**
@@ -120,30 +99,26 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.media.IFormatter#formatDate
-	 * (java.util.Date, java.lang.String,
-	 * org.eclipse.vtp.framework.interactions.core.media.IResourceManager)
+	 * @see org.eclipse.vtp.framework.interactions.core.media.IFormatter#formatDate (java.util.Date,
+	 * java.lang.String, org.eclipse.vtp.framework.interactions.core.media.IResourceManager)
 	 */
 	@Override
-	public List<Content> formatDate(Date date, String formatDefinition,
-			String formatOptions, IResourceManager resourceManager) {
+	public List<Content> formatDate(Date date, String formatDefinition, String formatOptions,
+			IResourceManager resourceManager) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		return formatDate(cal, formatDefinition, formatOptions, resourceManager);
 	}
 
-	public List<Content> formatDate(ZonedDateTime date,
-			String formatDefinition, String formatOptions,
-			IResourceManager resourceManager) {
-		return formatDate(GregorianCalendar.from(date), formatDefinition,
-				formatOptions, resourceManager);
+	public List<Content> formatDate(ZonedDateTime date, String formatDefinition,
+			String formatOptions, IResourceManager resourceManager) {
+		return formatDate(GregorianCalendar.from(date), formatDefinition, formatOptions,
+				resourceManager);
 	}
 
 	@Override
-	public List<Content> formatDate(Calendar cal, String formatDefinition,
-			String formatOptions, IResourceManager resourceManager) {
+	public List<Content> formatDate(Calendar cal, String formatDefinition, String formatOptions,
+			IResourceManager resourceManager) {
 		List<Content> ret = new ArrayList<Content>();
 		if (formatDefinition == null || formatDefinition.equals("")) {
 			TextContent tc = new TextContent();
@@ -151,26 +126,18 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 			df.setTimeZone(cal.getTimeZone());
 			tc.setStaticText(df.format(cal.getTime()) + " ");
 			ret.add(tc);
-		} else if (formatDefinition.equals("Short Date")
-				|| formatDefinition.equals("Default")) {
-			ret.addAll(formatNumber(cal.get(Calendar.MONTH) + 1, "Default", "",
-					resourceManager));
-			ret.addAll(formatOrdinal(cal.get(Calendar.DATE), "Default", "",
-					resourceManager));
-			ret.addAll(formatYear(Integer.toString(cal.get(Calendar.YEAR)),
-					resourceManager));
+		} else if (formatDefinition.equals("Short Date") || formatDefinition.equals("Default")) {
+			ret.addAll(formatNumber(cal.get(Calendar.MONTH) + 1, "Default", "", resourceManager));
+			ret.addAll(formatOrdinal(cal.get(Calendar.DATE), "Default", "", resourceManager));
+			ret.addAll(formatYear(Integer.toString(cal.get(Calendar.YEAR)), resourceManager));
 		} else if (formatDefinition.equals("Long Date")) {
-			ret.add(getAudioContent(resourceManager, "/Months/",
-					months[cal.get(Calendar.MONTH)],
+			ret.add(getAudioContent(resourceManager, "/Months/", months[cal.get(Calendar.MONTH)],
 					months[cal.get(Calendar.MONTH)]));
-			ret.addAll(formatOrdinal(cal.get(Calendar.DATE), "Default", "",
-					resourceManager));
-			ret.addAll(formatYear(Integer.toString(cal.get(Calendar.YEAR)),
-					resourceManager));
+			ret.addAll(formatOrdinal(cal.get(Calendar.DATE), "Default", "", resourceManager));
+			ret.addAll(formatYear(Integer.toString(cal.get(Calendar.YEAR)), resourceManager));
 		} else if (formatDefinition.equals("Short Time")) {
 			int hour = cal.get(Calendar.HOUR);
-			ret.addAll(formatNumber(hour == 0 ? 12 : hour, "Default", "",
-					resourceManager));
+			ret.addAll(formatNumber(hour == 0 ? 12 : hour, "Default", "", resourceManager));
 
 			int minute = cal.get(Calendar.MINUTE);
 			if (minute > 0 && minute < 10) {
@@ -187,8 +154,7 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 			}
 		} else if (formatDefinition.equals("Long Time")) {
 			int hour = cal.get(Calendar.HOUR);
-			ret.addAll(formatNumber(hour == 0 ? 12 : hour, "Default", "",
-					resourceManager));
+			ret.addAll(formatNumber(hour == 0 ? 12 : hour, "Default", "", resourceManager));
 
 			int minute = cal.get(Calendar.MINUTE);
 			if (minute > 0 && minute < 10) {
@@ -204,16 +170,12 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 				ret.addAll(formatLetters("PM", "Default", "", resourceManager));
 			}
 		} else if (formatDefinition.equals("Short Date Time")) {
-			ret.addAll(formatNumber(cal.get(Calendar.MONTH) + 1, "Default", "",
-					resourceManager));
-			ret.addAll(formatOrdinal(cal.get(Calendar.DATE), "Default", "",
-					resourceManager));
-			ret.addAll(formatYear(Integer.toString(cal.get(Calendar.YEAR)),
-					resourceManager));
+			ret.addAll(formatNumber(cal.get(Calendar.MONTH) + 1, "Default", "", resourceManager));
+			ret.addAll(formatOrdinal(cal.get(Calendar.DATE), "Default", "", resourceManager));
+			ret.addAll(formatYear(Integer.toString(cal.get(Calendar.YEAR)), resourceManager));
 
 			int hour = cal.get(Calendar.HOUR);
-			ret.addAll(formatNumber(hour == 0 ? 12 : hour, "Default", "",
-					resourceManager));
+			ret.addAll(formatNumber(hour == 0 ? 12 : hour, "Default", "", resourceManager));
 
 			int minute = cal.get(Calendar.MINUTE);
 			if (minute > 0 && minute < 10) {
@@ -229,17 +191,13 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 				ret.addAll(formatLetters("PM", "Default", "", resourceManager));
 			}
 		} else if (formatDefinition.equals("Long Date Time")) {
-			ret.add(getAudioContent(resourceManager, "/Months/",
-					months[cal.get(Calendar.MONTH)],
+			ret.add(getAudioContent(resourceManager, "/Months/", months[cal.get(Calendar.MONTH)],
 					months[cal.get(Calendar.MONTH)]));
-			ret.addAll(formatOrdinal(cal.get(Calendar.DATE), "Default", "",
-					resourceManager));
-			ret.addAll(formatYear(Integer.toString(cal.get(Calendar.YEAR)),
-					resourceManager));
+			ret.addAll(formatOrdinal(cal.get(Calendar.DATE), "Default", "", resourceManager));
+			ret.addAll(formatYear(Integer.toString(cal.get(Calendar.YEAR)), resourceManager));
 
 			int hour = cal.get(Calendar.HOUR);
-			ret.addAll(formatNumber(hour == 0 ? 12 : hour, "Default", "",
-					resourceManager));
+			ret.addAll(formatNumber(hour == 0 ? 12 : hour, "Default", "", resourceManager));
 
 			int minute = cal.get(Calendar.MINUTE);
 			if (minute > 0 && minute < 10) {
@@ -261,29 +219,27 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 			Calendar now = Calendar.getInstance(cal.getTimeZone());
 			int nowYear = now.get(Calendar.YEAR);
 			int nowDay = now.get(Calendar.DAY_OF_YEAR);
-			Set<String> options = new HashSet<String>(
-					Arrays.asList(formatOptions.split(",")));
+			Set<String> options = new HashSet<String>(Arrays.asList(formatOptions.split(",")));
 			if (calYear == nowYear && calDay == nowDay) {
 				// Process dates that equal today.
 				if (options.contains("this")) {
 					if (calHour < 12) {
-						ret.add(getAudioContent(resourceManager, "/DayOfWeek/",
-								"this_morning", "this morning"));
+						ret.add(getAudioContent(resourceManager, "/DayOfWeek/", "this_morning",
+								"this morning"));
 					} else if (calHour < 17) {
-						ret.add(getAudioContent(resourceManager, "/DayOfWeek/",
-								"this_afternoon", "this afternoon"));
+						ret.add(getAudioContent(resourceManager, "/DayOfWeek/", "this_afternoon",
+								"this afternoon"));
 					} else {
-						ret.add(getAudioContent(resourceManager, "/DayOfWeek/",
-								"this_evening", "this evening"));
+						ret.add(getAudioContent(resourceManager, "/DayOfWeek/", "this_evening",
+								"this evening"));
 						// Format this (morning, etc...)
 					}
 				} else {
 					if (options.contains("today")) {
-						ret.add(getAudioContent(resourceManager, "/DayOfWeek/",
-								"today", "today"));
+						ret.add(getAudioContent(resourceManager, "/DayOfWeek/", "today", "today"));
 					} else {
-						ret.add(getAudioContent(resourceManager, "/DayOfWeek/",
-								days[cal.get(Calendar.DAY_OF_WEEK) - 1],
+						ret.add(getAudioContent(resourceManager, "/DayOfWeek/", days[cal
+								.get(Calendar.DAY_OF_WEEK) - 1],
 								days[cal.get(Calendar.DAY_OF_WEEK) - 1]));
 					}
 				}
@@ -299,38 +255,31 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 					++distance;
 				}
 				if (distance == 1 && options.contains("tomorrow")) {
-					ret.add(getAudioContent(resourceManager, "/DayOfWeek/",
-							"tomorrow", "tomorrow"));
+					ret.add(getAudioContent(resourceManager, "/DayOfWeek/", "tomorrow", "tomorrow"));
 				} else if (distance < 7) {
-					ret.add(getAudioContent(resourceManager, "/DayOfWeek/",
-							days[cal.get(Calendar.DAY_OF_WEEK) - 1],
+					ret.add(getAudioContent(resourceManager, "/DayOfWeek/", days[cal
+							.get(Calendar.DAY_OF_WEEK) - 1],
 							days[cal.get(Calendar.DAY_OF_WEEK) - 1]));
 				} else if (distance < 14 && options.contains("next")) {
-					ret.add(getAudioContent(resourceManager, "/DayOfWeek/",
-							"next", "next"));
-					ret.add(getAudioContent(resourceManager, "/DayOfWeek/",
-							days[cal.get(Calendar.DAY_OF_WEEK) - 1],
+					ret.add(getAudioContent(resourceManager, "/DayOfWeek/", "next", "next"));
+					ret.add(getAudioContent(resourceManager, "/DayOfWeek/", days[cal
+							.get(Calendar.DAY_OF_WEEK) - 1],
 							days[cal.get(Calendar.DAY_OF_WEEK) - 1]));
 				} else {
 					formatDate(cal, "Short Date", "", resourceManager);
 				}
 			}
 		} else if (formatDefinition.equals("Hour of Day")) {
-			Set<String> options = new HashSet<String>(
-					Arrays.asList(formatOptions.split(",")));
+			Set<String> options = new HashSet<String>(Arrays.asList(formatOptions.split(",")));
 			int hour = cal.get(Calendar.HOUR);
-			ret.addAll(formatNumber(hour == 0 ? 12 : hour, "Default", "",
-					resourceManager));
+			ret.addAll(formatNumber(hour == 0 ? 12 : hour, "Default", "", resourceManager));
 			if (options.contains("minutes")) {
 				int minute = cal.get(Calendar.MINUTE);
 				if (minute > 0 && minute < 10) {
-					ret.addAll(formatLetters("O", "Default", "",
-							resourceManager));
-					ret.addAll(formatNumber(minute, "Default", "",
-							resourceManager));
+					ret.addAll(formatLetters("O", "Default", "", resourceManager));
+					ret.addAll(formatNumber(minute, "Default", "", resourceManager));
 				} else if (minute >= 10) {
-					ret.addAll(formatNumber(minute, "Default", "",
-							resourceManager));
+					ret.addAll(formatNumber(minute, "Default", "", resourceManager));
 				}
 			}
 			if (cal.get(Calendar.AM_PM) == 0) {
@@ -344,15 +293,13 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.media.IFormatter#formatDigits
+	 * @see org.eclipse.vtp.framework.interactions.core.media.IFormatter#formatDigits
 	 * (java.lang.String, java.lang.String,
 	 * org.eclipse.vtp.framework.interactions.core.media.IResourceManager)
 	 */
 	@Override
-	public List<Content> formatDigits(String digits, String formatDefinition,
-			String formatOptions, IResourceManager resourceManager) {
+	public List<Content> formatDigits(String digits, String formatDefinition, String formatOptions,
+			IResourceManager resourceManager) {
 		char[] chars = digits.toCharArray();
 		List<Content> ret = new ArrayList<Content>();
 		if (formatDefinition.equals("DTMF")) {
@@ -367,13 +314,11 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 					AudioContent ac = new AudioContent();
 					ac.setStaticPath("/DTMF/Dtmf-" + s + ".vox");
 					ret.add(ac);
-				} else if (resourceManager.isFileResource("/DTMF/Dtmf-" + s
-						+ ".wav")) {
+				} else if (resourceManager.isFileResource("/DTMF/Dtmf-" + s + ".wav")) {
 					AudioContent ac = new AudioContent();
 					ac.setStaticPath("/DTMF/Dtmf-" + s + ".wav");
 					ret.add(ac);
-				} else if (resourceManager.isFileResource("/DTMF/Dtmf-" + s
-						+ ".au")) {
+				} else if (resourceManager.isFileResource("/DTMF/Dtmf-" + s + ".au")) {
 					AudioContent ac = new AudioContent();
 					ac.setStaticPath("/DTMF/Dtmf-" + s + ".au");
 					ret.add(ac);
@@ -388,34 +333,28 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 					s = "12";
 				}
 				if (i != 0) {
-					ret.add(getAudioContent(resourceManager, "/Common/", "and",
-							"and"));
+					ret.add(getAudioContent(resourceManager, "/Common/", "and", "and"));
 				}
-				ret.add(getAudioContent(resourceManager, "/press_digits/",
-						"press_digits_" + s, s));
+				ret.add(getAudioContent(resourceManager, "/press_digits/", "press_digits_" + s, s));
 			}
 		} else {
 			for (int i = 0; i < chars.length; i++) {
 				if (!Character.isDigit(chars[i])) {
 					continue;
 				}
-				if (resourceManager.isFileResource("/Digits/"
-						+ new String(chars, i, 1) + ".vox")) {
+				if (resourceManager.isFileResource("/Digits/" + new String(chars, i, 1) + ".vox")) {
 					AudioContent ac = new AudioContent();
-					ac.setStaticPath("/Digits/" + new String(chars, i, 1)
-							+ ".vox");
+					ac.setStaticPath("/Digits/" + new String(chars, i, 1) + ".vox");
 					ret.add(ac);
-				} else if (resourceManager.isFileResource("/Digits/"
-						+ new String(chars, i, 1) + ".wav")) {
+				} else if (resourceManager.isFileResource("/Digits/" + new String(chars, i, 1)
+						+ ".wav")) {
 					AudioContent ac = new AudioContent();
-					ac.setStaticPath("/Digits/" + new String(chars, i, 1)
-							+ ".wav");
+					ac.setStaticPath("/Digits/" + new String(chars, i, 1) + ".wav");
 					ret.add(ac);
-				} else if (resourceManager.isFileResource("/Digits/"
-						+ new String(chars, i, 1) + ".au")) {
+				} else if (resourceManager.isFileResource("/Digits/" + new String(chars, i, 1)
+						+ ".au")) {
 					AudioContent ac = new AudioContent();
-					ac.setStaticPath("/Digits/" + new String(chars, i, 1)
-							+ ".au");
+					ac.setStaticPath("/Digits/" + new String(chars, i, 1) + ".au");
 					ret.add(ac);
 				} else {
 					TextContent tc = new TextContent();
@@ -429,15 +368,13 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.media.IFormatter#formatLetters
+	 * @see org.eclipse.vtp.framework.interactions.core.media.IFormatter#formatLetters
 	 * (java.lang.String, java.lang.String,
 	 * org.eclipse.vtp.framework.interactions.core.media.IResourceManager)
 	 */
 	@Override
-	public List<Content> formatLetters(String text, String formatDefinition,
-			String formatOptions, IResourceManager resourceManager) {
+	public List<Content> formatLetters(String text, String formatDefinition, String formatOptions,
+			IResourceManager resourceManager) {
 		char[] chars = text.toCharArray();
 		List<Content> ret = new ArrayList<Content>();
 		for (int i = 0; i < chars.length; i++) {
@@ -451,80 +388,66 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 			if (Character.isDigit(chars[i])) {
 				prefixPath = "/Digits/";
 				if (formatDefinition.equals("Preserve Case")) {
-					ret.add(getAudioContent(resourceManager, "/Letters/",
-							"number", "Number "));
+					ret.add(getAudioContent(resourceManager, "/Letters/", "number", "Number "));
 				}
 			} else if (Character.isLetter(chars[i])) {
 				if (formatDefinition.equals("Preserve Case")) {
 					if (Character.isUpperCase(chars[i])) {
-						ret.add(getAudioContent(resourceManager, "/Letters/",
-								"uppercase", "Capital "));
+						ret.add(getAudioContent(resourceManager, "/Letters/", "uppercase",
+								"Capital "));
 					} else if (Character.isLowerCase(chars[i])) {
-						ret.add(getAudioContent(resourceManager, "/Letters/",
-								"lowercase", "Lower Case "));
+						ret.add(getAudioContent(resourceManager, "/Letters/", "lowercase",
+								"Lower Case "));
 					}
 				}
 			} else if (replacement != null) {
 				fileName = replacement[0];
 				altText = replacement[1];
 			}
-			ret.add(getAudioContent(resourceManager, prefixPath, fileName,
-					altText));
+			ret.add(getAudioContent(resourceManager, prefixPath, fileName, altText));
 		}
 		return ret;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.media.IFormatter#formatMoney
+	 * @see org.eclipse.vtp.framework.interactions.core.media.IFormatter#formatMoney
 	 * (java.math.BigDecimal, java.util.Currency, java.lang.String,
 	 * org.eclipse.vtp.framework.interactions.core.media.IResourceManager)
 	 */
 	@Override
-	public List<Content> formatMoney(BigDecimal money, Currency currency,
-			String formatDefinition, String formatOptions,
-			IResourceManager resourceManager) {
+	public List<Content> formatMoney(BigDecimal money, Currency currency, String formatDefinition,
+			String formatOptions, IResourceManager resourceManager) {
 		List<Content> ret = new ArrayList<Content>();
 		money = money.setScale(2, BigDecimal.ROUND_DOWN);
 		if (USD_CURRENCY.equals(currency)) {
 			if (money.compareTo(ZERO) < 0) {
-				ret.add(getAudioContent(resourceManager, "/Common/",
-						"negative", "negative"));
+				ret.add(getAudioContent(resourceManager, "/Common/", "negative", "negative"));
 				money = money.multiply(NEGATIVE_ONE);
 			}
 
-			List<Content> dollarList = formatNumber(money.intValue(),
-					"Default", "", resourceManager);
+			List<Content> dollarList = formatNumber(money.intValue(), "Default", "",
+					resourceManager);
 			ret.addAll(dollarList);
-			if (money.intValue() == 1
-					|| formatDefinition.equals("Force Singular")) {
-				ret.add(getAudioContent(resourceManager, "/Common/", "dollar",
-						"dollar"));
+			if (money.intValue() == 1 || formatDefinition.equals("Force Singular")) {
+				ret.add(getAudioContent(resourceManager, "/Common/", "dollar", "dollar"));
 			} else {
-				ret.add(getAudioContent(resourceManager, "/Common/", "dollars",
-						"dollars"));
+				ret.add(getAudioContent(resourceManager, "/Common/", "dollars", "dollars"));
 			}
 
 			String str = money.toString();
 
 			if (str.indexOf('.') >= 0) {
-				int cents = Integer
-						.parseInt(str.substring(str.indexOf('.') + 1));
+				int cents = Integer.parseInt(str.substring(str.indexOf('.') + 1));
 
 				if (cents > 0) {
-					ret.add(getAudioContent(resourceManager, "/Common/", "and",
-							"and"));
-					List<Content> centsList = formatNumber(cents, "Default",
-							"", resourceManager);
+					ret.add(getAudioContent(resourceManager, "/Common/", "and", "and"));
+					List<Content> centsList = formatNumber(cents, "Default", "", resourceManager);
 					ret.addAll(centsList);
 					if (cents == 1 || formatDefinition.equals("Force Singular")) {
-						ret.add(getAudioContent(resourceManager, "/Common/",
-								"cent", "cent"));
+						ret.add(getAudioContent(resourceManager, "/Common/", "cent", "cent"));
 					} else {
-						ret.add(getAudioContent(resourceManager, "/Common/",
-								"cents", "cents"));
+						ret.add(getAudioContent(resourceManager, "/Common/", "cents", "cents"));
 					}
 				}
 			}
@@ -534,15 +457,12 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.media.IFormatter#formatNumber
-	 * (int, java.lang.String,
-	 * org.eclipse.vtp.framework.interactions.core.media.IResourceManager)
+	 * @see org.eclipse.vtp.framework.interactions.core.media.IFormatter#formatNumber (int,
+	 * java.lang.String, org.eclipse.vtp.framework.interactions.core.media.IResourceManager)
 	 */
 	@Override
-	public List<Content> formatNumber(int number, String formatDefinition,
-			String formatOptions, IResourceManager resourceManager) {
+	public List<Content> formatNumber(int number, String formatDefinition, String formatOptions,
+			IResourceManager resourceManager) {
 		List<Content> ret = new ArrayList<Content>();
 		if (number == 0) {
 			ret.add(getAudioContent(resourceManager, "/Digits/", "0", "0"));
@@ -551,32 +471,28 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 
 		// check negative
 		if (number < 0) {
-			ret.add(getAudioContent(resourceManager, "/Common/", "negative",
-					"negative"));
+			ret.add(getAudioContent(resourceManager, "/Common/", "negative", "negative"));
 			number *= -1;
 		}
 		// billions
 		int billions = number / 1000000000;
 		if (billions > 0) {
 			translateNumberInHundreds(resourceManager, billions, ret);
-			ret.add(getAudioContent(resourceManager, "/Common/", "billion",
-					"billion"));
+			ret.add(getAudioContent(resourceManager, "/Common/", "billion", "billion"));
 			number -= (billions * 1000000000);
 		}
 		// millions
 		int millions = number / 1000000;
 		if (millions > 0) {
 			translateNumberInHundreds(resourceManager, millions, ret);
-			ret.add(getAudioContent(resourceManager, "/Common/", "million",
-					"million"));
+			ret.add(getAudioContent(resourceManager, "/Common/", "million", "million"));
 			number -= (millions * 1000000);
 		}
 		// thousands
 		int thousands = number / 1000;
 		if (thousands > 0) {
 			translateNumberInHundreds(resourceManager, thousands, ret);
-			ret.add(getAudioContent(resourceManager, "/Common/", "thousand",
-					"thousand"));
+			ret.add(getAudioContent(resourceManager, "/Common/", "thousand", "thousand"));
 			number -= (thousands * 1000);
 		}
 		translateNumberInHundreds(resourceManager, number % 1000, ret);
@@ -584,63 +500,52 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 	}
 
 	/**
-	 * Internal function to produce the transformation of a number in the
-	 * hundreds range. The results of this function are appended to the end of
-	 * the given list of content.
+	 * Internal function to produce the transformation of a number in the hundreds range. The
+	 * results of this function are appended to the end of the given list of content.
 	 * 
-	 * @param resourceManager
-	 *            Provides access to the available file resources.
-	 * @param number
-	 *            The number to transform.
-	 * @param content
-	 *            The current list of elements.
+	 * @param resourceManager Provides access to the available file resources.
+	 * @param number The number to transform.
+	 * @param content The current list of elements.
 	 */
-	private void translateNumberInHundreds(IResourceManager resourceManager,
-			int number, List<Content> content) {
+	private void translateNumberInHundreds(IResourceManager resourceManager, int number,
+			List<Content> content) {
 		int hundreds = number / 100;
 
 		if (hundreds > 0) {
-			content.add(getAudioContent(resourceManager, "/Digits/",
-					String.valueOf(hundreds), String.valueOf(hundreds)));
-			content.add(getAudioContent(resourceManager, "/Common/", "hundred",
-					"hundred"));
+			content.add(getAudioContent(resourceManager, "/Digits/", String.valueOf(hundreds),
+					String.valueOf(hundreds)));
+			content.add(getAudioContent(resourceManager, "/Common/", "hundred", "hundred"));
 			number -= (hundreds * 100);
 		}
 
 		if (number > 19) {
-			content.add(getAudioContent(resourceManager, "/Digits/",
-					String.valueOf(number - (number % 10)),
-					String.valueOf(number - (number % 10))));
+			content.add(getAudioContent(resourceManager, "/Digits/", String.valueOf(number
+					- (number % 10)), String.valueOf(number - (number % 10))));
 			number %= 10;
 		}
 
 		if (number > 0) {
-			content.add(getAudioContent(resourceManager, "/Digits/",
-					String.valueOf(number), String.valueOf(number)));
+			content.add(getAudioContent(resourceManager, "/Digits/", String.valueOf(number), String
+					.valueOf(number)));
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.media.IFormatter#formatOrdinal
-	 * (int, java.lang.String,
-	 * org.eclipse.vtp.framework.interactions.core.media.IResourceManager)
+	 * @see org.eclipse.vtp.framework.interactions.core.media.IFormatter#formatOrdinal (int,
+	 * java.lang.String, org.eclipse.vtp.framework.interactions.core.media.IResourceManager)
 	 */
 	@Override
-	public List<Content> formatOrdinal(int ordinal, String formatDefinition,
-			String formatOptions, IResourceManager resourceManager) {
+	public List<Content> formatOrdinal(int ordinal, String formatDefinition, String formatOptions,
+			IResourceManager resourceManager) {
 		List<Content> ret = new ArrayList<Content>();
 		if (ordinal == 0) {
-			ret.add(getAudioContent(resourceManager, "/Ordinals/", "0th",
-					"zeroth"));
+			ret.add(getAudioContent(resourceManager, "/Ordinals/", "0th", "zeroth"));
 			return ret;
 		}
 
 		if (ordinal < 0) {
-			ret.add(getAudioContent(resourceManager, "/Common/", "negative",
-					"negative"));
+			ret.add(getAudioContent(resourceManager, "/Common/", "negative", "negative"));
 			ordinal *= -1;
 		}
 
@@ -651,11 +556,9 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 			ordinal -= (billions * 1000000000);
 
 			if (ordinal == 0) {
-				ret.add(getAudioContent(resourceManager, "/Common/",
-						"billionth", "billionth"));
+				ret.add(getAudioContent(resourceManager, "/Common/", "billionth", "billionth"));
 			} else {
-				ret.add(getAudioContent(resourceManager, "/Common/", "billion",
-						"billion"));
+				ret.add(getAudioContent(resourceManager, "/Common/", "billion", "billion"));
 			}
 		}
 
@@ -666,11 +569,9 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 			ordinal -= (millions * 1000000);
 
 			if (ordinal == 0) {
-				ret.add(getAudioContent(resourceManager, "/Common/",
-						"millionth", "millionth"));
+				ret.add(getAudioContent(resourceManager, "/Common/", "millionth", "millionth"));
 			} else {
-				ret.add(getAudioContent(resourceManager, "/Common/", "million",
-						"million"));
+				ret.add(getAudioContent(resourceManager, "/Common/", "million", "million"));
 			}
 		}
 
@@ -681,11 +582,9 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 			ordinal -= (thousands * 1000);
 
 			if (ordinal == 0) {
-				ret.add(getAudioContent(resourceManager, "/Common/",
-						"thousandth", "thousandth"));
+				ret.add(getAudioContent(resourceManager, "/Common/", "thousandth", "thousandth"));
 			} else {
-				ret.add(getAudioContent(resourceManager, "/Common/",
-						"thousand", "thousand"));
+				ret.add(getAudioContent(resourceManager, "/Common/", "thousand", "thousand"));
 			}
 		}
 
@@ -696,18 +595,15 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 			ordinal -= (hundreds * 100);
 
 			if (ordinal == 0) {
-				ret.add(getAudioContent(resourceManager, "/Common/",
-						"hundredth", "hundredth"));
+				ret.add(getAudioContent(resourceManager, "/Common/", "hundredth", "hundredth"));
 			} else {
-				ret.add(getAudioContent(resourceManager, "/Common/", "hundred",
-						"hundred"));
+				ret.add(getAudioContent(resourceManager, "/Common/", "hundred", "hundred"));
 			}
 		}
 
 		if ((ordinal % 10) == 0) {
-			ret.add(getAudioContent(resourceManager, "/Ordinals/",
-					String.valueOf(ordinal) + "th", String.valueOf(ordinal)
-							+ "th"));
+			ret.add(getAudioContent(resourceManager, "/Ordinals/", String.valueOf(ordinal) + "th",
+					String.valueOf(ordinal) + "th"));
 		} else {
 			int tens = ordinal / 10;
 
@@ -718,42 +614,34 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 
 			switch (ordinal) {
 			case 1:
-				ret.add(getAudioContent(resourceManager, "/Ordinals/", "1st",
-						"1st"));
+				ret.add(getAudioContent(resourceManager, "/Ordinals/", "1st", "1st"));
 				break;
 
 			case 2:
-				ret.add(getAudioContent(resourceManager, "/Ordinals/", "2nd",
-						"2nd"));
+				ret.add(getAudioContent(resourceManager, "/Ordinals/", "2nd", "2nd"));
 				break;
 
 			case 3:
-				ret.add(getAudioContent(resourceManager, "/Ordinals/", "3rd",
-						"3rd"));
+				ret.add(getAudioContent(resourceManager, "/Ordinals/", "3rd", "3rd"));
 				break;
 
 			default:
-				ret.add(getAudioContent(resourceManager, "/Ordinals/",
-						String.valueOf(ordinal) + "th", String.valueOf(ordinal)
-								+ "th"));
+				ret.add(getAudioContent(resourceManager, "/Ordinals/", String.valueOf(ordinal)
+						+ "th", String.valueOf(ordinal) + "th"));
 			}
 		}
 		return ret;
 	}
 
 	/**
-	 * Internal function to transform the given string into the elements used in
-	 * the English language to describe a year.
+	 * Internal function to transform the given string into the elements used in the English
+	 * language to describe a year.
 	 * 
-	 * @param year
-	 *            The year value to transform.
-	 * @param resourceManager
-	 *            Provides access to the available file resources.
-	 * @return A List of Content objects that represent a year described in the
-	 *         English language.
+	 * @param year The year value to transform.
+	 * @param resourceManager Provides access to the available file resources.
+	 * @return A List of Content objects that represent a year described in the English language.
 	 */
-	private List<Content> formatYear(String year,
-			IResourceManager resourceManager) {
+	private List<Content> formatYear(String year, IResourceManager resourceManager) {
 		List<Content> ret = new ArrayList<Content>();
 		if (year.length() != 4 && year.length() != 3) {
 			TextContent tc = new TextContent();
@@ -777,38 +665,29 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 			if (century == 0) {
 				ret.addAll(formatNumber(tens, "default", "", resourceManager));
 			} else if (century % 10 == 0) {
-				ret.addAll(formatNumber(century * 100, "default", "",
-						resourceManager));
+				ret.addAll(formatNumber(century * 100, "default", "", resourceManager));
 				if (tens > 0) {
-					ret.addAll(formatNumber(tens, "default", "",
-							resourceManager));
+					ret.addAll(formatNumber(tens, "default", "", resourceManager));
 				}
 			} else if (century < 13) {
 				ret.addAll(formatNumber(century, "default", "", resourceManager));
-				ret.add(getAudioContent(resourceManager, "/Common/", "hundred",
-						"hundred"));
+				ret.add(getAudioContent(resourceManager, "/Common/", "hundred", "hundred"));
 				if (tens > 0) {
 					if (tens < 10) {
-						ret.addAll(formatNumber(tens, "default", "",
-								resourceManager));
+						ret.addAll(formatNumber(tens, "default", "", resourceManager));
 					} else {
-						ret.addAll(formatNumber(tens, "default", "",
-								resourceManager));
+						ret.addAll(formatNumber(tens, "default", "", resourceManager));
 					}
 				}
 			} else {
 				ret.addAll(formatNumber(century, "default", "", resourceManager));
 				if (tens == 0) {
-					ret.add(getAudioContent(resourceManager, "/Common/",
-							"hundred", "hundred"));
+					ret.add(getAudioContent(resourceManager, "/Common/", "hundred", "hundred"));
 				} else if (tens < 10) {
-					ret.add(getAudioContent(resourceManager, "/Common/", "oh",
-							"oh"));
-					ret.addAll(formatNumber(tens, "default", "",
-							resourceManager));
+					ret.add(getAudioContent(resourceManager, "/Common/", "oh", "oh"));
+					ret.addAll(formatNumber(tens, "default", "", resourceManager));
 				} else {
-					ret.addAll(formatNumber(tens, "default", "",
-							resourceManager));
+					ret.addAll(formatNumber(tens, "default", "", resourceManager));
 				}
 			}
 		}
@@ -817,10 +696,7 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.media.IFormatter#getLanguageCode
-	 * ()
+	 * @see org.eclipse.vtp.framework.interactions.core.media.IFormatter#getLanguageCode ()
 	 */
 	@Override
 	public String getLanguageCode() {
@@ -829,10 +705,7 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.media.IFormatter#getLanguageName
-	 * ()
+	 * @see org.eclipse.vtp.framework.interactions.core.media.IFormatter#getLanguageName ()
 	 */
 	@Override
 	public String getLanguageName() {
@@ -841,9 +714,7 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.interactions.core.media.IFormatter#
-	 * getDefaultFormats
+	 * @see org.eclipse.vtp.framework.interactions.core.media.IFormatter# getDefaultFormats
 	 * (org.eclipse.vtp.framework.interactions.core.media.FormattableContent)
 	 */
 	@Override

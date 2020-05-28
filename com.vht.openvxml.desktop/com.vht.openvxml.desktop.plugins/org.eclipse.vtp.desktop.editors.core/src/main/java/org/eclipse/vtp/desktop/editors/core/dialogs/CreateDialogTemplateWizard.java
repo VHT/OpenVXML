@@ -29,11 +29,10 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesign;
 import com.openmethods.openvxml.desktop.model.workflow.internal.design.Design;
 
 /**
- * This wizard walks the user through the steps required to create a new folder
- * in the Media Files section of an application. The user is prompted to enter a
- * name for the new folder. This name must be unique among the current folders
- * in the current directory. The folder is automatically created by this wizard
- * and so requires no actions from the caller of the wizard.
+ * This wizard walks the user through the steps required to create a new folder in the Media Files
+ * section of an application. The user is prompted to enter a name for the new folder. This name
+ * must be unique among the current folders in the current directory. The folder is automatically
+ * created by this wizard and so requires no actions from the caller of the wizard.
  *
  * @author Trip
  */
@@ -46,11 +45,9 @@ public class CreateDialogTemplateWizard extends Wizard {
 	private DialogElement dialogElement = null;
 
 	/**
-	 * Creates a new <code>CreateMediaFolderWizard</code> instance for the given
-	 * media container.
+	 * Creates a new <code>CreateMediaFolderWizard</code> instance for the given media container.
 	 *
-	 * @param container
-	 *            The media container that will contain the new folder.
+	 * @param container The media container that will contain the new folder.
 	 */
 	public CreateDialogTemplateWizard(DialogElement dialogElement) {
 		super();
@@ -61,15 +58,13 @@ public class CreateDialogTemplateWizard extends Wizard {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.wizard.IWizard#performFinish()
 	 */
 	@Override
 	public boolean performFinish() {
 		try {
 			IDesign dialogDesign = null;
-			List<IDesign> dialogs = dialogElement.getDesign().getDocument()
-					.getDialogDesigns();
+			List<IDesign> dialogs = dialogElement.getDesign().getDocument().getDialogDesigns();
 			for (IDesign dialog : dialogs) {
 				if (dialog.getDesignId().equals(dialogElement.getId())) {
 					dialogDesign = dialog;
@@ -77,8 +72,7 @@ public class CreateDialogTemplateWizard extends Wizard {
 				}
 			}
 			if (dialogDesign != null) {
-				Activator.getDefault().addLocalDialog(
-						mfwp.mediaFolderNameField.getText(),
+				Activator.getDefault().addLocalDialog(mfwp.mediaFolderNameField.getText(),
 						(Design) dialogDesign);
 			}
 			return true;
@@ -98,9 +92,7 @@ public class CreateDialogTemplateWizard extends Wizard {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt
+		 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt
 		 * .widgets.Composite)
 		 */
 		@Override
@@ -109,18 +101,15 @@ public class CreateDialogTemplateWizard extends Wizard {
 			Composite comp = new Composite(parent, SWT.NONE);
 			Label folderNameLabel = new Label(comp, SWT.NONE);
 			folderNameLabel.setText("Dialog Name:");
-			folderNameLabel.setSize(folderNameLabel.computeSize(SWT.DEFAULT,
-					SWT.DEFAULT));
+			folderNameLabel.setSize(folderNameLabel.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 			mediaFolderNameField = new Text(comp, SWT.SINGLE | SWT.BORDER);
 			comp.setLayout(new FormLayout());
 
 			FormData folderNameLabelData = new FormData();
 			folderNameLabelData.left = new FormAttachment(0, 10);
 			folderNameLabelData.top = new FormAttachment(0, 30);
-			folderNameLabelData.right = new FormAttachment(0,
-					10 + folderNameLabel.getSize().x);
-			folderNameLabelData.bottom = new FormAttachment(0,
-					30 + folderNameLabel.getSize().y);
+			folderNameLabelData.right = new FormAttachment(0, 10 + folderNameLabel.getSize().x);
+			folderNameLabelData.bottom = new FormAttachment(0, 30 + folderNameLabel.getSize().y);
 			folderNameLabel.setLayoutData(folderNameLabelData);
 
 			FormData folderNameFieldData = new FormData();

@@ -65,14 +65,12 @@ public class UserData extends FormElement {
 	 * @return The list of filled handlers for this field.
 	 */
 	public Filled[] getFilledHandlers() {
-		return (Filled[]) filledHandlers.toArray(new Filled[filledHandlers
-				.size()]);
+		return (Filled[]) filledHandlers.toArray(new Filled[filledHandlers.size()]);
 	}
 
 	public void addFilledHandler(Filled filledHandler) {
-		if (filledHandler == null) {
-			throw new IllegalArgumentException("Filled handler cannot be null.");
-		}
+		if (filledHandler == null) { throw new IllegalArgumentException(
+				"Filled handler cannot be null."); }
 
 		filledHandlers.addElement(filledHandler);
 	}
@@ -80,26 +78,21 @@ public class UserData extends FormElement {
 	/**
 	 * Removes the specified filled handler from this field.<br>
 	 * <br>
-	 * NOTE: A filled handler element that is added to a field must NOT specify
-	 * a mode. Although this caveat is not mentioned in the w3c spec, many
-	 * implementations do not allow mode to be declared in this situation.
+	 * NOTE: A filled handler element that is added to a field must NOT specify a mode. Although
+	 * this caveat is not mentioned in the w3c spec, many implementations do not allow mode to be
+	 * declared in this situation.
 	 * 
-	 * @param filled
-	 *            The filled handler to be removed.
-	 * @throws NullPointerException
-	 *             If the supplied filled handler is <code>null</code>.
+	 * @param filled The filled handler to be removed.
+	 * @throws NullPointerException If the supplied filled handler is <code>null</code>.
 	 */
 	public void removeFilledHandler(Filled filled) throws NullPointerException {
-		if (filled == null) {
-			throw new NullPointerException("filled"); //$NON-NLS-1$
+		if (filled == null) { throw new NullPointerException("filled"); //$NON-NLS-1$
 		}
 		filledHandlers.remove(filled);
 	}
 
 	public void addParameter(Parameter parameter) {
-		if (parameter == null) {
-			throw new IllegalArgumentException("Parameter cannot be null.");
-		}
+		if (parameter == null) { throw new IllegalArgumentException("Parameter cannot be null."); }
 
 		parameters.addElement(parameter);
 	}
@@ -110,23 +103,18 @@ public class UserData extends FormElement {
 	 * @return The list of event handlers for this field.
 	 */
 	public EventHandler[] getEventHandlers() {
-		return (EventHandler[]) eventHandlers
-				.toArray(new EventHandler[eventHandlers.size()]);
+		return (EventHandler[]) eventHandlers.toArray(new EventHandler[eventHandlers.size()]);
 	}
 
 	/**
-	 * Adds the specified event handler to this field. The event handlers are
-	 * evaluated in the order they were added.
+	 * Adds the specified event handler to this field. The event handlers are evaluated in the order
+	 * they were added.
 	 * 
-	 * @param eventHandler
-	 *            The event handler to add.
-	 * @throws NullPointerException
-	 *             If the supplied event handler is <code>null</code>.
+	 * @param eventHandler The event handler to add.
+	 * @throws NullPointerException If the supplied event handler is <code>null</code>.
 	 */
-	public void addEventHandler(EventHandler eventHandler)
-			throws NullPointerException {
-		if (eventHandler == null) {
-			throw new NullPointerException("eventHandler"); //$NON-NLS-1$
+	public void addEventHandler(EventHandler eventHandler) throws NullPointerException {
+		if (eventHandler == null) { throw new NullPointerException("eventHandler"); //$NON-NLS-1$
 		}
 		eventHandlers.add(eventHandler);
 	}
@@ -134,30 +122,23 @@ public class UserData extends FormElement {
 	/**
 	 * Removes the specified event handler from this field.
 	 * 
-	 * @param eventHandler
-	 *            The event handler to remove.
-	 * @throws NullPointerException
-	 *             If the supplied event handler is <code>null</code>.
+	 * @param eventHandler The event handler to remove.
+	 * @throws NullPointerException If the supplied event handler is <code>null</code>.
 	 */
-	public void removeEventHandler(EventHandler eventHandler)
-			throws NullPointerException {
-		if (eventHandler == null) {
-			throw new NullPointerException("eventHandler"); //$NON-NLS-1$
+	public void removeEventHandler(EventHandler eventHandler) throws NullPointerException {
+		if (eventHandler == null) { throw new NullPointerException("eventHandler"); //$NON-NLS-1$
 		}
 		eventHandlers.remove(eventHandler);
 	}
 
 	@Override
-	public void writeWidget(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
-		if (outputHandler == null) {
-			throw new NullPointerException("outputHandler"); //$NON-NLS-1$
+	public void writeWidget(ContentHandler outputHandler) throws NullPointerException, SAXException {
+		if (outputHandler == null) { throw new NullPointerException("outputHandler"); //$NON-NLS-1$
 		}
 		// Start the element.
 		AttributesImpl attributes = new AttributesImpl();
 		writeAttributes(attributes);
-		outputHandler.startElement(NAMESPACE_URI_VXML, "object", "object",
-				attributes);
+		outputHandler.startElement(NAMESPACE_URI_VXML, "object", "object", attributes);
 		// Write the children.
 		writeParameters(outputHandler);
 		writeFilledHandlers(outputHandler);
@@ -180,45 +161,36 @@ public class UserData extends FormElement {
 	/**
 	 * Writes the properties of this field to the specified content handler.
 	 * 
-	 * @param outputHandler
-	 *            The handler to write the properties to.
-	 * @throws SAXException
-	 *             If the writing of the properties fails.
-	 * @throws NullPointerException
-	 *             If the supplied content handler is <code>null</code>.
+	 * @param outputHandler The handler to write the properties to.
+	 * @throws SAXException If the writing of the properties fails.
+	 * @throws NullPointerException If the supplied content handler is <code>null</code>.
 	 */
-	protected void writeParameters(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
+	protected void writeParameters(ContentHandler outputHandler) throws NullPointerException,
+			SAXException {
 		writeChildren(outputHandler, parameters);
 	}
 
 	/**
 	 * Write the filled handlers of this field to the specified content handler.
 	 * 
-	 * @param outputHandler
-	 *            The content handler to write to.
-	 * @throws NullPointerException
-	 *             If the supplied content handler is <code>null</code>.
-	 * @throws SAXException
-	 *             If the writing of one of the filled handlers fails.
+	 * @param outputHandler The content handler to write to.
+	 * @throws NullPointerException If the supplied content handler is <code>null</code>.
+	 * @throws SAXException If the writing of one of the filled handlers fails.
 	 */
-	protected void writeFilledHandlers(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
+	protected void writeFilledHandlers(ContentHandler outputHandler) throws NullPointerException,
+			SAXException {
 		writeChildren(outputHandler, filledHandlers);
 	}
 
 	/**
 	 * Write the event handlers of this field to the specified content handler.
 	 * 
-	 * @param outputHandler
-	 *            The content handler to write to.
-	 * @throws NullPointerException
-	 *             If the supplied content handler is <code>null</code>.
-	 * @throws SAXException
-	 *             If the writing of one of the event handlers fails.
+	 * @param outputHandler The content handler to write to.
+	 * @throws NullPointerException If the supplied content handler is <code>null</code>.
+	 * @throws SAXException If the writing of one of the event handlers fails.
 	 */
-	protected void writeEventHandlers(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
+	protected void writeEventHandlers(ContentHandler outputHandler) throws NullPointerException,
+			SAXException {
 		writeChildren(outputHandler, eventHandlers);
 	}
 }

@@ -50,8 +50,7 @@ public class VoiceContentDialog extends ContentDialog implements ModifyListener 
 	/**
 	 * Creates a new <code>VoiceContentDialog</code>.
 	 * 
-	 * @param parentShell
-	 *            The shell to create the dialog from.
+	 * @param parentShell The shell to create the dialog from.
 	 */
 	public VoiceContentDialog(Shell parentShell) {
 		super(parentShell);
@@ -60,8 +59,7 @@ public class VoiceContentDialog extends ContentDialog implements ModifyListener 
 	/**
 	 * Creates a new <code>VoiceContentDialog</code>.
 	 * 
-	 * @param parentShellProvider
-	 *            The shell provider to create the dialog from.
+	 * @param parentShellProvider The shell provider to create the dialog from.
 	 */
 	public VoiceContentDialog(IShellProvider parentShellProvider) {
 		super(parentShellProvider);
@@ -70,15 +68,12 @@ public class VoiceContentDialog extends ContentDialog implements ModifyListener 
 	/**
 	 * Sets the name, content item, and media provider for this dialog edits.
 	 * 
-	 * @param itemName
-	 *            The name of the item being edited.
-	 * @param contentItem
-	 *            The content item this dialog edits.
-	 * @param mediaProvider
-	 *            The media provider this dialog uses.
+	 * @param itemName The name of the item being edited.
+	 * @param contentItem The content item this dialog edits.
+	 * @param mediaProvider The media provider this dialog uses.
 	 */
-	public void initialize(String itemName, String[] unavailableNames,
-			Content contentItem, IMediaProvider mediaProvider) {
+	public void initialize(String itemName, String[] unavailableNames, Content contentItem,
+			IMediaProvider mediaProvider) {
 		this.itemName = itemName == null ? "" : itemName;
 		this.unavailableNames.addAll(Arrays.asList(unavailableNames));
 		this.unavailableNames.remove(itemName);
@@ -121,7 +116,6 @@ public class VoiceContentDialog extends ContentDialog implements ModifyListener 
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.media.core.ContentDialog#isContentValid()
 	 */
 	@Override
@@ -132,7 +126,6 @@ public class VoiceContentDialog extends ContentDialog implements ModifyListener 
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.media.core.ContentDialog#createDialogArea(
 	 * org.eclipse.swt.widgets.Composite)
 	 */
@@ -142,25 +135,19 @@ public class VoiceContentDialog extends ContentDialog implements ModifyListener 
 		composite.setLayout(new GridLayout(2, false));
 		Label label = new Label(composite, SWT.None);
 		label.setText("Item Name:");
-		label.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER,
-				false, false));
+		label.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 		itemNameField = new Text(composite, SWT.BORDER);
 		itemNameField.setText(itemName);
-		itemNameField.setLayoutData(new GridData(GridData.FILL, GridData.FILL,
-				true, false));
+		itemNameField.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, false));
 		itemNameField.addModifyListener(this);
 		Control child = super.createDialogArea(composite);
-		child.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true,
-				true, 2, 1));
+		child.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true, 2, 1));
 		return composite;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events
-	 * .ModifyEvent)
+	 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events .ModifyEvent)
 	 */
 	@Override
 	public void modifyText(ModifyEvent e) {

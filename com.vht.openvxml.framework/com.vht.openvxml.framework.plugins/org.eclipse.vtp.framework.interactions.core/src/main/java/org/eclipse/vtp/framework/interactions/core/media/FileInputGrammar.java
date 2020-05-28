@@ -63,11 +63,8 @@ public abstract class FileInputGrammar extends InputGrammar {
 	}
 
 	@Override
-	public InputGrammar captureData(IScriptingService scriptingService,
-			IDataSet dataSet) {
-		if (dataType == STATIC_PATH) {
-			return this;
-		}
+	public InputGrammar captureData(IScriptingService scriptingService, IDataSet dataSet) {
+		if (dataType == STATIC_PATH) { return this; }
 		FileInputGrammar clone = null;
 		try {
 			clone = getClass().newInstance();

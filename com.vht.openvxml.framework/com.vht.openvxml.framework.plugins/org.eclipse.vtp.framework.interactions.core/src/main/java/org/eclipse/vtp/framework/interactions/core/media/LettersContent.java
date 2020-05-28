@@ -19,8 +19,7 @@ import org.w3c.dom.Element;
 public class LettersContent extends FormattableContent {
 	public static final String ELEMENT_NAME = "letters-content"; //$NON-NLS-1$
 
-	public LettersContent() {
-	}
+	public LettersContent() {}
 
 	public LettersContent(Element element) {
 		super(element);
@@ -35,17 +34,17 @@ public class LettersContent extends FormattableContent {
 	public List format(IFormatter formatter, IMediaProvider mediaProvider) {
 		List ret = new LinkedList();
 		if (getValueType() != VARIABLE_VALUE) {
-			ret.addAll(formatter.formatLetters(getValue(), mediaProvider
-					.getFormatManager().getFormat(this, getFormatName()),
-					getFormatOptions(), mediaProvider.getResourceManager()));
+			ret.addAll(formatter.formatLetters(getValue(), mediaProvider.getFormatManager()
+					.getFormat(this, getFormatName()), getFormatOptions(), mediaProvider
+					.getResourceManager()));
 		}
 		return ret;
 	}
 
 	@Override
 	public Element store(Element element) {
-		Element thisElement = element.getOwnerDocument().createElementNS(
-				ELEMENT_NAMESPACE, ELEMENT_NAME);
+		Element thisElement = element.getOwnerDocument().createElementNS(ELEMENT_NAMESPACE,
+				ELEMENT_NAME);
 		element.appendChild(thisElement);
 		super.storeBaseInfo(thisElement);
 		return thisElement;
@@ -58,9 +57,7 @@ public class LettersContent extends FormattableContent {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.media.Content#createCopy()
+	 * @see org.eclipse.vtp.framework.interactions.core.media.Content#createCopy()
 	 */
 	@Override
 	public Content createCopy() {

@@ -14,7 +14,6 @@ import org.eclipse.core.resources.IProject;
 
 /**
  * @author trip
- *
  */
 public final class WorkflowIndexService {
 	private static final WorkflowIndexService instance = new WorkflowIndexService();
@@ -35,8 +34,7 @@ public final class WorkflowIndexService {
 				@Override
 				public void run() {
 					try {
-						DriverManager
-								.getConnection("jdbc:derby:;shutdown=true");
+						DriverManager.getConnection("jdbc:derby:;shutdown=true");
 					} catch (SQLException e) {
 						if (e.getErrorCode() != 45000) {
 							e.printStackTrace();
@@ -51,11 +49,8 @@ public final class WorkflowIndexService {
 
 	public synchronized WorkflowIndex getIndex(IProject project) {
 		// System.err.println("Getting index for: " + project.getName());
-		WorkflowIndex index = activeIndexes.get(project.getLocation()
-				.toPortableString());
-		if (index != null) {
-			return index;
-		}
+		WorkflowIndex index = activeIndexes.get(project.getLocation().toPortableString());
+		if (index != null) { return index; }
 		index = new WorkflowIndex(project);
 		activeIndexes.put(project.getLocation().toPortableString(), index);
 		index.init();
@@ -67,24 +62,18 @@ public final class WorkflowIndexService {
 	}
 
 	public synchronized boolean isIndexed(IProject project) {
-		WorkflowIndex index = activeIndexes.get(project.getLocation()
-				.toPortableString());
-		if (index != null) {
-			return true;
-		}
-		File dataDirectory = project.getWorkingLocation(
-				"org.eclipse.vtp.desktop.model.core").toFile();
+		WorkflowIndex index = activeIndexes.get(project.getLocation().toPortableString());
+		if (index != null) { return true; }
+		File dataDirectory = project.getWorkingLocation("org.eclipse.vtp.desktop.model.core")
+				.toFile();
 		File indexDirectory = new File(dataDirectory, "index/");
-		if (!indexDirectory.exists()) {
-			return false;
-		}
+		if (!indexDirectory.exists()) { return false; }
 		try {
 			Connection con = DriverManager.getConnection("jdbc:derby:"
 					+ indexDirectory.getAbsolutePath());
 			con.close();
 			return true;
-		} catch (SQLException e) {
-		}
+		} catch (SQLException e) {}
 		return false;
 	}
 

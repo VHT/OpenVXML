@@ -23,26 +23,24 @@ import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 
 /**
- * A customized {@link ServiceTracker} that tracks only the single most
- * desirable instance of a service.
+ * A customized {@link ServiceTracker} that tracks only the single most desirable instance of a
+ * service.
  * 
  * @author Lonnie Pryor
  * @version 1.0
  * @since 3.0
  */
 @SuppressWarnings("rawtypes")
-public class SingletonTracker extends ServiceTracker implements
-		SingletonTrackerCustomizer {
+public class SingletonTracker extends ServiceTracker implements SingletonTrackerCustomizer {
 	/** A comparator that sorts service references by ID. */
 	private static final Comparator SERVICE_SORT_BY_ID = new Comparator() {
 		@Override
 		public int compare(Object leftService, Object rightService) {
 			long difference = ((Long) ((ServiceReference) leftService)
 					.getProperty(Constants.SERVICE_ID)).longValue()
-					- ((Long) ((ServiceReference) rightService)
-							.getProperty(Constants.SERVICE_ID)).longValue();
-			return difference == 0 ? 0 : (int) (difference / Math
-					.abs(difference));
+					- ((Long) ((ServiceReference) rightService).getProperty(Constants.SERVICE_ID))
+							.longValue();
+			return difference == 0 ? 0 : (int) (difference / Math.abs(difference));
 		}
 	};
 
@@ -66,13 +64,10 @@ public class SingletonTracker extends ServiceTracker implements
 	/**
 	 * Creates a new SingletonTracker.
 	 * 
-	 * @param context
-	 *            The context to operate under.
-	 * @param reference
-	 *            The reference to the service to track.
-	 * @param customizer
-	 *            The customizer for this tracker or <code>null</code> to use
-	 *            this tracker as the customizer also.
+	 * @param context The context to operate under.
+	 * @param reference The reference to the service to track.
+	 * @param customizer The customizer for this tracker or <code>null</code> to use this tracker as
+	 *            the customizer also.
 	 */
 	@SuppressWarnings("unchecked")
 	public SingletonTracker(BundleContext context, ServiceReference reference,
@@ -84,13 +79,10 @@ public class SingletonTracker extends ServiceTracker implements
 	/**
 	 * Creates a new SingletonTracker.
 	 * 
-	 * @param context
-	 *            The context to operate under.
-	 * @param clazz
-	 *            The type of service to track.
-	 * @param customizer
-	 *            The customizer for this tracker or <code>null</code> to use
-	 *            this tracker as the customizer also.
+	 * @param context The context to operate under.
+	 * @param clazz The type of service to track.
+	 * @param customizer The customizer for this tracker or <code>null</code> to use this tracker as
+	 *            the customizer also.
 	 */
 	@SuppressWarnings("unchecked")
 	public SingletonTracker(BundleContext context, String clazz,
@@ -102,13 +94,10 @@ public class SingletonTracker extends ServiceTracker implements
 	/**
 	 * Creates a new SingletonTracker.
 	 * 
-	 * @param context
-	 *            The context to operate under.
-	 * @param filter
-	 *            A filter that identifies the services to track.
-	 * @param customizer
-	 *            The customizer for this tracker or <code>null</code> to use
-	 *            this tracker as the customizer also.
+	 * @param context The context to operate under.
+	 * @param filter A filter that identifies the services to track.
+	 * @param customizer The customizer for this tracker or <code>null</code> to use this tracker as
+	 *            the customizer also.
 	 */
 	@SuppressWarnings("unchecked")
 	public SingletonTracker(BundleContext context, Filter filter,
@@ -118,11 +107,10 @@ public class SingletonTracker extends ServiceTracker implements
 	}
 
 	/**
-	 * Called when a method on the customizer fails to complete normally. By
-	 * default the stack trace is printed and the throwable is ignored.
+	 * Called when a method on the customizer fails to complete normally. By default the stack trace
+	 * is printed and the throwable is ignored.
 	 * 
-	 * @param t
-	 *            The throwable that was caught.
+	 * @param t The throwable that was caught.
 	 */
 	protected void throwableCaught(Throwable t) {
 		t.printStackTrace();
@@ -134,7 +122,6 @@ public class SingletonTracker extends ServiceTracker implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.osgi.util.tracker.ServiceTracker#getServiceReference()
 	 */
 	@Override
@@ -144,7 +131,6 @@ public class SingletonTracker extends ServiceTracker implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.osgi.util.tracker.ServiceTracker#getService()
 	 */
 	@Override
@@ -154,47 +140,39 @@ public class SingletonTracker extends ServiceTracker implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.osgi.util.tracker.ServiceTracker#getServiceReferences()
 	 */
 	@Override
 	public ServiceReference[] getServiceReferences() {
 		synchronized (candidates) {
-			return selectedReference == null ? null
-					: new ServiceReference[] { selectedReference };
+			return selectedReference == null ? null : new ServiceReference[] { selectedReference };
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.osgi.util.tracker.ServiceTracker#getService(
-	 * org.osgi.framework.ServiceReference)
+	 * @see org.osgi.util.tracker.ServiceTracker#getService( org.osgi.framework.ServiceReference)
 	 */
 	@Override
 	public Object getService(ServiceReference ref) {
 		synchronized (candidates) {
-			return ref != null && ref.equals(selectedReference) ? selectedService
-					: null;
+			return ref != null && ref.equals(selectedReference) ? selectedService : null;
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.osgi.util.tracker.ServiceTracker#getServices()
 	 */
 	@Override
 	public Object[] getServices() {
 		synchronized (candidates) {
-			return selectedService == null ? null
-					: new Object[] { selectedService };
+			return selectedService == null ? null : new Object[] { selectedService };
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.osgi.util.tracker.ServiceTracker#size()
 	 */
 	@Override
@@ -206,13 +184,11 @@ public class SingletonTracker extends ServiceTracker implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.osgi.util.tracker.ServiceTracker#waitForService(long)
 	 */
 	@Override
 	public Object waitForService(long timeout) throws InterruptedException {
-		if (timeout < 0) {
-			throw new IllegalArgumentException("timeout"); //$NON-NLS-1$
+		if (timeout < 0) { throw new IllegalArgumentException("timeout"); //$NON-NLS-1$
 		}
 		synchronized (candidates) {
 			do {
@@ -232,17 +208,13 @@ public class SingletonTracker extends ServiceTracker implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.osgi.util.tracker.ServiceTracker#addingService(
-	 * org.osgi.framework.ServiceReference)
+	 * @see org.osgi.util.tracker.ServiceTracker#addingService( org.osgi.framework.ServiceReference)
 	 */
 	@Override
 	public final Object addingService(ServiceReference reference) {
 		synchronized (candidates) {
 			candidates.put(reference, Boolean.FALSE);
-			if (selecting) {
-				return reference;
-			}
+			if (selecting) { return reference; }
 			selecting = true;
 		}
 		try {
@@ -255,20 +227,15 @@ public class SingletonTracker extends ServiceTracker implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.osgi.util.tracker.ServiceTracker#modifiedService(
 	 * org.osgi.framework.ServiceReference, java.lang.Object)
 	 */
 	@Override
 	public final void modifiedService(ServiceReference reference, Object service) {
 		synchronized (candidates) {
-			if (!Boolean.FALSE.equals(candidates.get(reference))) {
-				return;
-			}
+			if (!Boolean.FALSE.equals(candidates.get(reference))) { return; }
 			candidates.put(reference, Boolean.TRUE);
-			if (selecting) {
-				return;
-			}
+			if (selecting) { return; }
 			selecting = true;
 		}
 		try {
@@ -280,19 +247,14 @@ public class SingletonTracker extends ServiceTracker implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.osgi.util.tracker.ServiceTracker#removedService(
 	 * org.osgi.framework.ServiceReference, java.lang.Object)
 	 */
 	@Override
 	public final void removedService(ServiceReference reference, Object service) {
 		synchronized (candidates) {
-			if (candidates.remove(reference) == null) {
-				return;
-			}
-			if (selecting) {
-				return;
-			}
+			if (candidates.remove(reference) == null) { return; }
+			if (selecting) { return; }
 			selecting = true;
 		}
 		try {
@@ -308,7 +270,6 @@ public class SingletonTracker extends ServiceTracker implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.kernel.util.SingletonTrackerCustomizer#
 	 * selectingService(org.osgi.framework.ServiceReference)
 	 */
@@ -320,15 +281,14 @@ public class SingletonTracker extends ServiceTracker implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.kernel.util.SingletonTrackerCustomizer#
-	 * changingSelectedService(org.osgi.framework.ServiceReference,
-	 * java.lang.Object, org.osgi.framework.ServiceReference)
+	 * changingSelectedService(org.osgi.framework.ServiceReference, java.lang.Object,
+	 * org.osgi.framework.ServiceReference)
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public Object changingSelectedService(ServiceReference oldReference,
-			Object oldService, ServiceReference newReference) {
+	public Object changingSelectedService(ServiceReference oldReference, Object oldService,
+			ServiceReference newReference) {
 		Object newService = null;
 		try {
 			newService = context.getService(newReference);
@@ -342,26 +302,19 @@ public class SingletonTracker extends ServiceTracker implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.kernel.util.SingletonTrackerCustomizer#
-	 * selectedServiceModified(org.osgi.framework.ServiceReference,
-	 * java.lang.Object)
+	 * selectedServiceModified(org.osgi.framework.ServiceReference, java.lang.Object)
 	 */
 	@Override
-	public void selectedServiceModified(ServiceReference reference,
-			Object service) {
-	}
+	public void selectedServiceModified(ServiceReference reference, Object service) {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.kernel.util.SingletonTrackerCustomizer#
-	 * releasedSelectedService(org.osgi.framework.ServiceReference,
-	 * java.lang.Object)
+	 * releasedSelectedService(org.osgi.framework.ServiceReference, java.lang.Object)
 	 */
 	@Override
-	public void releasedSelectedService(ServiceReference reference,
-			Object service) {
+	public void releasedSelectedService(ServiceReference reference, Object service) {
 		context.ungetService(reference);
 	}
 
@@ -376,13 +329,11 @@ public class SingletonTracker extends ServiceTracker implements
 			int bestRanking = 0;
 			boolean bestModified = false;
 			synchronized (candidates) {
-				for (Map.Entry<ServiceReference, Boolean> entry : candidates
-						.entrySet()) {
+				for (Map.Entry<ServiceReference, Boolean> entry : candidates.entrySet()) {
 					ServiceReference reference = entry.getKey();
-					Object rankingObj = reference
-							.getProperty(Constants.SERVICE_RANKING);
-					int ranking = rankingObj instanceof Integer ? ((Integer) rankingObj)
-							.intValue() : 0;
+					Object rankingObj = reference.getProperty(Constants.SERVICE_RANKING);
+					int ranking = rankingObj instanceof Integer ? ((Integer) rankingObj).intValue()
+							: 0;
 					if (bestReference == null || ranking > bestRanking) {
 						bestReference = reference;
 						bestRanking = ranking;
@@ -390,14 +341,11 @@ public class SingletonTracker extends ServiceTracker implements
 					}
 					entry.setValue(Boolean.FALSE);
 				}
-				if (selectedReference == null && bestReference == null
-						|| selectedReference != null
+				if (selectedReference == null && bestReference == null || selectedReference != null
 						&& selectedReference.equals(bestReference)) {
 					if (!bestModified) {
 						selecting = false;
-						if (re != null) {
-							throw re;
-						}
+						if (re != null) { throw re; }
 						return;
 					}
 				} else {
@@ -406,8 +354,7 @@ public class SingletonTracker extends ServiceTracker implements
 			}
 			try {
 				if (bestModified) {
-					customizer.selectedServiceModified(selectedReference,
-							selectedService);
+					customizer.selectedServiceModified(selectedReference, selectedService);
 				} else if (selectedReference == null) {
 					Object service = null;
 					try {
@@ -425,8 +372,7 @@ public class SingletonTracker extends ServiceTracker implements
 					}
 				} else if (bestReference == null) {
 					try {
-						customizer.releasedSelectedService(selectedReference,
-								selectedService);
+						customizer.releasedSelectedService(selectedReference, selectedService);
 					} finally {
 						synchronized (candidates) {
 							selectedReference = null;
@@ -436,9 +382,8 @@ public class SingletonTracker extends ServiceTracker implements
 				} else {
 					Object service = null;
 					try {
-						service = customizer.changingSelectedService(
-								selectedReference, selectedService,
-								bestReference);
+						service = customizer.changingSelectedService(selectedReference,
+								selectedService, bestReference);
 					} finally {
 						synchronized (candidates) {
 							if (service == null) {

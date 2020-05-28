@@ -31,168 +31,150 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesignEntryPoint;
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesignExitPoint;
 import com.openmethods.openvxml.desktop.model.workflow.internal.design.ConnectorRecord;
 
-public class PortalExitInformationProvider extends PrimitiveInformationProvider implements PropertyChangeListener, IDesignEntryPoint
-{
+public class PortalExitInformationProvider extends PrimitiveInformationProvider
+	implements
+	PropertyChangeListener,
+	IDesignEntryPoint {
 	List<ConnectorRecord> connectorRecords = new ArrayList<ConnectorRecord>();
 	PrimitiveElement exitElement = null;
-	
-	public PortalExitInformationProvider(PrimitiveElement element)
-	{
+
+	public PortalExitInformationProvider(PrimitiveElement element) {
 		super(element);
-		connectorRecords.add(new ConnectorRecord(element, "Continue", IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
+		connectorRecords.add(new ConnectorRecord(element, "Continue",
+				IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
 		this.exitElement = this.getElement();
 	}
 
-	public boolean acceptsConnector(IDesignElement origin)
-	{
+	public boolean acceptsConnector(IDesignElement origin) {
 		return false;
 	}
 
-	public ConnectorRecord getConnectorRecord(String recordName)
-	{
-		for(int i = 0; i < connectorRecords.size(); i++)
-		{
+	public ConnectorRecord getConnectorRecord(String recordName) {
+		for (int i = 0; i < connectorRecords.size(); i++) {
 			ConnectorRecord cr = connectorRecords.get(i);
-			if(cr.getName().equals(recordName))
-				return cr;
+			if (cr.getName().equals(recordName)) return cr;
 		}
 		return null;
 	}
 
-	public List<ConnectorRecord> getConnectorRecords()
-	{
+	public List<ConnectorRecord> getConnectorRecords() {
 		return connectorRecords;
 	}
 
-	public List<ConnectorRecord> getConnectorRecords(IDesignElementConnectionPoint.ConnectionPointType... types)
-	{
+	public List<ConnectorRecord> getConnectorRecords(
+			IDesignElementConnectionPoint.ConnectionPointType... types) {
 		List<ConnectorRecord> ret = new ArrayList<ConnectorRecord>();
-		for(int i = 0; i < connectorRecords.size(); i++)
-		{
+		for (int i = 0; i < connectorRecords.size(); i++) {
 			ConnectorRecord cr = connectorRecords.get(i);
-			if(cr.getType().isSet(IDesignElementConnectionPoint.ConnectionPointType.getFlagSet(types)))
-				ret.add(cr);
+			if (cr.getType().isSet(
+					IDesignElementConnectionPoint.ConnectionPointType.getFlagSet(types))) ret
+					.add(cr);
 		}
 		return ret;
 	}
 
-	public void readConfiguration(org.w3c.dom.Element configuration)
-	{
-	}
+	public void readConfiguration(org.w3c.dom.Element configuration) {}
 
-	public void writeConfiguration(org.w3c.dom.Element configuration)
-	{
-	}
+	public void writeConfiguration(org.w3c.dom.Element configuration) {}
 
-//	public List getPropertiesPanels()
-//	{
-//		List ret = new ArrayList();
-//		ret.add(new PortalExitGeneralPropertiesPanel("General", getElement()));
-//		return ret;
-//	}
-	
-	public void resolve()
-	{
-	}
+	// public List getPropertiesPanels()
+	// {
+	// List ret = new ArrayList();
+	// ret.add(new PortalExitGeneralPropertiesPanel("General", getElement()));
+	// return ret;
+	// }
 
-	public void propertyChange(PropertyChangeEvent evt)
-    {
-		if(evt.getPropertyName().equals(IDesignConstants.PROP_NAME))
-		{
-			getElement().setName((String)evt.getNewValue());
+	public void resolve() {}
+
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getPropertyName().equals(IDesignConstants.PROP_NAME)) {
+			getElement().setName((String) evt.getNewValue());
 		}
-    }
+	}
 
-//	public List getActions(CommandListener commandListener)
-//    {
-//		List ret = new ArrayList();
-//		List ee = getEntryElements();
-//		List uiCanvases = ((BasicController)commandListener).getRenderedCanvas().getUICanvas().getUIModel().listUICanvases();
-//		Map <String, Integer> map = new HashMap<String, Integer>();
-//		
-//		for(int b = 0; b < ee.size(); b++)
-//		{
-//			String currentId = ((PrimitiveElement)ee.get(b)).getId();
-//			for(int c = 0; c < uiCanvases.size(); c++)
-//			{
-//				String currentCanvasId = ((UICanvas)uiCanvases.get(c)).getId();
-//				List canvasElements = ((UICanvas)uiCanvases.get(c)).listUIElements();
-//				for(int d = 0; d < canvasElements.size(); d++)
-//				{
-//					if(((UIElement)canvasElements.get(d)).getElement().getId().equals(currentId))
-//					{
-//						if(!map.containsKey(currentCanvasId))
-//						{
-//							map.put(currentCanvasId, 1);
-//						}
-//						else
-//						{
-//							map.put(currentCanvasId, map.get(currentCanvasId) + 1);
-//						}
-//					}
-//				}
-//			}
-//		}
-//
-//		Iterator <Map.Entry<String, Integer>> i = map.entrySet().iterator();
-//		while (i.hasNext())
-//		{
-//			Map.Entry <String, Integer> entry = i.next();
-//			ret.add(new JumpToPortalEntryAction(exitElement, commandListener, entry.getKey() , entry.getValue()));
-//		}
-//		
-//		return ret;
-//    }
+	// public List getActions(CommandListener commandListener)
+	// {
+	// List ret = new ArrayList();
+	// List ee = getEntryElements();
+	// List uiCanvases =
+	// ((BasicController)commandListener).getRenderedCanvas().getUICanvas().getUIModel().listUICanvases();
+	// Map <String, Integer> map = new HashMap<String, Integer>();
+	//
+	// for(int b = 0; b < ee.size(); b++)
+	// {
+	// String currentId = ((PrimitiveElement)ee.get(b)).getId();
+	// for(int c = 0; c < uiCanvases.size(); c++)
+	// {
+	// String currentCanvasId = ((UICanvas)uiCanvases.get(c)).getId();
+	// List canvasElements = ((UICanvas)uiCanvases.get(c)).listUIElements();
+	// for(int d = 0; d < canvasElements.size(); d++)
+	// {
+	// if(((UIElement)canvasElements.get(d)).getElement().getId().equals(currentId))
+	// {
+	// if(!map.containsKey(currentCanvasId))
+	// {
+	// map.put(currentCanvasId, 1);
+	// }
+	// else
+	// {
+	// map.put(currentCanvasId, map.get(currentCanvasId) + 1);
+	// }
+	// }
+	// }
+	// }
+	// }
+	//
+	// Iterator <Map.Entry<String, Integer>> i = map.entrySet().iterator();
+	// while (i.hasNext())
+	// {
+	// Map.Entry <String, Integer> entry = i.next();
+	// ret.add(new JumpToPortalEntryAction(exitElement, commandListener, entry.getKey() ,
+	// entry.getValue()));
+	// }
+	//
+	// return ret;
+	// }
 
-	public boolean hasConnectors()
-    {
-	    return true;
-    }
+	public boolean hasConnectors() {
+		return true;
+	}
 
-	public String getId()
-	{
+	public String getId() {
 		return getElement().getId();
 	}
-	
-	public String getName()
-	{
+
+	public String getName() {
 		return getElement().getName();
 	}
-	
-	public List<IDesignExitPoint> getConnectingPoints()
-	{
+
+	public List<IDesignExitPoint> getConnectingPoints() {
 		List<IDesignExitPoint> exitPoints = new LinkedList<IDesignExitPoint>();
-		List<IDesignExitPoint> designExitPoints = getElement().getDesign().getDocument().getDesignExitPoints();
-		for(IDesignExitPoint exitPoint : designExitPoints)
-		{
-			if(exitPoint.getTargetId().equals(getElement().getId()))
-				exitPoints.add(exitPoint);
+		List<IDesignExitPoint> designExitPoints = getElement().getDesign().getDocument()
+				.getDesignExitPoints();
+		for (IDesignExitPoint exitPoint : designExitPoints) {
+			if (exitPoint.getTargetId().equals(getElement().getId())) exitPoints.add(exitPoint);
 		}
-		IDesignItemContainer container = getElement().getDesign().getDocument().getParentDesignContainer();
-		while(!(container instanceof IDesignRootFolder))
-			container = (IDesignItemContainer)container.getParent();
+		IDesignItemContainer container = getElement().getDesign().getDocument()
+				.getParentDesignContainer();
+		while (!(container instanceof IDesignRootFolder))
+			container = (IDesignItemContainer) container.getParent();
 		traverseDesigns(container, exitPoints);
 		return exitPoints;
 	}
-	
-	private void traverseDesigns(IDesignItemContainer container, List<IDesignExitPoint> exitPoints)
-	{
+
+	private void traverseDesigns(IDesignItemContainer container, List<IDesignExitPoint> exitPoints) {
 		List<IDesignDocument> documents = container.getDesignDocuments();
-		for(IDesignDocument document : documents)
-		{
-			if(!document.equals(getElement().getDesign().getDocument()))
-			{
+		for (IDesignDocument document : documents) {
+			if (!document.equals(getElement().getDesign().getDocument())) {
 				List<IDesignExitPoint> designExitPoints = document.getDesignExitPoints();
-				for(IDesignExitPoint exitPoint : designExitPoints)
-				{
-					if(exitPoint.getTargetId().equals(getElement().getId()))
-						exitPoints.add(exitPoint);
+				for (IDesignExitPoint exitPoint : designExitPoints) {
+					if (exitPoint.getTargetId().equals(getElement().getId())) exitPoints
+							.add(exitPoint);
 				}
 			}
 		}
 		List<IDesignFolder> folders = container.getDesignFolders();
-		for(IDesignFolder folder : folders)
-		{
+		for (IDesignFolder folder : folders) {
 			traverseDesigns(folder, exitPoints);
 		}
 	}

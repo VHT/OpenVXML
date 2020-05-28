@@ -6,16 +6,12 @@ import org.eclipse.vtp.desktop.model.core.WorkflowCore;
 
 public class IsWorkflowProjectPropertyTester extends PropertyTester {
 
-	public IsWorkflowProjectPropertyTester() {
-	}
+	public IsWorkflowProjectPropertyTester() {}
 
 	@Override
-	public boolean test(Object receiver, String property, Object[] args,
-			Object expectedValue) {
-		if (receiver instanceof IProject) {
-			return WorkflowCore.getDefault().getWorkflowModel()
-					.isWorkflowProject((IProject) receiver);
-		}
+	public boolean test(Object receiver, String property, Object[] args, Object expectedValue) {
+		if (receiver instanceof IProject) { return WorkflowCore.getDefault().getWorkflowModel()
+				.isWorkflowProject((IProject) receiver); }
 		return false;
 	}
 

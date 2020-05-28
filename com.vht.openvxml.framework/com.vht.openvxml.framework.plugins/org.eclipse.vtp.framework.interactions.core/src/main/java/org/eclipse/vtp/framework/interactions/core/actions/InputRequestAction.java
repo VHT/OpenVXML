@@ -52,18 +52,14 @@ public class InputRequestAction implements IAction {
 	/**
 	 * Creates a new InputRequestAction.
 	 * 
-	 * @param context
-	 *            The context to use.
-	 * @param variableRegistry
-	 *            The variable registry to use.
-	 * @param conversation
-	 *            The conversation to use.
-	 * @param configuration
-	 *            The configuration to use.
+	 * @param context The context to use.
+	 * @param variableRegistry The variable registry to use.
+	 * @param conversation The conversation to use.
+	 * @param configuration The configuration to use.
 	 */
-	public InputRequestAction(IActionContext context,
-			IVariableRegistry variableRegistry, IConversation conversation,
-			ILastResult lastResult, InputRequestConfiguration configuration) {
+	public InputRequestAction(IActionContext context, IVariableRegistry variableRegistry,
+			IConversation conversation, ILastResult lastResult,
+			InputRequestConfiguration configuration) {
 		this.context = context;
 		this.variableRegistry = variableRegistry;
 		this.conversation = conversation;
@@ -73,49 +69,39 @@ public class InputRequestAction implements IAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.core.IAction#execute()
 	 */
 	@Override
 	public IActionResult execute() {
-		String resultParameterName = ACTION_PREFIX
-				+ context.getActionID().replace(':', '_');
+		String resultParameterName = ACTION_PREFIX + context.getActionID().replace(':', '_');
 		try {
 			if (context.isDebugEnabled()) {
 				context.debug(getClass().getName().substring(
 						getClass().getName().lastIndexOf('.') + 1));
 			}
 			String result = context.getParameter(resultParameterName);
-			context.info("Entered Action " + context.getActionName() + " ["
-					+ context.getActionID() + "] with result: " + result);
+			context.info("Entered Action " + context.getActionName() + " [" + context.getActionID()
+					+ "] with result: " + result);
 			context.clearParameter(resultParameterName);
 			if (IConversation.RESULT_NAME_FILLED.equals(result)) {
-				String value = context
-						.getParameter(configuration.getDataName());
+				String value = context.getParameter(configuration.getDataName());
 				if (context.isReportingEnabled()) {
 					Dictionary props = new Hashtable();
 					props.put("event", "input.request.filled");
-					props.put(
-							"input.result",
-							configuration.isSecured() ? "**Secured**" : String
-									.valueOf(value));
-					context.report(
-							IReporter.SEVERITY_INFO,
-							"Got requested input \""
-									+ (configuration.isSecured() ? "**Secured**"
-											: String.valueOf(value)) + "\"",
-							props);
+					props.put("input.result", configuration.isSecured() ? "**Secured**" : String
+							.valueOf(value));
+					context.report(IReporter.SEVERITY_INFO, "Got requested input \""
+							+ (configuration.isSecured() ? "**Secured**" : String.valueOf(value))
+							+ "\"", props);
 				}
 				lastResult.clear();
 				String lastResultXML = context.getParameter("lastresult");
 				if (lastResultXML != null && !lastResultXML.equals("")) {
 					Document lastResultDocument = null;
 					try {
-						lastResultDocument = DocumentBuilderFactory
-								.newInstance()
-								.newDocumentBuilder()
-								.parse(new ByteArrayInputStream(lastResultXML
-										.getBytes()));
+						lastResultDocument = DocumentBuilderFactory.newInstance()
+								.newDocumentBuilder().parse(
+										new ByteArrayInputStream(lastResultXML.getBytes()));
 					} catch (Exception ex) {
 						ex.printStackTrace();
 					}
@@ -123,38 +109,34 @@ public class InputRequestAction implements IAction {
 							.getElementsByTagName("mark");
 					if (markList.getLength() > 0) {
 						Element markElement = (Element) markList.item(0);
-						lastResult
-								.setMarkName(markElement.getAttribute("name"));
-						lastResult.setMarkTime(markElement
-								.getAttribute("offset"));
+						lastResult.setMarkName(markElement.getAttribute("name"));
+						lastResult.setMarkTime(markElement.getAttribute("offset"));
 					}
-					NodeList nl = lastResultDocument.getDocumentElement()
-							.getElementsByTagName("result");
+					NodeList nl = lastResultDocument.getDocumentElement().getElementsByTagName(
+							"result");
 					for (int i = 0; i < nl.getLength(); i++) {
 						Element resultElement = (Element) nl.item(i);
-						Element confidenceElement = (Element) resultElement
-								.getElementsByTagName("confidence").item(0);
-						Element utteranceElement = (Element) resultElement
-								.getElementsByTagName("utterance").item(0);
-						Element inputModeElement = (Element) resultElement
-								.getElementsByTagName("inputmode").item(0);
+						Element confidenceElement = (Element) resultElement.getElementsByTagName(
+								"confidence").item(0);
+						Element utteranceElement = (Element) resultElement.getElementsByTagName(
+								"utterance").item(0);
+						Element inputModeElement = (Element) resultElement.getElementsByTagName(
+								"inputmode").item(0);
 						Element interpretationElement = (Element) resultElement
 								.getElementsByTagName("interpretation").item(0);
 						int confidenceValue = 0;
 						try {
-							BigDecimal confidenceBigDecimal = new BigDecimal(
-									confidenceElement.getTextContent());
-							confidenceValue = confidenceBigDecimal.multiply(
-									BD_100).intValue();
+							BigDecimal confidenceBigDecimal = new BigDecimal(confidenceElement
+									.getTextContent());
+							confidenceValue = confidenceBigDecimal.multiply(BD_100).intValue();
 						} catch (Exception ex) {
 							context.info("Invalid confidence value: "
 									+ confidenceElement.getTextContent());
 							context.info("Defaulting confidence to 0.");
 						}
-						lastResult.addResult(confidenceValue,
-								utteranceElement.getTextContent(),
-								inputModeElement.getTextContent(),
-								interpretationElement.getTextContent());
+						lastResult.addResult(confidenceValue, utteranceElement.getTextContent(),
+								inputModeElement.getTextContent(), interpretationElement
+										.getTextContent());
 						// lastResult.addResult(new
 						// BigDecimal(confidenceElement.getTextContent()).multiply(BD_100).intValue(),
 						// utteranceElement.getTextContent(),
@@ -165,46 +147,42 @@ public class InputRequestAction implements IAction {
 				IStringObject variable = (IStringObject) variableRegistry
 						.createVariable(IStringObject.TYPE_NAME);
 				variable.setValue(value);
-				variableRegistry.setVariable(configuration.getDataName(),
-						variable);
+				variableRegistry.setVariable(configuration.getDataName(), variable);
 				return context.createResult(IActionResult.RESULT_NAME_DEFAULT);
 			} else if (IConversation.RESULT_NAME_NO_INPUT.equals(result)) {
 				if (context.isReportingEnabled()) {
 					Dictionary props = new Hashtable();
 					props.put("event", "input.request.noinput");
-					context.report(IReporter.SEVERITY_INFO,
-							"Got no input for requested input.", props);
+					context.report(IReporter.SEVERITY_INFO, "Got no input for requested input.",
+							props);
 				}
 				return context.createResult(IConversation.RESULT_NAME_NO_INPUT);
 			} else if (IConversation.RESULT_NAME_HANGUP.equals(result)) {
 				if (context.isReportingEnabled()) {
 					Dictionary props = new Hashtable();
 					props.put("event", "error.disconnect.hangup");
-					context.report(IReporter.SEVERITY_INFO,
-							"Got disconnect during interaction.", props);
+					context.report(IReporter.SEVERITY_INFO, "Got disconnect during interaction.",
+							props);
 				}
 				return context.createResult(IConversation.RESULT_NAME_HANGUP);
 			} else if (IConversation.RESULT_NAME_NO_MATCH.equals(result)) {
 				if (context.isReportingEnabled()) {
 					Dictionary props = new Hashtable();
 					props.put("event", "input.request.nomatch");
-					context.report(IReporter.SEVERITY_INFO,
-							"Got no match for requested input.", props);
+					context.report(IReporter.SEVERITY_INFO, "Got no match for requested input.",
+							props);
 				}
 				String lastResultXML = context.getParameter("lastresult");
 				Document lastResultDocument = null;
 				try {
-					lastResultDocument = DocumentBuilderFactory
-							.newInstance()
-							.newDocumentBuilder()
-							.parse(new ByteArrayInputStream(lastResultXML
-									.getBytes()));
+					lastResultDocument = DocumentBuilderFactory.newInstance().newDocumentBuilder()
+							.parse(new ByteArrayInputStream(lastResultXML.getBytes()));
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
 				lastResult.clear();
-				NodeList markList = lastResultDocument.getDocumentElement()
-						.getElementsByTagName("mark");
+				NodeList markList = lastResultDocument.getDocumentElement().getElementsByTagName(
+						"mark");
 				if (markList.getLength() > 0) {
 					Element markElement = (Element) markList.item(0);
 					lastResult.setMarkName(markElement.getAttribute("name"));
@@ -214,29 +192,27 @@ public class InputRequestAction implements IAction {
 						.getElementsByTagName("result");
 				for (int i = 0; i < nl.getLength(); i++) {
 					Element resultElement = (Element) nl.item(i);
-					Element confidenceElement = (Element) resultElement
-							.getElementsByTagName("confidence").item(0);
-					Element utteranceElement = (Element) resultElement
-							.getElementsByTagName("utterance").item(0);
-					Element inputModeElement = (Element) resultElement
-							.getElementsByTagName("inputmode").item(0);
-					Element interpretationElement = (Element) resultElement
-							.getElementsByTagName("interpretation").item(0);
+					Element confidenceElement = (Element) resultElement.getElementsByTagName(
+							"confidence").item(0);
+					Element utteranceElement = (Element) resultElement.getElementsByTagName(
+							"utterance").item(0);
+					Element inputModeElement = (Element) resultElement.getElementsByTagName(
+							"inputmode").item(0);
+					Element interpretationElement = (Element) resultElement.getElementsByTagName(
+							"interpretation").item(0);
 					int confidenceValue = 0;
 					try {
-						BigDecimal confidenceBigDecimal = new BigDecimal(
-								confidenceElement.getTextContent());
-						confidenceValue = confidenceBigDecimal.multiply(BD_100)
-								.intValue();
+						BigDecimal confidenceBigDecimal = new BigDecimal(confidenceElement
+								.getTextContent());
+						confidenceValue = confidenceBigDecimal.multiply(BD_100).intValue();
 					} catch (Exception ex) {
 						context.info("Invalid confidence value: "
 								+ confidenceElement.getTextContent());
 						context.info("Defaulting confidence to 0.");
 					}
-					lastResult.addResult(confidenceValue,
-							utteranceElement.getTextContent(),
-							inputModeElement.getTextContent(),
-							interpretationElement.getTextContent());
+					lastResult.addResult(confidenceValue, utteranceElement.getTextContent(),
+							inputModeElement.getTextContent(), interpretationElement
+									.getTextContent());
 				}
 				return context.createResult(IConversation.RESULT_NAME_NO_MATCH);
 			} else if (result != null) {
@@ -245,12 +221,10 @@ public class InputRequestAction implements IAction {
 				if (context.isReportingEnabled()) {
 					Dictionary props = new Hashtable();
 					props.put("event", "input.request.before");
-					context.report(IReporter.SEVERITY_INFO,
-							"Requesting input \"" + configuration.getDataName()
-									+ "\".", props);
+					context.report(IReporter.SEVERITY_INFO, "Requesting input \""
+							+ configuration.getDataName() + "\".", props);
 				}
-				conversation.createInputRequest(configuration,
-						resultParameterName).enqueue();
+				conversation.createInputRequest(configuration, resultParameterName).enqueue();
 				return context.createResult(IActionResult.RESULT_NAME_REPEAT);
 			}
 		} catch (RuntimeException e) {

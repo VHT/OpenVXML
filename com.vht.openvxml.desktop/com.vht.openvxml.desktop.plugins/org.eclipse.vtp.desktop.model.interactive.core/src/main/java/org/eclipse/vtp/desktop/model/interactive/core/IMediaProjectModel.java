@@ -12,8 +12,7 @@ public interface IMediaProjectModel {
 
 	public List<IMediaProject> listMediaProjects();
 
-	public IMediaProject createMediaProject(String natureId,
-			String languagePackId, String name);
+	public IMediaProject createMediaProject(String natureId, String languagePackId, String name);
 
 	public IMediaProject convertToMediaProject(IProject project);
 

@@ -23,8 +23,7 @@ import org.w3c.dom.NodeList;
  * 
  * @author Lonnie Pryor
  */
-public abstract class DatabaseConfiguration implements IConfiguration,
-		DatabaseConstants {
+public abstract class DatabaseConfiguration implements IConfiguration, DatabaseConstants {
 	/** The name of this configuration. */
 	private String name = ""; //$NON-NLS-1$
 	/** The user name to connect with. */
@@ -37,8 +36,7 @@ public abstract class DatabaseConfiguration implements IConfiguration,
 	/**
 	 * Creates a new DatabaseConfiguration.
 	 */
-	public DatabaseConfiguration() {
-	}
+	public DatabaseConfiguration() {}
 
 	/**
 	 * Returns the name of this configuration.
@@ -52,8 +50,7 @@ public abstract class DatabaseConfiguration implements IConfiguration,
 	/**
 	 * Sets the name of this configuration.
 	 * 
-	 * @param name
-	 *            The name of this configuration.
+	 * @param name The name of this configuration.
 	 */
 	public void setName(String name) {
 		this.name = name == null ? "" : name; //$NON-NLS-1$;
@@ -71,8 +68,7 @@ public abstract class DatabaseConfiguration implements IConfiguration,
 	/**
 	 * Sets the user name to connect with.
 	 * 
-	 * @param username
-	 *            The user name to connect with.
+	 * @param username The user name to connect with.
 	 */
 	public void setUsername(String username) {
 		this.username = username;
@@ -90,8 +86,7 @@ public abstract class DatabaseConfiguration implements IConfiguration,
 	/**
 	 * Sets the password to connect with.
 	 * 
-	 * @param password
-	 *            The password to connect with.
+	 * @param password The password to connect with.
 	 */
 	public void setPassword(String password) {
 		this.password = password;
@@ -109,8 +104,7 @@ public abstract class DatabaseConfiguration implements IConfiguration,
 	/**
 	 * Adds a table to the end of this database.
 	 * 
-	 * @param table
-	 *            The table to add.
+	 * @param table The table to add.
 	 */
 	public void addTable(DatabaseTableConfiguration table) {
 		if (table != null) {
@@ -121,8 +115,7 @@ public abstract class DatabaseConfiguration implements IConfiguration,
 	/**
 	 * Removes a table from this database.
 	 * 
-	 * @param table
-	 *            The table to remove.
+	 * @param table The table to remove.
 	 */
 	public void removeTable(DatabaseTableConfiguration table) {
 		if (table != null) {
@@ -132,9 +125,7 @@ public abstract class DatabaseConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#load( org.w3c.dom.Element)
 	 */
 	@Override
 	public void load(Element configurationElement) {
@@ -150,8 +141,7 @@ public abstract class DatabaseConfiguration implements IConfiguration,
 			password = null;
 		}
 		tables.clear();
-		NodeList list = configurationElement.getElementsByTagNameNS(
-				NAMESPACE_URI, NAME_TABLE);
+		NodeList list = configurationElement.getElementsByTagNameNS(NAMESPACE_URI, NAME_TABLE);
 		for (int i = 0; i < list.getLength(); ++i) {
 			Element element = (Element) list.item(i);
 			DatabaseTableConfiguration item = new DatabaseTableConfiguration();
@@ -162,9 +152,7 @@ public abstract class DatabaseConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#save( org.w3c.dom.Element)
 	 */
 	@Override
 	public void save(Element configurationElement) {
@@ -181,8 +169,8 @@ public abstract class DatabaseConfiguration implements IConfiguration,
 			tableName = prefix + ":" + tableName; //$NON-NLS-1$
 		}
 		for (DatabaseTableConfiguration item : tables) {
-			Element element = configurationElement.getOwnerDocument()
-					.createElementNS(NAMESPACE_URI, tableName);
+			Element element = configurationElement.getOwnerDocument().createElementNS(
+					NAMESPACE_URI, tableName);
 			item.save(element);
 			configurationElement.appendChild(element);
 		}

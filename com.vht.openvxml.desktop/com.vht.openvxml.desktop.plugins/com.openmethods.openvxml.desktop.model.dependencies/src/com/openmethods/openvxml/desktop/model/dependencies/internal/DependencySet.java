@@ -44,18 +44,14 @@ public class DependencySet extends WorkflowResource implements IDependencySet {
 	 * @param project
 	 * @param folder
 	 */
-	public DependencySet(final IExternalDependenciesProjectAspect aspect,
-			final IFolder folder) {
+	public DependencySet(final IExternalDependenciesProjectAspect aspect, final IFolder folder) {
 		this.aspect = aspect;
 		this.folder = folder;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.internals.VoiceResource#getObjectId
-	 * ()
+	 * @see org.eclipse.vtp.desktop.core.project.internals.VoiceResource#getObjectId ()
 	 */
 	@Override
 	protected String getObjectId() {
@@ -64,7 +60,6 @@ public class DependencySet extends WorkflowResource implements IDependencySet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IVoiceResource#getName()
 	 */
 	@Override
@@ -74,7 +69,6 @@ public class DependencySet extends WorkflowResource implements IDependencySet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IVoiceResource#getParent()
 	 */
 	@Override
@@ -84,9 +78,7 @@ public class DependencySet extends WorkflowResource implements IDependencySet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IDependencySet#getDependencies()
+	 * @see org.eclipse.vtp.desktop.core.project.IDependencySet#getDependencies()
 	 */
 	@Override
 	public List<IDependency> getDependencies() {
@@ -106,10 +98,8 @@ public class DependencySet extends WorkflowResource implements IDependencySet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IDependencySet#createDependency(
-	 * java.lang.String, java.net.URL)
+	 * @see org.eclipse.vtp.desktop.core.project.IDependencySet#createDependency( java.lang.String,
+	 * java.net.URL)
 	 */
 	@Override
 	public IDependency createDependency(String name, InputStream content) {
@@ -131,9 +121,7 @@ public class DependencySet extends WorkflowResource implements IDependencySet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IDependencySet#removeDependency(
+	 * @see org.eclipse.vtp.desktop.core.project.IDependencySet#removeDependency(
 	 * org.eclipse.vtp.desktop.core.project.IDependency)
 	 */
 	@Override
@@ -152,21 +140,15 @@ public class DependencySet extends WorkflowResource implements IDependencySet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.internal.WorkflowResource#getAdapter
+	 * @see org.eclipse.vtp.desktop.model.core.internal.WorkflowResource#getAdapter
 	 * (java.lang.Class)
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapterClass) {
 		if (IResource.class.isAssignableFrom(adapterClass)
-				&& adapterClass.isAssignableFrom(folder.getClass())) {
-			return folder;
-		}
-		if (DependencySet.class.isAssignableFrom(adapterClass)) {
-			return this;
-		}
+				&& adapterClass.isAssignableFrom(folder.getClass())) { return folder; }
+		if (DependencySet.class.isAssignableFrom(adapterClass)) { return this; }
 		return super.getAdapter(adapterClass);
 	}
 
@@ -182,9 +164,8 @@ public class DependencySet extends WorkflowResource implements IDependencySet {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof DependencySet) {
-			return folder.equals(((DependencySet) obj).getUnderlyingFolder());
-		}
+		if (obj instanceof DependencySet) { return folder.equals(((DependencySet) obj)
+				.getUnderlyingFolder()); }
 		return false;
 	}
 

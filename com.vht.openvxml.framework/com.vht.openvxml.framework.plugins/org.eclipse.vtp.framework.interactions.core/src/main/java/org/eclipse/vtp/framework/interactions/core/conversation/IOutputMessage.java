@@ -20,21 +20,16 @@ public interface IOutputMessage extends IInteraction {
 	/**
 	 * Sets the value of a parameter configured on this interaction.
 	 * 
-	 * @param name
-	 *            The name of the parameter to set the value of.
-	 * @param value
-	 *            The value to set the parameter to.
+	 * @param name The name of the parameter to set the value of.
+	 * @param value The value to set the parameter to.
 	 */
 	void setParameterValue(String name, String value);
 
 	/**
-	 * Sets all the values configured for the specified parameter on this
-	 * interaction.
+	 * Sets all the values configured for the specified parameter on this interaction.
 	 * 
-	 * @param name
-	 *            The name of the parameter to set the values of.
-	 * @param values
-	 *            The values to set the parameter to.
+	 * @param name The name of the parameter to set the values of.
+	 * @param values The values to set the parameter to.
 	 */
 	void setParameterValues(String name, String[] values);
 }

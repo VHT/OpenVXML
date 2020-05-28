@@ -27,17 +27,19 @@ import org.eclipse.vtp.desktop.model.core.internal.event.ObjectEvent;
 import org.eclipse.vtp.desktop.model.core.internal.event.ObjectListener;
 
 /**
- * This is a concrete implementation of <code>IVoiceToolsResource</code> and
- * provides the default behavior of that interface.
+ * This is a concrete implementation of <code>IVoiceToolsResource</code> and provides the default
+ * behavior of that interface.
  *
  * @author Trip Gilman
  * @version 2.0
  */
-public abstract class WorkflowResource implements IWorkflowResource,
-		ObjectListener, IContributorResourceAdapter {
+public abstract class WorkflowResource
+	implements
+	IWorkflowResource,
+	ObjectListener,
+	IContributorResourceAdapter {
 	/**
-	 * The list of <code>IRefreshListener</code>s to be notified of refresh
-	 * events.
+	 * The list of <code>IRefreshListener</code>s to be notified of refresh events.
 	 */
 	List<IRefreshListener> refreshListeners = new ArrayList<IRefreshListener>();
 
@@ -54,8 +56,7 @@ public abstract class WorkflowResource implements IWorkflowResource,
 	}
 
 	/**
-	 * Notifies the desktop core plugin to begin processing events for this
-	 * object.
+	 * Notifies the desktop core plugin to begin processing events for this object.
 	 */
 	protected void activateEvents() {
 		WorkflowCore.getDefault().registerObjectListener(getObjectId(), this);
@@ -63,7 +64,6 @@ public abstract class WorkflowResource implements IWorkflowResource,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.lang.Object#finalize()
 	 */
 	@Override
@@ -73,9 +73,8 @@ public abstract class WorkflowResource implements IWorkflowResource,
 	}
 
 	/**
-	 * The object id is used by the event system to uniquely identify a project
-	 * resource. In this fashion, multiple references to the resource can be
-	 * created and still be notified of events.
+	 * The object id is used by the event system to uniquely identify a project resource. In this
+	 * fashion, multiple references to the resource can be created and still be notified of events.
 	 *
 	 * @return A unique identifier for this resource
 	 */
@@ -83,7 +82,6 @@ public abstract class WorkflowResource implements IWorkflowResource,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IVoiceResource#deferEvents()
 	 */
 	@Override
@@ -93,7 +91,6 @@ public abstract class WorkflowResource implements IWorkflowResource,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IVoiceResource#resumeEvents()
 	 */
 	@Override
@@ -103,9 +100,7 @@ public abstract class WorkflowResource implements IWorkflowResource,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IVoiceResource#addRefreshListener
+	 * @see org.eclipse.vtp.desktop.core.project.IVoiceResource#addRefreshListener
 	 * (org.eclipse.vtp.desktop.core.project.event.IRefreshListener)
 	 */
 	@Override
@@ -118,9 +113,7 @@ public abstract class WorkflowResource implements IWorkflowResource,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IVoiceResource#removeRefreshListener
+	 * @see org.eclipse.vtp.desktop.core.project.IVoiceResource#removeRefreshListener
 	 * (org.eclipse.vtp.desktop.core.project.event.IRefreshListener)
 	 */
 	@Override
@@ -132,9 +125,7 @@ public abstract class WorkflowResource implements IWorkflowResource,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.core.project.internals.event.ObjectListener#
-	 * processObjectEvent
+	 * @see org.eclipse.vtp.desktop.core.project.internals.event.ObjectListener# processObjectEvent
 	 * (org.eclipse.vtp.desktop.core.project.internals.event.ObjectEvent)
 	 */
 	@Override
@@ -150,25 +141,20 @@ public abstract class WorkflowResource implements IWorkflowResource,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IVoiceResource#refresh()
 	 */
 	@Override
 	public void refresh() {
-		WorkflowCore.getDefault().postObjectEvent(
-				new ObjectRefreshEvent(getObjectId()));
+		WorkflowCore.getDefault().postObjectEvent(new ObjectRefreshEvent(getObjectId()));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 	 */
 	@Override
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) {
-		if (IContributorResourceAdapter.class.isAssignableFrom(adapter)) {
-			return this;
-		}
+		if (IContributorResourceAdapter.class.isAssignableFrom(adapter)) { return this; }
 		return Platform.getAdapterManager().getAdapter(this, adapter);
 	}
 

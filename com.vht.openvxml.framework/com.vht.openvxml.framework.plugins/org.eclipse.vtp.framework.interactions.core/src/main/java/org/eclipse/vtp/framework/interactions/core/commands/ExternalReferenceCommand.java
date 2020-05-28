@@ -33,8 +33,7 @@ public final class ExternalReferenceCommand extends ConversationCommand {
 	/** The value of the result parameter to pass if the caller hungup. */
 	private String hangupResultValue = null;
 	/**
-	 * The value of the result parameter to pass if the target URL is not
-	 * available.
+	 * The value of the result parameter to pass if the target URL is not available.
 	 */
 	private String badFetchResultValue = null;
 	/** The URL of the external reference. */
@@ -52,8 +51,7 @@ public final class ExternalReferenceCommand extends ConversationCommand {
 	/**
 	 * Creates a new ExternalReferenceCommand.
 	 */
-	public ExternalReferenceCommand() {
-	}
+	public ExternalReferenceCommand() {}
 
 	/**
 	 * Returns the name of the external reference being called.
@@ -67,8 +65,7 @@ public final class ExternalReferenceCommand extends ConversationCommand {
 	/**
 	 * Sets the name of the external reference being called.
 	 * 
-	 * @param inputName
-	 *            The name of the external reference being called.
+	 * @param inputName The name of the external reference being called.
 	 */
 	public void setReferenceName(String inputName) {
 		this.referenceName = inputName;
@@ -86,9 +83,7 @@ public final class ExternalReferenceCommand extends ConversationCommand {
 	/**
 	 * Sets the name of the parameter to pass the result of the request as.
 	 * 
-	 * @param resultName
-	 *            The name of the parameter to pass the result of the request
-	 *            as.
+	 * @param resultName The name of the parameter to pass the result of the request as.
 	 */
 	public void setResultName(String resultName) {
 		this.resultName = resultName;
@@ -106,9 +101,7 @@ public final class ExternalReferenceCommand extends ConversationCommand {
 	/**
 	 * Sets the value of the result parameter to pass if the input is valid.
 	 * 
-	 * @param filledResultValue
-	 *            The value of the result parameter to pass if the input is
-	 *            valid.
+	 * @param filledResultValue The value of the result parameter to pass if the input is valid.
 	 */
 	public void setFilledResultValue(String filledResultValue) {
 		this.filledResultValue = filledResultValue;
@@ -126,9 +119,7 @@ public final class ExternalReferenceCommand extends ConversationCommand {
 	/**
 	 * Sets the value of the result parameter to pass if the caller hungup.
 	 * 
-	 * @param noInputResultValue
-	 *            The value of the result parameter to pass if the caller
-	 *            hungup.
+	 * @param noInputResultValue The value of the result parameter to pass if the caller hungup.
 	 */
 	public void setHangupResultValue(String hangupResultValue) {
 		this.hangupResultValue = hangupResultValue;
@@ -146,9 +137,7 @@ public final class ExternalReferenceCommand extends ConversationCommand {
 	/**
 	 * Sets the value of the result parameter to pass if the caller hungup.
 	 * 
-	 * @param noInputResultValue
-	 *            The value of the result parameter to pass if the caller
-	 *            hungup.
+	 * @param noInputResultValue The value of the result parameter to pass if the caller hungup.
 	 */
 	public void setBadFetchResultValue(String badFetchResultValue) {
 		this.badFetchResultValue = badFetchResultValue;
@@ -166,8 +155,7 @@ public final class ExternalReferenceCommand extends ConversationCommand {
 	/**
 	 * Sets the URI of the external reference.
 	 * 
-	 * @param referenceURI
-	 *            The URI of the external reference.
+	 * @param referenceURI The URI of the external reference.
 	 */
 	public void setReferenceURI(String referenceURI) {
 		this.referenceURI = referenceURI;
@@ -181,8 +169,7 @@ public final class ExternalReferenceCommand extends ConversationCommand {
 	}
 
 	/**
-	 * @param method
-	 *            - Sets the method of the fetch
+	 * @param method - Sets the method of the fetch
 	 */
 	public void setMethod(String method) {
 		this.method = method;
@@ -194,36 +181,28 @@ public final class ExternalReferenceCommand extends ConversationCommand {
 	 * @return The names of the arguments the resource takes as input.
 	 */
 	public String[] getInputArgumentNames() {
-		return (String[]) inputArguments.keySet().toArray(
-				new String[inputArguments.size()]);
+		return (String[]) inputArguments.keySet().toArray(new String[inputArguments.size()]);
 	}
 
 	/**
 	 * Returns the value of an argument the resource takes as input.
 	 * 
-	 * @param name
-	 *            The name of the argument to be passed.
+	 * @param name The name of the argument to be passed.
 	 * @return The value of an argument the resource takes as input.
 	 */
 	public String getInputArgumentValue(String name) {
-		if (name == null) {
-			return null;
-		}
+		if (name == null) { return null; }
 		return (String) inputArguments.get(name);
 	}
 
 	/**
 	 * Configures the value of an argument the resource takes as input.
 	 * 
-	 * @param name
-	 *            The name of the argument to pass.
-	 * @param value
-	 *            The value of the argument.
+	 * @param name The name of the argument to pass.
+	 * @param value The value of the argument.
 	 */
 	public void setInputArgumentValue(String name, String value) {
-		if (name == null) {
-			return;
-		}
+		if (name == null) { return; }
 		if (value == null) {
 			inputArguments.remove(name);
 		} else {
@@ -237,36 +216,28 @@ public final class ExternalReferenceCommand extends ConversationCommand {
 	 * @return The names of the arguments the resource returns as output.
 	 */
 	public String[] getOutputArgumentNames() {
-		return (String[]) outputArguments.keySet().toArray(
-				new String[outputArguments.size()]);
+		return (String[]) outputArguments.keySet().toArray(new String[outputArguments.size()]);
 	}
 
 	/**
 	 * Returns the value of an argument the resource returns as output.
 	 * 
-	 * @param name
-	 *            The name of the argument to be returned.
+	 * @param name The name of the argument to be returned.
 	 * @return The value of an argument the resource returns as output.
 	 */
 	public String getOutputArgumentValue(String name) {
-		if (name == null) {
-			return null;
-		}
+		if (name == null) { return null; }
 		return (String) outputArguments.get(name);
 	}
 
 	/**
 	 * Configures the value of an argument the resource returns as output.
 	 * 
-	 * @param name
-	 *            The name of the argument to return.
-	 * @param value
-	 *            The value of the argument.
+	 * @param name The name of the argument to return.
+	 * @param value The value of the argument.
 	 */
 	public void setOutputArgumentValue(String name, String value) {
-		if (name == null) {
-			return;
-		}
+		if (name == null) { return; }
 		if (value == null) {
 			outputArguments.remove(name);
 		} else {
@@ -275,21 +246,16 @@ public final class ExternalReferenceCommand extends ConversationCommand {
 	}
 
 	public String[] getURLParameterNames() {
-		return (String[]) urlParameters.keySet().toArray(
-				new String[urlParameters.size()]);
+		return (String[]) urlParameters.keySet().toArray(new String[urlParameters.size()]);
 	}
 
 	public String getURLParameterValue(String name) {
-		if (name == null) {
-			return null;
-		}
+		if (name == null) { return null; }
 		return (String) urlParameters.get(name);
 	}
 
 	public void setURLParameterValue(String name, String value) {
-		if (name == null) {
-			return;
-		}
+		if (name == null) { return; }
 		if (value == null) {
 			urlParameters.remove(name);
 		} else {
@@ -298,47 +264,35 @@ public final class ExternalReferenceCommand extends ConversationCommand {
 	}
 
 	/**
-	 * Returns the names of the parameters that will be returned from the
-	 * interaction.
+	 * Returns the names of the parameters that will be returned from the interaction.
 	 * 
-	 * @return The names of the parameters that will be returned from the
-	 *         interaction.
+	 * @return The names of the parameters that will be returned from the interaction.
 	 */
 	public String[] getParameterNames() {
-		return (String[]) parameters.keySet().toArray(
-				new String[parameters.size()]);
+		return (String[]) parameters.keySet().toArray(new String[parameters.size()]);
 	}
 
 	/**
 	 * Returns the values of a parameter to be set when the process resumes.
 	 * 
-	 * @param name
-	 *            The name of the parameter to be set.
+	 * @param name The name of the parameter to be set.
 	 * @return The values that specified parameter will be set to.
 	 */
 	public String[] getParameterValues(String name) {
-		if (name == null) {
-			return null;
-		}
+		if (name == null) { return null; }
 		List list = (List) parameters.get(name);
-		if (list == null) {
-			return null;
-		}
+		if (list == null) { return null; }
 		return (String[]) list.toArray(new String[list.size()]);
 	}
 
 	/**
 	 * Configures a parameter set when the current process resumes.
 	 * 
-	 * @param name
-	 *            The name of the parameter to set.
-	 * @param values
-	 *            The values to set the parameter to.
+	 * @param name The name of the parameter to set.
+	 * @param values The values to set the parameter to.
 	 */
 	public void setParameterValues(String name, String[] values) {
-		if (name == null) {
-			return;
-		}
+		if (name == null) { return; }
 		if (values == null) {
 			parameters.remove(name);
 		} else {
@@ -358,11 +312,8 @@ public final class ExternalReferenceCommand extends ConversationCommand {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.interactions.core.commands.
-	 * ConversationCommand#accept(
-	 * org.eclipse.vtp.framework.interactions.core.commands.
-	 * IConversationCommandVisitor)
+	 * @see org.eclipse.vtp.framework.interactions.core.commands. ConversationCommand#accept(
+	 * org.eclipse.vtp.framework.interactions.core.commands. IConversationCommandVisitor)
 	 */
 	@Override
 	Object accept(IConversationCommandVisitor visitor) {
@@ -371,14 +322,12 @@ public final class ExternalReferenceCommand extends ConversationCommand {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.ICommand#exportContents()
 	 */
 	@Override
 	public Object exportContents() {
 		List inputArguments = new ArrayList(this.inputArguments.size() * 2);
-		for (Iterator i = this.inputArguments.entrySet().iterator(); i
-				.hasNext();) {
+		for (Iterator i = this.inputArguments.entrySet().iterator(); i.hasNext();) {
 			Map.Entry entry = (Map.Entry) i.next();
 			inputArguments.add(entry.getKey());
 			inputArguments.add(entry.getValue());
@@ -390,8 +339,7 @@ public final class ExternalReferenceCommand extends ConversationCommand {
 			urlArguments.add(entry.getValue());
 		}
 		List outputArguments = new ArrayList(this.outputArguments.size() * 2);
-		for (Iterator i = this.outputArguments.entrySet().iterator(); i
-				.hasNext();) {
+		for (Iterator i = this.outputArguments.entrySet().iterator(); i.hasNext();) {
 			Map.Entry entry = (Map.Entry) i.next();
 			outputArguments.add(entry.getKey());
 			outputArguments.add(entry.getValue());
@@ -411,9 +359,7 @@ public final class ExternalReferenceCommand extends ConversationCommand {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.ICommand#importContents(
-	 * java.lang.Object)
+	 * @see org.eclipse.vtp.framework.spi.ICommand#importContents( java.lang.Object)
 	 */
 	@Override
 	public void importContents(Object contents) {
@@ -434,8 +380,7 @@ public final class ExternalReferenceCommand extends ConversationCommand {
 		this.outputArguments.clear();
 		String[] outputArguments = (String[]) array[4];
 		for (int i = 0; i < outputArguments.length; i += 2) {
-			this.outputArguments
-					.put(outputArguments[i], outputArguments[i + 1]);
+			this.outputArguments.put(outputArguments[i], outputArguments[i + 1]);
 		}
 		this.parameters.clear();
 		String[] parameters = (String[]) array[5];

@@ -14,11 +14,9 @@ import org.w3c.dom.Element;
 import com.openmethods.openvxml.desktop.model.databases.IDatabaseProjectAspect;
 import com.openmethods.openvxml.desktop.model.workflow.IWorkflowProjectAspect;
 
-public class DatabaseProjectAspectFactory implements
-		IOpenVXMLProjectAspectFactory {
+public class DatabaseProjectAspectFactory implements IOpenVXMLProjectAspectFactory {
 
-	public DatabaseProjectAspectFactory() {
-	}
+	public DatabaseProjectAspectFactory() {}
 
 	@Override
 	public String getAspectId() {
@@ -33,16 +31,14 @@ public class DatabaseProjectAspectFactory implements
 	}
 
 	@Override
-	public boolean configureProject(IOpenVXMLProject project,
-			IProjectDescription description, Element aspectConfiguration) {
+	public boolean configureProject(IOpenVXMLProject project, IProjectDescription description,
+			Element aspectConfiguration) {
 		return false;
 	}
 
 	@Override
-	public void createProjectLayout(IOpenVXMLProject project,
-			Element aspectConfiguration) {
-		IFolder databasesFolder = project.getUnderlyingProject().getFolder(
-				"Databases");
+	public void createProjectLayout(IOpenVXMLProject project, Element aspectConfiguration) {
+		IFolder databasesFolder = project.getUnderlyingProject().getFolder("Databases");
 		if (!databasesFolder.exists()) {
 			try {
 				databasesFolder.create(true, true, null);

@@ -9,23 +9,21 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesign;
 
 /**
  * @author trip
- *
  */
-public class NonDialogPalletItemFilter implements PalletItemFilter
-{
+public class NonDialogPalletItemFilter implements PalletItemFilter {
 
 	/**
 	 * 
 	 */
-	public NonDialogPalletItemFilter()
-	{
-	}
+	public NonDialogPalletItemFilter() {}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.vtp.desktop.model.elements.core.internal.views.PalletItemFilter#canBeContainedBy(org.eclipse.vtp.desktop.model.core.design.IDesign)
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.eclipse.vtp.desktop.model.elements.core.internal.views.PalletItemFilter#canBeContainedBy
+	 * (org.eclipse.vtp.desktop.model.core.design.IDesign)
 	 */
-	public boolean canBeContainedBy(IDesign design)
-	{
+	public boolean canBeContainedBy(IDesign design) {
 		return design.getDocument().getMainDesign().equals(design);
 	}
 

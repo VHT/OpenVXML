@@ -8,8 +8,7 @@ import com.openmethods.openvxml.desktop.model.workflow.IDesignRootFolder;
 /**
  * @author trip
  */
-public class DesignRootFolder extends DesignItemContainer implements
-		IDesignRootFolder {
+public class DesignRootFolder extends DesignItemContainer implements IDesignRootFolder {
 	private WorkflowProjectAspect aspect = null;
 
 	/**
@@ -22,7 +21,6 @@ public class DesignRootFolder extends DesignItemContainer implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.model.core.IWorkflowResource#getParent()
 	 */
 	@Override
@@ -32,16 +30,12 @@ public class DesignRootFolder extends DesignItemContainer implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.internal.WorkflowResource#getAdapter
+	 * @see org.eclipse.vtp.desktop.model.core.internal.WorkflowResource#getAdapter
 	 * (java.lang.Class)
 	 */
 	@Override
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapterClass) {
-		if (IDesignRootFolder.class.isAssignableFrom(adapterClass)) {
-			return this;
-		}
+		if (IDesignRootFolder.class.isAssignableFrom(adapterClass)) { return this; }
 		return super.getAdapter(adapterClass);
 	}
 }

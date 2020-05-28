@@ -80,17 +80,14 @@ public abstract class DynamicContentCreatorPanel extends ContentCreatorPanel {
 	 * @return The current dynamic selection.
 	 */
 	public String getDynamicSelection() {
-		if (options == null || !dynamicSelected) {
-			return null;
-		}
+		if (options == null || !dynamicSelected) { return null; }
 		return options.getItem(options.getSelectionIndex());
 	}
 
 	/**
 	 * Sets the list of variables that are available.
 	 * 
-	 * @param variables
-	 *            The list of variables that are available.
+	 * @param variables The list of variables that are available.
 	 */
 	public void setVariables(List<Variable> variables) {
 		if (variables == null) {
@@ -110,13 +107,10 @@ public abstract class DynamicContentCreatorPanel extends ContentCreatorPanel {
 	/**
 	 * Sets the selected value to dynamic or static.
 	 * 
-	 * @param dynamicSelected
-	 *            True if the dynamic value should be selected.
+	 * @param dynamicSelected True if the dynamic value should be selected.
 	 */
 	public void setDynamicSelected(boolean dynamicSelected) {
-		if (!isDynamic() && dynamicSelected) {
-			return;
-		}
+		if (!isDynamic() && dynamicSelected) { return; }
 		this.dynamicSelected = dynamicSelected;
 		if (staticButton != null) {
 			staticButton.setSelection(!dynamicSelected);
@@ -129,13 +123,10 @@ public abstract class DynamicContentCreatorPanel extends ContentCreatorPanel {
 	/**
 	 * Sets the current dynamic selection.
 	 * 
-	 * @param dynamicSelection
-	 *            The dynamic selection to choose.
+	 * @param dynamicSelection The dynamic selection to choose.
 	 */
 	public void setDynamicSelection(String dynamicSelection) {
-		if (options == null || !dynamicSelected || dynamicSelection == null) {
-			return;
-		}
+		if (options == null || !dynamicSelected || dynamicSelection == null) { return; }
 		for (int i = 0; i < options.getItemCount(); ++i) {
 			if (dynamicSelection.equals(options.getItem(i))) {
 				options.select(i);
@@ -148,17 +139,14 @@ public abstract class DynamicContentCreatorPanel extends ContentCreatorPanel {
 	 * @return
 	 */
 	public String getFormat() {
-		if (formatCombo != null && formatCombo.getSelectionIndex() != -1) {
-			return formatCombo.getItem(formatCombo.getSelectionIndex());
-		}
+		if (formatCombo != null && formatCombo.getSelectionIndex() != -1) { return formatCombo
+				.getItem(formatCombo.getSelectionIndex()); }
 		return "Default";
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.media.core.ContentCreatorPanel#createControls(
+	 * @see org.eclipse.vtp.desktop.media.core.ContentCreatorPanel#createControls(
 	 * org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -170,13 +158,11 @@ public abstract class DynamicContentCreatorPanel extends ContentCreatorPanel {
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayout(new GridLayout(1, true));
 		staticButton = new Button(composite, SWT.RADIO);
-		staticButton.setLayoutData(new GridData(GridData.FILL, GridData.FILL,
-				true, false));
+		staticButton.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, false));
 		staticButton.setSelection(!dynamicSelected);
 		staticButton.setText("Use a static value:");
 		Control staticControl = createStaticControls(composite);
-		staticControl.setLayoutData(new GridData(GridData.FILL, GridData.FILL,
-				true, true));
+		staticControl.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
 		dynamicButton = new Button(composite, SWT.RADIO);
 		dynamicButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		dynamicButton.setSelection(dynamicSelected);
@@ -194,8 +180,7 @@ public abstract class DynamicContentCreatorPanel extends ContentCreatorPanel {
 			}
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 		};
 		staticButton.addSelectionListener(selectionListener);
 		dynamicButton.addSelectionListener(selectionListener);
@@ -213,8 +198,7 @@ public abstract class DynamicContentCreatorPanel extends ContentCreatorPanel {
 		Label formatLabel = new Label(composite, SWT.NONE);
 		formatLabel.setText("Please select a format:");
 		formatLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		formatCombo = new Combo(composite, SWT.READ_ONLY | SWT.DROP_DOWN
-				| SWT.SINGLE);
+		formatCombo = new Combo(composite, SWT.READ_ONLY | SWT.DROP_DOWN | SWT.SINGLE);
 		formatNames = getMediaProvider().getFormatManager().getFormats(
 				(FormattableContent) createContent());
 		for (String formatName : formatNames) {
@@ -262,9 +246,7 @@ public abstract class DynamicContentCreatorPanel extends ContentCreatorPanel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.media.core.ContentCreatorPanel#setInitialContent
+	 * @see org.eclipse.vtp.desktop.media.core.ContentCreatorPanel#setInitialContent
 	 * (org.eclipse.vtp.framework.interactions.core.media.Content)
 	 */
 	@Override

@@ -21,10 +21,8 @@ public class Geom {
 	/**
 	 * Returns a 3D vector magnitude for the line created from Point1 to Point2.
 	 * 
-	 * @param Point1
-	 *            The origin of the vector
-	 * @param Point2
-	 *            The destination of the vector
+	 * @param Point1 The origin of the vector
+	 * @param Point2 The destination of the vector
 	 * @return The vector magnitude
 	 */
 	static float magnitude(Point3D Point1, Point3D Point2) {
@@ -41,16 +39,12 @@ public class Geom {
 	/**
 	 * Calculates the distance between a given point and a line.
 	 * 
-	 * @param point
-	 *            The point away from the line
-	 * @param lineStart
-	 *            The origin point of the line
-	 * @param lineEnd
-	 *            The destination point of the line
+	 * @param point The point away from the line
+	 * @param lineStart The origin point of the line
+	 * @param lineEnd The destination point of the line
 	 * @return The distance between the point and the line
 	 */
-	public static float DistancePointLine(Point3D point, Point3D lineStart,
-			Point3D lineEnd) {
+	public static float DistancePointLine(Point3D point, Point3D lineStart, Point3D lineEnd) {
 		float LineMag;
 		float U;
 		Point3D intersection = newPoint3D(0, 0, 0);
@@ -61,8 +55,8 @@ public class Geom {
 				+ ((point.Y - lineStart.Y) * (lineEnd.Y - lineStart.Y)) + ((point.Z - lineStart.Z) * (lineEnd.Z - lineStart.Z)))
 				/ (LineMag * LineMag);
 
-		if ((U < 0.0f) || (U > 1.0f)) {
-			return 0; // closest point does not fall within the line segment
+		if ((U < 0.0f) || (U > 1.0f)) { return 0; // closest point does not fall within the line
+													// segment
 		}
 
 		intersection.X = lineStart.X + (U * (lineEnd.X - lineStart.X));
@@ -75,12 +69,9 @@ public class Geom {
 	/**
 	 * Constructs a new Point3D object with the given coordinates.
 	 * 
-	 * @param x
-	 *            The X coordinate
-	 * @param y
-	 *            The Y coordinate
-	 * @param z
-	 *            The Z coordinate
+	 * @param x The X coordinate
+	 * @param y The Y coordinate
+	 * @param z The Z coordinate
 	 * @return A new Point3D object
 	 */
 	public static Point3D newPoint3D(float x, float y, float z) {
@@ -112,12 +103,9 @@ public class Geom {
 		/**
 		 * Constructs a new Point3D object with the given coordinates.
 		 * 
-		 * @param X
-		 *            The X coordinate
-		 * @param Y
-		 *            The Y coordinate
-		 * @param Z
-		 *            The Z coordinate
+		 * @param X The X coordinate
+		 * @param Y The Y coordinate
+		 * @param Z The Z coordinate
 		 */
 		public Point3D(float X, float Y, float Z) {
 			this.X = X;

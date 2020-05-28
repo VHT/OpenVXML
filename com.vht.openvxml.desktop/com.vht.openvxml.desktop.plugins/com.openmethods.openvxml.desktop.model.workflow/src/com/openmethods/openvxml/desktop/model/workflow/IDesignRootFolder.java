@@ -13,7 +13,6 @@ package com.openmethods.openvxml.desktop.model.workflow;
 
 import org.eclipse.vtp.desktop.model.core.IWorkflowResourceContainer;
 
-public interface IDesignRootFolder extends IWorkflowResourceContainer,
-		IDesignItemContainer {
+public interface IDesignRootFolder extends IWorkflowResourceContainer, IDesignItemContainer {
 
 }

@@ -18,8 +18,8 @@ public class VariableHelper {
 	 * @param array
 	 * @return
 	 */
-	public static Variable constructVariable(String name,
-			IBusinessObjectSet objectSet, FieldType type) {
+	public static Variable constructVariable(String name, IBusinessObjectSet objectSet,
+			FieldType type) {
 		Variable v = new Variable(name, type);
 		buildObjectFields(v, objectSet);
 		return v;
@@ -29,8 +29,7 @@ public class VariableHelper {
 	 * @param def
 	 * @param businessObjectSet
 	 */
-	public static void buildObjectFields(ObjectDefinition def,
-			IBusinessObjectSet businessObjectSet) {
+	public static void buildObjectFields(ObjectDefinition def, IBusinessObjectSet businessObjectSet) {
 		if (def.getType().isObject()) {
 			// lookup business object
 			List<IBusinessObject> bos = businessObjectSet.getBusinessObjects();
@@ -38,22 +37,19 @@ public class VariableHelper {
 				if (ibo.getName().equals(def.getType().getName())) {
 					List<IBusinessObjectField> fields = ibo.getFields();
 					for (IBusinessObjectField ibof : fields) {
-						buildObjectFields(def.addField(new ObjectField(ibof
-								.getName(), ibof.getDataType(), false)),
-								businessObjectSet);
+						buildObjectFields(def.addField(new ObjectField(ibof.getName(), ibof
+								.getDataType(), false)), businessObjectSet);
 					}
 				}
 			}
 		} else if (def.getType().getPrimitiveType() == Primitive.ARRAY) {
-			def.addField(new ObjectField("numberOfItems", FieldType.NUMBER,
-					true));
+			def.addField(new ObjectField("numberOfItems", FieldType.NUMBER, true));
 		} else if (def.getType().getPrimitiveType() == Primitive.STRING) {
 			def.addField(new ObjectField("length", FieldType.NUMBER, true));
 		}
 	}
 
-	public static ObjectDefinition getObjectDefinitionFromVariables(
-			List<Variable> vars, String name) {
+	public static ObjectDefinition getObjectDefinitionFromVariables(List<Variable> vars, String name) {
 		ObjectDefinition ret = null;
 		for (int i = 0; i < vars.size(); i++) {
 			String varName = name;
@@ -69,8 +65,7 @@ public class VariableHelper {
 			if (v.getName().equals(varName)) {
 				if (sub) {
 					// dig deeper
-					ret = getObjectDefinitionFromFields(
-							name.substring(name.indexOf(".") + 1), v);
+					ret = getObjectDefinitionFromFields(name.substring(name.indexOf(".") + 1), v);
 				} else {
 					ret = v;
 
@@ -105,8 +100,7 @@ public class VariableHelper {
 
 			if (of.getName().equals(varName)) {
 				if (sub) {
-					ret = getObjectDefinitionFromFields(
-							name.substring(name.indexOf(".") + 1), of);
+					ret = getObjectDefinitionFromFields(name.substring(name.indexOf(".") + 1), of);
 				} else {
 					ret = of;
 

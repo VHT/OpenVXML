@@ -41,8 +41,7 @@ public class Schema {
 		targetNamespace = SCHEMA_NAMESPACE;
 		qualifyElements = false;
 		qualifyAttributes = false;
-		localTypesByName.put("anySimpleType", new SimpleType(this,
-				"anySimpleType"));
+		localTypesByName.put("anySimpleType", new SimpleType(this, "anySimpleType"));
 		localTypesByName.put("duration", new SimpleType(this, "duration"));
 		localTypesByName.put("dateTime", new SimpleType(this, "dateTime"));
 		localTypesByName.put("time", new SimpleType(this, "time"));
@@ -53,8 +52,7 @@ public class Schema {
 		localTypesByName.put("gDay", new SimpleType(this, "gDay"));
 		localTypesByName.put("gMonth", new SimpleType(this, "gMonth"));
 		localTypesByName.put("boolean", new SimpleType(this, "boolean"));
-		localTypesByName.put("base64Binary", new SimpleType(this,
-				"base64Binary"));
+		localTypesByName.put("base64Binary", new SimpleType(this, "base64Binary"));
 		localTypesByName.put("hexBinary", new SimpleType(this, "hexBinary"));
 		localTypesByName.put("float", new SimpleType(this, "float"));
 		localTypesByName.put("double", new SimpleType(this, "double"));
@@ -63,8 +61,7 @@ public class Schema {
 		localTypesByName.put("NOTATION", new SimpleType(this, "NOTATION"));
 		localTypesByName.put("string", new SimpleType(this, "string"));
 		localTypesByName.put("decimal", new SimpleType(this, "decimal"));
-		localTypesByName.put("normalizedString", new SimpleType(this,
-				"normalizedString"));
+		localTypesByName.put("normalizedString", new SimpleType(this, "normalizedString"));
 		localTypesByName.put("token", new SimpleType(this, "token"));
 		localTypesByName.put("language", new SimpleType(this, "language"));
 		localTypesByName.put("Name", new SimpleType(this, "Name"));
@@ -74,26 +71,18 @@ public class Schema {
 		localTypesByName.put("IDREF", new SimpleType(this, "IDREF"));
 		localTypesByName.put("ENTITY", new SimpleType(this, "ENTITY"));
 		localTypesByName.put("integer", new SimpleType(this, "integer"));
-		localTypesByName.put("nonPositiveInteger", new SimpleType(this,
-				"nonPositiveInteger"));
+		localTypesByName.put("nonPositiveInteger", new SimpleType(this, "nonPositiveInteger"));
 		localTypesByName.put("long", new SimpleType(this, "long"));
-		localTypesByName.put("nonNegativeInteger", new SimpleType(this,
-				"nonNegativeInteger"));
-		localTypesByName.put("negativeInteger", new SimpleType(this,
-				"negativeInteger"));
+		localTypesByName.put("nonNegativeInteger", new SimpleType(this, "nonNegativeInteger"));
+		localTypesByName.put("negativeInteger", new SimpleType(this, "negativeInteger"));
 		localTypesByName.put("int", new SimpleType(this, "int"));
-		localTypesByName.put("unsignedLong", new SimpleType(this,
-				"unsignedLong"));
-		localTypesByName.put("positiveInteger", new SimpleType(this,
-				"positiveInteger"));
+		localTypesByName.put("unsignedLong", new SimpleType(this, "unsignedLong"));
+		localTypesByName.put("positiveInteger", new SimpleType(this, "positiveInteger"));
 		localTypesByName.put("short", new SimpleType(this, "short"));
-		localTypesByName
-				.put("unsignedInt", new SimpleType(this, "unsignedInt"));
+		localTypesByName.put("unsignedInt", new SimpleType(this, "unsignedInt"));
 		localTypesByName.put("byte", new SimpleType(this, "byte"));
-		localTypesByName.put("unsignedShort", new SimpleType(this,
-				"unsignedShort"));
-		localTypesByName.put("unsignedByte", new SimpleType(this,
-				"unsignedByte"));
+		localTypesByName.put("unsignedShort", new SimpleType(this, "unsignedShort"));
+		localTypesByName.put("unsignedByte", new SimpleType(this, "unsignedByte"));
 		localTypesByName.put("NMTOKENS", new SimpleType(this, "NMTOKENS"));
 		localTypesByName.put("IDREFS", new SimpleType(this, "IDREFS"));
 		localTypesByName.put("ENTITIES", new SimpleType(this, "ENTITIES"));
@@ -107,41 +96,35 @@ public class Schema {
 		addSchema(new Schema());
 		LinkedList<SchemaProblem> problemCollector = new LinkedList<SchemaProblem>();
 		targetNamespace = schemaElement.getAttribute("targetNamespace");
-		qualifyElements = schemaElement.getAttribute("elementFormDefault")
-				.equals("qualified");
-		qualifyAttributes = schemaElement.getAttribute("attributeFormDefault")
-				.equals("qualified");
+		qualifyElements = schemaElement.getAttribute("elementFormDefault").equals("qualified");
+		qualifyAttributes = schemaElement.getAttribute("attributeFormDefault").equals("qualified");
 
-		List<Element> redefines = XMLUtilities.getElementsByTagNameNS(
-				schemaElement, SCHEMA_NAMESPACE, "redefine", true);
+		List<Element> redefines = XMLUtilities.getElementsByTagNameNS(schemaElement,
+				SCHEMA_NAMESPACE, "redefine", true);
 		if (redefines.size() > 0) {
 			for (Element redefineElement : redefines) {
-				problemCollector
-						.add(createProblem(
-								"The redefine schema feature is not supported by this parser.",
-								redefineElement));
+				problemCollector.add(createProblem(
+						"The redefine schema feature is not supported by this parser.",
+						redefineElement));
 			}
 		}
 
-		List<Element> imports = XMLUtilities.getElementsByTagNameNS(
-				schemaElement, SCHEMA_NAMESPACE, "import", true);
+		List<Element> imports = XMLUtilities.getElementsByTagNameNS(schemaElement,
+				SCHEMA_NAMESPACE, "import", true);
 		for (int i = 0; i < imports.size(); i++) {
 			Attr namespaceAttr = imports.get(i).getAttributeNode("namespace");
-			if (namespaceAttr != null
-					&& schemasByNamespace.get(namespaceAttr.getValue()) != null) {
+			if (namespaceAttr != null && schemasByNamespace.get(namespaceAttr.getValue()) != null) {
 				continue; // already in the parent schema set
 			}
 			String locationUri = null;
-			Attr locationAttr = imports.get(i).getAttributeNode(
-					"schemaLocation");
+			Attr locationAttr = imports.get(i).getAttributeNode("schemaLocation");
 			if (locationAttr != null) {
 				locationUri = locationAttr.getValue();
 			} else {
 				if (namespaceAttr != null) {
 					locationUri = namespaceAttr.getValue();
 				} else {
-					problemCollector.add(createProblem(
-							"Unable to import schema", imports.get(i)));
+					problemCollector.add(createProblem("Unable to import schema", imports.get(i)));
 					continue;
 				}
 			}
@@ -150,38 +133,33 @@ public class Schema {
 				URLConnection con = url.openConnection();
 				InputStream in = con.getInputStream();
 				try {
-					DocumentBuilderFactory factory = DocumentBuilderFactory
-							.newInstance();
+					DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 					factory.setNamespaceAware(true);
 					DocumentBuilder builder = factory.newDocumentBuilder();
 					Document document = builder.parse(in);
-					org.w3c.dom.Element rootElement = document
-							.getDocumentElement();
+					org.w3c.dom.Element rootElement = document.getDocumentElement();
 					Schema schema = new Schema(rootElement);
 					if (schema.getProblems().size() > 0) {
-						problemCollector.add(createProblem(
-								"Unable to import schema location: "
-										+ locationUri, imports.get(i)));
+						problemCollector.add(createProblem("Unable to import schema location: "
+								+ locationUri, imports.get(i)));
 					} else {
 						schemasByNamespace.put(schema.targetNamespace, schema);
 					}
 				} catch (Exception ex) {
 					ex.printStackTrace();
-					problemCollector.add(createProblem(
-							"Unable to import schema location: " + locationUri,
-							imports.get(i), ex));
+					problemCollector.add(createProblem("Unable to import schema location: "
+							+ locationUri, imports.get(i), ex));
 				}
 				in.close();
 			} catch (Exception e) {
 				e.printStackTrace();
-				problemCollector.add(createProblem(
-						"Unable to import schema location: " + locationUri,
-						imports.get(i), e));
+				problemCollector.add(createProblem("Unable to import schema location: "
+						+ locationUri, imports.get(i), e));
 			}
 		}
 
-		List<Element> processList = XMLUtilities.getElementsByTagNameNS(
-				schemaElement, SCHEMA_NAMESPACE, "simpleType", true);
+		List<Element> processList = XMLUtilities.getElementsByTagNameNS(schemaElement,
+				SCHEMA_NAMESPACE, "simpleType", true);
 		int numResolved = 0;
 		do {
 			setProblems(new LinkedList<SchemaProblem>());
@@ -200,9 +178,8 @@ public class Schema {
 			problemCollector.addAll(getProblems());
 		}
 		setProblems(new LinkedList<SchemaProblem>());
-		List<Element> attributeItemElementList = XMLUtilities
-				.getElementsByTagNameNS(schemaElement, SCHEMA_NAMESPACE,
-						"attribute", true);
+		List<Element> attributeItemElementList = XMLUtilities.getElementsByTagNameNS(schemaElement,
+				SCHEMA_NAMESPACE, "attribute", true);
 		for (int i = 0; i < attributeItemElementList.size(); i++) {
 			Element attributeItemElement = attributeItemElementList.get(i);
 			System.out.println("parsing global attribute: "
@@ -211,8 +188,8 @@ public class Schema {
 			globalAttributesByName.put(attributeItem.getName(), attributeItem);
 		}
 		problemCollector.addAll(getProblems());
-		processList = XMLUtilities.getElementsByTagNameNS(schemaElement,
-				SCHEMA_NAMESPACE, "attributeGroup", true);
+		processList = XMLUtilities.getElementsByTagNameNS(schemaElement, SCHEMA_NAMESPACE,
+				"attributeGroup", true);
 		numResolved = 0;
 		do {
 			setProblems(new LinkedList<SchemaProblem>());
@@ -220,12 +197,10 @@ public class Schema {
 			Iterator<Element> iterator = processList.iterator();
 			while (iterator.hasNext()) {
 				Element attributeGroupElement = iterator.next();
-				AttributeGrouping attributeGrouping = new AttributeGrouping(
-						this, attributeGroupElement.getAttribute("name"));
-				if (parseAttributeObjects(attributeGrouping,
-						attributeGroupElement)) {
-					globalAttributeGroupsByName.put(
-							attributeGrouping.getName(), attributeGrouping);
+				AttributeGrouping attributeGrouping = new AttributeGrouping(this,
+						attributeGroupElement.getAttribute("name"));
+				if (parseAttributeObjects(attributeGrouping, attributeGroupElement)) {
+					globalAttributeGroupsByName.put(attributeGrouping.getName(), attributeGrouping);
 					iterator.remove();
 					numResolved++;
 				}
@@ -235,24 +210,21 @@ public class Schema {
 			problemCollector.addAll(getProblems());
 		}
 		// pre-process all the global element declarations.
-		List<Element> elementItemElementList = XMLUtilities
-				.getElementsByTagNameNS(schemaElement, SCHEMA_NAMESPACE,
-						"element", true);
+		List<Element> elementItemElementList = XMLUtilities.getElementsByTagNameNS(schemaElement,
+				SCHEMA_NAMESPACE, "element", true);
 		for (int i = 0; i < elementItemElementList.size(); i++) {
 			Element elementItemElement = elementItemElementList.get(i);
-			ElementItem elementItem = new ElementItem(this,
-					elementItemElement.getAttribute("name"));
+			ElementItem elementItem = new ElementItem(this, elementItemElement.getAttribute("name"));
 			globalElementsByName.put(elementItem.getName(), elementItem);
 		}
 		// pre-process all the global element groupings
 		setProblems(new LinkedList<SchemaProblem>());
-		List<Element> elementGroupElementList = XMLUtilities
-				.getElementsByTagNameNS(schemaElement, SCHEMA_NAMESPACE,
-						"group", true);
+		List<Element> elementGroupElementList = XMLUtilities.getElementsByTagNameNS(schemaElement,
+				SCHEMA_NAMESPACE, "group", true);
 		for (int i = 0; i < elementGroupElementList.size(); i++) {
 			Element elementGroupElement = elementGroupElementList.get(i);
-			ElementGrouping elementGrouping = new ElementGrouping(this,
-					elementGroupElement.getAttribute("name"));
+			ElementGrouping elementGrouping = new ElementGrouping(this, elementGroupElement
+					.getAttribute("name"));
 			NodeList childList = elementGroupElement.getChildNodes();
 			for (int c = 0; c < childList.getLength(); c++) {
 				if (childList.item(c).getNodeType() == Node.ELEMENT_NODE) {
@@ -266,12 +238,11 @@ public class Schema {
 					}
 				}
 			}
-			globalElementGroupsByName.put(elementGrouping.getName(),
-					elementGrouping);
+			globalElementGroupsByName.put(elementGrouping.getName(), elementGrouping);
 		}
 		problemCollector.addAll(getProblems());
-		processList = XMLUtilities.getElementsByTagNameNS(schemaElement,
-				SCHEMA_NAMESPACE, "complexType", true);
+		processList = XMLUtilities.getElementsByTagNameNS(schemaElement, SCHEMA_NAMESPACE,
+				"complexType", true);
 		numResolved = 0;
 		do {
 			setProblems(new LinkedList<SchemaProblem>());
@@ -279,14 +250,13 @@ public class Schema {
 			Iterator<Element> iterator = processList.iterator();
 			while (iterator.hasNext()) {
 				Element complexTypeElement = iterator.next();
-				ComplexType complexType = new ComplexType(this,
-						complexTypeElement.getAttribute("name"));
+				ComplexType complexType = new ComplexType(this, complexTypeElement
+						.getAttribute("name"));
 				// temporarily place this type into the index in case it is
 				// recursive
 				localTypesByName.put(complexType.getName(), complexType);
-				System.out
-						.println("Attempting to resolve global complex type: "
-								+ complexType.getName());
+				System.out.println("Attempting to resolve global complex type: "
+						+ complexType.getName());
 				if (populateComplexType(complexType, complexTypeElement)) {
 					System.out.println("resolved complex type");
 					iterator.remove();
@@ -305,15 +275,11 @@ public class Schema {
 		setProblems(new LinkedList<SchemaProblem>());
 		for (int i = 0; i < elementItemElementList.size(); i++) {
 			Element elementItemElement = elementItemElementList.get(i);
-			ElementItem elementItem = globalElementsByName
-					.get(elementItemElement.getAttribute("name"));
-			if (elementItem == null) {
-				throw new RuntimeException(
-						"Could not locate global element to populate: "
-								+ elementItemElement);
-			}
-			System.out.println("populating global element: "
-					+ elementItem.getName());
+			ElementItem elementItem = globalElementsByName.get(elementItemElement
+					.getAttribute("name"));
+			if (elementItem == null) { throw new RuntimeException(
+					"Could not locate global element to populate: " + elementItemElement); }
+			System.out.println("populating global element: " + elementItem.getName());
 			if (!populateElementItem(elementItemElement, elementItem)) {
 				;// throw new
 					// RuntimeException("Could not populate global element: " +
@@ -343,11 +309,10 @@ public class Schema {
 	public SimpleType parseSimpleType(Element simpleTypeElement) {
 		String name = simpleTypeElement.getAttribute("name");
 		SimpleType simpleType = new SimpleType(this, name);
-		NodeList restrictionElementList = simpleTypeElement
-				.getElementsByTagNameNS(SCHEMA_NAMESPACE, "restriction");
+		NodeList restrictionElementList = simpleTypeElement.getElementsByTagNameNS(
+				SCHEMA_NAMESPACE, "restriction");
 		if (restrictionElementList.getLength() > 0) {
-			Element restrictionElement = (Element) restrictionElementList
-					.item(0);
+			Element restrictionElement = (Element) restrictionElementList.item(0);
 			SimpleType baseType = null;
 			String base = restrictionElement.getAttribute("base");
 			System.out.println("base type: " + base);
@@ -355,120 +320,99 @@ public class Schema {
 			{
 				baseType = (SimpleType) resolveType(restrictionElement, base);
 			} else {
-				NodeList recurseSimpleTypeElementList = restrictionElement
-						.getElementsByTagNameNS(SCHEMA_NAMESPACE, "simpleType");
+				NodeList recurseSimpleTypeElementList = restrictionElement.getElementsByTagNameNS(
+						SCHEMA_NAMESPACE, "simpleType");
 				if (recurseSimpleTypeElementList.getLength() > 0) {
-					baseType = parseSimpleType((Element) recurseSimpleTypeElementList
-							.item(0));
+					baseType = parseSimpleType((Element) recurseSimpleTypeElementList.item(0));
 				}
 			}
 			if (baseType == null) {
-				addProblem(createProblem("Unable to parse simple type '" + name
-						+ "': base type '" + base + "' not found or invalid",
-						simpleTypeElement));
+				addProblem(createProblem("Unable to parse simple type '" + name + "': base type '"
+						+ base + "' not found or invalid", simpleTypeElement));
 				return null;
 			}
 			return simpleType;
 		}
 		// we don't currently don't support list or union types
-		addProblem(createProblem("Unsupported simple type mechanism.",
-				simpleTypeElement));
+		addProblem(createProblem("Unsupported simple type mechanism.", simpleTypeElement));
 		return null;
 	}
 
 	public ComplexType parseComplexType(Element complexTypeElement) {
 		String name = complexTypeElement.getAttribute("name");
 		ComplexType complexType = new ComplexType(this, name);
-		if (!populateComplexType(complexType, complexTypeElement)) {
-			return null;
-		}
+		if (!populateComplexType(complexType, complexTypeElement)) { return null; }
 		return complexType;
 	}
 
-	public boolean populateComplexType(ComplexType complexType,
-			Element complexTypeElement) {
-		List<Element> simpleContentElementList = XMLUtilities
-				.getElementsByTagNameNS(complexTypeElement, SCHEMA_NAMESPACE,
-						"simpleContent", true);
+	public boolean populateComplexType(ComplexType complexType, Element complexTypeElement) {
+		List<Element> simpleContentElementList = XMLUtilities.getElementsByTagNameNS(
+				complexTypeElement, SCHEMA_NAMESPACE, "simpleContent", true);
 		if (simpleContentElementList.size() > 0) {
 			Element simpleContentElement = simpleContentElementList.get(0);
 			SimpleContentModel simpleContent = new SimpleContentModel();
-			NodeList derivationElementList = simpleContentElement
-					.getElementsByTagNameNS(SCHEMA_NAMESPACE, "restriction");
+			NodeList derivationElementList = simpleContentElement.getElementsByTagNameNS(
+					SCHEMA_NAMESPACE, "restriction");
 			if (derivationElementList.getLength() > 0) {
-				Element restrictionElement = (Element) derivationElementList
-						.item(0);
+				Element restrictionElement = (Element) derivationElementList.item(0);
 				SimpleType baseType = null;
 				String base = restrictionElement.getAttribute("base");
 				if (!base.equals("")) // has base type
 				{
-					baseType = (SimpleType) resolveType(restrictionElement,
-							base);
+					baseType = (SimpleType) resolveType(restrictionElement, base);
 				}
 				if (baseType == null) {
-					addProblem(createProblem("Base type '" + base
-							+ "' not found or invalid.", restrictionElement));
+					addProblem(createProblem("Base type '" + base + "' not found or invalid.",
+							restrictionElement));
 					return false;
 				}
-				if (!parseAttributeObjects(simpleContent, restrictionElement)) {
-					return false;
-				}
+				if (!parseAttributeObjects(simpleContent, restrictionElement)) { return false; }
 				complexType.setContentModel(simpleContent);
 			} else {
-				derivationElementList = simpleContentElement
-						.getElementsByTagNameNS(SCHEMA_NAMESPACE, "extension");
+				derivationElementList = simpleContentElement.getElementsByTagNameNS(
+						SCHEMA_NAMESPACE, "extension");
 				if (derivationElementList.getLength() > 0) {
-					Element extensionElement = (Element) derivationElementList
-							.item(0);
+					Element extensionElement = (Element) derivationElementList.item(0);
 					SimpleType baseType = null;
 					String base = extensionElement.getAttribute("base");
 					if (!base.equals("")) // has base type
 					{
-						baseType = (SimpleType) resolveType(extensionElement,
-								base);
+						baseType = (SimpleType) resolveType(extensionElement, base);
 					}
 					if (baseType == null) {
-						addProblem(createProblem("Base type '" + base
-								+ "' not found or invalid.", extensionElement));
+						addProblem(createProblem("Base type '" + base + "' not found or invalid.",
+								extensionElement));
 						return false;
 					}
-					if (!parseAttributeObjects(simpleContent, extensionElement)) {
-						return false;
-					}
+					if (!parseAttributeObjects(simpleContent, extensionElement)) { return false; }
 					complexType.setContentModel(simpleContent);
 				} else {
-					addProblem(createProblem(
-							"Type derivation method not supported.",
+					addProblem(createProblem("Type derivation method not supported.",
 							simpleContentElement));
 					return false;
 				}
 			}
 		} else {
-			List<Element> complexContentElementList = XMLUtilities
-					.getElementsByTagNameNS(complexTypeElement,
-							SCHEMA_NAMESPACE, "complexContent", true);
+			List<Element> complexContentElementList = XMLUtilities.getElementsByTagNameNS(
+					complexTypeElement, SCHEMA_NAMESPACE, "complexContent", true);
 			if (complexContentElementList.size() > 0) {
-				Element complexContentElement = complexContentElementList
-						.get(0);
+				Element complexContentElement = complexContentElementList.get(0);
 				String mixed = complexContentElement.getAttribute("mixed");
-				NodeList derivationElementList = complexContentElement
-						.getElementsByTagNameNS(SCHEMA_NAMESPACE, "restriction");
+				NodeList derivationElementList = complexContentElement.getElementsByTagNameNS(
+						SCHEMA_NAMESPACE, "restriction");
 				if (derivationElementList.getLength() > 0) {
-					Element restrictionElement = (Element) derivationElementList
-							.item(0);
+					Element restrictionElement = (Element) derivationElementList.item(0);
 					String base = restrictionElement.getAttribute("base");
-					ComplexType baseType = (ComplexType) resolveType(
-							restrictionElement, base);
+					ComplexType baseType = (ComplexType) resolveType(restrictionElement, base);
 					if (baseType == null) {
-						addProblem(createProblem("Base type '" + base
-								+ "' not found or invalid.", restrictionElement));
+						addProblem(createProblem("Base type '" + base + "' not found or invalid.",
+								restrictionElement));
 						return false;
 					}
 					RestrictedComplexContentModel restrictedModel = new RestrictedComplexContentModel(
 							baseType);
 					if (!mixed.equals("")) {
-						restrictedModel.setLocalMixedContent(Boolean
-								.parseBoolean(mixed));
+						restrictedModel.setLocalMixedContent(Boolean.parseBoolean(mixed));
 					}
 					NodeList particleList = restrictionElement.getChildNodes();
 					for (int i = 0; i < particleList.getLength(); i++) {
@@ -484,89 +428,67 @@ public class Schema {
 								continue;
 							}
 							ElementGroup eg = parseElementGroup(element);
-							if (eg == null) {
-								return false;
-							}
+							if (eg == null) { return false; }
 							restrictedModel.setElementGroup(eg);
 						}
 					}
-					if (!parseAttributeObjects(restrictedModel,
-							restrictionElement)) {
-						return false;
-					}
+					if (!parseAttributeObjects(restrictedModel, restrictionElement)) { return false; }
 					complexType.setContentModel(restrictedModel);
 				} else {
-					derivationElementList = complexContentElement
-							.getElementsByTagNameNS(SCHEMA_NAMESPACE,
-									"extension");
+					derivationElementList = complexContentElement.getElementsByTagNameNS(
+							SCHEMA_NAMESPACE, "extension");
 					if (derivationElementList.getLength() > 0) {
-						Element extensionElement = (Element) derivationElementList
-								.item(0);
+						Element extensionElement = (Element) derivationElementList.item(0);
 						String base = extensionElement.getAttribute("base");
-						ComplexType baseType = (ComplexType) resolveType(
-								extensionElement, base);
+						ComplexType baseType = (ComplexType) resolveType(extensionElement, base);
 						if (baseType == null) {
 							addProblem(createProblem("Base type '" + base
-									+ "' not found or invalid.",
-									extensionElement));
+									+ "' not found or invalid.", extensionElement));
 							return false;
 						}
 						ExtendedComplexContentModel extendedModel = new ExtendedComplexContentModel(
 								baseType);
 						if (!mixed.equals("")) {
-							extendedModel.setLocalMixedContent(Boolean
-									.parseBoolean(mixed));
+							extendedModel.setLocalMixedContent(Boolean.parseBoolean(mixed));
 						}
-						NodeList particleList = extensionElement
-								.getChildNodes();
+						NodeList particleList = extensionElement.getChildNodes();
 						for (int i = 0; i < particleList.getLength(); i++) {
 							if (particleList.item(i).getNodeType() == Node.ELEMENT_NODE) {
-								Element element = (Element) particleList
-										.item(i);
+								Element element = (Element) particleList.item(i);
 								if (element.getLocalName().equals("annotation")) {
 									continue;
 								}
-								if (element.getLocalName().equals(
-										"attributeGroup")) {
+								if (element.getLocalName().equals("attributeGroup")) {
 									continue;
 								}
 								if (element.getLocalName().equals("attribute")) {
 									continue;
 								}
 								ElementGroup eg = parseElementGroup(element);
-								if (eg == null) {
-									return false;
-								}
+								if (eg == null) { return false; }
 								extendedModel.setElementGroup(eg);
 							}
 						}
-						if (!parseAttributeObjects(extendedModel,
-								extensionElement)) {
-							return false;
-						}
+						if (!parseAttributeObjects(extendedModel, extensionElement)) { return false; }
 						complexType.setContentModel(extendedModel);
 					} else {
-						addProblem(createProblem(
-								"Type derivation method not supported.",
+						addProblem(createProblem("Type derivation method not supported.",
 								complexContentElement));
 						return false;
 					}
 				}
 			} else {
 				String mixed = complexTypeElement.getAttribute("mixed");
-				ComplexType baseType = (ComplexType) resolveType(
-						SCHEMA_NAMESPACE, "anyType");
+				ComplexType baseType = (ComplexType) resolveType(SCHEMA_NAMESPACE, "anyType");
 				if (baseType == null) {
-					addProblem(createProblem(
-							"Base type 'anyType' not found or invalid.",
+					addProblem(createProblem("Base type 'anyType' not found or invalid.",
 							complexTypeElement));
 					return false;
 				}
 				RestrictedComplexContentModel restrictedModel = new RestrictedComplexContentModel(
 						baseType);
 				if (!mixed.equals("")) {
-					restrictedModel.setLocalMixedContent(Boolean
-							.parseBoolean(mixed));
+					restrictedModel.setLocalMixedContent(Boolean.parseBoolean(mixed));
 				}
 				NodeList particleList = complexTypeElement.getChildNodes();
 				for (int i = 0; i < particleList.getLength(); i++) {
@@ -582,14 +504,9 @@ public class Schema {
 							continue;
 						}
 						ElementGroup eg = parseElementGroup(element);
-						if (eg == null) {
-							return false;
-						}
+						if (eg == null) { return false; }
 						restrictedModel.setElementGroup(eg);
-						if (!parseAttributeObjects(restrictedModel,
-								complexTypeElement)) {
-							return false;
-						}
+						if (!parseAttributeObjects(restrictedModel, complexTypeElement)) { return false; }
 						complexType.setContentModel(restrictedModel);
 					}
 				}
@@ -598,8 +515,7 @@ public class Schema {
 		return true;
 	}
 
-	public boolean populateElementItem(Element elementItemElement,
-			ElementItem item) {
+	public boolean populateElementItem(Element elementItemElement, ElementItem item) {
 		System.out.println("populating element: " + item.getName());
 		Attr typeAttr = elementItemElement.getAttributeNode("type");
 		if (typeAttr != null) {
@@ -611,24 +527,18 @@ public class Schema {
 			}
 			item.setType(type);
 		} else {
-			NodeList simpleTypeList = elementItemElement
-					.getElementsByTagNameNS(SCHEMA_NAMESPACE, "simpleType");
+			NodeList simpleTypeList = elementItemElement.getElementsByTagNameNS(SCHEMA_NAMESPACE,
+					"simpleType");
 			if (simpleTypeList.getLength() > 0) {
-				SimpleType type = parseSimpleType((Element) simpleTypeList
-						.item(0));
-				if (type == null) {
-					return false;
-				}
+				SimpleType type = parseSimpleType((Element) simpleTypeList.item(0));
+				if (type == null) { return false; }
 				item.setType(type);
 			} else {
-				NodeList complexTypeList = elementItemElement
-						.getElementsByTagNameNS(SCHEMA_NAMESPACE, "complexType");
+				NodeList complexTypeList = elementItemElement.getElementsByTagNameNS(
+						SCHEMA_NAMESPACE, "complexType");
 				if (complexTypeList.getLength() > 0) {
-					ComplexType type = parseComplexType((Element) complexTypeList
-							.item(0));
-					if (type == null) {
-						return false;
-					}
+					ComplexType type = parseComplexType((Element) complexTypeList.item(0));
+					if (type == null) { return false; }
 					item.setType(type);
 				} else {
 					item.setType(resolveType(SCHEMA_NAMESPACE, "anyType"));
@@ -639,8 +549,7 @@ public class Schema {
 	}
 
 	public ElementGroup parseElementGroup(Element elementGroupElement) {
-		System.out.println("parsing element group: "
-				+ elementGroupElement.getLocalName());
+		System.out.println("parsing element group: " + elementGroupElement.getLocalName());
 		ElementGroup eg = null;
 		if (elementGroupElement.getLocalName().equals("sequence")) {
 			eg = new ElementGroup(this, ElementGroup.SEQUENCE);
@@ -654,18 +563,15 @@ public class Schema {
 		} else if (elementGroupElement.getLocalName().equals("group")) {
 			String ref = elementGroupElement.getAttribute("ref");
 			eg = new ElementGroupReference(this);
-			ElementGrouping elementGrouping = resolveElementGrouping(
-					elementGroupElement, ref);
+			ElementGrouping elementGrouping = resolveElementGrouping(elementGroupElement, ref);
 			if (elementGrouping == null) {
-				addProblem(createProblem("Unable to resolve group reference: "
-						+ ref, elementGroupElement));
+				addProblem(createProblem("Unable to resolve group reference: " + ref,
+						elementGroupElement));
 				return null;
 			}
-			((ElementGroupReference) eg)
-					.setReferencedElementGroup(elementGrouping);
+			((ElementGroupReference) eg).setReferencedElementGroup(elementGrouping);
 		} else {
-			addProblem(createProblem("Unsupported element group tag.",
-					elementGroupElement));
+			addProblem(createProblem("Unsupported element group tag.", elementGroupElement));
 			return null;
 		}
 		Attr minAttr = elementGroupElement.getAttributeNode("minOccurs");
@@ -688,8 +594,7 @@ public class Schema {
 				continue;
 			}
 			Element childElement = (Element) children.item(i);
-			System.out.println("processing child element of group: "
-					+ childElement.getLocalName());
+			System.out.println("processing child element of group: " + childElement.getLocalName());
 			if (childElement.getLocalName().equals("annotation")) {
 				continue;
 			}
@@ -697,11 +602,9 @@ public class Schema {
 				ElementItem item = null;
 				Attr refAttr = childElement.getAttributeNode("ref");
 				if (refAttr != null) {
-					ElementItem ei = resolveElementItem(childElement,
-							refAttr.getValue());
+					ElementItem ei = resolveElementItem(childElement, refAttr.getValue());
 					if (ei == null) {
-						addProblem(createProblem(
-								"Element reference could not be resolved.",
+						addProblem(createProblem("Element reference could not be resolved.",
 								childElement));
 						return null;
 					}
@@ -711,9 +614,7 @@ public class Schema {
 				} else {
 					String name = childElement.getAttribute("name");
 					ElementItem ei = new ElementItem(this, name);
-					if (!populateElementItem(childElement, ei)) {
-						return null;
-					}
+					if (!populateElementItem(childElement, ei)) { return null; }
 					item = ei;
 				}
 				minAttr = childElement.getAttributeNode("minOccurs");
@@ -733,42 +634,35 @@ public class Schema {
 				eg.addElementObject(item);
 			} else {
 				ElementGroup childGroup = parseElementGroup(childElement);
-				if (childGroup == null) {
-					return null;
-				}
+				if (childGroup == null) { return null; }
 				eg.addElementObject(childGroup);
 			}
 		}
 		return eg;
 	}
 
-	public boolean parseAttributeObjects(
-			AttributeItemContainer attributeContainer,
+	public boolean parseAttributeObjects(AttributeItemContainer attributeContainer,
 			Element attributeContainerElement) {
-		NodeList attributeObjectElementList = attributeContainerElement
-				.getElementsByTagNameNS(SCHEMA_NAMESPACE, "*");
+		NodeList attributeObjectElementList = attributeContainerElement.getElementsByTagNameNS(
+				SCHEMA_NAMESPACE, "*");
 		for (int i = 0; i < attributeObjectElementList.getLength(); i++) {
 			if (attributeObjectElementList.item(i).getNodeType() != Node.ELEMENT_NODE) {
 				continue;
 			}
-			Element attributeObjectElement = (Element) attributeObjectElementList
-					.item(i);
+			Element attributeObjectElement = (Element) attributeObjectElementList.item(i);
 			if (attributeObjectElement.getLocalName().equals("attribute")) {
 				AttributeItem attributeItem = parseAttributeItem(attributeObjectElement);
 				attributeContainer.addAttribute(attributeItem);
-			} else if (attributeObjectElement.getLocalName().equals(
-					"attributeGroup")) {
+			} else if (attributeObjectElement.getLocalName().equals("attributeGroup")) {
 				String name = attributeObjectElement.getAttribute("ref");
 				AttributeGrouping attributeGrouping = resolveAttributeGrouping(
 						attributeObjectElement, name);
 				if (attributeGrouping != null) {
-					for (AttributeItem attributeItem : attributeGrouping
-							.getAttributes()) {
+					for (AttributeItem attributeItem : attributeGrouping.getAttributes()) {
 						attributeContainer.addAttribute(attributeItem);
 					}
 				} else {
-					addProblem(createProblem(
-							"Attribute group could not be resolved.",
+					addProblem(createProblem("Attribute group could not be resolved.",
 							attributeObjectElement));
 					return false;
 				}
@@ -778,44 +672,38 @@ public class Schema {
 	}
 
 	public AttributeItem parseAttributeItem(Element attributeItemElement) {
-		if (!attributeItemElement.getAttribute("ref").equals("")) {
-			return globalAttributesByName.get(attributeItemElement
-					.getAttribute("ref"));
-		}
-		AttributeItem attributeItem = new AttributeItem(this,
-				attributeItemElement.getAttribute("name"));
-		Attr defaultAttributeNode = attributeItemElement
-				.getAttributeNode("default");
+		if (!attributeItemElement.getAttribute("ref").equals("")) { return globalAttributesByName
+				.get(attributeItemElement.getAttribute("ref")); }
+		AttributeItem attributeItem = new AttributeItem(this, attributeItemElement
+				.getAttribute("name"));
+		Attr defaultAttributeNode = attributeItemElement.getAttributeNode("default");
 		if (defaultAttributeNode != null) {
 			attributeItem.setDefaultValue(defaultAttributeNode.getValue());
 		}
-		Attr fixedAttributeNode = attributeItemElement
-				.getAttributeNode("fixed");
+		Attr fixedAttributeNode = attributeItemElement.getAttributeNode("fixed");
 		if (fixedAttributeNode != null) {
 			attributeItem.setFixedValue(fixedAttributeNode.getValue());
 		}
 		Attr formAttributeNode = attributeItemElement.getAttributeNode("form");
 		if (formAttributeNode != null) {
 			attributeItem.setQualifyOverride(true);
-			attributeItem.setQualified(formAttributeNode.getValue().equals(
-					"qualified"));
+			attributeItem.setQualified(formAttributeNode.getValue().equals("qualified"));
 		}
-		attributeItem.setRequired(attributeItemElement.getAttribute("use")
-				.equals("required"));
+		attributeItem.setRequired(attributeItemElement.getAttribute("use").equals("required"));
 		SimpleType type = null;
 		String typeString = attributeItemElement.getAttribute("type");
 		if (!typeString.equals("")) {
 			type = (SimpleType) resolveType(attributeItemElement, typeString);
 		} else {
-			NodeList simpleTypeElementList = attributeItemElement
-					.getElementsByTagNameNS(SCHEMA_NAMESPACE, "simpleType");
+			NodeList simpleTypeElementList = attributeItemElement.getElementsByTagNameNS(
+					SCHEMA_NAMESPACE, "simpleType");
 			if (simpleTypeElementList.getLength() > 0) {
 				type = parseSimpleType((Element) simpleTypeElementList.item(0));
 			}
 		}
 		if (type == null) {
-			addProblem(createProblem("Base type '" + typeString
-					+ "' not found or invalid.", attributeItemElement));
+			addProblem(createProblem("Base type '" + typeString + "' not found or invalid.",
+					attributeItemElement));
 		}
 		attributeItem.setType(type);
 		return attributeItem;
@@ -837,15 +725,12 @@ public class Schema {
 			return localTypesByName.get(name);
 		} else {
 			Schema schema = schemasByNamespace.get(uri);
-			if (schema == null) {
-				return null;
-			}
+			if (schema == null) { return null; }
 			return schema.getType(name);
 		}
 	}
 
-	public AttributeGrouping resolveAttributeGrouping(Element hostElement,
-			String qName) {
+	public AttributeGrouping resolveAttributeGrouping(Element hostElement, String qName) {
 		String[] baseParts = qName.split(":");
 		String prefix = null;
 		if (baseParts.length > 1) {
@@ -857,15 +742,12 @@ public class Schema {
 			return globalAttributeGroupsByName.get(partialName);
 		} else {
 			Schema schema = schemasByNamespace.get(nameSpace);
-			if (schema == null) {
-				return null;
-			}
+			if (schema == null) { return null; }
 			return schema.getAttributeGrouping(partialName);
 		}
 	}
 
-	public ElementGrouping resolveElementGrouping(Element hostElement,
-			String qName) {
+	public ElementGrouping resolveElementGrouping(Element hostElement, String qName) {
 		String[] baseParts = qName.split(":");
 		String prefix = null;
 		if (baseParts.length > 1) {
@@ -877,9 +759,7 @@ public class Schema {
 			return globalElementGroupsByName.get(partialName);
 		} else {
 			Schema schema = schemasByNamespace.get(nameSpace);
-			if (schema == null) {
-				return null;
-			}
+			if (schema == null) { return null; }
 			return schema.getElementGrouping(partialName);
 		}
 	}
@@ -900,9 +780,7 @@ public class Schema {
 			return globalElementsByName.get(name);
 		} else {
 			Schema schema = schemasByNamespace.get(uri);
-			if (schema == null) {
-				return null;
-			}
+			if (schema == null) { return null; }
 			return schema.getElementItem(name);
 		}
 	}
@@ -931,15 +809,13 @@ public class Schema {
 		return createProblem(message, source, null);
 	}
 
-	private SchemaProblem createProblem(String message, Element source,
-			Throwable t) {
+	private SchemaProblem createProblem(String message, Element source, Throwable t) {
 		Object userData = source.getUserData("line_Number");
 		int lineNumber = -1;
 		if (userData != null && userData instanceof String) {
 			try {
 				lineNumber = Integer.parseInt((String) userData);
-			} catch (NumberFormatException nfe) {
-			}
+			} catch (NumberFormatException nfe) {}
 		}
 		return new SchemaProblem(message, lineNumber, t);
 	}
@@ -963,8 +839,7 @@ public class Schema {
 			System.exit(1);
 		}
 		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory
-					.newInstance();
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			factory.setNamespaceAware(true);
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document document = builder.parse(file);

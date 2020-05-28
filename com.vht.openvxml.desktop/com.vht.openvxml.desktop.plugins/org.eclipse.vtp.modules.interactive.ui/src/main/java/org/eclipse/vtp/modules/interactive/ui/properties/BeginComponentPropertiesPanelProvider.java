@@ -15,28 +15,21 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesignComponent;
 
 /**
  * @author trip
- *
  */
-public class BeginComponentPropertiesPanelProvider implements
-		ComponentPropertiesPanelProvider {
+public class BeginComponentPropertiesPanelProvider implements ComponentPropertiesPanelProvider {
 
 	/**
 	 * 
 	 */
-	public BeginComponentPropertiesPanelProvider() {
-	}
+	public BeginComponentPropertiesPanelProvider() {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.editors.core.configuration.
-	 * ComponentPropertiesPanelProvider
-	 * #getPropertiesPanels(org.eclipse.vtp.desktop
-	 * .model.core.design.IDesignComponent)
+	 * @see org.eclipse.vtp.desktop.editors.core.configuration. ComponentPropertiesPanelProvider
+	 * #getPropertiesPanels(org.eclipse.vtp.desktop .model.core.design.IDesignComponent)
 	 */
 	@Override
-	public List<ComponentPropertiesPanel> getPropertiesPanels(
-			IDesignComponent designComponent) {
+	public List<ComponentPropertiesPanel> getPropertiesPanels(IDesignComponent designComponent) {
 		PrimitiveElement pe = (PrimitiveElement) designComponent;
 		List<ComponentPropertiesPanel> ret = new ArrayList<ComponentPropertiesPanel>();
 		ret.add(new ApplicationStartLanguagePropertyPanel("Language", pe));
@@ -45,23 +38,15 @@ public class BeginComponentPropertiesPanelProvider implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.editors.core.configuration.
-	 * ComponentPropertiesPanelProvider
-	 * #isApplicableFor(org.eclipse.vtp.desktop.model
-	 * .core.design.IDesignComponent)
+	 * @see org.eclipse.vtp.desktop.editors.core.configuration. ComponentPropertiesPanelProvider
+	 * #isApplicableFor(org.eclipse.vtp.desktop.model .core.design.IDesignComponent)
 	 */
 	@Override
 	public boolean isApplicableFor(IDesignComponent designComponent) {
-		if (!(designComponent.getDesign().getDocument().getProject() instanceof IInteractiveProjectAspect)) {
-			return false;
-		}
-		if (!(designComponent instanceof PrimitiveElement)) {
-			return false;
-		}
+		if (!(designComponent.getDesign().getDocument().getProject() instanceof IInteractiveProjectAspect)) { return false; }
+		if (!(designComponent instanceof PrimitiveElement)) { return false; }
 		PrimitiveElement pe = (PrimitiveElement) designComponent;
-		return pe.getSubTypeId().equals(
-				"org.eclipse.vtp.modules.standard.ui.appbegin");
+		return pe.getSubTypeId().equals("org.eclipse.vtp.modules.standard.ui.appbegin");
 
 	}
 

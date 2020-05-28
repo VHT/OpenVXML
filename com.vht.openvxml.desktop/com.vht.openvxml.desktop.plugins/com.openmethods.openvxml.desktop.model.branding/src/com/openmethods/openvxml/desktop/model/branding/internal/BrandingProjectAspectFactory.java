@@ -9,11 +9,9 @@ import org.eclipse.vtp.desktop.model.core.spi.IOpenVXMLProjectAspectFactory;
 import org.eclipse.vtp.desktop.model.core.spi.OpenVXMLProjectAspect;
 import org.w3c.dom.Element;
 
-public class BrandingProjectAspectFactory implements
-		IOpenVXMLProjectAspectFactory {
+public class BrandingProjectAspectFactory implements IOpenVXMLProjectAspectFactory {
 
-	public BrandingProjectAspectFactory() {
-	}
+	public BrandingProjectAspectFactory() {}
 
 	@Override
 	public String getAspectId() {
@@ -26,15 +24,13 @@ public class BrandingProjectAspectFactory implements
 	}
 
 	@Override
-	public boolean configureProject(IOpenVXMLProject project,
-			IProjectDescription description, Element aspectConfiguration) {
+	public boolean configureProject(IOpenVXMLProject project, IProjectDescription description,
+			Element aspectConfiguration) {
 		return false;
 	}
 
 	@Override
-	public void createProjectLayout(IOpenVXMLProject project,
-			Element aspectConfiguration) {
-	}
+	public void createProjectLayout(IOpenVXMLProject project, Element aspectConfiguration) {}
 
 	@Override
 	public OpenVXMLProjectAspect createProjectAspect(IOpenVXMLProject project,

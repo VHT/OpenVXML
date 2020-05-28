@@ -19,25 +19,19 @@ import org.xml.sax.helpers.AttributesImpl;
 public class RawInlineGrammar extends Grammar {
 	private String text = "";
 
-	public RawInlineGrammar(String text) throws IllegalArgumentException,
-			NullPointerException {
+	public RawInlineGrammar(String text) throws IllegalArgumentException, NullPointerException {
 		super(GRAMMAR_MODE_DTMF);
 		this.text = text;
 	}
 
 	@Override
-	public void writeWidget(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
-		if (text == null || text.equals("")) {
-			return;
-		}
+	public void writeWidget(ContentHandler outputHandler) throws NullPointerException, SAXException {
+		if (text == null || text.equals("")) { return; }
 		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory
-					.newInstance();
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			System.err.println(text);
-			ByteArrayInputStream bais = new ByteArrayInputStream(
-					text.getBytes());
+			ByteArrayInputStream bais = new ByteArrayInputStream(text.getBytes());
 			Document document = builder.parse(bais);
 			bais.close();
 			Element docElement = document.getDocumentElement();
@@ -47,18 +41,16 @@ public class RawInlineGrammar extends Grammar {
 		}
 	}
 
-	private void writeElement(ContentHandler outputHandler, Element element)
-			throws Exception {
+	private void writeElement(ContentHandler outputHandler, Element element) throws Exception {
 		AttributesImpl attributes = new AttributesImpl();
 		NamedNodeMap attributeMap = element.getAttributes();
 		for (int i = 0; i < attributeMap.getLength(); i++) {
 			Attr attribute = (Attr) attributeMap.item(i);
-			writeAttribute(attributes, attribute.getNamespaceURI(),
-					attribute.getLocalName(), attribute.getName(), TYPE_CDATA,
-					attribute.getValue());
+			writeAttribute(attributes, attribute.getNamespaceURI(), attribute.getLocalName(),
+					attribute.getName(), TYPE_CDATA, attribute.getValue());
 		}
-		outputHandler.startElement(element.getNamespaceURI(),
-				element.getLocalName(), element.getNodeName(), attributes);
+		outputHandler.startElement(element.getNamespaceURI(), element.getLocalName(), element
+				.getNodeName(), attributes);
 		NodeList nl = element.getChildNodes();
 		for (int i = 0; i < nl.getLength(); i++) {
 			Node node = nl.item(i);
@@ -67,12 +59,11 @@ public class RawInlineGrammar extends Grammar {
 			} else if (node.getNodeType() == Node.CDATA_SECTION_NODE
 					|| node.getNodeType() == Node.TEXT_NODE
 					|| node.getNodeType() == Node.COMMENT_NODE) {
-				char[] charArray = ((CharacterData) node).getData()
-						.toCharArray();
+				char[] charArray = ((CharacterData) node).getData().toCharArray();
 				outputHandler.characters(charArray, 0, charArray.length);
 			}
 		}
-		outputHandler.endElement(element.getNamespaceURI(),
-				element.getLocalName(), element.getNodeName());
+		outputHandler.endElement(element.getNamespaceURI(), element.getLocalName(), element
+				.getNodeName());
 	}
 }

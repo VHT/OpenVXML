@@ -15,7 +15,6 @@ import com.openmethods.openvxml.desktop.model.businessobjects.FieldType;
 
 /**
  * @author Trip
- *
  */
 public class ObjectField extends ObjectDefinition {
 	ObjectDefinition parent;
@@ -40,7 +39,6 @@ public class ObjectField extends ObjectDefinition {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.model.core.ObjectDefinition#getPath()
 	 */
 	@Override

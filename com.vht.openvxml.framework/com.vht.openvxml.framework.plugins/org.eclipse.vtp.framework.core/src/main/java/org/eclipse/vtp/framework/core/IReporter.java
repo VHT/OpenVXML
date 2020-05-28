@@ -31,8 +31,7 @@ public interface IReporter {
 	/**
 	 * Returns true if the specified severity level is enabled.
 	 *
-	 * @param severity
-	 *            The severity to check.
+	 * @param severity The severity to check.
 	 * @return True if the specified severity level is enabled.
 	 */
 	boolean isSeverityEnabled(int severity);
@@ -45,57 +44,44 @@ public interface IReporter {
 	/**
 	 * Creates and publishes a reporting entry with the specified attributes.
 	 * 
-	 * @param severity
-	 *            The severity of the report.
-	 * @param message
-	 *            The message associated with the report or <code>null</code> to
-	 *            not include a message.
+	 * @param severity The severity of the report.
+	 * @param message The message associated with the report or <code>null</code> to not include a
+	 *            message.
 	 */
 	void report(int severity, String message);
 
 	/**
 	 * Creates and publishes a reporting entry with the specified attributes.
 	 * 
-	 * @param severity
-	 *            The severity of the report.
-	 * @param message
-	 *            The message associated with the report or <code>null</code> to
-	 *            not include a message.
-	 * @param properties
-	 *            The properties of the report or <code>null</code> if no
-	 *            properties are specified.
+	 * @param severity The severity of the report.
+	 * @param message The message associated with the report or <code>null</code> to not include a
+	 *            message.
+	 * @param properties The properties of the report or <code>null</code> if no properties are
+	 *            specified.
 	 */
-	void report(int severity, String message,
-			@SuppressWarnings("rawtypes") Dictionary properties);
+	void report(int severity, String message, @SuppressWarnings("rawtypes") Dictionary properties);
 
 	/**
 	 * Creates and publishes a reporting entry with the specified attributes.
 	 * 
-	 * @param severity
-	 *            The severity of the report.
-	 * @param categories
-	 *            The categories the report pertains to or <code>null</code> if
-	 *            no catagories are related.
-	 * @param message
-	 *            The message associated with the report or <code>null</code> to
-	 *            not include a message.
+	 * @param severity The severity of the report.
+	 * @param categories The categories the report pertains to or <code>null</code> if no catagories
+	 *            are related.
+	 * @param message The message associated with the report or <code>null</code> to not include a
+	 *            message.
 	 */
 	void report(int severity, String[] categories, String message);
 
 	/**
 	 * Creates and publishes a reporting entry with the specified attributes.
 	 * 
-	 * @param severity
-	 *            The severity of the report.
-	 * @param categories
-	 *            The categories the report pertains to or <code>null</code> if
-	 *            no catagories are related.
-	 * @param message
-	 *            The message associated with the report or <code>null</code> to
-	 *            not include a message.
-	 * @param properties
-	 *            The properties of the report or <code>null</code> if no
-	 *            properties are specified.
+	 * @param severity The severity of the report.
+	 * @param categories The categories the report pertains to or <code>null</code> if no catagories
+	 *            are related.
+	 * @param message The message associated with the report or <code>null</code> to not include a
+	 *            message.
+	 * @param properties The properties of the report or <code>null</code> if no properties are
+	 *            specified.
 	 */
 	void report(int severity, String[] categories, String message,
 			@SuppressWarnings("rawtypes") Dictionary properties);

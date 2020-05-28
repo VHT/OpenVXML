@@ -16,7 +16,6 @@ import org.w3c.dom.Element;
 
 /**
  * @author lonnie
- * 
  */
 public class BuiltInDigitsInputGrammar extends BuiltInInputGrammar {
 	public static final String ELEMENT_NAME = "builtin-digits-input-grammar"; //$NON-NLS-1$
@@ -72,20 +71,17 @@ public class BuiltInDigitsInputGrammar extends BuiltInInputGrammar {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.media.CustomInputGrammar#
+	 * @see org.eclipse.vtp.framework.interactions.core.media.CustomInputGrammar#
 	 * getCustomInputData()
 	 */
 	@Override
 	public String getBuiltInInputURI() {
-		return DATA_IDENTIFIER + "?minlength=" + minDigits + ";maxlength="
-				+ maxDigits;
+		return DATA_IDENTIFIER + "?minlength=" + minDigits + ";maxlength=" + maxDigits;
 	}
 
 	@Override
 	public String toString() {
-		return "BuiltIn:Digits [minimum digits=" + this.minDigits
-				+ ", maximum digits=" + this.maxDigits + "]";
+		return "BuiltIn:Digits [minimum digits=" + this.minDigits + ", maximum digits="
+				+ this.maxDigits + "]";
 	}
 }

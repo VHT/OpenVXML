@@ -14,8 +14,7 @@ package org.eclipse.vtp.framework.databases.configurations;
 import org.w3c.dom.Element;
 
 /**
- * A configuration for a database connection factory that uses the JDBC driver
- * manager.
+ * A configuration for a database connection factory that uses the JDBC driver manager.
  * 
  * @author Lonnie Pryor
  */
@@ -28,8 +27,7 @@ public class JdbcDatabaseConfiguration extends DatabaseConfiguration {
 	/**
 	 * Creates a new JdbcDatabaseConfiguration.
 	 */
-	public JdbcDatabaseConfiguration() {
-	}
+	public JdbcDatabaseConfiguration() {}
 
 	/**
 	 * Returns the name of the driver class.
@@ -43,8 +41,7 @@ public class JdbcDatabaseConfiguration extends DatabaseConfiguration {
 	/**
 	 * Sets the name of the driver class.
 	 * 
-	 * @param driver
-	 *            The name of the driver class.
+	 * @param driver The name of the driver class.
 	 */
 	public void setDriver(String driver) {
 		this.driver = driver == null ? "" : driver; //$NON-NLS-1$
@@ -62,8 +59,7 @@ public class JdbcDatabaseConfiguration extends DatabaseConfiguration {
 	/**
 	 * Sets the URL to connect with.
 	 * 
-	 * @param url
-	 *            The URL to connect with.
+	 * @param url The URL to connect with.
 	 */
 	public void setUrl(String url) {
 		this.url = url == null ? "" : url; //$NON-NLS-1$
@@ -71,7 +67,6 @@ public class JdbcDatabaseConfiguration extends DatabaseConfiguration {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.databases.configurations.
 	 * DatabaseConfiguration#load(org.w3c.dom.Element)
 	 */
@@ -84,7 +79,6 @@ public class JdbcDatabaseConfiguration extends DatabaseConfiguration {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.databases.configurations.
 	 * DatabaseConfiguration#save(org.w3c.dom.Element)
 	 */

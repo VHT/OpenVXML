@@ -23,10 +23,9 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 /**
- * This project builder is responsible for performing additional build steps for
- * OpenVXML persona projects. Currently, this builder doesn't perform any
- * actions, but exists to facilitate the addition of such steps as they become
- * needed.
+ * This project builder is responsible for performing additional build steps for OpenVXML persona
+ * projects. Currently, this builder doesn't perform any actions, but exists to facilitate the
+ * addition of such steps as they become needed.
  *
  * @author Trip Gilman
  */
@@ -38,14 +37,12 @@ public class VoicePersonaBuilder extends IncrementalProjectBuilder {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.core.internal.events.InternalBuilder#build(int,
-	 * java.util.Map, org.eclipse.core.runtime.IProgressMonitor)
+	 * @see org.eclipse.core.internal.events.InternalBuilder#build(int, java.util.Map,
+	 * org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
 	@SuppressWarnings("rawtypes")
-	protected IProject[] build(int kind, Map args, IProgressMonitor monitor)
-			throws CoreException {
+	protected IProject[] build(int kind, Map args, IProgressMonitor monitor) throws CoreException {
 		if (kind == FULL_BUILD) {
 			fullBuild(monitor);
 		} else {
@@ -64,45 +61,35 @@ public class VoicePersonaBuilder extends IncrementalProjectBuilder {
 	/**
 	 * Performs all tasks required by a full build of the persona project.
 	 *
-	 * @param monitor
-	 *            The progress monitor used to provide user feedback
-	 * @throws CoreException
-	 *             If the build encounters an error during execution
+	 * @param monitor The progress monitor used to provide user feedback
+	 * @throws CoreException If the build encounters an error during execution
 	 */
-	protected void fullBuild(final IProgressMonitor monitor)
-			throws CoreException {
+	protected void fullBuild(final IProgressMonitor monitor) throws CoreException {
 		try {
 			getProject().accept(new PersonaResourceVisitor());
-		} catch (CoreException e) {
-		}
+		} catch (CoreException e) {}
 	}
 
 	/**
-	 * Performs any build tasks required by the resource delta of the persona
-	 * project.
+	 * Performs any build tasks required by the resource delta of the persona project.
 	 *
-	 * @param delta
-	 *            The changes to the persona project
-	 * @param monitor
-	 *            The progress monitor used to provide user feedback
-	 * @throws CoreException
-	 *             If the build encounters an error during execution
+	 * @param delta The changes to the persona project
+	 * @param monitor The progress monitor used to provide user feedback
+	 * @throws CoreException If the build encounters an error during execution
 	 */
-	protected void incrementalBuild(IResourceDelta delta,
-			IProgressMonitor monitor) throws CoreException {
+	protected void incrementalBuild(IResourceDelta delta, IProgressMonitor monitor)
+			throws CoreException {
 		delta.accept(new PersonaDeltaVisitor());
 	}
 
 	/**
-	 * This delta visitor is currently a NOOP. Any resource delta analysis
-	 * needed by future incarnations of this builder will be performed here.
+	 * This delta visitor is currently a NOOP. Any resource delta analysis needed by future
+	 * incarnations of this builder will be performed here.
 	 */
 	private class PersonaDeltaVisitor implements IResourceDeltaVisitor {
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.core.resources.IResourceDeltaVisitor#visit(org.eclipse
+		 * @see org.eclipse.core.resources.IResourceDeltaVisitor#visit(org.eclipse
 		 * .core.resources.IResourceDelta)
 		 */
 		@Override
@@ -124,15 +111,13 @@ public class VoicePersonaBuilder extends IncrementalProjectBuilder {
 	}
 
 	/**
-	 * This resource visitor is currently a NOOP. Any resource analysis needed
-	 * by furture incarnations of this builder will be performed here.
+	 * This resource visitor is currently a NOOP. Any resource analysis needed by furture
+	 * incarnations of this builder will be performed here.
 	 */
 	private class PersonaResourceVisitor implements IResourceVisitor {
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.core.resources.IResourceVisitor#visit(org.eclipse.core
+		 * @see org.eclipse.core.resources.IResourceVisitor#visit(org.eclipse.core
 		 * .resources.IResource)
 		 */
 		@Override

@@ -48,8 +48,7 @@ public class GrammarEntryDialog extends Dialog {
 	/**
 	 * Creates a new <code>ContentEntryDialog</code>.
 	 * 
-	 * @param parentShell
-	 *            The shell to create the dialog from.
+	 * @param parentShell The shell to create the dialog from.
 	 */
 	public GrammarEntryDialog(Shell parentShell) {
 		super(parentShell);
@@ -58,8 +57,7 @@ public class GrammarEntryDialog extends Dialog {
 	/**
 	 * Creates a new <code>ContentEntryDialog</code>.
 	 * 
-	 * @param parentShellProvider
-	 *            The shell provider to create the dialog from.
+	 * @param parentShellProvider The shell provider to create the dialog from.
 	 */
 	public GrammarEntryDialog(IShellProvider parentShellProvider) {
 		super(parentShellProvider);
@@ -68,8 +66,7 @@ public class GrammarEntryDialog extends Dialog {
 	/**
 	 * Sets the media provider the item is bound to.
 	 * 
-	 * @param mediaProvider
-	 *            The media provider the item is bound to.
+	 * @param mediaProvider The media provider the item is bound to.
 	 */
 	public void setMediaProvider(IMediaProvider mediaProvider) {
 		this.mediaProvider = mediaProvider;
@@ -77,9 +74,7 @@ public class GrammarEntryDialog extends Dialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(
-	 * org.eclipse.swt.widgets.Composite)
+	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea( org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
@@ -106,9 +101,8 @@ public class GrammarEntryDialog extends Dialog {
 		for (InputGrammarCreatorPanelManager.ContentCreatorRecord typeRecord : types) {
 			typeRecords.add(typeRecord);
 			typeCombo.add(typeRecord.contentName);
-			InputGrammarCreatorPanel ccp = InputGrammarCreatorPanelManager
-					.getInstance().getCreatorPanel(
-							new InputType(typeRecord.contentType, ""));
+			InputGrammarCreatorPanel ccp = InputGrammarCreatorPanelManager.getInstance()
+					.getCreatorPanel(new InputType(typeRecord.contentType, ""));
 			ccp.setMediaProvider(mediaProvider);
 			ccp.createControls(stackComp);
 			ccp.setInitialInput(content);
@@ -119,16 +113,15 @@ public class GrammarEntryDialog extends Dialog {
 		typeCombo.addSelectionListener(new SelectionListener() {
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (typeCombo.getSelectionIndex() == 0) {
 					stackLayout.topControl = ecp.getControl();
 				} else {
-					stackLayout.topControl = panels.get(
-							typeCombo.getSelectionIndex() - 1).getControl();
+					stackLayout.topControl = panels.get(typeCombo.getSelectionIndex() - 1)
+							.getControl();
 				}
 				stackComp.layout();
 			}
@@ -140,8 +133,7 @@ public class GrammarEntryDialog extends Dialog {
 			stackLayout.topControl = ecp.getControl();
 		} else {
 			for (int i = 0; i < typeRecords.size(); i++) {
-				InputGrammarCreatorPanelManager.ContentCreatorRecord record = typeRecords
-						.get(i);
+				InputGrammarCreatorPanelManager.ContentCreatorRecord record = typeRecords.get(i);
 				if (content.getInputGrammarType().equals(record.contentType)) {
 					typeCombo.select(i + 1);
 					stackLayout.topControl = panels.get(i).getControl();
@@ -154,7 +146,6 @@ public class GrammarEntryDialog extends Dialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
 	@Override
@@ -162,8 +153,7 @@ public class GrammarEntryDialog extends Dialog {
 		if (typeCombo.getSelectionIndex() == 0) {
 			content = ecp.createGrammar();
 		} else {
-			content = panels.get(typeCombo.getSelectionIndex() - 1)
-					.createGrammar();
+			content = panels.get(typeCombo.getSelectionIndex() - 1).createGrammar();
 		}
 		super.okPressed();
 	}

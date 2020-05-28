@@ -10,27 +10,20 @@ import org.w3c.dom.Element;
 public class PlayPromptConfigurationExporter implements IConfigurationExporter {
 	private static final String ELEMENT_ID = "org.eclipse.vtp.modules.interactive.playPrompt";
 
-	public PlayPromptConfigurationExporter() {
-	}
+	public PlayPromptConfigurationExporter() {}
 
 	@Override
-	public void exportConfiguration(IFlowElement flowElement,
-			Element actionElement) {
-		OutputMessageConfiguration config = new OutputMessageConfiguration(
-				ContentLoadingManager.getInstance());
-		Element customConfig = (Element) flowElement
-				.getConfiguration()
-				.getElementsByTagNameNS(
-						"http://www.eclipse.org/vtp/namespaces/config", //$NON-NLS-1$
-						"custom-config").item(0); //$NON-NLS-1$
-		config.setSecured(Boolean.parseBoolean(customConfig
-				.getAttribute("secured")));
+	public void exportConfiguration(IFlowElement flowElement, Element actionElement) {
+		OutputMessageConfiguration config = new OutputMessageConfiguration(ContentLoadingManager
+				.getInstance());
+		Element customConfig = (Element) flowElement.getConfiguration().getElementsByTagNameNS(
+				"http://www.eclipse.org/vtp/namespaces/config", //$NON-NLS-1$
+				"custom-config").item(0); //$NON-NLS-1$
+		config.setSecured(Boolean.parseBoolean(customConfig.getAttribute("secured")));
 		config.setOutputName("Prompt"); //$NON-NLS-1$
 		config.setMediaConfiguration(flowElement.loadMediaBindings(ELEMENT_ID));
-		Element configElement = actionElement.getOwnerDocument()
-				.createElementNS(
-						IDefinitionBuilder.NAMESPACE_URI_INTERACTIONS_CORE,
-						"interactions:output-message"); //$NON-NLS-1$
+		Element configElement = actionElement.getOwnerDocument().createElementNS(
+				IDefinitionBuilder.NAMESPACE_URI_INTERACTIONS_CORE, "interactions:output-message"); //$NON-NLS-1$
 		config.save(configElement);
 		actionElement.appendChild(configElement);
 	}
@@ -51,8 +44,7 @@ public class PlayPromptConfigurationExporter implements IConfigurationExporter {
 	}
 
 	@Override
-	public String getTargetId(IFlowElement flowElement,
-			Element afterTransitionElement) {
+	public String getTargetId(IFlowElement flowElement, Element afterTransitionElement) {
 		return flowElement.getDefaultTargetId(afterTransitionElement);
 	}
 

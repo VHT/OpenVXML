@@ -21,8 +21,8 @@ import org.eclipse.vtp.desktop.model.interactive.core.IMediaProject;
 import org.eclipse.vtp.desktop.model.interactive.core.IPromptSet;
 
 /**
- * This is a concrete implementation of <code>IPromptSet</code> and provides the
- * default behavior of that interface.
+ * This is a concrete implementation of <code>IPromptSet</code> and provides the default behavior of
+ * that interface.
  *
  * @author Trip Gilman
  * @version 2.0
@@ -30,8 +30,8 @@ import org.eclipse.vtp.desktop.model.interactive.core.IPromptSet;
 public class PromptSet extends MediaObject implements IPromptSet {
 	private static final String HASHPREFIX = "PROMPTSET";
 	/**
-	 * The eclipse file resource that contains the prompt definitions for a
-	 * persona project or the global prompts of a brand.
+	 * The eclipse file resource that contains the prompt definitions for a persona project or the
+	 * global prompts of a brand.
 	 */
 	IFile file;
 
@@ -41,13 +41,11 @@ public class PromptSet extends MediaObject implements IPromptSet {
 	IMediaProject parent;
 
 	/**
-	 * Creates a new <code>PromptSet</code> in the provided parent resource with
-	 * the given eclipse file resource.
+	 * Creates a new <code>PromptSet</code> in the provided parent resource with the given eclipse
+	 * file resource.
 	 *
-	 * @param file
-	 *            The eclipse file resource that contains the prompt definitions
-	 * @param parent
-	 *            The parent resource
+	 * @param file The eclipse file resource that contains the prompt definitions
+	 * @param parent The parent resource
 	 */
 	public PromptSet(IFile file, IMediaProject parent) {
 		super();
@@ -57,7 +55,6 @@ public class PromptSet extends MediaObject implements IPromptSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IVoiceResource#getName()
 	 */
 	@Override
@@ -67,7 +64,6 @@ public class PromptSet extends MediaObject implements IPromptSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IPromptSet#read()
 	 */
 	@Override
@@ -82,23 +78,17 @@ public class PromptSet extends MediaObject implements IPromptSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IPromptSet#write(java.io.InputStream
-	 * , org.eclipse.core.runtime.IProgressMonitor)
+	 * @see org.eclipse.vtp.desktop.core.project.IPromptSet#write(java.io.InputStream ,
+	 * org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
-	public void write(InputStream source, IProgressMonitor monitor)
-			throws CoreException {
+	public void write(InputStream source, IProgressMonitor monitor) throws CoreException {
 		file.setContents(source, true, true, monitor);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.internals.VoiceResource#getObjectId
-	 * ()
+	 * @see org.eclipse.vtp.desktop.core.project.internals.VoiceResource#getObjectId ()
 	 */
 	@Override
 	protected String getObjectId() {
@@ -107,7 +97,6 @@ public class PromptSet extends MediaObject implements IPromptSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.projects.core.IPromptSet#getUnderlyingFile()
 	 */
 	@Override
@@ -118,17 +107,13 @@ public class PromptSet extends MediaObject implements IPromptSet {
 	@Override
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapterClass) {
-		if (adapterClass.isAssignableFrom(IFile.class)) {
-			return file;
-		}
+		if (adapterClass.isAssignableFrom(IFile.class)) { return file; }
 		return super.getAdapter(adapterClass);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof PromptSet) {
-			return file.equals(((PromptSet) obj).getUnderlyingFile());
-		}
+		if (obj instanceof PromptSet) { return file.equals(((PromptSet) obj).getUnderlyingFile()); }
 		return false;
 	}
 

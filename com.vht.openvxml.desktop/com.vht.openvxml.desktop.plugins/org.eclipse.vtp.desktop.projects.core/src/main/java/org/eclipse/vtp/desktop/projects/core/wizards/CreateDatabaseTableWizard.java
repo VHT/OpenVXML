@@ -37,16 +37,14 @@ import com.openmethods.openvxml.desktop.model.databases.IDatabase;
 import com.openmethods.openvxml.desktop.model.databases.IDatabaseTable;
 
 /**
- * This wizard walks the user through the steps required to create a new
- * database table for an application. The user is prompted to enter a name for
- * the new database table. This name must be unique among the current database
- * tables in the database. The database table is automatically created by this
- * wizard and so requires no actions from the caller of the wizard.
+ * This wizard walks the user through the steps required to create a new database table for an
+ * application. The user is prompted to enter a name for the new database table. This name must be
+ * unique among the current database tables in the database. The database table is automatically
+ * created by this wizard and so requires no actions from the caller of the wizard.
  *
  * @author Trip
  */
-public class CreateDatabaseTableWizard extends Wizard implements INewWizard,
-		IExecutableExtension {
+public class CreateDatabaseTableWizard extends Wizard implements INewWizard, IExecutableExtension {
 	/**
 	 * The database descriptor that will hold the database table descriptor.
 	 */
@@ -60,12 +58,10 @@ public class CreateDatabaseTableWizard extends Wizard implements INewWizard,
 	IConfigurationElement configElement = null;
 
 	/**
-	 * Creates a new <code>CreateDatabaseTableWizard</code> instance for the
-	 * given database descriptor.
+	 * Creates a new <code>CreateDatabaseTableWizard</code> instance for the given database
+	 * descriptor.
 	 *
-	 * @param database
-	 *            The database descriptor that will contain the new database
-	 *            table descriptor
+	 * @param database The database descriptor that will contain the new database table descriptor
 	 */
 	public CreateDatabaseTableWizard() {
 		super();
@@ -75,21 +71,16 @@ public class CreateDatabaseTableWizard extends Wizard implements INewWizard,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org
-	 * .eclipse.core.runtime.IConfigurationElement, java.lang.String,
-	 * java.lang.Object)
+	 * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org
+	 * .eclipse.core.runtime.IConfigurationElement, java.lang.String, java.lang.Object)
 	 */
 	@Override
-	public void setInitializationData(IConfigurationElement cfig,
-			String propertyName, Object data) {
+	public void setInitializationData(IConfigurationElement cfig, String propertyName, Object data) {
 		configElement = cfig;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench,
 	 * org.eclipse.jface.viewers.IStructuredSelection)
 	 */
@@ -98,8 +89,7 @@ public class CreateDatabaseTableWizard extends Wizard implements INewWizard,
 		if (selection.isEmpty()) {
 			try {
 				selection = (IStructuredSelection) PlatformUI.getWorkbench()
-						.getActiveWorkbenchWindow().getSelectionService()
-						.getSelection();
+						.getActiveWorkbenchWindow().getSelectionService().getSelection();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -114,18 +104,16 @@ public class CreateDatabaseTableWizard extends Wizard implements INewWizard,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.wizard.IWizard#performFinish()
 	 */
 	@Override
 	public boolean performFinish() {
 		try {
-			IDatabaseTable table = database.createTable(bwp.brandNameField
-					.getText());
+			IDatabaseTable table = database.createTable(bwp.brandNameField.getText());
 			database.refresh();
 
-			IDE.openEditor(PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-					.getActivePage(), table.getUnderlyingFile());
+			IDE.openEditor(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage(),
+					table.getUnderlyingFile());
 			return true;
 		} catch (CoreException e) {
 			e.printStackTrace();
@@ -138,15 +126,12 @@ public class CreateDatabaseTableWizard extends Wizard implements INewWizard,
 		Text brandNameField = null;
 
 		public DatabaseWizardPage() {
-			super("DatabaseTablePage", "Enter a name for the database table",
-					null);
+			super("DatabaseTablePage", "Enter a name for the database table", null);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt
+		 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt
 		 * .widgets.Composite)
 		 */
 		@Override
@@ -156,8 +141,7 @@ public class CreateDatabaseTableWizard extends Wizard implements INewWizard,
 			Composite comp = new Composite(parent, SWT.NONE);
 			Label brandNameLabel = new Label(comp, SWT.NONE);
 			brandNameLabel.setText("Table Name:");
-			brandNameLabel.setSize(brandNameLabel.computeSize(SWT.DEFAULT,
-					SWT.DEFAULT));
+			brandNameLabel.setSize(brandNameLabel.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 			brandNameField = new Text(comp, SWT.SINGLE | SWT.BORDER);
 			brandNameField.addVerifyListener(new VerifyListener() {
 
@@ -165,11 +149,10 @@ public class CreateDatabaseTableWizard extends Wizard implements INewWizard,
 				public void verifyText(VerifyEvent e) {
 					String text = e.text;
 					char[] chars = text.toCharArray();
-					String currentName = brandNameField.getText().substring(0,
-							e.start)
+					String currentName = brandNameField.getText().substring(0, e.start)
 							+ e.text
-							+ brandNameField.getText(e.end, (brandNameField
-									.getText().length() - 1));
+							+ brandNameField
+									.getText(e.end, (brandNameField.getText().length() - 1));
 					if (currentName.length() > 255) {
 						e.doit = false;
 						return;
@@ -213,10 +196,8 @@ public class CreateDatabaseTableWizard extends Wizard implements INewWizard,
 			FormData brandNameLabelData = new FormData();
 			brandNameLabelData.left = new FormAttachment(0, 10);
 			brandNameLabelData.top = new FormAttachment(0, 30);
-			brandNameLabelData.right = new FormAttachment(0,
-					10 + brandNameLabel.getSize().x);
-			brandNameLabelData.bottom = new FormAttachment(0,
-					30 + brandNameLabel.getSize().y);
+			brandNameLabelData.right = new FormAttachment(0, 10 + brandNameLabel.getSize().x);
+			brandNameLabelData.bottom = new FormAttachment(0, 30 + brandNameLabel.getSize().y);
 			brandNameLabel.setLayoutData(brandNameLabelData);
 
 			FormData brandNameFieldData = new FormData();

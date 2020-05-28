@@ -24,8 +24,7 @@ import com.openmethods.openvxml.desktop.model.workflow.configuration.Configurati
 import com.openmethods.openvxml.desktop.model.workflow.configuration.ConfigurationManager;
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesign;
 
-public class MenuChoiceBindingManager implements ConfigurationManager,
-		BrandManagerListener {
+public class MenuChoiceBindingManager implements ConfigurationManager, BrandManagerListener {
 	/** The unique identifier for this manager type */
 	public static final String TYPE_ID = "org.eclipse.vtp.configuration.menuchoice";
 	/** The current XML structure version used by this manager */
@@ -39,10 +38,8 @@ public class MenuChoiceBindingManager implements ConfigurationManager,
 	private Map<String, List<MenuChoice>> brandOrders = new HashMap<String, List<MenuChoice>>();
 
 	/**
-	 * Creates a new instance of this manager that will use the given brand
-	 * manager to resolve the brand structure and have the provided media
-	 * default values.
-	 * 
+	 * Creates a new instance of this manager that will use the given brand manager to resolve the
+	 * brand structure and have the provided media default values.
 	 */
 	public MenuChoiceBindingManager(IDesign design) {
 		this.hostDesign = design;
@@ -56,9 +53,7 @@ public class MenuChoiceBindingManager implements ConfigurationManager,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.configuration.ConfigurationManager#getType()
+	 * @see org.eclipse.vtp.desktop.core.configuration.ConfigurationManager#getType()
 	 */
 	@Override
 	public String getType() {
@@ -67,10 +62,7 @@ public class MenuChoiceBindingManager implements ConfigurationManager,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.configuration.ConfigurationManager#getXMLVersion
-	 * ()
+	 * @see org.eclipse.vtp.desktop.core.configuration.ConfigurationManager#getXMLVersion ()
 	 */
 	@Override
 	public String getXMLVersion() {
@@ -79,18 +71,15 @@ public class MenuChoiceBindingManager implements ConfigurationManager,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.configuration.ConfigurationManager#
 	 * readConfiguration(org.w3c.dom.Element)
 	 */
 	@Override
-	public void readConfiguration(Element configuration)
-			throws ConfigurationException {
+	public void readConfiguration(Element configuration) throws ConfigurationException {
 		String configVersion = configuration.getAttribute("xml-version");
 		if (!configVersion.equals(XML_VERSION)) {
 			if (configVersion.equals("1.0.1")) {
-				NodeList brandOrdersList = configuration
-						.getElementsByTagName("brand-order");
+				NodeList brandOrdersList = configuration.getElementsByTagName("brand-order");
 				for (int i = 0; i < brandOrdersList.getLength(); i++) {
 					org.w3c.dom.Element brandOrderElement = (org.w3c.dom.Element) brandOrdersList
 							.item(i);
@@ -101,40 +90,33 @@ public class MenuChoiceBindingManager implements ConfigurationManager,
 			}
 		}
 		try {
-			org.w3c.dom.Element[] choices = XMLUtilities
-					.getElementsOfNodeList(XMLUtilities.getNamedNodeList(
-							configuration, "choices"));
+			org.w3c.dom.Element[] choices = XMLUtilities.getElementsOfNodeList(XMLUtilities
+					.getNamedNodeList(configuration, "choices"));
 
 			for (Element choice : choices) {
-				MenuChoice mc = new MenuChoice(choice.getAttribute("name"),
-						choice.getAttribute("script"));
+				MenuChoice mc = new MenuChoice(choice.getAttribute("name"), choice
+						.getAttribute("script"));
 				menuChoices.add(mc);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		NodeList brandOrdersList = configuration
-				.getElementsByTagName("brand-order");
+		NodeList brandOrdersList = configuration.getElementsByTagName("brand-order");
 		if (brandOrdersList.getLength() == 0) // backwards compatibility
 		{
 			List<MenuChoice> defaultList = new ArrayList<MenuChoice>();
 			defaultList.addAll(this.menuChoices);
-			this.brandOrders.put(brandManager.getDefaultBrand().getId(),
-					defaultList);
+			this.brandOrders.put(brandManager.getDefaultBrand().getId(), defaultList);
 		}
 		for (int i = 0; i < brandOrdersList.getLength(); i++) {
 			List<MenuChoice> brandList = new ArrayList<MenuChoice>();
-			org.w3c.dom.Element brandOrderElement = (org.w3c.dom.Element) brandOrdersList
-					.item(i);
+			org.w3c.dom.Element brandOrderElement = (org.w3c.dom.Element) brandOrdersList.item(i);
 			String brandId = brandOrderElement.getAttribute("brand");
-			NodeList entryList = brandOrderElement
-					.getElementsByTagName("entry");
+			NodeList entryList = brandOrderElement.getElementsByTagName("entry");
 			for (int e = 0; e < entryList.getLength(); e++) {
-				org.w3c.dom.Element entryElement = (org.w3c.dom.Element) entryList
-						.item(e);
+				org.w3c.dom.Element entryElement = (org.w3c.dom.Element) entryList.item(e);
 				for (MenuChoice mc : this.menuChoices) {
-					if (mc.getOptionName().equals(
-							entryElement.getAttribute("name"))) {
+					if (mc.getOptionName().equals(entryElement.getAttribute("name"))) {
 						brandList.add(mc);
 						break;
 					}
@@ -147,26 +129,24 @@ public class MenuChoiceBindingManager implements ConfigurationManager,
 		{
 			List<MenuChoice> defaultList = new ArrayList<MenuChoice>();
 			defaultList.addAll(menuChoices);
-			this.brandOrders.put(brandManager.getDefaultBrand().getId(),
-					defaultList);
+			this.brandOrders.put(brandManager.getDefaultBrand().getId(), defaultList);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.configuration.ConfigurationManager#
 	 * writeConfiguration(org.w3c.dom.Element)
 	 */
 	@Override
 	public void writeConfiguration(Element configuration) {
-		org.w3c.dom.Element choicesElement = configuration.getOwnerDocument()
-				.createElement("choices");
+		org.w3c.dom.Element choicesElement = configuration.getOwnerDocument().createElement(
+				"choices");
 		configuration.appendChild(choicesElement);
 
 		for (MenuChoice mc : menuChoices) {
-			org.w3c.dom.Element choiceElement = configuration
-					.getOwnerDocument().createElement("choice");
+			org.w3c.dom.Element choiceElement = configuration.getOwnerDocument().createElement(
+					"choice");
 			choiceElement.setAttribute("name", mc.getOptionName());
 			if (mc.getScriptText() != null) {
 				choiceElement.setAttribute("script", mc.getScriptText());
@@ -174,15 +154,15 @@ public class MenuChoiceBindingManager implements ConfigurationManager,
 			choicesElement.appendChild(choiceElement);
 		}
 		for (Map.Entry<String, List<MenuChoice>> entry : brandOrders.entrySet()) {
-			org.w3c.dom.Element orderElement = configuration.getOwnerDocument()
-					.createElement("brand-order");
+			org.w3c.dom.Element orderElement = configuration.getOwnerDocument().createElement(
+					"brand-order");
 			orderElement.setAttribute("brand", entry.getKey());
 			configuration.appendChild(orderElement);
 			List<MenuChoice> options = entry.getValue();
 			for (int i = 0; i < options.size(); i++) {
 				MenuChoice mc = options.get(i);
-				org.w3c.dom.Element orderEntryElement = configuration
-						.getOwnerDocument().createElement("entry");
+				org.w3c.dom.Element orderEntryElement = configuration.getOwnerDocument()
+						.createElement("entry");
 				orderEntryElement.setAttribute("name", mc.getOptionName());
 				orderEntryElement.setAttribute("spot", Integer.toString(i));
 				orderElement.appendChild(orderEntryElement);
@@ -192,7 +172,6 @@ public class MenuChoiceBindingManager implements ConfigurationManager,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
@@ -200,11 +179,10 @@ public class MenuChoiceBindingManager implements ConfigurationManager,
 		MenuChoiceBindingManager copy = new MenuChoiceBindingManager(hostDesign);
 		try {
 			// build document contents
-			DocumentBuilderFactory factory = DocumentBuilderFactory
-					.newInstance();
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document document = builder.getDOMImplementation().createDocument(
-					null, "temporary-document", null);
+			Document document = builder.getDOMImplementation().createDocument(null,
+					"temporary-document", null);
 			org.w3c.dom.Element rootElement = document.getDocumentElement();
 			rootElement.setAttribute("xml-version", XML_VERSION);
 			writeConfiguration(rootElement);
@@ -225,8 +203,8 @@ public class MenuChoiceBindingManager implements ConfigurationManager,
 	public MenuChoice addChoice(String brand, MenuChoice choice) {
 		List<MenuChoice> orderList = brandOrders.get(brand);
 		if (orderList == null) {
-			orderList = new ArrayList<MenuChoice>(brandOrders.get(brandManager
-					.getDefaultBrand().getId()));
+			orderList = new ArrayList<MenuChoice>(brandOrders.get(brandManager.getDefaultBrand()
+					.getId()));
 			brandOrders.put(brand, orderList);
 		}
 		for (MenuChoice mc : menuChoices) {
@@ -243,8 +221,8 @@ public class MenuChoiceBindingManager implements ConfigurationManager,
 	public boolean removeChoice(String brand, MenuChoice choice) {
 		List<MenuChoice> orderList = brandOrders.get(brand);
 		if (orderList == null) {
-			orderList = new ArrayList<MenuChoice>(brandOrders.get(brandManager
-					.getDefaultBrand().getId()));
+			orderList = new ArrayList<MenuChoice>(brandOrders.get(brandManager.getDefaultBrand()
+					.getId()));
 			brandOrders.put(brand, orderList);
 		}
 		orderList.remove(choice);
@@ -265,8 +243,8 @@ public class MenuChoiceBindingManager implements ConfigurationManager,
 	public void moveChoiceUp(String brand, MenuChoice choice) {
 		List<MenuChoice> orderList = brandOrders.get(brand);
 		if (orderList == null) {
-			orderList = new ArrayList<MenuChoice>(brandOrders.get(brandManager
-					.getDefaultBrand().getId()));
+			orderList = new ArrayList<MenuChoice>(brandOrders.get(brandManager.getDefaultBrand()
+					.getId()));
 			brandOrders.put(brand, orderList);
 		}
 		int index = orderList.indexOf(choice);
@@ -279,8 +257,8 @@ public class MenuChoiceBindingManager implements ConfigurationManager,
 	public void moveChoiceDown(String brand, MenuChoice choice) {
 		List<MenuChoice> orderList = brandOrders.get(brand);
 		if (orderList == null) {
-			orderList = new ArrayList<MenuChoice>(brandOrders.get(brandManager
-					.getDefaultBrand().getId()));
+			orderList = new ArrayList<MenuChoice>(brandOrders.get(brandManager.getDefaultBrand()
+					.getId()));
 			brandOrders.put(brand, orderList);
 		}
 		int index = orderList.indexOf(choice);
@@ -317,20 +295,17 @@ public class MenuChoiceBindingManager implements ConfigurationManager,
 	public void brandIdChanged(IBrand brand, String oldId) {
 		System.err.println("in brandIdChanged()");
 		List<MenuChoice> choices = brandOrders.remove(oldId);
-		System.err.println("BRAND ID CHANGED: " + oldId + "->" + brand.getId()
-				+ " " + choices);
+		System.err.println("BRAND ID CHANGED: " + oldId + "->" + brand.getId() + " " + choices);
 		if (choices != null) {
 			brandOrders.put(brand.getId(), choices);
 		}
 	}
 
 	@Override
-	public void brandNameChanged(IBrand brand, String oldName) {
-	}
+	public void brandNameChanged(IBrand brand, String oldName) {}
 
 	@Override
-	public void brandParentChanged(IBrand brand, IBrand oldParent) {
-	}
+	public void brandParentChanged(IBrand brand, IBrand oldParent) {}
 
 	@Override
 	public void brandRemoved(IBrand brand) {

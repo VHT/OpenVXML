@@ -22,13 +22,11 @@ import org.w3c.dom.Element;
 
 public class VoiceConverter {
 
-	public VoiceConverter() {
-	}
+	public VoiceConverter() {}
 
 	public void convertVoice(IProject project) {
 		try {
-			DocumentBuilderFactory builderFactory = DocumentBuilderFactory
-					.newInstance();
+			DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = builderFactory.newDocumentBuilder();
 			if (project.hasNature(VoicePersonaNature.NATURE_ID)) {
 				// Step 1. Update .config with new attribute names.
@@ -40,23 +38,19 @@ public class VoiceConverter {
 				rootElement.removeAttribute("name");
 				rootElement.removeAttribute("domain");
 				rootElement.removeAttribute("language");
-				rootElement.setAttribute("language-pack-id",
-						rootElement.getAttribute("language-pack"));
+				rootElement.setAttribute("language-pack-id", rootElement
+						.getAttribute("language-pack"));
 				rootElement.removeAttribute("language-pack");
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				TransformerFactory transfactory = TransformerFactory
-						.newInstance();
+				TransformerFactory transfactory = TransformerFactory.newInstance();
 				Transformer t = transfactory.newTransformer();
 				t.setOutputProperty(OutputKeys.METHOD, "xml");
 				t.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 				t.setOutputProperty(OutputKeys.INDENT, "yes");
-				t.setOutputProperty(
-						"{http://xml.apache.org/xslt}indent-amount", "4");
-				t.transform(new DOMSource(document),
-						new XMLWriter(baos).toXMLResult());
-				configFile.setContents(
-						new ByteArrayInputStream(baos.toByteArray()), true,
-						true, null);
+				t.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+				t.transform(new DOMSource(document), new XMLWriter(baos).toXMLResult());
+				configFile.setContents(new ByteArrayInputStream(baos.toByteArray()), true, true,
+						null);
 				IProjectDescription desc = project.getDescription();
 				desc.setNatureIds(new String[] { VoiceProjectNature.NATURE_ID });
 				project.setDescription(desc, null);

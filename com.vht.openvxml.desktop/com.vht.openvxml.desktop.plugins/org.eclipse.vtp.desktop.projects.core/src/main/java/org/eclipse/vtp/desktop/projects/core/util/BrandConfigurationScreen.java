@@ -92,8 +92,7 @@ public class BrandConfigurationScreen {
 		brandSection.setLayoutData(gridData);
 		brandSection.setText("Brands");
 
-		brandViewer = new TreeViewer(comp, SWT.BORDER | SWT.SINGLE
-				| SWT.FULL_SELECTION);
+		brandViewer = new TreeViewer(comp, SWT.BORDER | SWT.SINGLE | SWT.FULL_SELECTION);
 		brandViewer.setContentProvider(new BrandContentProvider());
 		brandViewer.setLabelProvider(new BrandLabelProvider());
 		brandViewer.setInput(this);
@@ -124,20 +123,17 @@ public class BrandConfigurationScreen {
 	 * @param manager
 	 */
 	private void fillContextMenu(IMenuManager manager) {
-		IStructuredSelection sel = ((IStructuredSelection) brandViewer
-				.getSelection());
+		IStructuredSelection sel = ((IStructuredSelection) brandViewer.getSelection());
 		if (!sel.isEmpty()) {
 			final IBrand brand = (IBrand) sel.getFirstElement();
 			manager.add(new Action("Add Brand") {
 				@Override
 				public void run() {
-					Shell workbenchShell = Display.getCurrent()
-							.getActiveShell();
+					Shell workbenchShell = Display.getCurrent().getActiveShell();
 					BrandDialog bd = new BrandDialog(workbenchShell);
 					bd.setReservedNames(getBrandNames(brand));
 					if (bd.open() == Dialog.OK) {
-						Brand nbrand = new Brand(Guid.createGUID(), bd
-								.getBrandName());
+						Brand nbrand = new Brand(Guid.createGUID(), bd.getBrandName());
 						nbrand.setParent(brand);
 						brandViewer.refresh(brand);
 						brandViewer.reveal(nbrand);
@@ -158,15 +154,11 @@ public class BrandConfigurationScreen {
 		}
 	}
 
-	private class BrandContentProvider implements IStructuredContentProvider,
-			ITreeContentProvider {
+	private class BrandContentProvider implements IStructuredContentProvider, ITreeContentProvider {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
-		 * java.lang.Object)
+		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements( java.lang.Object)
 		 */
 		@Override
 		public Object[] getElements(Object inputElement) {
@@ -175,30 +167,22 @@ public class BrandConfigurationScreen {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 		 */
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
+		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
 		 * .jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
 		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang
-		 * .Object)
+		 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang .Object)
 		 */
 		@Override
 		public Object[] getChildren(Object parentElement) {
@@ -207,10 +191,7 @@ public class BrandConfigurationScreen {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang
-		 * .Object)
+		 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang .Object)
 		 */
 		@Override
 		public Object getParent(Object element) {
@@ -219,10 +200,7 @@ public class BrandConfigurationScreen {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang
-		 * .Object)
+		 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang .Object)
 		 */
 		@Override
 		public boolean hasChildren(Object element) {
@@ -234,9 +212,7 @@ public class BrandConfigurationScreen {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.LabelProvider#getText(java.lang.Object)
+		 * @see org.eclipse.jface.viewers.LabelProvider#getText(java.lang.Object)
 		 */
 		@Override
 		public String getText(Object element) {

@@ -19,8 +19,7 @@ import org.w3c.dom.Element;
 public abstract class Content {
 	public static final String ELEMENT_NAMESPACE = "http://www.eclipse.org/vtp/media/content"; //$NON-NLS-1$
 
-	public Content() {
-	}
+	public Content() {}
 
 	public abstract Element store(Element element);
 

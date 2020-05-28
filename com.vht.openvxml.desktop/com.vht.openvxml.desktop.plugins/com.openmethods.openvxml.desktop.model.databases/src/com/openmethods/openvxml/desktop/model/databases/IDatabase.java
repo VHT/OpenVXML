@@ -17,30 +17,26 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.vtp.desktop.model.core.IWorkflowResourceContainer;
 
 /**
- * This interface represents a folder resource that contains database table
- * definitions.
+ * This interface represents a folder resource that contains database table definitions.
  *
  * @author Trip Gilman
  * @version 2.0
  */
 public interface IDatabase extends IWorkflowResourceContainer {
 	/**
-	 * @return The list of <code>IDatabaseTable</code>s that are defined for
-	 *         this database
+	 * @return The list of <code>IDatabaseTable</code>s that are defined for this database
 	 */
 	public List<IDatabaseTable> getTables();
 
 	/**
-	 * Creates a new database table definition with the given name. The table
-	 * will initially have no columns but all file and folder resources related
-	 * to this new table will be created as part of this action.
+	 * Creates a new database table definition with the given name. The table will initially have no
+	 * columns but all file and folder resources related to this new table will be created as part
+	 * of this action.
 	 *
-	 * @param name
-	 *            The name of the new table definition
+	 * @param name The name of the new table definition
 	 * @return The new database table
-	 * @throws CoreException
-	 *             If an error occured while creating the required file or
-	 *             folder resources of this database table definition
+	 * @throws CoreException If an error occured while creating the required file or folder
+	 *             resources of this database table definition
 	 */
 	public IDatabaseTable createTable(String name) throws CoreException;
 

@@ -65,8 +65,8 @@ public class ConnectWorkflowToUmbrellaWizard extends Wizard {
 	public ConnectWorkflowToUmbrellaWizard(OpenVXMLProject appProject) {
 		super();
 		this.appProject = appProject;
-		List<IOpenVXMLProject> projects = WorkflowCore.getDefault()
-				.getWorkflowModel().listWorkflowProjects();
+		List<IOpenVXMLProject> projects = WorkflowCore.getDefault().getWorkflowModel()
+				.listWorkflowProjects();
 		for (IOpenVXMLProject p : projects) {
 			if (p.getProjectAspect(IUmbrellaProjectAspect.ASPECT_ID) != null) {
 				umbrellaProjects.add(p);
@@ -84,49 +84,36 @@ public class ConnectWorkflowToUmbrellaWizard extends Wizard {
 	@Override
 	public boolean performFinish() {
 		try {
-			if (!PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-					.getActivePage().saveAllEditors(true)) {
-				return false;
-			}
+			if (!PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+					.saveAllEditors(true)) { return false; }
 			List<IEditorReference> toClose = new LinkedList<IEditorReference>();
-			IEditorReference[] editorRefs = PlatformUI.getWorkbench()
-					.getActiveWorkbenchWindow().getActivePage()
-					.getEditorReferences();
+			IEditorReference[] editorRefs = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+					.getActivePage().getEditorReferences();
 			for (IEditorReference ref : editorRefs) {
 				IEditorInput input = ref.getEditorInput();
 				if (input instanceof FileEditorInput) {
 					FileEditorInput fileInput = (FileEditorInput) input;
 					IFile file = fileInput.getFile();
 					if (file.getProject() != null
-							&& file.getProject().equals(
-									appProject.getUnderlyingProject())) {
+							&& file.getProject().equals(appProject.getUnderlyingProject())) {
 						toClose.add(ref);
 					}
 				}
 			}
 			if (!toClose.isEmpty()) {
-				MessageBox confirmDialog = new MessageBox(getShell(), SWT.OK
-						| SWT.CANCEL | SWT.ICON_WARNING);
+				MessageBox confirmDialog = new MessageBox(getShell(), SWT.OK | SWT.CANCEL
+						| SWT.ICON_WARNING);
 				StringBuilder buf = new StringBuilder(
 						"The following editors will be closed before completing the connection:\r\n");
 				for (IEditorReference ref : toClose) {
-					buf.append(((FileEditorInput) ref.getEditorInput())
-							.getFile().getFullPath().toPortableString());
+					buf.append(((FileEditorInput) ref.getEditorInput()).getFile().getFullPath()
+							.toPortableString());
 					buf.append("\r\n");
 				}
 				confirmDialog.setMessage(buf.toString());
-				if (confirmDialog.open() != SWT.OK) {
-					return false;
-				}
-				if (!PlatformUI
-						.getWorkbench()
-						.getActiveWorkbenchWindow()
-						.getActivePage()
-						.closeEditors(
-								toClose.toArray(new IEditorReference[toClose
-										.size()]), true)) {
-					return false;
-				}
+				if (confirmDialog.open() != SWT.OK) { return false; }
+				if (!PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+						.closeEditors(toClose.toArray(new IEditorReference[toClose.size()]), true)) { return false; }
 			}
 			brandMappingPage.applyMappings();
 			appProject.setParentProject(brandMappingPage.umbrellaProject);
@@ -156,8 +143,7 @@ public class ConnectWorkflowToUmbrellaWizard extends Wizard {
 				umbrellaLabel.setText("Umbrella Project");
 				umbrellaLabel.setLayoutData(new GridData());
 				umbrellaCombo = new Combo(comp, SWT.READ_ONLY | SWT.DROP_DOWN);
-				umbrellaCombo.setLayoutData(new GridData(
-						GridData.FILL_HORIZONTAL));
+				umbrellaCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 				for (IOpenVXMLProject p : umbrellaProjects) {
 					umbrellaCombo.add(p.getName());
 				}
@@ -166,13 +152,12 @@ public class ConnectWorkflowToUmbrellaWizard extends Wizard {
 					@Override
 					public void widgetSelected(SelectionEvent e) {
 						System.out.println("updating mapping page");
-						brandMappingPage.setUmbrellaProject(umbrellaProjects
-								.get(umbrellaCombo.getSelectionIndex()));
+						brandMappingPage.setUmbrellaProject(umbrellaProjects.get(umbrellaCombo
+								.getSelectionIndex()));
 					}
 
 					@Override
-					public void widgetDefaultSelected(SelectionEvent e) {
-					}
+					public void widgetDefaultSelected(SelectionEvent e) {}
 				});
 			} else {
 				comp.setLayout(new FillLayout());
@@ -196,8 +181,7 @@ public class ConnectWorkflowToUmbrellaWizard extends Wizard {
 		private TargetEditor targetEditor;
 
 		public BrandMappingPage() {
-			super(
-					"BrandMapping",
+			super("BrandMapping",
 					"Determine how the original brands are mapped to its new Umbrella project",
 					null);
 			sourceAspect = (IBrandingProjectAspect) appProject
@@ -220,11 +204,9 @@ public class ConnectWorkflowToUmbrellaWizard extends Wizard {
 		}
 
 		private void mapBrand(IBrand sourceBrand) {
-			IBrand destinationBrand = destinationManager
-					.getBrandById(sourceBrand.getId());
+			IBrand destinationBrand = destinationManager.getBrandById(sourceBrand.getId());
 			if (destinationBrand == null) {
-				destinationBrand = destinationManager
-						.getBrandByPath(sourceBrand.getPath());
+				destinationBrand = destinationManager.getBrandByPath(sourceBrand.getPath());
 			}
 			BrandMapping mapping = new BrandMapping(sourceBrand);
 			if (destinationBrand != null) {
@@ -250,13 +232,11 @@ public class ConnectWorkflowToUmbrellaWizard extends Wizard {
 						return;
 					}
 					if (newPaths.contains(mapping.destinationName)) {
-						setErrorMessage(mapping.destinationName
-								+ " is being added multiple times.");
+						setErrorMessage(mapping.destinationName + " is being added multiple times.");
 						setPageComplete(false);
 						return;
 					}
-					if (destinationManager
-							.getBrandByPath(mapping.destinationName) != null) {
+					if (destinationManager.getBrandByPath(mapping.destinationName) != null) {
 						setErrorMessage(mapping.sourceBrand.getPath()
 								+ " is mapped to an existing brand.");
 						setPageComplete(false);
@@ -270,8 +250,7 @@ public class ConnectWorkflowToUmbrellaWizard extends Wizard {
 						setPageComplete(false);
 						return;
 					}
-					if (mappedBrands.contains(mapping.destinationBrand
-							.getPath())) {
+					if (mappedBrands.contains(mapping.destinationBrand.getPath())) {
 						setErrorMessage(mapping.destinationBrand.getPath()
 								+ " is referenced multiple times.");
 						setPageComplete(false);
@@ -289,16 +268,14 @@ public class ConnectWorkflowToUmbrellaWizard extends Wizard {
 			List<IDesignDocument> designs = new LinkedList<IDesignDocument>();
 			IWorkflowProjectAspect workflowAspect = (IWorkflowProjectAspect) appProject
 					.getProjectAspect(IWorkflowProjectAspect.ASPECT_ID);
-			IDesignItemContainer container = workflowAspect
-					.getDesignRootFolder();
+			IDesignItemContainer container = workflowAspect.getDesignRootFolder();
 			addWorkingCopies(designs, container);
 			for (BrandMapping mapping : mappings.values()) {
 				if (mapping.action == Action.REMOVE) {
 					mapping.sourceBrand.delete();
 				} else if (mapping.action == Action.REPLACE) {
 					if (mapping.destinationBrand != null) {
-						((Brand) mapping.sourceBrand)
-								.setId(mapping.destinationBrand.getId());
+						((Brand) mapping.sourceBrand).setId(mapping.destinationBrand.getId());
 					}
 				}
 			}
@@ -327,11 +304,9 @@ public class ConnectWorkflowToUmbrellaWizard extends Wizard {
 							}
 							path.append("/");
 							path.append(parts[i]);
-							IBrand cur = destinationManager.getBrandByPath(path
-									.toString());
+							IBrand cur = destinationManager.getBrandByPath(path.toString());
 							if (cur == null) {
-								cur = new Brand(mapping.sourceBrand.getId(),
-										parts[i]);
+								cur = new Brand(mapping.sourceBrand.getId(), parts[i]);
 								cur.setParent(target);
 							}
 							target = cur;
@@ -342,8 +317,7 @@ public class ConnectWorkflowToUmbrellaWizard extends Wizard {
 			}
 		}
 
-		private void addWorkingCopies(List<IDesignDocument> designs,
-				IDesignItemContainer container) {
+		private void addWorkingCopies(List<IDesignDocument> designs, IDesignItemContainer container) {
 			for (IDesignDocument d : container.getDesignDocuments()) {
 				d.becomeWorkingCopy(true);
 				designs.add(d);
@@ -366,15 +340,13 @@ public class ConnectWorkflowToUmbrellaWizard extends Wizard {
 			sourceColumn.setResizable(true);
 			sourceColumn.setWidth(200);
 
-			TreeViewerColumn actionColumn = new TreeViewerColumn(viewer,
-					SWT.LEFT);
+			TreeViewerColumn actionColumn = new TreeViewerColumn(viewer, SWT.LEFT);
 			actionColumn.getColumn().setText("Action");
 			actionColumn.getColumn().setResizable(true);
 			actionColumn.getColumn().setWidth(100);
 			actionColumn.setEditingSupport(new ActionEditor());
 
-			TreeViewerColumn targetColumn = new TreeViewerColumn(viewer,
-					SWT.LEFT);
+			TreeViewerColumn targetColumn = new TreeViewerColumn(viewer, SWT.LEFT);
 			targetColumn.getColumn().setText("Target Brand");
 			targetColumn.getColumn().setResizable(true);
 			targetColumn.getColumn().setWidth(200);
@@ -393,10 +365,9 @@ public class ConnectWorkflowToUmbrellaWizard extends Wizard {
 
 			public ActionEditor() {
 				super(viewer);
-				actionCombo = new ComboBoxCellEditor(viewer.getTree(),
-						new String[] { "Remove Brand", "Replace with",
-								"Add to Umbrella" }, SWT.READ_ONLY
-								| SWT.DROP_DOWN);
+				actionCombo = new ComboBoxCellEditor(viewer.getTree(), new String[] {
+						"Remove Brand", "Replace with", "Add to Umbrella" }, SWT.READ_ONLY
+						| SWT.DROP_DOWN);
 			}
 
 			@Override
@@ -455,35 +426,24 @@ public class ConnectWorkflowToUmbrellaWizard extends Wizard {
 
 			public TargetEditor() {
 				super(viewer);
-				targetCombo = new ComboBoxCellEditor(viewer.getTree(),
-						new String[] {}, SWT.READ_ONLY | SWT.DROP_DOWN);
+				targetCombo = new ComboBoxCellEditor(viewer.getTree(), new String[] {},
+						SWT.READ_ONLY | SWT.DROP_DOWN);
 				addText = new TextCellEditor(viewer.getTree());
 				addText.setValidator(new ICellEditorValidator() {
 					@Override
 					public String isValid(Object value) {
 						String text = value.toString();
-						if (!text.startsWith("/Default")) {
-							return "Brands must be rooted at the Default brand, e.g. /Default/brandname";
-						}
-						if (text.endsWith("/")) {
-							return "Brands must not end with a '/'";
-						}
+						if (!text.startsWith("/Default")) { return "Brands must be rooted at the Default brand, e.g. /Default/brandname"; }
+						if (text.endsWith("/")) { return "Brands must not end with a '/'"; }
 						IBrand b = destinationManager.getBrandByPath(text);
-						if (b != null) {
-							return "Target brand already exists.  You must use Replace with instead of Add to Umbrella.";
-						}
-						IStructuredSelection sel = (IStructuredSelection) viewer
-								.getSelection();
+						if (b != null) { return "Target brand already exists.  You must use Replace with instead of Add to Umbrella."; }
+						IStructuredSelection sel = (IStructuredSelection) viewer.getSelection();
 						IBrand editedBrand = (IBrand) sel.getFirstElement();
-						BrandMapping editedMapping = mappings.get(editedBrand
-								.getId());
+						BrandMapping editedMapping = mappings.get(editedBrand.getId());
 						if (editedMapping.action == Action.ADD) {
 							for (BrandMapping m : mappings.values()) {
-								if (m != editedMapping
-										&& m.action == Action.ADD) {
-									if (text.equals(m.destinationName)) {
-										return "A brand with that name is already being added.";
-									}
+								if (m != editedMapping && m.action == Action.ADD) {
+									if (text.equals(m.destinationName)) { return "A brand with that name is already being added."; }
 								}
 							}
 						}
@@ -503,11 +463,9 @@ public class ConnectWorkflowToUmbrellaWizard extends Wizard {
 					}
 
 					@Override
-					public void editorValueChanged(boolean oldValidState,
-							boolean newValidState) {
+					public void editorValueChanged(boolean oldValidState, boolean newValidState) {
 						if (!newValidState) {
-							BrandMappingPage.this.setErrorMessage(addText
-									.getErrorMessage());
+							BrandMappingPage.this.setErrorMessage(addText.getErrorMessage());
 						} else {
 							BrandMappingPage.this.setErrorMessage(null);
 						}
@@ -543,9 +501,7 @@ public class ConnectWorkflowToUmbrellaWizard extends Wizard {
 			protected CellEditor getCellEditor(Object element) {
 				IBrand brand = (IBrand) element;
 				BrandMapping mapping = mappings.get(brand.getId());
-				if (mapping.action == Action.ADD) {
-					return addText;
-				}
+				if (mapping.action == Action.ADD) { return addText; }
 				return targetCombo;
 			}
 
@@ -564,10 +520,8 @@ public class ConnectWorkflowToUmbrellaWizard extends Wizard {
 					if (mapping.destinationBrand != null) {
 						for (int i = 0; i < targetBrands.size(); i++) {
 							IBrand b = targetBrands.get(i);
-							if (b.getId().equals(
-									mapping.destinationBrand.getId())) {
-								return new Integer(i);
-							}
+							if (b.getId().equals(mapping.destinationBrand.getId())) { return new Integer(
+									i); }
 						}
 					}
 					return 0;
@@ -593,14 +547,14 @@ public class ConnectWorkflowToUmbrellaWizard extends Wizard {
 			}
 		}
 
-		private class BrandContentProvider implements
-				IStructuredContentProvider, ITreeContentProvider {
+		private class BrandContentProvider
+			implements
+			IStructuredContentProvider,
+			ITreeContentProvider {
 
 			/*
 			 * (non-Javadoc)
-			 * 
-			 * @see
-			 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements
+			 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements
 			 * (java.lang.Object)
 			 */
 			@Override
@@ -610,31 +564,22 @@ public class ConnectWorkflowToUmbrellaWizard extends Wizard {
 
 			/*
 			 * (non-Javadoc)
-			 * 
 			 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 			 */
 			@Override
-			public void dispose() {
-			}
+			public void dispose() {}
 
 			/*
 			 * (non-Javadoc)
-			 * 
-			 * @see
-			 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
+			 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
 			 * .jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 			 */
 			@Override
-			public void inputChanged(Viewer viewer, Object oldInput,
-					Object newInput) {
-			}
+			public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 
 			/*
 			 * (non-Javadoc)
-			 * 
-			 * @see
-			 * org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java
-			 * .lang.Object)
+			 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java .lang.Object)
 			 */
 			@Override
 			public Object[] getChildren(Object parentElement) {
@@ -643,10 +588,7 @@ public class ConnectWorkflowToUmbrellaWizard extends Wizard {
 
 			/*
 			 * (non-Javadoc)
-			 * 
-			 * @see
-			 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java
-			 * .lang.Object)
+			 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java .lang.Object)
 			 */
 			@Override
 			public Object getParent(Object element) {
@@ -655,10 +597,7 @@ public class ConnectWorkflowToUmbrellaWizard extends Wizard {
 
 			/*
 			 * (non-Javadoc)
-			 * 
-			 * @see
-			 * org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java
-			 * .lang.Object)
+			 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java .lang.Object)
 			 */
 			@Override
 			public boolean hasChildren(Object element) {
@@ -666,8 +605,7 @@ public class ConnectWorkflowToUmbrellaWizard extends Wizard {
 			}
 		}
 
-		private class BrandLabelProvider extends LabelProvider implements
-				ITableLabelProvider {
+		private class BrandLabelProvider extends LabelProvider implements ITableLabelProvider {
 			@Override
 			public Image getColumnImage(Object element, int columnIndex) {
 				return null;
@@ -677,9 +615,7 @@ public class ConnectWorkflowToUmbrellaWizard extends Wizard {
 			public String getColumnText(Object element, int columnIndex) {
 				IBrand b = (IBrand) element;
 				BrandMapping mapping = mappings.get(b.getId());
-				if (columnIndex == 0) {
-					return b.getName();
-				}
+				if (columnIndex == 0) { return b.getName(); }
 				if (columnIndex == 1) {
 					switch (mapping.action) {
 					case REMOVE:
@@ -695,9 +631,7 @@ public class ConnectWorkflowToUmbrellaWizard extends Wizard {
 				if (mapping.destinationBrand != null) {
 					return mapping.destinationBrand.getPath();
 				} else {
-					if (mapping.destinationName == null) {
-						return "";
-					}
+					if (mapping.destinationName == null) { return ""; }
 					return mapping.destinationName;
 				}
 			}

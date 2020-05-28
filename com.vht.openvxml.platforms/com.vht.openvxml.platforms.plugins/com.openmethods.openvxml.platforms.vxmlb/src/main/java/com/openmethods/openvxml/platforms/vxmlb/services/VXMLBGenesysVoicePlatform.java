@@ -45,8 +45,7 @@ public class VXMLBGenesysVoicePlatform extends VoicePlatform {
 	private static final ObjectMapper mapper = new ObjectMapper();
 	private IVariableRegistry variableRegistry;
 
-	public VXMLBGenesysVoicePlatform(IExecutionContext context,
-			IVariableRegistry variableRegistry) {
+	public VXMLBGenesysVoicePlatform(IExecutionContext context, IVariableRegistry variableRegistry) {
 		super(context);
 		this.variableRegistry = variableRegistry;
 	}
@@ -63,9 +62,8 @@ public class VXMLBGenesysVoicePlatform extends VoicePlatform {
 	@Override
 	public void generateInitialVariableRequests(Map variables) {
 		super.generateInitialVariableRequests(variables);
-		variables
-				.put("genesysUUID",
-						"session.connection.protocol.sip.rawheaders['X-Genesys-CallUUID']");
+		variables.put("genesysUUID",
+				"session.connection.protocol.sip.rawheaders['X-Genesys-CallUUID']");
 	}
 
 	@Override
@@ -78,9 +76,7 @@ public class VXMLBGenesysVoicePlatform extends VoicePlatform {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.support.AbstractPlatform#
+	 * @see org.eclipse.vtp.framework.interactions.core.support.AbstractPlatform#
 	 * postProcessInitialVariable(java.lang.String, java.lang.String)
 	 */
 	@Override
@@ -108,16 +104,12 @@ public class VXMLBGenesysVoicePlatform extends VoicePlatform {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.support.AbstractPlatform#
-	 * renderInitialDocument(
-	 * org.eclipse.vtp.framework.interactions.core.platforms.ILinkFactory,
+	 * @see org.eclipse.vtp.framework.interactions.core.support.AbstractPlatform#
+	 * renderInitialDocument( org.eclipse.vtp.framework.interactions.core.platforms.ILinkFactory,
 	 * org.eclipse.vtp.framework.interactions.core.commands.InitialCommand)
 	 */
 	@Override
-	protected IDocument renderInitialDocument(ILinkFactory links,
-			InitialCommand initialCommand) {
+	protected IDocument renderInitialDocument(ILinkFactory links, InitialCommand initialCommand) {
 		Form form = new Form("InitialForm"); //$NON-NLS-1$
 		Map<String, String> varMap = new LinkedHashMap<String, String>();
 		generateInitialVariableRequests(varMap);
@@ -152,11 +144,9 @@ public class VXMLBGenesysVoicePlatform extends VoicePlatform {
 		ILink nextLink = links.createNextLink();
 		String[] parameterNames = initialCommand.getParameterNames();
 		for (String parameterName : parameterNames) {
-			nextLink.setParameters(parameterName,
-					initialCommand.getParameterValues(parameterName));
+			nextLink.setParameters(parameterName, initialCommand.getParameterValues(parameterName));
 		}
-		nextLink.setParameter(initialCommand.getResultName(),
-				initialCommand.getResultValue());
+		nextLink.setParameter(initialCommand.getResultName(), initialCommand.getResultValue());
 		String[] fields = new String[varMap.size() + variables.length + 1];
 		int j = 0;
 		for (String key : varMap.keySet()) {
@@ -171,11 +161,11 @@ public class VXMLBGenesysVoicePlatform extends VoicePlatform {
 		form.addFormElement(block);
 		ILink hangupLink = links.createNextLink();
 		for (String parameterName : parameterNames) {
-			hangupLink.setParameters(parameterName,
-					initialCommand.getParameterValues(parameterName));
+			hangupLink.setParameters(parameterName, initialCommand
+					.getParameterValues(parameterName));
 		}
-		hangupLink.setParameter(initialCommand.getResultName(),
-				initialCommand.getHangupResultValue());
+		hangupLink.setParameter(initialCommand.getResultName(), initialCommand
+				.getHangupResultValue());
 		Catch disconnectCatch = new Catch("connection.disconnect.hangup");
 		disconnectCatch.addAction(new Goto(hangupLink.toString()));
 		form.addEventHandler(disconnectCatch);
@@ -184,17 +174,14 @@ public class VXMLBGenesysVoicePlatform extends VoicePlatform {
 		document.setProperty("documentmaxstale", "0"); //$NON-NLS-1$ //$NON-NLS-2$
 		Script jsonInclude = new Script();
 		jsonInclude.setSrc(links.createIncludeLink(
-				"com.openmethods.openvxml.platforms.genesys/includes/json.js")
-				.toString());
+				"com.openmethods.openvxml.platforms.genesys/includes/json.js").toString());
 		document.addScript(jsonInclude);
 
 		Map<String, String[]> parameterMap = new HashMap<String, String[]>();
 		for (String parameterName : parameterNames) {
-			parameterMap.put(parameterName,
-					initialCommand.getParameterValues(parameterName));
+			parameterMap.put(parameterName, initialCommand.getParameterValues(parameterName));
 		}
-		form = (Form) addExtendedEvents(links, initialCommand.getResultName(),
-				parameterMap, form);
+		form = (Form) addExtendedEvents(links, initialCommand.getResultName(), parameterMap, form);
 		// List<String> events =
 		// ExtendedActionEventManager.getDefault().getExtendedEvents();
 		// for(String event : events)
@@ -224,12 +211,11 @@ public class VXMLBGenesysVoicePlatform extends VoicePlatform {
 		}
 		Filled filled = new Filled();
 		ILink createNextLink = links.createNextLink();
-		createNextLink.setParameter(metaDataMessageCommand.getResultName(),
-				metaDataMessageCommand.getFilledResultValue());
+		createNextLink.setParameter(metaDataMessageCommand.getResultName(), metaDataMessageCommand
+				.getFilledResultValue());
 		String[] params = metaDataMessageCommand.getParameterNames();
 		for (String param : params) {
-			createNextLink.setParameters(param,
-					metaDataMessageCommand.getParameterValues(param));
+			createNextLink.setParameters(param, metaDataMessageCommand.getParameterValues(param));
 		}
 		filled.addAction(new Goto(createNextLink.toString()));
 		userData.addFilledHandler(filled);
@@ -238,19 +224,17 @@ public class VXMLBGenesysVoicePlatform extends VoicePlatform {
 			catchHandler.addAction(new Goto(createNextLink.toString()));
 		} else {
 			ILink errorLink = links.createNextLink();
-			errorLink.setParameter(metaDataMessageCommand.getResultName(),
-					"error");
+			errorLink.setParameter(metaDataMessageCommand.getResultName(), "error");
 			for (String param : params) {
-				errorLink.setParameters(param,
-						metaDataMessageCommand.getParameterValues(param));
+				errorLink.setParameters(param, metaDataMessageCommand.getParameterValues(param));
 			}
 			catchHandler.addAction(new Goto(errorLink.toString()));
 		}
 		userData.addEventHandler(catchHandler);
 		form.addFormElement(userData);
 		ILink hangupLink = links.createNextLink();
-		hangupLink.setParameter(metaDataMessageCommand.getResultName(),
-				metaDataMessageCommand.getHangupResultValue());
+		hangupLink.setParameter(metaDataMessageCommand.getResultName(), metaDataMessageCommand
+				.getHangupResultValue());
 		Catch disconnectCatch = new Catch("connection.disconnect.hangup");
 		disconnectCatch.addAction(new Goto(hangupLink.toString()));
 		form.addEventHandler(disconnectCatch);
@@ -259,8 +243,7 @@ public class VXMLBGenesysVoicePlatform extends VoicePlatform {
 
 	private Dialog addExtendedEvents(ILinkFactory links, String resultName,
 			Map<String, String[]> parameterMap, Dialog form) {
-		List<String> events = ExtendedActionEventManager.getDefault()
-				.getExtendedEvents();
+		List<String> events = ExtendedActionEventManager.getDefault().getExtendedEvents();
 		String cpaPrefix = "externalmessage.cpa";
 		// if(events.contains(cpaPrefix))
 		if (false) {
@@ -283,10 +266,8 @@ public class VXMLBGenesysVoicePlatform extends VoicePlatform {
 				if (!cpaPrefix.equals(cpaEvent)) {
 					ILink eventLink = links.createNextLink();
 					if (null != parameterMap) {
-						for (Entry<String, String[]> entry : parameterMap
-								.entrySet()) {
-							eventLink.setParameters(entry.getKey(),
-									entry.getValue());
+						for (Entry<String, String[]> entry : parameterMap.entrySet()) {
+							eventLink.setParameters(entry.getKey(), entry.getValue());
 						}
 					}
 					eventLink.setParameter(resultName, cpaEvent);
@@ -309,10 +290,8 @@ public class VXMLBGenesysVoicePlatform extends VoicePlatform {
 			for (String event : events) {
 				ILink eventLink = links.createNextLink();
 				if (null != parameterMap) {
-					for (Entry<String, String[]> entry : parameterMap
-							.entrySet()) {
-						eventLink.setParameters(entry.getKey(),
-								entry.getValue());
+					for (Entry<String, String[]> entry : parameterMap.entrySet()) {
+						eventLink.setParameters(entry.getKey(), entry.getValue());
 					}
 				}
 				eventLink.setParameter(resultName, event);

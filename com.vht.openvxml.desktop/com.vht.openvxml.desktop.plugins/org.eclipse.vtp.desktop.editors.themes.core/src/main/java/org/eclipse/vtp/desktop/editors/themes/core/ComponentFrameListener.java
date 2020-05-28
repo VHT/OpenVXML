@@ -18,29 +18,23 @@ package org.eclipse.vtp.desktop.editors.themes.core;
  */
 public interface ComponentFrameListener {
 	/**
-	 * Indicates that the given component frame is graphically dirty and should
-	 * be repainted.
+	 * Indicates that the given component frame is graphically dirty and should be repainted.
 	 * 
-	 * @param componentFrame
-	 *            The component frame that needs repainting
+	 * @param componentFrame The component frame that needs repainting
 	 */
 	public void componentFrameRepaintRequested(ComponentFrame componentFrame);
 
 	/**
-	 * Indicates that some aspect of the given component frame has been
-	 * modified.
+	 * Indicates that some aspect of the given component frame has been modified.
 	 * 
-	 * @param componentFrame
-	 *            The component frame that was modified
+	 * @param componentFrame The component frame that was modified
 	 */
 	public void componentFrameChanged(ComponentFrame componentFrame);
 
 	/**
-	 * Indicates that the given component frame has been removed from its parent
-	 * design.
+	 * Indicates that the given component frame has been removed from its parent design.
 	 * 
-	 * @param componentFrame
-	 *            The component frame that has been removed
+	 * @param componentFrame The component frame that has been removed
 	 */
 	public void componentFrameDeleted(ComponentFrame componentFrame);
 }

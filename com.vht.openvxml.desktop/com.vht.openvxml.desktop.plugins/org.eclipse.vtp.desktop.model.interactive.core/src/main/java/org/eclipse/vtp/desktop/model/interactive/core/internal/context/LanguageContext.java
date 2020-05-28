@@ -14,7 +14,6 @@ import org.eclipse.vtp.desktop.model.interactive.core.InteractionType;
 
 /**
  * @author trip
- *
  */
 public class LanguageContext implements ConfigurationContext {
 	public static final String CONTEXT_ID = "org.eclipse.vtp.desktop.model.interactive.core.languagecontext";
@@ -25,15 +24,11 @@ public class LanguageContext implements ConfigurationContext {
 	/**
 	 * 
 	 */
-	public LanguageContext() {
-	}
+	public LanguageContext() {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.configuration.ConfigurationContext
-	 * #getId()
+	 * @see org.eclipse.vtp.desktop.model.core.configuration.ConfigurationContext #getId()
 	 */
 	@Override
 	public String getId() {
@@ -52,9 +47,7 @@ public class LanguageContext implements ConfigurationContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.configuration.ConfigurationContext
+	 * @see org.eclipse.vtp.desktop.model.core.configuration.ConfigurationContext
 	 * #getLabel(java.lang.Object)
 	 */
 	@Override
@@ -64,10 +57,7 @@ public class LanguageContext implements ConfigurationContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.configuration.ConfigurationContext
-	 * #getValues()
+	 * @see org.eclipse.vtp.desktop.model.core.configuration.ConfigurationContext #getValues()
 	 */
 	@Override
 	public List<Object> getValues() {
@@ -75,8 +65,8 @@ public class LanguageContext implements ConfigurationContext {
 		if (interactionType != null) {
 			ILanguageSupportProjectAspect languageSupportAspect = (ILanguageSupportProjectAspect) project
 					.getProjectAspect(ILanguageSupportProjectAspect.ASPECT_ID);
-			ret.addAll(languageSupportAspect.getMediaProviderManager()
-					.getSupportedLanguages(interactionType));
+			ret.addAll(languageSupportAspect.getMediaProviderManager().getSupportedLanguages(
+					interactionType));
 		}
 		return ret;
 	}
@@ -86,11 +76,8 @@ public class LanguageContext implements ConfigurationContext {
 		InteractionType newInteractionType = (InteractionType) values
 				.get(InteractionTypeContext.CONTEXT_ID);
 		if ((newInteractionType == null && interactionType == null)
-				|| newInteractionType.getId().equals(interactionType)) {
-			return false;
-		}
-		interactionType = newInteractionType == null ? null
-				: newInteractionType.getId();
+				|| newInteractionType.getId().equals(interactionType)) { return false; }
+		interactionType = newInteractionType == null ? null : newInteractionType.getId();
 		return true;
 	}
 

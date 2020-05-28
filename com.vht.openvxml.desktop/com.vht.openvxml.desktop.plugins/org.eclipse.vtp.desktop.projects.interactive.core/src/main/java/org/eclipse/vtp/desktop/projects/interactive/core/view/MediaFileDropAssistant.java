@@ -28,8 +28,8 @@ public class MediaFileDropAssistant extends CommonDropAdapterAssistant {
 	}
 
 	@Override
-	public IStatus handleDrop(CommonDropAdapter aDropAdapter,
-			DropTargetEvent aDropTargetEvent, Object aTarget) {
+	public IStatus handleDrop(CommonDropAdapter aDropAdapter, DropTargetEvent aDropTargetEvent,
+			Object aTarget) {
 		IMediaContainer mediaContainer = null;
 		if (aTarget instanceof IMediaContainer) {
 			mediaContainer = (IMediaContainer) aTarget;
@@ -44,8 +44,7 @@ public class MediaFileDropAssistant extends CommonDropAdapterAssistant {
 		} else {
 			operation = new CopyFilesAndFoldersOperation(this.getShell());
 		}
-		Object objs = FileTransfer.getInstance().nativeToJava(
-				aDropTargetEvent.currentDataType);
+		Object objs = FileTransfer.getInstance().nativeToJava(aDropTargetEvent.currentDataType);
 		if (objs instanceof String[]) {
 			String[] files = (String[]) objs;
 			IContainer container = mediaContainer.getUnderlyingFolder();
@@ -72,8 +71,7 @@ public class MediaFileDropAssistant extends CommonDropAdapterAssistant {
 								toCopy.add(resource);
 							}
 						}
-						operation.copyResources(
-								toCopy.toArray(new IResource[toCopy.size()]),
+						operation.copyResources(toCopy.toArray(new IResource[toCopy.size()]),
 								mediaContainer.getUnderlyingFolder());
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -86,18 +84,10 @@ public class MediaFileDropAssistant extends CommonDropAdapterAssistant {
 	}
 
 	@Override
-	public IStatus validateDrop(Object target, int operation,
-			TransferData transferType) {
-		if (operation != DND.DROP_COPY && operation != DND.DROP_MOVE) {
-			return Status.CANCEL_STATUS;
-		}
-		if (!(target instanceof IMediaContainer)
-				&& !(target instanceof IMediaFile)) {
-			return Status.CANCEL_STATUS;
-		}
-		if (FileTransfer.getInstance().isSupportedType(transferType)) {
-			return Status.OK_STATUS;
-		}
+	public IStatus validateDrop(Object target, int operation, TransferData transferType) {
+		if (operation != DND.DROP_COPY && operation != DND.DROP_MOVE) { return Status.CANCEL_STATUS; }
+		if (!(target instanceof IMediaContainer) && !(target instanceof IMediaFile)) { return Status.CANCEL_STATUS; }
+		if (FileTransfer.getInstance().isSupportedType(transferType)) { return Status.OK_STATUS; }
 		if (LocalSelectionTransfer.getTransfer().isSupportedType(transferType)) {
 			IStructuredSelection selection = (IStructuredSelection) LocalSelectionTransfer
 					.getTransfer().getSelection();
@@ -107,12 +97,9 @@ public class MediaFileDropAssistant extends CommonDropAdapterAssistant {
 				if (obj instanceof IResource) {
 					resource = (IResource) obj;
 				} else if (obj instanceof IAdaptable) {
-					resource = (IResource) ((IAdaptable) obj)
-							.getAdapter(IResource.class);
+					resource = (IResource) ((IAdaptable) obj).getAdapter(IResource.class);
 				}
-				if (resource == null) {
-					return Status.CANCEL_STATUS;
-				}
+				if (resource == null) { return Status.CANCEL_STATUS; }
 			}
 			return Status.OK_STATUS;
 		}

@@ -10,8 +10,8 @@ public class ElseDocumentItem extends DocumentItemContainer {
 
 	@Override
 	public Element createConfigurationElement(Element parentElement) {
-		Element elseItemElement = parentElement.getOwnerDocument()
-				.createElementNS(null, "else-item");
+		Element elseItemElement = parentElement.getOwnerDocument().createElementNS(null,
+				"else-item");
 		parentElement.appendChild(elseItemElement);
 		return elseItemElement;
 	}

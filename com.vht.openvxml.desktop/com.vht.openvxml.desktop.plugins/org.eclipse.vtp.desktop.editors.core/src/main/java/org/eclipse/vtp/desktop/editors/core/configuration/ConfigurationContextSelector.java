@@ -46,11 +46,10 @@ public class ConfigurationContextSelector {
 	 */
 	public ConfigurationContextSelector(IOpenVXMLProject workflowProject) {
 		super();
-		List<ConfigurationContext> contexts = ConfigurationContextRegistry
-				.getInstance().getConfigurationContextsFor(workflowProject);
+		List<ConfigurationContext> contexts = ConfigurationContextRegistry.getInstance()
+				.getConfigurationContextsFor(workflowProject);
 		for (ConfigurationContext context : contexts) {
-			ConfigurationContextHolder holder = new ConfigurationContextHolder(
-					context);
+			ConfigurationContextHolder holder = new ConfigurationContextHolder(context);
 			holders.add(holder);
 		}
 	}
@@ -115,8 +114,7 @@ public class ConfigurationContextSelector {
 				contextValues.put(h.context.getId(), h.getSelection());
 			}
 			for (ConfigurationContextHolder h : holders) {
-				boolean contextUpdated = h.context
-						.setConfigurationContext(contextValues);
+				boolean contextUpdated = h.context.setConfigurationContext(contextValues);
 				h.refreshContext();
 				updated = updated || contextUpdated;
 			}
@@ -127,8 +125,10 @@ public class ConfigurationContextSelector {
 		}
 	}
 
-	public class ConfigurationContextHolder extends BaseLabelProvider implements
-			IStructuredContentProvider, ILabelProvider {
+	public class ConfigurationContextHolder extends BaseLabelProvider
+		implements
+		IStructuredContentProvider,
+		ILabelProvider {
 		ConfigurationContext context = null;
 		ComboViewer viewer = null;
 		boolean active = true;
@@ -143,11 +143,9 @@ public class ConfigurationContextSelector {
 			label.setBackground(parent.getBackground());
 			label.setLayoutData(new GridData());
 
-			Combo combo = new Combo(parent, SWT.SINGLE | SWT.READ_ONLY
-					| SWT.DROP_DOWN);
+			Combo combo = new Combo(parent, SWT.SINGLE | SWT.READ_ONLY | SWT.DROP_DOWN);
 			viewer = new ComboViewer(combo);
-			viewer.getControl().setLayoutData(
-					new GridData(GridData.FILL_HORIZONTAL));
+			viewer.getControl().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			viewer.setContentProvider(this);
 			viewer.setLabelProvider(this);
 			viewer.setInput(this);
@@ -176,8 +174,8 @@ public class ConfigurationContextSelector {
 		}
 
 		public Object getSelection() {
-			return viewer == null ? null : ((IStructuredSelection) viewer
-					.getSelection()).getFirstElement();
+			return viewer == null ? null : ((IStructuredSelection) viewer.getSelection())
+					.getFirstElement();
 		}
 
 		public void activate() {
@@ -200,8 +198,7 @@ public class ConfigurationContextSelector {
 		}
 
 		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 
 		@Override
 		public Image getImage(Object element) {

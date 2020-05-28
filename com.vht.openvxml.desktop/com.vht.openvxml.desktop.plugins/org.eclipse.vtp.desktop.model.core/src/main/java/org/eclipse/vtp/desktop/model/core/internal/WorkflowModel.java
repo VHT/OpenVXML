@@ -27,7 +27,6 @@ import org.w3c.dom.Element;
 
 /**
  * @author trip
- *
  */
 public class WorkflowModel implements IWorkflowModel {
 	private OpenVXMLProjectFactory factory = new OpenVXMLProjectFactory();
@@ -37,8 +36,7 @@ public class WorkflowModel implements IWorkflowModel {
 	/**
 	 * 
 	 */
-	public WorkflowModel() {
-	}
+	public WorkflowModel() {}
 
 	public void init() {
 		loadMissingProjects();
@@ -46,8 +44,7 @@ public class WorkflowModel implements IWorkflowModel {
 
 	private void loadMissingProjects() {
 		List<ProjectInfo> projectInfoList = new LinkedList<ProjectInfo>();
-		IProject[] rawProjects = ResourcesPlugin.getWorkspace().getRoot()
-				.getProjects();
+		IProject[] rawProjects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
 		for (IProject project : rawProjects) {
 			System.out.println(project.getFullPath().toPortableString());
 			if (projectsByRaw.get(project.getFullPath().toPortableString()) != null) {
@@ -62,17 +59,13 @@ public class WorkflowModel implements IWorkflowModel {
 							IFile buildPath = project.getFile(".buildPath");
 							DocumentBuilderFactory buildFactory = DocumentBuilderFactory
 									.newInstance();
-							DocumentBuilder builder = buildFactory
-									.newDocumentBuilder();
-							Document doc = builder.parse(buildPath
-									.getContents());
+							DocumentBuilder builder = buildFactory.newDocumentBuilder();
+							Document doc = builder.parse(buildPath.getContents());
 							Element root = doc.getDocumentElement();
 							String projectId = root.getAttribute("id");
 							String parentId = root.getAttribute("parent");
-							System.out.println("Parsed buildpath: " + projectId
-									+ " " + parentId);
-							projectInfoList.add(new ProjectInfo(project,
-									projectId, parentId));
+							System.out.println("Parsed buildpath: " + projectId + " " + parentId);
+							projectInfoList.add(new ProjectInfo(project, projectId, parentId));
 						} catch (Exception ex) {
 							ex.printStackTrace();
 						}
@@ -85,8 +78,7 @@ public class WorkflowModel implements IWorkflowModel {
 		}
 		boolean converted = true;
 		while (converted) {
-			List<ProjectInfo> toProcess = new LinkedList<ProjectInfo>(
-					projectInfoList);
+			List<ProjectInfo> toProcess = new LinkedList<ProjectInfo>(projectInfoList);
 			converted = false;
 			for (ProjectInfo info : toProcess) {
 				if (info.parentId == null || info.parentId.equals("")) {
@@ -94,25 +86,21 @@ public class WorkflowModel implements IWorkflowModel {
 					IOpenVXMLProject convertedProject = factory
 							.convertToWorkflowProject(info.project);
 					projectsById.put(info.projectId, convertedProject);
-					projectsByRaw.put(info.project.getFullPath()
-							.toPortableString(), convertedProject);
-					System.out.println("mapped "
-							+ info.project.getFullPath().toPortableString());
+					projectsByRaw.put(info.project.getFullPath().toPortableString(),
+							convertedProject);
+					System.out.println("mapped " + info.project.getFullPath().toPortableString());
 					projectInfoList.remove(info);
 					converted = true;
 				} else {
-					IOpenVXMLProject parentProject = projectsById
-							.get(info.parentId);
+					IOpenVXMLProject parentProject = projectsById.get(info.parentId);
 					if (parentProject != null) {
 						IOpenVXMLProject convertedProject = factory
 								.convertToWorkflowProject(info.project);
 						projectsById.put(info.projectId, convertedProject);
-						projectsByRaw.put(info.project.getFullPath()
-								.toPortableString(), convertedProject);
-						System.out
-								.println("mapped "
-										+ info.project.getFullPath()
-												.toPortableString());
+						projectsByRaw.put(info.project.getFullPath().toPortableString(),
+								convertedProject);
+						System.out.println("mapped "
+								+ info.project.getFullPath().toPortableString());
 						projectInfoList.remove(info);
 						converted = true;
 					}
@@ -123,15 +111,13 @@ public class WorkflowModel implements IWorkflowModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.IWorkflowModel#convertToWorkflowProject
+	 * @see org.eclipse.vtp.desktop.model.core.IWorkflowModel#convertToWorkflowProject
 	 * (org.eclipse.core.resources.IProject)
 	 */
 	@Override
 	public IOpenVXMLProject convertToWorkflowProject(IProject project) {
-		IOpenVXMLProject convertedProject = projectsByRaw.get(project
-				.getFullPath().toPortableString());
+		IOpenVXMLProject convertedProject = projectsByRaw.get(project.getFullPath()
+				.toPortableString());
 		if (convertedProject == null) {
 			loadMissingProjects();
 			return projectsByRaw.get(project.getFullPath().toPortableString());
@@ -141,9 +127,7 @@ public class WorkflowModel implements IWorkflowModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.IWorkflowModel#createWorkflowProject
+	 * @see org.eclipse.vtp.desktop.model.core.IWorkflowModel#createWorkflowProject
 	 * (java.lang.String)
 	 */
 	@Override
@@ -153,10 +137,7 @@ public class WorkflowModel implements IWorkflowModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.IWorkflowModel#getWorkflowProject(
-	 * java.lang.String)
+	 * @see org.eclipse.vtp.desktop.model.core.IWorkflowModel#getWorkflowProject( java.lang.String)
 	 */
 	@Override
 	public IOpenVXMLProject getWorkflowProject(String id) {
@@ -170,22 +151,17 @@ public class WorkflowModel implements IWorkflowModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.IWorkflowModel#isWorkflowProject(org
+	 * @see org.eclipse.vtp.desktop.model.core.IWorkflowModel#isWorkflowProject(org
 	 * .eclipse.core.resources.IProject)
 	 */
 	@Override
 	public boolean isWorkflowProject(IProject project) {
-		return projectsByRaw.containsKey(project.getFullPath()
-				.toPortableString());
+		return projectsByRaw.containsKey(project.getFullPath().toPortableString());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.IWorkflowModel#listWorkflowProjects()
+	 * @see org.eclipse.vtp.desktop.model.core.IWorkflowModel#listWorkflowProjects()
 	 */
 	@Override
 	public List<IOpenVXMLProject> listWorkflowProjects() {
@@ -196,9 +172,7 @@ public class WorkflowModel implements IWorkflowModel {
 	@Override
 	public IWorkflowResource convertToWorkflowResource(IResource resource) {
 		if (resource instanceof IProject && ((IProject) resource).isOpen()
-				&& isWorkflowProject((IProject) resource)) {
-			return convertToWorkflowProject((IProject) resource);
-		}
+				&& isWorkflowProject((IProject) resource)) { return convertToWorkflowProject((IProject) resource); }
 		IProject project = resource.getProject();
 		if (project != null && isWorkflowProject(project)) {
 			IOpenVXMLProject workflowProject = convertToWorkflowProject(project);
@@ -214,20 +188,15 @@ public class WorkflowModel implements IWorkflowModel {
 		return null;
 	}
 
-	private IWorkflowResource locateWorkflowResource(
-			IWorkflowResourceContainer parentResource, List<IResource> path) {
+	private IWorkflowResource locateWorkflowResource(IWorkflowResourceContainer parentResource,
+			List<IResource> path) {
 		IResource resource = path.remove(0);
 		for (IWorkflowResource child : parentResource.getChildren()) {
-			IResource adaptedResource = (IResource) child
-					.getAdapter(IResource.class);
+			IResource adaptedResource = (IResource) child.getAdapter(IResource.class);
 			if (adaptedResource != null && adaptedResource.equals(resource)) {
-				if (path.isEmpty()) {
-					return child;
-				}
-				if (child instanceof IWorkflowResourceContainer) {
-					return locateWorkflowResource(
-							(IWorkflowResourceContainer) child, path);
-				}
+				if (path.isEmpty()) { return child; }
+				if (child instanceof IWorkflowResourceContainer) { return locateWorkflowResource(
+						(IWorkflowResourceContainer) child, path); }
 				return null;
 			}
 		}

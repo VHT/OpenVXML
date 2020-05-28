@@ -23,8 +23,7 @@ import org.w3c.dom.NodeList;
  * 
  * @author Lonnie Pryor
  */
-public class DatabaseQueryConfiguration implements IConfiguration,
-		DatabaseConstants {
+public class DatabaseQueryConfiguration implements IConfiguration, DatabaseConstants {
 	/** The name of the database to query. */
 	private String database = ""; //$NON-NLS-1$
 	/** The name of the table to query. */
@@ -48,8 +47,7 @@ public class DatabaseQueryConfiguration implements IConfiguration,
 	/**
 	 * Creates a new DatabaseQueryConfiguration.
 	 */
-	public DatabaseQueryConfiguration() {
-	}
+	public DatabaseQueryConfiguration() {}
 
 	/**
 	 * Returns the name of the database to query.
@@ -63,8 +61,7 @@ public class DatabaseQueryConfiguration implements IConfiguration,
 	/**
 	 * Sets the name of the database to query.
 	 * 
-	 * @param database
-	 *            The name of the database to query.
+	 * @param database The name of the database to query.
 	 */
 	public void setDatabase(String database) {
 		this.database = database == null ? "" : database; //$NON-NLS-1$
@@ -82,8 +79,7 @@ public class DatabaseQueryConfiguration implements IConfiguration,
 	/**
 	 * Sets the name of the table to query.
 	 * 
-	 * @param table
-	 *            The name of the table to query.
+	 * @param table The name of the table to query.
 	 */
 	public void setTable(String table) {
 		this.table = table == null ? "" : table; //$NON-NLS-1$
@@ -101,8 +97,7 @@ public class DatabaseQueryConfiguration implements IConfiguration,
 	/**
 	 * Sets the name of the result to populate.
 	 * 
-	 * @param resultName
-	 *            The name of the result to populate.
+	 * @param resultName The name of the result to populate.
 	 */
 	public void setResultName(String resultName) {
 		this.resultName = resultName == null ? "" : resultName; //$NON-NLS-1$
@@ -120,8 +115,7 @@ public class DatabaseQueryConfiguration implements IConfiguration,
 	/**
 	 * Sets the name of the type of result to create.
 	 * 
-	 * @param resultType
-	 *            The name of the type of result to create.
+	 * @param resultType The name of the type of result to create.
 	 */
 	public void setResultType(String resultType) {
 		this.resultType = resultType;
@@ -139,8 +133,7 @@ public class DatabaseQueryConfiguration implements IConfiguration,
 	/**
 	 * Changes the multiple records setting.
 	 * 
-	 * @param resultArray
-	 *            True if multiple records should be returned.
+	 * @param resultArray True if multiple records should be returned.
 	 */
 	public void setResultArray(boolean resultArray) {
 		this.resultArray = resultArray;
@@ -166,8 +159,7 @@ public class DatabaseQueryConfiguration implements IConfiguration,
 	/**
 	 * Sets the maximum number of records to return.
 	 * 
-	 * @param resultLimit
-	 *            The maximum number of records to return.
+	 * @param resultLimit The maximum number of records to return.
 	 */
 	public void setResultLimit(int resultLimit) {
 		this.resultLimit = resultLimit < 0 ? 0 : resultLimit;
@@ -179,15 +171,13 @@ public class DatabaseQueryConfiguration implements IConfiguration,
 	 * @return The criteria specified for the query.
 	 */
 	public DatabaseCriteriaConfiguration[] getCriteria() {
-		return criteria.toArray(new DatabaseCriteriaConfiguration[criteria
-				.size()]);
+		return criteria.toArray(new DatabaseCriteriaConfiguration[criteria.size()]);
 	}
 
 	/**
 	 * Adds a criteria to this query.
 	 * 
-	 * @param criteria
-	 *            The criteria to add.
+	 * @param criteria The criteria to add.
 	 */
 	public void addCriteria(DatabaseCriteriaConfiguration criteria) {
 		if (criteria != null) {
@@ -198,8 +188,7 @@ public class DatabaseQueryConfiguration implements IConfiguration,
 	/**
 	 * Removes a criteria from this query.
 	 * 
-	 * @param criteria
-	 *            The criteria to remove.
+	 * @param criteria The criteria to remove.
 	 */
 	public void removeCriteria(DatabaseCriteriaConfiguration criteria) {
 		if (criteria != null) {
@@ -213,15 +202,13 @@ public class DatabaseQueryConfiguration implements IConfiguration,
 	 * @return The mappings specified to the query.
 	 */
 	public DatabaseMappingConfiguration[] getMappings() {
-		return mappings.toArray(new DatabaseMappingConfiguration[mappings
-				.size()]);
+		return mappings.toArray(new DatabaseMappingConfiguration[mappings.size()]);
 	}
 
 	/**
 	 * Adds a mapping to this query.
 	 * 
-	 * @param mapping
-	 *            The mapping to add.
+	 * @param mapping The mapping to add.
 	 */
 	public void addMapping(DatabaseMappingConfiguration mapping) {
 		if (mapping != null) {
@@ -232,8 +219,7 @@ public class DatabaseQueryConfiguration implements IConfiguration,
 	/**
 	 * Removes a mapping from this query.
 	 * 
-	 * @param mapping
-	 *            The mapping to remove.
+	 * @param mapping The mapping to remove.
 	 */
 	public void removeMapping(DatabaseMappingConfiguration mapping) {
 		if (mapping != null) {
@@ -253,8 +239,7 @@ public class DatabaseQueryConfiguration implements IConfiguration,
 	/**
 	 * Sets the maximum number of seconds to wait for the query.
 	 * 
-	 * @param queryTimeout
-	 *            The maximum number of seconds to wait for the query.
+	 * @param queryTimeout The maximum number of seconds to wait for the query.
 	 */
 	public void setQueryTimeout(int queryTimeout) {
 		this.queryTimeout = Math.max(0, queryTimeout);
@@ -262,9 +247,7 @@ public class DatabaseQueryConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#load( org.w3c.dom.Element)
 	 */
 	@Override
 	public void load(Element configurationElement) {
@@ -276,19 +259,16 @@ public class DatabaseQueryConfiguration implements IConfiguration,
 		} else {
 			resultType = null;
 		}
-		resultSecured = Boolean.parseBoolean(configurationElement
-				.getAttribute(NAME_SECURED));
+		resultSecured = Boolean.parseBoolean(configurationElement.getAttribute(NAME_SECURED));
 		resultArray = "many".equalsIgnoreCase(configurationElement //$NON-NLS-1$
 				.getAttribute(NAME_RESULT_CARDINALITY));
 		if (configurationElement.hasAttribute(NAME_RESULT_LIMIT)) {
-			resultLimit = Integer.parseInt(configurationElement
-					.getAttribute(NAME_RESULT_LIMIT));
+			resultLimit = Integer.parseInt(configurationElement.getAttribute(NAME_RESULT_LIMIT));
 		} else {
 			resultLimit = 0;
 		}
 		criteria.clear();
-		NodeList list = configurationElement.getElementsByTagNameNS(
-				NAMESPACE_URI, NAME_CRITERIA);
+		NodeList list = configurationElement.getElementsByTagNameNS(NAMESPACE_URI, NAME_CRITERIA);
 		for (int i = 0; i < list.getLength(); ++i) {
 			Element element = (Element) list.item(i);
 			DatabaseCriteriaConfiguration item = new DatabaseCriteriaConfiguration();
@@ -296,8 +276,7 @@ public class DatabaseQueryConfiguration implements IConfiguration,
 			criteria.add(item);
 		}
 		mappings.clear();
-		list = configurationElement.getElementsByTagNameNS(NAMESPACE_URI,
-				NAME_MAPPING);
+		list = configurationElement.getElementsByTagNameNS(NAMESPACE_URI, NAME_MAPPING);
 		for (int i = 0; i < list.getLength(); ++i) {
 			Element element = (Element) list.item(i);
 			DatabaseMappingConfiguration item = new DatabaseMappingConfiguration();
@@ -305,16 +284,13 @@ public class DatabaseQueryConfiguration implements IConfiguration,
 			mappings.add(item);
 		}
 		if (configurationElement.hasAttribute(NAME_TIMEOUT)) {
-			setQueryTimeout(Integer.parseInt(configurationElement
-					.getAttribute(NAME_TIMEOUT)));
+			setQueryTimeout(Integer.parseInt(configurationElement.getAttribute(NAME_TIMEOUT)));
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#save( org.w3c.dom.Element)
 	 */
 	@Override
 	public void save(Element configurationElement) {
@@ -324,14 +300,12 @@ public class DatabaseQueryConfiguration implements IConfiguration,
 		if (resultType != null) {
 			configurationElement.setAttribute(NAME_RESULT_TYPE, resultType);
 		}
-		configurationElement.setAttribute(NAME_SECURED,
-				Boolean.toString(resultSecured));
+		configurationElement.setAttribute(NAME_SECURED, Boolean.toString(resultSecured));
 		if (resultArray) {
 			configurationElement.setAttribute(NAME_RESULT_CARDINALITY, "many"); //$NON-NLS-1$
 		}
 		if (resultLimit > 0) {
-			configurationElement.setAttribute(NAME_RESULT_LIMIT,
-					String.valueOf(resultLimit));
+			configurationElement.setAttribute(NAME_RESULT_LIMIT, String.valueOf(resultLimit));
 		}
 		String criteriaName = NAME_CRITERIA;
 		String mappingName = NAME_MAPPING;
@@ -341,20 +315,19 @@ public class DatabaseQueryConfiguration implements IConfiguration,
 			mappingName = prefix + ":" + mappingName; //$NON-NLS-1$
 		}
 		for (DatabaseCriteriaConfiguration item : criteria) {
-			Element element = configurationElement.getOwnerDocument()
-					.createElementNS(NAMESPACE_URI, criteriaName);
+			Element element = configurationElement.getOwnerDocument().createElementNS(
+					NAMESPACE_URI, criteriaName);
 			item.save(element);
 			configurationElement.appendChild(element);
 		}
 		for (DatabaseMappingConfiguration item : mappings) {
-			Element element = configurationElement.getOwnerDocument()
-					.createElementNS(NAMESPACE_URI, mappingName);
+			Element element = configurationElement.getOwnerDocument().createElementNS(
+					NAMESPACE_URI, mappingName);
 			item.save(element);
 			configurationElement.appendChild(element);
 		}
 		if (queryTimeout != 0) {
-			configurationElement.setAttribute(NAME_TIMEOUT,
-					String.valueOf(queryTimeout));
+			configurationElement.setAttribute(NAME_TIMEOUT, String.valueOf(queryTimeout));
 		}
 	}
 }

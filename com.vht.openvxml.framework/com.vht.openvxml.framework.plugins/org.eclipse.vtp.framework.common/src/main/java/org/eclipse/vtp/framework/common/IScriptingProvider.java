@@ -17,6 +17,5 @@ package org.eclipse.vtp.framework.common;
  * @author Lonnie Pryor
  */
 public interface IScriptingProvider {
-	IScriptingContext createScriptingContext(String scriptingLanuage,
-			IScriptable[] content);
+	IScriptingContext createScriptingContext(String scriptingLanuage, IScriptable[] content);
 }

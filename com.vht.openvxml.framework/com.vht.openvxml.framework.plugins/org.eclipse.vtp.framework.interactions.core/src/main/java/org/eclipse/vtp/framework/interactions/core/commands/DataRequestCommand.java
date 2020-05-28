@@ -47,8 +47,7 @@ public final class DataRequestCommand extends ConversationCommand {
 	/**
 	 * Creates a new DataRequestCommand.
 	 */
-	public DataRequestCommand() {
-	}
+	public DataRequestCommand() {}
 
 	/**
 	 * Returns the name of the parameter to pass the provided data as.
@@ -62,8 +61,7 @@ public final class DataRequestCommand extends ConversationCommand {
 	/**
 	 * Sets the name of the parameter to pass the provided data as.
 	 * 
-	 * @param inputName
-	 *            The name of the parameter to pass the provided data as.
+	 * @param inputName The name of the parameter to pass the provided data as.
 	 */
 	public void setDataName(String inputName) {
 		this.dataName = inputName;
@@ -81,9 +79,7 @@ public final class DataRequestCommand extends ConversationCommand {
 	/**
 	 * Sets the name of the parameter to pass the result of the request as.
 	 * 
-	 * @param resultName
-	 *            The name of the parameter to pass the result of the request
-	 *            as.
+	 * @param resultName The name of the parameter to pass the result of the request as.
 	 */
 	public void setResultName(String resultName) {
 		this.resultName = resultName;
@@ -101,20 +97,16 @@ public final class DataRequestCommand extends ConversationCommand {
 	/**
 	 * Sets the value of the result parameter to pass if the input is valid.
 	 * 
-	 * @param filledResultValue
-	 *            The value of the result parameter to pass if the input is
-	 *            valid.
+	 * @param filledResultValue The value of the result parameter to pass if the input is valid.
 	 */
 	public void setFilledResultValue(String filledResultValue) {
 		this.filledResultValue = filledResultValue;
 	}
 
 	/**
-	 * Returns the value of the result parameter to pass if the input is
-	 * missing.
+	 * Returns the value of the result parameter to pass if the input is missing.
 	 * 
-	 * @return The value of the result parameter to pass if the input is
-	 *         missing.
+	 * @return The value of the result parameter to pass if the input is missing.
 	 */
 	public String getNoInputResultValue() {
 		return noInputResultValue;
@@ -123,9 +115,7 @@ public final class DataRequestCommand extends ConversationCommand {
 	/**
 	 * Sets the value of the result parameter to pass if the input is missing.
 	 * 
-	 * @param noInputResultValue
-	 *            The value of the result parameter to pass if the input is
-	 *            missing.
+	 * @param noInputResultValue The value of the result parameter to pass if the input is missing.
 	 */
 	public void setNoInputResultValue(String noInputResultValue) {
 		this.noInputResultValue = noInputResultValue;
@@ -143,9 +133,7 @@ public final class DataRequestCommand extends ConversationCommand {
 	/**
 	 * Sets the value of the result parameter to pass if the caller hungup.
 	 * 
-	 * @param noInputResultValue
-	 *            The value of the result parameter to pass if the caller
-	 *            hungup.
+	 * @param noInputResultValue The value of the result parameter to pass if the caller hungup.
 	 */
 	public void setHangupResultValue(String hangupResultValue) {
 		this.hangupResultValue = hangupResultValue;
@@ -157,36 +145,28 @@ public final class DataRequestCommand extends ConversationCommand {
 	 * @return The names of the properties of the interaction.
 	 */
 	public String[] getPropertyNames() {
-		return (String[]) properties.keySet().toArray(
-				new String[properties.size()]);
+		return (String[]) properties.keySet().toArray(new String[properties.size()]);
 	}
 
 	/**
 	 * Returns the value of a property of the interaction.
 	 * 
-	 * @param name
-	 *            The name of the property to be set.
+	 * @param name The name of the property to be set.
 	 * @return The value that the specified property will be set to.
 	 */
 	public String getPropertyValue(String name) {
-		if (name == null) {
-			return null;
-		}
+		if (name == null) { return null; }
 		return (String) properties.get(name);
 	}
 
 	/**
 	 * Configures a property of the interaction.
 	 * 
-	 * @param name
-	 *            The name of the property to set.
-	 * @param value
-	 *            The value to set the property to.
+	 * @param name The name of the property to set.
+	 * @param value The value to set the property to.
 	 */
 	public void setPropertyValue(String name, String value) {
-		if (name == null) {
-			return;
-		}
+		if (name == null) { return; }
 		if (value == null) {
 			properties.remove(name);
 		} else {
@@ -206,42 +186,31 @@ public final class DataRequestCommand extends ConversationCommand {
 	/**
 	 * Returns the type of the output at the specified index.
 	 * 
-	 * @param outputIndex
-	 *            The index to check.
+	 * @param outputIndex The index to check.
 	 * @return The type of the output at the specified index.
 	 */
 	public int getOutputType(int outputIndex) {
-		if (outputIndex < 0 || outputIndex >= output.size()) {
-			return 0;
-		}
-		if (Output.TYPE_FILE.equals(output.get(outputIndex).getType())) {
-			return OUTPUT_TYPE_FILE;
-		}
-		if (Output.TYPE_TEXT.equals(output.get(outputIndex).getType())) {
-			return OUTPUT_TYPE_TEXT;
-		}
+		if (outputIndex < 0 || outputIndex >= output.size()) { return 0; }
+		if (Output.TYPE_FILE.equals(output.get(outputIndex).getType())) { return OUTPUT_TYPE_FILE; }
+		if (Output.TYPE_TEXT.equals(output.get(outputIndex).getType())) { return OUTPUT_TYPE_TEXT; }
 		return 0;
 	}
 
 	/**
 	 * Returns the value of the output at the specified index.
 	 * 
-	 * @param outputIndex
-	 *            The index to check.
+	 * @param outputIndex The index to check.
 	 * @return The value of the output at the specified index.
 	 */
 	public String getOutputValue(int outputIndex) {
-		if (outputIndex < 0 || outputIndex >= output.size()) {
-			return null;
-		}
+		if (outputIndex < 0 || outputIndex >= output.size()) { return null; }
 		return output.get(outputIndex).getProperty("value");
 	}
 
 	/**
 	 * Adds a file output item to this output message.
 	 * 
-	 * @param path
-	 *            The path of the file to render.
+	 * @param path The path of the file to render.
 	 */
 	public void addOutput(Output o) {
 		output.add(o);
@@ -250,10 +219,8 @@ public final class DataRequestCommand extends ConversationCommand {
 	/**
 	 * Adds a file output item to this output message at the specified index.
 	 * 
-	 * @param outputIndex
-	 *            The index to insert at.
-	 * @param path
-	 *            The path of the file to render.
+	 * @param outputIndex The index to insert at.
+	 * @param path The path of the file to render.
 	 */
 	public void insertOutput(int outputIndex, Output o) {
 		if (outputIndex >= 0 && outputIndex <= output.size()) {
@@ -264,10 +231,8 @@ public final class DataRequestCommand extends ConversationCommand {
 	/**
 	 * Sets the file output item in this output message at the specified index.
 	 * 
-	 * @param outputIndex
-	 *            The index to set at.
-	 * @param path
-	 *            The path of the file to render.
+	 * @param outputIndex The index to set at.
+	 * @param path The path of the file to render.
 	 */
 	public void setOutput(int outputIndex, Output o) {
 		if (outputIndex >= 0 && outputIndex < output.size()) {
@@ -278,8 +243,7 @@ public final class DataRequestCommand extends ConversationCommand {
 	/**
 	 * Removes the output item in this output message at the specified index.
 	 * 
-	 * @param outputIndex
-	 *            The index to remove at.
+	 * @param outputIndex The index to remove at.
 	 */
 	public void removeOutput(int outputIndex) {
 		if (outputIndex >= 0 && outputIndex < output.size()) {
@@ -308,55 +272,42 @@ public final class DataRequestCommand extends ConversationCommand {
 	/**
 	 * Sets the input descriptor to a resource at the specified path.
 	 * 
-	 * @param path
-	 *            The path of the resource describing the input to be collected.
+	 * @param path The path of the resource describing the input to be collected.
 	 */
 	public void setInput(Input i) {
 		this.input = i;
 	}
 
 	/**
-	 * Returns the names of the parameters that will be returned from the
-	 * interaction.
+	 * Returns the names of the parameters that will be returned from the interaction.
 	 * 
-	 * @return The names of the parameters that will be returned from the
-	 *         interaction.
+	 * @return The names of the parameters that will be returned from the interaction.
 	 */
 	public String[] getParameterNames() {
-		return (String[]) parameters.keySet().toArray(
-				new String[parameters.size()]);
+		return (String[]) parameters.keySet().toArray(new String[parameters.size()]);
 	}
 
 	/**
 	 * Returns the values of a parameter to be set when the process resumes.
 	 * 
-	 * @param name
-	 *            The name of the parameter to be set.
+	 * @param name The name of the parameter to be set.
 	 * @return The values that specified parameter will be set to.
 	 */
 	public String[] getParameterValues(String name) {
-		if (name == null) {
-			return null;
-		}
+		if (name == null) { return null; }
 		List list = (List) parameters.get(name);
-		if (list == null) {
-			return null;
-		}
+		if (list == null) { return null; }
 		return (String[]) list.toArray(new String[list.size()]);
 	}
 
 	/**
 	 * Configures a parameter set when the current process resumes.
 	 * 
-	 * @param name
-	 *            The name of the parameter to set.
-	 * @param values
-	 *            The values to set the parameter to.
+	 * @param name The name of the parameter to set.
+	 * @param values The values to set the parameter to.
 	 */
 	public void setParameterValues(String name, String[] values) {
-		if (name == null) {
-			return;
-		}
+		if (name == null) { return; }
 		if (values == null) {
 			parameters.remove(name);
 		} else {
@@ -376,11 +327,8 @@ public final class DataRequestCommand extends ConversationCommand {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.interactions.core.commands.
-	 * ConversationCommand#accept(
-	 * org.eclipse.vtp.framework.interactions.core.commands.
-	 * IConversationCommandVisitor)
+	 * @see org.eclipse.vtp.framework.interactions.core.commands. ConversationCommand#accept(
+	 * org.eclipse.vtp.framework.interactions.core.commands. IConversationCommandVisitor)
 	 */
 	@Override
 	Object accept(IConversationCommandVisitor visitor) {
@@ -389,7 +337,6 @@ public final class DataRequestCommand extends ConversationCommand {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.ICommand#exportContents()
 	 */
 	@Override
@@ -433,8 +380,7 @@ public final class DataRequestCommand extends ConversationCommand {
 			}
 			input[1] = props;
 		}
-		return new Object[] { dataName, resultName, filledResultValue,
-				noInputResultValue,
+		return new Object[] { dataName, resultName, filledResultValue, noInputResultValue,
 				properties.toArray(new String[properties.size()]),
 				output.toArray(new Object[output.size()]),
 				parameters.toArray(new String[parameters.size()]), input };
@@ -442,9 +388,7 @@ public final class DataRequestCommand extends ConversationCommand {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.ICommand#importContents(
-	 * java.lang.Object)
+	 * @see org.eclipse.vtp.framework.spi.ICommand#importContents( java.lang.Object)
 	 */
 	@Override
 	public void importContents(Object contents) {

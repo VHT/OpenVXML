@@ -15,33 +15,28 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesignComponent;
 
 /**
  * @author trip
- *
  */
-public class DatabaseQueryComponentPropertiesPanelProvider implements
-		ComponentPropertiesPanelProvider {
+public class DatabaseQueryComponentPropertiesPanelProvider
+	implements
+	ComponentPropertiesPanelProvider {
 
 	/**
 	 * 
 	 */
-	public DatabaseQueryComponentPropertiesPanelProvider() {
-	}
+	public DatabaseQueryComponentPropertiesPanelProvider() {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.editors.core.configuration.
-	 * ComponentPropertiesPanelProvider
-	 * #getPropertiesPanels(org.eclipse.vtp.desktop
-	 * .model.core.design.IDesignComponent)
+	 * @see org.eclipse.vtp.desktop.editors.core.configuration. ComponentPropertiesPanelProvider
+	 * #getPropertiesPanels(org.eclipse.vtp.desktop .model.core.design.IDesignComponent)
 	 */
 	@Override
-	public List<ComponentPropertiesPanel> getPropertiesPanels(
-			IDesignComponent designComponent) {
+	public List<ComponentPropertiesPanel> getPropertiesPanels(IDesignComponent designComponent) {
 		PrimitiveElement pe = (PrimitiveElement) designComponent;
 		DatabaseQueryInformationProvider info = (DatabaseQueryInformationProvider) pe
 				.getInformationProvider();
-		DatabaseQuerySettingsStructure copy = (DatabaseQuerySettingsStructure) info
-				.getSettings().clone();
+		DatabaseQuerySettingsStructure copy = (DatabaseQuerySettingsStructure) info.getSettings()
+				.clone();
 		List<ComponentPropertiesPanel> ret = new ArrayList<ComponentPropertiesPanel>();
 		ret.add(new DatabaseQueryTargetVariablePropertiesPanel(pe, copy));
 		ret.add(new DatabaseQuerySourceDatabasePropertiesPanel(pe, copy));
@@ -53,20 +48,14 @@ public class DatabaseQueryComponentPropertiesPanelProvider implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.editors.core.configuration.
-	 * ComponentPropertiesPanelProvider
-	 * #isApplicableFor(org.eclipse.vtp.desktop.model
-	 * .core.design.IDesignComponent)
+	 * @see org.eclipse.vtp.desktop.editors.core.configuration. ComponentPropertiesPanelProvider
+	 * #isApplicableFor(org.eclipse.vtp.desktop.model .core.design.IDesignComponent)
 	 */
 	@Override
 	public boolean isApplicableFor(IDesignComponent designComponent) {
-		if (!(designComponent instanceof PrimitiveElement)) {
-			return false;
-		}
+		if (!(designComponent instanceof PrimitiveElement)) { return false; }
 		PrimitiveElement pe = (PrimitiveElement) designComponent;
-		return pe.getSubTypeId().equals(
-				"org.eclipse.vtp.modules.database.simplequery");
+		return pe.getSubTypeId().equals("org.eclipse.vtp.modules.database.simplequery");
 
 	}
 

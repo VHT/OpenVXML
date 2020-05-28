@@ -26,8 +26,7 @@ public abstract class FormattableContent extends Content {
 	private String formatName = ""; //$NON-NLS-1$
 	private String formatOptions = ""; //$NON-NLS-1$
 
-	public FormattableContent() {
-	}
+	public FormattableContent() {}
 
 	public FormattableContent(Element element) {
 		super();
@@ -51,8 +50,7 @@ public abstract class FormattableContent extends Content {
 
 	public abstract String getContentTypeName();
 
-	public abstract List<Content> format(IFormatter formatter,
-			IMediaProvider mediaProvider);
+	public abstract List<Content> format(IFormatter formatter, IMediaProvider mediaProvider);
 
 	@Override
 	public boolean isDataAware() {
@@ -61,9 +59,7 @@ public abstract class FormattableContent extends Content {
 
 	@Override
 	public Content captureData(IDataSet dataSet) {
-		if (dataType == STATIC_VALUE) {
-			return this;
-		}
+		if (dataType == STATIC_VALUE) { return this; }
 		FormattableContent copy = (FormattableContent) createCopy();
 		copy.setStaticValue(dataSet.getData(data).toString());
 		return copy;

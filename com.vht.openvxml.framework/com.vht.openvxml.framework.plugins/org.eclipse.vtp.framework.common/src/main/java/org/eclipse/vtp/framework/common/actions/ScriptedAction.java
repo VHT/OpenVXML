@@ -44,27 +44,20 @@ public class ScriptedAction implements IAction {
 	/**
 	 * Creates a new ScriptedAction.
 	 * 
-	 * @param context
-	 *            The context that contains this action.
-	 * @param scriptingService
-	 *            The scripting service to create an engine with.
-	 * @param configuration
-	 *            The configuration for this scripted action.
+	 * @param context The context that contains this action.
+	 * @param scriptingService The scripting service to create an engine with.
+	 * @param configuration The configuration for this scripted action.
 	 */
-	public ScriptedAction(IActionContext context,
-			IScriptingService scriptingService,
-			ScriptConfiguration configuration,
-			IVariableRegistry variableRegistry) {
+	public ScriptedAction(IActionContext context, IScriptingService scriptingService,
+			ScriptConfiguration configuration, IVariableRegistry variableRegistry) {
 		this.context = context;
-		this.engine = scriptingService.createScriptingEngine(configuration
-				.getScriptingLanguage());
+		this.engine = scriptingService.createScriptingEngine(configuration.getScriptingLanguage());
 		this.script = configuration.getScript();
 		this.variableRegistry = variableRegistry;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.core.IAction#execute()
 	 */
 	@Override

@@ -13,11 +13,9 @@ import org.w3c.dom.Element;
 
 import com.openmethods.openvxml.desktop.model.branding.IBrandingProjectAspect;
 
-public class UmbrellaProjectAspectFactory implements
-		IOpenVXMLProjectAspectFactory {
+public class UmbrellaProjectAspectFactory implements IOpenVXMLProjectAspectFactory {
 
-	public UmbrellaProjectAspectFactory() {
-	}
+	public UmbrellaProjectAspectFactory() {}
 
 	@Override
 	public String getAspectId() {
@@ -33,15 +31,13 @@ public class UmbrellaProjectAspectFactory implements
 	}
 
 	@Override
-	public boolean configureProject(IOpenVXMLProject project,
-			IProjectDescription description, Element aspectConfiguration) {
+	public boolean configureProject(IOpenVXMLProject project, IProjectDescription description,
+			Element aspectConfiguration) {
 		return false;
 	}
 
 	@Override
-	public void createProjectLayout(IOpenVXMLProject project,
-			Element aspectConfiguration) {
-	}
+	public void createProjectLayout(IOpenVXMLProject project, Element aspectConfiguration) {}
 
 	@Override
 	public OpenVXMLProjectAspect createProjectAspect(IOpenVXMLProject project,

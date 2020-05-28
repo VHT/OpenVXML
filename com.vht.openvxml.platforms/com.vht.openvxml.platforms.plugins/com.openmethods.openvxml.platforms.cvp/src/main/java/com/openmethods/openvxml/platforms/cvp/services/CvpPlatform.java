@@ -65,8 +65,7 @@ public class CvpPlatform extends VoicePlatform {
 	/**
 	 * Creates a new AvpPlatform.
 	 */
-	public CvpPlatform(IExecutionContext context,
-			IMediaProviderRegistry mediaProviderRegistry) {
+	public CvpPlatform(IExecutionContext context, IMediaProviderRegistry mediaProviderRegistry) {
 		super(context);
 		this.mediaProviderRegistry = mediaProviderRegistry;
 	}
@@ -96,88 +95,78 @@ public class CvpPlatform extends VoicePlatform {
 		} else {
 			bargeIn = null;
 		}
-		TimeValue timeout = resolveTimeValue("initial-timeout",
-				inputRequestCommand.getPropertyValue("initial-timeout")); //$NON-NLS-1$
+		TimeValue timeout = resolveTimeValue("initial-timeout", inputRequestCommand
+				.getPropertyValue("initial-timeout")); //$NON-NLS-1$
 		String inputMode = inputRequestCommand.getPropertyValue("input-mode"); //$NON-NLS-1$
 		if (inputMode == null || inputMode.length() == 0) {
 			inputMode = "dtmf only"; //$NON-NLS-1$
 		}
-		String confidenceLevel = inputRequestCommand
-				.getPropertyValue("confidence-level"); //$NON-NLS-1$
-		String sensitivity = inputRequestCommand
-				.getPropertyValue("sensitivity-level"); //$NON-NLS-1$
-		String speedVsAccuracy = inputRequestCommand
-				.getPropertyValue("speed-vs-accuracy"); //$NON-NLS-1$
-		TimeValue speechCompletionTimeout = resolveTimeValue(
-				"speech-complete-timeout",
+		String confidenceLevel = inputRequestCommand.getPropertyValue("confidence-level"); //$NON-NLS-1$
+		String sensitivity = inputRequestCommand.getPropertyValue("sensitivity-level"); //$NON-NLS-1$
+		String speedVsAccuracy = inputRequestCommand.getPropertyValue("speed-vs-accuracy"); //$NON-NLS-1$
+		TimeValue speechCompletionTimeout = resolveTimeValue("speech-complete-timeout",
 				inputRequestCommand.getPropertyValue("speech-complete-timeout")); //$NON-NLS-1$
-		TimeValue speechIncompleteTimeout = resolveTimeValue(
-				"speech-incomplete-timeout",
-				inputRequestCommand
-						.getPropertyValue("speech-incomplete-timeout")); //$NON-NLS-1$
-		TimeValue maxSpeechLength = resolveTimeValue("max-speech-timeout",
-				inputRequestCommand.getPropertyValue("max-speech-timeout")); //$NON-NLS-1$
+		TimeValue speechIncompleteTimeout = resolveTimeValue("speech-incomplete-timeout",
+				inputRequestCommand.getPropertyValue("speech-incomplete-timeout")); //$NON-NLS-1$
+		TimeValue maxSpeechLength = resolveTimeValue("max-speech-timeout", inputRequestCommand
+				.getPropertyValue("max-speech-timeout")); //$NON-NLS-1$
 		String maxNBest = inputRequestCommand.getPropertyValue("max-n-best"); //$NON-NLS-1$
-		TimeValue interDigitTimeout = resolveTimeValue("interdigit-timeout",
-				inputRequestCommand.getPropertyValue("interdigit-timeout")); //$NON-NLS-1$
-		TimeValue terminationTimeout = resolveTimeValue("termination-timeout",
-				inputRequestCommand.getPropertyValue("termination-timeout")); //$NON-NLS-1$
-		String terminationCharacter = inputRequestCommand
-				.getPropertyValue("termination-character"); //$NON-NLS-1$
+		TimeValue interDigitTimeout = resolveTimeValue("interdigit-timeout", inputRequestCommand
+				.getPropertyValue("interdigit-timeout")); //$NON-NLS-1$
+		TimeValue terminationTimeout = resolveTimeValue("termination-timeout", inputRequestCommand
+				.getPropertyValue("termination-timeout")); //$NON-NLS-1$
+		String terminationCharacter = inputRequestCommand.getPropertyValue("termination-character"); //$NON-NLS-1$
 		Field field = new Field(inputRequestCommand.getDataName());
 		if (bargeIn != null) {
 			field.setProperty(NAME_BARGEIN, bargeIn);
 		}
 		if (timeout != null) {
-			field.setProperty(NAME_TIMEOUT,
-					timeout.toTimeString(TimeValue.SECONDS));
+			field.setProperty(NAME_TIMEOUT, timeout.toTimeString(TimeValue.SECONDS));
 		}
 		if ("hybrid".equalsIgnoreCase(inputMode)) {
 			field.setProperty(NAME_INPUTMODES, "dtmf voice"); //$NON-NLS-1$
-			field.setProperty(
-					"com.telera.speechenabled", Boolean.TRUE.toString()); //$NON-NLS-1$
+			field.setProperty("com.telera.speechenabled", Boolean.TRUE.toString()); //$NON-NLS-1$
 		}
 		if ("dtmf only".equalsIgnoreCase(inputMode)) //$NON-NLS-1$
 		{
 			field.setProperty(NAME_INPUTMODES, "dtmf"); //$NON-NLS-1$
-			field.setProperty(
-					"com.telera.speechenabled", Boolean.FALSE.toString()); //$NON-NLS-1$
+			field.setProperty("com.telera.speechenabled", Boolean.FALSE.toString()); //$NON-NLS-1$
 		} else {
 			try {
 				if (confidenceLevel != null && confidenceLevel.length() > 0) {
-					field.setProperty(NAME_CONFIDENCELEVEL, new BigDecimal(
-							confidenceLevel).divide(ONE_HUNDRED).toString());
+					field.setProperty(NAME_CONFIDENCELEVEL, new BigDecimal(confidenceLevel).divide(
+							ONE_HUNDRED).toString());
 				}
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}
 			try {
 				if (sensitivity != null && sensitivity.length() > 0) {
-					field.setProperty(NAME_SENSITIVITY, new BigDecimal(
-							sensitivity).divide(ONE_HUNDRED).toString());
+					field.setProperty(NAME_SENSITIVITY, new BigDecimal(sensitivity).divide(
+							ONE_HUNDRED).toString());
 				}
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}
 			try {
 				if (speedVsAccuracy != null && speedVsAccuracy.length() > 0) {
-					field.setProperty(NAME_SPEEDVSACCURACY, new BigDecimal(
-							speedVsAccuracy).divide(ONE_HUNDRED).toString());
+					field.setProperty(NAME_SPEEDVSACCURACY, new BigDecimal(speedVsAccuracy).divide(
+							ONE_HUNDRED).toString());
 				}
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}
 			if (speechCompletionTimeout != null) {
-				field.setProperty(NAME_COMPLETETIMEOUT,
-						speechCompletionTimeout.toTimeString(TimeValue.SECONDS));
+				field.setProperty(NAME_COMPLETETIMEOUT, speechCompletionTimeout
+						.toTimeString(TimeValue.SECONDS));
 			}
 			if (speechIncompleteTimeout != null) {
-				field.setProperty(NAME_INCOMPLETETIMEOUT,
-						speechIncompleteTimeout.toTimeString(TimeValue.SECONDS));
+				field.setProperty(NAME_INCOMPLETETIMEOUT, speechIncompleteTimeout
+						.toTimeString(TimeValue.SECONDS));
 			}
 			if (maxSpeechLength != null) {
-				field.setProperty(NAME_MAXSPEECHTIMEOUT,
-						maxSpeechLength.toTimeString(TimeValue.SECONDS));
+				field.setProperty(NAME_MAXSPEECHTIMEOUT, maxSpeechLength
+						.toTimeString(TimeValue.SECONDS));
 			} else {
 				field.setProperty(NAME_MAXSPEECHTIMEOUT, "10s"); //$NON-NLS-1$
 			}
@@ -188,19 +177,17 @@ public class CvpPlatform extends VoicePlatform {
 		if ("voice only".equalsIgnoreCase(inputMode)) //$NON-NLS-1$
 		{
 			field.setProperty(NAME_INPUTMODES, "voice"); //$NON-NLS-1$
-			field.setProperty(
-					"com.telera.speechenabled", Boolean.TRUE.toString()); //$NON-NLS-1$
+			field.setProperty("com.telera.speechenabled", Boolean.TRUE.toString()); //$NON-NLS-1$
 		} else {
 			if (interDigitTimeout != null) {
-				field.setProperty(NAME_INTERDIGITTIMEOUT,
-						interDigitTimeout.toTimeString(TimeValue.SECONDS));
+				field.setProperty(NAME_INTERDIGITTIMEOUT, interDigitTimeout
+						.toTimeString(TimeValue.SECONDS));
 			}
 			if (terminationTimeout != null) {
-				field.setProperty(NAME_TERMTIMEOUT,
-						terminationTimeout.toTimeString(TimeValue.SECONDS));
+				field.setProperty(NAME_TERMTIMEOUT, terminationTimeout
+						.toTimeString(TimeValue.SECONDS));
 			}
-			if (terminationCharacter != null
-					&& terminationCharacter.length() > 0
+			if (terminationCharacter != null && terminationCharacter.length() > 0
 					&& !"none".equalsIgnoreCase(terminationCharacter)) {
 				field.setProperty(NAME_TERMCHAR, terminationCharacter);
 			} else {
@@ -216,8 +203,7 @@ public class CvpPlatform extends VoicePlatform {
 				break;
 			case InputRequestCommand.OUTPUT_TYPE_TEXT:
 				if (outputValue.startsWith("@@mark ")) {
-					outputs.addOutput(new SSMLMarkOutput(outputValue
-							.substring(7)));
+					outputs.addOutput(new SSMLMarkOutput(outputValue.substring(7)));
 				} else {
 					outputs.addOutput(new TextOutput(outputValue));
 				}
@@ -238,10 +224,8 @@ public class CvpPlatform extends VoicePlatform {
 					String path = input.getProperty("original-path");
 					System.out.println("Original grammar path: " + path);
 					if (path.startsWith("dtmf:")) {
-						field.addGrammar(new ExternalGrammar("dtmf", links
-								.createResourceLink(
-										inputRequestCommand.getInputValue())
-								.toString()));
+						field.addGrammar(new ExternalGrammar("dtmf", links.createResourceLink(
+								inputRequestCommand.getInputValue()).toString()));
 					} else {
 						String query = "";
 						int queryIndex = path.lastIndexOf('?');
@@ -258,43 +242,33 @@ public class CvpPlatform extends VoicePlatform {
 						} else {
 							path = "";
 						}
-						System.out.println("grammar last path part: "
-								+ lastPart);
+						System.out.println("grammar last path part: " + lastPart);
 						int lastExtensionIndex = lastPart.lastIndexOf('.');
-						System.out.println("extension index: "
-								+ lastExtensionIndex);
+						System.out.println("extension index: " + lastExtensionIndex);
 						if (lastExtensionIndex != -1) {
-							if (!".regex".equals(lastPart
-									.substring(lastExtensionIndex))) {
-								lastPart = lastPart.substring(0,
-										lastExtensionIndex);
+							if (!".regex".equals(lastPart.substring(lastExtensionIndex))) {
+								lastPart = lastPart.substring(0, lastExtensionIndex);
 								lastPart += ".regex";
 							}
-							IMediaProvider provider = mediaProviderRegistry
-									.getMediaProvider(input
-											.getProperty("media-provider"));
-							ResourceGroup manager = (ResourceGroup) provider
-									.getResourceManager();
-							URL url = manager.getResource((input
-									.getProperty("media-library") == null ? ""
-									: input.getProperty("media-library") + "/")
-									+ path + lastPart + query);
+							IMediaProvider provider = mediaProviderRegistry.getMediaProvider(input
+									.getProperty("media-provider"));
+							ResourceGroup manager = (ResourceGroup) provider.getResourceManager();
+							URL url = manager
+									.getResource((input.getProperty("media-library") == null ? ""
+											: input.getProperty("media-library") + "/")
+											+ path + lastPart + query);
 							if (url == null) {
-								url = manager.getResource("Default/" + path
-										+ lastPart + query);
+								url = manager.getResource("Default/" + path + lastPart + query);
 							}
 							System.out.println("resource URL: " + url);
 							if (url == null) {
-								field.addGrammar(new ExternalGrammar("dtmf",
-										links.createResourceLink(
-												inputRequestCommand
-														.getInputValue())
-												.toString()));
+								field.addGrammar(new ExternalGrammar("dtmf", links
+										.createResourceLink(inputRequestCommand.getInputValue())
+										.toString()));
 							} else {
 								try {
 									byte[] buf = new byte[1024];
-									InputStream in = url.openConnection()
-											.getInputStream();
+									InputStream in = url.openConnection().getInputStream();
 									ByteArrayOutputStream baos = new ByteArrayOutputStream();
 									int len = in.read(buf);
 									while (len != -1) {
@@ -308,78 +282,64 @@ public class CvpPlatform extends VoicePlatform {
 									field.addGrammar(rg);
 								} catch (IOException e) {
 									e.printStackTrace();
-									field.addGrammar(new ExternalGrammar(
-											"dtmf", links.createResourceLink(
-													inputRequestCommand
-															.getInputValue())
-													.toString()));
+									field.addGrammar(new ExternalGrammar("dtmf",
+											links.createResourceLink(
+													inputRequestCommand.getInputValue()).toString()));
 								}
 							}
 						} else {
-							field.addGrammar(new ExternalGrammar(
-									"dtmf",
-									links.createResourceLink(
-											inputRequestCommand.getInputValue())
-											.toString()));
+							field.addGrammar(new ExternalGrammar("dtmf", links.createResourceLink(
+									inputRequestCommand.getInputValue()).toString()));
 						}
 					}
 				} else {
-					field.addGrammar(new ExternalGrammar("dtmf", links
-							.createResourceLink(
-									inputRequestCommand.getInputValue())
-							.toString()));
+					field.addGrammar(new ExternalGrammar("dtmf", links.createResourceLink(
+							inputRequestCommand.getInputValue()).toString()));
 				}
 				break;
 			case InputRequestCommand.INPUT_TYPE_CUSTOM:
 				String customData = inputRequestCommand.getInputValue();
-				if (customData != null
-						&& customData.startsWith(VXML_BUILTIN_PREFIX)) {
+				if (customData != null && customData.startsWith(VXML_BUILTIN_PREFIX)) {
 					// field.setType(customData.substring(VXML_BUILTIN_PREFIX.length()));
 					field.addGrammar(new ExternalGrammar("dtmf", customData));
 				}
 				break;
 			case InputRequestCommand.INPUT_TYPE_INLINE:
-				field.addGrammar(new RawInlineGrammar(inputRequestCommand
-						.getInputValue()));
+				field.addGrammar(new RawInlineGrammar(inputRequestCommand.getInputValue()));
 				break;
 			}
 		}
 		if (inputRequestCommand.getInput2Value() != null) {
 			switch (inputRequestCommand.getInput2Type()) {
 			case InputRequestCommand.INPUT_TYPE_FILE:
-				field.addGrammar(new ExternalGrammar("voice", links
-						.createResourceLink(
-								inputRequestCommand.getInput2Value())
-						.toString()));
+				field.addGrammar(new ExternalGrammar("voice", links.createResourceLink(
+						inputRequestCommand.getInput2Value()).toString()));
 				break;
 			case InputRequestCommand.INPUT_TYPE_CUSTOM:
 				String customData = inputRequestCommand.getInput2Value();
-				if (customData != null
-						&& customData.startsWith(VXML_BUILTIN_PREFIX)) {
+				if (customData != null && customData.startsWith(VXML_BUILTIN_PREFIX)) {
 					// field.setType(customData.substring(VXML_BUILTIN_PREFIX.length()));
 					field.addGrammar(new ExternalGrammar("dtmf", customData));
 				}
 				break;
 			case InputRequestCommand.INPUT_TYPE_INLINE:
-				field.addGrammar(new RawInlineGrammar(inputRequestCommand
-						.getInput2Value()));
+				field.addGrammar(new RawInlineGrammar(inputRequestCommand.getInput2Value()));
 				break;
 			}
 		}
 		String[] parameterNames = inputRequestCommand.getParameterNames();
 		ILink filledLink = links.createNextLink();
 		for (String parameterName : parameterNames) {
-			filledLink.setParameters(parameterName,
-					inputRequestCommand.getParameterValues(parameterName));
+			filledLink.setParameters(parameterName, inputRequestCommand
+					.getParameterValues(parameterName));
 		}
 		Filled filled = new Filled();
-		filled.addVariable(new Variable(inputRequestCommand.getResultName(),
-				"'" + inputRequestCommand.getFilledResultValue() + "'"));
+		filled.addVariable(new Variable(inputRequestCommand.getResultName(), "'"
+				+ inputRequestCommand.getFilledResultValue() + "'"));
 		// filledLink.setParameter(inputRequestCommand.getResultName(),
 		// inputRequestCommand.getFilledResultValue());
 		filled.addVariable(new Variable("lastresult", "'<lastresult>'"));
-		If ifTag = new If(
-				"typeof(application.lastresult$.markname) == 'string'");
+		If ifTag = new If("typeof(application.lastresult$.markname) == 'string'");
 		Script markScript = new Script();
 		markScript
 				.setText("		lastresult = lastresult + '<mark name=\"' + application.lastresult$.markname + '\" offset=\"' + application.lastresult$.marktime + '\"/>';\r\n"
@@ -405,8 +365,7 @@ public class CvpPlatform extends VoicePlatform {
 						+ "			lastresult = lastresult + '<utterance><![CDATA[' + application.lastresult$[i].utterance + ']]></utterance>';\r\n"
 						+ "			lastresult = lastresult + '<inputmode><![CDATA[' + application.lastresult$[i].inputmode + ']]></inputmode>';\r\n"
 						+ "			lastresult = lastresult + '<interpretation><![CDATA[' + application.lastresult$[i].interpretation + ']]></interpretation>';\r\n"
-						+ "			lastresult = lastresult + '</result>';\r\n"
-						+ "		}\r\n"
+						+ "			lastresult = lastresult + '</result>';\r\n" + "		}\r\n"
 						+ "		lastresult = lastresult + '</lastresult>';\r\n");
 		elseTag.addScript(noMarkScript);
 		ifTag.setElse(elseTag);
@@ -431,35 +390,34 @@ public class CvpPlatform extends VoicePlatform {
 		// "		lastresult = lastresult + '</lastresult>';\r\n");
 		// filled.addScript(script);
 		Submit filledSubmit = new Submit(filledLink.toString(), new String[] {
-				inputRequestCommand.getResultName(),
-				inputRequestCommand.getDataName(), "lastresult" });
+				inputRequestCommand.getResultName(), inputRequestCommand.getDataName(),
+				"lastresult" });
 		filledSubmit.setMethod(METHOD_POST);
 		filled.addAction(filledSubmit);
 		field.addFilledHandler(filled);
 		ILink noInputLink = links.createNextLink();
 		for (String parameterName : parameterNames) {
-			noInputLink.setParameters(parameterName,
-					inputRequestCommand.getParameterValues(parameterName));
+			noInputLink.setParameters(parameterName, inputRequestCommand
+					.getParameterValues(parameterName));
 		}
 		// noInputLink.setParameter(inputRequestCommand.getResultName(),
 		// inputRequestCommand.getNoInputResultValue());
 		NoInput noInput = new NoInput();
-		noInput.addVariable(new Variable(inputRequestCommand.getResultName(),
-				"'" + inputRequestCommand.getNoInputResultValue() + "'"));
+		noInput.addVariable(new Variable(inputRequestCommand.getResultName(), "'"
+				+ inputRequestCommand.getNoInputResultValue() + "'"));
 		noInput.addAction(new Submit(noInputLink.toString(), new String[] {
-				inputRequestCommand.getResultName(),
-				inputRequestCommand.getDataName() }));
+				inputRequestCommand.getResultName(), inputRequestCommand.getDataName() }));
 		field.addEventHandler(noInput);
 		ILink noMatchLink = links.createNextLink();
 		for (String parameterName : parameterNames) {
-			noMatchLink.setParameters(parameterName,
-					inputRequestCommand.getParameterValues(parameterName));
+			noMatchLink.setParameters(parameterName, inputRequestCommand
+					.getParameterValues(parameterName));
 		}
 		// noMatchLink.setParameter(inputRequestCommand.getResultName(),
 		// inputRequestCommand.getNoMatchResultValue());
 		NoMatch noMatch = new NoMatch();
-		noMatch.addVariable(new Variable(inputRequestCommand.getResultName(),
-				"'" + inputRequestCommand.getNoMatchResultValue() + "'"));
+		noMatch.addVariable(new Variable(inputRequestCommand.getResultName(), "'"
+				+ inputRequestCommand.getNoMatchResultValue() + "'"));
 		noMatch.addVariable(new Variable("lastresult", "'<lastresult>'"));
 		ifTag = new If("typeof(application.lastresult$.markname) == 'string'");
 		markScript = new Script();
@@ -487,8 +445,7 @@ public class CvpPlatform extends VoicePlatform {
 						+ "			lastresult = lastresult + '<utterance><![CDATA[' + application.lastresult$[i].utterance + ']]></utterance>';\r\n"
 						+ "			lastresult = lastresult + '<inputmode><![CDATA[' + application.lastresult$[i].inputmode + ']]></inputmode>';\r\n"
 						+ "			lastresult = lastresult + '<interpretation><![CDATA[' + application.lastresult$[i].interpretation + ']]></interpretation>';\r\n"
-						+ "			lastresult = lastresult + '</result>';\r\n"
-						+ "		}\r\n"
+						+ "			lastresult = lastresult + '</result>';\r\n" + "		}\r\n"
 						+ "		lastresult = lastresult + '</lastresult>';\r\n");
 		elseTag.addScript(noMarkScript);
 		ifTag.setElse(elseTag);
@@ -512,18 +469,18 @@ public class CvpPlatform extends VoicePlatform {
 		// "		}\r\n" +
 		// "		lastresult = lastresult + '</lastresult>';\r\n");
 		Submit noMatchSubmit = new Submit(noMatchLink.toString(), new String[] {
-				inputRequestCommand.getResultName(),
-				inputRequestCommand.getDataName(), "lastresult" });
+				inputRequestCommand.getResultName(), inputRequestCommand.getDataName(),
+				"lastresult" });
 		noMatchSubmit.setMethod(METHOD_POST);
 		noMatch.addAction(noMatchSubmit);
 		field.addEventHandler(noMatch);
 		ILink hangupLink = links.createNextLink();
 		for (String parameterName : parameterNames) {
-			hangupLink.setParameters(parameterName,
-					inputRequestCommand.getParameterValues(parameterName));
+			hangupLink.setParameters(parameterName, inputRequestCommand
+					.getParameterValues(parameterName));
 		}
-		hangupLink.setParameter(inputRequestCommand.getResultName(),
-				inputRequestCommand.getHangupResultValue());
+		hangupLink.setParameter(inputRequestCommand.getResultName(), inputRequestCommand
+				.getHangupResultValue());
 		Catch disconnectCatch = new Catch("connection.disconnect.hangup");
 		disconnectCatch.addAction(new Goto(hangupLink.toString()));
 		field.addEventHandler(disconnectCatch);
@@ -534,37 +491,25 @@ public class CvpPlatform extends VoicePlatform {
 	@Override
 	protected IDocument renderSelectionRequest(ILinkFactory links,
 			SelectionRequestCommand selectionRequestCommand) {
-		String inputMode = selectionRequestCommand
-				.getPropertyValue("input-mode"); //$NON-NLS-1$
+		String inputMode = selectionRequestCommand.getPropertyValue("input-mode"); //$NON-NLS-1$
 		if (inputMode == null || inputMode.length() == 0) {
 			inputMode = "dtmf only"; //$NON-NLS-1$
 		}
 		if (!"dtmf only".equalsIgnoreCase(inputMode)) //$NON-NLS-1$
-		{
-			return super.renderSelectionRequest(links, selectionRequestCommand);
-		}
-		String bargeIn = getNormalizedBoolean(selectionRequestCommand
-				.getPropertyValue("barge-in")); //$NON-NLS-1$
-		TimeValue timeout = resolveTimeValue("initial-timeout",
-				selectionRequestCommand.getPropertyValue("initial-timeout")); //$NON-NLS-1$
-		String confidenceLevel = selectionRequestCommand
-				.getPropertyValue("confidence-level"); //$NON-NLS-1$
-		String sensitivity = selectionRequestCommand
-				.getPropertyValue("sensitivity-level"); //$NON-NLS-1$
-		String speedVsAccuracy = selectionRequestCommand
-				.getPropertyValue("speed-vs-accuracy"); //$NON-NLS-1$
-		TimeValue speechCompletionTimeout = resolveTimeValue(
-				"speech-complete-timeout",
-				selectionRequestCommand
-						.getPropertyValue("speech-complete-timeout")); //$NON-NLS-1$
-		TimeValue speechIncompleteTimeout = resolveTimeValue(
-				"speech-incomplete-timeout",
-				selectionRequestCommand
-						.getPropertyValue("speech-incomplete-timeout")); //$NON-NLS-1$
-		TimeValue maxSpeechLength = resolveTimeValue("max-speech-timeout",
-				selectionRequestCommand.getPropertyValue("max-speech-timeout")); //$NON-NLS-1$
-		String maxNBest = selectionRequestCommand
-				.getPropertyValue("max-n-best"); //$NON-NLS-1$
+		{ return super.renderSelectionRequest(links, selectionRequestCommand); }
+		String bargeIn = getNormalizedBoolean(selectionRequestCommand.getPropertyValue("barge-in")); //$NON-NLS-1$
+		TimeValue timeout = resolveTimeValue("initial-timeout", selectionRequestCommand
+				.getPropertyValue("initial-timeout")); //$NON-NLS-1$
+		String confidenceLevel = selectionRequestCommand.getPropertyValue("confidence-level"); //$NON-NLS-1$
+		String sensitivity = selectionRequestCommand.getPropertyValue("sensitivity-level"); //$NON-NLS-1$
+		String speedVsAccuracy = selectionRequestCommand.getPropertyValue("speed-vs-accuracy"); //$NON-NLS-1$
+		TimeValue speechCompletionTimeout = resolveTimeValue("speech-complete-timeout",
+				selectionRequestCommand.getPropertyValue("speech-complete-timeout")); //$NON-NLS-1$
+		TimeValue speechIncompleteTimeout = resolveTimeValue("speech-incomplete-timeout",
+				selectionRequestCommand.getPropertyValue("speech-incomplete-timeout")); //$NON-NLS-1$
+		TimeValue maxSpeechLength = resolveTimeValue("max-speech-timeout", selectionRequestCommand
+				.getPropertyValue("max-speech-timeout")); //$NON-NLS-1$
+		String maxNBest = selectionRequestCommand.getPropertyValue("max-n-best"); //$NON-NLS-1$
 		TimeValue interDigitTimeout = resolveTimeValue("interdigit-timeout",
 				selectionRequestCommand.getPropertyValue("interdigit-timeout")); //$NON-NLS-1$
 		TimeValue terminationTimeout = resolveTimeValue("termination-timeout",
@@ -581,8 +526,7 @@ public class CvpPlatform extends VoicePlatform {
 				break;
 			case InputRequestCommand.OUTPUT_TYPE_TEXT:
 				if (outputValue.startsWith("@@mark ")) {
-					outputs.addOutput(new SSMLMarkOutput(outputValue
-							.substring(7)));
+					outputs.addOutput(new SSMLMarkOutput(outputValue.substring(7)));
 				} else {
 					outputs.addOutput(new TextOutput(outputValue));
 				}
@@ -596,25 +540,22 @@ public class CvpPlatform extends VoicePlatform {
 		prompt.setLanguage(getCurrentLocale());
 		// Menu menu = new Menu(selectionRequestCommand.getSelectionName(),
 		// prompt);
-		Field field = new Field(selectionRequestCommand.getSelectionName(),
-				prompt);
+		Field field = new Field(selectionRequestCommand.getSelectionName(), prompt);
 
 		if (bargeIn != null) {
 			field.setProperty(NAME_BARGEIN, bargeIn);
 		}
 		if (timeout != null) {
-			field.setProperty(NAME_TIMEOUT,
-					timeout.toTimeString(TimeValue.SECONDS));
+			field.setProperty(NAME_TIMEOUT, timeout.toTimeString(TimeValue.SECONDS));
 		}
 		grammarMode = GRAMMAR_MODE_DTMF;
 		field.setProperty(NAME_INPUTMODES, "dtmf"); //$NON-NLS-1$
 		if (interDigitTimeout != null) {
-			field.setProperty(NAME_INTERDIGITTIMEOUT,
-					interDigitTimeout.toTimeString(TimeValue.SECONDS));
+			field.setProperty(NAME_INTERDIGITTIMEOUT, interDigitTimeout
+					.toTimeString(TimeValue.SECONDS));
 		}
 		if (terminationTimeout != null) {
-			field.setProperty(NAME_TERMTIMEOUT,
-					terminationTimeout.toTimeString(TimeValue.SECONDS));
+			field.setProperty(NAME_TERMTIMEOUT, terminationTimeout.toTimeString(TimeValue.SECONDS));
 		}
 		if (terminationCharacter != null && terminationCharacter.length() > 0
 				&& !"none".equalsIgnoreCase(terminationCharacter)) {
@@ -626,11 +567,11 @@ public class CvpPlatform extends VoicePlatform {
 		ILink nextLink = links.createNextLink();
 		String[] parameterNames = selectionRequestCommand.getParameterNames();
 		for (String parameterName : parameterNames) {
-			nextLink.setParameters(parameterName,
-					selectionRequestCommand.getParameterValues(parameterName));
+			nextLink.setParameters(parameterName, selectionRequestCommand
+					.getParameterValues(parameterName));
 		}
-		nextLink.setParameter(selectionRequestCommand.getResultName(),
-				selectionRequestCommand.getFilledResultValue());
+		nextLink.setParameter(selectionRequestCommand.getResultName(), selectionRequestCommand
+				.getFilledResultValue());
 		If ifElement = null;
 		for (int i = 0; i < selectionRequestCommand.getOptionCount(); ++i) {
 			nextLink.setParameter(selectionRequestCommand.getSelectionName(),
@@ -640,22 +581,19 @@ public class CvpPlatform extends VoicePlatform {
 				dtmf = "0";
 			}
 			if (i == 0) {
-				ifElement = new If(selectionRequestCommand.getSelectionName()
-						+ " == " + dtmf);
+				ifElement = new If(selectionRequestCommand.getSelectionName() + " == " + dtmf);
 				ifElement.addAction(new Goto(nextLink.toString()));
 			} else if (i == selectionRequestCommand.getOptionCount() - 1) {
 				Else elseElement = new Else();
 				ifElement.setElse(elseElement);
 				elseElement.addAction(new Goto(nextLink.toString()));
 			} else {
-				ElseIf elseIfElement = new ElseIf(
-						selectionRequestCommand.getSelectionName() + " == "
-								+ dtmf);
+				ElseIf elseIfElement = new ElseIf(selectionRequestCommand.getSelectionName()
+						+ " == " + dtmf);
 				ifElement.addElseIf(elseIfElement);
 				elseIfElement.addAction(new Goto(nextLink.toString()));
 			}
-			String silent = selectionRequestCommand.getOptionProperty(i,
-					"silent"); //$NON-NLS-1$
+			String silent = selectionRequestCommand.getOptionProperty(i, "silent"); //$NON-NLS-1$
 			if (Boolean.TRUE.toString().equalsIgnoreCase(silent)) {
 				silent = Boolean.TRUE.toString();
 			} else if (Boolean.FALSE.toString().equalsIgnoreCase(silent)) {
@@ -664,19 +602,15 @@ public class CvpPlatform extends VoicePlatform {
 				silent = null;
 			}
 			if (!Boolean.TRUE.toString().equals(silent)) {
-				for (int j = 0; j < selectionRequestCommand
-						.getOptionOutputCount(i); ++j) {
-					String optionOutputValue = selectionRequestCommand
-							.getOptionOutputValue(i, j);
+				for (int j = 0; j < selectionRequestCommand.getOptionOutputCount(i); ++j) {
+					String optionOutputValue = selectionRequestCommand.getOptionOutputValue(i, j);
 					switch (selectionRequestCommand.getOptionOutputType(i, j)) {
 					case SelectionRequestCommand.OUTPUT_TYPE_FILE:
-						outputs.addOutput(generateAudioChain(links,
-								optionOutputValue));
+						outputs.addOutput(generateAudioChain(links, optionOutputValue));
 						break;
 					case SelectionRequestCommand.OUTPUT_TYPE_TEXT:
 						if (optionOutputValue.startsWith("@@mark ")) {
-							outputs.addOutput(new SSMLMarkOutput(
-									optionOutputValue.substring(7)));
+							outputs.addOutput(new SSMLMarkOutput(optionOutputValue.substring(7)));
 						} else {
 							outputs.addOutput(new TextOutput(optionOutputValue));
 						}
@@ -696,24 +630,24 @@ public class CvpPlatform extends VoicePlatform {
 		gram.setContents(optionGroup.toString());
 		field.addGrammar(gram);
 		NoInput noInput = new NoInput();
-		nextLink.setParameter(selectionRequestCommand.getResultName(),
-				selectionRequestCommand.getNoInputResultValue());
+		nextLink.setParameter(selectionRequestCommand.getResultName(), selectionRequestCommand
+				.getNoInputResultValue());
 		nextLink.setParameter(selectionRequestCommand.getSelectionName(), null);
 		noInput.addAction(new Goto(nextLink.toString()));
 		field.addEventHandler(noInput);
 		NoMatch noMatch = new NoMatch();
-		nextLink.setParameter(selectionRequestCommand.getResultName(),
-				selectionRequestCommand.getNoMatchResultValue());
+		nextLink.setParameter(selectionRequestCommand.getResultName(), selectionRequestCommand
+				.getNoMatchResultValue());
 		nextLink.setParameter(selectionRequestCommand.getSelectionName(), null);
 		noMatch.addAction(new Goto(nextLink.toString()));
 		field.addEventHandler(noMatch);
 		ILink hangupLink = links.createNextLink();
 		for (String parameterName : parameterNames) {
-			hangupLink.setParameters(parameterName,
-					selectionRequestCommand.getParameterValues(parameterName));
+			hangupLink.setParameters(parameterName, selectionRequestCommand
+					.getParameterValues(parameterName));
 		}
-		hangupLink.setParameter(selectionRequestCommand.getResultName(),
-				selectionRequestCommand.getHangupResultValue());
+		hangupLink.setParameter(selectionRequestCommand.getResultName(), selectionRequestCommand
+				.getHangupResultValue());
 		Catch disconnectCatch = new Catch("connection.disconnect.hangup");
 		disconnectCatch.addAction(new Goto(hangupLink.toString()));
 		field.addEventHandler(disconnectCatch);

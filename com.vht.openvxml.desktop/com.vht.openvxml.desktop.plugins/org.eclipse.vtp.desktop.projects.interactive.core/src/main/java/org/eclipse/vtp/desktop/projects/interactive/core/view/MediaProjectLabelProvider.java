@@ -14,7 +14,6 @@ import org.eclipse.vtp.desktop.model.interactive.core.IMediaObjectContainer;
 
 /**
  * @author trip
- *
  */
 public class MediaProjectLabelProvider implements ILabelProvider {
 	ILabelProvider parentlabelProvider = null;
@@ -24,21 +23,17 @@ public class MediaProjectLabelProvider implements ILabelProvider {
 	 */
 	public MediaProjectLabelProvider() {
 		super();
-		parentlabelProvider = WorkbenchLabelProvider
-				.getDecoratingWorkbenchLabelProvider();
+		parentlabelProvider = WorkbenchLabelProvider.getDecoratingWorkbenchLabelProvider();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
 	 */
 	@Override
 	public Image getImage(Object element) {
-		if (element instanceof IMediaObjectContainer) {
-			return PlatformUI.getWorkbench().getSharedImages()
-					.getImage(ISharedImages.IMG_OBJ_FOLDER);
-		}
+		if (element instanceof IMediaObjectContainer) { return PlatformUI.getWorkbench()
+				.getSharedImages().getImage(ISharedImages.IMG_OBJ_FOLDER); }
 		return getInheritedImage(element);
 	}
 
@@ -46,8 +41,7 @@ public class MediaProjectLabelProvider implements ILabelProvider {
 		Image ret = parentlabelProvider.getImage(element);
 		if (ret == null) {
 			if (element instanceof IAdaptable) {
-				IResource resource = (IResource) ((IAdaptable) element)
-						.getAdapter(IResource.class);
+				IResource resource = (IResource) ((IAdaptable) element).getAdapter(IResource.class);
 				if (resource != null) {
 					ret = parentlabelProvider.getImage(resource);
 				}
@@ -58,24 +52,19 @@ public class MediaProjectLabelProvider implements ILabelProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
 	 */
 	@Override
 	public String getText(Object element) {
 		if (element instanceof IProject) {
 			return ((IProject) element).getName();
-		} else if (element instanceof IMediaObject) {
-			return ((IMediaObject) element).getName();
-		}
+		} else if (element instanceof IMediaObject) { return ((IMediaObject) element).getName(); }
 		return parentlabelProvider.getText(element);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.
+	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.
 	 * jface.viewers.ILabelProviderListener)
 	 */
 	@Override
@@ -86,7 +75,6 @@ public class MediaProjectLabelProvider implements ILabelProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#dispose()
 	 */
 	@Override
@@ -97,10 +85,8 @@ public class MediaProjectLabelProvider implements ILabelProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java.lang
-	 * .Object, java.lang.String)
+	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java.lang .Object,
+	 * java.lang.String)
 	 */
 	@Override
 	public boolean isLabelProperty(Object element, String property) {
@@ -110,9 +96,7 @@ public class MediaProjectLabelProvider implements ILabelProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
+	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
 	 * .jface.viewers.ILabelProviderListener)
 	 */
 	@Override

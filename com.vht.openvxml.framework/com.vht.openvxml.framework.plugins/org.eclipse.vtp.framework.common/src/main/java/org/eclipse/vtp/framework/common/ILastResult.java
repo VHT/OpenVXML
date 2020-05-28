@@ -3,8 +3,8 @@ package org.eclipse.vtp.framework.common;
 import java.util.List;
 
 public interface ILastResult {
-	public ILastResultData addResult(int confidence, String utterence,
-			String inputMode, String interpretation);
+	public ILastResultData addResult(int confidence, String utterence, String inputMode,
+			String interpretation);
 
 	public void clear();
 

@@ -29,8 +29,7 @@ public class ExternalServerManager {
 				int count = 0;
 				try {
 					count = Integer.parseInt(mediaServerCountString);
-				} catch (NumberFormatException e) {
-				}
+				} catch (NumberFormatException e) {}
 				for (int i = 1; i < count + 1; i++) {
 					try {
 						String serverPrefix = (String) jndiContext
@@ -42,8 +41,7 @@ public class ExternalServerManager {
 				}
 			}
 		} catch (NamingException e) {
-			System.out
-					.println("Unable to lookup external media server configuration");
+			System.out.println("Unable to lookup external media server configuration");
 			// e.printStackTrace();
 		}
 	}
@@ -53,18 +51,14 @@ public class ExternalServerManager {
 	}
 
 	public void setLogging(Logging logging) {
-		if (logging == null) {
-			throw new IllegalArgumentException("Logging cannot be null");
-		}
-		System.out.println("Setting external media server logging to "
-				+ logging.getLevel());
+		if (logging == null) { throw new IllegalArgumentException("Logging cannot be null"); }
+		System.out.println("Setting external media server logging to " + logging.getLevel());
 		this.logging = logging;
 	}
 
 	public void setDistributionMethod(DistributionMethod method) {
-		System.out
-				.println("Setting external media server distribution method to "
-						+ method.getName());
+		System.out.println("Setting external media server distribution method to "
+				+ method.getName());
 		this.method = method;
 	}
 
@@ -161,13 +155,8 @@ public class ExternalServerManager {
 		}
 
 		public static DistributionMethod getMethod(String name) {
-			if ("random".equalsIgnoreCase(name)
-					|| "balanced".equalsIgnoreCase(name)) {
-				return RANDOMIZED;
-			}
-			if ("failover".equalsIgnoreCase(name)) {
-				return FAILOVER;
-			}
+			if ("random".equalsIgnoreCase(name) || "balanced".equalsIgnoreCase(name)) { return RANDOMIZED; }
+			if ("failover".equalsIgnoreCase(name)) { return FAILOVER; }
 			return null;
 		}
 	}
@@ -186,17 +175,10 @@ public class ExternalServerManager {
 		}
 
 		public static Logging byLevel(String name) {
-			if ("none".equalsIgnoreCase(name)) {
-				return NONE;
-			}
-			if ("first-failure".equalsIgnoreCase(name)
-					|| "firstfailure".equalsIgnoreCase(name)
-					|| "first".equalsIgnoreCase(name)) {
-				return FIRSTFAILURE;
-			}
-			if ("always".equalsIgnoreCase(name) || "all".equalsIgnoreCase(name)) {
-				return ALWAYS;
-			}
+			if ("none".equalsIgnoreCase(name)) { return NONE; }
+			if ("first-failure".equalsIgnoreCase(name) || "firstfailure".equalsIgnoreCase(name)
+					|| "first".equalsIgnoreCase(name)) { return FIRSTFAILURE; }
+			if ("always".equalsIgnoreCase(name) || "all".equalsIgnoreCase(name)) { return ALWAYS; }
 			return null;
 		}
 	}

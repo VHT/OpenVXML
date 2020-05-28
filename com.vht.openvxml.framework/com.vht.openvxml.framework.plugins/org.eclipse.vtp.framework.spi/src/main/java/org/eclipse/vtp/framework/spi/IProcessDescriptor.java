@@ -34,76 +34,61 @@ public interface IProcessDescriptor {
 	String[] getServiceIdentifiers();
 
 	/**
-	 * Returns the service selected for the specified identifier or
-	 * <code>null</code> if no such service exists.
+	 * Returns the service selected for the specified identifier or <code>null</code> if no such
+	 * service exists.
 	 * 
-	 * @param identifier
-	 *            The identifier of the service to return.
-	 * @return The service selected for the specified identifier or
-	 *         <code>null</code> if no such service exists.
-	 * @throws NullPointerException
-	 *             If the supplied identifier is <code>null</code>.
+	 * @param identifier The identifier of the service to return.
+	 * @return The service selected for the specified identifier or <code>null</code> if no such
+	 *         service exists.
+	 * @throws NullPointerException If the supplied identifier is <code>null</code>.
 	 */
 	Object getService(String identifier) throws NullPointerException;
 
 	/**
-	 * Returns the value of the property with the specified name or
-	 * <code>null</code> if no such property exists.
+	 * Returns the value of the property with the specified name or <code>null</code> if no such
+	 * property exists.
 	 * 
-	 * @param propertyName
-	 *            The name of the property to return.
-	 * @return The value of the property with the specified name or
-	 *         <code>null</code> if no such property exists.
-	 * @throws NullPointerException
-	 *             If the specified property name is <code>null</code>.
+	 * @param propertyName The name of the property to return.
+	 * @return The value of the property with the specified name or <code>null</code> if no such
+	 *         property exists.
+	 * @throws NullPointerException If the specified property name is <code>null</code>.
 	 */
 	Object getProperty(String propertyName) throws NullPointerException;
 
 	/**
 	 * Loads a class visible to the process.
 	 * 
-	 * @param className
-	 *            The name of the class to load.
+	 * @param className The name of the class to load.
 	 * @return The requested class instance.
-	 * @throws ClassNotFoundException
-	 *             If a class with the specified name cannot be found.
-	 * @throws NullPointerException
-	 *             If the supplied class name is <code>null</code>.
+	 * @throws ClassNotFoundException If a class with the specified name cannot be found.
+	 * @throws NullPointerException If the supplied class name is <code>null</code>.
 	 */
 	@SuppressWarnings("rawtypes")
-	Class loadClass(String className) throws ClassNotFoundException,
-			NullPointerException;
+	Class loadClass(String className) throws ClassNotFoundException, NullPointerException;
 
 	/**
 	 * Returns true if the specified report severity level is enabled.
 	 *
-	 * @param severity
-	 *            The severity to check.
+	 * @param severity The severity to check.
 	 * @return True if the specified report severity level is enabled.
 	 */
 	boolean isSeverityEnabled(int severity);
 
 	/**
-	 * @return true if reporting is enabled for this process descriptor, false
-	 *         otherwise
+	 * @return true if reporting is enabled for this process descriptor, false otherwise
 	 */
 	boolean isReportingEnabled();
 
 	/**
-	 * Notifies this descriptor of a report made during the execution of the
-	 * process.
+	 * Notifies this descriptor of a report made during the execution of the process.
 	 * 
-	 * @param severity
-	 *            The severity of the report.
-	 * @param categories
-	 *            The categories the report pertains to or <code>null</code> if
-	 *            no catagories are related.
-	 * @param message
-	 *            The message associated with the report or <code>null</code> to
-	 *            not include a message.
-	 * @param properties
-	 *            The properties of the report or <code>null</code> if no
-	 *            properties are specified.
+	 * @param severity The severity of the report.
+	 * @param categories The categories the report pertains to or <code>null</code> if no catagories
+	 *            are related.
+	 * @param message The message associated with the report or <code>null</code> to not include a
+	 *            message.
+	 * @param properties The properties of the report or <code>null</code> if no properties are
+	 *            specified.
 	 */
 	void report(int severity, String[] categories, String message,
 			@SuppressWarnings("rawtypes") Dictionary properties);

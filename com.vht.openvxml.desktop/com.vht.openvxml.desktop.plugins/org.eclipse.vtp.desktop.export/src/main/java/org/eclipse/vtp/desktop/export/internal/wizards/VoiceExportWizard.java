@@ -82,7 +82,6 @@ public class VoiceExportWizard extends Wizard implements IExportWizard {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.wizard.Wizard#addPages()
 	 */
 	@Override
@@ -97,15 +96,11 @@ public class VoiceExportWizard extends Wizard implements IExportWizard {
 		List<IMediaProject> toExport = voicePage.getSelectedVoices();
 		File basePath = new File(path);
 		if (!basePath.exists()) {
-			if (!basePath.mkdirs()) {
-				return false;
-			}
+			if (!basePath.mkdirs()) { return false; }
 		}
 		File containerPath = new File(basePath, "voices/");
 		if (!containerPath.exists()) {
-			if (!containerPath.mkdirs()) {
-				return false;
-			}
+			if (!containerPath.mkdirs()) { return false; }
 		}
 		List<String> overwrites = new LinkedList<String>();
 		for (IMediaProject voice : toExport) {
@@ -122,13 +117,11 @@ public class VoiceExportWizard extends Wizard implements IExportWizard {
 				buf.append(p).append("\r\n");
 			}
 			buf.append("Would you like to continue?");
-			MessageBox confirmationDialog = new MessageBox(Display.getCurrent()
-					.getActiveShell(), SWT.YES | SWT.NO | SWT.ICON_WARNING);
+			MessageBox confirmationDialog = new MessageBox(Display.getCurrent().getActiveShell(),
+					SWT.YES | SWT.NO | SWT.ICON_WARNING);
 			confirmationDialog.setMessage(buf.toString());
 			int result = confirmationDialog.open();
-			if (result != SWT.YES) {
-				return false;
-			}
+			if (result != SWT.YES) { return false; }
 		}
 		for (IMediaProject voice : toExport) {
 			File voicePath = new File(containerPath, voice.getName() + "/");
@@ -137,14 +130,12 @@ public class VoiceExportWizard extends Wizard implements IExportWizard {
 			}
 			voicePath.mkdirs();
 			try {
-				IMediaLibrariesFolder libraries = voice
-						.getMediaLibrariesFolder();
+				IMediaLibrariesFolder libraries = voice.getMediaLibrariesFolder();
 				for (IMediaLibrary library : libraries.getMediaLibraries()) {
 					IFolder libraryFolder = library.getUnderlyingFolder();
 					copyFolder(libraryFolder, voicePath);
 				}
-				InputStream in = getClass().getClassLoader()
-						.getResourceAsStream("index.php");
+				InputStream in = getClass().getClassLoader().getResourceAsStream("index.php");
 				File indexFile = new File(voicePath, "index.php");
 				FileOutputStream fos = new FileOutputStream(indexFile);
 				byte[] buf = new byte[10240];
@@ -155,8 +146,7 @@ public class VoiceExportWizard extends Wizard implements IExportWizard {
 				}
 				in.close();
 				fos.close();
-				in = getClass().getClassLoader().getResourceAsStream(
-						"index.jsp");
+				in = getClass().getClassLoader().getResourceAsStream("index.jsp");
 				indexFile = new File(voicePath, "index.jsp");
 				fos = new FileOutputStream(indexFile);
 				len = in.read(buf);
@@ -166,8 +156,7 @@ public class VoiceExportWizard extends Wizard implements IExportWizard {
 				}
 				in.close();
 				fos.close();
-				in = getClass().getClassLoader().getResourceAsStream(
-						"Default.aspx");
+				in = getClass().getClassLoader().getResourceAsStream("Default.aspx");
 				indexFile = new File(voicePath, "Default.aspx");
 				fos = new FileOutputStream(indexFile);
 				len = in.read(buf);
@@ -220,8 +209,11 @@ public class VoiceExportWizard extends Wizard implements IExportWizard {
 		directory.delete();
 	}
 
-	public class VoiceSelectionPage extends WizardPage implements
-			IStructuredContentProvider, ICheckStateListener, SelectionListener {
+	public class VoiceSelectionPage extends WizardPage
+		implements
+		IStructuredContentProvider,
+		ICheckStateListener,
+		SelectionListener {
 		private List<IMediaProject> initialSelection;
 		private CheckboxTableViewer viewer = null;
 		private Button selectAll = null;
@@ -249,17 +241,14 @@ public class VoiceExportWizard extends Wizard implements IExportWizard {
 			viewer.setSorter(new ViewerSorter());
 			viewer.setInput(voices);
 			viewer.setCheckedElements(initialSelection.toArray());
-			viewer.getTable().setLayoutData(
-					new GridData(SWT.FILL, SWT.FILL, true, true, 1, 3));
+			viewer.getTable().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 3));
 			selectAll = new Button(composite, SWT.PUSH);
 			selectAll.setText("Select All");
-			selectAll.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false,
-					false));
+			selectAll.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
 			selectAll.addSelectionListener(this);
 			deselectAll = new Button(composite, SWT.PUSH);
 			deselectAll.setText("Deselect All");
-			deselectAll.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false,
-					false));
+			deselectAll.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
 			deselectAll.addSelectionListener(this);
 			Label extra = new Label(composite, SWT.NONE);
 			extra.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
@@ -267,8 +256,7 @@ public class VoiceExportWizard extends Wizard implements IExportWizard {
 		}
 
 		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 
 		@Override
 		public Object[] getElements(Object inputElement) {
@@ -292,13 +280,11 @@ public class VoiceExportWizard extends Wizard implements IExportWizard {
 		}
 
 		@Override
-		public void widgetDefaultSelected(SelectionEvent e) {
-		}
+		public void widgetDefaultSelected(SelectionEvent e) {}
 
 		public List<IMediaProject> getSelectedVoices() {
 			Object[] checked = viewer.getCheckedElements();
-			List<IMediaProject> ret = new ArrayList<IMediaProject>(
-					checked.length);
+			List<IMediaProject> ret = new ArrayList<IMediaProject>(checked.length);
 			for (Object obj : checked) {
 				ret.add((IMediaProject) obj);
 			}
@@ -341,16 +327,13 @@ public class VoiceExportWizard extends Wizard implements IExportWizard {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					String path = new DirectoryDialog(getShell()).open();
-					if (path == null) {
-						return;
-					}
+					if (path == null) { return; }
 					locationCombo.setText(path);
 					setPageComplete(true);
 				}
 
 				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-				}
+				public void widgetDefaultSelected(SelectionEvent e) {}
 			});
 			setControl(comp);
 		}

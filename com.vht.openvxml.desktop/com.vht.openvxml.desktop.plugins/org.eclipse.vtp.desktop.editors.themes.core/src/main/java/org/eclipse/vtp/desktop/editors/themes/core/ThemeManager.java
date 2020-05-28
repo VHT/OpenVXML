@@ -22,9 +22,8 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.osgi.framework.Bundle;
 
 /**
- * This class indexes the themes registered with the system and provides ways to
- * search for themes or to determine which theme is active and which should be
- * used by default.
+ * This class indexes the themes registered with the system and provides ways to search for themes
+ * or to determine which theme is active and which should be used by default.
  * 
  * @author trip
  */
@@ -50,20 +49,17 @@ public class ThemeManager {
 	public ThemeManager() {
 		super();
 		themes = new HashMap<String, Theme>();
-		IConfigurationElement[] primitiveExtensions = Platform
-				.getExtensionRegistry().getConfigurationElementsFor(
-						themeExtensionPointId);
+		IConfigurationElement[] primitiveExtensions = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(themeExtensionPointId);
 		for (IConfigurationElement primitiveExtension : primitiveExtensions) {
 			String id = primitiveExtension.getAttribute("id");
 			@SuppressWarnings("unused")
 			String name = primitiveExtension.getAttribute("name");
 			String className = primitiveExtension.getAttribute("class");
-			Bundle contributor = Platform.getBundle(primitiveExtension
-					.getContributor().getName());
+			Bundle contributor = Platform.getBundle(primitiveExtension.getContributor().getName());
 			try {
 				@SuppressWarnings("unchecked")
-				Class<Theme> providerClass = (Class<Theme>) contributor
-						.loadClass(className);
+				Class<Theme> providerClass = (Class<Theme>) contributor.loadClass(className);
 				themes.put(id, providerClass.newInstance());
 			} catch (Exception e) {
 				e.printStackTrace();

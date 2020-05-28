@@ -18,8 +18,8 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
 /**
- * The <code>Subdialog</code> class represents the &lt;subdialog&gt; VXML
- * element. From VXML 2.0 Proposed Recommendation 3:
+ * The <code>Subdialog</code> class represents the &lt;subdialog&gt; VXML element. From VXML 2.0
+ * Proposed Recommendation 3:
  * 
  * <pre>
  * The &lt;subdialog&gt; element invokes a 'called' dialog (known as the subdialog)
@@ -55,57 +55,40 @@ public class Subdialog extends FormElement {
 	/**
 	 * Creates a new instance of Subdialog with the specified name.
 	 * 
-	 * @param name
-	 *            The name of the subdialog.
-	 * @throws IllegalArgumentException
-	 *             If the specified name is empty.
-	 * @throws NullPointerException
-	 *             If the specified name is <code>null</code>.
+	 * @param name The name of the subdialog.
+	 * @throws IllegalArgumentException If the specified name is empty.
+	 * @throws NullPointerException If the specified name is <code>null</code>.
 	 */
-	public Subdialog(String name) throws IllegalArgumentException,
-			NullPointerException {
+	public Subdialog(String name) throws IllegalArgumentException, NullPointerException {
 		super(name);
 	}
 
 	/**
-	 * Creates a new instance of Subdialog with the specified name and an
-	 * expression that evaluates to the subdialog's initial value.
+	 * Creates a new instance of Subdialog with the specified name and an expression that evaluates
+	 * to the subdialog's initial value.
 	 * 
-	 * @param name
-	 *            The name of the subdialog.
-	 * @param expression
-	 *            Evaluates to the subdialog's initial value.
-	 * @throws IllegalArgumentException
-	 *             If the specified name is empty.
-	 * @throws IllegalArgumentException
-	 *             If the specified expression is empty.
-	 * @throws NullPointerException
-	 *             If the specified name is <code>null</code>.
+	 * @param name The name of the subdialog.
+	 * @param expression Evaluates to the subdialog's initial value.
+	 * @throws IllegalArgumentException If the specified name is empty.
+	 * @throws IllegalArgumentException If the specified expression is empty.
+	 * @throws NullPointerException If the specified name is <code>null</code>.
 	 */
-	public Subdialog(String name, String expression)
-			throws IllegalArgumentException, NullPointerException {
+	public Subdialog(String name, String expression) throws IllegalArgumentException,
+			NullPointerException {
 		super(name, expression);
 	}
 
 	/**
-	 * Creates a new instance of Subdialog with the specified name, initial
-	 * value derived from evaluating the expression, and condition that must be
-	 * true for the subdialog to be visited.
+	 * Creates a new instance of Subdialog with the specified name, initial value derived from
+	 * evaluating the expression, and condition that must be true for the subdialog to be visited.
 	 * 
-	 * @param name
-	 *            The name of the subdialog.
-	 * @param expression
-	 *            Evaluates to the subdialog's initial value.
-	 * @param condition
-	 *            Determines if this subdialog will be visited.
-	 * @throws IllegalArgumentException
-	 *             If the specified name is empty.
-	 * @throws IllegalArgumentException
-	 *             If the specified expression is empty.
-	 * @throws IllegalArgumentException
-	 *             If the specified condition is empty.
-	 * @throws NullPointerException
-	 *             If the specified name is <code>null</code>.
+	 * @param name The name of the subdialog.
+	 * @param expression Evaluates to the subdialog's initial value.
+	 * @param condition Determines if this subdialog will be visited.
+	 * @throws IllegalArgumentException If the specified name is empty.
+	 * @throws IllegalArgumentException If the specified expression is empty.
+	 * @throws IllegalArgumentException If the specified condition is empty.
+	 * @throws NullPointerException If the specified name is <code>null</code>.
 	 */
 	public Subdialog(String name, String expression, String condition)
 			throws IllegalArgumentException, NullPointerException {
@@ -113,32 +96,22 @@ public class Subdialog extends FormElement {
 	}
 
 	/**
-	 * Creates a new instance of Subdialog with the specified name, initial
-	 * value derived from evaluating the expression, condition that must be true
-	 * for the subdialog to be visited, and source URI.
+	 * Creates a new instance of Subdialog with the specified name, initial value derived from
+	 * evaluating the expression, condition that must be true for the subdialog to be visited, and
+	 * source URI.
 	 * 
-	 * @param name
-	 *            The name of the subdialog.
-	 * @param expression
-	 *            Evaluates to the subdialog's initial value.
-	 * @param condition
-	 *            Determines if this subdialog will be visited.
-	 * @param sourceURI
-	 *            URI of the document that contains the target dialog.
-	 * @throws IllegalArgumentException
-	 *             If the specified name is empty.
-	 * @throws IllegalArgumentException
-	 *             If the specified expression is empty.
-	 * @throws IllegalArgumentException
-	 *             If the specified condition is empty.
-	 * @throws IllegalArgumentException
-	 *             If the specified URI is empty.
-	 * @throws NullPointerException
-	 *             If the specified name is <code>null</code>.
+	 * @param name The name of the subdialog.
+	 * @param expression Evaluates to the subdialog's initial value.
+	 * @param condition Determines if this subdialog will be visited.
+	 * @param sourceURI URI of the document that contains the target dialog.
+	 * @throws IllegalArgumentException If the specified name is empty.
+	 * @throws IllegalArgumentException If the specified expression is empty.
+	 * @throws IllegalArgumentException If the specified condition is empty.
+	 * @throws IllegalArgumentException If the specified URI is empty.
+	 * @throws NullPointerException If the specified name is <code>null</code>.
 	 */
-	public Subdialog(String name, String expression, String condition,
-			String sourceURI) throws IllegalArgumentException,
-			NullPointerException {
+	public Subdialog(String name, String expression, String condition, String sourceURI)
+			throws IllegalArgumentException, NullPointerException {
 		super(name, expression, condition);
 		setSourceURI(sourceURI);
 	}
@@ -190,14 +163,12 @@ public class Subdialog extends FormElement {
 	/**
 	 * Sets the URI of the document that contains the target dialog.
 	 * 
-	 * @param sourceURI
-	 *            URI of the new target document.
-	 * @throws IllegalArgumentException
-	 *             If the specified URI is empty.
+	 * @param sourceURI URI of the new target document.
+	 * @throws IllegalArgumentException If the specified URI is empty.
 	 */
 	public void setSourceURI(String sourceURI) throws IllegalArgumentException {
-		if (sourceURI != null && sourceURI.length() == 0) {
-			throw new IllegalArgumentException("sourceURI"); //$NON-NLS-1$
+		if (sourceURI != null && sourceURI.length() == 0) { throw new IllegalArgumentException(
+				"sourceURI"); //$NON-NLS-1$
 		}
 		this.sourceURI = sourceURI;
 	}
@@ -209,8 +180,7 @@ public class Subdialog extends FormElement {
 		}
 	}
 
-	public void setMethod(String method) throws IllegalArgumentException,
-			NullPointerException {
+	public void setMethod(String method) throws IllegalArgumentException, NullPointerException {
 		// if (method == null)
 		//			throw new NullPointerException("method"); //$NON-NLS-1$
 		// if (method.length() == 0)
@@ -221,8 +191,7 @@ public class Subdialog extends FormElement {
 			this.method = VXMLConstants.METHOD_GET;
 		} else {
 			this.method = VXMLConstants.METHOD_GET;
-			System.out.println("Expecting \"post\" or \"get\". Got " + method
-					+ " instead");
+			System.out.println("Expecting \"post\" or \"get\". Got " + method + " instead");
 		}
 
 	}
@@ -230,47 +199,36 @@ public class Subdialog extends FormElement {
 	/**
 	 * Adds the specified parameter to the set of parameters for this subdialog.
 	 * 
-	 * @param parameter
-	 *            The parameter to add.
-	 * @throws NullPointerException
-	 *             If the supplied parameter is <code>null</code>.
+	 * @param parameter The parameter to add.
+	 * @throws NullPointerException If the supplied parameter is <code>null</code>.
 	 */
 	public void addParameter(Parameter parameter) throws NullPointerException {
-		if (parameter == null) {
-			throw new NullPointerException("parameter"); //$NON-NLS-1$
+		if (parameter == null) { throw new NullPointerException("parameter"); //$NON-NLS-1$
 		}
 		parameters.add(parameter);
 	}
 
 	/**
-	 * Removes the specified parameter from the set of parameters for this
-	 * subdialog.
+	 * Removes the specified parameter from the set of parameters for this subdialog.
 	 * 
-	 * @param parameter
-	 *            The parameter to remove.
-	 * @throws NullPointerException
-	 *             If the supplied parameter is <code>null</code>.
+	 * @param parameter The parameter to remove.
+	 * @throws NullPointerException If the supplied parameter is <code>null</code>.
 	 */
-	public void removeParameter(Parameter parameter)
-			throws NullPointerException {
-		if (parameter == null) {
-			throw new NullPointerException("parameter"); //$NON-NLS-1$
+	public void removeParameter(Parameter parameter) throws NullPointerException {
+		if (parameter == null) { throw new NullPointerException("parameter"); //$NON-NLS-1$
 		}
 		parameters.remove(parameter);
 	}
 
 	/**
-	 * Adds the specified filled handler to this subdialog. The filled handlers
-	 * will be executed in the order they were added.
+	 * Adds the specified filled handler to this subdialog. The filled handlers will be executed in
+	 * the order they were added.
 	 * 
-	 * @param filled
-	 *            The filled handler to be added.
-	 * @throws NullPointerException
-	 *             If the supplied filled handler is <code>null</code>.
+	 * @param filled The filled handler to be added.
+	 * @throws NullPointerException If the supplied filled handler is <code>null</code>.
 	 */
 	public void addFilledHandler(Filled filled) throws NullPointerException {
-		if (filled == null) {
-			throw new NullPointerException("filled"); //$NON-NLS-1$
+		if (filled == null) { throw new NullPointerException("filled"); //$NON-NLS-1$
 		}
 		filledHandlers.add(filled);
 	}
@@ -278,31 +236,24 @@ public class Subdialog extends FormElement {
 	/**
 	 * Removes the specified filled handler from this subdialog.
 	 * 
-	 * @param filled
-	 *            The filled handler to be removed.
-	 * @throws NullPointerException
-	 *             If the supplied filled handler is <code>null</code>.
+	 * @param filled The filled handler to be removed.
+	 * @throws NullPointerException If the supplied filled handler is <code>null</code>.
 	 */
 	public void removeFilledHandler(Filled filled) throws NullPointerException {
-		if (filled == null) {
-			throw new NullPointerException("filled"); //$NON-NLS-1$
+		if (filled == null) { throw new NullPointerException("filled"); //$NON-NLS-1$
 		}
 		filledHandlers.remove(filled);
 	}
 
 	/**
-	 * Adds the specified event handler to this subdialog. The event handlers
-	 * are evaluated in the order they were added.
+	 * Adds the specified event handler to this subdialog. The event handlers are evaluated in the
+	 * order they were added.
 	 * 
-	 * @param eventHandler
-	 *            The event handler to add.
-	 * @throws NullPointerException
-	 *             If the supplied event handler is <code>null</code>.
+	 * @param eventHandler The event handler to add.
+	 * @throws NullPointerException If the supplied event handler is <code>null</code>.
 	 */
-	public void addEventHandler(EventHandler eventHandler)
-			throws NullPointerException {
-		if (eventHandler == null) {
-			throw new NullPointerException("eventHandler"); //$NON-NLS-1$
+	public void addEventHandler(EventHandler eventHandler) throws NullPointerException {
+		if (eventHandler == null) { throw new NullPointerException("eventHandler"); //$NON-NLS-1$
 		}
 		eventHandlers.add(eventHandler);
 	}
@@ -310,48 +261,38 @@ public class Subdialog extends FormElement {
 	/**
 	 * Removes the specified event handler from this subdialog.
 	 * 
-	 * @param eventHandler
-	 *            The event handler to remove.
-	 * @throws NullPointerException
-	 *             If the supplied event handler is <code>null</code>.
+	 * @param eventHandler The event handler to remove.
+	 * @throws NullPointerException If the supplied event handler is <code>null</code>.
 	 */
-	public void removeEventHandler(EventHandler eventHandler)
-			throws NullPointerException {
-		if (eventHandler == null) {
-			throw new NullPointerException("eventHandler"); //$NON-NLS-1$
+	public void removeEventHandler(EventHandler eventHandler) throws NullPointerException {
+		if (eventHandler == null) { throw new NullPointerException("eventHandler"); //$NON-NLS-1$
 		}
 		eventHandlers.remove(eventHandler);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.core.output.Widget#writeWidget(
 	 * org.xml.sax.ContentHandler)
 	 */
 	@Override
-	public void writeWidget(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
-		if (outputHandler == null) {
-			throw new NullPointerException("outputHandler"); //$NON-NLS-1$
+	public void writeWidget(ContentHandler outputHandler) throws NullPointerException, SAXException {
+		if (outputHandler == null) { throw new NullPointerException("outputHandler"); //$NON-NLS-1$
 		}
 		// Start the element.
 		AttributesImpl attributes = new AttributesImpl();
 		writeAttributes(attributes);
-		outputHandler.startElement(NAMESPACE_URI_VXML, NAME_SUBDIALOG,
-				NAME_SUBDIALOG, attributes);
+		outputHandler.startElement(NAMESPACE_URI_VXML, NAME_SUBDIALOG, NAME_SUBDIALOG, attributes);
 		// Write the children.
 		writeParameters(outputHandler);
 		writeFilledHandlers(outputHandler);
 		writeEventHandlers(outputHandler);
 		// End the element.
-		outputHandler.endElement(NAMESPACE_URI_VXML, NAME_SUBDIALOG,
-				NAME_SUBDIALOG);
+		outputHandler.endElement(NAMESPACE_URI_VXML, NAME_SUBDIALOG, NAME_SUBDIALOG);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.voice.output.FormElement#
 	 * writeAttributes(org.xml.sax.helpers.AttributesImpl)
 	 */
@@ -359,63 +300,49 @@ public class Subdialog extends FormElement {
 	protected void writeAttributes(AttributesImpl attributes) {
 		super.writeAttributes(attributes);
 		if (sourceURI != null) {
-			writeAttribute(attributes, null, null, NAME_SRC, TYPE_CDATA,
-					sourceURI);
+			writeAttribute(attributes, null, null, NAME_SRC, TYPE_CDATA, sourceURI);
 		}
 		if (nameList != null) {
-			writeAttribute(attributes, null, null, NAME_NAMELIST, TYPE_CDATA,
-					nameList);
+			writeAttribute(attributes, null, null, NAME_NAMELIST, TYPE_CDATA, nameList);
 		}
 		if (method != null) {
-			writeAttribute(attributes, null, null, NAME_METHOD, TYPE_CDATA,
-					method);
+			writeAttribute(attributes, null, null, NAME_METHOD, TYPE_CDATA, method);
 		}
 	}
 
 	/**
 	 * Write the parameters in this subdialog to the specified content handler.
 	 * 
-	 * @param outputHandler
-	 *            The content handler to write to.
-	 * @throws NullPointerException
-	 *             If the supplied content handler is <code>null</code>.
-	 * @throws SAXException
-	 *             If the writing of one of the parameters fails.
+	 * @param outputHandler The content handler to write to.
+	 * @throws NullPointerException If the supplied content handler is <code>null</code>.
+	 * @throws SAXException If the writing of one of the parameters fails.
 	 */
-	protected void writeParameters(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
+	protected void writeParameters(ContentHandler outputHandler) throws NullPointerException,
+			SAXException {
 		writeChildren(outputHandler, parameters);
 	}
 
 	/**
-	 * Write the filled handlers of this subdialog to the specified content
-	 * handler.
+	 * Write the filled handlers of this subdialog to the specified content handler.
 	 * 
-	 * @param outputHandler
-	 *            The content handler to write to.
-	 * @throws NullPointerException
-	 *             If the supplied content handler is <code>null</code>.
-	 * @throws SAXException
-	 *             If the writing of one of the filled handlers fails.
+	 * @param outputHandler The content handler to write to.
+	 * @throws NullPointerException If the supplied content handler is <code>null</code>.
+	 * @throws SAXException If the writing of one of the filled handlers fails.
 	 */
-	protected void writeFilledHandlers(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
+	protected void writeFilledHandlers(ContentHandler outputHandler) throws NullPointerException,
+			SAXException {
 		writeChildren(outputHandler, filledHandlers);
 	}
 
 	/**
-	 * Write the event handlers of this subdialog to the specified content
-	 * handler.
+	 * Write the event handlers of this subdialog to the specified content handler.
 	 * 
-	 * @param outputHandler
-	 *            The content handler to write to.
-	 * @throws NullPointerException
-	 *             If the supplied content handler is <code>null</code>.
-	 * @throws SAXException
-	 *             If the writing of one of the event handlers fails.
+	 * @param outputHandler The content handler to write to.
+	 * @throws NullPointerException If the supplied content handler is <code>null</code>.
+	 * @throws SAXException If the writing of one of the event handlers fails.
 	 */
-	protected void writeEventHandlers(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
+	protected void writeEventHandlers(ContentHandler outputHandler) throws NullPointerException,
+			SAXException {
 		writeChildren(outputHandler, eventHandlers);
 	}
 }

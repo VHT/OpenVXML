@@ -12,10 +12,9 @@
 package org.eclipse.vtp.framework.common.controller;
 
 /**
- * A dispatcher that terminates the current process and returns control to the
- * process that included it.
+ * A dispatcher that terminates the current process and returns control to the process that included
+ * it.
  * 
  * @author Lonnie Pryor
  */
-public interface IExitDispatcher extends IDispatcher {
-}
+public interface IExitDispatcher extends IDispatcher {}

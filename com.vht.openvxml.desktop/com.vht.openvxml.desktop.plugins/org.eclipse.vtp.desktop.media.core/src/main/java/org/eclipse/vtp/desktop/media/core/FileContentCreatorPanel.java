@@ -23,8 +23,9 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.vtp.framework.interactions.core.media.Content;
 import org.eclipse.vtp.framework.interactions.core.media.FileContent;
 
-public abstract class FileContentCreatorPanel extends
-		DynamicContentCreatorPanel implements SelectionListener {
+public abstract class FileContentCreatorPanel extends DynamicContentCreatorPanel
+	implements
+	SelectionListener {
 	Text text = null;
 
 	public FileContentCreatorPanel() {
@@ -33,9 +34,7 @@ public abstract class FileContentCreatorPanel extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.media.core.ContentCreatorPanel#createContent()
+	 * @see org.eclipse.vtp.desktop.media.core.ContentCreatorPanel#createContent()
 	 */
 	@Override
 	public Content createContent() {
@@ -50,7 +49,6 @@ public abstract class FileContentCreatorPanel extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.media.core.DynamicContentCreatorPanel#
 	 * createStaticControls(org.eclipse.swt.widgets.Composite)
 	 */
@@ -70,9 +68,7 @@ public abstract class FileContentCreatorPanel extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.media.core.DynamicContentCreatorPanel#
-	 * setInitialContent
+	 * @see org.eclipse.vtp.desktop.media.core.DynamicContentCreatorPanel# setInitialContent
 	 * (org.eclipse.vtp.framework.interactions.core.media.Content)
 	 */
 	@Override
@@ -91,32 +87,24 @@ public abstract class FileContentCreatorPanel extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
+	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
 	 * .events.SelectionEvent)
 	 */
 	@Override
 	public void widgetSelected(SelectionEvent e) {
-		ResourceChooserDialog dialog = new ResourceChooserDialog(
-				text.getShell(), getMediaProvider().getResourceManager(),
-				text.getText());
-		if (dialog.open() != ResourceChooserDialog.OK) {
-			return;
-		}
+		ResourceChooserDialog dialog = new ResourceChooserDialog(text.getShell(),
+				getMediaProvider().getResourceManager(), text.getText());
+		if (dialog.open() != ResourceChooserDialog.OK) { return; }
 		text.setText(dialog.getValue());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse
+	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse
 	 * .swt.events.SelectionEvent)
 	 */
 	@Override
-	public void widgetDefaultSelected(SelectionEvent e) {
-	}
+	public void widgetDefaultSelected(SelectionEvent e) {}
 
 	/**
 	 * @return

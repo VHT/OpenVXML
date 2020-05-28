@@ -30,8 +30,7 @@ public class ScriptConfiguration implements IConfiguration, CommonConstants {
 	/**
 	 * Creates a new ScriptItemConfiguration.
 	 */
-	public ScriptConfiguration() {
-	}
+	public ScriptConfiguration() {}
 
 	/**
 	 * Returns the script to run.
@@ -57,18 +56,13 @@ public class ScriptConfiguration implements IConfiguration, CommonConstants {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.core.IConfiguration#load(org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(org.w3c.dom.Element)
 	 */
 	@Override
 	public void load(Element configurationElement) {
-		this.scriptingLanguage = configurationElement
-				.getAttribute(NAME_SCRIPTING_LANGUGAGE);
-		secured = Boolean.parseBoolean(configurationElement
-				.getAttribute(NAME_SECURED));
-		this.script = XMLUtilities.getElementTextDataNoEx(configurationElement,
-				true);
+		this.scriptingLanguage = configurationElement.getAttribute(NAME_SCRIPTING_LANGUGAGE);
+		secured = Boolean.parseBoolean(configurationElement.getAttribute(NAME_SECURED));
+		this.script = XMLUtilities.getElementTextDataNoEx(configurationElement, true);
 		if (script == null) {
 			script = "";
 		}
@@ -76,25 +70,20 @@ public class ScriptConfiguration implements IConfiguration, CommonConstants {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.core.IConfiguration#save(org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(org.w3c.dom.Element)
 	 */
 	@Override
 	public void save(Element configurationElement) {
-		configurationElement.setAttribute(NAME_SCRIPTING_LANGUGAGE,
-				scriptingLanguage);
-		configurationElement.appendChild(configurationElement
-				.getOwnerDocument().createTextNode(script));
-		configurationElement.setAttribute(NAME_SECURED,
-				Boolean.toString(secured));
+		configurationElement.setAttribute(NAME_SCRIPTING_LANGUGAGE, scriptingLanguage);
+		configurationElement.appendChild(configurationElement.getOwnerDocument().createTextNode(
+				script));
+		configurationElement.setAttribute(NAME_SECURED, Boolean.toString(secured));
 	}
 
 	/**
 	 * Sets the script to run.
 	 * 
-	 * @param script
-	 *            The script to run.
+	 * @param script The script to run.
 	 */
 	public void setScript(String script) {
 		this.script = script == null ? "" //$NON-NLS-1$
@@ -104,8 +93,7 @@ public class ScriptConfiguration implements IConfiguration, CommonConstants {
 	/**
 	 * Sets the scripting language the script is in.
 	 * 
-	 * @param scriptingLanguage
-	 *            The scripting language the script is in.
+	 * @param scriptingLanguage The scripting language the script is in.
 	 */
 	public void setScriptingLanguage(String scriptingLanguage) {
 		this.scriptingLanguage = scriptingLanguage == null ? "" //$NON-NLS-1$

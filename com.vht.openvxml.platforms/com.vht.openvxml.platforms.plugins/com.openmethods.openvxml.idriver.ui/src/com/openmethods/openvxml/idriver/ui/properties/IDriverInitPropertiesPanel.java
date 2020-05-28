@@ -56,9 +56,7 @@ public class IDriverInitPropertiesPanel extends DesignElementPropertiesPanel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel
+	 * @see org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel
 	 * #createControls(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -66,8 +64,7 @@ public class IDriverInitPropertiesPanel extends DesignElementPropertiesPanel {
 		parent.setLayout(new GridLayout(1, false));
 
 		toolkit = new FormToolkit(parent.getDisplay());
-		final Section generalSection = toolkit.createSection(parent,
-				Section.TITLE_BAR);
+		final Section generalSection = toolkit.createSection(parent, Section.TITLE_BAR);
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL
 				| GridData.VERTICAL_ALIGN_BEGINNING);
 		generalSection.setLayoutData(gridData);
@@ -88,17 +85,14 @@ public class IDriverInitPropertiesPanel extends DesignElementPropertiesPanel {
 				| GridData.VERTICAL_ALIGN_CENTER));
 
 		secureElementButton = new Button(generalComp, SWT.CHECK);
-		secureElementButton
-				.setText("This script may contain sensitive data and should be secured");
+		secureElementButton.setText("This script may contain sensitive data and should be secured");
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.horizontalSpan = 2;
 		secureElementButton.setLayoutData(gridData);
 		secureElementButton.setSelection(info.isSecured());
 
-		final Section contentSection = toolkit.createSection(parent,
-				Section.TITLE_BAR);
-		gridData = new GridData(GridData.FILL_HORIZONTAL
-				| GridData.VERTICAL_ALIGN_BEGINNING);
+		final Section contentSection = toolkit.createSection(parent, Section.TITLE_BAR);
+		gridData = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
 		contentSection.setLayoutData(gridData);
 		contentSection.setText("Variables");
 
@@ -141,10 +135,7 @@ public class IDriverInitPropertiesPanel extends DesignElementPropertiesPanel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel
-	 * #save()
+	 * @see org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel #save()
 	 */
 	@Override
 	public void save() {
@@ -157,10 +148,7 @@ public class IDriverInitPropertiesPanel extends DesignElementPropertiesPanel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.configuration.ComponentPropertiesPanel
-	 * #cancel()
+	 * @see org.eclipse.vtp.desktop.model.core.configuration.ComponentPropertiesPanel #cancel()
 	 */
 	@Override
 	public void cancel() {
@@ -168,8 +156,7 @@ public class IDriverInitPropertiesPanel extends DesignElementPropertiesPanel {
 	}
 
 	@Override
-	public void setConfigurationContext(Map<String, Object> values) {
-	}
+	public void setConfigurationContext(Map<String, Object> values) {}
 
 	@Override
 	public List<String> getApplicableContexts() {

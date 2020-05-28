@@ -49,8 +49,7 @@ public class DynamicGrammarCreatorPanel extends InputGrammarCreatorPanel {
 		label.setText("Javascript to create Grammar contents");
 		label.setLayoutData(new GridData());
 
-		scriptText = new Text(comp, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL
-				| SWT.H_SCROLL);
+		scriptText = new Text(comp, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
 		GridData gridData = new GridData(GridData.FILL_BOTH);
 		gridData.heightHint = 400;
 		gridData.widthHint = 300;

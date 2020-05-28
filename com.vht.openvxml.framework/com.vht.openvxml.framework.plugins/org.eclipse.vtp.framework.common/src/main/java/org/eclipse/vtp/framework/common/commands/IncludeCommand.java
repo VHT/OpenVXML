@@ -19,9 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A command that tells the process engine to suspend the current process and
- * pass control to another process, resuming the current process when the target
- * process completes.
+ * A command that tells the process engine to suspend the current process and pass control to
+ * another process, resuming the current process when the target process completes.
  * 
  * @author Lonnie Pryor
  */
@@ -38,12 +37,10 @@ public final class IncludeCommand extends ControllerCommand {
 	/**
 	 * Creates a new IncludeCommand.
 	 */
-	public IncludeCommand() {
-	}
+	public IncludeCommand() {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.commands.ControllerCommand#accept(
 	 * org.eclipse.vtp.framework.spi.commands.IControllerCommandVisitor)
 	 */
@@ -54,22 +51,18 @@ public final class IncludeCommand extends ControllerCommand {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.ICommand#exportContents()
 	 */
 	@Override
 	public Object exportContents() {
 		final List<String> variableMappings = new ArrayList<String>(
 				this.variableMappings.size() * 2);
-		for (final Map.Entry<String, String> entry : this.variableMappings
-				.entrySet()) {
+		for (final Map.Entry<String, String> entry : this.variableMappings.entrySet()) {
 			variableMappings.add(entry.getKey());
 			variableMappings.add(entry.getValue());
 		}
-		final List<Object> outgoingData = new ArrayList<Object>(
-				this.outgoingData.size() * 2);
-		for (final Map.Entry<String, Map<String, String>> entry : this.outgoingData
-				.entrySet()) {
+		final List<Object> outgoingData = new ArrayList<Object>(this.outgoingData.size() * 2);
+		for (final Map.Entry<String, Map<String, String>> entry : this.outgoingData.entrySet()) {
 			outgoingData.add(entry.getKey());
 			final Map<String, String> map = entry.getValue();
 			final List<String> entryData = new ArrayList<String>(map.size() * 2);
@@ -79,13 +72,10 @@ public final class IncludeCommand extends ControllerCommand {
 			}
 			outgoingData.add(entryData.toArray(new String[entryData.size()]));
 		}
-		final List<Object> parameters = new ArrayList<Object>(
-				this.parameters.size() * 2);
-		for (final Map.Entry<String, List<String>> entry : this.parameters
-				.entrySet()) {
+		final List<Object> parameters = new ArrayList<Object>(this.parameters.size() * 2);
+		for (final Map.Entry<String, List<String>> entry : this.parameters.entrySet()) {
 			parameters.add(entry.getKey());
-			parameters.add(entry.getValue().toArray(
-					new String[entry.getValue().size()]));
+			parameters.add(entry.getValue().toArray(new String[entry.getValue().size()]));
 		}
 		return new Object[] { this.targetProcessURI,
 				variableMappings.toArray(new String[variableMappings.size()]),
@@ -94,17 +84,13 @@ public final class IncludeCommand extends ControllerCommand {
 
 	public String[] getOutgoingDataNames(String path) {
 		final Map<String, String> map = outgoingData.get(path);
-		if (map == null) {
-			return new String[0];
-		}
+		if (map == null) { return new String[0]; }
 		return map.keySet().toArray(new String[map.size()]);
 	}
 
 	public String getOutgoingDataValue(String path, String name) {
 		final Map<String, String> map = outgoingData.get(path);
-		if (map == null) {
-			return null;
-		}
+		if (map == null) { return null; }
 		return map.get(name);
 	}
 
@@ -113,32 +99,24 @@ public final class IncludeCommand extends ControllerCommand {
 	}
 
 	/**
-	 * Returns the names of the parameters that will be returned from the target
-	 * process.
+	 * Returns the names of the parameters that will be returned from the target process.
 	 * 
-	 * @return The names of the parameters that will be returned from the target
-	 *         process.
+	 * @return The names of the parameters that will be returned from the target process.
 	 */
 	public String[] getParameterNames() {
 		return parameters.keySet().toArray(new String[parameters.size()]);
 	}
 
 	/**
-	 * Returns the values of a parameter to be set when the current process
-	 * resumes.
+	 * Returns the values of a parameter to be set when the current process resumes.
 	 * 
-	 * @param name
-	 *            The name of the parameter to be set.
+	 * @param name The name of the parameter to be set.
 	 * @return The values that specified parameter will be set to.
 	 */
 	public String[] getParameterValues(String name) {
-		if (name == null) {
-			return null;
-		}
+		if (name == null) { return null; }
 		final List<String> list = parameters.get(name);
-		if (list == null) {
-			return null;
-		}
+		if (list == null) { return null; }
 		return list.toArray(new String[list.size()]);
 	}
 
@@ -152,38 +130,30 @@ public final class IncludeCommand extends ControllerCommand {
 	}
 
 	/**
-	 * Returns the names of the variables that will be passed to the target
-	 * process.
+	 * Returns the names of the variables that will be passed to the target process.
 	 * 
-	 * @return The names of the variables that will be passed to the target
-	 *         process.
+	 * @return The names of the variables that will be passed to the target process.
 	 */
 	public String[] getVariableNames() {
-		return variableMappings.keySet().toArray(
-				new String[variableMappings.size()]);
+		return variableMappings.keySet().toArray(new String[variableMappings.size()]);
 	}
 
 	/**
-	 * Returns the name of the variable in the current process that will be set
-	 * as the specified variable in the target process.
+	 * Returns the name of the variable in the current process that will be set as the specified
+	 * variable in the target process.
 	 * 
-	 * @param targetVariableName
-	 *            The name of the variable in the target process.
-	 * @return The name of the variable in the current process that will be set
-	 *         as the specified variable in the target process.
+	 * @param targetVariableName The name of the variable in the target process.
+	 * @return The name of the variable in the current process that will be set as the specified
+	 *         variable in the target process.
 	 */
 	public String getVariableValue(String targetVariableName) {
-		if (targetVariableName == null) {
-			return null;
-		}
+		if (targetVariableName == null) { return null; }
 		return variableMappings.get(targetVariableName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.ICommand#importContents(
-	 * java.lang.Object)
+	 * @see org.eclipse.vtp.framework.spi.ICommand#importContents( java.lang.Object)
 	 */
 	@Override
 	public void importContents(Object contents) {
@@ -192,8 +162,7 @@ public final class IncludeCommand extends ControllerCommand {
 		this.variableMappings.clear();
 		final String[] variableMappings = (String[]) array[1];
 		for (int i = 0; i < variableMappings.length; i += 2) {
-			this.variableMappings.put(variableMappings[i],
-					variableMappings[i + 1]);
+			this.variableMappings.put(variableMappings[i], variableMappings[i + 1]);
 		}
 		this.outgoingData.clear();
 		final Object[] outgoingData = (Object[]) array[2];
@@ -207,20 +176,16 @@ public final class IncludeCommand extends ControllerCommand {
 		this.parameters.clear();
 		final Object[] parameters = (Object[]) array[3];
 		for (int i = 0; i < parameters.length; i += 2) {
-			this.parameters.put((String) parameters[i], new LinkedList<String>(
-					Arrays.asList((String[]) parameters[i + 1])));
+			this.parameters.put((String) parameters[i], new LinkedList<String>(Arrays
+					.asList((String[]) parameters[i + 1])));
 		}
 	}
 
 	public void setOutgoingDataValue(String path, String name, String value) {
-		if (path == null || name == null) {
-			return;
-		}
+		if (path == null || name == null) { return; }
 		Map<String, String> map = outgoingData.get(path);
 		if (map == null) {
-			if (value == null) {
-				return;
-			}
+			if (value == null) { return; }
 			outgoingData.put(path, map = new HashMap<String, String>());
 		}
 		if (value == null) {
@@ -236,15 +201,11 @@ public final class IncludeCommand extends ControllerCommand {
 	/**
 	 * Configures a parameter set when the current process resumes.
 	 * 
-	 * @param name
-	 *            The name of the parameter to set.
-	 * @param values
-	 *            The values to set the parameter to.
+	 * @param name The name of the parameter to set.
+	 * @param values The values to set the parameter to.
 	 */
 	public void setParameterValues(String name, String[] values) {
-		if (name == null) {
-			return;
-		}
+		if (name == null) { return; }
 		if (values == null) {
 			parameters.remove(name);
 		} else {
@@ -265,28 +226,22 @@ public final class IncludeCommand extends ControllerCommand {
 	/**
 	 * Sets the URI identifying the process to transfer control to.
 	 * 
-	 * @param targetProcessURI
-	 *            The URI identifying the process to transfer control to.
+	 * @param targetProcessURI The URI identifying the process to transfer control to.
 	 */
 	public void setTargetProcessURI(String targetProcessURI) {
 		this.targetProcessURI = targetProcessURI;
 	}
 
 	/**
-	 * Sets the name of the variable in the current process that will be set as
-	 * the specified variable in the target process.
+	 * Sets the name of the variable in the current process that will be set as the specified
+	 * variable in the target process.
 	 * 
-	 * @param targetVariableName
-	 *            The name of the variable in the target process.
-	 * @param localVariableName
-	 *            The name of the variable in the current process to pass to the
+	 * @param targetVariableName The name of the variable in the target process.
+	 * @param localVariableName The name of the variable in the current process to pass to the
 	 *            target process.
 	 */
-	public void setVariableValue(String targetVariableName,
-			String localVariableName) {
-		if (targetVariableName == null) {
-			return;
-		}
+	public void setVariableValue(String targetVariableName, String localVariableName) {
+		if (targetVariableName == null) { return; }
 		if (localVariableName == null) {
 			variableMappings.remove(targetVariableName);
 		} else {

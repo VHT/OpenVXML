@@ -7,8 +7,7 @@ import com.sun.jna.Native;
 import com.sun.jna.NativeLong;
 
 public interface IDriver extends Library {
-	IDriver INSTANCE = (IDriver) Native.loadLibrary("ilib_SDK_MD",
-			IDriver.class);
+	IDriver INSTANCE = (IDriver) Native.loadLibrary("ilib_SDK_MD", IDriver.class);
 	NativeLong ANY_RQ = new NativeLong(0L);
 	int CALL_STATUS_ESTABLISHED = 7;
 	int INFO_CONN_ID = 101;
@@ -17,18 +16,16 @@ public interface IDriver extends Library {
 
 	boolean ilSetTimeout(NativeLong timeout);
 
-	boolean ilConnectionOpenConfigServer80(String primaryServerAddress,
-			short primaryServerPort, short clientPort,
-			String backupServerAddress, short backupServerPort, String appName,
+	boolean ilConnectionOpenConfigServer80(String primaryServerAddress, short primaryServerPort,
+			short clientPort, String backupServerAddress, short backupServerPort, String appName,
 			NativeLong timeout);
 
-	NativeLong ilSRqNoteCallStart(NativeLong rqId, NativeLong port,
-			String callId, String dnis, String ani, String tagCDT);
+	NativeLong ilSRqNoteCallStart(NativeLong rqId, NativeLong port, String callId, String dnis,
+			String ani, String tagCDT);
 
 	NativeLong ilSRqNoteCallEnd(NativeLong rqId, NativeLong port);
 
-	NativeLong ilSRqUDataAddKD(NativeLong rqId, NativeLong port, String key,
-			String value);
+	NativeLong ilSRqUDataAddKD(NativeLong rqId, NativeLong port, String key, String value);
 
 	NativeLong ilSRqUDataAddList(NativeLong rqId, NativeLong port, String list);
 

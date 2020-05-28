@@ -23,8 +23,7 @@ public class SelectionResult {
 		super();
 	}
 
-	public SelectionResult(boolean hit, boolean selectionChanged,
-			boolean primaryChanged) {
+	public SelectionResult(boolean hit, boolean selectionChanged, boolean primaryChanged) {
 		super();
 		this.hit = hit;
 		this.selectionChanged = selectionChanged;

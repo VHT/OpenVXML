@@ -46,8 +46,9 @@ import org.eclipse.vtp.desktop.model.interactive.core.configuration.generic.Name
 
 import com.openmethods.openvxml.desktop.model.branding.IBrand;
 
-public class PlayPromptMediaScreen extends MediaConfigurationScreen implements
-		PromptBindingViewerListener {
+public class PlayPromptMediaScreen extends MediaConfigurationScreen
+	implements
+	PromptBindingViewerListener {
 	private static final String elementType = "org.eclipse.vtp.modules.interactive.playPrompt";
 	PromptBindingViewer promptViewer;
 	private FormToolkit toolkit;
@@ -66,21 +67,19 @@ public class PlayPromptMediaScreen extends MediaConfigurationScreen implements
 	 */
 	public PlayPromptMediaScreen(MediaConfigurationScreenContainer container) {
 		super(container);
-		bindingManager = (GenericBindingManager) getElement()
-				.getConfigurationManager(GenericBindingManager.TYPE_ID);
+		bindingManager = (GenericBindingManager) getElement().getConfigurationManager(
+				GenericBindingManager.TYPE_ID);
 		bindingManager.dumpContents(System.err);
 		InteractionBinding interactionBinding = bindingManager
 				.getInteractionBinding(getInteractionType());
 		promptBinding = interactionBinding.getNamedBinding("Prompt");
 		bargeinBinding = interactionBinding.getNamedBinding("barge-in");
-		promptViewer = new PromptBindingViewer(getElement(), promptBinding,
-				getInteractionType(), getElement().getDesign().getVariablesFor(
-						getElement()));
+		promptViewer = new PromptBindingViewer(getElement(), promptBinding, getInteractionType(),
+				getElement().getDesign().getVariablesFor(getElement()));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.media.core.MediaConfigurationScreen#save()
 	 */
 	@Override
@@ -93,7 +92,6 @@ public class PlayPromptMediaScreen extends MediaConfigurationScreen implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.media.core.MediaConfigurationScreen#cancel()
 	 */
 	@Override
@@ -103,9 +101,7 @@ public class PlayPromptMediaScreen extends MediaConfigurationScreen implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.media.core.MediaConfigurationScreen#createControls
+	 * @see org.eclipse.vtp.desktop.media.core.MediaConfigurationScreen#createControls
 	 * (org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -116,8 +112,7 @@ public class PlayPromptMediaScreen extends MediaConfigurationScreen implements
 		sc.setContent(comp);
 		comp.setBackground(parent.getBackground());
 		comp.setLayout(new GridLayout(2, false));
-		final Section contentSection = toolkit.createSection(comp,
-				Section.TITLE_BAR);
+		final Section contentSection = toolkit.createSection(comp, Section.TITLE_BAR);
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL
 				| GridData.VERTICAL_ALIGN_BEGINNING);
 		gridData.horizontalSpan = 2;
@@ -146,10 +141,8 @@ public class PlayPromptMediaScreen extends MediaConfigurationScreen implements
 		gridData.heightHint = 15;
 		spacerComp.setLayoutData(gridData);
 
-		final Section settingsSection = toolkit.createSection(comp,
-				Section.TITLE_BAR);
-		gridData = new GridData(GridData.FILL_HORIZONTAL
-				| GridData.VERTICAL_ALIGN_BEGINNING);
+		final Section settingsSection = toolkit.createSection(comp, Section.TITLE_BAR);
+		gridData = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
 		gridData.horizontalSpan = 2;
 		settingsSection.setLayoutData(gridData);
 		settingsSection.setText("Settings");
@@ -157,9 +150,9 @@ public class PlayPromptMediaScreen extends MediaConfigurationScreen implements
 		bargeLabel
 				.setToolTipText("Determines whether the caller can\r\ninterrupt the prompt to begin entry");
 		containerComp = createWrapperComposite(comp);
-		ValueStack lastStack = new ValueStack("barge-in", getInteractionType(),
-				elementType, "true", 0);// ValueStack.EXPRESSION |
-										// ValueStack.VARIABLE);
+		ValueStack lastStack = new ValueStack("barge-in", getInteractionType(), elementType,
+				"true", 0);// ValueStack.EXPRESSION |
+							// ValueStack.VARIABLE);
 		lastStack.createControls(containerComp);
 		containerComp = lastStack.getValueComposite();
 		valueStacks.put("barge-in", lastStack);
@@ -194,9 +187,7 @@ public class PlayPromptMediaScreen extends MediaConfigurationScreen implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.media.core.MediaConfigurationScreen#
-	 * getInteractionType()
+	 * @see org.eclipse.vtp.desktop.media.core.MediaConfigurationScreen# getInteractionType()
 	 */
 	@Override
 	public String getInteractionType() {
@@ -205,9 +196,7 @@ public class PlayPromptMediaScreen extends MediaConfigurationScreen implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.media.core.MediaConfigurationScreen#setBrand(
+	 * @see org.eclipse.vtp.desktop.media.core.MediaConfigurationScreen#setBrand(
 	 * org.eclipse.vtp.desktop.core.configuration.Brand)
 	 */
 	@Override
@@ -217,17 +206,14 @@ public class PlayPromptMediaScreen extends MediaConfigurationScreen implements
 			promptViewer.setCurrentBrand(brand);
 		}
 		LanguageBinding languageBinding = bargeinBinding.getLanguageBinding("");
-		BrandBinding brandBinding = languageBinding
-				.getBrandBinding(currentBrand);
-		valueStacks.get(bargeinBinding.getName()).setSetting(
-				bindingManager.getMediaDefaults(), brandBinding);
+		BrandBinding brandBinding = languageBinding.getBrandBinding(currentBrand);
+		valueStacks.get(bargeinBinding.getName()).setSetting(bindingManager.getMediaDefaults(),
+				brandBinding);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.media.core.MediaConfigurationScreen#setLanguage
+	 * @see org.eclipse.vtp.desktop.media.core.MediaConfigurationScreen#setLanguage
 	 * (java.lang.String)
 	 */
 	@Override
@@ -255,8 +241,7 @@ public class PlayPromptMediaScreen extends MediaConfigurationScreen implements
 		Composite containerComp = new Composite(parent, SWT.NONE);
 		containerComp.setBackground(parent.getBackground());
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL
-				| GridData.HORIZONTAL_ALIGN_BEGINNING
-				| GridData.VERTICAL_ALIGN_BEGINNING);
+				| GridData.HORIZONTAL_ALIGN_BEGINNING | GridData.VERTICAL_ALIGN_BEGINNING);
 		gridData.horizontalIndent = indent;
 		gridData.widthHint = 150;
 		// gridData.grabExcessVerticalSpace = true;
@@ -313,8 +298,7 @@ public class PlayPromptMediaScreen extends MediaConfigurationScreen implements
 	 * @return
 	 */
 	private Combo createValueDropDown(Composite parent) {
-		Combo ret = new Combo(parent, SWT.BORDER | SWT.READ_ONLY
-				| SWT.DROP_DOWN);
+		Combo ret = new Combo(parent, SWT.BORDER | SWT.READ_ONLY | SWT.DROP_DOWN);
 		GridData gd = new GridData();
 		gd.verticalIndent = 2;
 		gd.horizontalAlignment = SWT.RIGHT;
@@ -332,8 +316,7 @@ public class PlayPromptMediaScreen extends MediaConfigurationScreen implements
 	 * @param value
 	 * @return
 	 */
-	public Spinner createValueSpinner(Composite parent, int min, int max,
-			int digits, int value) {
+	public Spinner createValueSpinner(Composite parent, int min, int max, int digits, int value) {
 		Spinner ret = new Spinner(parent, SWT.BORDER);
 		ret.setMinimum(min);
 		ret.setMaximum(max);
@@ -361,9 +344,7 @@ public class PlayPromptMediaScreen extends MediaConfigurationScreen implements
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt
+		 * @see org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt
 		 * .events.PaintEvent)
 		 */
 		@Override
@@ -375,9 +356,7 @@ public class PlayPromptMediaScreen extends MediaConfigurationScreen implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.media.core.PromptBindingViewerListener#valueChanged
+	 * @see org.eclipse.vtp.desktop.media.core.PromptBindingViewerListener#valueChanged
 	 * (org.eclipse.vtp.desktop.media.core.PromptBindingViewer)
 	 */
 	@Override
@@ -389,8 +368,7 @@ public class PlayPromptMediaScreen extends MediaConfigurationScreen implements
 														// because the scroll
 														// bar appeared
 		{
-			preferred = comp.computeSize(sc.getClientArea().width, SWT.DEFAULT,
-					true);
+			preferred = comp.computeSize(sc.getClientArea().width, SWT.DEFAULT, true);
 			sc.setMinSize(preferred);
 			comp.layout();
 		}

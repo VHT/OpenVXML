@@ -14,8 +14,7 @@ package org.eclipse.vtp.framework.core;
 import org.w3c.dom.Element;
 
 /**
- * Definition of configuration objects capable of being loaded and stored in an
- * XML document.
+ * Definition of configuration objects capable of being loaded and stored in an XML document.
  * 
  * @author Lonnie Pryor
  */
@@ -23,16 +22,14 @@ public interface IConfiguration {
 	/**
 	 * Loads the configuration information from the specified XML element.
 	 *
-	 * @param configurationElement
-	 *            The element to load the configuration from.
+	 * @param configurationElement The element to load the configuration from.
 	 */
 	void load(Element configurationElement);
 
 	/**
 	 * Saves the configuration information into the supplied XML element.
 	 *
-	 * @param configurationElement
-	 *            The element to save the configuration to.
+	 * @param configurationElement The element to save the configuration to.
 	 */
 	void save(Element configurationElement);
 }

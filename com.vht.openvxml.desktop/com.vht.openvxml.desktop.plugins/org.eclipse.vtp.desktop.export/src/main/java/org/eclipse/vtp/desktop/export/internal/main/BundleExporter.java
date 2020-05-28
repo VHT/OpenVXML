@@ -33,13 +33,9 @@ public class BundleExporter {
 
 	public void export(ExportWriter output, String basePath) throws Exception {
 		File bundleFile = FileLocator.getBundleFile(bundle);
-		if (bundleFile == null) {
-			return;
-		}
+		if (bundleFile == null) { return; }
 		bundleFile = bundleFile.getCanonicalFile();
-		if (!bundleFile.exists()) {
-			return;
-		}
+		if (!bundleFile.exists()) { return; }
 		String jarName = basePath + getSymbolicName() + "_"
 				+ bundle.getHeaders().get(Constants.BUNDLE_VERSION);
 		if (bundleFile.isFile()) {
@@ -57,8 +53,7 @@ public class BundleExporter {
 						input.close();
 					}
 				}
-				for (StringTokenizer i = new StringTokenizer(
-						props.getProperty("bin.includes"), ","); i
+				for (StringTokenizer i = new StringTokenizer(props.getProperty("bin.includes"), ","); i
 						.hasMoreTokens();) {
 					String binToken = i.nextToken().trim();
 					if (binToken.length() == 0) {
@@ -66,19 +61,18 @@ public class BundleExporter {
 					}
 					String target = props.getProperty("output." + binToken);
 					if (target == null) {
-						output.writeFile(jarName + binToken, new File(
-								bundleFile, binToken).getCanonicalFile(), null);
+						output.writeFile(jarName + binToken, new File(bundleFile, binToken)
+								.getCanonicalFile(), null);
 					} else {
-						for (StringTokenizer j = new StringTokenizer(target,
-								","); j.hasMoreTokens();) {
+						for (StringTokenizer j = new StringTokenizer(target, ","); j
+								.hasMoreTokens();) {
 							String outputToken = j.nextToken().trim();
 							if (outputToken.length() == 0) {
 								continue;
 							}
-							String entryName = ".".equals(binToken) ? jarName
-									: jarName + binToken;
-							output.writeFile(entryName, new File(bundleFile,
-									outputToken).getCanonicalFile(), null);
+							String entryName = ".".equals(binToken) ? jarName : jarName + binToken;
+							output.writeFile(entryName, new File(bundleFile, outputToken)
+									.getCanonicalFile(), null);
 						}
 					}
 				}

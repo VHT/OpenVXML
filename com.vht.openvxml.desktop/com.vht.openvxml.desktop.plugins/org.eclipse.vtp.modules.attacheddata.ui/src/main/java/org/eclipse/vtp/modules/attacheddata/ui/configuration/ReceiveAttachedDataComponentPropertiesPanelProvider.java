@@ -14,52 +14,40 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesignComponent;
 
 /**
  * @author trip
- *
  */
-public class ReceiveAttachedDataComponentPropertiesPanelProvider implements
-		ComponentPropertiesPanelProvider {
+public class ReceiveAttachedDataComponentPropertiesPanelProvider
+	implements
+	ComponentPropertiesPanelProvider {
 
 	/**
 	 * 
 	 */
-	public ReceiveAttachedDataComponentPropertiesPanelProvider() {
-	}
+	public ReceiveAttachedDataComponentPropertiesPanelProvider() {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.editors.core.configuration.
-	 * ComponentPropertiesPanelProvider
-	 * #getPropertiesPanels(org.eclipse.vtp.desktop
-	 * .model.core.design.IDesignComponent)
+	 * @see org.eclipse.vtp.desktop.editors.core.configuration. ComponentPropertiesPanelProvider
+	 * #getPropertiesPanels(org.eclipse.vtp.desktop .model.core.design.IDesignComponent)
 	 */
 	@Override
-	public List<ComponentPropertiesPanel> getPropertiesPanels(
-			IDesignComponent designComponent) {
+	public List<ComponentPropertiesPanel> getPropertiesPanels(IDesignComponent designComponent) {
 		PrimitiveElement pe = (PrimitiveElement) designComponent;
 		List<ComponentPropertiesPanel> ret = new ArrayList<ComponentPropertiesPanel>();
-		ret.add(new ReceiveAttachedDataPropertiesPanel("Receive Attached Data",
-				pe));
+		ret.add(new ReceiveAttachedDataPropertiesPanel("Receive Attached Data", pe));
 		return ret;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.editors.core.configuration.
-	 * ComponentPropertiesPanelProvider
-	 * #isApplicableFor(org.eclipse.vtp.desktop.model
-	 * .core.design.IDesignComponent)
+	 * @see org.eclipse.vtp.desktop.editors.core.configuration. ComponentPropertiesPanelProvider
+	 * #isApplicableFor(org.eclipse.vtp.desktop.model .core.design.IDesignComponent)
 	 */
 	@Override
 	public boolean isApplicableFor(IDesignComponent designComponent) {
-		if (!(designComponent instanceof PrimitiveElement)) {
-			return false;
-		}
+		if (!(designComponent instanceof PrimitiveElement)) { return false; }
 		PrimitiveElement pe = (PrimitiveElement) designComponent;
-		return pe
-				.getSubTypeId()
-				.equals("org.eclipse.vtp.framework.interactions.core.actions.meta-data-request");
+		return pe.getSubTypeId().equals(
+				"org.eclipse.vtp.framework.interactions.core.actions.meta-data-request");
 	}
 
 }

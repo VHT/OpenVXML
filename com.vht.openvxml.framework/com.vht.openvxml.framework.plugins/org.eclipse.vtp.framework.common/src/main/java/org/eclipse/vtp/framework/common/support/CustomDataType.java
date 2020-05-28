@@ -24,8 +24,7 @@ public class CustomDataType implements IDataType {
 	 * 
 	 * @param name
 	 */
-	public CustomDataType(String name, String primaryFieldName,
-			CustomDataField[] fields) {
+	public CustomDataType(String name, String primaryFieldName, CustomDataField[] fields) {
 		this.name = name;
 		this.primaryFieldName = primaryFieldName;
 		this.fields = new HashMap<String, CustomDataField>(fields.length);
@@ -36,7 +35,6 @@ public class CustomDataType implements IDataType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.common.IDataType#getName()
 	 */
 	@Override
@@ -46,7 +44,6 @@ public class CustomDataType implements IDataType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.common.IDataType#getPrimaryFieldName()
 	 */
 	@Override
@@ -56,7 +53,6 @@ public class CustomDataType implements IDataType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.common.IDataType#getFieldNames()
 	 */
 	@Override
@@ -66,9 +62,7 @@ public class CustomDataType implements IDataType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.common.IDataType#getFieldInitialValue(
-	 * java.lang.String)
+	 * @see org.eclipse.vtp.framework.common.IDataType#getFieldInitialValue( java.lang.String)
 	 */
 	@Override
 	public String getFieldInitialValue(String fieldName) {
@@ -77,9 +71,7 @@ public class CustomDataType implements IDataType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.common.IDataType#getFieldType(java.lang.String)
+	 * @see org.eclipse.vtp.framework.common.IDataType#getFieldType(java.lang.String)
 	 */
 	@Override
 	public IDataType getFieldType(String fieldName) {
@@ -93,7 +85,6 @@ public class CustomDataType implements IDataType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.common.IDataType#isSimpleType()
 	 */
 	@Override
@@ -103,7 +94,6 @@ public class CustomDataType implements IDataType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.common.IDataType#isArrayType()
 	 */
 	@Override
@@ -113,7 +103,6 @@ public class CustomDataType implements IDataType {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.common.IDataType#isComplexType()
 	 */
 	@Override

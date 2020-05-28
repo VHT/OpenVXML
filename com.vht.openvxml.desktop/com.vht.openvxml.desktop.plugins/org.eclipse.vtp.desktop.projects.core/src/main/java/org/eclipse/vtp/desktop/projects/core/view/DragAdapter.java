@@ -18,8 +18,7 @@ public class DragAdapter extends CommonDragAdapterAssistant {
 	}
 
 	@Override
-	public boolean setDragData(DragSourceEvent anEvent,
-			IStructuredSelection aSelection) {
+	public boolean setDragData(DragSourceEvent anEvent, IStructuredSelection aSelection) {
 		// TODO Auto-generated method stub
 		return false;
 	}

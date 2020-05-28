@@ -17,8 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A command that terminates an included process and returns control to the
- * originating process.
+ * A command that terminates an included process and returns control to the originating process.
  * 
  * @author Lonnie Pryor
  */
@@ -31,12 +30,10 @@ public final class ExitCommand extends ControllerCommand {
 	/**
 	 * Creates a new ExitCommand.
 	 */
-	public ExitCommand() {
-	}
+	public ExitCommand() {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.commands.ControllerCommand#accept(
 	 * org.eclipse.vtp.framework.spi.commands.IControllerCommandVisitor)
 	 */
@@ -47,13 +44,11 @@ public final class ExitCommand extends ControllerCommand {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.ICommand#exportContents()
 	 */
 	@Override
 	public Object exportContents() {
-		final List<Object> variables = new ArrayList<Object>(
-				this.variables.size() * 2);
+		final List<Object> variables = new ArrayList<Object>(this.variables.size() * 2);
 		for (final Map.Entry<String, Object> entry : this.variables.entrySet()) {
 			variables.add(entry.getKey());
 			variables.add(entry.getValue());
@@ -75,17 +70,13 @@ public final class ExitCommand extends ControllerCommand {
 	}
 
 	public Object getVariableValue(String name) {
-		if (name == null) {
-			return null;
-		}
+		if (name == null) { return null; }
 		return variables.get(name);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.ICommand#importContents(
-	 * java.lang.Object)
+	 * @see org.eclipse.vtp.framework.spi.ICommand#importContents( java.lang.Object)
 	 */
 	@Override
 	public void importContents(Object contents) {
@@ -101,17 +92,14 @@ public final class ExitCommand extends ControllerCommand {
 	/**
 	 * Sets the value of this exit command.
 	 * 
-	 * @param exitValue
-	 *            The value of this exit command.
+	 * @param exitValue The value of this exit command.
 	 */
 	public void setExitValue(String exitValue) {
 		this.exitValue = exitValue;
 	}
 
 	public void setVariableValues(String name, Object value) {
-		if (name == null) {
-			return;
-		}
+		if (name == null) { return; }
 		if (value == null) {
 			variables.remove(name);
 		} else {

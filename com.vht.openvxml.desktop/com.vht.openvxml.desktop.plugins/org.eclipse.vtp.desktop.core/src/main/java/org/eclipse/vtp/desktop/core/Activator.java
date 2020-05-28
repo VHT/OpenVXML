@@ -36,10 +36,7 @@ public class Activator extends AbstractUIPlugin {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext
-	 * )
+	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext )
 	 */
 	@Override
 	public void start(BundleContext context) throws Exception {
@@ -48,10 +45,7 @@ public class Activator extends AbstractUIPlugin {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext
-	 * )
+	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext )
 	 */
 	@Override
 	public void stop(BundleContext context) throws Exception {
@@ -70,71 +64,65 @@ public class Activator extends AbstractUIPlugin {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.plugin.AbstractUIPlugin#initializeImageRegistry(org.eclipse
+	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#initializeImageRegistry(org.eclipse
 	 * .jface.resource.ImageRegistry)
 	 */
 	@Override
 	protected void initializeImageRegistry(ImageRegistry reg) {
 		super.initializeImageRegistry(reg);
 
-		ImageDescriptor todoDescriptor = ImageDescriptor
-				.createFromURL(getBundle().getEntry("icons/tasks_tsk.gif"));
-		ImageDescriptor warningDescriptor = ImageDescriptor
-				.createFromURL(getBundle().getEntry("icons/warning_tsk.gif"));
-		ImageDescriptor errorDescriptor = ImageDescriptor
-				.createFromURL(getBundle().getEntry("icons/error_tsk.gif"));
-		ImageDescriptor moduleDescriptor = ImageDescriptor
-				.createFromURL(getBundle().getEntry("icons/module.gif"));
-		ImageDescriptor pointerToolDescriptor = ImageDescriptor
-				.createFromURL(getBundle().getEntry("icons/arrow.gif"));
-		ImageDescriptor lineToolDescriptor = ImageDescriptor
-				.createFromURL(getBundle().getEntry("icons/line_tool.gif"));
-		ImageDescriptor applicationDescriptor = ImageDescriptor
-				.createFromURL(getBundle().getEntry("icons/application.gif"));
-		ImageDescriptor folderClosedDescriptor = ImageDescriptor
-				.createFromURL(getBundle().getEntry("icons/folder_closed.gif"));
-		ImageDescriptor folderOpenDescriptor = ImageDescriptor
-				.createFromURL(getBundle().getEntry("icons/folder_open.gif"));
-		ImageDescriptor provisioningServerDescriptor = ImageDescriptor
-				.createFromURL(getBundle().getEntry("icons/database.gif"));
-		ImageDescriptor wormholeEntryBigDescriptor = ImageDescriptor
-				.createFromURL(getBundle().getEntry("icons/wormhole-entry.gif"));
-		ImageDescriptor wormholeEntrySmallDescriptor = ImageDescriptor
-				.createFromURL(getBundle().getEntry(
-						"icons/wormhole-entry-sm.gif"));
-		ImageDescriptor personaDescriptor = ImageDescriptor
-				.createFromURL(getBundle().getEntry("icons/persona.gif"));
-		ImageDescriptor libraryDescriptor = ImageDescriptor
-				.createFromURL(getBundle().getEntry("icons/library.gif"));
-		ImageDescriptor checkboxTrueDescriptor = ImageDescriptor
-				.createFromURL(getBundle().getEntry("icons/checkbox_true.gif"));
-		ImageDescriptor checkboxFalseDescriptor = ImageDescriptor
-				.createFromURL(getBundle().getEntry("icons/checkbox_false.gif"));
-		ImageDescriptor tinySquareDescriptor = ImageDescriptor
-				.createFromURL(getBundle().getEntry("icons/tiny_square.gif"));
-		ImageDescriptor tableDescriptor = ImageDescriptor
-				.createFromURL(getBundle().getEntry("icons/table.gif"));
-		ImageDescriptor moveUpDescriptor = ImageDescriptor
-				.createFromURL(getBundle().getEntry("icons/move_up.gif"));
-		ImageDescriptor moveDownDescriptor = ImageDescriptor
-				.createFromURL(getBundle().getEntry("icons/move_down.gif"));
-		ImageDescriptor moveUpDisabledDescriptor = ImageDescriptor
-				.createFromURL(getBundle().getEntry(
-						"icons/move_up_disabled.gif"));
-		ImageDescriptor moveDownDisabledDescriptor = ImageDescriptor
-				.createFromURL(getBundle().getEntry(
-						"icons/move_down_disabled.gif"));
-		ImageDescriptor fileObjectDescriptor = ImageDescriptor
-				.createFromURL(getBundle().getEntry("icons/file_obj.gif"));
-		ImageDescriptor scriptObjectDescriptor = ImageDescriptor
-				.createFromURL(getBundle()
-						.getEntry("icons/javascript_view.gif"));
-		ImageDescriptor noscriptObjectDescriptor = ImageDescriptor
-				.createFromURL(getBundle().getEntry("icons/nojavascript.gif"));
-		ImageDescriptor lockDescriptor = ImageDescriptor
-				.createFromURL(getBundle().getEntry("icons/lock.gif"));
+		ImageDescriptor todoDescriptor = ImageDescriptor.createFromURL(getBundle().getEntry(
+				"icons/tasks_tsk.gif"));
+		ImageDescriptor warningDescriptor = ImageDescriptor.createFromURL(getBundle().getEntry(
+				"icons/warning_tsk.gif"));
+		ImageDescriptor errorDescriptor = ImageDescriptor.createFromURL(getBundle().getEntry(
+				"icons/error_tsk.gif"));
+		ImageDescriptor moduleDescriptor = ImageDescriptor.createFromURL(getBundle().getEntry(
+				"icons/module.gif"));
+		ImageDescriptor pointerToolDescriptor = ImageDescriptor.createFromURL(getBundle().getEntry(
+				"icons/arrow.gif"));
+		ImageDescriptor lineToolDescriptor = ImageDescriptor.createFromURL(getBundle().getEntry(
+				"icons/line_tool.gif"));
+		ImageDescriptor applicationDescriptor = ImageDescriptor.createFromURL(getBundle().getEntry(
+				"icons/application.gif"));
+		ImageDescriptor folderClosedDescriptor = ImageDescriptor.createFromURL(getBundle()
+				.getEntry("icons/folder_closed.gif"));
+		ImageDescriptor folderOpenDescriptor = ImageDescriptor.createFromURL(getBundle().getEntry(
+				"icons/folder_open.gif"));
+		ImageDescriptor provisioningServerDescriptor = ImageDescriptor.createFromURL(getBundle()
+				.getEntry("icons/database.gif"));
+		ImageDescriptor wormholeEntryBigDescriptor = ImageDescriptor.createFromURL(getBundle()
+				.getEntry("icons/wormhole-entry.gif"));
+		ImageDescriptor wormholeEntrySmallDescriptor = ImageDescriptor.createFromURL(getBundle()
+				.getEntry("icons/wormhole-entry-sm.gif"));
+		ImageDescriptor personaDescriptor = ImageDescriptor.createFromURL(getBundle().getEntry(
+				"icons/persona.gif"));
+		ImageDescriptor libraryDescriptor = ImageDescriptor.createFromURL(getBundle().getEntry(
+				"icons/library.gif"));
+		ImageDescriptor checkboxTrueDescriptor = ImageDescriptor.createFromURL(getBundle()
+				.getEntry("icons/checkbox_true.gif"));
+		ImageDescriptor checkboxFalseDescriptor = ImageDescriptor.createFromURL(getBundle()
+				.getEntry("icons/checkbox_false.gif"));
+		ImageDescriptor tinySquareDescriptor = ImageDescriptor.createFromURL(getBundle().getEntry(
+				"icons/tiny_square.gif"));
+		ImageDescriptor tableDescriptor = ImageDescriptor.createFromURL(getBundle().getEntry(
+				"icons/table.gif"));
+		ImageDescriptor moveUpDescriptor = ImageDescriptor.createFromURL(getBundle().getEntry(
+				"icons/move_up.gif"));
+		ImageDescriptor moveDownDescriptor = ImageDescriptor.createFromURL(getBundle().getEntry(
+				"icons/move_down.gif"));
+		ImageDescriptor moveUpDisabledDescriptor = ImageDescriptor.createFromURL(getBundle()
+				.getEntry("icons/move_up_disabled.gif"));
+		ImageDescriptor moveDownDisabledDescriptor = ImageDescriptor.createFromURL(getBundle()
+				.getEntry("icons/move_down_disabled.gif"));
+		ImageDescriptor fileObjectDescriptor = ImageDescriptor.createFromURL(getBundle().getEntry(
+				"icons/file_obj.gif"));
+		ImageDescriptor scriptObjectDescriptor = ImageDescriptor.createFromURL(getBundle()
+				.getEntry("icons/javascript_view.gif"));
+		ImageDescriptor noscriptObjectDescriptor = ImageDescriptor.createFromURL(getBundle()
+				.getEntry("icons/nojavascript.gif"));
+		ImageDescriptor lockDescriptor = ImageDescriptor.createFromURL(getBundle().getEntry(
+				"icons/lock.gif"));
 		reg.put("ICON_TASK", todoDescriptor);
 		reg.put("ICON_WARNING", warningDescriptor);
 		reg.put("ICON_ERROR", errorDescriptor);

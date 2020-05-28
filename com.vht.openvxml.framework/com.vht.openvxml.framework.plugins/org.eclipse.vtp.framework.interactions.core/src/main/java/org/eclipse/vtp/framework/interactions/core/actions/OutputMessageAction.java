@@ -39,15 +39,12 @@ public class OutputMessageAction implements IAction {
 	/**
 	 * Creates a new OutputMessageAction.
 	 * 
-	 * @param context
-	 *            The context to use.
-	 * @param conversation
-	 *            The conversation to use.
-	 * @param configuration
-	 *            The configuration to use.
+	 * @param context The context to use.
+	 * @param conversation The conversation to use.
+	 * @param configuration The configuration to use.
 	 */
-	public OutputMessageAction(IActionContext context,
-			IConversation conversation, OutputMessageConfiguration configuration) {
+	public OutputMessageAction(IActionContext context, IConversation conversation,
+			OutputMessageConfiguration configuration) {
 		this.context = context;
 		this.conversation = conversation;
 		this.configuration = configuration;
@@ -55,21 +52,17 @@ public class OutputMessageAction implements IAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.core.IAction#execute()
 	 */
 	@Override
 	public IActionResult execute() {
-		MediaConfiguration mediaConfiguration = configuration
-				.getMediaConfiguration();
+		MediaConfiguration mediaConfiguration = configuration.getMediaConfiguration();
 		if (mediaConfiguration == null
 				|| conversation.resolveOutput(
-						mediaConfiguration.getOutputConfiguration(configuration
-								.getOutputName())).size() == 0) {
-			return context.createResult(IActionResult.RESULT_NAME_DEFAULT);
-		}
-		String resultParameterName = ACTION_PREFIX
-				+ context.getActionID().replace(':', '_');
+						mediaConfiguration.getOutputConfiguration(configuration.getOutputName()))
+						.size() == 0) { return context
+				.createResult(IActionResult.RESULT_NAME_DEFAULT); }
+		String resultParameterName = ACTION_PREFIX + context.getActionID().replace(':', '_');
 		try {
 			String result = context.getParameter(resultParameterName);
 			context.clearParameter(resultParameterName);
@@ -79,8 +72,7 @@ public class OutputMessageAction implements IAction {
 				if (context.isReportingEnabled()) {
 					Dictionary props = new Hashtable();
 					props.put("event", "connection.disconnect.hangup");
-					context.report(IReporter.SEVERITY_INFO,
-							"Got disconnect during output.", props);
+					context.report(IReporter.SEVERITY_INFO, "Got disconnect during output.", props);
 				}
 				return context.createResult(IConversation.RESULT_NAME_HANGUP);
 			} else if (result != null) {
@@ -89,11 +81,9 @@ public class OutputMessageAction implements IAction {
 				if (context.isReportingEnabled()) {
 					Dictionary props = new Hashtable();
 					props.put("event", "output.message");
-					context.report(IReporter.SEVERITY_INFO, "Sending output.",
-							props);
+					context.report(IReporter.SEVERITY_INFO, "Sending output.", props);
 				}
-				conversation.createOutputMessage(configuration,
-						resultParameterName).enqueue();
+				conversation.createOutputMessage(configuration, resultParameterName).enqueue();
 				return context.createResult(IActionResult.RESULT_NAME_REPEAT);
 			}
 		} catch (RuntimeException e) {

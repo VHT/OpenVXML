@@ -64,13 +64,11 @@ public class Send extends Action {
 	}
 
 	@Override
-	public void writeWidget(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
+	public void writeWidget(ContentHandler outputHandler) throws NullPointerException, SAXException {
 		AttributesImpl attributes = new AttributesImpl();
 		writeAttributes(attributes);
 		if (gvpPrefix) {
-			outputHandler
-					.startElement(null, "gvp:send", "gvp:send", attributes);
+			outputHandler.startElement(null, "gvp:send", "gvp:send", attributes);
 			outputHandler.endElement(null, "gvp:send", "gvp:send");
 
 		} else {
@@ -90,17 +88,14 @@ public class Send extends Action {
 		// writeAttribute(attributes, null, null, "xmlns", TYPE_CDATA,
 		// namespace);
 
-		writeAttribute(attributes, null, null, "async", TYPE_CDATA,
-				Boolean.toString(async));
+		writeAttribute(attributes, null, null, "async", TYPE_CDATA, Boolean.toString(async));
 		if (contentType != null) {
-			writeAttribute(attributes, null, null, "contenttype", TYPE_CDATA,
-					contentType);
+			writeAttribute(attributes, null, null, "contenttype", TYPE_CDATA, contentType);
 		}
 		if (body != null) {
 			writeAttribute(attributes, null, null, "body", TYPE_CDATA, body);
 		} else {
-			writeAttribute(attributes, null, null, "nameList", TYPE_CDATA,
-					nameList);
+			writeAttribute(attributes, null, null, "nameList", TYPE_CDATA, nameList);
 		}
 	}
 

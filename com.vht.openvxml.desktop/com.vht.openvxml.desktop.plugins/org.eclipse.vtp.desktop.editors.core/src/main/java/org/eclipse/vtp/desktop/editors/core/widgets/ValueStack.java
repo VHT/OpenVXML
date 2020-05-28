@@ -43,8 +43,7 @@ public class ValueStack implements ToggleButton.ToggleButtonListener {
 	private String ultimateDefault = "";
 	private List<Variable> variables = new ArrayList<Variable>();
 
-	public ValueStack(String settingName, String ultimateDefault,
-			List<Variable> variables) {
+	public ValueStack(String settingName, String ultimateDefault, List<Variable> variables) {
 		this.settingName = settingName;
 		this.ultimateDefault = ultimateDefault;
 		this.variables = variables;
@@ -64,8 +63,7 @@ public class ValueStack implements ToggleButton.ToggleButtonListener {
 		gd.horizontalAlignment = SWT.RIGHT;
 		mainComp.setLayoutData(gd);
 		stackComp = new Composite(mainComp, SWT.NONE);
-		stackComp.setBackground(parent.getDisplay().getSystemColor(
-				SWT.COLOR_DARK_GREEN));// (parent.getBackground());
+		stackComp.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_DARK_GREEN));// (parent.getBackground());
 		stackComp.setLayout(stackLayout = new StackLayout());
 		stackComp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
@@ -216,8 +214,7 @@ public class ValueStack implements ToggleButton.ToggleButtonListener {
 			defaultButton.setVisible(true);
 			mainComp.layout(true, true);
 		}
-		PropertyBindingItem pbi = (PropertyBindingItem) setting
-				.getBindingItem();
+		PropertyBindingItem pbi = (PropertyBindingItem) setting.getBindingItem();
 		if (pbi == null && setting.isInherited()) // use default settings
 		{
 			if (setting.hasParent()) {
@@ -284,25 +281,21 @@ public class ValueStack implements ToggleButton.ToggleButtonListener {
 		if (defaultButton.isSelected()) {
 			setting.setBindingItem(null);
 		} else if (variableButton != null && variableButton.isSelected()) {
-			PropertyBindingItem pbi = (PropertyBindingItem) setting
-					.getBindingItem();
+			PropertyBindingItem pbi = (PropertyBindingItem) setting.getBindingItem();
 			if (pbi == null || setting.isInherited()) {
 				pbi = new PropertyBindingItem();
 			}
-			pbi.setVariable(variableCombo.getItem(variableCombo
-					.getSelectionIndex()));
+			pbi.setVariable(variableCombo.getItem(variableCombo.getSelectionIndex()));
 			setting.setBindingItem(pbi);
 		} else if (expressionButton != null && expressionButton.isSelected()) {
-			PropertyBindingItem pbi = (PropertyBindingItem) setting
-					.getBindingItem();
+			PropertyBindingItem pbi = (PropertyBindingItem) setting.getBindingItem();
 			if (pbi == null || setting.isInherited()) {
 				pbi = new PropertyBindingItem();
 			}
 			pbi.setExpression(expressionText.getText());
 			setting.setBindingItem(pbi);
 		} else {
-			PropertyBindingItem pbi = (PropertyBindingItem) setting
-					.getBindingItem();
+			PropertyBindingItem pbi = (PropertyBindingItem) setting.getBindingItem();
 			if (pbi == null || setting.isInherited()) {
 				pbi = new PropertyBindingItem();
 			}
@@ -315,13 +308,11 @@ public class ValueStack implements ToggleButton.ToggleButtonListener {
 	public void toggleButtonSelected(ToggleButton button) {
 		try {
 			if (button == defaultButton) {
-				PropertyBindingItem currentItem = (PropertyBindingItem) setting
-						.getBindingItem();
+				PropertyBindingItem currentItem = (PropertyBindingItem) setting.getBindingItem();
 				setting.setBindingItem(null);
-				PropertyBindingItem inheritedItem = (PropertyBindingItem) setting
-						.getBindingItem();
-				staticValue.setText(inheritedItem == null ? ultimateDefault
-						: inheritedItem.getValue());
+				PropertyBindingItem inheritedItem = (PropertyBindingItem) setting.getBindingItem();
+				staticValue.setText(inheritedItem == null ? ultimateDefault : inheritedItem
+						.getValue());
 				setting.setBindingItem(currentItem);
 				stackLayout.topControl = staticComp;
 				staticButton.setSelected(false);
@@ -358,9 +349,8 @@ public class ValueStack implements ToggleButton.ToggleButtonListener {
 			return valueControl.getValue();
 		} else if (variableButton != null && variableButton.isSelected()) {
 			return variableCombo.getItem(variableCombo.getSelectionIndex());
-		} else if (expressionButton != null && expressionButton.isSelected()) {
-			return expressionText.getText();
-		}
+		} else if (expressionButton != null && expressionButton.isSelected()) { return expressionText
+				.getText(); }
 		return null;
 	}
 

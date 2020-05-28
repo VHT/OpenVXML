@@ -16,7 +16,6 @@ import org.w3c.dom.Element;
 
 /**
  * @author lonnie
- * 
  */
 public class BuiltInBooleanInputGrammar extends BuiltInInputGrammar {
 	public static final String ELEMENT_NAME = "builtin-boolean-input-grammar"; //$NON-NLS-1$
@@ -72,9 +71,7 @@ public class BuiltInBooleanInputGrammar extends BuiltInInputGrammar {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.media.CustomInputGrammar#
+	 * @see org.eclipse.vtp.framework.interactions.core.media.CustomInputGrammar#
 	 * getCustomInputData()
 	 */
 	@Override
@@ -84,7 +81,6 @@ public class BuiltInBooleanInputGrammar extends BuiltInInputGrammar {
 
 	@Override
 	public String toString() {
-		return "BuiltIn:Boolean [yes key=" + this.yesDigit + ", no key="
-				+ this.noDigit + "]";
+		return "BuiltIn:Boolean [yes key=" + this.yesDigit + ", no key=" + this.noDigit + "]";
 	}
 }

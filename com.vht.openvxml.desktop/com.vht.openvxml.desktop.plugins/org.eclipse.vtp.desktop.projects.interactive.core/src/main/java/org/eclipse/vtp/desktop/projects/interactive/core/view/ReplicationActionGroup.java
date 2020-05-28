@@ -21,14 +21,12 @@ import org.eclipse.ui.navigator.ICommonMenuConstants;
 
 /**
  * @since 3.2
- * 
  */
 public class ReplicationActionGroup extends ActionGroup {
 	private Shell shell;
 	private ReplicateLanguageAction replicateAction;
 
 	/**
-	 * 
 	 * @param aShell
 	 */
 	public ReplicationActionGroup(Shell aShell) {
@@ -38,8 +36,7 @@ public class ReplicationActionGroup extends ActionGroup {
 
 	@Override
 	public void fillContextMenu(IMenuManager menu) {
-		replicateAction.selectionChanged((IStructuredSelection) getContext()
-				.getSelection());
+		replicateAction.selectionChanged((IStructuredSelection) getContext().getSelection());
 		menu.appendToGroup(ICommonMenuConstants.GROUP_SOURCE, replicateAction);
 	}
 

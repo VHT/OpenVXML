@@ -32,8 +32,7 @@ public class OneOf extends Iota {
 	/**
 	 * Creates a new OneOf.
 	 */
-	public OneOf() {
-	}
+	public OneOf() {}
 
 	/**
 	 * Returns the list of items in this set.
@@ -47,14 +46,11 @@ public class OneOf extends Iota {
 	/**
 	 * Adds an option to this set.
 	 * 
-	 * @param item
-	 *            The item to add.
-	 * @throws NullPointerException
-	 *             If the specified item is <code>null</code>.
+	 * @param item The item to add.
+	 * @throws NullPointerException If the specified item is <code>null</code>.
 	 */
 	public void addItem(Item item) throws NullPointerException {
-		if (item == null) {
-			throw new NullPointerException("item"); //$NON-NLS-1$
+		if (item == null) { throw new NullPointerException("item"); //$NON-NLS-1$
 		}
 		items.add(item);
 	}
@@ -62,35 +58,28 @@ public class OneOf extends Iota {
 	/**
 	 * Remove an option from this set.
 	 * 
-	 * @param item
-	 *            The item to remove.
-	 * @throws NullPointerException
-	 *             If the specified item is <code>null</code>.
+	 * @param item The item to remove.
+	 * @throws NullPointerException If the specified item is <code>null</code>.
 	 */
 	public void removeItem(Item item) throws NullPointerException {
-		if (item == null) {
-			throw new NullPointerException("item"); //$NON-NLS-1$
+		if (item == null) { throw new NullPointerException("item"); //$NON-NLS-1$
 		}
 		items.remove(item);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.core.output.Widget#writeWidget(
 	 * org.xml.sax.ContentHandler)
 	 */
 	@Override
-	public void writeWidget(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
-		if (outputHandler == null) {
-			throw new NullPointerException("outputHandler"); //$NON-NLS-1$
+	public void writeWidget(ContentHandler outputHandler) throws NullPointerException, SAXException {
+		if (outputHandler == null) { throw new NullPointerException("outputHandler"); //$NON-NLS-1$
 		}
 		// Start the element.
 		AttributesImpl attributes = new AttributesImpl();
 		writeAttributes(attributes);
-		outputHandler.startElement(NAMESPACE_URI_VXML, NAME_ONE_OF,
-				NAME_ONE_OF, attributes);
+		outputHandler.startElement(NAMESPACE_URI_VXML, NAME_ONE_OF, NAME_ONE_OF, attributes);
 		// Write any children.
 		writeItems(outputHandler);
 		// End the element.
@@ -100,26 +89,20 @@ public class OneOf extends Iota {
 	/**
 	 * Write the attribute members of this set to the supplied set.
 	 * 
-	 * @param attributes
-	 *            The attribute set to write to.
-	 * @throws NullPointerException
-	 *             If the supplied attribute set is <code>null</code>.
+	 * @param attributes The attribute set to write to.
+	 * @throws NullPointerException If the supplied attribute set is <code>null</code>.
 	 */
-	protected void writeAttributes(AttributesImpl attributes) {
-	}
+	protected void writeAttributes(AttributesImpl attributes) {}
 
 	/**
 	 * Write the content of this set to the specified content handler.
 	 * 
-	 * @param outputHandler
-	 *            The content handler to write to.
-	 * @throws NullPointerException
-	 *             If the supplied content handler is <code>null</code>.
-	 * @throws SAXException
-	 *             If the writing of any of the items fails.
+	 * @param outputHandler The content handler to write to.
+	 * @throws NullPointerException If the supplied content handler is <code>null</code>.
+	 * @throws SAXException If the writing of any of the items fails.
 	 */
-	protected void writeItems(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
+	protected void writeItems(ContentHandler outputHandler) throws NullPointerException,
+			SAXException {
 		writeChildren(outputHandler, items);
 	}
 }

@@ -21,8 +21,7 @@ import org.w3c.dom.NodeList;
  * 
  * @author Lonnie Pryor
  */
-public class OutputMessageConfiguration implements IConfiguration,
-		InteractionsConstants {
+public class OutputMessageConfiguration implements IConfiguration, InteractionsConstants {
 	/** The content factory to use. */
 	private final IContentFactory contentFactory;
 	/** The name of the output item to play. */
@@ -34,8 +33,7 @@ public class OutputMessageConfiguration implements IConfiguration,
 	/**
 	 * Creates a new OutputMessageConfiguration.
 	 * 
-	 * @param contentFactory
-	 *            The content factory to use.
+	 * @param contentFactory The content factory to use.
 	 */
 	public OutputMessageConfiguration(IContentFactory contentFactory) {
 		this.contentFactory = contentFactory;
@@ -53,8 +51,7 @@ public class OutputMessageConfiguration implements IConfiguration,
 	/**
 	 * Sets the name of the output item to play.
 	 * 
-	 * @param outputName
-	 *            The name of the output item to play.
+	 * @param outputName The name of the output item to play.
 	 */
 	public void setOutputName(String outputName) {
 		this.outputName = outputName == null ? "" : outputName; //$NON-NLS-1$
@@ -69,11 +66,11 @@ public class OutputMessageConfiguration implements IConfiguration,
 	}
 
 	/**
-	 * Returns the media configuration for this message or <code>null</code> if
-	 * no such configuration is registered.
+	 * Returns the media configuration for this message or <code>null</code> if no such
+	 * configuration is registered.
 	 * 
-	 * @return The media configuration for this message or <code>null</code> if
-	 *         no such configuration is registered.
+	 * @return The media configuration for this message or <code>null</code> if no such
+	 *         configuration is registered.
 	 */
 	public MediaConfiguration getMediaConfiguration() {
 		return mediaConfiguration;
@@ -82,9 +79,8 @@ public class OutputMessageConfiguration implements IConfiguration,
 	/**
 	 * Sets the media configuration for this message.
 	 * 
-	 * @param mediaConfiguration
-	 *            The media configuration for this message or <code>null</code>
-	 *            to remove the configuration.
+	 * @param mediaConfiguration The media configuration for this message or <code>null</code> to
+	 *            remove the configuration.
 	 */
 	public void setMediaConfiguration(MediaConfiguration mediaConfiguration) {
 		this.mediaConfiguration = mediaConfiguration;
@@ -92,17 +88,13 @@ public class OutputMessageConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.core.IConfiguration#load(org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(org.w3c.dom.Element)
 	 */
 	@Override
 	public void load(Element configurationElement) {
 		outputName = configurationElement.getAttribute(NAME_OUTPUT_NAME);
-		secured = Boolean.parseBoolean(configurationElement
-				.getAttribute(NAME_SECURED));
-		NodeList elements = configurationElement.getElementsByTagNameNS(
-				NAMESPACE_URI, NAME_MEDIA);
+		secured = Boolean.parseBoolean(configurationElement.getAttribute(NAME_SECURED));
+		NodeList elements = configurationElement.getElementsByTagNameNS(NAMESPACE_URI, NAME_MEDIA);
 		mediaConfiguration = null;
 		if (elements.getLength() == 0) {
 			mediaConfiguration = null;
@@ -114,25 +106,20 @@ public class OutputMessageConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.core.IConfiguration#save(org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(org.w3c.dom.Element)
 	 */
 	@Override
 	public void save(Element configurationElement) {
 		configurationElement.setAttribute(NAME_OUTPUT_NAME, outputName);
-		configurationElement.setAttribute(NAME_SECURED,
-				Boolean.toString(secured));
-		if (mediaConfiguration == null) {
-			return;
-		}
+		configurationElement.setAttribute(NAME_SECURED, Boolean.toString(secured));
+		if (mediaConfiguration == null) { return; }
 		String mediaName = NAME_MEDIA;
 		String prefix = configurationElement.getPrefix();
 		if (prefix != null && prefix.length() > 0) {
 			mediaName = prefix + ":" + mediaName; //$NON-NLS-1$
 		}
-		Element element = configurationElement.getOwnerDocument()
-				.createElementNS(NAMESPACE_URI, mediaName);
+		Element element = configurationElement.getOwnerDocument().createElementNS(NAMESPACE_URI,
+				mediaName);
 		mediaConfiguration.save(element);
 		configurationElement.appendChild(element);
 	}

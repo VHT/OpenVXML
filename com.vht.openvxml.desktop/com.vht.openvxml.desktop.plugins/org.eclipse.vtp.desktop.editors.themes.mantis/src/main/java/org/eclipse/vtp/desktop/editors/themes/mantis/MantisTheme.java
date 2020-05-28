@@ -21,8 +21,8 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesignConnector;
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElement;
 
 /**
- * The main entry point for the Mantis theme. This class acts as a factory for
- * all the Mantis theme frame types.
+ * The main entry point for the Mantis theme. This class acts as a factory for all the Mantis theme
+ * frame types.
  * 
  * @author trip
  */
@@ -30,9 +30,7 @@ public class MantisTheme implements Theme {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.theme.Theme#createCanvasFrame(org
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.Theme#createCanvasFrame(org
 	 * .eclipse.vtp.desktop.editors.core.model.UICanvas)
 	 */
 	@Override
@@ -42,24 +40,20 @@ public class MantisTheme implements Theme {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.theme.Theme#createConnectorFrame
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.Theme#createConnectorFrame
 	 * (org.eclipse.vtp.desktop.editors.core.theme.ElementFrame,
 	 * org.eclipse.vtp.desktop.editors.core.theme.ElementFrame,
 	 * org.eclipse.vtp.desktop.editors.core.model.UIConnector)
 	 */
 	@Override
-	public ConnectorFrame createConnectorFrame(ElementFrame source,
-			ElementFrame destination, IDesignConnector connector) {
+	public ConnectorFrame createConnectorFrame(ElementFrame source, ElementFrame destination,
+			IDesignConnector connector) {
 		return new MantisConnectorFrame(source, destination, connector);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.theme.Theme#createElementFrame(org
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.Theme#createElementFrame(org
 	 * .eclipse.vtp.desktop.editors.core.model.UIElement)
 	 */
 	@Override
@@ -69,7 +63,6 @@ public class MantisTheme implements Theme {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.editors.core.theme.Theme#getName()
 	 */
 	@Override
@@ -79,7 +72,6 @@ public class MantisTheme implements Theme {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.editors.core.theme.Theme#getId()
 	 */
 	@Override

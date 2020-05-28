@@ -14,8 +14,7 @@ package org.eclipse.vtp.desktop.editors.themes.core;
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesignConnector;
 
 /**
- * Defines the basic functions available from themed frames that represent
- * design connectors.
+ * Defines the basic functions available from themed frames that represent design connectors.
  * 
  * @author trip
  */
@@ -26,15 +25,12 @@ public interface ConnectorFrame extends ComponentFrame {
 	public IDesignConnector getDesignConnector();
 
 	/**
-	 * If no mid point is present at the given x,y location, a new mid point is
-	 * created on the design connector rendered by this frame. If a mid point
-	 * already exists at the location, the mid point is removed from the design
-	 * connector.
+	 * If no mid point is present at the given x,y location, a new mid point is created on the
+	 * design connector rendered by this frame. If a mid point already exists at the location, the
+	 * mid point is removed from the design connector.
 	 * 
-	 * @param x
-	 *            The x coordinate for the mid point
-	 * @param y
-	 *            The y coordinate for the mid point
+	 * @param x The x coordinate for the mid point
+	 * @param y The y coordinate for the mid point
 	 */
 	public void toggleMidPoint(int x, int y);
 }

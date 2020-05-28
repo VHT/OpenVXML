@@ -92,11 +92,8 @@ public class Design implements IDesign, IDesignComponentListener {
 
 	@Override
 	public void setOrientation(int orientation) {
-		if (orientation != IDesignConstants.PORTRAIT
-				&& orientation != IDesignConstants.LANDSCAPE) {
-			throw new IllegalArgumentException(
-					"Canvas orientation must be one of IDesignConstants.PORTRAIT | IDesignConstants.LANDSCAPE");
-		}
+		if (orientation != IDesignConstants.PORTRAIT && orientation != IDesignConstants.LANDSCAPE) { throw new IllegalArgumentException(
+				"Canvas orientation must be one of IDesignConstants.PORTRAIT | IDesignConstants.LANDSCAPE"); }
 		this.orientation = orientation;
 		fireOrientationChanged();
 	}
@@ -109,16 +106,14 @@ public class Design implements IDesign, IDesignComponentListener {
 
 	@Override
 	public int getWidth() {
-		return orientation == IDesignConstants.PORTRAIT ? this.paperSize
-				.getPortraitPixelWidth() : this.paperSize
-				.getLandscapePixelWidth();
+		return orientation == IDesignConstants.PORTRAIT ? this.paperSize.getPortraitPixelWidth()
+				: this.paperSize.getLandscapePixelWidth();
 	}
 
 	@Override
 	public int getHeight() {
-		return orientation == IDesignConstants.PORTRAIT ? this.paperSize
-				.getPortraitPixelHeight() : this.paperSize
-				.getLandscapePixelHeight();
+		return orientation == IDesignConstants.PORTRAIT ? this.paperSize.getPortraitPixelHeight()
+				: this.paperSize.getLandscapePixelHeight();
 	}
 
 	@Override
@@ -158,9 +153,7 @@ public class Design implements IDesign, IDesignComponentListener {
 	public IDesignElement getDesignElement(String id) {
 		for (int i = 0; i < elements.size(); i++) {
 			DesignElement e = elements.get(i);
-			if (e.getId().equals(id)) {
-				return e;
-			}
+			if (e.getId().equals(id)) { return e; }
 		}
 		return null;
 	}
@@ -189,9 +182,7 @@ public class Design implements IDesign, IDesignComponentListener {
 	public IDesignConnector getDesignConnector(String id) {
 		for (int i = 0; i < connectors.size(); i++) {
 			DesignConnector c = connectors.get(i);
-			if (c.getId().equals(id)) {
-				return c;
-			}
+			if (c.getId().equals(id)) { return c; }
 		}
 		return null;
 	}
@@ -201,8 +192,7 @@ public class Design implements IDesign, IDesignComponentListener {
 	 */
 	@Override
 	public void removeDesignElement(IDesignElement element) {
-		List<IDesignElementConnectionPoint> conrecs = element
-				.getConnectorRecords();
+		List<IDesignElementConnectionPoint> conrecs = element.getConnectorRecords();
 		for (IDesignElementConnectionPoint cr : conrecs) {
 			if (cr.getDesignConnector() != null) {
 				deleteComponent(cr.getDesignConnector());
@@ -282,20 +272,15 @@ public class Design implements IDesign, IDesignComponentListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.ComponentListener#componentChanged
+	 * @see org.eclipse.vtp.desktop.model.core.ComponentListener#componentChanged
 	 * (org.eclipse.vtp.desktop.model.core.Component)
 	 */
 	@Override
-	public void componentChanged(IDesignComponent component) {
-	}
+	public void componentChanged(IDesignComponent component) {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.ComponentListener#componentDeleted
+	 * @see org.eclipse.vtp.desktop.model.core.ComponentListener#componentDeleted
 	 * (org.eclipse.vtp.desktop.model.core.Component)
 	 */
 	@Override
@@ -367,15 +352,12 @@ public class Design implements IDesign, IDesignComponentListener {
 	}
 
 	@Override
-	public List<Variable> getVariablesFor(IDesignElement designElement,
-			boolean localOnly) {
+	public List<Variable> getVariablesFor(IDesignElement designElement, boolean localOnly) {
 		Map<String, DesignElement> visited = new HashMap<String, DesignElement>();
-		String key = designElement.getDesign().getDesignId()
-				+ designElement.getId();
+		String key = designElement.getDesign().getDesignId() + designElement.getId();
 		visited.put(key, (DesignElement) designElement);
 		Map<String, Variable> variables = new HashMap<String, Variable>();
-		getVariablesFor0((DesignElement) designElement, visited, variables,
-				localOnly);
+		getVariablesFor0((DesignElement) designElement, visited, variables, localOnly);
 		if (!localOnly) {
 			System.err.println("not local only");
 			List<IDesignDocument> workingCopies = new ArrayList<IDesignDocument>();
@@ -384,23 +366,18 @@ public class Design implements IDesign, IDesignComponentListener {
 			IOpenVXMLProject project = getDocument().getProject();
 			IWorkflowProjectAspect aspect = (IWorkflowProjectAspect) project
 					.getProjectAspect(IWorkflowProjectAspect.ASPECT_ID);
-			WorkflowTraversalHelper wth = new WorkflowTraversalHelper(aspect,
-					workingCopies);
-			List<IDesignEntryPoint> entryPoints = DesignTraversalHelper
-					.getUpStreamDesignElements(designElement,
-							IDesignEntryPoint.class);
+			WorkflowTraversalHelper wth = new WorkflowTraversalHelper(aspect, workingCopies);
+			List<IDesignEntryPoint> entryPoints = DesignTraversalHelper.getUpStreamDesignElements(
+					designElement, IDesignEntryPoint.class);
 			for (IDesignEntryPoint entryPoint : entryPoints) {
-				System.out.println("found entry point: " + entryPoint.getId()
-						+ " " + entryPoint.getName());
+				System.out.println("found entry point: " + entryPoint.getId() + " "
+						+ entryPoint.getName());
 			}
-			List<IDesignExitPoint> exitPoints = wth
-					.getUpStreamExitPoints(entryPoints);
+			List<IDesignExitPoint> exitPoints = wth.getUpStreamExitPoints(entryPoints);
 			for (IDesignExitPoint exitPoint : exitPoints) {
-				System.out.println("processing up stream exit points: "
-						+ exitPoint.getId() + " " + exitPoint.getTargetId()
-						+ " " + exitPoint.getTargetName());
-				List<Variable> exitVars = exitPoint
-						.getExportedDesignVariables();
+				System.out.println("processing up stream exit points: " + exitPoint.getId() + " "
+						+ exitPoint.getTargetId() + " " + exitPoint.getTargetName());
+				List<Variable> exitVars = exitPoint.getExportedDesignVariables();
 				for (Variable v : exitVars) {
 					variables.put(v.getName(), v);
 				}
@@ -409,28 +386,23 @@ public class Design implements IDesign, IDesignComponentListener {
 		return new LinkedList<Variable>(variables.values());
 	}
 
-	private void getVariablesFor0(DesignElement designElement,
-			Map<String, DesignElement> visited,
+	private void getVariablesFor0(DesignElement designElement, Map<String, DesignElement> visited,
 			Map<String, Variable> variables, boolean localOnly) {
-		System.err.println("getting variables for: " + designElement.getName()
-				+ "[" + designElement.getId() + "]");
-		List<IDesignConnector> incomingConnectors = designElement
-				.getIncomingConnectors();
+		System.err.println("getting variables for: " + designElement.getName() + "["
+				+ designElement.getId() + "]");
+		List<IDesignConnector> incomingConnectors = designElement.getIncomingConnectors();
 		for (IDesignConnector connector : incomingConnectors) {
 			DesignElement sourceElement = (DesignElement) connector.getOrigin();
-			String key = sourceElement.getDesign().getDesignId()
-					+ sourceElement.getId();
+			String key = sourceElement.getDesign().getDesignId() + sourceElement.getId();
 			if (visited.get(key) == null) // has not been visited
 			{
 				visited.put(key, sourceElement);
 				getVariablesFor0(sourceElement, visited, variables, localOnly);
 			}
-			List<IDesignElementConnectionPoint> connectionPoints = connector
-					.getConnectionPoints();
+			List<IDesignElementConnectionPoint> connectionPoints = connector.getConnectionPoints();
 			for (IDesignElementConnectionPoint connectionPoint : connectionPoints) {
-				List<Variable> exportedVariables = sourceElement
-						.getOutgoingVariables(connectionPoint.getName(),
-								localOnly);
+				List<Variable> exportedVariables = sourceElement.getOutgoingVariables(
+						connectionPoint.getName(), localOnly);
 				for (Variable var : exportedVariables) {
 					// since this is a depth first traversal, just overwrite
 					// what's there already
@@ -438,39 +410,31 @@ public class Design implements IDesign, IDesignComponentListener {
 				}
 			}
 		}
-		List<IExitBroadcastReceiver> receivers = designElement
-				.getExitBroadcastReceivers();
+		List<IExitBroadcastReceiver> receivers = designElement.getExitBroadcastReceivers();
 		if (!receivers.isEmpty()) {
 			System.err.println("has receivers");
-			for (IDesignElement de : designElement.getDesign()
-					.getDesignElements()) {
+			for (IDesignElement de : designElement.getDesign().getDesignElements()) {
 				if (de == designElement) {
 					continue;
 				}
-				for (IDesignElementConnectionPoint point : de
-						.getConnectorRecords()) {
+				for (IDesignElementConnectionPoint point : de.getConnectorRecords()) {
 					if (point.getDesignConnector() == null) {
-						System.err.println("empty connector: "
-								+ point.getName());
+						System.err.println("empty connector: " + point.getName());
 						for (IExitBroadcastReceiver receiver : receivers) {
-							if (point.getName().equals(
-									receiver.getExitPattern())) {
+							if (point.getName().equals(receiver.getExitPattern())) {
 								System.err.println("found matching receiver");
-								System.err.println("design element: "
-										+ de.getName() + " [" + de.getId()
-										+ "]");
-								String key = de.getDesign().getDesignId()
-										+ de.getId();
+								System.err.println("design element: " + de.getName() + " ["
+										+ de.getId() + "]");
+								String key = de.getDesign().getDesignId() + de.getId();
 								if (visited.get(key) == null) // has not been
 																// visited
 								{
 									visited.put(key, (DesignElement) de);
-									getVariablesFor0((DesignElement) de,
-											visited, variables, localOnly);
+									getVariablesFor0((DesignElement) de, visited, variables,
+											localOnly);
 								}
-								List<Variable> exportedVariables = de
-										.getOutgoingVariables(point.getName(),
-												localOnly);
+								List<Variable> exportedVariables = de.getOutgoingVariables(point
+										.getName(), localOnly);
 								for (Variable var : exportedVariables) {
 									// since this is a depth first traversal,
 									// just overwrite what's there already
@@ -485,17 +449,15 @@ public class Design implements IDesign, IDesignComponentListener {
 	}
 
 	@Override
-	public List<Variable> getVariablesFrom(IDesignElement designElement,
-			String exit) {
+	public List<Variable> getVariablesFrom(IDesignElement designElement, String exit) {
 		return getVariablesFrom(designElement, exit, false);
 	}
 
 	@Override
-	public List<Variable> getVariablesFrom(IDesignElement designElement,
-			String exit, boolean localOnly) {
+	public List<Variable> getVariablesFrom(IDesignElement designElement, String exit,
+			boolean localOnly) {
 		List<Variable> variables = getVariablesFor(designElement, localOnly);
-		List<Variable> elementVariables = designElement
-				.getOutgoingVariables(exit);
+		List<Variable> elementVariables = designElement.getOutgoingVariables(exit);
 		for (Variable v : elementVariables) {
 			for (Variable v1 : variables) {
 				if (v1.getName().equals(v.getName())) {

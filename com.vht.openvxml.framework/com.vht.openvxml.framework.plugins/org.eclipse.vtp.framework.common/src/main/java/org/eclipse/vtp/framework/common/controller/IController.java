@@ -16,8 +16,8 @@ import org.eclipse.vtp.framework.common.configurations.DispatchConfiguration;
 import org.eclipse.vtp.framework.common.configurations.ExitConfiguration;
 
 /**
- * An service that can be used by components in the process engine to influence
- * the actions of the external process controller.
+ * An service that can be used by components in the process engine to influence the actions of the
+ * external process controller.
  * 
  * @author Lonnie Pryor
  */
@@ -25,10 +25,8 @@ public interface IController {
 	/**
 	 * Creates an exit dispatcher for the specified configuration.
 	 * 
-	 * @param configuration
-	 *            The configuration to apply to the dispatcher.
-	 * @param assignments
-	 *            TODO
+	 * @param configuration The configuration to apply to the dispatcher.
+	 * @param assignments TODO
 	 * @return A new dispatcher for the specified configuration.
 	 */
 	IExitDispatcher createExit(ExitConfiguration configuration,
@@ -37,8 +35,7 @@ public interface IController {
 	/**
 	 * Creates a forward dispatcher for the specified configuration.
 	 * 
-	 * @param configuration
-	 *            The configuration to apply to the dispatcher.
+	 * @param configuration The configuration to apply to the dispatcher.
 	 * @return A new dispatcher for the specified configuration.
 	 */
 	IForwardDispatcher createForward(DispatchConfiguration configuration);
@@ -46,8 +43,7 @@ public interface IController {
 	/**
 	 * Creates an include dispatcher for the specified configuration.
 	 * 
-	 * @param configuration
-	 *            The configuration to apply to the dispatcher.
+	 * @param configuration The configuration to apply to the dispatcher.
 	 * @return A new dispatcher for the specified configuration.
 	 */
 	IIncludeDispatcher createInclude(DispatchConfiguration configuration);

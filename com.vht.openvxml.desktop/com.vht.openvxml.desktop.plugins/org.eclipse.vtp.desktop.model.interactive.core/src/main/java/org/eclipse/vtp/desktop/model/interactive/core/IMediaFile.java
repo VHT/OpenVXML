@@ -17,22 +17,19 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 
 /**
- * This abstract interface represents a generic media file resource. The
- * creation of new media files is performed through the intended parent media
- * container. Currently there are two specializations of this interface:
- * <code>IAudioFile</code> and <code>IGrammarFile</code>.
+ * This abstract interface represents a generic media file resource. The creation of new media files
+ * is performed through the intended parent media container. Currently there are two specializations
+ * of this interface: <code>IAudioFile</code> and <code>IGrammarFile</code>.
  *
  * @author Trip Gilman
  * @version 2.0
  */
 public interface IMediaFile extends IMediaResource {
 	/**
-	 * Opens this media file resource and returns an <code>InputStream</code> to
-	 * it's contents.
+	 * Opens this media file resource and returns an <code>InputStream</code> to it's contents.
 	 *
 	 * @return An input stream to the resource contents
-	 * @throws CoreException
-	 *             If an error occured while opening the resource
+	 * @throws CoreException If an error occured while opening the resource
 	 */
 	public InputStream open() throws CoreException;
 
@@ -40,8 +37,7 @@ public interface IMediaFile extends IMediaResource {
 	 * Returns the length of this media resource in number of bytes.
 	 *
 	 * @return The number of bytes contained in this resource
-	 * @throws CoreException
-	 *             If an error occured while calculating the file length
+	 * @throws CoreException If an error occured while calculating the file length
 	 */
 	public long length() throws CoreException;
 

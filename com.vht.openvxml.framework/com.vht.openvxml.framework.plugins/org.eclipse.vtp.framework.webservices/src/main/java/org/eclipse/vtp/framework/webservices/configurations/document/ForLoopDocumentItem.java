@@ -11,8 +11,7 @@ public class ForLoopDocumentItem extends DocumentItemContainer {
 	private String conditional = "";
 	private String transform = "";
 
-	public ForLoopDocumentItem() {
-	}
+	public ForLoopDocumentItem() {}
 
 	public String getType() {
 		return type;
@@ -37,8 +36,7 @@ public class ForLoopDocumentItem extends DocumentItemContainer {
 		this.conditional = "";
 	}
 
-	public void setTraditional(String varName, String conditional,
-			String transform) {
+	public void setTraditional(String varName, String conditional, String transform) {
 		type = TRADITIONAL;
 		this.varName = varName;
 		this.conditional = conditional;
@@ -47,8 +45,8 @@ public class ForLoopDocumentItem extends DocumentItemContainer {
 
 	@Override
 	public Element createConfigurationElement(Element parentElement) {
-		Element conditionalItemElement = parentElement.getOwnerDocument()
-				.createElementNS(null, "for-loop-item");
+		Element conditionalItemElement = parentElement.getOwnerDocument().createElementNS(null,
+				"for-loop-item");
 		parentElement.appendChild(conditionalItemElement);
 		return conditionalItemElement;
 	}

@@ -33,19 +33,15 @@ public class BrandConfiguration implements IConfiguration, CommonConstants {
 	/**
 	 * Creates a new BrandRegistryConfiguration.
 	 */
-	public BrandConfiguration() {
-	}
+	public BrandConfiguration() {}
 
 	/**
 	 * Adds a child to this brand.
 	 * 
-	 * @param child
-	 *            The child to add.
+	 * @param child The child to add.
 	 */
 	public void addChild(BrandConfiguration child) {
-		if (child == null) {
-			return;
-		}
+		if (child == null) { return; }
 		children.add(child);
 	}
 
@@ -73,17 +69,15 @@ public class BrandConfiguration implements IConfiguration, CommonConstants {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#load( org.w3c.dom.Element)
 	 */
 	@Override
 	public void load(Element configurationElement) {
 		id = configurationElement.getAttribute(NAME_ID);
 		name = configurationElement.getAttribute(NAME_NAME);
 		children.clear();
-		final NodeList list = configurationElement.getElementsByTagNameNS(
-				NAMESPACE_URI, NAME_BRAND);
+		final NodeList list = configurationElement
+				.getElementsByTagNameNS(NAMESPACE_URI, NAME_BRAND);
 		for (int i = 0; i < list.getLength(); ++i) {
 			final BrandConfiguration child = new BrandConfiguration();
 			child.load((Element) list.item(i));
@@ -94,8 +88,7 @@ public class BrandConfiguration implements IConfiguration, CommonConstants {
 	/**
 	 * Removes a child from this brand.
 	 * 
-	 * @param child
-	 *            The child to remove.
+	 * @param child The child to remove.
 	 */
 	public void removeChild(BrandConfiguration child) {
 		children.remove(child);
@@ -103,9 +96,7 @@ public class BrandConfiguration implements IConfiguration, CommonConstants {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#save( org.w3c.dom.Element)
 	 */
 	@Override
 	public void save(Element configurationElement) {
@@ -118,9 +109,8 @@ public class BrandConfiguration implements IConfiguration, CommonConstants {
 				brandName = prefix + ":" + brandName; //$NON-NLS-1$
 			}
 			for (final BrandConfiguration child : children) {
-				final Element childElement = configurationElement
-						.getOwnerDocument().createElementNS(NAMESPACE_URI,
-								brandName);
+				final Element childElement = configurationElement.getOwnerDocument()
+						.createElementNS(NAMESPACE_URI, brandName);
 				child.save(childElement);
 				configurationElement.appendChild(childElement);
 			}
@@ -128,18 +118,15 @@ public class BrandConfiguration implements IConfiguration, CommonConstants {
 	}
 
 	public void setId(String id) {
-		if (id == null || id.equals("")) {
-			throw new IllegalArgumentException(
-					"Brand Id cannont be null or the empty string.");
-		}
+		if (id == null || id.equals("")) { throw new IllegalArgumentException(
+				"Brand Id cannont be null or the empty string."); }
 		this.id = id;
 	}
 
 	/**
 	 * Sets the name of this brand.
 	 * 
-	 * @param name
-	 *            The name to name of this brand.
+	 * @param name The name to name of this brand.
 	 */
 	public void setName(String name) {
 		this.name = name == null ? "" : name; //$NON-NLS-1$;

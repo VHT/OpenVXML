@@ -66,16 +66,14 @@ import com.openmethods.openvxml.desktop.model.workflow.design.Variable;
  * The graphical user interface used to configure an advanced transfer module
  */
 @SuppressWarnings("restriction")
-public class AdvancedTransferGeneralPropertiesPanel extends
-		DesignElementPropertiesPanel {
+public class AdvancedTransferGeneralPropertiesPanel extends DesignElementPropertiesPanel {
 	GenericBindingManager bindingManager;
 	IBrand currentBrand;
 	String currentLanguage;
 	String interactionType;
 	Label nameLabel;
 	/**
-	 * The text field used to set name of this particular Advanced Transfer
-	 * module
+	 * The text field used to set name of this particular Advanced Transfer module
 	 */
 	Text nameField;
 	Combo destinationType;
@@ -91,8 +89,7 @@ public class AdvancedTransferGeneralPropertiesPanel extends
 	Label transferTypeLabel;
 	Combo transferType;
 
-	public AdvancedTransferGeneralPropertiesPanel(String name,
-			IDesignElement ppe) {
+	public AdvancedTransferGeneralPropertiesPanel(String name, IDesignElement ppe) {
 		super(name, ppe);
 		bindingManager = (GenericBindingManager) ppe
 				.getConfigurationManager(GenericBindingManager.TYPE_ID);
@@ -110,9 +107,7 @@ public class AdvancedTransferGeneralPropertiesPanel extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel#
+	 * @see org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel#
 	 * createControls(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -133,8 +128,7 @@ public class AdvancedTransferGeneralPropertiesPanel extends
 		transferTypeLabel.setText("Transfer Type: ");
 		transferTypeLabel.setLayoutData(new GridData());
 
-		transferType = new Combo(comp, SWT.DROP_DOWN | SWT.READ_ONLY
-				| SWT.SINGLE);
+		transferType = new Combo(comp, SWT.DROP_DOWN | SWT.READ_ONLY | SWT.SINGLE);
 		transferType.setText("Transfer Type: ");
 		transferType.add("Blind");
 		transferType.add("Bridge");
@@ -174,8 +168,7 @@ public class AdvancedTransferGeneralPropertiesPanel extends
 			}
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
 		destinationComp = new Composite(dc2, SWT.NONE);
 		destinationComp.setBackground(comp.getBackground());
@@ -186,8 +179,7 @@ public class AdvancedTransferGeneralPropertiesPanel extends
 		GridLayout layout = new GridLayout(1, false);
 		layout.marginWidth = layout.marginHeight = 0;
 		destinationValueComp.setLayout(layout);
-		destinationValue = new Text(destinationValueComp, SWT.SINGLE
-				| SWT.BORDER);
+		destinationValue = new Text(destinationValueComp, SWT.SINGLE | SWT.BORDER);
 		destinationValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		destinationExprComp = new Composite(destinationComp, SWT.NONE);
 		destinationExprComp.setBackground(destinationComp.getBackground());
@@ -200,8 +192,8 @@ public class AdvancedTransferGeneralPropertiesPanel extends
 		destinationTreeComp.setBackground(destinationComp.getBackground());
 		FormLayout fl = new FormLayout();
 		destinationTreeComp.setLayout(fl);
-		destinationTree = new TreeViewer(destinationTreeComp, SWT.H_SCROLL
-				| SWT.V_SCROLL | SWT.BORDER | SWT.SINGLE);
+		destinationTree = new TreeViewer(destinationTreeComp, SWT.H_SCROLL | SWT.V_SCROLL
+				| SWT.BORDER | SWT.SINGLE);
 		FormData fd = new FormData();
 		fd.left = new FormAttachment(0);
 		fd.top = new FormAttachment(0);
@@ -236,11 +228,8 @@ public class AdvancedTransferGeneralPropertiesPanel extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel
-	 * #setConfigurationContext
-	 * (org.eclipse.vtp.desktop.core.configuration.Brand, java.lang.String,
+	 * @see org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel
+	 * #setConfigurationContext (org.eclipse.vtp.desktop.core.configuration.Brand, java.lang.String,
 	 * java.lang.String)
 	 */
 	@Override
@@ -253,29 +242,23 @@ public class AdvancedTransferGeneralPropertiesPanel extends
 		currentLanguage = (String) values.get(LanguageContext.CONTEXT_ID);
 		Object object = values.get(InteractionTypeContext.CONTEXT_ID);
 		if (currentBrand == null || currentLanguage == null || object == null) {
-			final IOpenVXMLProject project = getElement().getDesign()
-					.getDocument().getProject();
+			final IOpenVXMLProject project = getElement().getDesign().getDocument().getProject();
 			final IProject uproject = project.getUnderlyingProject();
 			final Shell shell = this.getContainer().getParentShell();
 			Display.getCurrent().asyncExec(new Runnable() {
 				@Override
 				public void run() {
-					MessageBox mb = new MessageBox(shell, SWT.OK | SWT.CANCEL
-							| SWT.ICON_ERROR);
+					MessageBox mb = new MessageBox(shell, SWT.OK | SWT.CANCEL | SWT.ICON_ERROR);
 					mb.setText("Configuration Problems");
 					mb.setMessage("The interaction and language configuration for this project is incomplete.  You will not be able edit the applications effectively until this is resolved.  Would you like to configure this now?");
 					if (mb.open() == SWT.OK) {
 						Display.getCurrent().asyncExec(new Runnable() {
 							@Override
 							public void run() {
-								PropertyDialog pd = PropertyDialog
-										.createDialogOn(
-												PlatformUI
-														.getWorkbench()
-														.getActiveWorkbenchWindow()
-														.getShell(),
-												"org.eclipse.vtp.desktop.projects.core.appproperties",
-												uproject);
+								PropertyDialog pd = PropertyDialog.createDialogOn(PlatformUI
+										.getWorkbench().getActiveWorkbenchWindow().getShell(),
+										"org.eclipse.vtp.desktop.projects.core.appproperties",
+										uproject);
 								pd.open();
 							}
 						});
@@ -290,12 +273,9 @@ public class AdvancedTransferGeneralPropertiesPanel extends
 		InteractionBinding interactionBinding = bindingManager
 				.getInteractionBinding(interactionType);
 		NamedBinding namedBinding = interactionBinding.getNamedBinding("type");
-		LanguageBinding languageBinding = namedBinding
-				.getLanguageBinding(currentLanguage);
-		BrandBinding brandBinding = languageBinding
-				.getBrandBinding(currentBrand);
-		PropertyBindingItem typePropertyItem = (PropertyBindingItem) brandBinding
-				.getBindingItem();
+		LanguageBinding languageBinding = namedBinding.getLanguageBinding(currentLanguage);
+		BrandBinding brandBinding = languageBinding.getBrandBinding(currentBrand);
+		PropertyBindingItem typePropertyItem = (PropertyBindingItem) brandBinding.getBindingItem();
 		if (typePropertyItem == null) {
 			typePropertyItem = new PropertyBindingItem();
 		}
@@ -306,23 +286,21 @@ public class AdvancedTransferGeneralPropertiesPanel extends
 		}
 		destinationType.select(typeIndex);
 		namedBinding = interactionBinding.getNamedBinding("destination");
-		if (namedBinding.getLanguageBinding(currentLanguage)
-				.getBrandBinding(currentBrand).getBindingItem() == null) {
+		if (namedBinding.getLanguageBinding(currentLanguage).getBrandBinding(currentBrand)
+				.getBindingItem() == null) {
 			languageBinding = namedBinding.getLanguageBinding("");
 		} else {
 			languageBinding = namedBinding.getLanguageBinding(currentLanguage);
 		}
 		brandBinding = languageBinding.getBrandBinding(currentBrand);
-		PropertyBindingItem valuePropertyItem = (PropertyBindingItem) brandBinding
-				.getBindingItem();
+		PropertyBindingItem valuePropertyItem = (PropertyBindingItem) brandBinding.getBindingItem();
 		if (valuePropertyItem == null) {
 			valuePropertyItem = new PropertyBindingItem();
 		}
 		if (valuePropertyItem.getValue() != null) {
 			switch (typeIndex) {
 			case 2:
-				ObjectDefinition od = getObjectDefinitionFromVariables(valuePropertyItem
-						.getValue());
+				ObjectDefinition od = getObjectDefinitionFromVariables(valuePropertyItem.getValue());
 				StructuredSelection ss = (od == null) ? StructuredSelection.EMPTY
 						: new StructuredSelection(od);
 				destinationTree.setSelection(ss);
@@ -347,8 +325,7 @@ public class AdvancedTransferGeneralPropertiesPanel extends
 		if (transferTypePropertyItem.getValue() != null) {
 			if (transferTypePropertyItem.getValue().equals("bridge")) {
 				transferType.select(1);
-			} else if (transferTypePropertyItem.getValue().equals(
-					"consultation")) {
+			} else if (transferTypePropertyItem.getValue().equals("consultation")) {
 				transferType.select(2);
 			} else {
 				transferType.select(0);
@@ -360,10 +337,7 @@ public class AdvancedTransferGeneralPropertiesPanel extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel
-	 * #save()
+	 * @see org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel #save()
 	 */
 	@Override
 	public void save() {
@@ -378,10 +352,7 @@ public class AdvancedTransferGeneralPropertiesPanel extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.configuration.ComponentPropertiesPanel
-	 * #cancel()
+	 * @see org.eclipse.vtp.desktop.model.core.configuration.ComponentPropertiesPanel #cancel()
 	 */
 	@Override
 	public void cancel() {
@@ -394,8 +365,7 @@ public class AdvancedTransferGeneralPropertiesPanel extends
 	 */
 	public ObjectDefinition getObjectDefinitionFromVariables(String name) {
 		ObjectDefinition ret = null;
-		List<Variable> vars = getElement().getDesign().getVariablesFor(
-				getElement());
+		List<Variable> vars = getElement().getDesign().getVariablesFor(getElement());
 
 		for (int i = 0; i < vars.size(); i++) {
 			String varName = name;
@@ -411,8 +381,7 @@ public class AdvancedTransferGeneralPropertiesPanel extends
 			if (v.getName().equals(varName)) {
 				if (sub) {
 					// dig deeper
-					ret = getObjectDefinitionFromFields(
-							name.substring(name.indexOf(".") + 1), v);
+					ret = getObjectDefinitionFromFields(name.substring(name.indexOf(".") + 1), v);
 				} else {
 					ret = v;
 
@@ -429,8 +398,7 @@ public class AdvancedTransferGeneralPropertiesPanel extends
 	 * @param parent
 	 * @return
 	 */
-	public ObjectDefinition getObjectDefinitionFromFields(String name,
-			ObjectDefinition parent) {
+	public ObjectDefinition getObjectDefinitionFromFields(String name, ObjectDefinition parent) {
 		ObjectDefinition ret = null;
 		List<ObjectField> fields = parent.getFields();
 
@@ -447,8 +415,7 @@ public class AdvancedTransferGeneralPropertiesPanel extends
 
 			if (of.getName().equals(varName)) {
 				if (sub) {
-					ret = getObjectDefinitionFromFields(
-							name.substring(name.indexOf(".") + 1), of);
+					ret = getObjectDefinitionFromFields(name.substring(name.indexOf(".") + 1), of);
 				} else {
 					ret = of;
 
@@ -470,8 +437,7 @@ public class AdvancedTransferGeneralPropertiesPanel extends
 				ISelection selection = destinationTree.getSelection();
 				if ((selection != null) && !selection.isEmpty()
 						&& selection instanceof IStructuredSelection) {
-					Object selObj = ((IStructuredSelection) selection)
-							.getFirstElement();
+					Object selObj = ((IStructuredSelection) selection).getFirstElement();
 					if (selObj instanceof ObjectDefinition) {
 						value = ((ObjectDefinition) selObj).getPath();
 					}
@@ -487,19 +453,15 @@ public class AdvancedTransferGeneralPropertiesPanel extends
 			}
 			InteractionBinding interactionBinding = bindingManager
 					.getInteractionBinding(interactionType);
-			NamedBinding namedBinding = interactionBinding
-					.getNamedBinding("type");
-			LanguageBinding languageBinding = namedBinding
-					.getLanguageBinding(currentLanguage);
-			BrandBinding brandBinding = languageBinding
-					.getBrandBinding(currentBrand);
+			NamedBinding namedBinding = interactionBinding.getNamedBinding("type");
+			LanguageBinding languageBinding = namedBinding.getLanguageBinding(currentLanguage);
+			BrandBinding brandBinding = languageBinding.getBrandBinding(currentBrand);
 			PropertyBindingItem typePropertyItem = (PropertyBindingItem) brandBinding
 					.getBindingItem();
 			if (typePropertyItem == null) {
 				typePropertyItem = new PropertyBindingItem();
 			} else {
-				typePropertyItem = (PropertyBindingItem) typePropertyItem
-						.clone();
+				typePropertyItem = (PropertyBindingItem) typePropertyItem.clone();
 			}
 			typePropertyItem.setValue(type);
 			brandBinding.setBindingItem(typePropertyItem);
@@ -512,8 +474,7 @@ public class AdvancedTransferGeneralPropertiesPanel extends
 			if (valuePropertyItem == null) {
 				valuePropertyItem = new PropertyBindingItem();
 			} else {
-				valuePropertyItem = (PropertyBindingItem) valuePropertyItem
-						.clone();
+				valuePropertyItem = (PropertyBindingItem) valuePropertyItem.clone();
 			}
 			valuePropertyItem.setValue(value);
 			brandBinding.setBindingItem(valuePropertyItem);
@@ -526,8 +487,7 @@ public class AdvancedTransferGeneralPropertiesPanel extends
 			if (transferTypePropertyItem == null) {
 				transferTypePropertyItem = new PropertyBindingItem();
 			} else {
-				transferTypePropertyItem = (PropertyBindingItem) transferTypePropertyItem
-						.clone();
+				transferTypePropertyItem = (PropertyBindingItem) transferTypePropertyItem.clone();
 			}
 			switch (transferType.getSelectionIndex()) {
 			case (1):
@@ -554,10 +514,7 @@ public class AdvancedTransferGeneralPropertiesPanel extends
 	public class VariableContentProvider implements ITreeContentProvider {
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang
-		 * .Object)
+		 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang .Object)
 		 */
 		@Override
 		public Object[] getChildren(Object parentElement) {
@@ -572,10 +529,7 @@ public class AdvancedTransferGeneralPropertiesPanel extends
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang
-		 * .Object)
+		 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang .Object)
 		 */
 		@Override
 		public Object getParent(Object element) {
@@ -588,10 +542,7 @@ public class AdvancedTransferGeneralPropertiesPanel extends
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang
-		 * .Object)
+		 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang .Object)
 		 */
 		@Override
 		public boolean hasChildren(Object element) {
@@ -600,10 +551,7 @@ public class AdvancedTransferGeneralPropertiesPanel extends
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
-		 * java.lang.Object)
+		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements( java.lang.Object)
 		 */
 		@Override
 		public Object[] getElements(Object inputElement) {
@@ -612,23 +560,18 @@ public class AdvancedTransferGeneralPropertiesPanel extends
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 		 */
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
+		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
 		 * .jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
 		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 	}
 
 	/**
@@ -639,9 +582,7 @@ public class AdvancedTransferGeneralPropertiesPanel extends
 	public class VariableLabelProvider implements ILabelProvider {
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
+		 * @see org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
 		 */
 		@Override
 		public Image getImage(Object element) {
@@ -650,9 +591,7 @@ public class AdvancedTransferGeneralPropertiesPanel extends
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
+		 * @see org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
 		 */
 		@Override
 		public String getText(Object element) {
@@ -661,30 +600,23 @@ public class AdvancedTransferGeneralPropertiesPanel extends
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse
 		 * .jface.viewers.ILabelProviderListener)
 		 */
 		@Override
-		public void addListener(ILabelProviderListener listener) {
-		}
+		public void addListener(ILabelProviderListener listener) {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#dispose()
 		 */
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java
-		 * .lang.Object, java.lang.String)
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java .lang.Object,
+		 * java.lang.String)
 		 */
 		@Override
 		public boolean isLabelProperty(Object element, String property) {
@@ -693,14 +625,11 @@ public class AdvancedTransferGeneralPropertiesPanel extends
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
 		 * .jface.viewers.ILabelProviderListener)
 		 */
 		@Override
-		public void removeListener(ILabelProviderListener listener) {
-		}
+		public void removeListener(ILabelProviderListener listener) {}
 	}
 
 	@Override

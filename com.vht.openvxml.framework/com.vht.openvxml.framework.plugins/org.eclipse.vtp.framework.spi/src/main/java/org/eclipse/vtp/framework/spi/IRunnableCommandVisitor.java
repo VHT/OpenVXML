@@ -20,12 +20,9 @@ public interface IRunnableCommandVisitor extends ICommandVisitor {
 	/**
 	 * Called when passed to a runnable command.
 	 * 
-	 * @param runnableCommand
-	 *            The command to visit.
+	 * @param runnableCommand The command to visit.
 	 * @return An implementation-specific result.
-	 * @throws NullPointerException
-	 *             If the supplied command is <code>null</code>.
+	 * @throws NullPointerException If the supplied command is <code>null</code>.
 	 */
-	Object visitRunnable(IRunnableCommand runnableCommand)
-			throws NullPointerException;
+	Object visitRunnable(IRunnableCommand runnableCommand) throws NullPointerException;
 }

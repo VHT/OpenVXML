@@ -33,10 +33,8 @@ public class DispatchConfiguration implements IConfiguration, CommonConstants {
 
 	/**
 	 * Creates a new DispatchItemConfiguration.
-	 * 
 	 */
-	public DispatchConfiguration() {
-	}
+	public DispatchConfiguration() {}
 
 	/**
 	 * Clears all the currently configured information in this item.
@@ -48,17 +46,13 @@ public class DispatchConfiguration implements IConfiguration, CommonConstants {
 
 	public String[] getOutgoingDataNames(String path) {
 		final Map<String, String> map = outgoingData.get(path);
-		if (map == null) {
-			return new String[0];
-		}
+		if (map == null) { return new String[0]; }
 		return map.keySet().toArray(new String[map.size()]);
 	}
 
 	public String getOutgoingDataValue(String path, String name) {
 		final Map<String, String> map = outgoingData.get(path);
-		if (map == null) {
-			return null;
-		}
+		if (map == null) { return null; }
 		return map.get(name);
 	}
 
@@ -76,46 +70,36 @@ public class DispatchConfiguration implements IConfiguration, CommonConstants {
 	}
 
 	/**
-	 * Returns the configuration for the specified variable in the target
-	 * process.
+	 * Returns the configuration for the specified variable in the target process.
 	 * 
-	 * @param variableName
-	 *            The name of the variable in the target process to configure.
-	 * @return The configuration for the specified variable in the target
-	 *         process.
+	 * @param variableName The name of the variable in the target process to configure.
+	 * @return The configuration for the specified variable in the target process.
 	 */
 	public VariableMappingConfiguration getVariableMapping(String variableName) {
-		if (variableName == null) {
-			return null;
-		}
+		if (variableName == null) { return null; }
 		return variableMappings.get(variableName);
 	}
 
 	/**
-	 * Returns the names of the variables that will be initialized in the target
-	 * process.
+	 * Returns the names of the variables that will be initialized in the target process.
 	 * 
-	 * @return The names of the variables that will be initialized in the target
-	 *         process.
+	 * @return The names of the variables that will be initialized in the target process.
 	 */
 	public String[] getVariableNames() {
-		return variableMappings.keySet().toArray(
-				new String[variableMappings.size()]);
+		return variableMappings.keySet().toArray(new String[variableMappings.size()]);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.core.IConfiguration#load(org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(org.w3c.dom.Element)
 	 */
 	@Override
 	public void load(Element configurationElement) {
 		targetProcessURI = configurationElement.getAttribute(NAME_URI);
 		variableMappings.clear();
 		outgoingData.clear();
-		NodeList nodes = configurationElement.getElementsByTagNameNS(
-				NAMESPACE_URI, NAME_VARIABLE_MAPPING);
+		NodeList nodes = configurationElement.getElementsByTagNameNS(NAMESPACE_URI,
+				NAME_VARIABLE_MAPPING);
 		for (int i = 0; i < nodes.getLength(); ++i) {
 			final Element mappingElement = (Element) nodes.item(i);
 			final String name = mappingElement.getAttribute(NAME_NAME);
@@ -123,27 +107,23 @@ public class DispatchConfiguration implements IConfiguration, CommonConstants {
 			mapping.load(mappingElement);
 			variableMappings.put(name, mapping);
 		}
-		nodes = configurationElement.getElementsByTagNameNS(NAMESPACE_URI,
-				NAME_OUTGOING);
+		nodes = configurationElement.getElementsByTagNameNS(NAMESPACE_URI, NAME_OUTGOING);
 		for (int i = 0; i < nodes.getLength(); ++i) {
 			final Element outgoingElement = (Element) nodes.item(i);
 			final String path = outgoingElement.getAttribute(NAME_PATH);
-			final NodeList nodes2 = outgoingElement.getElementsByTagNameNS(
-					NAMESPACE_URI, NAME_ENTRY);
+			final NodeList nodes2 = outgoingElement.getElementsByTagNameNS(NAMESPACE_URI,
+					NAME_ENTRY);
 			for (int j = 0; j < nodes2.getLength(); ++j) {
 				final Element entryElement = (Element) nodes2.item(j);
 				final String name = entryElement.getAttribute(NAME_KEY);
-				setOutgoingDataValue(path, name,
-						entryElement.getAttribute(NAME_VALUE));
+				setOutgoingDataValue(path, name, entryElement.getAttribute(NAME_VALUE));
 			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.core.IConfiguration#save(org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(org.w3c.dom.Element)
 	 */
 	@Override
 	public void save(Element configurationElement) {
@@ -159,23 +139,20 @@ public class DispatchConfiguration implements IConfiguration, CommonConstants {
 		}
 		for (final Map.Entry<String, VariableMappingConfiguration> entry : variableMappings
 				.entrySet()) {
-			final Element mappingElement = configurationElement
-					.getOwnerDocument().createElementNS(NAMESPACE_URI,
-							variableMappingName);
+			final Element mappingElement = configurationElement.getOwnerDocument().createElementNS(
+					NAMESPACE_URI, variableMappingName);
 			entry.getValue().save(mappingElement);
 			mappingElement.setAttribute(NAME_NAME, entry.getKey());
 			configurationElement.appendChild(mappingElement);
 		}
 		for (final String path : outgoingData.keySet()) {
-			final Element outgoingElement = configurationElement
-					.getOwnerDocument().createElementNS(NAMESPACE_URI,
-							outgoingName);
+			final Element outgoingElement = configurationElement.getOwnerDocument()
+					.createElementNS(NAMESPACE_URI, outgoingName);
 			outgoingElement.setAttribute(NAME_PATH, path);
 			final Map<String, String> map = outgoingData.get(path);
 			for (final String name : map.keySet()) {
-				final Element entryElement = configurationElement
-						.getOwnerDocument().createElementNS(NAMESPACE_URI,
-								entryName);
+				final Element entryElement = configurationElement.getOwnerDocument()
+						.createElementNS(NAMESPACE_URI, entryName);
 				entryElement.setAttribute(NAME_KEY, name);
 				entryElement.setAttribute(NAME_VALUE, map.get(name));
 				outgoingElement.appendChild(entryElement);
@@ -185,14 +162,10 @@ public class DispatchConfiguration implements IConfiguration, CommonConstants {
 	}
 
 	public void setOutgoingDataValue(String path, String name, String value) {
-		if (path == null || name == null) {
-			return;
-		}
+		if (path == null || name == null) { return; }
 		Map<String, String> map = outgoingData.get(path);
 		if (map == null) {
-			if (value == null) {
-				return;
-			}
+			if (value == null) { return; }
 			outgoingData.put(path, map = new HashMap<String, String>());
 		}
 		if (value == null) {
@@ -208,8 +181,7 @@ public class DispatchConfiguration implements IConfiguration, CommonConstants {
 	/**
 	 * Sets the URI of the process to dispatch to.
 	 * 
-	 * @param destinationURI
-	 *            The URI of the process to dispatch to.
+	 * @param destinationURI The URI of the process to dispatch to.
 	 */
 	public void setTargetProcessURI(String destinationURI) {
 		this.targetProcessURI = destinationURI == null ? "" //$NON-NLS-1$
@@ -219,17 +191,11 @@ public class DispatchConfiguration implements IConfiguration, CommonConstants {
 	/**
 	 * Sets the configuration for the specified variable in the target process.
 	 * 
-	 * @param variableName
-	 *            The name of the variable in the target process.
-	 * @param variableMapping
-	 *            The configuration for the specified variable in the target
-	 *            process.
+	 * @param variableName The name of the variable in the target process.
+	 * @param variableMapping The configuration for the specified variable in the target process.
 	 */
-	public void setVariableMapping(String variableName,
-			VariableMappingConfiguration variableMapping) {
-		if (variableName == null) {
-			return;
-		}
+	public void setVariableMapping(String variableName, VariableMappingConfiguration variableMapping) {
+		if (variableName == null) { return; }
 		if (variableMapping == null) {
 			variableMappings.remove(variableName);
 		} else {

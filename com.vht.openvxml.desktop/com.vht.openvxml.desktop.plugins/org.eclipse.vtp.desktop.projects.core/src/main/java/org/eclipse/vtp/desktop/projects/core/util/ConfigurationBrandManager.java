@@ -14,7 +14,6 @@ import com.openmethods.openvxml.desktop.model.branding.internal.DefaultBrandMana
 
 /**
  * @author trip
- *
  */
 public class ConfigurationBrandManager extends DefaultBrandManager {
 
@@ -24,8 +23,7 @@ public class ConfigurationBrandManager extends DefaultBrandManager {
 	public ConfigurationBrandManager(BrandManager sourceManager) {
 		super();
 		IBrand sourceDefault = sourceManager.getDefaultBrand();
-		Brand copyDefault = new Brand(sourceDefault.getId(),
-				sourceDefault.getName());
+		Brand copyDefault = new Brand(sourceDefault.getId(), sourceDefault.getName());
 		this.setDefaultBrand(copyDefault);
 		copyBrands(sourceDefault, copyDefault);
 	}
@@ -33,8 +31,7 @@ public class ConfigurationBrandManager extends DefaultBrandManager {
 	private void copyBrands(IBrand sourceBrand, Brand copyBrand) {
 		List<IBrand> sourceChildren = sourceBrand.getChildBrands();
 		for (IBrand sourceChild : sourceChildren) {
-			Brand copyChild = new Brand(sourceChild.getId(),
-					sourceChild.getName());
+			Brand copyChild = new Brand(sourceChild.getId(), sourceChild.getName());
 			copyChild.setParent(copyBrand);
 			copyBrands(sourceChild, copyChild);
 		}
@@ -48,8 +45,7 @@ public class ConfigurationBrandManager extends DefaultBrandManager {
 		Brand destinationDefault = (Brand) destinationManager.getDefaultBrand();
 		Brand copyDefault = (Brand) getDefaultBrand();
 		if (overwrite) {
-			((DefaultBrandManager) destinationManager)
-					.setDefaultBrand(copyDefault);
+			((DefaultBrandManager) destinationManager).setDefaultBrand(copyDefault);
 		} else {
 			mergeBrand(copyDefault, destinationDefault);
 		}
@@ -62,12 +58,10 @@ public class ConfigurationBrandManager extends DefaultBrandManager {
 		}
 		Map<String, Brand> destinationBrandIndex = new HashMap<String, Brand>();
 		for (IBrand destinationChild : destinationBrand.getChildBrands()) {
-			destinationBrandIndex.put(destinationChild.getId(),
-					(Brand) destinationChild);
+			destinationBrandIndex.put(destinationChild.getId(), (Brand) destinationChild);
 		}
 		for (IBrand copyChild : copyBrand.getChildBrands()) {
-			Brand destinationChild = destinationBrandIndex.get(copyChild
-					.getId());
+			Brand destinationChild = destinationBrandIndex.get(copyChild.getId());
 			if (destinationChild == null) // brand has been added
 			{
 				copyChild.setParent(destinationBrand);

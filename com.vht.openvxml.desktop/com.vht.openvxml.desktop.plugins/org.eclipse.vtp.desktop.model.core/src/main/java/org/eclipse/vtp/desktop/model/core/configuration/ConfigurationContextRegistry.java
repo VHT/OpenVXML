@@ -34,22 +34,20 @@ public class ConfigurationContextRegistry {
 	public ConfigurationContextRegistry() {
 		super();
 		Map<String, ContextRecord> recordsById = new HashMap<String, ContextRecord>();
-		IConfigurationElement[] managerExtensions = Platform
-				.getExtensionRegistry().getConfigurationElementsFor(
-						configurationManagerExtensionId);
+		IConfigurationElement[] managerExtensions = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(configurationManagerExtensionId);
 		// process the context declarations first
 		for (IConfigurationElement managerExtension : managerExtensions) {
 			if (managerExtension.getName().equals("context")) {
 				String managerId = managerExtension.getAttribute("id");
 				String className = managerExtension.getAttribute("class");
-				Bundle contributor = Platform.getBundle(managerExtension
-						.getContributor().getName());
+				Bundle contributor = Platform
+						.getBundle(managerExtension.getContributor().getName());
 				try {
 					@SuppressWarnings("unchecked")
 					Class<ConfigurationContext> managerClass = (Class<ConfigurationContext>) contributor
 							.loadClass(className);
-					ContextRecord cmr = new ContextRecord(managerId,
-							managerClass);
+					ContextRecord cmr = new ContextRecord(managerId, managerClass);
 					managerRecords.add(cmr);
 					recordsById.put(managerId, cmr);
 				} catch (Exception e) {
@@ -61,10 +59,9 @@ public class ConfigurationContextRegistry {
 		for (IConfigurationElement managerExtension : managerExtensions) {
 			if (managerExtension.getName().equals("context-binding")) {
 				String contextId = managerExtension.getAttribute("context-id");
-				String className = managerExtension
-						.getAttribute("filter-class");
-				Bundle contributor = Platform.getBundle(managerExtension
-						.getContributor().getName());
+				String className = managerExtension.getAttribute("filter-class");
+				Bundle contributor = Platform
+						.getBundle(managerExtension.getContributor().getName());
 				try {
 					@SuppressWarnings("rawtypes")
 					Class filterClass = contributor.loadClass(className);
@@ -80,8 +77,7 @@ public class ConfigurationContextRegistry {
 		}
 	}
 
-	public List<ConfigurationContext> getConfigurationContextsFor(
-			IOpenVXMLProject project) {
+	public List<ConfigurationContext> getConfigurationContextsFor(IOpenVXMLProject project) {
 		List<ConfigurationContext> ret = new ArrayList<ConfigurationContext>();
 		for (ContextRecord cr : managerRecords) {
 			if (cr.isApplicableTo(project)) {
@@ -100,8 +96,8 @@ public class ConfigurationContextRegistry {
 		@SuppressWarnings("rawtypes")
 		private List<Class> adaptableFilters = new ArrayList<Class>();
 
-		public ContextRecord(String managerId,
-				Class<ConfigurationContext> managerClass) throws Exception {
+		public ContextRecord(String managerId, Class<ConfigurationContext> managerClass)
+				throws Exception {
 			super();
 			this.contextId = managerId;
 			this.managerClass = managerClass;
@@ -114,9 +110,7 @@ public class ConfigurationContextRegistry {
 		public boolean isApplicableTo(IOpenVXMLProject project) {
 			for (@SuppressWarnings("rawtypes")
 			Class c : adaptableFilters) {
-				if (project.getAdapter(c) != null) {
-					return true;
-				}
+				if (project.getAdapter(c) != null) { return true; }
 			}
 			return false;
 		}

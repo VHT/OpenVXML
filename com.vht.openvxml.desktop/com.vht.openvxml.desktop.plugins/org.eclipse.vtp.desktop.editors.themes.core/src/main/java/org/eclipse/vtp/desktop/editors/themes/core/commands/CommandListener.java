@@ -12,8 +12,8 @@
 package org.eclipse.vtp.desktop.editors.themes.core.commands;
 
 /**
- * This interface represents an agent capable of performing the necessary work
- * associated with all <code>Command</code> objects.
+ * This interface represents an agent capable of performing the necessary work associated with all
+ * <code>Command</code> objects.
  * 
  * @author trip
  */
@@ -21,8 +21,7 @@ public interface CommandListener {
 	/**
 	 * Executed when a command is to be performed by this command listener.
 	 * 
-	 * @param command
-	 *            The command to perform
+	 * @param command The command to perform
 	 */
 	public void executeCommand(Command command);
 }

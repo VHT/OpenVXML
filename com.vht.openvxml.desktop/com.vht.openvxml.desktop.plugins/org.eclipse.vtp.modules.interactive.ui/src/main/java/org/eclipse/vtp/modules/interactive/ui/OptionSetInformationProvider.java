@@ -35,38 +35,30 @@ import com.openmethods.openvxml.desktop.model.workflow.design.Variable;
 import com.openmethods.openvxml.desktop.model.workflow.internal.design.ConnectorRecord;
 
 public class OptionSetInformationProvider extends PrimitiveInformationProvider
-		implements ISecurableElement {
+	implements
+	ISecurableElement {
 	List<ConnectorRecord> connectorRecords = new ArrayList<ConnectorRecord>();
 	String variableName = "";
 	boolean secured = false;
 
 	public OptionSetInformationProvider(PrimitiveElement element) {
 		super(element);
-		connectorRecords.add(new ConnectorRecord(element,
-				"error.input.nomatch",
+		connectorRecords.add(new ConnectorRecord(element, "error.input.nomatch",
 				IDesignElementConnectionPoint.ConnectionPointType.ERROR_POINT));
-		connectorRecords.add(new ConnectorRecord(element,
-				"error.input.noinput",
+		connectorRecords.add(new ConnectorRecord(element, "error.input.noinput",
 				IDesignElementConnectionPoint.ConnectionPointType.ERROR_POINT));
-		connectorRecords.add(new ConnectorRecord(element,
-				"error.disconnect.hangup",
+		connectorRecords.add(new ConnectorRecord(element, "error.disconnect.hangup",
 				IDesignElementConnectionPoint.ConnectionPointType.ERROR_POINT));
-		List<String> events = ExtendedInteractiveEventManager.getDefault()
-				.getExtendedEvents();
+		List<String> events = ExtendedInteractiveEventManager.getDefault().getExtendedEvents();
 		for (String event : events) {
-			connectorRecords
-					.add(new ConnectorRecord(
-							element,
-							event,
-							IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
+			connectorRecords.add(new ConnectorRecord(element, event,
+					IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.elements.PrimitiveInformationProvider
+	 * @see org.eclipse.vtp.desktop.editors.core.elements.PrimitiveInformationProvider
 	 * #acceptConnector(org.eclipse.vtp.desktop.model.core.Element)
 	 */
 	@Override
@@ -76,26 +68,20 @@ public class OptionSetInformationProvider extends PrimitiveInformationProvider
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.elements.PrimitiveInformationProvider
+	 * @see org.eclipse.vtp.desktop.editors.core.elements.PrimitiveInformationProvider
 	 * #getConnectorRecord(java.lang.String)
 	 */
 	@Override
 	public ConnectorRecord getConnectorRecord(String recordName) {
 		for (ConnectorRecord cr : connectorRecords) {
-			if (cr.getName().equals(recordName)) {
-				return cr;
-			}
+			if (cr.getName().equals(recordName)) { return cr; }
 		}
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.elements.PrimitiveInformationProvider
+	 * @see org.eclipse.vtp.desktop.editors.core.elements.PrimitiveInformationProvider
 	 * #getConnectorRecords()
 	 */
 	@Override
@@ -105,9 +91,7 @@ public class OptionSetInformationProvider extends PrimitiveInformationProvider
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.elements.PrimitiveInformationProvider
+	 * @see org.eclipse.vtp.desktop.editors.core.elements.PrimitiveInformationProvider
 	 * #getConnectorRecords(int)
 	 */
 	@Override
@@ -116,8 +100,7 @@ public class OptionSetInformationProvider extends PrimitiveInformationProvider
 		List<ConnectorRecord> ret = new ArrayList<ConnectorRecord>();
 		for (ConnectorRecord cr : connectorRecords) {
 			if (cr.getType().isSet(
-					IDesignElementConnectionPoint.ConnectionPointType
-							.getFlagSet(types))) {
+					IDesignElementConnectionPoint.ConnectionPointType.getFlagSet(types))) {
 				ret.add(cr);
 			}
 		}
@@ -126,9 +109,7 @@ public class OptionSetInformationProvider extends PrimitiveInformationProvider
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.elements.PrimitiveInformationProvider
+	 * @see org.eclipse.vtp.desktop.editors.core.elements.PrimitiveInformationProvider
 	 * #readConfiguration(org.w3c.dom.Element)
 	 */
 	@Override
@@ -141,20 +122,15 @@ public class OptionSetInformationProvider extends PrimitiveInformationProvider
 		List<MenuChoice> choices = mcBindingManager.getAllChoices();
 		System.err.println("# of binding choices: " + choices.size());
 		for (MenuChoice mc : choices) {
-			connectorRecords
-					.add(new ConnectorRecord(
-							getElement(),
-							mc.getOptionName(),
-							IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
+			connectorRecords.add(new ConnectorRecord(getElement(), mc.getOptionName(),
+					IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
 		}
 		getElement().rollbackConfigurationChanges(mcBindingManager);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.elements.PrimitiveInformationProvider
+	 * @see org.eclipse.vtp.desktop.editors.core.elements.PrimitiveInformationProvider
 	 * #writeConfiguration(org.w3c.dom.Element)
 	 */
 	@Override
@@ -177,8 +153,7 @@ public class OptionSetInformationProvider extends PrimitiveInformationProvider
 	 * @return
 	 */
 	public MenuChoice addChoice(MenuChoice choice) {
-		connectorRecords.add(new ConnectorRecord(getElement(), choice
-				.getOptionName(),
+		connectorRecords.add(new ConnectorRecord(getElement(), choice.getOptionName(),
 				IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
 		return choice;
 	}
@@ -199,8 +174,7 @@ public class OptionSetInformationProvider extends PrimitiveInformationProvider
 																			// connector
 																			// record
 						{
-							getElement().getDesign().removeDesignConnector(
-									connector);
+							getElement().getDesign().removeDesignConnector(connector);
 						}
 					}
 					connectorRecords.remove(cr);
@@ -225,14 +199,11 @@ public class OptionSetInformationProvider extends PrimitiveInformationProvider
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.elements.PrimitiveInformationProvider
+	 * @see org.eclipse.vtp.desktop.editors.core.elements.PrimitiveInformationProvider
 	 * #getOutgoingVariables(java.lang.String, java.util.Map)
 	 */
 	@Override
-	public List<Variable> getOutgoingVariables(String exitPoint,
-			boolean localOnly) {
+	public List<Variable> getOutgoingVariables(String exitPoint, boolean localOnly) {
 		List<Variable> ret = new ArrayList<Variable>();
 		if (exitPoint.equals("Continue") && !variableName.equals("")) {
 			Variable var = new Variable(variableName, FieldType.STRING);
@@ -243,9 +214,7 @@ public class OptionSetInformationProvider extends PrimitiveInformationProvider
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.elements.PrimitiveInformationProvider
+	 * @see org.eclipse.vtp.desktop.editors.core.elements.PrimitiveInformationProvider
 	 * #hasConnectors()
 	 */
 	@Override
@@ -255,10 +224,7 @@ public class OptionSetInformationProvider extends PrimitiveInformationProvider
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.elements.ISecurableElement#isSecured
-	 * ()
+	 * @see org.eclipse.vtp.desktop.editors.core.elements.ISecurableElement#isSecured ()
 	 */
 	@Override
 	public boolean isSecured() {
@@ -267,10 +233,7 @@ public class OptionSetInformationProvider extends PrimitiveInformationProvider
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.elements.ISecurableElement#setSecured
-	 * (boolean)
+	 * @see org.eclipse.vtp.desktop.editors.core.elements.ISecurableElement#setSecured (boolean)
 	 */
 	@Override
 	public void setSecured(boolean secured) {
@@ -285,15 +248,15 @@ public class OptionSetInformationProvider extends PrimitiveInformationProvider
 	{
 
 		System.out.println("Converting the old xml"); // TODO remove this line
-		List<Element> choicesElements = XMLUtilities.getElementsByTagName(
-				configuration, "choices", true);
+		List<Element> choicesElements = XMLUtilities.getElementsByTagName(configuration, "choices",
+				true);
 		if (choicesElements.size() == 0) {
 			System.err.println("does not have old config");
 			// getElement().rollbackConfigurationChanges(mcBindingManager);
 			return;
 		}
-		List<Element> choices = XMLUtilities.getElementsByTagName(
-				choicesElements.get(0), "choice", true);
+		List<Element> choices = XMLUtilities.getElementsByTagName(choicesElements.get(0), "choice",
+				true);
 		System.err.println("# of choices: " + choices.size());
 		if (choices.size() == 0) {
 			// getElement().rollbackConfigurationChanges(mcBindingManager);
@@ -304,12 +267,11 @@ public class OptionSetInformationProvider extends PrimitiveInformationProvider
 		List<MenuChoice> menuChoices = new ArrayList<MenuChoice>();
 		Map<String, List<MenuChoice>> brandOrders = new HashMap<String, List<MenuChoice>>();
 		for (Element choiceElement : choices) {
-			MenuChoice mc = new MenuChoice(choiceElement.getAttribute("name"),
-					choiceElement.getAttribute("script"));
+			MenuChoice mc = new MenuChoice(choiceElement.getAttribute("name"), choiceElement
+					.getAttribute("script"));
 			menuChoices.add(mc);
 		}
-		NodeList brandOrdersList = configuration
-				.getElementsByTagName("brand-order");
+		NodeList brandOrdersList = configuration.getElementsByTagName("brand-order");
 		if (brandOrdersList.getLength() == 0) // backwards compatibility
 		{
 			List<MenuChoice> defaultList = new ArrayList<MenuChoice>();
@@ -318,17 +280,13 @@ public class OptionSetInformationProvider extends PrimitiveInformationProvider
 		}
 		for (int i = 0; i < brandOrdersList.getLength(); i++) {
 			List<MenuChoice> brandList = new ArrayList<MenuChoice>();
-			org.w3c.dom.Element brandOrderElement = (org.w3c.dom.Element) brandOrdersList
-					.item(i);
+			org.w3c.dom.Element brandOrderElement = (org.w3c.dom.Element) brandOrdersList.item(i);
 			String brandName = brandOrderElement.getAttribute("brand");
-			NodeList entryList = brandOrderElement
-					.getElementsByTagName("entry");
+			NodeList entryList = brandOrderElement.getElementsByTagName("entry");
 			for (int e = 0; e < entryList.getLength(); e++) {
-				org.w3c.dom.Element entryElement = (org.w3c.dom.Element) entryList
-						.item(e);
+				org.w3c.dom.Element entryElement = (org.w3c.dom.Element) entryList.item(e);
 				for (MenuChoice mc : menuChoices) {
-					if (mc.getOptionName().equals(
-							entryElement.getAttribute("name"))) {
+					if (mc.getOptionName().equals(entryElement.getAttribute("name"))) {
 						brandList.add(mc);
 						break;
 					}

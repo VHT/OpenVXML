@@ -33,17 +33,14 @@ public class DialogElementManager {
 	public DialogElementManager() {
 		super();
 		dialogTypes = new HashMap<String, DialogElementRecord>();
-		IConfigurationElement[] primitiveExtensions = Platform
-				.getExtensionRegistry().getConfigurationElementsFor(
-						dialogExtensionPointId);
+		IConfigurationElement[] primitiveExtensions = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(dialogExtensionPointId);
 		for (IConfigurationElement primitiveExtension : primitiveExtensions) {
 			DialogElementRecord der = new DialogElementRecord();
 			der.id = primitiveExtension.getAttribute("id");
 			der.name = primitiveExtension.getAttribute("name");
-			Bundle contributor = Platform.getBundle(primitiveExtension
-					.getContributor().getName());
-			der.resourceURL = contributor.getResource(primitiveExtension
-					.getAttribute("template"));
+			Bundle contributor = Platform.getBundle(primitiveExtension.getContributor().getName());
+			der.resourceURL = contributor.getResource(primitiveExtension.getAttribute("template"));
 			dialogTypes.put(der.id, der);
 		}
 	}
@@ -53,11 +50,8 @@ public class DialogElementManager {
 		if (der != null) {
 			return der.name;
 		} else {
-			Activator.LocalDialogRecord record = Activator.getDefault()
-					.getLocalDialog(id);
-			if (record != null) {
-				return record.getName();
-			}
+			Activator.LocalDialogRecord record = Activator.getDefault().getLocalDialog(id);
+			if (record != null) { return record.getName(); }
 		}
 		return null;
 	}
@@ -67,11 +61,8 @@ public class DialogElementManager {
 		if (der != null) {
 			return der.resourceURL;
 		} else {
-			Activator.LocalDialogRecord record = Activator.getDefault()
-					.getLocalDialog(id);
-			if (record != null) {
-				return record.getTemplateURL();
-			}
+			Activator.LocalDialogRecord record = Activator.getDefault().getLocalDialog(id);
+			if (record != null) { return record.getTemplateURL(); }
 		}
 		return null;
 	}

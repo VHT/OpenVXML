@@ -37,36 +37,27 @@ public abstract class Widget {
 	/**
 	 * Creates a new <code>Widget</code>.
 	 */
-	protected Widget() {
-	}
+	protected Widget() {}
 
 	/**
 	 * Writes the content of this widget to an XML content handler.
 	 * 
-	 * @param outputHandler
-	 *            The handler to write this widget to.
-	 * @throws NullPointerException
-	 *             If the supplied content handler is <code>null</code>.
-	 * @throws SAXException
-	 *             If the writing of this widget fails.
+	 * @param outputHandler The handler to write this widget to.
+	 * @throws NullPointerException If the supplied content handler is <code>null</code>.
+	 * @throws SAXException If the writing of this widget fails.
 	 */
-	public abstract void writeWidget(ContentHandler outputHandler)
-			throws NullPointerException, SAXException;
+	public abstract void writeWidget(ContentHandler outputHandler) throws NullPointerException,
+			SAXException;
 
 	/**
 	 * Writes the content of this widget to a stream.
 	 * 
-	 * @param outputStream
-	 *            The stream to write this widget to.
-	 * @throws IOException
-	 *             If the writing of this widget fails.
-	 * @throws NullPointerException
-	 *             If the supplied stream is <code>null</code>.
+	 * @param outputStream The stream to write this widget to.
+	 * @throws IOException If the writing of this widget fails.
+	 * @throws NullPointerException If the supplied stream is <code>null</code>.
 	 */
-	public void writeWidget(OutputStream outputStream) throws IOException,
-			NullPointerException {
-		if (outputStream == null) {
-			throw new NullPointerException("writer"); //$NON-NLS-1$
+	public void writeWidget(OutputStream outputStream) throws IOException, NullPointerException {
+		if (outputStream == null) { throw new NullPointerException("writer"); //$NON-NLS-1$
 		}
 		try {
 			writeWidget(new XMLWriter(outputStream));
@@ -80,27 +71,17 @@ public abstract class Widget {
 	/**
 	 * Writes an attribute member of this widget to the supplied set.
 	 * 
-	 * @param attributes
-	 *            The attribute set to write to.
-	 * @param uri
-	 *            The URI of the attribute.
-	 * @param localName
-	 *            The local name of the attribute.
-	 * @param name
-	 *            The qualified name of the attribute.
-	 * @param type
-	 *            The type of the attribute.
-	 * @param value
-	 *            The value of the attribute.
-	 * 
-	 * @throws NullPointerException
-	 *             If the supplied attribute set is <code>null</code>.
+	 * @param attributes The attribute set to write to.
+	 * @param uri The URI of the attribute.
+	 * @param localName The local name of the attribute.
+	 * @param name The qualified name of the attribute.
+	 * @param type The type of the attribute.
+	 * @param value The value of the attribute.
+	 * @throws NullPointerException If the supplied attribute set is <code>null</code>.
 	 */
-	protected void writeAttribute(AttributesImpl attributes, String uri,
-			String localName, String name, String type, String value)
-			throws NullPointerException {
-		if (attributes == null) {
-			throw new NullPointerException("attributes"); //$NON-NLS-1$
+	protected void writeAttribute(AttributesImpl attributes, String uri, String localName,
+			String name, String type, String value) throws NullPointerException {
+		if (attributes == null) { throw new NullPointerException("attributes"); //$NON-NLS-1$
 		}
 		uri = uri == null ? EMPTY : uri;
 		localName = localName == null ? EMPTY : localName;
@@ -133,19 +114,14 @@ public abstract class Widget {
 	/**
 	 * Writes the specified array of Widgets to the supplied output handler.
 	 * 
-	 * @param outputHandler
-	 *            The handler to write the widgets to.
-	 * @param children
-	 *            The array of widgets to write.
-	 * @throws SAXException
-	 *             If the writing of one of the specified widgets fails.
-	 * @throws NullPointerException
-	 *             If the supplied content handler is <code>null</code>.
+	 * @param outputHandler The handler to write the widgets to.
+	 * @param children The array of widgets to write.
+	 * @throws SAXException If the writing of one of the specified widgets fails.
+	 * @throws NullPointerException If the supplied content handler is <code>null</code>.
 	 */
 	protected void writeChildren(ContentHandler outputHandler, Widget[] children)
 			throws NullPointerException, SAXException {
-		if (outputHandler == null) {
-			throw new NullPointerException("outputHandler"); //$NON-NLS-1$
+		if (outputHandler == null) { throw new NullPointerException("outputHandler"); //$NON-NLS-1$
 		}
 		if (children != null) {
 			for (Widget element : children) {
@@ -155,22 +131,16 @@ public abstract class Widget {
 	}
 
 	/**
-	 * Writes the specified collection of Widgets to the supplied output
-	 * handler.
+	 * Writes the specified collection of Widgets to the supplied output handler.
 	 * 
-	 * @param outputHandler
-	 *            The handler to write the widgets to.
-	 * @param children
-	 *            The collection of widgets to write.
-	 * @throws SAXException
-	 *             If the writing of one of the specified widgets fails.
-	 * @throws NullPointerException
-	 *             If the supplied content handler is <code>null</code>.
+	 * @param outputHandler The handler to write the widgets to.
+	 * @param children The collection of widgets to write.
+	 * @throws SAXException If the writing of one of the specified widgets fails.
+	 * @throws NullPointerException If the supplied content handler is <code>null</code>.
 	 */
-	protected void writeChildren(ContentHandler outputHandler,
-			Collection children) throws NullPointerException, SAXException {
-		if (outputHandler == null) {
-			throw new NullPointerException("outputHandler"); //$NON-NLS-1$
+	protected void writeChildren(ContentHandler outputHandler, Collection children)
+			throws NullPointerException, SAXException {
+		if (outputHandler == null) { throw new NullPointerException("outputHandler"); //$NON-NLS-1$
 		}
 		if (children != null) {
 			for (Iterator i = children.iterator(); i.hasNext();) {
@@ -181,7 +151,6 @@ public abstract class Widget {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

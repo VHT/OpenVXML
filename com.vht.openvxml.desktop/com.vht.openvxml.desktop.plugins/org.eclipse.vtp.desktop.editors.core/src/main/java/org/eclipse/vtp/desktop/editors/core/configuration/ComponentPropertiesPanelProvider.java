@@ -7,6 +7,5 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesignComponent;
 public interface ComponentPropertiesPanelProvider {
 	public boolean isApplicableFor(IDesignComponent designComponent);
 
-	public List<ComponentPropertiesPanel> getPropertiesPanels(
-			IDesignComponent designComponent);
+	public List<ComponentPropertiesPanel> getPropertiesPanels(IDesignComponent designComponent);
 }

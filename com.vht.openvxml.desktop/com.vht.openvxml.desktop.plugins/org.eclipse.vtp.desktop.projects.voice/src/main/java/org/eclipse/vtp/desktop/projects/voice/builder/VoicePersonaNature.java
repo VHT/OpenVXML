@@ -18,10 +18,9 @@ import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.runtime.CoreException;
 
 /**
- * This eclipse project nature identifies a project as an OpenVXML voice persona
- * project. Only projects with this nature or the
- * <code>VoiceApplicationNature</code> are visible in the OpenVXML application
- * designer projects view.
+ * This eclipse project nature identifies a project as an OpenVXML voice persona project. Only
+ * projects with this nature or the <code>VoiceApplicationNature</code> are visible in the OpenVXML
+ * application designer projects view.
  *
  * @author Trip Gilman
  */
@@ -38,7 +37,6 @@ public class VoicePersonaNature implements IProjectNature {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.core.resources.IProjectNature#configure()
 	 */
 	@Override
@@ -47,9 +45,7 @@ public class VoicePersonaNature implements IProjectNature {
 		ICommand[] commands = desc.getBuildSpec();
 
 		for (ICommand command : commands) {
-			if (command.getBuilderName().equals(VoicePersonaBuilder.BUILDER_ID)) {
-				return;
-			}
+			if (command.getBuilderName().equals(VoicePersonaBuilder.BUILDER_ID)) { return; }
 		}
 
 		ICommand[] newCommands = new ICommand[commands.length + 1];
@@ -64,7 +60,6 @@ public class VoicePersonaNature implements IProjectNature {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.core.resources.IProjectNature#deconfigure()
 	 */
 	@Override
@@ -73,12 +68,10 @@ public class VoicePersonaNature implements IProjectNature {
 		ICommand[] commands = description.getBuildSpec();
 
 		for (int i = 0; i < commands.length; ++i) {
-			if (commands[i].getBuilderName().equals(
-					VoicePersonaBuilder.BUILDER_ID)) {
+			if (commands[i].getBuilderName().equals(VoicePersonaBuilder.BUILDER_ID)) {
 				ICommand[] newCommands = new ICommand[commands.length - 1];
 				System.arraycopy(commands, 0, newCommands, 0, i);
-				System.arraycopy(commands, i + 1, newCommands, i,
-						commands.length - i - 1);
+				System.arraycopy(commands, i + 1, newCommands, i, commands.length - i - 1);
 				description.setBuildSpec(newCommands);
 
 				return;
@@ -88,7 +81,6 @@ public class VoicePersonaNature implements IProjectNature {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.core.resources.IProjectNature#getProject()
 	 */
 	@Override
@@ -98,9 +90,7 @@ public class VoicePersonaNature implements IProjectNature {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.core.resources.IProjectNature#setProject(org.eclipse.core
+	 * @see org.eclipse.core.resources.IProjectNature#setProject(org.eclipse.core
 	 * .resources.IProject)
 	 */
 	@Override

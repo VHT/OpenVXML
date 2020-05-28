@@ -19,27 +19,25 @@ import org.eclipse.vtp.modules.standard.ui.PortalEntryInformationProvider;
 
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElement;
 
-public class JumpToPortalExitAction extends DesignElementAction
-{
+public class JumpToPortalExitAction extends DesignElementAction {
 
 	/**
 	 * @param element
 	 * @param commandListener
 	 */
-	public JumpToPortalExitAction(IDesignElement element,
-	        CommandListener commandListener)
-	{
+	public JumpToPortalExitAction(IDesignElement element, CommandListener commandListener) {
 		super(element, commandListener);
 		this.setText("Jump to Exit");
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	public void run()
-	{
-		PrimitiveElement primitiveElement = (PrimitiveElement)getElement();
-		String exitId = ((PortalEntryInformationProvider)primitiveElement.getInformationProvider()).getExitId();
+	public void run() {
+		PrimitiveElement primitiveElement = (PrimitiveElement) getElement();
+		String exitId = ((PortalEntryInformationProvider) primitiveElement.getInformationProvider())
+				.getExitId();
 		getCommandListener().executeCommand(new LocateElement(exitId));
 	}
 }

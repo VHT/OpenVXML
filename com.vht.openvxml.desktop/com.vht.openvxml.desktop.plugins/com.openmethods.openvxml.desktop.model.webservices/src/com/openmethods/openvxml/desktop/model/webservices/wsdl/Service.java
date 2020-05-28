@@ -26,9 +26,7 @@ public class Service {
 
 	public Port getPort(String portName) {
 		for (Port port : ports) {
-			if (port.getName().equals(portName)) {
-				return port;
-			}
+			if (port.getName().equals(portName)) { return port; }
 		}
 		return null;
 	}

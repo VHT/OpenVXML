@@ -14,45 +14,38 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesignComponent;
 
 /**
  * @author trip
- *
  */
-public class FragmentComponentPropertiesPanelProvider implements
-	ComponentPropertiesPanelProvider
-{
+public class FragmentComponentPropertiesPanelProvider implements ComponentPropertiesPanelProvider {
 
 	/**
 	 * 
 	 */
-	public FragmentComponentPropertiesPanelProvider()
-	{
-	}
+	public FragmentComponentPropertiesPanelProvider() {}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.vtp.desktop.editors.core.configuration.ComponentPropertiesPanelProvider#getPropertiesPanels(org.eclipse.vtp.desktop.model.core.design.IDesignComponent)
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.vtp.desktop.editors.core.configuration.ComponentPropertiesPanelProvider#
+	 * getPropertiesPanels(org.eclipse.vtp.desktop.model.core.design.IDesignComponent)
 	 */
-	public List<ComponentPropertiesPanel> getPropertiesPanels(
-		IDesignComponent designComponent)
-	{
-		ApplicationFragmentElement pe = (ApplicationFragmentElement)designComponent;
+	public List<ComponentPropertiesPanel> getPropertiesPanels(IDesignComponent designComponent) {
+		ApplicationFragmentElement pe = (ApplicationFragmentElement) designComponent;
 		List<ComponentPropertiesPanel> ret = new ArrayList<ComponentPropertiesPanel>();
-		if(pe.isModelPresent())
-		{
+		if (pe.isModelPresent()) {
 			ret.add(new FragmentEntrySelectionPropertiesPanel("Workflow Entry", pe));
 			ret.add(new FragmentVariableMappingPanel("Input Parameters", pe));
 			ret.add(new FragmentOutputMappingPanel("Output Mapping", pe));
-		}
-		else
-		{
+		} else {
 			ret.add(new FragmentMissingModelPanel("Warning", pe));
 		}
 		return ret;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.vtp.desktop.editors.core.configuration.ComponentPropertiesPanelProvider#isApplicableFor(org.eclipse.vtp.desktop.model.core.design.IDesignComponent)
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.vtp.desktop.editors.core.configuration.ComponentPropertiesPanelProvider#
+	 * isApplicableFor(org.eclipse.vtp.desktop.model.core.design.IDesignComponent)
 	 */
-	public boolean isApplicableFor(IDesignComponent designComponent)
-	{
+	public boolean isApplicableFor(IDesignComponent designComponent) {
 		return designComponent instanceof ApplicationFragmentElement;
 	}
 

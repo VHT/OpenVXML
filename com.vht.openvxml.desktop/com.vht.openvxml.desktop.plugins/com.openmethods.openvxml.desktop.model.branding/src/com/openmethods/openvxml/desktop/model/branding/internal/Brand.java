@@ -18,14 +18,12 @@ import com.openmethods.openvxml.desktop.model.branding.BrandManager;
 import com.openmethods.openvxml.desktop.model.branding.IBrand;
 
 /**
- * A brand represents a layer of configuration within an application. Brands are
- * arranged into a hierarchy and support a form of inheritance. Typically, child
- * brands should inherit any configuration or settings available to their parent
- * brand. There is no limit to the number of branches in the brand structure.
- * 
- * This class holds the information for a single brand. It tracks the parent
- * brand and any children this brand has. It also maintains an index of the
- * media providers available to this brand.
+ * A brand represents a layer of configuration within an application. Brands are arranged into a
+ * hierarchy and support a form of inheritance. Typically, child brands should inherit any
+ * configuration or settings available to their parent brand. There is no limit to the number of
+ * branches in the brand structure. This class holds the information for a single brand. It tracks
+ * the parent brand and any children this brand has. It also maintains an index of the media
+ * providers available to this brand.
  * 
  * @author trip
  */
@@ -42,13 +40,11 @@ public class Brand implements IBrand {
 	private BrandManager manager;
 
 	/**
-	 * Creates a new brand with the given unique identifier and name. The brand
-	 * initially has no parent, media providers, or child brands.
+	 * Creates a new brand with the given unique identifier and name. The brand initially has no
+	 * parent, media providers, or child brands.
 	 * 
-	 * @param id
-	 *            The unique identifier for this brand
-	 * @param name
-	 *            The human readable name for this brand
+	 * @param id The unique identifier for this brand
+	 * @param name The human readable name for this brand
 	 */
 	public Brand(String id, String name) {
 		super();
@@ -80,19 +76,15 @@ public class Brand implements IBrand {
 	}
 
 	/**
-	 * Sets the name of this brand to the given value. If the new name is equal
-	 * to the old name, no action is taken. Otherwise, the new name is made the
-	 * current name and a property change event is propagated to this brand's
-	 * manager.
+	 * Sets the name of this brand to the given value. If the new name is equal to the old name, no
+	 * action is taken. Otherwise, the new name is made the current name and a property change event
+	 * is propagated to this brand's manager.
 	 * 
-	 * @param newName
-	 *            The new name for this brand
+	 * @param newName The new name for this brand
 	 */
 	@Override
 	public void setName(String newName) {
-		if (newName.equals(name)) {
-			return;
-		}
+		if (newName.equals(name)) { return; }
 		String oldName = name;
 		name = newName;
 		manager.fireBrandNameChanged(this, oldName);
@@ -120,30 +112,22 @@ public class Brand implements IBrand {
 	}
 
 	/**
-	 * Sets the given brand as the parent of this brand. If the current parent
-	 * is the same as the new parent, no action is taken. Prior to setting the
-	 * new parent, the brand hierarchy is checked to ensure a cycle has not been
-	 * introduced. If a cycle is detected, an illegal argument exception is
-	 * thrown. This brand is added to the parent brand as a child. If this brand
-	 * did not have a parent previously, a brand added event is dispatched to
-	 * the brand manager. Otherwise, a brand parent changed event is delivered
-	 * instead.
+	 * Sets the given brand as the parent of this brand. If the current parent is the same as the
+	 * new parent, no action is taken. Prior to setting the new parent, the brand hierarchy is
+	 * checked to ensure a cycle has not been introduced. If a cycle is detected, an illegal
+	 * argument exception is thrown. This brand is added to the parent brand as a child. If this
+	 * brand did not have a parent previously, a brand added event is dispatched to the brand
+	 * manager. Otherwise, a brand parent changed event is delivered instead.
 	 * 
-	 * @param brand
-	 *            The new parent of this brand
-	 * @throws IllegalArgumentException
-	 *             If the parent brand is null or applying the new structure
+	 * @param brand The new parent of this brand
+	 * @throws IllegalArgumentException If the parent brand is null or applying the new structure
 	 *             would result in a cycle in the hierarchy.
 	 */
 	@Override
 	public void setParent(IBrand ibrand) {
-		if (!(ibrand instanceof Brand)) {
-			throw new IllegalArgumentException("Parent must be a "
-					+ Brand.class.getName());
-		}
-		if (ibrand == parentBrand) {
-			return;
-		}
+		if (!(ibrand instanceof Brand)) { throw new IllegalArgumentException("Parent must be a "
+				+ Brand.class.getName()); }
+		if (ibrand == parentBrand) { return; }
 		Brand oldParent = parentBrand;
 		// check for circular references
 		Brand brand = (Brand) ibrand;
@@ -158,8 +142,7 @@ public class Brand implements IBrand {
 	}
 
 	/**
-	 * @return The list of brands contained by this brand in the order they were
-	 *         added.
+	 * @return The list of brands contained by this brand in the order they were added.
 	 */
 	@Override
 	public List<IBrand> getChildBrands() {
@@ -167,13 +150,11 @@ public class Brand implements IBrand {
 	}
 
 	/**
-	 * Adds the given brand to this brand as a child. If the brand was already a
-	 * child of this brand, it is first removed and then added at the end of the
-	 * list of child brands. The manager which contains this brand is set into
-	 * the child brand.
+	 * Adds the given brand to this brand as a child. If the brand was already a child of this
+	 * brand, it is first removed and then added at the end of the list of child brands. The manager
+	 * which contains this brand is set into the child brand.
 	 * 
-	 * @param child
-	 *            The child brand to add
+	 * @param child The child brand to add
 	 */
 	protected void addChild(Brand child) {
 		this.childBrands.remove(child);
@@ -182,34 +163,27 @@ public class Brand implements IBrand {
 	}
 
 	/**
-	 * Removes the given brand from the list of this brand's child brands. If
-	 * the given brand was not this brand's child no action is taken.
+	 * Removes the given brand from the list of this brand's child brands. If the given brand was
+	 * not this brand's child no action is taken.
 	 * 
-	 * @param child
-	 *            The child to remove
+	 * @param child The child to remove
 	 */
 	protected void removeChild(Brand child) {
 		this.childBrands.remove(child);
 	}
 
 	/**
-	 * Ensures the given brand is eligible to be this brand's parent. An
-	 * exception is raised if a circular structure would be created by adding
-	 * this brand to the given one.
+	 * Ensures the given brand is eligible to be this brand's parent. An exception is raised if a
+	 * circular structure would be created by adding this brand to the given one.
 	 * 
-	 * @param newParent
-	 *            The brand to check
+	 * @param newParent The brand to check
 	 */
 	private void checkParent(Brand newParent) {
-		if (newParent == null) {
-			throw new IllegalArgumentException("Parent cannot be null");
-		}
+		if (newParent == null) { throw new IllegalArgumentException("Parent cannot be null"); }
 		for (int i = 0; i < childBrands.size(); i++) {
 			Brand child = childBrands.get(i);
-			if (child.equals(newParent)) {
-				throw new IllegalArgumentException(
-						"Circular reference detected in brand structure.");
-			}
+			if (child.equals(newParent)) { throw new IllegalArgumentException(
+					"Circular reference detected in brand structure."); }
 			child.checkParent(newParent);
 		}
 	}
@@ -217,17 +191,15 @@ public class Brand implements IBrand {
 	/**
 	 * Sets the brand manager to use for resolution
 	 * 
-	 * @param manager
-	 *            The brand manager to use to resolve brand information
+	 * @param manager The brand manager to use to resolve brand information
 	 */
 	void setManager(BrandManager manager) {
 		this.manager = manager;
 	}
 
 	/**
-	 * Removes this brand from the current brand structure. This will remove
-	 * this brand from its parent and also delete all of this brand's child
-	 * brands.
+	 * Removes this brand from the current brand structure. This will remove this brand from its
+	 * parent and also delete all of this brand's child brands.
 	 */
 	@Override
 	public void delete() {

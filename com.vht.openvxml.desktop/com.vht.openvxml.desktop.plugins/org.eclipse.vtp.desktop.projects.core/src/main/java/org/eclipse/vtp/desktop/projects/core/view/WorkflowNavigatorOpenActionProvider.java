@@ -21,8 +21,7 @@ import org.eclipse.ui.navigator.ICommonActionExtensionSite;
 import org.eclipse.ui.navigator.ICommonViewerWorkbenchSite;
 
 /**
- * A Common Navigator action provider providing the contributions from the open
- * editor action group.
+ * A Common Navigator action provider providing the contributions from the open editor action group.
  * 
  * @see WorkflowNavigatorOpenEditorActionGroup
  */
@@ -31,8 +30,7 @@ public class WorkflowNavigatorOpenActionProvider extends CommonActionProvider {
 	private WorkflowNavigatorOpenEditorActionGroup fOpenGroup;
 
 	/*
-	 * @see
-	 * org.eclipse.ui.navigator.CommonActionProvider#init(org.eclipse.ui.navigator
+	 * @see org.eclipse.ui.navigator.CommonActionProvider#init(org.eclipse.ui.navigator
 	 * .ICommonActionExtensionSite)
 	 */
 	@Override
@@ -42,12 +40,10 @@ public class WorkflowNavigatorOpenActionProvider extends CommonActionProvider {
 			workbenchSite = (ICommonViewerWorkbenchSite) site.getViewSite();
 		}
 		if (workbenchSite != null) {
-			if (workbenchSite.getPart() != null
-					&& workbenchSite.getPart() instanceof IViewPart) {
+			if (workbenchSite.getPart() != null && workbenchSite.getPart() instanceof IViewPart) {
 				IViewPart viewPart = (IViewPart) workbenchSite.getPart();
 
-				fOpenGroup = new WorkflowNavigatorOpenEditorActionGroup(
-						viewPart);
+				fOpenGroup = new WorkflowNavigatorOpenEditorActionGroup(viewPart);
 			}
 		}
 	}
@@ -65,25 +61,22 @@ public class WorkflowNavigatorOpenActionProvider extends CommonActionProvider {
 	}
 
 	/*
-	 * @see
-	 * org.eclipse.ui.actions.ActionGroup#fillActionBars(org.eclipse.ui.IActionBars
-	 * )
+	 * @see org.eclipse.ui.actions.ActionGroup#fillActionBars(org.eclipse.ui.IActionBars )
 	 */
 	@Override
 	public void fillActionBars(IActionBars actionBars) {
 		if (fOpenGroup != null) {
 			fOpenGroup.updateActionBars();
 			if (fOpenGroup.getOpenAction().isEnabled()) {
-				actionBars.setGlobalActionHandler(ICommonActionConstants.OPEN,
-						fOpenGroup.getOpenAction());
+				actionBars.setGlobalActionHandler(ICommonActionConstants.OPEN, fOpenGroup
+						.getOpenAction());
 			}
 		}
 
 	}
 
 	/*
-	 * @see
-	 * org.eclipse.ui.actions.ActionGroup#fillContextMenu(org.eclipse.jface.
+	 * @see org.eclipse.ui.actions.ActionGroup#fillContextMenu(org.eclipse.jface.
 	 * action.IMenuManager)
 	 */
 	@Override
@@ -94,9 +87,7 @@ public class WorkflowNavigatorOpenActionProvider extends CommonActionProvider {
 	}
 
 	/*
-	 * @see
-	 * org.eclipse.ui.actions.ActionGroup#setContext(org.eclipse.ui.actions.
-	 * ActionContext)
+	 * @see org.eclipse.ui.actions.ActionGroup#setContext(org.eclipse.ui.actions. ActionContext)
 	 */
 	@Override
 	public void setContext(ActionContext context) {

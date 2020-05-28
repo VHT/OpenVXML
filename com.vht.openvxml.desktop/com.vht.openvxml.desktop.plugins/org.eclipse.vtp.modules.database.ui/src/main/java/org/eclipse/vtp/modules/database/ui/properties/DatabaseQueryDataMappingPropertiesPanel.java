@@ -65,10 +65,10 @@ import com.openmethods.openvxml.desktop.model.workflow.internal.VariableHelper;
 
 /**
  * @author Trip
- *
  */
-public class DatabaseQueryDataMappingPropertiesPanel extends
-		DesignElementPropertiesPanel implements DatabaseQuerySettingsListener {
+public class DatabaseQueryDataMappingPropertiesPanel extends DesignElementPropertiesPanel
+	implements
+	DatabaseQuerySettingsListener {
 	IBusinessObjectProjectAspect businessObjectAspect = null;
 	IDatabaseProjectAspect databaseAspect = null;
 	DatabaseQueryInformationProvider queryElement;
@@ -81,8 +81,7 @@ public class DatabaseQueryDataMappingPropertiesPanel extends
 	public DatabaseQueryDataMappingPropertiesPanel(PrimitiveElement dqe,
 			DatabaseQuerySettingsStructure settings) {
 		super("Fields", dqe);
-		this.queryElement = (DatabaseQueryInformationProvider) dqe
-				.getInformationProvider();
+		this.queryElement = (DatabaseQueryInformationProvider) dqe.getInformationProvider();
 		this.settings = settings;
 		IOpenVXMLProject project = dqe.getDesign().getDocument().getProject();
 		businessObjectAspect = (IBusinessObjectProjectAspect) project
@@ -95,12 +94,10 @@ public class DatabaseQueryDataMappingPropertiesPanel extends
 
 	@Override
 	public void createControls(Composite parent) {
-		Table mappingTable = new Table(parent, SWT.FULL_SELECTION | SWT.BORDER
-				| SWT.SINGLE);
+		Table mappingTable = new Table(parent, SWT.FULL_SELECTION | SWT.BORDER | SWT.SINGLE);
 		mappingTable.setHeaderVisible(true);
 
-		TableColumn businessObjectFieldColumn = new TableColumn(mappingTable,
-				SWT.NONE);
+		TableColumn businessObjectFieldColumn = new TableColumn(mappingTable, SWT.NONE);
 		businessObjectFieldColumn.setText("Business Object Field");
 		businessObjectFieldColumn.setWidth(150);
 
@@ -109,28 +106,22 @@ public class DatabaseQueryDataMappingPropertiesPanel extends
 		valueColumn.setWidth(200);
 		valueCellEditor = new ValueCellEditor(mappingTable);
 		mappingTableViewer = new TableViewer(mappingTable);
-		mappingTableViewer
-				.setColumnProperties(new String[] { "Field", "Value" });
+		mappingTableViewer.setColumnProperties(new String[] { "Field", "Value" });
 		mappingTableViewer.setCellModifier(new MappingCellModifier());
-		mappingTableViewer.setCellEditors(new CellEditor[] { null,
-				valueCellEditor });
+		mappingTableViewer.setCellEditors(new CellEditor[] { null, valueCellEditor });
 		mappingTableViewer.setContentProvider(new MappingContentProvider());
 		mappingTableViewer.setLabelProvider(new MappingLabelProvider());
 		mappingTableViewer.setInput(this);
 
-		if ((settings.targetVariableName != null)
-				&& !settings.targetVariableName.equals("")
-				&& (settings.targetVariableType != null)
-				&& !settings.targetVariableType.equals("")) {
+		if ((settings.targetVariableName != null) && !settings.targetVariableName.equals("")
+				&& (settings.targetVariableType != null) && !settings.targetVariableType.equals("")) {
 			if (settings.targetVariableExists) {
 				String tname = settings.targetVariableName;
 				String[] parts = tname.split("\\.");
-				currentObject = findObjectDefinition(incomingVariables,
-						parts[0]);
+				currentObject = findObjectDefinition(incomingVariables, parts[0]);
 
 				for (int i = 1; i < parts.length; i++) {
-					currentObject = findObjectDefinition(
-							currentObject.getFields(), parts[i]);
+					currentObject = findObjectDefinition(currentObject.getFields(), parts[i]);
 
 					if (currentObject == null) {
 						break;
@@ -140,76 +131,62 @@ public class DatabaseQueryDataMappingPropertiesPanel extends
 				if (currentObject != null) {
 					if (currentObject.getType().hasBaseType()) {
 						if (!currentObject.getType().isObject()) {
-							settings.dataMapping.add(settings.new DataMapping(
-									"Value", -1, null));
+							settings.dataMapping.add(settings.new DataMapping("Value", -1, null));
 						} else {
 							List<IBusinessObject> businessObjects = businessObjectAspect
-									.getBusinessObjectSet()
-									.getBusinessObjects();
+									.getBusinessObjectSet().getBusinessObjects();
 
 							for (int i = 0; i < businessObjects.size(); i++) {
 								IBusinessObject ibo = businessObjects.get(i);
 
-								if (ibo.getName().equals(
-										settings.targetVariableType)) {
-									List<IBusinessObjectField> fields = ibo
-											.getFields();
+								if (ibo.getName().equals(settings.targetVariableType)) {
+									List<IBusinessObjectField> fields = ibo.getFields();
 
 									for (int f = 0; f < fields.size(); f++) {
-										IBusinessObjectField ibof = fields
-												.get(f);
-										settings.dataMapping
-												.add(settings.new DataMapping(
-														ibof.getName(), -1,
-														null));
+										IBusinessObjectField ibof = fields.get(f);
+										settings.dataMapping.add(settings.new DataMapping(ibof
+												.getName(), -1, null));
 									}
 								}
 							}
 						}
 					} else {
 						if (currentObject.getType().isObject()) {
-							List<ObjectField> fields = currentObject
-									.getFields();
+							List<ObjectField> fields = currentObject.getFields();
 
 							for (int i = 0; i < fields.size(); i++) {
 								ObjectField of = fields.get(i);
-								settings.dataMapping
-										.add(settings.new DataMapping(of
-												.getName(), -1, null));
+								settings.dataMapping.add(settings.new DataMapping(of.getName(), -1,
+										null));
 							}
 						} else {
-							settings.dataMapping.add(settings.new DataMapping(
-									currentObject.getPath(), -1, null));
+							settings.dataMapping.add(settings.new DataMapping(currentObject
+									.getPath(), -1, null));
 						}
 					}
 				}
 			} else {
-				currentObject = VariableHelper.constructVariable(
-						settings.targetVariableName,
-						businessObjectAspect.getBusinessObjectSet(),
-						settings.targetVariableType);
+				currentObject = VariableHelper.constructVariable(settings.targetVariableName,
+						businessObjectAspect.getBusinessObjectSet(), settings.targetVariableType);
 			}
 		}
 
 		mappingTableViewer.refresh();
 	}
 
-	public ObjectDefinition findObjectDefinition(
-			List<? extends ObjectDefinition> posibilities, String name) {
+	public ObjectDefinition findObjectDefinition(List<? extends ObjectDefinition> posibilities,
+			String name) {
 		for (int i = 0; i < posibilities.size(); i++) {
 			ObjectDefinition od = posibilities.get(i);
 
-			if (od.getName().equals(name)) {
-				return od;
-			}
+			if (od.getName().equals(name)) { return od; }
 		}
 
 		return null;
 	}
 
 	@Override
-	public void save() {
-	}
+	public void save() {}
 
 	@Override
 	public void cancel() {
@@ -218,15 +195,12 @@ public class DatabaseQueryDataMappingPropertiesPanel extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.ui.app.editor.model.DatabaseQuerySettingsListener
+	 * @see org.eclipse.vtp.desktop.ui.app.editor.model.DatabaseQuerySettingsListener
 	 * #targetVariableChanged()
 	 */
 	@Override
 	public void targetVariableChanged() {
-		if ((settings.targetVariableName == null)
-				|| (settings.targetVariableType == null)
+		if ((settings.targetVariableName == null) || (settings.targetVariableType == null)
 				|| settings.targetVariableName.equals("")) {
 			currentObject = null;
 			mappingTableViewer.refresh();
@@ -235,8 +209,7 @@ public class DatabaseQueryDataMappingPropertiesPanel extends
 		}
 
 		if ((currentObject == null)
-				|| (!settings.targetVariableName
-						.equals(currentObject.getPath()) || !settings.targetVariableType
+				|| (!settings.targetVariableName.equals(currentObject.getPath()) || !settings.targetVariableType
 						.equals(currentObject.getType()))) {
 			if (settings.targetVariableExists) {
 				for (int i = 0; i < incomingVariables.size(); i++) {
@@ -245,33 +218,28 @@ public class DatabaseQueryDataMappingPropertiesPanel extends
 					if (v.getName().equals(settings.targetVariableName)) {
 						currentObject = v;
 					} else if ((settings.targetVariableName != null)
-							&& settings.targetVariableName.startsWith(v
-									.getName())) {
+							&& settings.targetVariableName.startsWith(v.getName())) {
 						List<ObjectField> objectFields = v.getFields();
 
 						for (int f = 0; f < objectFields.size(); f++) {
 							ObjectField of = objectFields.get(f);
 
-							if (of.getPath()
-									.equals(settings.targetVariableName)) {
+							if (of.getPath().equals(settings.targetVariableName)) {
 								currentObject = of;
 							}
 						}
 					}
 				}
 			} else {
-				currentObject = VariableHelper.constructVariable(
-						settings.targetVariableName,
-						businessObjectAspect.getBusinessObjectSet(),
-						settings.targetVariableType);
+				currentObject = VariableHelper.constructVariable(settings.targetVariableName,
+						businessObjectAspect.getBusinessObjectSet(), settings.targetVariableType);
 			}
 
 			settings.dataMapping.clear();
 
 			if (currentObject.getType().hasBaseType()) {
 				if (!currentObject.getType().isObject()) {
-					settings.dataMapping.add(settings.new DataMapping("Value",
-							-1, null));
+					settings.dataMapping.add(settings.new DataMapping("Value", -1, null));
 				} else {
 					List<IBusinessObject> businessObjects = businessObjectAspect
 							.getBusinessObjectSet().getBusinessObjects();
@@ -284,9 +252,8 @@ public class DatabaseQueryDataMappingPropertiesPanel extends
 
 							for (int f = 0; f < fields.size(); f++) {
 								IBusinessObjectField ibof = fields.get(f);
-								settings.dataMapping
-										.add(settings.new DataMapping(ibof
-												.getName(), -1, null));
+								settings.dataMapping.add(settings.new DataMapping(ibof.getName(),
+										-1, null));
 							}
 						}
 					}
@@ -297,12 +264,11 @@ public class DatabaseQueryDataMappingPropertiesPanel extends
 
 					for (int i = 0; i < fields.size(); i++) {
 						ObjectField of = fields.get(i);
-						settings.dataMapping.add(settings.new DataMapping(of
-								.getName(), -1, null));
+						settings.dataMapping.add(settings.new DataMapping(of.getName(), -1, null));
 					}
 				} else {
-					settings.dataMapping.add(settings.new DataMapping(
-							currentObject.getPath(), -1, null));
+					settings.dataMapping.add(settings.new DataMapping(currentObject.getPath(), -1,
+							null));
 				}
 			}
 
@@ -312,9 +278,7 @@ public class DatabaseQueryDataMappingPropertiesPanel extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.ui.app.editor.model.DatabaseQuerySettingsListener
+	 * @see org.eclipse.vtp.desktop.ui.app.editor.model.DatabaseQuerySettingsListener
 	 * #sourceDatabaseChanged()
 	 */
 	@Override
@@ -323,11 +287,10 @@ public class DatabaseQueryDataMappingPropertiesPanel extends
 
 		if (currentObject != null && currentObject.getType().hasBaseType()) {
 			if (!currentObject.getType().isObject()) {
-				settings.dataMapping.add(settings.new DataMapping("Value", -1,
-						null));
+				settings.dataMapping.add(settings.new DataMapping("Value", -1, null));
 			} else {
-				List<IBusinessObject> businessObjects = businessObjectAspect
-						.getBusinessObjectSet().getBusinessObjects();
+				List<IBusinessObject> businessObjects = businessObjectAspect.getBusinessObjectSet()
+						.getBusinessObjects();
 
 				for (int i = 0; i < businessObjects.size(); i++) {
 					IBusinessObject ibo = businessObjects.get(i);
@@ -337,8 +300,8 @@ public class DatabaseQueryDataMappingPropertiesPanel extends
 
 						for (int f = 0; f < fields.size(); f++) {
 							IBusinessObjectField ibof = fields.get(f);
-							settings.dataMapping.add(settings.new DataMapping(
-									ibof.getName(), -1, null));
+							settings.dataMapping.add(settings.new DataMapping(ibof.getName(), -1,
+									null));
 						}
 					}
 				}
@@ -349,12 +312,11 @@ public class DatabaseQueryDataMappingPropertiesPanel extends
 
 				for (int i = 0; i < fields.size(); i++) {
 					ObjectField of = fields.get(i);
-					settings.dataMapping.add(settings.new DataMapping(of
-							.getName(), -1, null));
+					settings.dataMapping.add(settings.new DataMapping(of.getName(), -1, null));
 				}
 			} else {
-				settings.dataMapping.add(settings.new DataMapping(currentObject
-						.getPath(), -1, null));
+				settings.dataMapping
+						.add(settings.new DataMapping(currentObject.getPath(), -1, null));
 			}
 		}
 
@@ -363,25 +325,19 @@ public class DatabaseQueryDataMappingPropertiesPanel extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.ui.app.editor.model.DatabaseQuerySettingsListener
+	 * @see org.eclipse.vtp.desktop.ui.app.editor.model.DatabaseQuerySettingsListener
 	 * #dataMappingChanged()
 	 */
 	@Override
-	public void dataMappingChanged() {
-	}
+	public void dataMappingChanged() {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.ui.app.editor.model.DatabaseQuerySettingsListener
+	 * @see org.eclipse.vtp.desktop.ui.app.editor.model.DatabaseQuerySettingsListener
 	 * #searchCriteriaChanged()
 	 */
 	@Override
-	public void searchCriteriaChanged() {
-	}
+	public void searchCriteriaChanged() {}
 
 	public class MappingContentProvider implements IStructuredContentProvider {
 		@Override
@@ -394,12 +350,10 @@ public class DatabaseQueryDataMappingPropertiesPanel extends
 		}
 
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 	}
 
 	public class MappingLabelProvider implements ITableLabelProvider {
@@ -408,13 +362,11 @@ public class DatabaseQueryDataMappingPropertiesPanel extends
 			DatabaseQuerySettingsStructure.DataMapping mapping = (DatabaseQuerySettingsStructure.DataMapping) element;
 
 			if (columnIndex == 0) {
-				return org.eclipse.vtp.desktop.core.Activator.getDefault()
-						.getImageRegistry().get("ICON_TINY_SQUARE");
+				return org.eclipse.vtp.desktop.core.Activator.getDefault().getImageRegistry().get(
+						"ICON_TINY_SQUARE");
 			} else if (columnIndex == 1) {
-				if (mapping.mappingType == 1) {
-					return org.eclipse.vtp.desktop.core.Activator.getDefault()
-							.getImageRegistry().get("ICON_DOMAIN");
-				}
+				if (mapping.mappingType == 1) { return org.eclipse.vtp.desktop.core.Activator
+						.getDefault().getImageRegistry().get("ICON_DOMAIN"); }
 			}
 
 			return null;
@@ -445,12 +397,10 @@ public class DatabaseQueryDataMappingPropertiesPanel extends
 		}
 
 		@Override
-		public void addListener(ILabelProviderListener listener) {
-		}
+		public void addListener(ILabelProviderListener listener) {}
 
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		@Override
 		public boolean isLabelProperty(Object element, String property) {
@@ -458,16 +408,13 @@ public class DatabaseQueryDataMappingPropertiesPanel extends
 		}
 
 		@Override
-		public void removeListener(ILabelProviderListener listener) {
-		}
+		public void removeListener(ILabelProviderListener listener) {}
 	}
 
 	public class MappingCellModifier implements ICellModifier {
 		@Override
 		public boolean canModify(Object element, String property) {
-			if (property.equals("Value")) {
-				return true;
-			}
+			if (property.equals("Value")) { return true; }
 
 			return false;
 		}
@@ -519,8 +466,7 @@ public class DatabaseQueryDataMappingPropertiesPanel extends
 		@Override
 		protected Object openDialogBox(Control cellEditorWindow) {
 			ValueDialog vd = new ValueDialog(cellEditorWindow.getShell());
-			vd.setValue((DatabaseQuerySettingsStructure.DataMapping) this
-					.getValue());
+			vd.setValue((DatabaseQuerySettingsStructure.DataMapping) this.getValue());
 			vd.open();
 
 			return this.getValue();
@@ -563,8 +509,8 @@ public class DatabaseQueryDataMappingPropertiesPanel extends
 				value.mappingValue = staticValueField.getText();
 			} else {
 				value.mappingType = 1;
-				value.mappingValue = databaseColumnCombo
-						.getItem(databaseColumnCombo.getSelectionIndex());
+				value.mappingValue = databaseColumnCombo.getItem(databaseColumnCombo
+						.getSelectionIndex());
 			}
 		}
 
@@ -593,8 +539,7 @@ public class DatabaseQueryDataMappingPropertiesPanel extends
 				}
 
 				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-				}
+				public void widgetDefaultSelected(SelectionEvent e) {}
 			});
 
 			final Button cancelButton = new Button(buttons, SWT.PUSH);
@@ -606,8 +551,7 @@ public class DatabaseQueryDataMappingPropertiesPanel extends
 				}
 
 				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-				}
+				public void widgetDefaultSelected(SelectionEvent e) {}
 			});
 			if (Display.getCurrent().getDismissalAlignment() == SWT.RIGHT) {
 				cancelButton.moveAbove(okButton);
@@ -653,27 +597,22 @@ public class DatabaseQueryDataMappingPropertiesPanel extends
 			gd.horizontalSpan = 2;
 			noChangeButton.setLayoutData(gd);
 			databaseColumnButton = new Button(parent, SWT.RADIO);
-			databaseColumnButton
-					.setText("Use the value from this table column");
+			databaseColumnButton.setText("Use the value from this table column");
 			databaseColumnButton.setBackground(parent.getBackground());
 			databaseColumnButton.setSelection(value.mappingType == 1);
 			databaseColumnButton.setLayoutData(new GridData());
-			databaseColumnCombo = new Combo(parent, SWT.READ_ONLY
-					| SWT.DROP_DOWN | SWT.BORDER);
-			databaseColumnCombo.setLayoutData(new GridData(
-					GridData.FILL_HORIZONTAL));
+			databaseColumnCombo = new Combo(parent, SWT.READ_ONLY | SWT.DROP_DOWN | SWT.BORDER);
+			databaseColumnCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			staticValueButton = new Button(parent, SWT.RADIO);
 			staticValueButton.setText("Use the value I've entered");
 			staticValueButton.setBackground(parent.getBackground());
 			staticValueButton.setSelection(value.mappingType == 0);
 			staticValueButton.setLayoutData(new GridData());
 			staticValueField = new Text(parent, SWT.BORDER | SWT.SINGLE);
-			staticValueField.setLayoutData(new GridData(
-					GridData.FILL_HORIZONTAL));
+			staticValueField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 			int columnSel = 0;
-			List<IDatabase> databases = databaseAspect.getDatabaseSet()
-					.getDatabases();
+			List<IDatabase> databases = databaseAspect.getDatabaseSet().getDatabases();
 
 			for (int i = 0; i < databases.size(); i++) {
 				IDatabase database = databases.get(i);
@@ -684,10 +623,8 @@ public class DatabaseQueryDataMappingPropertiesPanel extends
 					for (int t = 0; t < tables.size(); t++) {
 						IDatabaseTable table = tables.get(t);
 
-						if (table.getName()
-								.equals(settings.sourceDatabaseTable)) {
-							List<IDatabaseTableColumn> columns = table
-									.getColumns();
+						if (table.getName().equals(settings.sourceDatabaseTable)) {
+							List<IDatabaseTableColumn> columns = table.getColumns();
 
 							for (int c = 0; c < columns.size(); c++) {
 								IDatabaseTableColumn column = columns.get(c);
@@ -705,8 +642,7 @@ public class DatabaseQueryDataMappingPropertiesPanel extends
 			databaseColumnCombo.select(columnSel);
 
 			if (value.mappingType == 0) {
-				staticValueField.setText((value.mappingValue == null) ? ""
-						: value.mappingValue);
+				staticValueField.setText((value.mappingValue == null) ? "" : value.mappingValue);
 			}
 
 			databaseColumnCombo.addSelectionListener(new SelectionListener() {
@@ -716,13 +652,11 @@ public class DatabaseQueryDataMappingPropertiesPanel extends
 				}
 
 				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-				}
+				public void widgetDefaultSelected(SelectionEvent e) {}
 			});
 			staticValueField.addKeyListener(new KeyListener() {
 				@Override
-				public void keyPressed(KeyEvent e) {
-				}
+				public void keyPressed(KeyEvent e) {}
 
 				@Override
 				public void keyReleased(KeyEvent e) {
@@ -738,8 +672,7 @@ public class DatabaseQueryDataMappingPropertiesPanel extends
 				}
 
 				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-				}
+				public void widgetDefaultSelected(SelectionEvent e) {}
 			});
 			staticValueButton.addSelectionListener(new SelectionListener() {
 				@Override
@@ -750,8 +683,7 @@ public class DatabaseQueryDataMappingPropertiesPanel extends
 				}
 
 				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-				}
+				public void widgetDefaultSelected(SelectionEvent e) {}
 			});
 			databaseColumnButton.addSelectionListener(new SelectionListener() {
 				@Override
@@ -762,15 +694,13 @@ public class DatabaseQueryDataMappingPropertiesPanel extends
 				}
 
 				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-				}
+				public void widgetDefaultSelected(SelectionEvent e) {}
 			});
 		}
 	}
 
 	@Override
-	public void setConfigurationContext(Map<String, Object> values) {
-	}
+	public void setConfigurationContext(Map<String, Object> values) {}
 
 	@Override
 	public List<String> getApplicableContexts() {

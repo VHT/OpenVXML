@@ -42,14 +42,11 @@ public class ExternalReferenceAction implements IAction {
 	/**
 	 * Creates a new ExternalReferenceAction.
 	 * 
-	 * @param context
-	 *            The context to use.
-	 * @param conversation
-	 *            The conversation to use.
+	 * @param context The context to use.
+	 * @param conversation The conversation to use.
 	 */
-	public ExternalReferenceAction(IActionContext context,
-			IConversation conversation, IVariableRegistry variables,
-			ExternalReferenceConfiguration configuration) {
+	public ExternalReferenceAction(IActionContext context, IConversation conversation,
+			IVariableRegistry variables, ExternalReferenceConfiguration configuration) {
 		this.context = context;
 		this.conversation = conversation;
 		this.variables = variables;
@@ -58,13 +55,11 @@ public class ExternalReferenceAction implements IAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.core.IAction#execute()
 	 */
 	@Override
 	public IActionResult execute() {
-		String resultParameterName = ACTION_PREFIX
-				+ context.getActionID().replace(':', '_');
+		String resultParameterName = ACTION_PREFIX + context.getActionID().replace(':', '_');
 		try {
 			if (context.isDebugEnabled()) {
 				context.debug(getClass().getName().substring(
@@ -83,40 +78,34 @@ public class ExternalReferenceAction implements IAction {
 				if (context.isReportingEnabled()) {
 					Dictionary props = new Hashtable();
 					props.put("event", "external.reference.after");
-					context.report(IReporter.SEVERITY_INFO,
-							"External reference complete.", props);
+					context.report(IReporter.SEVERITY_INFO, "External reference complete.", props);
 				}
 				return context.createResult(IActionResult.RESULT_NAME_DEFAULT);
 			} else if (IConversation.RESULT_NAME_HANGUP.equals(result)) {
 				if (context.isReportingEnabled()) {
 					Dictionary props = new Hashtable();
 					props.put("event", "error.disconnect.hangup");
-					context.report(IReporter.SEVERITY_INFO,
-							"Got disconnect during interaction.", props);
+					context.report(IReporter.SEVERITY_INFO, "Got disconnect during interaction.",
+							props);
 				}
 				return context.createResult(IConversation.RESULT_NAME_HANGUP);
 			} else if (IConversation.RESULT_NAME_BAD_FETCH.equals(result)) {
 				if (context.isReportingEnabled()) {
 					Dictionary props = new Hashtable();
 					props.put("event", "error.badfetch");
-					context.report(IReporter.SEVERITY_INFO,
-							"Could not load external URL.", props);
+					context.report(IReporter.SEVERITY_INFO, "Could not load external URL.", props);
 				}
-				return context
-						.createResult(IConversation.RESULT_NAME_BAD_FETCH);
+				return context.createResult(IConversation.RESULT_NAME_BAD_FETCH);
 			} else if (result != null) {
 				return context.createResult(result);
 			} else {
 				if (context.isReportingEnabled()) {
 					Dictionary props = new Hashtable();
 					props.put("event", "external.reference.before");
-					context.report(
-							IReporter.SEVERITY_INFO,
-							"Invoking external reference \""
-									+ configuration.getName() + "\".", props);
+					context.report(IReporter.SEVERITY_INFO, "Invoking external reference \""
+							+ configuration.getName() + "\".", props);
 				}
-				conversation.createExternalReference(configuration,
-						resultParameterName).enqueue();
+				conversation.createExternalReference(configuration, resultParameterName).enqueue();
 				return context.createResult(IActionResult.RESULT_NAME_REPEAT);
 			}
 		} catch (RuntimeException e) {

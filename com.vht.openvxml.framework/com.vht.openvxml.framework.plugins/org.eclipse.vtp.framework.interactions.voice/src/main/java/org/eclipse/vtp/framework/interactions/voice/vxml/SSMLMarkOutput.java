@@ -17,9 +17,8 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
 /**
- * The <code>SSMLMarkOutput</code> class represents the SSML mark tag. A name
- * for the tag is supplied and used to identify the last mark encountered by the
- * voice browser prior to barge in.
+ * The <code>SSMLMarkOutput</code> class represents the SSML mark tag. A name for the tag is
+ * supplied and used to identify the last mark encountered by the voice browser prior to barge in.
  * 
  * @author Trip Gilman
  * @version 1.0
@@ -29,13 +28,10 @@ public class SSMLMarkOutput extends BasicOutput {
 	private String name = EMPTY;
 
 	/**
-	 * Creates a new instance of <code>SSMLMarkOutput</code> with the specified
-	 * name.
+	 * Creates a new instance of <code>SSMLMarkOutput</code> with the specified name.
 	 * 
-	 * @param name
-	 *            The name of this mark tag
-	 * @throws NullPointerException
-	 *             If the supplied name is <code>null</code>.
+	 * @param name The name of this mark tag
+	 * @throws NullPointerException If the supplied name is <code>null</code>.
 	 */
 	public SSMLMarkOutput(String name) throws NullPointerException {
 		setName(name);
@@ -51,41 +47,33 @@ public class SSMLMarkOutput extends BasicOutput {
 	/**
 	 * Sets the name of this mark tag
 	 * 
-	 * @param name
-	 *            The new name of this mark tag
-	 * @throws NullPointerException
-	 *             If the supplied name is <code>null</code>.
+	 * @param name The new name of this mark tag
+	 * @throws NullPointerException If the supplied name is <code>null</code>.
 	 */
 	public void setName(String name) throws NullPointerException {
-		if (name == null) {
-			throw new NullPointerException("name"); //$NON-NLS-1$
+		if (name == null) { throw new NullPointerException("name"); //$NON-NLS-1$
 		}
 		this.name = name;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.core.output.Widget#writeWidget(
 	 * org.xml.sax.ContentHandler)
 	 */
 	@Override
-	public void writeWidget(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
+	public void writeWidget(ContentHandler outputHandler) throws NullPointerException, SAXException {
 		AttributesImpl attributes = new AttributesImpl();
 		writeAttributes(attributes);
-		outputHandler.startElement(NAMESPACE_URI_VXML, NAME_MARK, NAME_MARK,
-				attributes);
+		outputHandler.startElement(NAMESPACE_URI_VXML, NAME_MARK, NAME_MARK, attributes);
 		outputHandler.endElement(NAMESPACE_URI_VXML, NAME_MARK, NAME_MARK);
 	}
 
 	/**
 	 * Write the attribute members of this condition to the supplied set.
 	 * 
-	 * @param attributes
-	 *            The attribute set to write to.
-	 * @throws NullPointerException
-	 *             If the supplied attribute set is <code>null</code>.
+	 * @param attributes The attribute set to write to.
+	 * @throws NullPointerException If the supplied attribute set is <code>null</code>.
 	 */
 	protected void writeAttributes(AttributesImpl attributes) {
 		writeAttribute(attributes, null, null, NAME_NAME, TYPE_CDATA, name);

@@ -95,8 +95,7 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 	/** A list of all SubmitInput objects configured in this Submit module */
 	List<SubmitInput> inputs = new ArrayList<SubmitInput>();
 	/**
-	 * A text field used to display/change the name of this particular Submit
-	 * module
+	 * A text field used to display/change the name of this particular Submit module
 	 */
 	Text nameField = null;
 	/** A Label used to label the Text field for the name of the subdialog */
@@ -168,9 +167,7 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel#
+	 * @see org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel#
 	 * createControls(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -188,36 +185,26 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 		nameField.addVerifyListener(new VerifyListener() {
 			@Override
 			public void verifyText(VerifyEvent e) {
-				String currentName = nameField.getText().substring(0, e.start)
-						+ e.text
-						+ nameField.getText(e.end, (nameField.getText()
-								.length() - 1));
+				String currentName = nameField.getText().substring(0, e.start) + e.text
+						+ nameField.getText(e.end, (nameField.getText().length() - 1));
 				if (VariableNameValidator.followsVtpNamingRules(currentName)) {
-					nameLabel.setForeground(nameLabel.getDisplay()
-							.getSystemColor(SWT.COLOR_BLACK));
-					nameField.setForeground(nameField.getDisplay()
-							.getSystemColor(SWT.COLOR_BLACK));
+					nameLabel.setForeground(nameLabel.getDisplay().getSystemColor(SWT.COLOR_BLACK));
+					nameField.setForeground(nameField.getDisplay().getSystemColor(SWT.COLOR_BLACK));
 					getContainer().setCanFinish(true);
 				} else {
-					nameLabel.setForeground(nameLabel.getDisplay()
-							.getSystemColor(SWT.COLOR_RED));
-					nameField.setForeground(nameField.getDisplay()
-							.getSystemColor(SWT.COLOR_RED));
+					nameLabel.setForeground(nameLabel.getDisplay().getSystemColor(SWT.COLOR_RED));
+					nameField.setForeground(nameField.getDisplay().getSystemColor(SWT.COLOR_RED));
 					getContainer().setCanFinish(false);
 				}
 			}
 		});
 		if (VariableNameValidator.followsVtpNamingRules(nameField.getText())) {
-			nameLabel.setForeground(nameLabel.getDisplay().getSystemColor(
-					SWT.COLOR_BLACK));
-			nameField.setForeground(nameField.getDisplay().getSystemColor(
-					SWT.COLOR_BLACK));
+			nameLabel.setForeground(nameLabel.getDisplay().getSystemColor(SWT.COLOR_BLACK));
+			nameField.setForeground(nameField.getDisplay().getSystemColor(SWT.COLOR_BLACK));
 			getContainer().setCanFinish(true);
 		} else {
-			nameLabel.setForeground(nameLabel.getDisplay().getSystemColor(
-					SWT.COLOR_RED));
-			nameField.setForeground(nameField.getDisplay().getSystemColor(
-					SWT.COLOR_RED));
+			nameLabel.setForeground(nameLabel.getDisplay().getSystemColor(SWT.COLOR_RED));
+			nameField.setForeground(nameField.getDisplay().getSystemColor(SWT.COLOR_RED));
 			getContainer().setCanFinish(false);
 		}
 
@@ -238,8 +225,7 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 		GridData gd2 = new GridData(SWT.FILL, SWT.FILL, true, true);
 		destinationContainer.setLayoutData(gd2);
 
-		destinationType = new Combo(destinationContainer, SWT.DROP_DOWN
-				| SWT.READ_ONLY);
+		destinationType = new Combo(destinationContainer, SWT.DROP_DOWN | SWT.READ_ONLY);
 		GridData gd4 = new GridData();
 		gd4.verticalAlignment = SWT.TOP;
 		destinationType.setLayoutData(gd4);
@@ -254,8 +240,7 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 			}
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
 		destinationComp = new Composite(destinationContainer, SWT.NONE);
 		destinationComp.setBackground(container.getBackground());
@@ -266,8 +251,7 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 		GridLayout layout = new GridLayout(1, false);
 		layout.marginWidth = layout.marginHeight = 0;
 		destinationValueComp.setLayout(layout);
-		destinationValue = new Text(destinationValueComp, SWT.SINGLE
-				| SWT.BORDER);
+		destinationValue = new Text(destinationValueComp, SWT.SINGLE | SWT.BORDER);
 		destinationValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		destinationExprComp = new Composite(destinationComp, SWT.NONE);
 		destinationExprComp.setBackground(destinationComp.getBackground());
@@ -280,8 +264,8 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 		destinationTreeComp.setBackground(destinationComp.getBackground());
 		FormLayout fl = new FormLayout();
 		destinationTreeComp.setLayout(fl);
-		destinationTree = new TreeViewer(destinationTreeComp, SWT.H_SCROLL
-				| SWT.V_SCROLL | SWT.BORDER | SWT.SINGLE);
+		destinationTree = new TreeViewer(destinationTreeComp, SWT.H_SCROLL | SWT.V_SCROLL
+				| SWT.BORDER | SWT.SINGLE);
 		FormData fd = new FormData();
 		fd.left = new FormAttachment(0);
 		fd.top = new FormAttachment(0);
@@ -312,8 +296,7 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 		gd2 = new GridData(SWT.FILL, SWT.FILL, true, true);
 		methodContainer.setLayoutData(gd2);
 
-		methodSelectionType = new Combo(methodContainer, SWT.DROP_DOWN
-				| SWT.READ_ONLY);
+		methodSelectionType = new Combo(methodContainer, SWT.DROP_DOWN | SWT.READ_ONLY);
 		gd4 = new GridData();
 		gd4.verticalAlignment = SWT.TOP;
 		methodSelectionType.setLayoutData(gd4);
@@ -328,8 +311,7 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 			}
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
 		methodComp = new Composite(methodContainer, SWT.NONE);
 		methodComp.setBackground(container.getBackground());
@@ -356,8 +338,8 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 		methodTreeComp.setBackground(methodComp.getBackground());
 		fl = new FormLayout();
 		methodTreeComp.setLayout(fl);
-		methodTree = new TreeViewer(methodTreeComp, SWT.H_SCROLL | SWT.V_SCROLL
-				| SWT.BORDER | SWT.SINGLE);
+		methodTree = new TreeViewer(methodTreeComp, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER
+				| SWT.SINGLE);
 		fd = new FormData();
 		fd.left = new FormAttachment(0);
 		fd.top = new FormAttachment(0);
@@ -452,16 +434,14 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 		gd.horizontalSpan = 2;
 		inputsGroup.setLayoutData(gd);
 		inputsGroup.setLayout(new GridLayout(2, true));
-		inputTable = new TableViewer(inputsGroup, SWT.FULL_SELECTION
-				| SWT.SINGLE | SWT.V_SCROLL | SWT.BORDER);
+		inputTable = new TableViewer(inputsGroup, SWT.FULL_SELECTION | SWT.SINGLE | SWT.V_SCROLL
+				| SWT.BORDER);
 		inputTable.getTable().setHeaderVisible(true);
 		inputTable.getTable().setLinesVisible(true);
-		TableColumn inputNameColumn = new TableColumn(inputTable.getTable(),
-				SWT.NONE);
+		TableColumn inputNameColumn = new TableColumn(inputTable.getTable(), SWT.NONE);
 		inputNameColumn.setText("Name");
 		inputNameColumn.setWidth(150);
-		TableColumn inputValueColumn = new TableColumn(inputTable.getTable(),
-				SWT.NONE);
+		TableColumn inputValueColumn = new TableColumn(inputTable.getTable(), SWT.NONE);
 		inputValueColumn.setText("Value");
 		inputValueColumn.setWidth(150);
 		inputTable.setContentProvider(new InputTableContentProvider());
@@ -477,8 +457,8 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				if (!inputTable.getSelection().isEmpty()) {
-					InputValueDialog vd = new InputValueDialog(Display
-							.getCurrent().getActiveShell());
+					InputValueDialog vd = new InputValueDialog(Display.getCurrent()
+							.getActiveShell());
 					SubmitInput si = (SubmitInput) ((IStructuredSelection) inputTable
 							.getSelection()).getFirstElement();
 					vd.setValue(si);
@@ -493,8 +473,7 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if (e.character == SWT.DEL
-						&& !inputTable.getSelection().isEmpty()) {
+				if (e.character == SWT.DEL && !inputTable.getSelection().isEmpty()) {
 					SubmitInput si = (SubmitInput) ((IStructuredSelection) inputTable
 							.getSelection()).getFirstElement();
 					inputs.remove(si);
@@ -503,8 +482,7 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 			}
 
 			@Override
-			public void keyReleased(KeyEvent e) {
-			}
+			public void keyReleased(KeyEvent e) {}
 		});
 
 		Button addButton = new Button(inputsGroup, SWT.PUSH);
@@ -515,13 +493,11 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 		addButton.addSelectionListener(new SelectionListener() {
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				InputValueDialog vd = new InputValueDialog(Display.getCurrent()
-						.getActiveShell());
+				InputValueDialog vd = new InputValueDialog(Display.getCurrent().getActiveShell());
 				SubmitInput si = info.new SubmitInput("", 0, "");
 				vd.setValue(si);
 				if (vd.open() == SWT.OK) {
@@ -536,8 +512,7 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 		deleteButton.addSelectionListener(new SelectionListener() {
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -624,10 +599,7 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel#
-	 * save()
+	 * @see org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel# save()
 	 */
 	@Override
 	public void save() {
@@ -639,25 +611,18 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.configuration.ComponentPropertiesPanel
-	 * #cancel()
+	 * @see org.eclipse.vtp.desktop.model.core.configuration.ComponentPropertiesPanel #cancel()
 	 */
 	@Override
 	public void cancel() {
 		getElement().rollbackConfigurationChanges(bindingManager);
 	}
 
-	public class InputTableContentProvider implements
-			IStructuredContentProvider {
+	public class InputTableContentProvider implements IStructuredContentProvider {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
-		 * java.lang.Object)
+		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements( java.lang.Object)
 		 */
 		@Override
 		public Object[] getElements(Object inputElement) {
@@ -666,33 +631,25 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 		 */
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
+		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
 		 * .jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
 		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 	}
 
 	public class InputTableLabelProvider implements ITableLabelProvider {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java
-		 * .lang.Object, int)
+		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java .lang.Object, int)
 		 */
 		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
@@ -701,46 +658,34 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.
-		 * lang.Object, int)
+		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java. lang.Object, int)
 		 */
 		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			SubmitInput si = (SubmitInput) element;
-			if (columnIndex == 0) {
-				return si.name;
-			}
+			if (columnIndex == 0) { return si.name; }
 			return si.value;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse
 		 * .jface.viewers.ILabelProviderListener)
 		 */
 		@Override
-		public void addListener(ILabelProviderListener listener) {
-		}
+		public void addListener(ILabelProviderListener listener) {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#dispose()
 		 */
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java
-		 * .lang.Object, java.lang.String)
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java .lang.Object,
+		 * java.lang.String)
 		 */
 		@Override
 		public boolean isLabelProperty(Object element, String property) {
@@ -749,14 +694,11 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
 		 * .jface.viewers.ILabelProviderListener)
 		 */
 		@Override
-		public void removeListener(ILabelProviderListener listener) {
-		}
+		public void removeListener(ILabelProviderListener listener) {}
 
 	}
 
@@ -794,13 +736,11 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 			this.setSideBarSize(40);
 			this.setTitle("Select a value");
 
-			List<Variable> unsortedVars = getElement().getDesign()
-					.getVariablesFor(getElement());
+			List<Variable> unsortedVars = getElement().getDesign().getVariablesFor(getElement());
 			if (unsortedVars == null) {
 				this.vars = null;
 			} else {
-				Comparable<Comparer>[] comp = new Comparable[unsortedVars
-						.size()];
+				Comparable<Comparer>[] comp = new Comparable[unsortedVars.size()];
 				for (int b = 0; b < unsortedVars.size(); b++) {
 					Object obj = unsortedVars.get(b);
 					Comparer compr = new Comparer((ObjectDefinition) obj);
@@ -817,8 +757,7 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 		/**
 		 * Specifies which SubmitInput object to modify
 		 * 
-		 * @param value
-		 *            - the SubmitInput object to modify
+		 * @param value - the SubmitInput object to modify
 		 */
 		public void setValue(SubmitInformationProvider.SubmitInput value) {
 			this.value = value;
@@ -826,9 +765,7 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.vtp.desktop.core.dialogs.FramedDialog#createButtonBar
+		 * @see org.eclipse.vtp.desktop.core.dialogs.FramedDialog#createButtonBar
 		 * (org.eclipse.swt.widgets.Composite)
 		 */
 		@Override
@@ -856,8 +793,7 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 				}
 
 				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-				}
+				public void widgetDefaultSelected(SelectionEvent e) {}
 			});
 
 			final Button cancelButton = new Button(buttons, SWT.PUSH);
@@ -869,8 +805,7 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 				}
 
 				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-				}
+				public void widgetDefaultSelected(SelectionEvent e) {}
 			});
 
 			if (Display.getCurrent().getDismissalAlignment() == SWT.RIGHT) {
@@ -880,8 +815,7 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 		}
 
 		/**
-		 * Saves any changes made to this object and exits with a return code of
-		 * SWT.OK
+		 * Saves any changes made to this object and exits with a return code of SWT.OK
 		 */
 		public void okPressed() {
 			value.name = variableNameField.getText();
@@ -902,8 +836,7 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 		}
 
 		/**
-		 * Cancels any changes made to this object and exits with a return code
-		 * of SWT.CANCEL
+		 * Cancels any changes made to this object and exits with a return code of SWT.CANCEL
 		 */
 		public void cancelPressed() {
 			this.setReturnCode(SWT.CANCEL);
@@ -912,9 +845,7 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.vtp.desktop.core.dialogs.FramedDialog#createDialogContents
+		 * @see org.eclipse.vtp.desktop.core.dialogs.FramedDialog#createDialogContents
 		 * (org.eclipse.swt.widgets.Composite)
 		 */
 		@Override
@@ -946,17 +877,15 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 			variableNameField.addVerifyListener(new VerifyListener() {
 				@Override
 				public void verifyText(VerifyEvent e) {
-					String currentName = variableNameField.getText().substring(
-							0, e.start)
+					String currentName = variableNameField.getText().substring(0, e.start)
 							+ e.text
-							+ variableNameField.getText(e.end,
-									(variableNameField.getText().length() - 1));
-					if (VariableNameValidator
-							.followsEcmaNamingRules(currentName)) {
-						nameLabel.setForeground(nameLabel.getDisplay()
+							+ variableNameField.getText(e.end, (variableNameField.getText()
+									.length() - 1));
+					if (VariableNameValidator.followsEcmaNamingRules(currentName)) {
+						nameLabel.setForeground(nameLabel.getDisplay().getSystemColor(
+								SWT.COLOR_BLACK));
+						variableNameField.setForeground(variableNameField.getDisplay()
 								.getSystemColor(SWT.COLOR_BLACK));
-						variableNameField.setForeground(variableNameField
-								.getDisplay().getSystemColor(SWT.COLOR_BLACK));
 						okButton.setEnabled(true);
 						// TODO check for name collisions
 						// for(int b = 0; b < reservedNames.size(); b++)
@@ -972,14 +901,14 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 					} else {
 						nameLabel.setForeground(nameLabel.getDisplay()
 								.getSystemColor(SWT.COLOR_RED));
-						variableNameField.setForeground(variableNameField
-								.getDisplay().getSystemColor(SWT.COLOR_RED));
+						variableNameField.setForeground(variableNameField.getDisplay()
+								.getSystemColor(SWT.COLOR_RED));
 						okButton.setEnabled(false);
 					}
 				}
 			});
-			okButton.setEnabled(VariableNameValidator
-					.followsEcmaNamingRules(variableNameField.getText()));
+			okButton.setEnabled(VariableNameValidator.followsEcmaNamingRules(variableNameField
+					.getText()));
 
 			valueType = new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY);
 			GridData valueTypeGridData = new GridData();
@@ -995,8 +924,7 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 				}
 
 				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-				}
+				public void widgetDefaultSelected(SelectionEvent e) {}
 			});
 
 			valueComp = new Composite(parent, SWT.None);
@@ -1016,8 +944,8 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 			layout.marginWidth = layout.marginHeight = 0;
 			variableTreeComp.setLayout(layout);
 
-			Tree variableTree = new Tree(variableTreeComp, SWT.BORDER
-					| SWT.SINGLE | SWT.FULL_SELECTION);
+			Tree variableTree = new Tree(variableTreeComp, SWT.BORDER | SWT.SINGLE
+					| SWT.FULL_SELECTION);
 			gd = new GridData(GridData.FILL_BOTH);
 			gd.horizontalIndent = 10;
 			gd.horizontalSpan = 2;
@@ -1027,8 +955,7 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 			variableViewer.setLabelProvider(new VariableLabelProvider());
 			variableViewer.setInput(this);
 
-			staticValueField = new Text(staticValueComp, SWT.BORDER
-					| SWT.SINGLE);
+			staticValueField = new Text(staticValueComp, SWT.BORDER | SWT.SINGLE);
 			gd = new GridData(GridData.FILL_HORIZONTAL);
 			gd.horizontalSpan = 2;
 			if (value.type == 1) {
@@ -1037,17 +964,14 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 
 					if (v.getName().equals(value.value)) {
 						variableViewer.setSelection(new StructuredSelection(v));
-					} else if ((value.value != null)
-							&& value.value.startsWith(v.getName())) {
+					} else if ((value.value != null) && value.value.startsWith(v.getName())) {
 						List<ObjectField> objectFields = v.getFields();
 
 						for (int f = 0; f < objectFields.size(); f++) {
 							ObjectField of = objectFields.get(f);
 
 							if (of.getPath().equals(value.value)) {
-								variableViewer
-										.setSelection(new StructuredSelection(
-												of));
+								variableViewer.setSelection(new StructuredSelection(of));
 							}
 						}
 					}
@@ -1058,8 +982,7 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 			if (value.type == 1) {
 				valueLayout.topControl = variableTreeComp;
 			} else {
-				staticValueField.setText((value.value == null) ? ""
-						: value.value);
+				staticValueField.setText((value.value == null) ? "" : value.value);
 				valueLayout.topControl = staticValueComp;
 			}
 		}
@@ -1085,13 +1008,10 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 			}
 
 			@Override
-			public void dispose() {
-			}
+			public void dispose() {}
 
 			@Override
-			public void inputChanged(Viewer viewer, Object oldInput,
-					Object newInput) {
-			}
+			public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 
 			@Override
 			public Object[] getChildren(Object parentElement) {
@@ -1116,8 +1036,8 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 		public class VariableLabelProvider extends LabelProvider {
 			@Override
 			public Image getImage(Object element) {
-				return org.eclipse.vtp.desktop.core.Activator.getDefault()
-						.getImageRegistry().get("ICON_TINY_SQUARE");
+				return org.eclipse.vtp.desktop.core.Activator.getDefault().getImageRegistry().get(
+						"ICON_TINY_SQUARE");
 			}
 
 			@Override
@@ -1139,7 +1059,6 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see java.lang.Comparable#compareTo(java.lang.Object)
 		 */
 		@Override
@@ -1157,29 +1076,23 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 
 		currentBrand = (IBrand) values.get(BrandContext.CONTEXT_ID);
 		if (currentBrand == null) {
-			final IOpenVXMLProject project = getElement().getDesign()
-					.getDocument().getProject();
+			final IOpenVXMLProject project = getElement().getDesign().getDocument().getProject();
 			final IProject uproject = project.getUnderlyingProject();
 			final Shell shell = this.getContainer().getParentShell();
 			Display.getCurrent().asyncExec(new Runnable() {
 				@Override
 				public void run() {
-					MessageBox mb = new MessageBox(shell, SWT.OK | SWT.CANCEL
-							| SWT.ICON_ERROR);
+					MessageBox mb = new MessageBox(shell, SWT.OK | SWT.CANCEL | SWT.ICON_ERROR);
 					mb.setText("Configuration Problems");
 					mb.setMessage("The interaction and language configuration for this project is incomplete.  You will not be able edit the applications effectively until this is resolved.  Would you like to configure this now?");
 					if (mb.open() == SWT.OK) {
 						Display.getCurrent().asyncExec(new Runnable() {
 							@Override
 							public void run() {
-								PropertyDialog pd = PropertyDialog
-										.createDialogOn(
-												PlatformUI
-														.getWorkbench()
-														.getActiveWorkbenchWindow()
-														.getShell(),
-												"org.eclipse.vtp.desktop.projects.core.appproperties",
-												uproject);
+								PropertyDialog pd = PropertyDialog.createDialogOn(PlatformUI
+										.getWorkbench().getActiveWorkbenchWindow().getShell(),
+										"org.eclipse.vtp.desktop.projects.core.appproperties",
+										uproject);
 								pd.open();
 							}
 						});
@@ -1189,31 +1102,25 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 			});
 			return;
 		}
-		InteractionBinding interactionBinding = bindingManager
-				.getInteractionBinding("");
+		InteractionBinding interactionBinding = bindingManager.getInteractionBinding("");
 		NamedBinding namedBinding = interactionBinding.getNamedBinding("url");
 		LanguageBinding languageBinding = namedBinding.getLanguageBinding("");
-		BrandBinding brandBinding = languageBinding
-				.getBrandBinding(currentBrand);
-		PropertyBindingItem valuePropertyItem = (PropertyBindingItem) brandBinding
-				.getBindingItem();
+		BrandBinding brandBinding = languageBinding.getBrandBinding(currentBrand);
+		PropertyBindingItem valuePropertyItem = (PropertyBindingItem) brandBinding.getBindingItem();
 		if (valuePropertyItem == null) {
 			valuePropertyItem = new PropertyBindingItem();
 		}
 		if (valuePropertyItem.getValue() != null) {
-			if (valuePropertyItem.getValueType().equals(
-					PropertyBindingItem.STATIC)) {
+			if (valuePropertyItem.getValueType().equals(PropertyBindingItem.STATIC)) {
 				destinationType.select(0);
 				destinationValue.setText(valuePropertyItem.getValue());
-			} else if (valuePropertyItem.getValueType().equals(
-					PropertyBindingItem.EXPRESSION)) {
+			} else if (valuePropertyItem.getValueType().equals(PropertyBindingItem.EXPRESSION)) {
 				destinationType.select(1);
 				destinationExpr.setText(valuePropertyItem.getValue());
 			} else {
 				destinationType.select(2);
-				ObjectDefinition od = VariableHelper
-						.getObjectDefinitionFromVariables(variables,
-								valuePropertyItem.getValue());
+				ObjectDefinition od = VariableHelper.getObjectDefinitionFromVariables(variables,
+						valuePropertyItem.getValue());
 				StructuredSelection ss = (od == null) ? StructuredSelection.EMPTY
 						: new StructuredSelection(od);
 				destinationTree.setSelection(ss);
@@ -1230,20 +1137,16 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 			valuePropertyItem = new PropertyBindingItem();
 		}
 		if (valuePropertyItem.getValue() != null) {
-			if (valuePropertyItem.getValueType().equals(
-					PropertyBindingItem.STATIC)) {
+			if (valuePropertyItem.getValueType().equals(PropertyBindingItem.STATIC)) {
 				methodSelectionType.select(0);
-				methodCombo.select("POST".equalsIgnoreCase(valuePropertyItem
-						.getValue()) ? 1 : 0);
-			} else if (valuePropertyItem.getValueType().equals(
-					PropertyBindingItem.EXPRESSION)) {
+				methodCombo.select("POST".equalsIgnoreCase(valuePropertyItem.getValue()) ? 1 : 0);
+			} else if (valuePropertyItem.getValueType().equals(PropertyBindingItem.EXPRESSION)) {
 				methodSelectionType.select(1);
 				methodExpr.setText(valuePropertyItem.getValue());
 			} else {
 				methodSelectionType.select(2);
-				ObjectDefinition od = VariableHelper
-						.getObjectDefinitionFromVariables(variables,
-								valuePropertyItem.getValue());
+				ObjectDefinition od = VariableHelper.getObjectDefinitionFromVariables(variables,
+						valuePropertyItem.getValue());
 				StructuredSelection ss = (od == null) ? StructuredSelection.EMPTY
 						: new StructuredSelection(od);
 				methodTree.setSelection(ss);
@@ -1291,33 +1194,25 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 
 	private void storeBindings() {
 		try {
-			InteractionBinding interactionBinding = bindingManager
-					.getInteractionBinding("");
-			NamedBinding namedBinding = interactionBinding
-					.getNamedBinding("url");
-			LanguageBinding languageBinding = namedBinding
-					.getLanguageBinding("");
-			BrandBinding brandBinding = languageBinding
-					.getBrandBinding(currentBrand);
+			InteractionBinding interactionBinding = bindingManager.getInteractionBinding("");
+			NamedBinding namedBinding = interactionBinding.getNamedBinding("url");
+			LanguageBinding languageBinding = namedBinding.getLanguageBinding("");
+			BrandBinding brandBinding = languageBinding.getBrandBinding(currentBrand);
 			PropertyBindingItem valuePropertyItem = (PropertyBindingItem) brandBinding
 					.getBindingItem();
 			if (valuePropertyItem == null) {
 				valuePropertyItem = new PropertyBindingItem();
 			} else {
-				valuePropertyItem = (PropertyBindingItem) valuePropertyItem
-						.clone();
+				valuePropertyItem = (PropertyBindingItem) valuePropertyItem.clone();
 			}
 			switch (destinationType.getSelectionIndex()) {
 			case 2:
 				ISelection selection = destinationTree.getSelection();
 				if ((selection != null) && !selection.isEmpty()
 						&& selection instanceof IStructuredSelection) {
-					Object selObj = ((IStructuredSelection) selection)
-							.getFirstElement();
+					Object selObj = ((IStructuredSelection) selection).getFirstElement();
 					if (selObj instanceof ObjectDefinition) {
-						valuePropertyItem
-								.setVariable(((ObjectDefinition) selObj)
-										.getPath());
+						valuePropertyItem.setVariable(((ObjectDefinition) selObj).getPath());
 						break;
 					}
 				}
@@ -1334,25 +1229,20 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 			namedBinding = interactionBinding.getNamedBinding("method");
 			languageBinding = namedBinding.getLanguageBinding("");
 			brandBinding = languageBinding.getBrandBinding(currentBrand);
-			valuePropertyItem = (PropertyBindingItem) brandBinding
-					.getBindingItem();
+			valuePropertyItem = (PropertyBindingItem) brandBinding.getBindingItem();
 			if (valuePropertyItem == null) {
 				valuePropertyItem = new PropertyBindingItem();
 			} else {
-				valuePropertyItem = (PropertyBindingItem) valuePropertyItem
-						.clone();
+				valuePropertyItem = (PropertyBindingItem) valuePropertyItem.clone();
 			}
 			switch (methodSelectionType.getSelectionIndex()) {
 			case 2:
 				ISelection selection = methodTree.getSelection();
 				if ((selection != null) && !selection.isEmpty()
 						&& selection instanceof IStructuredSelection) {
-					Object selObj = ((IStructuredSelection) selection)
-							.getFirstElement();
+					Object selObj = ((IStructuredSelection) selection).getFirstElement();
 					if (selObj instanceof ObjectDefinition) {
-						valuePropertyItem
-								.setVariable(((ObjectDefinition) selObj)
-										.getPath());
+						valuePropertyItem.setVariable(((ObjectDefinition) selObj).getPath());
 						break;
 					}
 				}
@@ -1362,8 +1252,8 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 				valuePropertyItem.setExpression(methodExpr.getText());
 				break;
 			default:
-				valuePropertyItem.setStaticValue(methodCombo
-						.getSelectionIndex() == 1 ? "POST" : "GET");
+				valuePropertyItem.setStaticValue(methodCombo.getSelectionIndex() == 1 ? "POST"
+						: "GET");
 			}
 			brandBinding.setBindingItem(valuePropertyItem);
 
@@ -1410,10 +1300,7 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 	public class VariableContentProvider implements ITreeContentProvider {
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang
-		 * .Object)
+		 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang .Object)
 		 */
 		@Override
 		public Object[] getChildren(Object parentElement) {
@@ -1428,10 +1315,7 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang
-		 * .Object)
+		 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang .Object)
 		 */
 		@Override
 		public Object getParent(Object element) {
@@ -1444,10 +1328,7 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang
-		 * .Object)
+		 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang .Object)
 		 */
 		@Override
 		public boolean hasChildren(Object element) {
@@ -1456,10 +1337,7 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
-		 * java.lang.Object)
+		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements( java.lang.Object)
 		 */
 		@Override
 		public Object[] getElements(Object inputElement) {
@@ -1468,23 +1346,18 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 		 */
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
+		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
 		 * .jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
 		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 	}
 
 	/**
@@ -1495,9 +1368,7 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 	public class VariableLabelProvider implements ILabelProvider {
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
+		 * @see org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
 		 */
 		@Override
 		public Image getImage(Object element) {
@@ -1506,9 +1377,7 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
+		 * @see org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
 		 */
 		@Override
 		public String getText(Object element) {
@@ -1517,30 +1386,23 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse
 		 * .jface.viewers.ILabelProviderListener)
 		 */
 		@Override
-		public void addListener(ILabelProviderListener listener) {
-		}
+		public void addListener(ILabelProviderListener listener) {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#dispose()
 		 */
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java
-		 * .lang.Object, java.lang.String)
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java .lang.Object,
+		 * java.lang.String)
 		 */
 		@Override
 		public boolean isLabelProperty(Object element, String property) {
@@ -1549,13 +1411,10 @@ public class SubmitPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
 		 * .jface.viewers.ILabelProviderListener)
 		 */
 		@Override
-		public void removeListener(ILabelProviderListener listener) {
-		}
+		public void removeListener(ILabelProviderListener listener) {}
 	}
 }

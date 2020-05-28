@@ -113,10 +113,8 @@ public abstract class DesignComponent implements IDesignComponent {
 	 * @param oldValue
 	 * @param newValue
 	 */
-	public void firePropertyChange(String propertyName, Object oldValue,
-			Object newValue) {
-		PropertyChangeEvent event = new PropertyChangeEvent(this, propertyName,
-				oldValue, newValue);
+	public void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
+		PropertyChangeEvent event = new PropertyChangeEvent(this, propertyName, oldValue, newValue);
 		for (PropertyChangeListener listener : propertyListeners) {
 			listener.propertyChange(event);
 		}

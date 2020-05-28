@@ -21,8 +21,7 @@ public interface LinkSelectionListener {
 	/**
 	 * Called when the given TextLink is selected by the user.
 	 * 
-	 * @param link
-	 *            The link selected
+	 * @param link The link selected
 	 */
 	public void linkSelected(TextLink link);
 }

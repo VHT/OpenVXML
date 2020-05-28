@@ -44,35 +44,31 @@ public interface IConversation {
 
 	IInitial createInitial(String resultParameterName, Map variableNames);
 
-	IOutputMessage createOutputMessage(
-			OutputMessageConfiguration configuration, String resultParameterName);
+	IOutputMessage createOutputMessage(OutputMessageConfiguration configuration,
+			String resultParameterName);
 
 	IMetaDataMessage createMetaDataMessage(MetaDataConfiguration configuration,
 			String resultParameterName);
 
-	IMetaDataRequest createMetaDataRequest(
-			MetaDataRequestConfiguration configuration,
+	IMetaDataRequest createMetaDataRequest(MetaDataRequestConfiguration configuration,
 			String resultParameterName);
 
 	IInputRequest createInputRequest(InputRequestConfiguration configuration,
 			String resultParameterName);
 
-	ISelectionRequest createSelectionRequest(
-			SelectionRequestConfiguration configuration,
+	ISelectionRequest createSelectionRequest(SelectionRequestConfiguration configuration,
 			String resultParameterName);
 
 	IDataRequest createDataRequest(DataRequestConfiguration configuration,
 			String resultParameterName);
 
-	IExternalReference createExternalReference(
-			ExternalReferenceConfiguration configuration,
+	IExternalReference createExternalReference(ExternalReferenceConfiguration configuration,
 			String resultParameterName);
 
-	ITransferMessage createTransferMessage(
-			TransferMessageConfiguration configuration);
+	ITransferMessage createTransferMessage(TransferMessageConfiguration configuration);
 
-	IBridgeMessage createBridgeMessage(
-			BridgeMessageConfiguration configuration, String resultParameterName);
+	IBridgeMessage createBridgeMessage(BridgeMessageConfiguration configuration,
+			String resultParameterName);
 
 	IFinal createFinal();
 
@@ -82,10 +78,9 @@ public interface IConversation {
 
 	public InputGrammar resolveInput(InputConfiguration configuration);
 
-	public String resolveProperty(PropertyConfiguration configuration,
-			boolean useInteractionType);
+	public String resolveProperty(PropertyConfiguration configuration, boolean useInteractionType);
 
-	public String resolveProperty(PropertyConfiguration configuration,
-			boolean useInteractionType, boolean useLanguage);
+	public String resolveProperty(PropertyConfiguration configuration, boolean useInteractionType,
+			boolean useLanguage);
 
 }

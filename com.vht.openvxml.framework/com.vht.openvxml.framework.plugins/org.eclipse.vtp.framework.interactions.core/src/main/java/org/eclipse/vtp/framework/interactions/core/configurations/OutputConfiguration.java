@@ -25,8 +25,7 @@ import org.w3c.dom.NodeList;
  * 
  * @author Lonnie Pryor
  */
-public class OutputConfiguration implements IConfiguration,
-		InteractionsConstants {
+public class OutputConfiguration implements IConfiguration, InteractionsConstants {
 	/** The content factory to use. */
 	private final IContentFactory contentFactory;
 	/** Index of content arrays by brand, interaction type, and language. */
@@ -35,101 +34,79 @@ public class OutputConfiguration implements IConfiguration,
 	/**
 	 * Creates a new OutputConfiguration.
 	 * 
-	 * @param contentFactory
-	 *            The content factory to use.
+	 * @param contentFactory The content factory to use.
 	 */
 	public OutputConfiguration(IContentFactory contentFactory) {
 		this.contentFactory = contentFactory;
 	}
 
 	/**
-	 * Returns the item configured for the specified brand, interaction type,
-	 * and language or <code>null</code> if no such item is configured.
+	 * Returns the item configured for the specified brand, interaction type, and language or
+	 * <code>null</code> if no such item is configured.
 	 * 
-	 * @param brandId
-	 *            The id of the brand to find the item for.
-	 * @param interactionTypeID
-	 *            The ID of the interaction type to find the item for.
-	 * @param languageID
-	 *            The ID of the language to find the item for.
-	 * @return The item configured for the specified brand, interaction type,
-	 *         and language or <code>null</code> if no such item is configured.
+	 * @param brandId The id of the brand to find the item for.
+	 * @param interactionTypeID The ID of the interaction type to find the item for.
+	 * @param languageID The ID of the language to find the item for.
+	 * @return The item configured for the specified brand, interaction type, and language or
+	 *         <code>null</code> if no such item is configured.
 	 */
-	public OutputNode[] getItem(String brandId, String interactionTypeID,
-			String languageID) {
+	public OutputNode[] getItem(String brandId, String interactionTypeID, String languageID) {
 		return items.get(brandId + ":" + interactionTypeID + ":" + languageID);
 	}
 
 	/**
-	 * Sets the item configured for the specified brand, interaction type, and
-	 * language.
+	 * Sets the item configured for the specified brand, interaction type, and language.
 	 * 
-	 * @param brandId
-	 *            The path of the brand to set the item for.
-	 * @param interactionTypeID
-	 *            The ID of the interaction type to set the item for.
-	 * @param languageID
-	 *            The ID of the language to set the item for.
-	 * @param item
-	 *            The item to set as the configuration or <code>null</code> to
-	 *            remove the specified configuration.
+	 * @param brandId The path of the brand to set the item for.
+	 * @param interactionTypeID The ID of the interaction type to set the item for.
+	 * @param languageID The ID of the language to set the item for.
+	 * @param item The item to set as the configuration or <code>null</code> to remove the specified
+	 *            configuration.
 	 */
-	public void setItem(String brandId, String interactionTypeID,
-			String languageID, OutputNode[] item) {
+	public void setItem(String brandId, String interactionTypeID, String languageID,
+			OutputNode[] item) {
 		setItem(brandId + ":" + interactionTypeID + ":" + languageID, item);
 	}
 
 	/**
-	 * Sets the item configured for the specified brand, interaction type, and
-	 * language.
+	 * Sets the item configured for the specified brand, interaction type, and language.
 	 * 
-	 * @param key
-	 *            The key to set the item for.
-	 * @param item
-	 *            The item to set as the configuration or <code>null</code> to
-	 *            remove the specified configuration.
+	 * @param key The key to set the item for.
+	 * @param item The item to set as the configuration or <code>null</code> to remove the specified
+	 *            configuration.
 	 */
 	public void setItem(String key, OutputNode[] item) {
-		if (item == null)
-			items.remove(key);
-		else
-			items.put(key, item);
+		if (item == null) items.remove(key);
+		else items.put(key, item);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.core.IConfiguration#load(org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(org.w3c.dom.Element)
 	 */
 	public void load(Element configurationElement) {
 		items.clear();
-		NodeList outputItemElements = configurationElement
-				.getElementsByTagNameNS(NAMESPACE_URI, NAME_OUTPUT_ITEM);
+		NodeList outputItemElements = configurationElement.getElementsByTagNameNS(NAMESPACE_URI,
+				NAME_OUTPUT_ITEM);
 		for (int i = 0; i < outputItemElements.getLength(); ++i) {
 			Element outputItemElement = (Element) outputItemElements.item(i);
 			String key = outputItemElement.getAttribute(NAME_KEY);
-			items.put(key,
-					OutputNode.loadAll(outputItemElement, contentFactory));
+			items.put(key, OutputNode.loadAll(outputItemElement, contentFactory));
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.core.IConfiguration#save(org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(org.w3c.dom.Element)
 	 */
 	public void save(Element configurationElement) {
 		String outputItemName = NAME_OUTPUT_ITEM;
 		String prefix = configurationElement.getPrefix();
-		if (prefix != null && prefix.length() > 0)
-			outputItemName = prefix + ":" + outputItemName; //$NON-NLS-1$
-		for (Iterator<Map.Entry<String, OutputNode[]>> i = items.entrySet()
-				.iterator(); i.hasNext();) {
+		if (prefix != null && prefix.length() > 0) outputItemName = prefix + ":" + outputItemName; //$NON-NLS-1$
+		for (Iterator<Map.Entry<String, OutputNode[]>> i = items.entrySet().iterator(); i.hasNext();) {
 			Map.Entry<String, OutputNode[]> entry = i.next();
-			Element outputItemElement = configurationElement.getOwnerDocument()
-					.createElementNS(NAMESPACE_URI, outputItemName);
+			Element outputItemElement = configurationElement.getOwnerDocument().createElementNS(
+					NAMESPACE_URI, outputItemName);
 			for (OutputNode node : entry.getValue())
 				node.save(outputItemElement);
 			outputItemElement.setAttribute(NAME_KEY, entry.getKey());

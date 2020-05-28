@@ -62,25 +62,22 @@ public class ConditionalContainerSet extends DocumentItemContainer {
 
 	@Override
 	public Element createConfigurationElement(Element parentElement) {
-		Element conditionalContainerElement = parentElement.getOwnerDocument()
-				.createElementNS(null, "conditional-container");
+		Element conditionalContainerElement = parentElement.getOwnerDocument().createElementNS(
+				null, "conditional-container");
 		parentElement.appendChild(conditionalContainerElement);
 		return conditionalContainerElement;
 	}
 
 	/**
-	 * Reads the configuration data stored in the given dom element into this
-	 * language binding instance. Any previous information stored in this
-	 * language binding is lost.
+	 * Reads the configuration data stored in the given dom element into this language binding
+	 * instance. Any previous information stored in this language binding is lost.
 	 * 
-	 * @param conditionalContainerElement
-	 *            The dom element containing the configuration
+	 * @param conditionalContainerElement The dom element containing the configuration
 	 */
 	@Override
 	public void readConfiguration(Element conditionalContainerElement) {
-		List<Element> conditionalElementList = XMLUtilities
-				.getElementsByTagName(conditionalContainerElement,
-						"conditional-item", true);
+		List<Element> conditionalElementList = XMLUtilities.getElementsByTagName(
+				conditionalContainerElement, "conditional-item", true);
 		for (Element conditionalElement : conditionalElementList) {
 			ConditionalDocumentItem conditionalItem = new ConditionalDocumentItem();
 			conditionalItem.readConfiguration(conditionalElement);
@@ -105,27 +102,24 @@ public class ConditionalContainerSet extends DocumentItemContainer {
 	/**
 	 * Stores this language binding's information into the given dom element.
 	 * 
-	 * @param conditionalContainerElement
-	 *            The dom element to hold this binding's data
+	 * @param conditionalContainerElement The dom element to hold this binding's data
 	 */
 	@Override
 	public void writeConfiguration(Element conditionalContainerElement) {
 		if (ifItem != null) {
-			Element conditionalElement = conditionalContainerElement
-					.getOwnerDocument().createElementNS(null,
-							"conditional-item");
+			Element conditionalElement = conditionalContainerElement.getOwnerDocument()
+					.createElementNS(null, "conditional-item");
 			conditionalContainerElement.appendChild(conditionalElement);
 			ifItem.writeConfiguration(conditionalElement);
 			for (ConditionalDocumentItem conditionalItem : elseIfItems) {
-				conditionalElement = conditionalContainerElement
-						.getOwnerDocument().createElementNS(null,
-								"conditional-item");
+				conditionalElement = conditionalContainerElement.getOwnerDocument()
+						.createElementNS(null, "conditional-item");
 				conditionalContainerElement.appendChild(conditionalElement);
 				conditionalItem.writeConfiguration(conditionalElement);
 			}
 			if (elseItem != null) {
-				conditionalElement = conditionalContainerElement
-						.getOwnerDocument().createElementNS(null, "else-item");
+				conditionalElement = conditionalContainerElement.getOwnerDocument()
+						.createElementNS(null, "else-item");
 				conditionalContainerElement.appendChild(conditionalElement);
 				elseItem.writeConfiguration(conditionalElement);
 			}

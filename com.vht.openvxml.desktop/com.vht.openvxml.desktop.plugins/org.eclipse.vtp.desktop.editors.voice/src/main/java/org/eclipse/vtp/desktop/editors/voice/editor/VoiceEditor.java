@@ -28,16 +28,14 @@ import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.vtp.desktop.model.interactive.voice.internal.VoiceModel;
 
 /**
- * An example showing how to create a multi-page editor. This example has 3
- * pages:
+ * An example showing how to create a multi-page editor. This example has 3 pages:
  * <ul>
  * <li>page 0 contains a nested text editor.
  * <li>page 1 allows you to change the font used in page 2
  * <li>page 2 shows the words in page 0 in sorted order
  * </ul>
  */
-public class VoiceEditor extends MultiPageEditorPart implements Runnable,
-		IResourceChangeListener {
+public class VoiceEditor extends MultiPageEditorPart implements Runnable, IResourceChangeListener {
 	private SharedContentPage sharedContentPage = new SharedContentPage();
 	// private IPromptSet promptSet = null;
 	private VoiceModel model = null;
@@ -52,18 +50,13 @@ public class VoiceEditor extends MultiPageEditorPart implements Runnable,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.part.MultiPageEditorPart#init(org.eclipse.ui.IEditorSite,
+	 * @see org.eclipse.ui.part.MultiPageEditorPart#init(org.eclipse.ui.IEditorSite,
 	 * org.eclipse.ui.IEditorInput)
 	 */
 	@Override
-	public void init(IEditorSite site, IEditorInput editorInput)
-			throws PartInitException {
-		if (!(editorInput instanceof IFileEditorInput)) {
-			throw new PartInitException(
-					"Invalid Input: Must be IFileEditorInput");
-		}
+	public void init(IEditorSite site, IEditorInput editorInput) throws PartInitException {
+		if (!(editorInput instanceof IFileEditorInput)) { throw new PartInitException(
+				"Invalid Input: Must be IFileEditorInput"); }
 		super.init(site, editorInput);
 		IFile descriptor = ((IFileEditorInput) editorInput).getFile();
 		// promptSet =
@@ -79,7 +72,6 @@ public class VoiceEditor extends MultiPageEditorPart implements Runnable,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.ui.part.MultiPageEditorPart#dispose()
 	 */
 	@Override
@@ -96,19 +88,15 @@ public class VoiceEditor extends MultiPageEditorPart implements Runnable,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.ui.part.MultiPageEditorPart#createPages()
 	 */
 	@Override
 	protected void createPages() {
-		setPageText(
-				addPage(sharedContentPage.initialize(getContainer(), model)),
-				"Shared Content");
+		setPageText(addPage(sharedContentPage.initialize(getContainer(), model)), "Shared Content");
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.ui.part.MultiPageEditorPart#isDirty()
 	 */
 	@Override
@@ -118,7 +106,6 @@ public class VoiceEditor extends MultiPageEditorPart implements Runnable,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.ui.part.EditorPart#isSaveAsAllowed()
 	 */
 	@Override
@@ -128,9 +115,7 @@ public class VoiceEditor extends MultiPageEditorPart implements Runnable,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.
-	 * IProgressMonitor)
+	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime. IProgressMonitor)
 	 */
 	@Override
 	public void doSave(IProgressMonitor monitor) {
@@ -145,7 +130,6 @@ public class VoiceEditor extends MultiPageEditorPart implements Runnable,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.ui.part.EditorPart#doSaveAs()
 	 */
 	@Override
@@ -155,7 +139,6 @@ public class VoiceEditor extends MultiPageEditorPart implements Runnable,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.lang.Runnable#run()
 	 */
 	@Override
@@ -166,9 +149,7 @@ public class VoiceEditor extends MultiPageEditorPart implements Runnable,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.core.resources.IResourceChangeListener#resourceChanged(org
+	 * @see org.eclipse.core.resources.IResourceChangeListener#resourceChanged(org
 	 * .eclipse.core.resources.IResourceChangeEvent)
 	 */
 	@Override
@@ -177,8 +158,7 @@ public class VoiceEditor extends MultiPageEditorPart implements Runnable,
 			Display.getDefault().asyncExec(new Runnable() {
 				@Override
 				public void run() {
-					IWorkbenchPage[] pages = getSite().getWorkbenchWindow()
-							.getPages();
+					IWorkbenchPage[] pages = getSite().getWorkbenchWindow().getPages();
 					for (IWorkbenchPage page : pages) {
 						// if (((FileEditorInput) editor.getEditorInput())
 						// .getFile().getProject().equals(

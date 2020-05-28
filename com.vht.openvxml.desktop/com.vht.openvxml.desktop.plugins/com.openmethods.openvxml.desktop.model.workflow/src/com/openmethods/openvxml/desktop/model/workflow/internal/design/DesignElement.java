@@ -31,8 +31,7 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElementConn
 import com.openmethods.openvxml.desktop.model.workflow.design.IExitBroadcastReceiver;
 import com.openmethods.openvxml.desktop.model.workflow.design.Variable;
 
-public abstract class DesignElement extends DesignComponent implements
-		IDesignElement {
+public abstract class DesignElement extends DesignComponent implements IDesignElement {
 	private String name;
 	private Properties properties = new Properties();
 	private Point centerPoint = null;
@@ -127,8 +126,8 @@ public abstract class DesignElement extends DesignComponent implements
 		ConfigurationManager cm = configurationManagersByType.get(type);
 		if (cm == null) {
 			System.err.println("creating new manager instance");
-			cm = ConfigurationManagerRegistry.getInstance()
-					.getConfigurationManager(getDesign(), type);
+			cm = ConfigurationManagerRegistry.getInstance().getConfigurationManager(getDesign(),
+					type);
 			if (cm != null) {
 				configurationManagers.add(cm);
 				configurationManagersByType.put(type, cm);
@@ -165,8 +164,7 @@ public abstract class DesignElement extends DesignComponent implements
 		if (ref.refs == 0) // final commit
 		{
 			configRefs.remove(manager.getType());
-			ConfigurationManager cm = configurationManagersByType.get(manager
-					.getType());
+			ConfigurationManager cm = configurationManagersByType.get(manager.getType());
 			configurationManagers.remove(cm);
 			configurationManagers.add(manager);
 			configurationManagersByType.put(manager.getType(), manager);
@@ -225,8 +223,7 @@ public abstract class DesignElement extends DesignComponent implements
 	}
 
 	@Override
-	public List<Variable> getOutgoingVariables(String exitPoint,
-			boolean localOnly) {
+	public List<Variable> getOutgoingVariables(String exitPoint, boolean localOnly) {
 		return new LinkedList<Variable>();
 	}
 
@@ -252,9 +249,7 @@ public abstract class DesignElement extends DesignComponent implements
 			boolean has = connector.getOrigin().hasPathToStart(originPath);
 			ret |= has;
 
-			if (ret) {
-				return ret;
-			}
+			if (ret) { return ret; }
 		}
 
 		return ret;
@@ -309,17 +304,14 @@ public abstract class DesignElement extends DesignComponent implements
 	/**
 	 * @param configuration
 	 */
-	public abstract void readCustomConfiguration(
-			org.w3c.dom.Element configuration);
+	public abstract void readCustomConfiguration(org.w3c.dom.Element configuration);
 
 	/**
 	 * @param customElement
 	 */
-	public abstract void writeCustomConfiguration(
-			org.w3c.dom.Element customElement);
+	public abstract void writeCustomConfiguration(org.w3c.dom.Element customElement);
 
-	public void declareBusinessObjects() {
-	}
+	public void declareBusinessObjects() {}
 
 	@Override
 	public Point getCenterPoint() {

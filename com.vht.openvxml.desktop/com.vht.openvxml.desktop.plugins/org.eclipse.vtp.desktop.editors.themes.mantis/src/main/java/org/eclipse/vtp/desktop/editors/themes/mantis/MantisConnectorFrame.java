@@ -36,17 +36,15 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElement;
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElementConnectionPoint;
 
 /**
- * This is the Mantis theme's implementation of the connector frame interface.
- * The Mantis connector supports mid-points and is drawn with solid lines and
- * hard angles at line joints. The arrow head is stylized similar to an antenna
- * and when the line has multiple segments, each segment except the one with the
- * arrow head has tick marks indicating the direction of the line midway down
- * that line segment.
+ * This is the Mantis theme's implementation of the connector frame interface. The Mantis connector
+ * supports mid-points and is drawn with solid lines and hard angles at line joints. The arrow head
+ * is stylized similar to an antenna and when the line has multiple segments, each segment except
+ * the one with the arrow head has tick marks indicating the direction of the line midway down that
+ * line segment.
  * 
  * @author trip
  */
-public class MantisConnectorFrame extends MantisComponentFrame implements
-		ConnectorFrame {
+public class MantisConnectorFrame extends MantisComponentFrame implements ConnectorFrame {
 	/** The ui connector being represented */
 	private IDesignConnector uiConnector;
 	/** Indicates whether this connector is selected */
@@ -67,16 +65,12 @@ public class MantisConnectorFrame extends MantisComponentFrame implements
 	List<String> adList = new ArrayList<String>();
 
 	/**
-	 * Creates a new connector frame instance that represents the provided ui
-	 * connector and begins at the source element frame and ends at the
-	 * destination element frame.
+	 * Creates a new connector frame instance that represents the provided ui connector and begins
+	 * at the source element frame and ends at the destination element frame.
 	 * 
-	 * @param source
-	 *            The element frame this connector begins at
-	 * @param destination
-	 *            The element frame this connector ends at
-	 * @param uiConnector
-	 *            The ui connector this frame represents
+	 * @param source The element frame this connector begins at
+	 * @param destination The element frame this connector ends at
+	 * @param uiConnector The ui connector this frame represents
 	 */
 	public MantisConnectorFrame(ElementFrame source, ElementFrame destination,
 			IDesignConnector uiConnector) {
@@ -91,10 +85,7 @@ public class MantisConnectorFrame extends MantisComponentFrame implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.theme.ConnectorFrame#getUIConnector
-	 * ()
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.ConnectorFrame#getUIConnector ()
 	 */
 	@Override
 	public IDesignConnector getDesignConnector() {
@@ -103,26 +94,21 @@ public class MantisConnectorFrame extends MantisComponentFrame implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#adjustPosition
-	 * (int, int)
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#adjustPosition (int, int)
 	 */
 	@Override
 	public void adjustPosition(int xoffset, int yoffset) {
 		if (dragTarget != null) {
 			if (dragTarget instanceof IDesignConnectorMidpoint) {
-				((IDesignConnectorMidpoint) dragTarget).adjustPosition(xoffset,
-						yoffset);
+				((IDesignConnectorMidpoint) dragTarget).adjustPosition(xoffset, yoffset);
 			} else if (dragTarget instanceof IDesignConnectorLabel) {
 				IDesignConnectorLabel lineLabel = (IDesignConnectorLabel) dragTarget;
 				Point offset = lineLabel.getOffsetPosition();
-				lineLabel.setPosition(lineLabel.getAnchorSegment(), offset.x
-						+ xoffset, offset.y + yoffset);
+				lineLabel.setPosition(lineLabel.getAnchorSegment(), offset.x + xoffset, offset.y
+						+ yoffset);
 			}
 		} else {
-			List<IDesignConnectorMidpoint> midPoints = uiConnector
-					.getMidpoints();
+			List<IDesignConnectorMidpoint> midPoints = uiConnector.getMidpoints();
 			for (int i = 0; i < midPoints.size(); i++) {
 				IDesignConnectorMidpoint midPoint = midPoints.get(i);
 				midPoint.adjustPosition(xoffset, yoffset);
@@ -133,67 +119,51 @@ public class MantisConnectorFrame extends MantisComponentFrame implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#getBounds()
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#getBounds()
 	 */
 	@Override
 	public Rectangle getBounds() {
-		if (labelUpperLeft == null) {
-			return null;
-		}
-		Rectangle ret = new Rectangle(labelUpperLeft.x, labelUpperLeft.y,
-				labelLowerRight.x - labelUpperLeft.x + 1, labelLowerRight.y
-						- labelUpperLeft.y + 1);
+		if (labelUpperLeft == null) { return null; }
+		Rectangle ret = new Rectangle(labelUpperLeft.x, labelUpperLeft.y, labelLowerRight.x
+				- labelUpperLeft.x + 1, labelLowerRight.y - labelUpperLeft.y + 1);
 
 		Point[] ps = uiConnector.getPoints();
 		for (int i = 0; i < (ps.length - 1); i++) {
-			ret.add(new Rectangle(Math.min(ps[i].x, ps[i + 1].x) - 10, Math
-					.min(ps[i].y, ps[i + 1].y) - 10, Math.abs(ps[i + 1].x
-					- ps[i].x) + 20, Math.abs(ps[i + 1].y - ps[i].y) + 20));
+			ret.add(new Rectangle(Math.min(ps[i].x, ps[i + 1].x) - 10, Math.min(ps[i].y,
+					ps[i + 1].y) - 10, Math.abs(ps[i + 1].x - ps[i].x) + 20, Math.abs(ps[i + 1].y
+					- ps[i].y) + 20));
 		}
 		return ret;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.editors.themes.mantis.MantisComponentFrame#
-	 * mouseDoubleClick
-	 * (org.eclipse.vtp.desktop.editors.core.commands.CommandListener, int, int,
-	 * int)
+	 * @see org.eclipse.vtp.desktop.editors.themes.mantis.MantisComponentFrame# mouseDoubleClick
+	 * (org.eclipse.vtp.desktop.editors.core.commands.CommandListener, int, int, int)
 	 */
 	@Override
-	public void mouseDoubleClick(CommandListener commandListener, int x, int y,
-			int modifiers) {
+	public void mouseDoubleClick(CommandListener commandListener, int x, int y, int modifiers) {
 		super.mouseDoubleClick(commandListener, x, y, modifiers);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#mouseDown(org
-	 * .eclipse.vtp.desktop.editors.core.commands.CommandListener, int, int,
-	 * int)
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#mouseDown(org
+	 * .eclipse.vtp.desktop.editors.core.commands.CommandListener, int, int, int)
 	 */
 	@Override
-	public void mouseDown(CommandListener commandListener, int x, int y,
-			int modifiers) {
-		Rectangle labelRect = new Rectangle(labelUpperLeft.x, labelUpperLeft.y,
-				labelLowerRight.x - labelUpperLeft.x, labelLowerRight.y
-						- labelUpperLeft.y);
+	public void mouseDown(CommandListener commandListener, int x, int y, int modifiers) {
+		Rectangle labelRect = new Rectangle(labelUpperLeft.x, labelUpperLeft.y, labelLowerRight.x
+				- labelUpperLeft.x, labelLowerRight.y - labelUpperLeft.y);
 		if (labelRect.contains(x, y)) {
 			dragTarget = uiConnector.getConnectorLabel();
 			commandListener.executeCommand(new StartMove());
 		} else {
-			List<IDesignConnectorMidpoint> midPoints = uiConnector
-					.getMidpoints();
+			List<IDesignConnectorMidpoint> midPoints = uiConnector.getMidpoints();
 			for (int i = 0; i < midPoints.size(); i++) {
 				IDesignConnectorMidpoint midPoint = midPoints.get(i);
 				Point midPointCenter = midPoint.getPosition();
-				if (new Rectangle(midPointCenter.x - 4, midPointCenter.y - 4,
-						8, 8).contains(x, y)) {
+				if (new Rectangle(midPointCenter.x - 4, midPointCenter.y - 4, 8, 8).contains(x, y)) {
 					dragTarget = midPoint;
 					commandListener.executeCommand(new StartMove());
 					break;
@@ -204,36 +174,24 @@ public class MantisConnectorFrame extends MantisComponentFrame implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#mouseMove(org
-	 * .eclipse.vtp.desktop.editors.core.commands.CommandListener, int, int,
-	 * int)
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#mouseMove(org
+	 * .eclipse.vtp.desktop.editors.core.commands.CommandListener, int, int, int)
 	 */
 	@Override
-	public void mouseMove(CommandListener commandListener, int x, int y,
-			int modifiers) {
-	}
+	public void mouseMove(CommandListener commandListener, int x, int y, int modifiers) {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#mouseUp(org
-	 * .eclipse.vtp.desktop.editors.core.commands.CommandListener, int, int,
-	 * int)
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#mouseUp(org
+	 * .eclipse.vtp.desktop.editors.core.commands.CommandListener, int, int, int)
 	 */
 	@Override
-	public void mouseUp(CommandListener commandListener, int x, int y,
-			int modifiers) {
-	}
+	public void mouseUp(CommandListener commandListener, int x, int y, int modifiers) {}
 
 	/**
-	 * Determines the center point of the line segment of this connector with
-	 * the given index.
+	 * Determines the center point of the line segment of this connector with the given index.
 	 * 
-	 * @param idex
-	 *            The index of the line segment
+	 * @param idex The index of the line segment
 	 * @return The line segment center point
 	 */
 	public Point getLineSegmentCenterPoint(int idex) {
@@ -246,27 +204,21 @@ public class MantisConnectorFrame extends MantisComponentFrame implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.editors.themes.mantis.MantisComponentFrame#
 	 * renderFrame(org.eclipse.swt.graphics.GC, int, int, java.util.Map)
 	 */
 	@Override
-	public void renderFrame(GC gc, int renderingPhase, int options,
-			Map<String, Object> resourceMap) {
+	public void renderFrame(GC gc, int renderingPhase, int options, Map<String, Object> resourceMap) {
 
 		// gc.setAntialias(SWT.ON);
-		Font labelFont = getFont(gc, resourceMap, "attaction.linelabel.font",
-				"Arial", 9, SWT.NORMAL);
-		Color labelExitColor = getColor(gc, resourceMap,
-				"attraction.linelabel.exit.color", 0, 0, 0);
-		Color labelErrorColor = getColor(gc, resourceMap,
-				"attraction.linelabel.error.color", 255, 0, 0);
-		Color lineColor = getColor(gc, resourceMap, "attraction.line.color", 0,
+		Font labelFont = getFont(gc, resourceMap, "attaction.linelabel.font", "Arial", 9,
+				SWT.NORMAL);
+		Color labelExitColor = getColor(gc, resourceMap, "attraction.linelabel.exit.color", 0, 0, 0);
+		Color labelErrorColor = getColor(gc, resourceMap, "attraction.linelabel.error.color", 255,
 				0, 0);
-		Color lineBendColor = getColor(gc, resourceMap,
-				"attraction.line.color", 0, 0, 0);
-		Color selectionColor = getColor(gc, resourceMap,
-				"attraction.selection.color", 82, 140, 55);
+		Color lineColor = getColor(gc, resourceMap, "attraction.line.color", 0, 0, 0);
+		Color lineBendColor = getColor(gc, resourceMap, "attraction.line.color", 0, 0, 0);
+		Color selectionColor = getColor(gc, resourceMap, "attraction.selection.color", 82, 140, 55);
 		Color foreground = gc.getForeground();
 		Color background = gc.getBackground();
 		Font originalFont = gc.getFont();
@@ -287,8 +239,7 @@ public class MantisConnectorFrame extends MantisComponentFrame implements
 					if (i == 0) {
 						// need to adjust starting point based on incursion
 						// point into source
-						Point incPoint = source.getIncursionPoint(ps[i + 1].x,
-								ps[i + 1].y);
+						Point incPoint = source.getIncursionPoint(ps[i + 1].x, ps[i + 1].y);
 						if (incPoint != null) {
 							point1X = incPoint.x;
 							point1Y = incPoint.y;
@@ -298,8 +249,7 @@ public class MantisConnectorFrame extends MantisComponentFrame implements
 					// int point2Y = ps[i + 1].y;
 					double rise1 = ps[i + 1].y - point1Y;
 					double run1 = ps[i + 1].x - point1X;
-					double dist = Math.sqrt(Math.pow(rise1, 2d)
-							+ Math.pow(run1, 2d));
+					double dist = Math.sqrt(Math.pow(rise1, 2d) + Math.pow(run1, 2d));
 					double line1Xnorm = run1 / dist;
 					double line1Ynorm = rise1 / dist;
 					double perpX = point1X + (((dist / 2d) + 2d) * line1Xnorm);
@@ -321,8 +271,7 @@ public class MantisConnectorFrame extends MantisComponentFrame implements
 				if (incursion != null) {
 					double rise1 = incursion.y - oi.y;
 					double run1 = incursion.x - oi.x;
-					double dist = Math.sqrt(Math.pow(rise1, 2d)
-							+ Math.pow(run1, 2d));
+					double dist = Math.sqrt(Math.pow(rise1, 2d) + Math.pow(run1, 2d));
 					double line1Xnorm = run1 / dist;
 					double line1Ynorm = rise1 / dist;
 					double perpX = incursion.x + (-12d * line1Xnorm);
@@ -388,12 +337,12 @@ public class MantisConnectorFrame extends MantisComponentFrame implements
 			Point labelSegmentCenterPoint = getLineSegmentCenterPoint(uiConnector
 					.getConnectorLabel().getAnchorSegment());
 			Point offset = uiConnector.getConnectorLabel().getOffsetPosition();
-			Point labelCenterPoint = new Point(labelSegmentCenterPoint.x
-					+ offset.x, labelSegmentCenterPoint.y + offset.y);
-			labelUpperLeft = new Point(labelCenterPoint.x - ((nw / 2) + 2),
-					labelCenterPoint.y - ((nh / 2) + 2));
-			labelLowerRight = new Point(labelCenterPoint.x + ((nw / 2) + 2),
-					labelCenterPoint.y + ((nh / 2) + 2));
+			Point labelCenterPoint = new Point(labelSegmentCenterPoint.x + offset.x,
+					labelSegmentCenterPoint.y + offset.y);
+			labelUpperLeft = new Point(labelCenterPoint.x - ((nw / 2) + 2), labelCenterPoint.y
+					- ((nh / 2) + 2));
+			labelLowerRight = new Point(labelCenterPoint.x + ((nw / 2) + 2), labelCenterPoint.y
+					+ ((nh / 2) + 2));
 
 			// draw label
 			int ry = labelUpperLeft.y + 1;
@@ -424,10 +373,7 @@ public class MantisConnectorFrame extends MantisComponentFrame implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#setSelected
-	 * (boolean)
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#setSelected (boolean)
 	 */
 	@Override
 	public void setSelected(boolean selected) {
@@ -437,17 +383,13 @@ public class MantisConnectorFrame extends MantisComponentFrame implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#touchesComponent
-	 * (int, int)
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#touchesComponent (int, int)
 	 */
 	@Override
 	public boolean touchesComponent(int x, int y) {
 		boolean ret = false;
-		ret = new Rectangle(labelUpperLeft.x, labelUpperLeft.y,
-				labelLowerRight.x - labelUpperLeft.x + 1, labelLowerRight.y
-						- labelUpperLeft.y + 1).contains(x, y);
+		ret = new Rectangle(labelUpperLeft.x, labelUpperLeft.y, labelLowerRight.x
+				- labelUpperLeft.x + 1, labelLowerRight.y - labelUpperLeft.y + 1).contains(x, y);
 
 		if (!ret) {
 			Point[] ps = uiConnector.getPoints();
@@ -467,10 +409,9 @@ public class MantisConnectorFrame extends MantisComponentFrame implements
 					ret = ret | (Math.abs(y - ps[i].y) < 5);
 				} else {
 					ret = ret
-							| (Geom.DistancePointLine(Geom.newPoint3D(x, y, 0),
-									Geom.newPoint3D(ps[i].x, ps[i].y, 0), Geom
-											.newPoint3D(ps[i + 1].x,
-													ps[i + 1].y, 0)) < 5);
+							| (Geom.DistancePointLine(Geom.newPoint3D(x, y, 0), Geom.newPoint3D(
+									ps[i].x, ps[i].y, 0), Geom.newPoint3D(ps[i + 1].x, ps[i + 1].y,
+									0)) < 5);
 				}
 
 				if (ret) {
@@ -484,29 +425,22 @@ public class MantisConnectorFrame extends MantisComponentFrame implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#initializeGraphics
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#initializeGraphics
 	 * (org.eclipse.swt.graphics.GC, java.util.Map)
 	 */
 	@Override
-	public void initializeGraphics(GC gc, Map<String, Object> resourceMap) {
-	}
+	public void initializeGraphics(GC gc, Map<String, Object> resourceMap) {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.theme.ConnectorFrame#toggleMidPoint
-	 * (int, int)
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.ConnectorFrame#toggleMidPoint (int, int)
 	 */
 	@Override
 	public void toggleMidPoint(int x, int y) {
 		float oldDistance = Float.MAX_VALUE;
 		Point[] ps = uiConnector.getPoints();
 		for (int i = 0; i < ps.length; i++) {
-			Rectangle midPointRect = new Rectangle(ps[i].x - 5, ps[i].y - 5,
-					10, 10);
+			Rectangle midPointRect = new Rectangle(ps[i].x - 5, ps[i].y - 5, 10, 10);
 			if (midPointRect.contains(x, y)) {
 				uiConnector.removeMidpoint(i);
 				return;
@@ -523,9 +457,8 @@ public class MantisConnectorFrame extends MantisComponentFrame implements
 			} else if (y > (Math.max(ps[i].y, ps[i + 1].y) + 5)) {
 				continue;
 			}
-			float distance = Geom.DistancePointLine(Geom.newPoint3D(x, y, 0),
-					Geom.newPoint3D(ps[i].x, ps[i].y, 0),
-					Geom.newPoint3D(ps[i + 1].x, ps[i + 1].y, 0));
+			float distance = Geom.DistancePointLine(Geom.newPoint3D(x, y, 0), Geom.newPoint3D(
+					ps[i].x, ps[i].y, 0), Geom.newPoint3D(ps[i + 1].x, ps[i + 1].y, 0));
 			if (distance < oldDistance) {
 				index = i + 1;
 			}
@@ -537,9 +470,8 @@ public class MantisConnectorFrame extends MantisComponentFrame implements
 	private void listAttachedData() {
 		List<AttachedDataBinding> bindings = new ArrayList<AttachedDataBinding>();
 		IDesignElement uiElement = source.getDesignElement();
-		AttachedDataManager adManager = (AttachedDataManager) uiElement
-				.getConfigurationManager(
-						"org.eclipse.vtp.configuration.attacheddata").clone();
+		AttachedDataManager adManager = (AttachedDataManager) uiElement.getConfigurationManager(
+				"org.eclipse.vtp.configuration.attacheddata").clone();
 		bindings.addAll(adManager.listBindings());
 		uiElement.rollbackConfigurationChanges(adManager);
 

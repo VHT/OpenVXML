@@ -19,8 +19,7 @@ import org.w3c.dom.Element;
  * 
  * @author Lonnie Pryor
  */
-public class VariableMappingConfiguration implements IConfiguration,
-		CommonConstants {
+public class VariableMappingConfiguration implements IConfiguration, CommonConstants {
 	/** Do not initialize the variable. */
 	public static final int TYPE_NONE = 0;
 	/** Initialize variable to a static value. */
@@ -39,10 +38,8 @@ public class VariableMappingConfiguration implements IConfiguration,
 
 	/**
 	 * Creates a new VariableMapping.
-	 * 
 	 */
-	public VariableMappingConfiguration() {
-	}
+	public VariableMappingConfiguration() {}
 
 	/**
 	 * Returns the scripting language to use if the value is an expression.
@@ -73,9 +70,7 @@ public class VariableMappingConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.core.IConfiguration#load(org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(org.w3c.dom.Element)
 	 */
 	@Override
 	public void load(Element configurationElement) {
@@ -99,8 +94,7 @@ public class VariableMappingConfiguration implements IConfiguration,
 			value = configurationElement.getAttribute(NAME_VALUE);
 		}
 		if (type == TYPE_EXPRESSION) {
-			scriptingLangugage = configurationElement
-					.getAttribute(NAME_SCRIPTING_LANGUGAGE);
+			scriptingLangugage = configurationElement.getAttribute(NAME_SCRIPTING_LANGUGAGE);
 		} else {
 			scriptingLangugage = null;
 		}
@@ -108,9 +102,7 @@ public class VariableMappingConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.core.IConfiguration#save(org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(org.w3c.dom.Element)
 	 */
 	@Override
 	public void save(Element configurationElement) {
@@ -120,11 +112,9 @@ public class VariableMappingConfiguration implements IConfiguration,
 			configurationElement.setAttribute(NAME_VALUE, value);
 			break;
 		case TYPE_EXPRESSION:
-			configurationElement.setAttribute(NAME_TYPE,
-					MAPPING_TYPE_EXPRESSION);
+			configurationElement.setAttribute(NAME_TYPE, MAPPING_TYPE_EXPRESSION);
 			configurationElement.setAttribute(NAME_VALUE, value);
-			configurationElement.setAttribute(NAME_SCRIPTING_LANGUGAGE,
-					scriptingLangugage);
+			configurationElement.setAttribute(NAME_SCRIPTING_LANGUGAGE, scriptingLangugage);
 			break;
 		case TYPE_VARIABLE:
 			configurationElement.setAttribute(NAME_TYPE, MAPPING_TYPE_VARIABLE);
@@ -136,13 +126,10 @@ public class VariableMappingConfiguration implements IConfiguration,
 	}
 
 	/**
-	 * Configures this mapping to have the result of an expression set as the
-	 * value.
+	 * Configures this mapping to have the result of an expression set as the value.
 	 * 
-	 * @param expression
-	 *            THe expression to evaluate.
-	 * @param scriptingLangugage
-	 *            The language the expression is defined in.
+	 * @param expression THe expression to evaluate.
+	 * @param scriptingLangugage The language the expression is defined in.
 	 */
 	public void setExpressionValue(String expression, String scriptingLangugage) {
 		this.type = TYPE_EXPRESSION;
@@ -164,8 +151,7 @@ public class VariableMappingConfiguration implements IConfiguration,
 	/**
 	 * Configures this mapping to have a static value set.
 	 * 
-	 * @param value
-	 *            The value to set the variable to.
+	 * @param value The value to set the variable to.
 	 */
 	public void setStaticValue(String value) {
 		this.type = TYPE_STATIC;
@@ -177,8 +163,7 @@ public class VariableMappingConfiguration implements IConfiguration,
 	/**
 	 * Configures this mapping to have a variable set as the value.
 	 * 
-	 * @param variableName
-	 *            The name of the variable to use as the value.
+	 * @param variableName The name of the variable to use as the value.
 	 */
 	public void setVariableValue(String variableName) {
 		this.type = TYPE_VARIABLE;

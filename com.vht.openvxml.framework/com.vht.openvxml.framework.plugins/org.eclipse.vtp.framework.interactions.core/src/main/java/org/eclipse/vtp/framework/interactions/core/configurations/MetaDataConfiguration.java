@@ -25,31 +25,27 @@ import org.w3c.dom.NodeList;
  * 
  * @author Lonnie Pryor
  */
-public class MetaDataConfiguration implements IConfiguration,
-		InteractionsConstants {
+public class MetaDataConfiguration implements IConfiguration, InteractionsConstants {
 	/** Index of meta data items by brand, interaction type, and language. */
 	private final Map items = new HashMap();
 	private boolean ignoreErrors = false;
 
 	/**
 	 * Creates a new MetaDataMessageConfiguration.
-	 * 
 	 */
-	public MetaDataConfiguration() {
-	}
+	public MetaDataConfiguration() {}
 
 	public void setIgnoreErrors(boolean ignore) {
 		this.ignoreErrors = ignore;
 	}
 
 	/**
-	 * Returns the items configured for the specified brand, interaction type,
-	 * and language or <code>null</code> if no such item is configured.
+	 * Returns the items configured for the specified brand, interaction type, and language or
+	 * <code>null</code> if no such item is configured.
 	 * 
-	 * @param key
-	 *            The key the items are to be found under.
-	 * @return The items configured for the specified brand, interaction type,
-	 *         and language or <code>null</code> if no such item is configured.
+	 * @param key The key the items are to be found under.
+	 * @return The items configured for the specified brand, interaction type, and language or
+	 *         <code>null</code> if no such item is configured.
 	 */
 	public MetaDataItemConfiguration[] getItem(String key) {
 		return (MetaDataItemConfiguration[]) items.get(key);
@@ -60,14 +56,11 @@ public class MetaDataConfiguration implements IConfiguration,
 	}
 
 	/**
-	 * Sets the items configured for the specified brand, interaction type, and
-	 * language.
+	 * Sets the items configured for the specified brand, interaction type, and language.
 	 * 
-	 * @param key
-	 *            The key the items are to be stored under.
-	 * @param items
-	 *            The items to set as the configuration or <code>null</code> to
-	 *            remove the specified configuration.
+	 * @param key The key the items are to be stored under.
+	 * @param items The items to set as the configuration or <code>null</code> to remove the
+	 *            specified configuration.
 	 */
 	public void setItem(String key, MetaDataItemConfiguration[] items) {
 		if (items == null) {
@@ -79,20 +72,18 @@ public class MetaDataConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.core.IConfiguration#load(org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(org.w3c.dom.Element)
 	 */
 	@Override
 	public void load(Element configurationElement) {
 		items.clear();
-		NodeList setElements = configurationElement.getElementsByTagNameNS(
-				NAMESPACE_URI, NAME_META_DATA_SET);
+		NodeList setElements = configurationElement.getElementsByTagNameNS(NAMESPACE_URI,
+				NAME_META_DATA_SET);
 		for (int i = 0; i < setElements.getLength(); ++i) {
 			Element setElement = (Element) setElements.item(i);
 			String key = setElement.getAttribute(NAME_KEY);
-			NodeList itemElements = setElement.getElementsByTagNameNS(
-					NAMESPACE_URI, NAME_META_DATA_ITEM);
+			NodeList itemElements = setElement.getElementsByTagNameNS(NAMESPACE_URI,
+					NAME_META_DATA_ITEM);
 			MetaDataItemConfiguration[] metaData = new MetaDataItemConfiguration[itemElements
 					.getLength()];
 			for (int j = 0; j < itemElements.getLength(); j++) {
@@ -106,9 +97,7 @@ public class MetaDataConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.core.IConfiguration#save(org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(org.w3c.dom.Element)
 	 */
 	@Override
 	public void save(Element configurationElement) {
@@ -121,13 +110,12 @@ public class MetaDataConfiguration implements IConfiguration,
 		}
 		for (Iterator i = items.entrySet().iterator(); i.hasNext();) {
 			Map.Entry entry = (Map.Entry) i.next();
-			Element setElement = configurationElement.getOwnerDocument()
-					.createElementNS(NAMESPACE_URI, metaDataSetName);
-			MetaDataItemConfiguration[] metaData = (MetaDataItemConfiguration[]) entry
-					.getValue();
+			Element setElement = configurationElement.getOwnerDocument().createElementNS(
+					NAMESPACE_URI, metaDataSetName);
+			MetaDataItemConfiguration[] metaData = (MetaDataItemConfiguration[]) entry.getValue();
 			for (MetaDataItemConfiguration element : metaData) {
-				Element itemElement = configurationElement.getOwnerDocument()
-						.createElementNS(NAMESPACE_URI, metaDataItemName);
+				Element itemElement = configurationElement.getOwnerDocument().createElementNS(
+						NAMESPACE_URI, metaDataItemName);
 				element.save(itemElement);
 				setElement.appendChild(itemElement);
 			}

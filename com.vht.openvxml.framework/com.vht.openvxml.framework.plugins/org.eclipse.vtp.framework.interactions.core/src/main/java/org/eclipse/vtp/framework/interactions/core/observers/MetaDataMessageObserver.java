@@ -31,12 +31,9 @@ public class MetaDataMessageObserver implements Runnable {
 	/**
 	 * Creates a new MetaDataMessageAction.
 	 * 
-	 * @param logger
-	 *            The logger to use.
-	 * @param conversation
-	 *            The conversation to use.
-	 * @param configuration
-	 *            The configuration to use.
+	 * @param logger The logger to use.
+	 * @param conversation The conversation to use.
+	 * @param configuration The configuration to use.
 	 */
 	public MetaDataMessageObserver(ILogger logger, IConversation conversation,
 			MetaDataConfiguration configuration) {
@@ -47,15 +44,12 @@ public class MetaDataMessageObserver implements Runnable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.lang.Runnable#run()
 	 */
 	@Override
 	public void run() {
-		logger.debug(getClass().getName().substring(
-				getClass().getName().lastIndexOf('.') + 1));
+		logger.debug(getClass().getName().substring(getClass().getName().lastIndexOf('.') + 1));
 		configuration.setIgnoreErrors(true);
-		conversation.createMetaDataMessage(configuration,
-				"MetaDataMessageObserver").enqueue();
+		conversation.createMetaDataMessage(configuration, "MetaDataMessageObserver").enqueue();
 	}
 }

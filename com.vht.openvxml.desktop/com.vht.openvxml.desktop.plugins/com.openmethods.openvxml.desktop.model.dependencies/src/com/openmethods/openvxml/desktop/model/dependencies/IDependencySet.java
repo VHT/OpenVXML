@@ -18,8 +18,8 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.vtp.desktop.model.core.IWorkflowResourceContainer;
 
 /**
- * This interface represents the folder resource of an application project that
- * contains the custom dependencies of a project.
+ * This interface represents the folder resource of an application project that contains the custom
+ * dependencies of a project.
  *
  * @author Lonnie Pryor
  * @version 1.0
@@ -36,10 +36,8 @@ public interface IDependencySet extends IWorkflowResourceContainer {
 	/**
 	 * Creates a new dependency in the application.
 	 *
-	 * @param name
-	 *            The name to give the dependency resource.
-	 * @param content
-	 *            The content of the dependency resource.
+	 * @param name The name to give the dependency resource.
+	 * @param content The content of the dependency resource.
 	 * @return The new dependency instance.
 	 */
 	IDependency createDependency(String name, InputStream content);
@@ -47,8 +45,7 @@ public interface IDependencySet extends IWorkflowResourceContainer {
 	/**
 	 * Removes a dependency from the application.
 	 *
-	 * @param dependency
-	 *            The dependency to remove.
+	 * @param dependency The dependency to remove.
 	 */
 	void removeDependency(IDependency dependency);
 

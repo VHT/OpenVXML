@@ -12,12 +12,11 @@
 package org.eclipse.vtp.desktop.model.interactive.core;
 
 /**
- * This interface represents the media files resource folder that occurs in
- * persona projects and brands in application projects. The function part if
- * this interface is inherited from <code>IMediaContainer</code>.
+ * This interface represents the media files resource folder that occurs in persona projects and
+ * brands in application projects. The function part if this interface is inherited from
+ * <code>IMediaContainer</code>.
  *
  * @author Trip
  * @version 2.0
  */
-public interface IMediaLibrary extends IMediaContainer {
-}
+public interface IMediaLibrary extends IMediaContainer {}

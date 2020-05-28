@@ -31,7 +31,6 @@ import org.eclipse.vtp.desktop.model.interactive.core.internal.LanguageSupport;
 
 /**
  * @author trip
- *
  */
 public class LanguageConfigurationDialog extends Dialog {
 	private Shell parentShell = null;
@@ -59,8 +58,7 @@ public class LanguageConfigurationDialog extends Dialog {
 		Composite comp = new Composite(parent, SWT.NONE);
 		comp.setLayout(new GridLayout(2, false));
 
-		Table table = new Table(comp, SWT.BORDER | SWT.SINGLE
-				| SWT.FULL_SELECTION);
+		Table table = new Table(comp, SWT.BORDER | SWT.SINGLE | SWT.FULL_SELECTION);
 		TableLayout tableLayout = new TableLayout();
 		tableLayout.addColumnData(new ColumnWeightData(1));
 		table.setLayout(tableLayout);
@@ -86,8 +84,7 @@ public class LanguageConfigurationDialog extends Dialog {
 		addButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		addButton.addSelectionListener(new SelectionListener() {
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -106,27 +103,25 @@ public class LanguageConfigurationDialog extends Dialog {
 		removeButton.setLayoutData(new GridData());
 		removeButton.addSelectionListener(new SelectionListener() {
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				languages.remove(((IStructuredSelection) languageViewer
-						.getSelection()).getFirstElement());
+				languages.remove(((IStructuredSelection) languageViewer.getSelection())
+						.getFirstElement());
 				languageViewer.refresh();
 			}
 		});
 
-		languageViewer
-				.addSelectionChangedListener(new ISelectionChangedListener() {
+		languageViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
-					@Override
-					public void selectionChanged(SelectionChangedEvent event) {
-						boolean enabled = !event.getSelection().isEmpty();
-						removeButton.setEnabled(enabled);
-					}
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				boolean enabled = !event.getSelection().isEmpty();
+				removeButton.setEnabled(enabled);
+			}
 
-				});
+		});
 
 		return comp;
 	}
@@ -139,17 +134,14 @@ public class LanguageConfigurationDialog extends Dialog {
 		}
 
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 
 	}
 
-	public class LanguageLabelProvider extends BaseLabelProvider implements
-			ILabelProvider {
+	public class LanguageLabelProvider extends BaseLabelProvider implements ILabelProvider {
 
 		@Override
 		public Image getImage(Object element) {

@@ -33,12 +33,10 @@ public class InteractionTypeManager {
 
 	public InteractionTypeManager() {
 		super();
-		IConfigurationElement[] formatterExtensions = Platform
-				.getExtensionRegistry().getConfigurationElementsFor(
-						interactionTypeExtensionId);
+		IConfigurationElement[] formatterExtensions = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(interactionTypeExtensionId);
 		for (IConfigurationElement formatterExtension : formatterExtensions) {
-			InteractionType it = new InteractionType(
-					formatterExtension.getAttribute("id"),
+			InteractionType it = new InteractionType(formatterExtension.getAttribute("id"),
 					formatterExtension.getAttribute("name"));
 			interactionTypes.add(it);
 			interactionTypesById.put(it.getId(), it);

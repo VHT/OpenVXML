@@ -53,16 +53,13 @@ public class VXMLDocument extends WidgetDocument implements VXMLConstants {
 	/**
 	 * Creates a new VXMLDocument object.
 	 */
-	public VXMLDocument() {
-	}
+	public VXMLDocument() {}
 
 	/**
 	 * Creates a new VXMLDocument object.
 	 * 
-	 * @param version
-	 *            The version of VXML this document conforms to.
-	 * @throws NullPointerException
-	 *             If the version string is <code>null</code>.
+	 * @param version The version of VXML this document conforms to.
+	 * @throws NullPointerException If the version string is <code>null</code>.
 	 */
 	public VXMLDocument(String version) throws NullPointerException {
 		setVersion(version);
@@ -78,11 +75,9 @@ public class VXMLDocument extends WidgetDocument implements VXMLConstants {
 	}
 
 	/**
-	 * Returns the application URI of this document or <code>null</code> if no
-	 * URI is specified.
+	 * Returns the application URI of this document or <code>null</code> if no URI is specified.
 	 * 
-	 * @return The application URI of this document or <code>null</code> if no
-	 *         URI is specified.
+	 * @return The application URI of this document or <code>null</code> if no URI is specified.
 	 */
 	public String getApplicationURI() {
 		return applicationURI;
@@ -98,18 +93,13 @@ public class VXMLDocument extends WidgetDocument implements VXMLConstants {
 	}
 
 	/**
-	 * Returns the value of the specified property or <code>null</code> if no
-	 * such property exists.
+	 * Returns the value of the specified property or <code>null</code> if no such property exists.
 	 * 
-	 * @param propertyName
-	 *            The name of the property to find the value of.
-	 * @return The value of the specified property or <code>null</code> if no
-	 *         such property exists.
-	 * @throws NullPointerException
-	 *             If the supplied property name is <code>null</code>.
+	 * @param propertyName The name of the property to find the value of.
+	 * @return The value of the specified property or <code>null</code> if no such property exists.
+	 * @throws NullPointerException If the supplied property name is <code>null</code>.
 	 */
-	public String getPropertyValue(String propertyName)
-			throws NullPointerException {
+	public String getPropertyValue(String propertyName) throws NullPointerException {
 		return properties.getPropertyValue(propertyName);
 	}
 
@@ -152,14 +142,11 @@ public class VXMLDocument extends WidgetDocument implements VXMLConstants {
 	/**
 	 * Sets the version of VXML this document conforms to.
 	 * 
-	 * @param version
-	 *            The version of VXML this document conforms to.
-	 * @throws NullPointerException
-	 *             If the version string is <code>null</code>.
+	 * @param version The version of VXML this document conforms to.
+	 * @throws NullPointerException If the version string is <code>null</code>.
 	 */
 	public void setVersion(String version) {
-		if (version == null) {
-			throw new NullPointerException("version"); //$NON-NLS-1$
+		if (version == null) { throw new NullPointerException("version"); //$NON-NLS-1$
 		}
 		this.version = version;
 	}
@@ -167,8 +154,7 @@ public class VXMLDocument extends WidgetDocument implements VXMLConstants {
 	/**
 	 * Sets the application URI of this document.
 	 * 
-	 * @param applicationURI
-	 *            The application URI of this document.
+	 * @param applicationURI The application URI of this document.
 	 */
 	public void setApplicationURI(String applicationURI) {
 		this.applicationURI = applicationURI;
@@ -177,25 +163,19 @@ public class VXMLDocument extends WidgetDocument implements VXMLConstants {
 	/**
 	 * Sets the value of a property in this document.
 	 * 
-	 * @param propertyName
-	 *            The name of the property to set.
-	 * @param propertyValue
-	 *            The value to set the property to.
-	 * @throws NullPointerException
-	 *             If the supplied property name or value is <code>null</code>.
+	 * @param propertyName The name of the property to set.
+	 * @param propertyValue The value to set the property to.
+	 * @throws NullPointerException If the supplied property name or value is <code>null</code>.
 	 */
-	public void setProperty(String propertyName, String propertyValue)
-			throws NullPointerException {
+	public void setProperty(String propertyName, String propertyValue) throws NullPointerException {
 		properties.setProperty(propertyName, propertyValue);
 	}
 
 	/**
 	 * Clears the value of a property in this document.
 	 * 
-	 * @param propertyName
-	 *            The name of the property to clear.
-	 * @throws NullPointerException
-	 *             If the supplied property name is <code>null</code>.
+	 * @param propertyName The name of the property to clear.
+	 * @throws NullPointerException If the supplied property name is <code>null</code>.
 	 */
 	public void clearProperty(String propertyName) throws NullPointerException {
 		properties.clearProperty(propertyName);
@@ -204,14 +184,11 @@ public class VXMLDocument extends WidgetDocument implements VXMLConstants {
 	/**
 	 * Adds a variable to this document.
 	 * 
-	 * @param variable
-	 *            The variable to add.
-	 * @throws NullPointerException
-	 *             If the supplied variable is <code>null</code>.
+	 * @param variable The variable to add.
+	 * @throws NullPointerException If the supplied variable is <code>null</code>.
 	 */
 	public void addVariable(Variable variable) throws NullPointerException {
-		if (variable == null) {
-			throw new NullPointerException("variable"); //$NON-NLS-1$
+		if (variable == null) { throw new NullPointerException("variable"); //$NON-NLS-1$
 		}
 		variables.add(variable);
 	}
@@ -219,14 +196,11 @@ public class VXMLDocument extends WidgetDocument implements VXMLConstants {
 	/**
 	 * Removes a variable from this document.
 	 * 
-	 * @param variable
-	 *            The variable to remove.
-	 * @throws NullPointerException
-	 *             If the supplied variable is <code>null</code>.
+	 * @param variable The variable to remove.
+	 * @throws NullPointerException If the supplied variable is <code>null</code>.
 	 */
 	public void removeVariable(Variable variable) throws NullPointerException {
-		if (variable == null) {
-			throw new NullPointerException("variable"); //$NON-NLS-1$
+		if (variable == null) { throw new NullPointerException("variable"); //$NON-NLS-1$
 		}
 		variables.remove(variable);
 	}
@@ -234,14 +208,11 @@ public class VXMLDocument extends WidgetDocument implements VXMLConstants {
 	/**
 	 * Adds a script block to this document.
 	 * 
-	 * @param script
-	 *            The script block to add.
-	 * @throws NullPointerException
-	 *             If the supplied script block is <code>null</code>.
+	 * @param script The script block to add.
+	 * @throws NullPointerException If the supplied script block is <code>null</code>.
 	 */
 	public void addScript(Script script) throws NullPointerException {
-		if (script == null) {
-			throw new NullPointerException("script"); //$NON-NLS-1$
+		if (script == null) { throw new NullPointerException("script"); //$NON-NLS-1$
 		}
 		scripts.add(script);
 	}
@@ -249,14 +220,11 @@ public class VXMLDocument extends WidgetDocument implements VXMLConstants {
 	/**
 	 * Removes a script block from this document.
 	 * 
-	 * @param script
-	 *            The script block to remove.
-	 * @throws NullPointerException
-	 *             If the supplied script block is <code>null</code>.
+	 * @param script The script block to remove.
+	 * @throws NullPointerException If the supplied script block is <code>null</code>.
 	 */
 	public void removeScript(Script script) throws NullPointerException {
-		if (script == null) {
-			throw new NullPointerException("script"); //$NON-NLS-1$
+		if (script == null) { throw new NullPointerException("script"); //$NON-NLS-1$
 		}
 		scripts.remove(script);
 	}
@@ -264,14 +232,11 @@ public class VXMLDocument extends WidgetDocument implements VXMLConstants {
 	/**
 	 * Adds a dialog to this document.
 	 * 
-	 * @param dialog
-	 *            The dialog to add.
-	 * @throws NullPointerException
-	 *             If the supplied dialog is <code>null</code>.
+	 * @param dialog The dialog to add.
+	 * @throws NullPointerException If the supplied dialog is <code>null</code>.
 	 */
 	public void addDialog(Dialog dialog) throws NullPointerException {
-		if (dialog == null) {
-			throw new NullPointerException("dialog"); //$NON-NLS-1$
+		if (dialog == null) { throw new NullPointerException("dialog"); //$NON-NLS-1$
 		}
 		dialogs.add(dialog);
 	}
@@ -279,14 +244,11 @@ public class VXMLDocument extends WidgetDocument implements VXMLConstants {
 	/**
 	 * Removes a dialog from this document.
 	 * 
-	 * @param dialog
-	 *            The dialog to remove.
-	 * @throws NullPointerException
-	 *             If the supplied dialog is <code>null</code>.
+	 * @param dialog The dialog to remove.
+	 * @throws NullPointerException If the supplied dialog is <code>null</code>.
 	 */
 	public void removeDialog(Dialog dialog) throws NullPointerException {
-		if (dialog == null) {
-			throw new NullPointerException("dialog"); //$NON-NLS-1$
+		if (dialog == null) { throw new NullPointerException("dialog"); //$NON-NLS-1$
 		}
 		dialogs.remove(dialog);
 	}
@@ -294,15 +256,11 @@ public class VXMLDocument extends WidgetDocument implements VXMLConstants {
 	/**
 	 * Adds an event handler to this document.
 	 * 
-	 * @param eventHandler
-	 *            The event handler to add.
-	 * @throws NullPointerException
-	 *             If the supplied event handler is <code>null</code>.
+	 * @param eventHandler The event handler to add.
+	 * @throws NullPointerException If the supplied event handler is <code>null</code>.
 	 */
-	public void addEventHandler(EventHandler eventHandler)
-			throws NullPointerException {
-		if (eventHandler == null) {
-			throw new NullPointerException("eventHandler"); //$NON-NLS-1$
+	public void addEventHandler(EventHandler eventHandler) throws NullPointerException {
+		if (eventHandler == null) { throw new NullPointerException("eventHandler"); //$NON-NLS-1$
 		}
 		eventHandlers.add(eventHandler);
 	}
@@ -310,15 +268,11 @@ public class VXMLDocument extends WidgetDocument implements VXMLConstants {
 	/**
 	 * Removes an event handler from this document.
 	 * 
-	 * @param eventHandler
-	 *            The event handler to remove.
-	 * @throws NullPointerException
-	 *             If the supplied event handler is <code>null</code>.
+	 * @param eventHandler The event handler to remove.
+	 * @throws NullPointerException If the supplied event handler is <code>null</code>.
 	 */
-	public void removeEventHandler(EventHandler eventHandler)
-			throws NullPointerException {
-		if (eventHandler == null) {
-			throw new NullPointerException("eventHandler"); //$NON-NLS-1$
+	public void removeEventHandler(EventHandler eventHandler) throws NullPointerException {
+		if (eventHandler == null) { throw new NullPointerException("eventHandler"); //$NON-NLS-1$
 		}
 		eventHandlers.remove(eventHandler);
 	}
@@ -337,9 +291,7 @@ public class VXMLDocument extends WidgetDocument implements VXMLConstants {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.core.output.IOutputDocument#
-	 * getDocumentType()
+	 * @see org.eclipse.vtp.framework.spi.core.output.IOutputDocument# getDocumentType()
 	 */
 	@Override
 	public String getDocumentType() {
@@ -348,15 +300,12 @@ public class VXMLDocument extends WidgetDocument implements VXMLConstants {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.core.output.Widget#writeWidget(
 	 * org.xml.sax.ContentHandler)
 	 */
 	@Override
-	public void writeWidget(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
-		if (outputHandler == null) {
-			throw new NullPointerException("outputHandler"); //$NON-NLS-1$
+	public void writeWidget(ContentHandler outputHandler) throws NullPointerException, SAXException {
+		if (outputHandler == null) { throw new NullPointerException("outputHandler"); //$NON-NLS-1$
 		}
 		// Start the document.
 		outputHandler.startDocument();
@@ -368,8 +317,7 @@ public class VXMLDocument extends WidgetDocument implements VXMLConstants {
 		// Start the root element.
 		AttributesImpl attributes = new AttributesImpl();
 		writeAttributes(attributes);
-		outputHandler.startElement(NAMESPACE_URI_VXML, NAME_VXML, NAME_VXML,
-				attributes);
+		outputHandler.startElement(NAMESPACE_URI_VXML, NAME_VXML, NAME_VXML, attributes);
 		// Write the properties.
 		writeProperties(outputHandler);
 		// Write the child elements.
@@ -388,93 +336,73 @@ public class VXMLDocument extends WidgetDocument implements VXMLConstants {
 	/**
 	 * Write the attribute members of this variable to the supplied set.
 	 * 
-	 * @param attributes
-	 *            The attribute set to write to.
-	 * @throws NullPointerException
-	 *             If the supplied attribute set is <code>null</code>.
+	 * @param attributes The attribute set to write to.
+	 * @throws NullPointerException If the supplied attribute set is <code>null</code>.
 	 */
 	protected void writeAttributes(AttributesImpl attributes) {
-		writeAttribute(attributes, null, null, NAME_VERSION, TYPE_CDATA,
-				version);
+		writeAttribute(attributes, null, null, NAME_VERSION, TYPE_CDATA, version);
 		if (applicationURI != null) {
-			writeAttribute(attributes, null, null, NAME_APPLICATION,
-					TYPE_CDATA, applicationURI);
+			writeAttribute(attributes, null, null, NAME_APPLICATION, TYPE_CDATA, applicationURI);
 		}
 	}
 
 	/**
 	 * Writes the properties of this document to the specified content handler.
 	 * 
-	 * @param outputHandler
-	 *            The handler to write the properties to.
-	 * @throws SAXException
-	 *             If the writing of the properties fails.
-	 * @throws NullPointerException
-	 *             If the supplied content handler is <code>null</code>.
+	 * @param outputHandler The handler to write the properties to.
+	 * @throws SAXException If the writing of the properties fails.
+	 * @throws NullPointerException If the supplied content handler is <code>null</code>.
 	 */
-	protected void writeProperties(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
+	protected void writeProperties(ContentHandler outputHandler) throws NullPointerException,
+			SAXException {
 		properties.writeWidget(outputHandler);
 	}
 
 	/**
 	 * Write the variables of this document to the specified content handler.
 	 * 
-	 * @param outputHandler
-	 *            The content handler to write to.
-	 * @throws NullPointerException
-	 *             If the supplied content handler is <code>null</code>.
-	 * @throws SAXException
-	 *             If the writing of one of the event handlers fails.
+	 * @param outputHandler The content handler to write to.
+	 * @throws NullPointerException If the supplied content handler is <code>null</code>.
+	 * @throws SAXException If the writing of one of the event handlers fails.
 	 */
-	protected void writeVariables(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
+	protected void writeVariables(ContentHandler outputHandler) throws NullPointerException,
+			SAXException {
 		writeChildren(outputHandler, variables);
 	}
 
 	/**
 	 * Write the scripts of this document to the specified content handler.
 	 * 
-	 * @param outputHandler
-	 *            The content handler to write to.
-	 * @throws NullPointerException
-	 *             If the supplied content handler is <code>null</code>.
-	 * @throws SAXException
-	 *             If the writing of one of the event handlers fails.
+	 * @param outputHandler The content handler to write to.
+	 * @throws NullPointerException If the supplied content handler is <code>null</code>.
+	 * @throws SAXException If the writing of one of the event handlers fails.
 	 */
-	protected void writeScripts(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
+	protected void writeScripts(ContentHandler outputHandler) throws NullPointerException,
+			SAXException {
 		writeChildren(outputHandler, scripts);
 	}
 
 	/**
 	 * Write the dialogs of this document to the specified content handler.
 	 * 
-	 * @param outputHandler
-	 *            The content handler to write to.
-	 * @throws NullPointerException
-	 *             If the supplied content handler is <code>null</code>.
-	 * @throws SAXException
-	 *             If the writing of one of the event handlers fails.
+	 * @param outputHandler The content handler to write to.
+	 * @throws NullPointerException If the supplied content handler is <code>null</code>.
+	 * @throws SAXException If the writing of one of the event handlers fails.
 	 */
-	protected void writeDialogs(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
+	protected void writeDialogs(ContentHandler outputHandler) throws NullPointerException,
+			SAXException {
 		writeChildren(outputHandler, dialogs);
 	}
 
 	/**
-	 * Write the event handlers of this document to the specified content
-	 * handler.
+	 * Write the event handlers of this document to the specified content handler.
 	 * 
-	 * @param outputHandler
-	 *            The content handler to write to.
-	 * @throws NullPointerException
-	 *             If the supplied content handler is <code>null</code>.
-	 * @throws SAXException
-	 *             If the writing of one of the event handlers fails.
+	 * @param outputHandler The content handler to write to.
+	 * @throws NullPointerException If the supplied content handler is <code>null</code>.
+	 * @throws SAXException If the writing of one of the event handlers fails.
 	 */
-	protected void writeEventHandlers(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
+	protected void writeEventHandlers(ContentHandler outputHandler) throws NullPointerException,
+			SAXException {
 		writeChildren(outputHandler, eventHandlers);
 	}
 }

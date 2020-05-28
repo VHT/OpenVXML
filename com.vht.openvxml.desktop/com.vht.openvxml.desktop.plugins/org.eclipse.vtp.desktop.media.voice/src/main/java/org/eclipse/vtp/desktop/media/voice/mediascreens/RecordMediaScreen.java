@@ -52,8 +52,9 @@ import org.eclipse.vtp.desktop.model.interactive.core.configuration.generic.Name
 import com.openmethods.openvxml.desktop.model.branding.IBrand;
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElement;
 
-public class RecordMediaScreen extends MediaConfigurationScreen implements
-		PromptBindingViewerListener {
+public class RecordMediaScreen extends MediaConfigurationScreen
+	implements
+	PromptBindingViewerListener {
 	private static final String elementType = "org.eclipse.vtp.modules.interactive.record";
 	PromptBindingViewer promptViewer;
 	GrammarBindingViewer grammarViewer;
@@ -74,22 +75,16 @@ public class RecordMediaScreen extends MediaConfigurationScreen implements
 		IDesignElement element = getElement();
 		bindingManager = (GenericBindingManager) element
 				.getConfigurationManager(GenericBindingManager.TYPE_ID);
-		interactionBinding = bindingManager
-				.getInteractionBinding(getInteractionType());
-		NamedBinding promptBinding = interactionBinding
-				.getNamedBinding("Prompt");
-		promptViewer = new PromptBindingViewer(element, promptBinding,
-				getInteractionType(), getElement().getDesign().getVariablesFor(
-						element));
-		NamedBinding grammarBinding = interactionBinding
-				.getNamedBinding("Grammar");
-		grammarViewer = new GrammarBindingViewer(element, grammarBinding,
-				getInteractionType());
+		interactionBinding = bindingManager.getInteractionBinding(getInteractionType());
+		NamedBinding promptBinding = interactionBinding.getNamedBinding("Prompt");
+		promptViewer = new PromptBindingViewer(element, promptBinding, getInteractionType(),
+				getElement().getDesign().getVariablesFor(element));
+		NamedBinding grammarBinding = interactionBinding.getNamedBinding("Grammar");
+		grammarViewer = new GrammarBindingViewer(element, grammarBinding, getInteractionType());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.media.core.MediaConfigurationScreen#save()
 	 */
 	@Override
@@ -102,7 +97,6 @@ public class RecordMediaScreen extends MediaConfigurationScreen implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.media.core.MediaConfigurationScreen#cancel()
 	 */
 	@Override
@@ -112,9 +106,7 @@ public class RecordMediaScreen extends MediaConfigurationScreen implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.media.core.MediaConfigurationScreen#createControls
+	 * @see org.eclipse.vtp.desktop.media.core.MediaConfigurationScreen#createControls
 	 * (org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -131,16 +123,14 @@ public class RecordMediaScreen extends MediaConfigurationScreen implements
 		mediaComposite.setBackground(comp.getBackground());
 		mediaComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		mediaComposite.setLayout(new GridLayout(2, false));
-		final Section contentSection = toolkit.createSection(mediaComposite,
-				Section.TITLE_BAR);
+		final Section contentSection = toolkit.createSection(mediaComposite, Section.TITLE_BAR);
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL
 				| GridData.VERTICAL_ALIGN_BEGINNING);
 		gridData.horizontalSpan = 2;
 		contentSection.setLayoutData(gridData);
 		contentSection.setText("Media");
 
-		@SuppressWarnings("unused")
-		Label promptLabel = createPropertyLabel(mediaComposite, "Prompt:");
+		createPropertyLabel(mediaComposite, "Prompt:");
 		Composite containerComp = createWrapperComposite(mediaComposite, 100);
 		promptViewer.createControls(containerComp);
 		promptViewer.addListener(this);
@@ -149,8 +139,7 @@ public class RecordMediaScreen extends MediaConfigurationScreen implements
 		gridData.grabExcessVerticalSpace = true;
 		promptViewer.getControl().setLayoutData(gridData);
 
-		@SuppressWarnings("unused")
-		Label grammarLabel = createPropertyLabel(mediaComposite, "Grammar:");
+		createPropertyLabel(mediaComposite, "Grammar:");
 		Composite grammarComp = createWrapperComposite(mediaComposite, 100);
 		grammarViewer.createControls(grammarComp);
 		// grammarViewer.addListener(this);
@@ -171,21 +160,18 @@ public class RecordMediaScreen extends MediaConfigurationScreen implements
 		settingsComposite.setBackground(comp.getBackground());
 		settingsComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		settingsComposite.setLayout(new GridLayout(2, false));
-		final Section settingsSection = toolkit.createSection(
-				settingsComposite, Section.TITLE_BAR);
-		gridData = new GridData(GridData.FILL_HORIZONTAL
-				| GridData.VERTICAL_ALIGN_BEGINNING);
+		final Section settingsSection = toolkit.createSection(settingsComposite, Section.TITLE_BAR);
+		gridData = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
 		gridData.horizontalSpan = 2;
 		settingsSection.setLayoutData(gridData);
 		settingsSection.setText("Settings");
 
-		Label bargeLabel = createPropertyLabel(settingsComposite,
-				"Barge-in Enabled");
+		Label bargeLabel = createPropertyLabel(settingsComposite, "Barge-in Enabled");
 		bargeLabel
 				.setToolTipText("Determines whether the caller can\r\ninterrupt the prompt to begin entry.");
 		containerComp = createWrapperComposite(settingsComposite);
-		ValueStack lastStack = new ValueStack("barge-in", getInteractionType(),
-				elementType, "true", 0);
+		ValueStack lastStack = new ValueStack("barge-in", getInteractionType(), elementType,
+				"true", 0);
 		lastStack.createControls(containerComp);
 		containerComp = lastStack.getValueComposite();
 		valueStacks.put("barge-in", lastStack);
@@ -217,8 +203,7 @@ public class RecordMediaScreen extends MediaConfigurationScreen implements
 		beepLabel
 				.setToolTipText("Tells the voice platform whether to\r\nplay a beep before recording.");
 		containerComp = createWrapperComposite(settingsComposite);
-		lastStack = new ValueStack("play-beep", getInteractionType(),
-				elementType, "true", 0);
+		lastStack = new ValueStack("play-beep", getInteractionType(), elementType, "true", 0);
 		lastStack.createControls(containerComp);
 		containerComp = lastStack.getValueComposite();
 		valueStacks.put("play-beep", lastStack);
@@ -246,13 +231,12 @@ public class RecordMediaScreen extends MediaConfigurationScreen implements
 			}
 		});
 
-		Label terminationCharacterLabel = createPropertyLabel(
-				settingsComposite, "Allow DTMF Termination?");
+		Label terminationCharacterLabel = createPropertyLabel(settingsComposite,
+				"Allow DTMF Termination?");
 		terminationCharacterLabel
 				.setToolTipText("Determines whether recording is ended\r\nby DTMF input.");
 		containerComp = createWrapperComposite(settingsComposite);
-		lastStack = new ValueStack("dtmf-termination", getInteractionType(),
-				elementType, "true", 0);
+		lastStack = new ValueStack("dtmf-termination", getInteractionType(), elementType, "true", 0);
 		lastStack.createControls(containerComp);
 		containerComp = lastStack.getValueComposite();
 		valueStacks.put("dtmf-termination", lastStack);
@@ -263,8 +247,8 @@ public class RecordMediaScreen extends MediaConfigurationScreen implements
 		lastStack.setValueControl(new ValueControl() {
 			@Override
 			public String getValue() {
-				return terminationCharacterCombo
-						.getItem(terminationCharacterCombo.getSelectionIndex());
+				return terminationCharacterCombo.getItem(terminationCharacterCombo
+						.getSelectionIndex());
 			}
 
 			@Override
@@ -283,18 +267,14 @@ public class RecordMediaScreen extends MediaConfigurationScreen implements
 
 		Label initialTimeoutLabel = createPropertyLabel(settingsComposite,
 				"Initial Input Timeout (Seconds)");
-		initialTimeoutLabel
-				.setToolTipText("The amount of time in seconds to wait\r\n"
-						+ "for the caller to begin input before\r\n"
-						+ "a NoInput event.");
+		initialTimeoutLabel.setToolTipText("The amount of time in seconds to wait\r\n"
+				+ "for the caller to begin input before\r\n" + "a NoInput event.");
 		containerComp = createWrapperComposite(settingsComposite);
-		lastStack = new ValueStack("initial-timeout", getInteractionType(),
-				elementType, "3", 0);
+		lastStack = new ValueStack("initial-timeout", getInteractionType(), elementType, "3", 2);
 		lastStack.createControls(containerComp);
 		containerComp = lastStack.getValueComposite();
 		valueStacks.put("initial-timeout", lastStack);
-		final Spinner initialTimeoutSpinner = createValueSpinner(containerComp,
-				0, 100, 0, 0);
+		final Spinner initialTimeoutSpinner = createValueSpinner(containerComp, 0, 100, 0, 0);
 		lastStack.setValueControl(new ValueControl() {
 			@Override
 			public String getValue() {
@@ -309,23 +289,19 @@ public class RecordMediaScreen extends MediaConfigurationScreen implements
 
 		Label terminationTimeoutLabel = createPropertyLabel(settingsComposite,
 				"Termination Timeout (Seconds)");
-		terminationTimeoutLabel
-				.setToolTipText("The amount of time in seconds to wait\r\n"
-						+ "for additional input after a selection\r\n"
-						+ "has been matched.");
+		terminationTimeoutLabel.setToolTipText("The amount of time in seconds to wait\r\n"
+				+ "for additional input after a selection\r\n" + "has been matched.");
 		containerComp = createWrapperComposite(settingsComposite);
-		lastStack = new ValueStack("final-silence-timeout",
-				getInteractionType(), elementType, "1", 0);
+		lastStack = new ValueStack("final-silence-timeout", getInteractionType(), elementType, "1",
+				0);
 		lastStack.createControls(containerComp);
 		containerComp = lastStack.getValueComposite();
 		valueStacks.put("final-silence-timeout", lastStack);
-		final Spinner terminationTimeoutSpinner = createValueSpinner(
-				containerComp, 0, 100, 0, 0);
+		final Spinner terminationTimeoutSpinner = createValueSpinner(containerComp, 0, 100, 0, 0);
 		lastStack.setValueControl(new ValueControl() {
 			@Override
 			public String getValue() {
-				return Integer.toString(terminationTimeoutSpinner
-						.getSelection());
+				return Integer.toString(terminationTimeoutSpinner.getSelection());
 			}
 
 			@Override
@@ -336,17 +312,14 @@ public class RecordMediaScreen extends MediaConfigurationScreen implements
 
 		Label maxSpeechTimeoutLabel = createPropertyLabel(settingsComposite,
 				"Maximum Recording Time (Seconds)");
-		maxSpeechTimeoutLabel
-				.setToolTipText("The maximum length of speech input\r\n"
-						+ "in seconds that will be accepted.");
+		maxSpeechTimeoutLabel.setToolTipText("The maximum length of speech input\r\n"
+				+ "in seconds that will be accepted.");
 		containerComp = createWrapperComposite(settingsComposite);
-		lastStack = new ValueStack("max-record-time", getInteractionType(),
-				elementType, "300", 0);
+		lastStack = new ValueStack("max-record-time", getInteractionType(), elementType, "300", 0);
 		lastStack.createControls(containerComp);
 		containerComp = lastStack.getValueComposite();
 		valueStacks.put("max-record-time", lastStack);
-		final Spinner maxSpeechTimeoutSpinner = createValueSpinner(
-				containerComp, 10, 1740, 0, 0);
+		final Spinner maxSpeechTimeoutSpinner = createValueSpinner(containerComp, 10, 1740, 0, 0);
 		lastStack.setValueControl(new ValueControl() {
 			@Override
 			public String getValue() {
@@ -362,8 +335,7 @@ public class RecordMediaScreen extends MediaConfigurationScreen implements
 		comp.addControlListener(new ControlListener() {
 
 			@Override
-			public void controlMoved(ControlEvent e) {
-			}
+			public void controlMoved(ControlEvent e) {}
 
 			@Override
 			public void controlResized(ControlEvent e) {
@@ -389,9 +361,7 @@ public class RecordMediaScreen extends MediaConfigurationScreen implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.media.core.MediaConfigurationScreen#
-	 * getInteractionType()
+	 * @see org.eclipse.vtp.desktop.media.core.MediaConfigurationScreen# getInteractionType()
 	 */
 	@Override
 	public String getInteractionType() {
@@ -400,9 +370,7 @@ public class RecordMediaScreen extends MediaConfigurationScreen implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.media.core.MediaConfigurationScreen#setLanguage
+	 * @see org.eclipse.vtp.desktop.media.core.MediaConfigurationScreen#setLanguage
 	 * (java.lang.String)
 	 */
 	@Override
@@ -416,9 +384,7 @@ public class RecordMediaScreen extends MediaConfigurationScreen implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.media.core.MediaConfigurationScreen#setBrand(
+	 * @see org.eclipse.vtp.desktop.media.core.MediaConfigurationScreen#setBrand(
 	 * org.eclipse.vtp.desktop.core.configuration.Brand)
 	 */
 	@Override
@@ -429,43 +395,40 @@ public class RecordMediaScreen extends MediaConfigurationScreen implements
 			grammarViewer.setCurrentBrand(brand);
 		}
 
-		NamedBinding namedBinding = interactionBinding
-				.getNamedBinding("barge-in");
+		NamedBinding namedBinding = interactionBinding.getNamedBinding("barge-in");
 		LanguageBinding languageBinding = namedBinding.getLanguageBinding("");
-		BrandBinding brandBinding = languageBinding
-				.getBrandBinding(currentBrand);
-		ValueStack valueStack = this.valueStacks.get(namedBinding.getName());
+		BrandBinding brandBinding = languageBinding.getBrandBinding(currentBrand);
+		ValueStack valueStack = valueStacks.get(namedBinding.getName());
 		valueStack.setSetting(bindingManager.getMediaDefaults(), brandBinding);
 
 		namedBinding = interactionBinding.getNamedBinding("play-beep");
 		languageBinding = namedBinding.getLanguageBinding("");
 		brandBinding = languageBinding.getBrandBinding(currentBrand);
-		valueStack = this.valueStacks.get(namedBinding.getName());
+		valueStack = valueStacks.get(namedBinding.getName());
 		valueStack.setSetting(bindingManager.getMediaDefaults(), brandBinding);
 
 		namedBinding = interactionBinding.getNamedBinding("initial-timeout");
 		languageBinding = namedBinding.getLanguageBinding("");
 		brandBinding = languageBinding.getBrandBinding(currentBrand);
-		valueStack = this.valueStacks.get(namedBinding.getName());
+		valueStack = valueStacks.get(namedBinding.getName());
 		valueStack.setSetting(bindingManager.getMediaDefaults(), brandBinding);
 
-		namedBinding = interactionBinding
-				.getNamedBinding("final-silence-timeout");
+		namedBinding = interactionBinding.getNamedBinding("final-silence-timeout");
 		languageBinding = namedBinding.getLanguageBinding("");
 		brandBinding = languageBinding.getBrandBinding(currentBrand);
-		valueStack = this.valueStacks.get(namedBinding.getName());
+		valueStack = valueStacks.get(namedBinding.getName());
 		valueStack.setSetting(bindingManager.getMediaDefaults(), brandBinding);
 
 		namedBinding = interactionBinding.getNamedBinding("dtmf-termination");
 		languageBinding = namedBinding.getLanguageBinding("");
 		brandBinding = languageBinding.getBrandBinding(currentBrand);
-		valueStack = this.valueStacks.get(namedBinding.getName());
+		valueStack = valueStacks.get(namedBinding.getName());
 		valueStack.setSetting(bindingManager.getMediaDefaults(), brandBinding);
 
 		namedBinding = interactionBinding.getNamedBinding("max-record-time");
 		languageBinding = namedBinding.getLanguageBinding("");
 		brandBinding = languageBinding.getBrandBinding(currentBrand);
-		valueStack = this.valueStacks.get(namedBinding.getName());
+		valueStack = valueStacks.get(namedBinding.getName());
 		valueStack.setSetting(bindingManager.getMediaDefaults(), brandBinding);
 
 	}
@@ -487,8 +450,7 @@ public class RecordMediaScreen extends MediaConfigurationScreen implements
 		Composite containerComp = new Composite(parent, SWT.NONE);
 		containerComp.setBackground(parent.getBackground());
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL
-				| GridData.HORIZONTAL_ALIGN_BEGINNING
-				| GridData.VERTICAL_ALIGN_BEGINNING);
+				| GridData.HORIZONTAL_ALIGN_BEGINNING | GridData.VERTICAL_ALIGN_BEGINNING);
 		gridData.horizontalIndent = indent;
 		gridData.widthHint = 150;
 		// gridData.grabExcessVerticalSpace = true;
@@ -545,8 +507,7 @@ public class RecordMediaScreen extends MediaConfigurationScreen implements
 	 * @return
 	 */
 	private Combo createValueDropDown(Composite parent) {
-		Combo ret = new Combo(parent, SWT.BORDER | SWT.READ_ONLY
-				| SWT.DROP_DOWN);
+		Combo ret = new Combo(parent, SWT.BORDER | SWT.READ_ONLY | SWT.DROP_DOWN);
 		GridData gd = new GridData();
 		gd.verticalIndent = 2;
 		gd.horizontalAlignment = SWT.RIGHT;
@@ -564,8 +525,7 @@ public class RecordMediaScreen extends MediaConfigurationScreen implements
 	 * @param value
 	 * @return
 	 */
-	public Spinner createValueSpinner(Composite parent, int min, int max,
-			int digits, int value) {
+	public Spinner createValueSpinner(Composite parent, int min, int max, int digits, int value) {
 		Spinner ret = new Spinner(parent, SWT.NONE);
 		ret.setMinimum(min);
 		ret.setMaximum(max);
@@ -589,8 +549,8 @@ public class RecordMediaScreen extends MediaConfigurationScreen implements
 	 * @param rightName
 	 * @return
 	 */
-	public Slider createValueSlider(Composite parent, int min, int max,
-			String leftName, String rightName) {
+	public Slider createValueSlider(Composite parent, int min, int max, String leftName,
+			String rightName) {
 		Composite sliderComp = new Composite(parent, SWT.NONE);
 		sliderComp.setBackground(parent.getBackground());
 		GridData gd = new GridData();
@@ -621,8 +581,8 @@ public class RecordMediaScreen extends MediaConfigurationScreen implements
 		ret.setMaximum(max);
 		fd = new FormData();
 		fd.left = new FormAttachment(leftLabel, /*
-												 * leftLabel.computeSize(SWT.DEFAULT
-												 * , SWT.DEFAULT).x / 2
+												 * leftLabel.computeSize(SWT.DEFAULT ,
+												 * SWT.DEFAULT).x / 2
 												 */0, SWT.LEFT);
 		fd.right = new FormAttachment(rightLabel, /*-1 * (rightLabel.computeSize(SWT.DEFAULT, SWT.DEFAULT).x / 2)*/
 		0, SWT.RIGHT);
@@ -641,14 +601,12 @@ public class RecordMediaScreen extends MediaConfigurationScreen implements
 		 */
 		public RowDivider(Composite parent, int style) {
 			super(parent, style);
-			this.addPaintListener(this);
+			addPaintListener(this);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt
+		 * @see org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt
 		 * .events.PaintEvent)
 		 */
 		@Override
@@ -660,9 +618,7 @@ public class RecordMediaScreen extends MediaConfigurationScreen implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.media.core.PromptBindingViewerListener#valueChanged
+	 * @see org.eclipse.vtp.desktop.media.core.PromptBindingViewerListener#valueChanged
 	 * (org.eclipse.vtp.desktop.media.core.PromptBindingViewer)
 	 */
 	@Override
@@ -671,11 +627,10 @@ public class RecordMediaScreen extends MediaConfigurationScreen implements
 		sc.setMinSize(preferred);
 		comp.layout();
 		if (preferred.y > sc.getClientArea().height) // need to re-adjust
-														// because the scroll
-														// bar appeared
+		// because the scroll
+		// bar appeared
 		{
-			preferred = comp.computeSize(sc.getClientArea().width, SWT.DEFAULT,
-					true);
+			preferred = comp.computeSize(sc.getClientArea().width, SWT.DEFAULT, true);
 			sc.setMinSize(preferred);
 			comp.layout();
 		}

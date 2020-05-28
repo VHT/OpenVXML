@@ -90,12 +90,11 @@ public class AttachedDataEntryDialog extends Dialog {
 
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		List<Variable> vars = connector.getOrigin().getDesign()
-				.getVariablesFrom(connector.getOrigin(), exitPath);
+		List<Variable> vars = connector.getOrigin().getDesign().getVariablesFrom(
+				connector.getOrigin(), exitPath);
 		outer: for (Variable v : vars) {
 			for (int i = 0; i < incomingVariables.size(); i++) {
-				if (incomingVariables.get(i).getName()
-						.compareToIgnoreCase(v.getName()) > 0) {
+				if (incomingVariables.get(i).getName().compareToIgnoreCase(v.getName()) > 0) {
 					incomingVariables.add(i, v);
 					continue outer;
 				}
@@ -123,8 +122,7 @@ public class AttachedDataEntryDialog extends Dialog {
 		mapCombo = new Combo(mapComp, SWT.DROP_DOWN | SWT.READ_ONLY);
 		mapCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		for (Variable v : incomingVariables) {
-			if (v.getType().hasBaseType()
-					&& v.getType().getPrimitiveType() == Primitive.MAP) {
+			if (v.getType().hasBaseType() && v.getType().getPrimitiveType() == Primitive.MAP) {
 				incomingMaps.add(v);
 				mapCombo.add(v.getName());
 			}
@@ -148,8 +146,7 @@ public class AttachedDataEntryDialog extends Dialog {
 		singleRadio = new Button(comp, SWT.RADIO);
 		singleRadio.setText("Add a single value");
 		singleRadio.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		singleRadio
-				.setSelection(entry.getDataType() != AttachedDataItemEntry.TYPE_MAP);
+		singleRadio.setSelection(entry.getDataType() != AttachedDataItemEntry.TYPE_MAP);
 
 		Composite singleComp = new Composite(comp, SWT.NONE);
 		singleComp.setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -170,13 +167,11 @@ public class AttachedDataEntryDialog extends Dialog {
 
 		staticButton = new Button(singleComp, SWT.RADIO);
 		staticButton.setText("Use this value");
-		staticButton
-				.setSelection(entry.getDataType() == AttachedDataItemEntry.TYPE_STATIC);
+		staticButton.setSelection(entry.getDataType() == AttachedDataItemEntry.TYPE_STATIC);
 		staticButton.addSelectionListener(new SelectionListener() {
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -194,8 +189,7 @@ public class AttachedDataEntryDialog extends Dialog {
 		staticButton.setLayoutData(gd);
 		staticField = new Text(singleComp, SWT.BORDER | SWT.SINGLE);
 		if (entry.getDataType() == AttachedDataItemEntry.TYPE_STATIC) {
-			staticField.setText(entry.getValue() == null ? "" : entry
-					.getValue());
+			staticField.setText(entry.getValue() == null ? "" : entry.getValue());
 		}
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalIndent = 15;
@@ -204,13 +198,11 @@ public class AttachedDataEntryDialog extends Dialog {
 
 		expressionButton = new Button(singleComp, SWT.RADIO);
 		expressionButton.setText("Use this Javascript expression");
-		expressionButton
-				.setSelection(entry.getDataType() == AttachedDataItemEntry.TYPE_EXPRESSION);
+		expressionButton.setSelection(entry.getDataType() == AttachedDataItemEntry.TYPE_EXPRESSION);
 		expressionButton.addSelectionListener(new SelectionListener() {
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -228,8 +220,7 @@ public class AttachedDataEntryDialog extends Dialog {
 		expressionButton.setLayoutData(gd);
 		expressionField = new Text(singleComp, SWT.SINGLE | SWT.BORDER);
 		if (entry.getDataType() == AttachedDataItemEntry.TYPE_EXPRESSION) {
-			expressionField.setText(entry.getValue() == null ? "" : entry
-					.getValue());
+			expressionField.setText(entry.getValue() == null ? "" : entry.getValue());
 		}
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalIndent = 15;
@@ -238,19 +229,16 @@ public class AttachedDataEntryDialog extends Dialog {
 
 		variableButton = new Button(singleComp, SWT.RADIO);
 		variableButton.setText("Use the contents of this variable");
-		variableButton
-				.setSelection(entry.getDataType() == AttachedDataItemEntry.TYPE_VARIABLE);
+		variableButton.setSelection(entry.getDataType() == AttachedDataItemEntry.TYPE_VARIABLE);
 		variableButton.addSelectionListener(new SelectionListener() {
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (!variableButton.getSelection()) {
-					variableViewer.setSelection(new StructuredSelection(
-							(Object) null));
+					variableViewer.setSelection(new StructuredSelection((Object) null));
 				} else {
 					entry.setValue("");
 					entry.setDataType(AttachedDataItemEntry.TYPE_VARIABLE);
@@ -261,8 +249,8 @@ public class AttachedDataEntryDialog extends Dialog {
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 2;
 		variableButton.setLayoutData(gd);
-		Tree variableTable = new Tree(singleComp, SWT.SINGLE | SWT.BORDER
-				| SWT.FULL_SELECTION | SWT.V_SCROLL);
+		Tree variableTable = new Tree(singleComp, SWT.SINGLE | SWT.BORDER | SWT.FULL_SELECTION
+				| SWT.V_SCROLL);
 		variableTable.setHeaderVisible(true);
 		TreeColumn nameColumn = new TreeColumn(variableTable, SWT.NONE);
 		nameColumn.setText("Variable Name");
@@ -286,16 +274,14 @@ public class AttachedDataEntryDialog extends Dialog {
 
 				if (v.getName().equals(entry.getValue())) {
 					variableViewer.setSelection(new StructuredSelection(v));
-				} else if ((entry.getValue() != null)
-						&& entry.getValue().startsWith(v.getName())) {
+				} else if ((entry.getValue() != null) && entry.getValue().startsWith(v.getName())) {
 					List<ObjectField> objectFields = v.getFields();
 
 					for (int f = 0; f < objectFields.size(); f++) {
 						ObjectField of = objectFields.get(f);
 
 						if (of.getPath().equals(entry.getValue())) {
-							variableViewer
-									.setSelection(new StructuredSelection(of));
+							variableViewer.setSelection(new StructuredSelection(of));
 						}
 					}
 				}
@@ -309,8 +295,7 @@ public class AttachedDataEntryDialog extends Dialog {
 		if (mapRadio.getSelection()) {
 			entry.setName("All items in");
 			entry.setDataType(AttachedDataItemEntry.TYPE_MAP);
-			entry.setValue(incomingMaps.get(mapCombo.getSelectionIndex())
-					.getName());
+			entry.setValue(incomingMaps.get(mapCombo.getSelectionIndex()).getName());
 		} else {
 			entry.setName(nameField.getText());
 			if (staticButton.getSelection()) {
@@ -319,8 +304,8 @@ public class AttachedDataEntryDialog extends Dialog {
 				entry.setValue(expressionField.getText());
 			} else // variable
 			{
-				System.err.println(((StructuredSelection) variableViewer
-						.getSelection()).getFirstElement());
+				System.err.println(((StructuredSelection) variableViewer.getSelection())
+						.getFirstElement());
 				entry.setValue(((ObjectDefinition) ((StructuredSelection) variableViewer
 						.getSelection()).getFirstElement()).getPath());
 			}
@@ -331,10 +316,7 @@ public class AttachedDataEntryDialog extends Dialog {
 	public class VariableContentProvider implements ITreeContentProvider {
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
-		 * java.lang.Object)
+		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements( java.lang.Object)
 		 */
 		@Override
 		public Object[] getElements(Object inputElement) {
@@ -343,10 +325,7 @@ public class AttachedDataEntryDialog extends Dialog {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang
-		 * .Object)
+		 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang .Object)
 		 */
 		@Override
 		public Object getParent(Object element) {
@@ -359,10 +338,7 @@ public class AttachedDataEntryDialog extends Dialog {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang
-		 * .Object)
+		 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang .Object)
 		 */
 		@Override
 		public boolean hasChildren(Object element) {
@@ -371,10 +347,7 @@ public class AttachedDataEntryDialog extends Dialog {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang
-		 * .Object)
+		 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang .Object)
 		 */
 		@Override
 		public Object[] getChildren(Object parentElement) {
@@ -382,12 +355,10 @@ public class AttachedDataEntryDialog extends Dialog {
 		}
 
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 	}
 
 	public class VariableLabelProvider implements ITableLabelProvider {
@@ -413,8 +384,7 @@ public class AttachedDataEntryDialog extends Dialog {
 		}
 
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		@Override
 		public boolean isLabelProperty(Object element, String property) {
@@ -422,12 +392,10 @@ public class AttachedDataEntryDialog extends Dialog {
 		}
 
 		@Override
-		public void addListener(ILabelProviderListener listener) {
-		}
+		public void addListener(ILabelProviderListener listener) {}
 
 		@Override
-		public void removeListener(ILabelProviderListener listener) {
-		}
+		public void removeListener(ILabelProviderListener listener) {}
 	}
 
 }

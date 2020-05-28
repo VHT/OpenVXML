@@ -22,8 +22,8 @@ import org.eclipse.vtp.framework.interactions.core.media.IMediaProvider;
 import org.w3c.dom.Element;
 
 /**
- * This is a concrete implementation of <code>IVoiceProject</code> and provides
- * the default behavior of that interface.
+ * This is a concrete implementation of <code>IVoiceProject</code> and provides the default behavior
+ * of that interface.
  *
  * @author Trip Gilman
  * @version 2.0
@@ -34,11 +34,9 @@ public class VoiceProject extends MediaProject implements IVoiceMediaProject {
 	private String languagePackId;
 
 	/**
-	 * Creates a new <code>Personaproject</code> with the given eclipse project
-	 * resource.
+	 * Creates a new <code>Personaproject</code> with the given eclipse project resource.
 	 *
-	 * @param project
-	 *            The eclipse project resource this persona project represents
+	 * @param project The eclipse project resource this persona project represents
 	 */
 	public VoiceProject(IProject project) {
 		super(project);
@@ -54,9 +52,7 @@ public class VoiceProject extends MediaProject implements IVoiceMediaProject {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IPersonaProject#getLanguagePackId()
+	 * @see org.eclipse.vtp.desktop.core.project.IPersonaProject#getLanguagePackId()
 	 */
 	@Override
 	public String getLanguagePackId() {
@@ -65,7 +61,6 @@ public class VoiceProject extends MediaProject implements IVoiceMediaProject {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IPersonaProject#getPromptSet()
 	 */
 	@Override

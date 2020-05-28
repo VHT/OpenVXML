@@ -42,8 +42,7 @@ public class RawDocument implements IDocument {
 	/**
 	 * Creates a new <code>RawOutputDocument</code>.
 	 * 
-	 * @param documentType
-	 *            The the type of XML document this instance contains.
+	 * @param documentType The the type of XML document this instance contains.
 	 */
 	public RawDocument(String documentType) {
 		this(documentType, null);
@@ -52,20 +51,17 @@ public class RawDocument implements IDocument {
 	/**
 	 * Creates a new <code>RawOutputDocument</code>.
 	 * 
-	 * @param documentType
-	 *            The the type of XML document this instance contains.
+	 * @param documentType The the type of XML document this instance contains.
 	 */
 	public RawDocument(String documentType, String contentType) {
 		this.documentType = documentType;
-		this.contentType = contentType == null ? DEFAULT_CONTENT_TYPE
-				: contentType;
+		this.contentType = contentType == null ? DEFAULT_CONTENT_TYPE : contentType;
 	}
 
 	/**
 	 * Adds the given text to the end of the current document text.
 	 * 
-	 * @param text
-	 *            The text to add.
+	 * @param text The text to add.
 	 */
 	public void appendText(String text) {
 		this.text.append(text);
@@ -80,9 +76,7 @@ public class RawDocument implements IDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.core.output.IOutputDocument#
-	 * getDocumentType()
+	 * @see org.eclipse.vtp.framework.spi.core.output.IOutputDocument# getDocumentType()
 	 */
 	@Override
 	public String getDocumentType() {
@@ -91,7 +85,6 @@ public class RawDocument implements IDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.core.output.IDocument#getContentType()
 	 */
 	@Override
@@ -101,9 +94,7 @@ public class RawDocument implements IDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.core.output.OutputDocument#
-	 * toXMLSource()
+	 * @see org.eclipse.vtp.framework.spi.core.output.OutputDocument# toXMLSource()
 	 */
 	@Override
 	public Source toXMLSource() throws IllegalStateException {
@@ -112,7 +103,6 @@ public class RawDocument implements IDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

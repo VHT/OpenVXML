@@ -46,21 +46,15 @@ public class VTOPTransfer extends FormElement {
 	/**
 	 * Creates a new instance of <code>Transfer</code>.
 	 * 
-	 * @param name
-	 *            The name this element will be referred to by.
-	 * @param destination
-	 *            The destination of the transfer.
-	 * @throws IllegalArgumentException
-	 *             If the specified name is empty.
-	 * @throws IllegalArgumentException
-	 *             If the specified destination is empty.
-	 * @throws NullPointerException
-	 *             If the specified name is <code>null</code>.
-	 * @throws NullPointerException
-	 *             If the specified destination is <code>null</code>.
+	 * @param name The name this element will be referred to by.
+	 * @param destination The destination of the transfer.
+	 * @throws IllegalArgumentException If the specified name is empty.
+	 * @throws IllegalArgumentException If the specified destination is empty.
+	 * @throws NullPointerException If the specified name is <code>null</code>.
+	 * @throws NullPointerException If the specified destination is <code>null</code>.
 	 */
-	public VTOPTransfer(String name, String destination)
-			throws IllegalArgumentException, NullPointerException {
+	public VTOPTransfer(String name, String destination) throws IllegalArgumentException,
+			NullPointerException {
 		super(name);
 		setDestination(destination);
 	}
@@ -68,22 +62,14 @@ public class VTOPTransfer extends FormElement {
 	/**
 	 * Creates a new instance of <code>Transfer</code>.
 	 * 
-	 * @param name
-	 *            The name this element will be referred to by.
-	 * @param expression
-	 *            See the documentation for <code>FormElement</code>.
-	 * @param destination
-	 *            The destination of the transfer.
-	 * @throws IllegalArgumentException
-	 *             If the specified name is empty.
-	 * @throws IllegalArgumentException
-	 *             If the specified expression is empty.
-	 * @throws IllegalArgumentException
-	 *             If the specified destination is empty.
-	 * @throws NullPointerException
-	 *             If the specified name is <code>null</code>.
-	 * @throws NullPointerException
-	 *             If the specified destination is <code>null</code>.
+	 * @param name The name this element will be referred to by.
+	 * @param expression See the documentation for <code>FormElement</code>.
+	 * @param destination The destination of the transfer.
+	 * @throws IllegalArgumentException If the specified name is empty.
+	 * @throws IllegalArgumentException If the specified expression is empty.
+	 * @throws IllegalArgumentException If the specified destination is empty.
+	 * @throws NullPointerException If the specified name is <code>null</code>.
+	 * @throws NullPointerException If the specified destination is <code>null</code>.
 	 */
 	public VTOPTransfer(String name, String expression, String destination)
 			throws IllegalArgumentException, NullPointerException {
@@ -94,30 +80,19 @@ public class VTOPTransfer extends FormElement {
 	/**
 	 * Creates a new instance of <code>Transfer</code>.
 	 * 
-	 * @param name
-	 *            The name this element will be referred to by.
-	 * @param expression
-	 *            See the documentation for <code>FormElement</code>.
-	 * @param condition
-	 *            See the documentation for <code>FormElement</code>.
-	 * @param destination
-	 *            The destination of the transfer.
-	 * @throws IllegalArgumentException
-	 *             If the specified name is empty.
-	 * @throws IllegalArgumentException
-	 *             If the specified expression is empty.
-	 * @throws IllegalArgumentException
-	 *             If the specified condition is empty.
-	 * @throws IllegalArgumentException
-	 *             If the specified destination is empty.
-	 * @throws NullPointerException
-	 *             If the specified name is <code>null</code>.
-	 * @throws NullPointerException
-	 *             If the specified destination is <code>null</code>.
+	 * @param name The name this element will be referred to by.
+	 * @param expression See the documentation for <code>FormElement</code>.
+	 * @param condition See the documentation for <code>FormElement</code>.
+	 * @param destination The destination of the transfer.
+	 * @throws IllegalArgumentException If the specified name is empty.
+	 * @throws IllegalArgumentException If the specified expression is empty.
+	 * @throws IllegalArgumentException If the specified condition is empty.
+	 * @throws IllegalArgumentException If the specified destination is empty.
+	 * @throws NullPointerException If the specified name is <code>null</code>.
+	 * @throws NullPointerException If the specified destination is <code>null</code>.
 	 */
-	public VTOPTransfer(String name, String expression, String condition,
-			String destination) throws IllegalArgumentException,
-			NullPointerException {
+	public VTOPTransfer(String name, String expression, String condition, String destination)
+			throws IllegalArgumentException, NullPointerException {
 		super(name, expression, condition);
 	}
 
@@ -177,20 +152,15 @@ public class VTOPTransfer extends FormElement {
 	/**
 	 * Sets the destination of the transfer.
 	 * 
-	 * @param destination
-	 *            The destination of the transfer.
-	 * @throws IllegalArgumentException
-	 *             If the specified destination is empty.
-	 * @throws NullPointerException
-	 *             If the specified destination is <code>null</code>.
+	 * @param destination The destination of the transfer.
+	 * @throws IllegalArgumentException If the specified destination is empty.
+	 * @throws NullPointerException If the specified destination is <code>null</code>.
 	 */
-	public void setDestination(String destination)
-			throws IllegalArgumentException, NullPointerException {
-		if (destination == null) {
-			throw new NullPointerException("destination"); //$NON-NLS-1$
+	public void setDestination(String destination) throws IllegalArgumentException,
+			NullPointerException {
+		if (destination == null) { throw new NullPointerException("destination"); //$NON-NLS-1$
 		}
-		if (destination.length() == 0) {
-			throw new IllegalArgumentException("destination"); //$NON-NLS-1$
+		if (destination.length() == 0) { throw new IllegalArgumentException("destination"); //$NON-NLS-1$
 		}
 		this.destination = destination;
 	}
@@ -198,8 +168,7 @@ public class VTOPTransfer extends FormElement {
 	/**
 	 * Sets the maxTime.
 	 * 
-	 * @param maxTime
-	 *            The maxTime to set.
+	 * @param maxTime The maxTime to set.
 	 */
 	public void setMaxTime(String maxTime) {
 		this.maxTime = maxTime;
@@ -218,17 +187,14 @@ public class VTOPTransfer extends FormElement {
 	}
 
 	/**
-	 * Adds the specified filled handler to this transfer. The filled handlers
-	 * will be executed in the order they were added.
+	 * Adds the specified filled handler to this transfer. The filled handlers will be executed in
+	 * the order they were added.
 	 * 
-	 * @param filled
-	 *            The filled handler to be added.
-	 * @throws NullPointerException
-	 *             If the supplied filled handler is <code>null</code>.
+	 * @param filled The filled handler to be added.
+	 * @throws NullPointerException If the supplied filled handler is <code>null</code>.
 	 */
 	public void addFilledHandler(Filled filled) throws NullPointerException {
-		if (filled == null) {
-			throw new NullPointerException("filled"); //$NON-NLS-1$
+		if (filled == null) { throw new NullPointerException("filled"); //$NON-NLS-1$
 		}
 		filledHandlers.add(filled);
 	}
@@ -236,31 +202,24 @@ public class VTOPTransfer extends FormElement {
 	/**
 	 * Removes the specified filled handler from this transfer.
 	 * 
-	 * @param filled
-	 *            The filled handler to be removed.
-	 * @throws NullPointerException
-	 *             If the supplied filled handler is <code>null</code>.
+	 * @param filled The filled handler to be removed.
+	 * @throws NullPointerException If the supplied filled handler is <code>null</code>.
 	 */
 	public void removeFilledHandler(Filled filled) throws NullPointerException {
-		if (filled == null) {
-			throw new NullPointerException("filled"); //$NON-NLS-1$
+		if (filled == null) { throw new NullPointerException("filled"); //$NON-NLS-1$
 		}
 		filledHandlers.remove(filled);
 	}
 
 	/**
-	 * Adds the specified event handler to this recording. The event handlers
-	 * are evaluated in the order they were added.
+	 * Adds the specified event handler to this recording. The event handlers are evaluated in the
+	 * order they were added.
 	 * 
-	 * @param eventHandler
-	 *            The event handler to add.
-	 * @throws NullPointerException
-	 *             If the supplied event handler is <code>null</code>.
+	 * @param eventHandler The event handler to add.
+	 * @throws NullPointerException If the supplied event handler is <code>null</code>.
 	 */
-	public void addEventHandler(EventHandler eventHandler)
-			throws NullPointerException {
-		if (eventHandler == null) {
-			throw new NullPointerException("eventHandler"); //$NON-NLS-1$
+	public void addEventHandler(EventHandler eventHandler) throws NullPointerException {
+		if (eventHandler == null) { throw new NullPointerException("eventHandler"); //$NON-NLS-1$
 		}
 		eventHandlers.add(eventHandler);
 	}
@@ -268,98 +227,77 @@ public class VTOPTransfer extends FormElement {
 	/**
 	 * Removes the specified event handler from this recording.
 	 * 
-	 * @param eventHandler
-	 *            The event handler to remove.
-	 * @throws NullPointerException
-	 *             If the supplied event handler is <code>null</code>.
+	 * @param eventHandler The event handler to remove.
+	 * @throws NullPointerException If the supplied event handler is <code>null</code>.
 	 */
-	public void removeEventHandler(EventHandler eventHandler)
-			throws NullPointerException {
-		if (eventHandler == null) {
-			throw new NullPointerException("eventHandler"); //$NON-NLS-1$
+	public void removeEventHandler(EventHandler eventHandler) throws NullPointerException {
+		if (eventHandler == null) { throw new NullPointerException("eventHandler"); //$NON-NLS-1$
 		}
 		eventHandlers.remove(eventHandler);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.core.output.Widget#writeWidget(
 	 * org.xml.sax.ContentHandler)
 	 */
 	@Override
-	public void writeWidget(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
-		if (outputHandler == null) {
-			throw new NullPointerException("outputHandler"); //$NON-NLS-1$
+	public void writeWidget(ContentHandler outputHandler) throws NullPointerException, SAXException {
+		if (outputHandler == null) { throw new NullPointerException("outputHandler"); //$NON-NLS-1$
 		}
 		// Start and end the element.
 		AttributesImpl attributes = new AttributesImpl();
 		writeAttributes(attributes);
-		outputHandler.startElement(NAMESPACE_URI_VXML, NAME_TRANSFER,
-				NAME_TRANSFER, attributes);
+		outputHandler.startElement(NAMESPACE_URI_VXML, NAME_TRANSFER, NAME_TRANSFER, attributes);
 		writeFilledHandlers(outputHandler);
 		writeEventHandlers(outputHandler);
-		outputHandler.endElement(NAMESPACE_URI_VXML, NAME_TRANSFER,
-				NAME_TRANSFER);
+		outputHandler.endElement(NAMESPACE_URI_VXML, NAME_TRANSFER, NAME_TRANSFER);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.voice.output.FormElement#
 	 * writeAttributes(org.xml.sax.helpers.AttributesImpl)
 	 */
 	@Override
 	protected void writeAttributes(AttributesImpl attributes) {
 		super.writeAttributes(attributes);
-		writeAttribute(attributes, null, null, NAME_DEST, TYPE_CDATA,
-				destination);
-		writeAttribute(attributes, null, null, NAME_TYPE, TYPE_CDATA,
-				transferType);
+		writeAttribute(attributes, null, null, NAME_DEST, TYPE_CDATA, destination);
+		writeAttribute(attributes, null, null, NAME_TYPE, TYPE_CDATA, transferType);
 		if (maxTime != null) {
-			writeAttribute(attributes, null, null, NAME_MAXTIME, TYPE_CDATA,
-					maxTime);
+			writeAttribute(attributes, null, null, NAME_MAXTIME, TYPE_CDATA, maxTime);
 		}
 		if (aaiExpression != null) {
-			writeAttribute(attributes, null, null, "aaiexpr", TYPE_CDATA,
-					aaiExpression);
+			writeAttribute(attributes, null, null, "aaiexpr", TYPE_CDATA, aaiExpression);
 		} else if (aai != null) {
 			writeAttribute(attributes, null, null, "aai", TYPE_CDATA, aai);
 		}
 		if (signalVars != null) {
-			writeAttribute(attributes, null, null, "signalvar", TYPE_CDATA,
-					signalVars);
+			writeAttribute(attributes, null, null, "signalvar", TYPE_CDATA, signalVars);
 		}
 	}
 
 	/**
 	 * Write the filled handlers of this field to the specified content handler.
 	 * 
-	 * @param outputHandler
-	 *            The content handler to write to.
-	 * @throws NullPointerException
-	 *             If the supplied content handler is <code>null</code>.
-	 * @throws SAXException
-	 *             If the writing of one of the filled handlers fails.
+	 * @param outputHandler The content handler to write to.
+	 * @throws NullPointerException If the supplied content handler is <code>null</code>.
+	 * @throws SAXException If the writing of one of the filled handlers fails.
 	 */
-	protected void writeFilledHandlers(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
+	protected void writeFilledHandlers(ContentHandler outputHandler) throws NullPointerException,
+			SAXException {
 		writeChildren(outputHandler, filledHandlers);
 	}
 
 	/**
 	 * Write the event handlers of this field to the specified content handler.
 	 * 
-	 * @param outputHandler
-	 *            The content handler to write to.
-	 * @throws NullPointerException
-	 *             If the supplied content handler is <code>null</code>.
-	 * @throws SAXException
-	 *             If the writing of one of the event handlers fails.
+	 * @param outputHandler The content handler to write to.
+	 * @throws NullPointerException If the supplied content handler is <code>null</code>.
+	 * @throws SAXException If the writing of one of the event handlers fails.
 	 */
-	protected void writeEventHandlers(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
+	protected void writeEventHandlers(ContentHandler outputHandler) throws NullPointerException,
+			SAXException {
 		writeChildren(outputHandler, eventHandlers);
 	}
 }

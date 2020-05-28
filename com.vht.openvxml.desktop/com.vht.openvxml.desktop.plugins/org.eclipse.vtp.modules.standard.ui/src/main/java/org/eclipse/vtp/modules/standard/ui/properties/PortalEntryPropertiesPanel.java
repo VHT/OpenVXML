@@ -33,9 +33,11 @@ import com.openmethods.openvxml.desktop.model.workflow.IDesignRootFolder;
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElement;
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesignEntryPoint;
 
-public class PortalEntryPropertiesPanel extends DesignElementPropertiesPanel
-{
-	/** A combo box used to select by name the Portal Exit module to which this Portal Entry module will link */
+public class PortalEntryPropertiesPanel extends DesignElementPropertiesPanel {
+	/**
+	 * A combo box used to select by name the Portal Exit module to which this Portal Entry module
+	 * will link
+	 */
 	Combo exitCombo = null;
 	/** An ArrayList containing the Portal Exits to which this Portal Entry may link */
 	List<IDesignEntryPoint> entryPoints = new ArrayList<IDesignEntryPoint>();
@@ -46,39 +48,38 @@ public class PortalEntryPropertiesPanel extends DesignElementPropertiesPanel
 	 * @param name
 	 * @param element
 	 */
-	public PortalEntryPropertiesPanel(String name, IDesignElement element)
-	{
+	public PortalEntryPropertiesPanel(String name, IDesignElement element) {
 		super(name, element);
-		info = (PortalEntryInformationProvider)((PrimitiveElement)element).getInformationProvider();
+		info = (PortalEntryInformationProvider) ((PrimitiveElement) element)
+				.getInformationProvider();
 		entryPoints.addAll(element.getDesign().getDocument().getDesignEntryPoints());
-		IDesignItemContainer container = element.getDesign().getDocument().getParentDesignContainer();
-		while(!(container instanceof IDesignRootFolder))
-			container = (IDesignItemContainer)container.getParent();
+		IDesignItemContainer container = element.getDesign().getDocument()
+				.getParentDesignContainer();
+		while (!(container instanceof IDesignRootFolder))
+			container = (IDesignItemContainer) container.getParent();
 		traverseDesigns(container);
 	}
-	
-	private void traverseDesigns(IDesignItemContainer container)
-	{
+
+	private void traverseDesigns(IDesignItemContainer container) {
 		List<IDesignDocument> documents = container.getDesignDocuments();
-		for(IDesignDocument document : documents)
-		{
-			if(!document.equals(getElement().getDesign().getDocument()))
-			{
+		for (IDesignDocument document : documents) {
+			if (!document.equals(getElement().getDesign().getDocument())) {
 				entryPoints.addAll(document.getDesignEntryPoints());
 			}
 		}
 		List<IDesignFolder> folders = container.getDesignFolders();
-		for(IDesignFolder folder : folders)
-		{
+		for (IDesignFolder folder : folders) {
 			traverseDesigns(folder);
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel#createControls(org.eclipse.swt.widgets.Composite)
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel#createControls(org
+	 * .eclipse.swt.widgets.Composite)
 	 */
-	public void createControls(Composite parent)
-	{
+	public void createControls(Composite parent) {
 		Composite comp = new Composite(parent, SWT.NONE);
 		comp.setBackground(parent.getBackground());
 		GridLayout gridLayout = new GridLayout();
@@ -88,54 +89,44 @@ public class PortalEntryPropertiesPanel extends DesignElementPropertiesPanel
 		exitLabel.setBackground(comp.getBackground());
 		exitLabel.setLayoutData(new GridData());
 		exitCombo = new Combo(comp, SWT.DROP_DOWN | SWT.READ_ONLY | SWT.SINGLE);
-		for(IDesignEntryPoint entryPoint : entryPoints)
-        {
-       		exitCombo.add(entryPoint.getName());
-        }
-		if(info.getExitId() != null)
-		{
-			for(int i = 0; i < entryPoints.size(); i++)
-	        {
-				IDesignEntryPoint entryPoint = entryPoints.get(i);
-		        if(entryPoint.getId().equals(info.getExitId()))
-		        {
-		        	exitCombo.select(i);
-		        	break;
-		        }
-	        }
+		for (IDesignEntryPoint entryPoint : entryPoints) {
+			exitCombo.add(entryPoint.getName());
 		}
-		else
-			exitCombo.select(0);
+		if (info.getExitId() != null) {
+			for (int i = 0; i < entryPoints.size(); i++) {
+				IDesignEntryPoint entryPoint = entryPoints.get(i);
+				if (entryPoint.getId().equals(info.getExitId())) {
+					exitCombo.select(i);
+					break;
+				}
+			}
+		} else exitCombo.select(0);
 		GridData gridData = new GridData(GridData.FILL_BOTH);
 		gridData.widthHint = 300;
 		exitCombo.setLayoutData(gridData);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel#save()
 	 */
-	public void save()
-	{
+	public void save() {
 		IDesignEntryPoint entryPoint = entryPoints.get(exitCombo.getSelectionIndex());
 		info.setExitId(entryPoint.getId());
 		getElement().setName(entryPoint.getName());
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.vtp.desktop.model.core.configuration.ComponentPropertiesPanel#cancel()
 	 */
-	public void cancel()
-	{
-	}
+	public void cancel() {}
 
 	@Override
-	public void setConfigurationContext(Map<String, Object> values)
-	{
-	}
+	public void setConfigurationContext(Map<String, Object> values) {}
 
 	@Override
-	public List<String> getApplicableContexts()
-	{
+	public List<String> getApplicableContexts() {
 		return Collections.emptyList();
 	}
 

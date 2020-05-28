@@ -16,8 +16,7 @@ public interface ConfigurationManager extends Cloneable {
 
 	public String getXMLVersion();
 
-	public void readConfiguration(org.w3c.dom.Element configuration)
-			throws ConfigurationException;
+	public void readConfiguration(org.w3c.dom.Element configuration) throws ConfigurationException;
 
 	public void writeConfiguration(org.w3c.dom.Element configuration);
 

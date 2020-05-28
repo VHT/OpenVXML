@@ -44,8 +44,7 @@ public class ConversionSelectionDialog extends Dialog {
 
 	public ConversionSelectionDialog(Shell parentShell) {
 		super(parentShell);
-		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot()
-				.getProjects();
+		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
 		for (IProject project : projects) {
 			try {
 				if (project.hasNature(VoiceApplicationNature.NATURE_ID)) {
@@ -53,8 +52,7 @@ public class ConversionSelectionDialog extends Dialog {
 					pr.project = project;
 					pr.type = ProjectRecord.APPLICATION;
 					convertableProjects.add(pr);
-				} else if (project
-						.hasNature(VoiceApplicationFragmentNature.NATURE_ID)) {
+				} else if (project.hasNature(VoiceApplicationFragmentNature.NATURE_ID)) {
 					ProjectRecord pr = new ProjectRecord();
 					pr.project = project;
 					pr.type = ProjectRecord.FRAGMENT;
@@ -99,8 +97,8 @@ public class ConversionSelectionDialog extends Dialog {
 		gd.horizontalSpan = 2;
 		gd.heightHint = 150;
 		tableComp.setLayoutData(gd);
-		Table projectTable = new Table(tableComp, SWT.BORDER | SWT.V_SCROLL
-				| SWT.FULL_SELECTION | SWT.SINGLE | SWT.CHECK);
+		Table projectTable = new Table(tableComp, SWT.BORDER | SWT.V_SCROLL | SWT.FULL_SELECTION
+				| SWT.SINGLE | SWT.CHECK);
 		projectTable.setHeaderVisible(true);
 		TableColumn nameColumn = new TableColumn(projectTable, SWT.NONE);
 		nameColumn.setText("Project Name");
@@ -130,8 +128,7 @@ public class ConversionSelectionDialog extends Dialog {
 
 		selectedButton.addSelectionListener(new SelectionListener() {
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -157,21 +154,21 @@ public class ConversionSelectionDialog extends Dialog {
 		return ret;
 	}
 
-	public class ProjectContentProvider extends BaseLabelProvider implements
-			IStructuredContentProvider, ITableLabelProvider,
-			ICheckStateProvider {
+	public class ProjectContentProvider extends BaseLabelProvider
+		implements
+		IStructuredContentProvider,
+		ITableLabelProvider,
+		ICheckStateProvider {
 		@Override
 		public Object[] getElements(Object inputElement) {
 			return convertableProjects.toArray();
 		}
 
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 
 		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
@@ -181,9 +178,7 @@ public class ConversionSelectionDialog extends Dialog {
 		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			ProjectRecord pr = (ProjectRecord) element;
-			if (columnIndex == 0) {
-				return pr.project.getName();
-			}
+			if (columnIndex == 0) { return pr.project.getName(); }
 			return pr.type;
 		}
 

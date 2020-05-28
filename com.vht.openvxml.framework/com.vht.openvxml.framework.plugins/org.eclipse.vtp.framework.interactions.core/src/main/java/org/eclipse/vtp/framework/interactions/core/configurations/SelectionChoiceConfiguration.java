@@ -22,8 +22,7 @@ import org.w3c.dom.NodeList;
  * 
  * @author Lonnie Pryor
  */
-public class SelectionChoiceConfiguration implements IConfiguration,
-		InteractionsConstants {
+public class SelectionChoiceConfiguration implements IConfiguration, InteractionsConstants {
 	/** The content factory to use. */
 	private final IContentFactory contentFactory;
 	/** The input factory to use. */
@@ -44,10 +43,8 @@ public class SelectionChoiceConfiguration implements IConfiguration,
 	/**
 	 * Creates a new SelectionChoiceConfiguration.
 	 * 
-	 * @param contentFactory
-	 *            The content factory to use.
-	 * @param inputFactory
-	 *            The input factory to use.
+	 * @param contentFactory The content factory to use.
+	 * @param inputFactory The input factory to use.
 	 */
 	public SelectionChoiceConfiguration(IContentFactory contentFactory,
 			IInputGrammarFactory inputFactory) {
@@ -67,8 +64,7 @@ public class SelectionChoiceConfiguration implements IConfiguration,
 	/**
 	 * Sets the name of this choice.
 	 * 
-	 * @param name
-	 *            The name of this choice.
+	 * @param name The name of this choice.
 	 */
 	public void setName(String name) {
 		this.name = name == null ? "" : name; //$NON-NLS-1$
@@ -86,8 +82,7 @@ public class SelectionChoiceConfiguration implements IConfiguration,
 	/**
 	 * Sets the name of the output item to play.
 	 * 
-	 * @param outputName
-	 *            The name of the output item to play.
+	 * @param outputName The name of the output item to play.
 	 */
 	public void setOutputName(String outputName) {
 		this.outputName = outputName == null ? "" : outputName; //$NON-NLS-1$
@@ -105,8 +100,7 @@ public class SelectionChoiceConfiguration implements IConfiguration,
 	/**
 	 * Sets the name of the input item to collect.
 	 * 
-	 * @param inputName
-	 *            The name of the input item to collect.
+	 * @param inputName The name of the input item to collect.
 	 */
 	public void setInputName(String inputName) {
 		this.inputName = inputName == null ? "" : inputName; //$NON-NLS-1$
@@ -133,8 +127,7 @@ public class SelectionChoiceConfiguration implements IConfiguration,
 	/**
 	 * Sets the scripting language the script is in.
 	 * 
-	 * @param scriptingLanguage
-	 *            The scripting language the script is in.
+	 * @param scriptingLanguage The scripting language the script is in.
 	 */
 	public void setScriptingLanguage(String scriptingLanguage) {
 		this.scriptingLanguage = scriptingLanguage;
@@ -143,19 +136,18 @@ public class SelectionChoiceConfiguration implements IConfiguration,
 	/**
 	 * Sets the script to run.
 	 * 
-	 * @param script
-	 *            The script to run.
+	 * @param script The script to run.
 	 */
 	public void setScript(String script) {
 		this.script = script;
 	}
 
 	/**
-	 * Returns the media configuration for this message or <code>null</code> if
-	 * no such configuration is registered.
+	 * Returns the media configuration for this message or <code>null</code> if no such
+	 * configuration is registered.
 	 * 
-	 * @return The media configuration for this message or <code>null</code> if
-	 *         no such configuration is registered.
+	 * @return The media configuration for this message or <code>null</code> if no such
+	 *         configuration is registered.
 	 */
 	public MediaConfiguration getMediaConfiguration() {
 		return mediaConfiguration;
@@ -164,9 +156,8 @@ public class SelectionChoiceConfiguration implements IConfiguration,
 	/**
 	 * Sets the media configuration for this message.
 	 * 
-	 * @param mediaConfiguration
-	 *            The media configuration for this message or <code>null</code>
-	 *            to remove the configuration.
+	 * @param mediaConfiguration The media configuration for this message or <code>null</code> to
+	 *            remove the configuration.
 	 */
 	public void setMediaConfiguration(MediaConfiguration mediaConfiguration) {
 		this.mediaConfiguration = mediaConfiguration;
@@ -174,9 +165,7 @@ public class SelectionChoiceConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.core.IConfiguration#load(org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(org.w3c.dom.Element)
 	 */
 	@Override
 	public void load(Element configurationElement) {
@@ -184,8 +173,7 @@ public class SelectionChoiceConfiguration implements IConfiguration,
 		outputName = configurationElement.getAttribute(NAME_OUTPUT_NAME);
 		inputName = configurationElement.getAttribute(NAME_INPUT_NAME);
 		if (configurationElement.hasAttribute(NAME_SCRIPTING_LANGUGAGE)) {
-			this.scriptingLanguage = configurationElement
-					.getAttribute(NAME_SCRIPTING_LANGUGAGE);
+			this.scriptingLanguage = configurationElement.getAttribute(NAME_SCRIPTING_LANGUGAGE);
 		} else {
 			this.scriptingLanguage = null;
 		}
@@ -194,23 +182,19 @@ public class SelectionChoiceConfiguration implements IConfiguration,
 		} else {
 			this.script = null;
 		}
-		NodeList elements = configurationElement.getElementsByTagNameNS(
-				NAMESPACE_URI, NAME_MEDIA);
+		NodeList elements = configurationElement.getElementsByTagNameNS(NAMESPACE_URI, NAME_MEDIA);
 		mediaConfiguration = null;
 		if (elements.getLength() == 0) {
 			mediaConfiguration = null;
 		} else {
-			mediaConfiguration = new MediaConfiguration(contentFactory,
-					inputFactory);
+			mediaConfiguration = new MediaConfiguration(contentFactory, inputFactory);
 			mediaConfiguration.load((Element) elements.item(0));
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.core.IConfiguration#save(org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(org.w3c.dom.Element)
 	 */
 	@Override
 	public void save(Element configurationElement) {
@@ -218,22 +202,19 @@ public class SelectionChoiceConfiguration implements IConfiguration,
 		configurationElement.setAttribute(NAME_OUTPUT_NAME, outputName);
 		configurationElement.setAttribute(NAME_INPUT_NAME, inputName);
 		if (scriptingLanguage != null) {
-			configurationElement.setAttribute(NAME_SCRIPTING_LANGUGAGE,
-					scriptingLanguage);
+			configurationElement.setAttribute(NAME_SCRIPTING_LANGUGAGE, scriptingLanguage);
 		}
 		if (script != null) {
 			configurationElement.setAttribute(NAME_SCRIPT, script);
 		}
-		if (mediaConfiguration == null) {
-			return;
-		}
+		if (mediaConfiguration == null) { return; }
 		String mediaName = NAME_MEDIA;
 		String prefix = configurationElement.getPrefix();
 		if (prefix != null && prefix.length() > 0) {
 			mediaName = prefix + ":" + mediaName; //$NON-NLS-1$
 		}
-		Element element = configurationElement.getOwnerDocument()
-				.createElementNS(NAMESPACE_URI, mediaName);
+		Element element = configurationElement.getOwnerDocument().createElementNS(NAMESPACE_URI,
+				mediaName);
 		mediaConfiguration.save(element);
 		configurationElement.appendChild(element);
 	}

@@ -2,8 +2,7 @@ package org.eclipse.vtp.desktop.model.legacy.v3_xTo3_X.legacysupport;
 
 public class ConversionException extends Exception {
 
-	public ConversionException() {
-	}
+	public ConversionException() {}
 
 	/**
 	 * @param message

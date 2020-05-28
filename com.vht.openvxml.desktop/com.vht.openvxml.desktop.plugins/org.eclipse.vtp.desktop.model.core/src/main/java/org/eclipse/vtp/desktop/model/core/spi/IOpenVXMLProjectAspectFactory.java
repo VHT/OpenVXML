@@ -11,11 +11,10 @@ public interface IOpenVXMLProjectAspectFactory {
 
 	public List<String> getRequiredAspects();
 
-	public boolean configureProject(IOpenVXMLProject project,
-			IProjectDescription description, Element aspectConfiguration);
-
-	public void createProjectLayout(IOpenVXMLProject project,
+	public boolean configureProject(IOpenVXMLProject project, IProjectDescription description,
 			Element aspectConfiguration);
+
+	public void createProjectLayout(IOpenVXMLProject project, Element aspectConfiguration);
 
 	public OpenVXMLProjectAspect createProjectAspect(IOpenVXMLProject project,
 			Element aspectConfiguration);

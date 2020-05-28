@@ -26,11 +26,8 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElement;
 
 /**
  * @author trip
- *
  */
-public class SoapOutputPropertiesPanel extends
-	DesignElementPropertiesPanel
-{
+public class SoapOutputPropertiesPanel extends DesignElementPropertiesPanel {
 	private WebserviceBindingManager manager = null;
 	private OutputBinding outputBinding = null;
 	private Text variableField = null;
@@ -41,32 +38,32 @@ public class SoapOutputPropertiesPanel extends
 	 * @param name
 	 * @param element
 	 */
-	public SoapOutputPropertiesPanel(String name, IDesignElement element)
-	{
+	public SoapOutputPropertiesPanel(String name, IDesignElement element) {
 		super(name, element);
-		manager = (WebserviceBindingManager)element.getConfigurationManager(WebserviceBindingManager.TYPE_ID);
+		manager = (WebserviceBindingManager) element
+				.getConfigurationManager(WebserviceBindingManager.TYPE_ID);
 		outputBinding = manager.getOutputBinding();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.vtp.desktop.editors.core.configuration.ComponentPropertiesPanel#createControls(org.eclipse.swt.widgets.Composite)
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.eclipse.vtp.desktop.editors.core.configuration.ComponentPropertiesPanel#createControls
+	 * (org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
-	public void createControls(Composite parent)
-	{
+	public void createControls(Composite parent) {
 		FormToolkit toolkit = new FormToolkit(parent.getDisplay());
 		Composite mainComp = new Composite(parent, SWT.NONE);
 		mainComp.setBackground(parent.getBackground());
 		mainComp.setLayout(new GridLayout(2, false));
-		
-		final Section contentSection =
-			toolkit.createSection(mainComp, Section.TITLE_BAR);
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL
-						| GridData.VERTICAL_ALIGN_BEGINNING);
+
+		final Section contentSection = toolkit.createSection(mainComp, Section.TITLE_BAR);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
 		gd.horizontalSpan = 2;
 		contentSection.setLayoutData(gd);
 		contentSection.setText("Output");
-		
+
 		Label variableLabel = new Label(mainComp, SWT.NONE);
 		variableLabel.setBackground(mainComp.getBackground());
 		variableLabel.setText("Output Variable");
@@ -81,18 +78,14 @@ public class SoapOutputPropertiesPanel extends
 		gd.horizontalSpan = 2;
 		processButton.setLayoutData(gd);
 		processButton.setSelection(outputBinding.shouldProcess());
-		processButton.addSelectionListener(new SelectionListener()
-		{
-			public void widgetDefaultSelected(SelectionEvent e)
-			{
-			}
+		processButton.addSelectionListener(new SelectionListener() {
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
-			public void widgetSelected(SelectionEvent e)
-			{
+			public void widgetSelected(SelectionEvent e) {
 				scriptArea.setEnabled(processButton.getSelection());
 			}
 		});
-		
+
 		scriptArea = new Text(mainComp, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER);
 		scriptArea.setText(outputBinding.getScriptText());
 		scriptArea.setEnabled(outputBinding.shouldProcess());
@@ -101,39 +94,38 @@ public class SoapOutputPropertiesPanel extends
 		scriptArea.setLayoutData(gd);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.vtp.desktop.editors.core.configuration.ComponentPropertiesPanel#save()
 	 */
 	@Override
-	public void save()
-	{
+	public void save() {
 		outputBinding.setShouldProcess(processButton.getSelection());
 		outputBinding.setVariableName(variableField.getText());
 		outputBinding.setScriptText(scriptArea.getText());
 		getElement().commitConfigurationChanges(manager);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.vtp.desktop.editors.core.configuration.ComponentPropertiesPanel#cancel()
 	 */
 	@Override
-	public void cancel()
-	{
+	public void cancel() {
 		getElement().rollbackConfigurationChanges(manager);
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.vtp.desktop.editors.core.configuration.ComponentPropertiesPanel#setConfigurationContext(java.util.Map)
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.vtp.desktop.editors.core.configuration.ComponentPropertiesPanel#
+	 * setConfigurationContext(java.util.Map)
 	 */
 	@Override
-	public void setConfigurationContext(Map<String, Object> values)
-	{
-	}
+	public void setConfigurationContext(Map<String, Object> values) {}
 
 	@Override
-	public List<String> getApplicableContexts()
-	{
+	public List<String> getApplicableContexts() {
 		return Collections.emptyList();
 	}
-	
+
 }

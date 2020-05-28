@@ -38,17 +38,14 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 
 /**
- * This wizard walks the user through the steps required to create a new persona
- * project in the eclipse workspace. The user is prompted to enter a name for
- * the new persona. This name must be unique among the current projects in the
- * workspace, not just other personas. The persona project is automatically
- * created by this wizard and so requires no actions from the caller of the
- * wizard.
+ * This wizard walks the user through the steps required to create a new persona project in the
+ * eclipse workspace. The user is prompted to enter a name for the new persona. This name must be
+ * unique among the current projects in the workspace, not just other personas. The persona project
+ * is automatically created by this wizard and so requires no actions from the caller of the wizard.
  *
  * @author Trip
  */
-public class CreateDialogWizard extends Wizard implements INewWizard,
-		IExecutableExtension {
+public class CreateDialogWizard extends Wizard implements INewWizard, IExecutableExtension {
 	/**
 	 * The wizard page that collects the name of the new persona.
 	 */
@@ -57,8 +54,7 @@ public class CreateDialogWizard extends Wizard implements INewWizard,
 	IContainer targetFileContainer;
 
 	/**
-	 * Creates a new <code>CreatePersonaWizard</code> instance with default
-	 * values.
+	 * Creates a new <code>CreatePersonaWizard</code> instance with default values.
 	 */
 	public CreateDialogWizard() {
 		super();
@@ -68,7 +64,6 @@ public class CreateDialogWizard extends Wizard implements INewWizard,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.wizard.IWizard#performFinish()
 	 */
 	@Override
@@ -77,21 +72,15 @@ public class CreateDialogWizard extends Wizard implements INewWizard,
 		if (!fname.endsWith(".dialog")) {
 			fname = fname + ".dialog";
 		}
-		IFile newFile = targetFileContainer.getFile(targetFileContainer
-				.getProjectRelativePath().append("/" + fname));
+		IFile newFile = targetFileContainer.getFile(targetFileContainer.getProjectRelativePath()
+				.append("/" + fname));
 		try {
-			InputStream in = getClass().getClassLoader().getResourceAsStream(
-					"dialog_template.xml");
+			InputStream in = getClass().getClassLoader().getResourceAsStream("dialog_template.xml");
 			newFile.create(in, true, null);
 			in.close();
-			PlatformUI
-					.getWorkbench()
-					.getActiveWorkbenchWindow()
-					.getActivePage()
-					.openEditor(
-							new FileEditorInput(newFile),
-							"org.eclipse.vtp.desktop.editors.core.dialogeditor",
-							true);
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(
+					new FileEditorInput(newFile),
+					"org.eclipse.vtp.desktop.editors.core.dialogeditor", true);
 		} catch (Exception ce) {
 			ce.printStackTrace();
 		}
@@ -101,7 +90,6 @@ public class CreateDialogWizard extends Wizard implements INewWizard,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench,
 	 * org.eclipse.jface.viewers.IStructuredSelection)
 	 */
@@ -112,8 +100,7 @@ public class CreateDialogWizard extends Wizard implements INewWizard,
 			if (sel instanceof IAdaptable) {
 				sel = ((IAdaptable) sel).getAdapter(IResource.class);
 			} else {
-				throw new RuntimeException(
-						"don't know what to do with what was selected!");
+				throw new RuntimeException("don't know what to do with what was selected!");
 			}
 		}
 		IResource resource = (IResource) sel;
@@ -125,16 +112,11 @@ public class CreateDialogWizard extends Wizard implements INewWizard,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org
-	 * .eclipse.core.runtime.IConfigurationElement, java.lang.String,
-	 * java.lang.Object)
+	 * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org
+	 * .eclipse.core.runtime.IConfigurationElement, java.lang.String, java.lang.Object)
 	 */
 	@Override
-	public void setInitializationData(IConfigurationElement cfig,
-			String propertyName, Object data) {
-	}
+	public void setInitializationData(IConfigurationElement cfig, String propertyName, Object data) {}
 
 	private class DialogInformationPage extends WizardPage {
 		Text dialogName;
@@ -146,9 +128,7 @@ public class CreateDialogWizard extends Wizard implements INewWizard,
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt
+		 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt
 		 * .widgets.Composite)
 		 */
 		@Override
@@ -170,8 +150,7 @@ public class CreateDialogWizard extends Wizard implements INewWizard,
 			fileName = new Text(comp, SWT.SINGLE | SWT.BORDER);
 			fileName.addKeyListener(new KeyListener() {
 				@Override
-				public void keyPressed(KeyEvent e) {
-				}
+				public void keyPressed(KeyEvent e) {}
 
 				@Override
 				public void keyReleased(KeyEvent e) {
@@ -204,11 +183,8 @@ public class CreateDialogWizard extends Wizard implements INewWizard,
 
 				@Override
 				public void verifyText(VerifyEvent e) {
-					String currentName = fileName.getText().substring(0,
-							e.start)
-							+ e.text
-							+ fileName.getText(e.end, (fileName.getText()
-									.length() - 1));
+					String currentName = fileName.getText().substring(0, e.start) + e.text
+							+ fileName.getText(e.end, (fileName.getText().length() - 1));
 					if (currentName.length() > 255) {
 						e.doit = false;
 						return;

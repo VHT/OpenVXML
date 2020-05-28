@@ -50,8 +50,7 @@ public abstract class DocumentItemContainer extends DocumentItem {
 
 	@Override
 	public void readConfiguration(Element documentItemContainerElement) {
-		List<Element> children = XMLUtilities
-				.getChildElements(documentItemContainerElement);
+		List<Element> children = XMLUtilities.getChildElements(documentItemContainerElement);
 		for (Element child : children) {
 			DocumentItem item = null;
 			if (child.getLocalName().equals("conditional-container")) {

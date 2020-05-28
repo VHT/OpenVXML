@@ -22,8 +22,7 @@ public interface IConversationCommandVisitor extends ICommandVisitor {
 	/**
 	 * Called when this visitor is passed to an initial command instance.
 	 * 
-	 * @param initialCommand
-	 *            The initial command this visitor was passed to.
+	 * @param initialCommand The initial command this visitor was passed to.
 	 * @return An implementation-specific result.
 	 */
 	Object visitInitial(InitialCommand initialCommand);
@@ -31,28 +30,23 @@ public interface IConversationCommandVisitor extends ICommandVisitor {
 	/**
 	 * Called when this visitor is passed to an output message command instance.
 	 * 
-	 * @param outputMessageCommand
-	 *            The output message command this visitor was passed to.
+	 * @param outputMessageCommand The output message command this visitor was passed to.
 	 * @return An implementation-specific result.
 	 */
 	Object visitOutputMessage(OutputMessageCommand outputMessageCommand);
 
 	/**
-	 * Called when this visitor is passed to an meta-data message command
-	 * instance.
+	 * Called when this visitor is passed to an meta-data message command instance.
 	 * 
-	 * @param metaDataMessageCommand
-	 *            The meta-data message command this visitor was passed to.
+	 * @param metaDataMessageCommand The meta-data message command this visitor was passed to.
 	 * @return An implementation-specific result.
 	 */
 	Object visitMetaDataMessage(MetaDataMessageCommand metaDataMessageCommand);
 
 	/**
-	 * Called when this visitor is passed to an meta-data request command
-	 * instance.
+	 * Called when this visitor is passed to an meta-data request command instance.
 	 * 
-	 * @param metaDataRequestCommand
-	 *            The meta-data request command this visitor was passed to.
+	 * @param metaDataRequestCommand The meta-data request command this visitor was passed to.
 	 * @return An implementation-specific result.
 	 */
 	Object visitMetaDataRequest(MetaDataRequestCommand metaDataRequestCommand);
@@ -60,18 +54,15 @@ public interface IConversationCommandVisitor extends ICommandVisitor {
 	/**
 	 * Called when this visitor is passed to an input request command instance.
 	 * 
-	 * @param inputRequestCommand
-	 *            The input request command this visitor was passed to.
+	 * @param inputRequestCommand The input request command this visitor was passed to.
 	 * @return An implementation-specific result.
 	 */
 	Object visitInputRequest(InputRequestCommand inputRequestCommand);
 
 	/**
-	 * Called when this visitor is passed to a selection request command
-	 * instance.
+	 * Called when this visitor is passed to a selection request command instance.
 	 * 
-	 * @param selectionRequestCommand
-	 *            The selection request command this visitor was passed to.
+	 * @param selectionRequestCommand The selection request command this visitor was passed to.
 	 * @return An implementation-specific result.
 	 */
 	Object visitSelectionRequest(SelectionRequestCommand selectionRequestCommand);
@@ -79,29 +70,23 @@ public interface IConversationCommandVisitor extends ICommandVisitor {
 	/**
 	 * Called when this visitor is passed to a data request command instance.
 	 * 
-	 * @param dataRequestCommand
-	 *            The data request command this visitor was passed to.
+	 * @param dataRequestCommand The data request command this visitor was passed to.
 	 * @return An implementation-specific result.
 	 */
 	Object visitDataRequest(DataRequestCommand dataRequestCommand);
 
 	/**
-	 * Called when this visitor is passed to an external reference command
-	 * instance.
+	 * Called when this visitor is passed to an external reference command instance.
 	 * 
-	 * @param externalReferenceCommand
-	 *            The external reference command this visitor was passed to.
+	 * @param externalReferenceCommand The external reference command this visitor was passed to.
 	 * @return An implementation-specific result.
 	 */
-	Object visitExternalReference(
-			ExternalReferenceCommand externalReferenceCommand);
+	Object visitExternalReference(ExternalReferenceCommand externalReferenceCommand);
 
 	/**
-	 * Called when this visitor is passed to a transfer message command
-	 * instance.
+	 * Called when this visitor is passed to a transfer message command instance.
 	 * 
-	 * @param transferMessageCommand
-	 *            The transfer message command this visitor was passed to.
+	 * @param transferMessageCommand The transfer message command this visitor was passed to.
 	 * @return An implementation-specific result.
 	 */
 	Object visitTransferMessage(TransferMessageCommand transferMessageCommand);
@@ -109,8 +94,7 @@ public interface IConversationCommandVisitor extends ICommandVisitor {
 	/**
 	 * Called when this visitor is passed to a bridge message command instance.
 	 * 
-	 * @param transferMessageCommand
-	 *            The bridge message command this visitor was passed to.
+	 * @param transferMessageCommand The bridge message command this visitor was passed to.
 	 * @return An implementation-specific result.
 	 */
 	Object visitBridgeMessage(BridgeMessageCommand transferMessageCommand);
@@ -118,8 +102,7 @@ public interface IConversationCommandVisitor extends ICommandVisitor {
 	/**
 	 * Called when this visitor is passed to an end message command instance.
 	 * 
-	 * @param endMessageCommand
-	 *            The end message command this visitor was passed to.
+	 * @param endMessageCommand The end message command this visitor was passed to.
 	 * @return An implementation-specific result.
 	 */
 	Object visitEndMessage(EndMessageCommand endMessageCommand);
@@ -127,8 +110,7 @@ public interface IConversationCommandVisitor extends ICommandVisitor {
 	/**
 	 * Called when this visitor is passed to a final command instance.
 	 * 
-	 * @param finalCommand
-	 *            The final command this visitor was passed to.
+	 * @param finalCommand The final command this visitor was passed to.
 	 * @return An implementation-specific result.
 	 */
 	Object visitFinal(FinalCommand finalCommand);

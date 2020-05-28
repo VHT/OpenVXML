@@ -22,9 +22,7 @@ public class Message {
 
 	public Part getPart(String partName) {
 		for (Part part : parts) {
-			if (part.getName().equals(partName)) {
-				return part;
-			}
+			if (part.getName().equals(partName)) { return part; }
 		}
 		return null;
 	}

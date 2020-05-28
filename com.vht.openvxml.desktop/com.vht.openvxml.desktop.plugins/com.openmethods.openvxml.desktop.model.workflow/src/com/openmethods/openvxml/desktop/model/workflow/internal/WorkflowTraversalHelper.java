@@ -42,12 +42,10 @@ public class WorkflowTraversalHelper {
 		IDesignRootFolder rootFolder = workflow.getDesignRootFolder();
 		index(rootFolder);
 		for (IDesignEntryPoint entryPoint : designEntriesById.values()) {
-			designExitsByDesignEntry.put(entryPoint.getId(),
-					new ArrayList<IDesignExitPoint>());
+			designExitsByDesignEntry.put(entryPoint.getId(), new ArrayList<IDesignExitPoint>());
 		}
 		for (IDesignExitPoint exitPoint : designExitsById.values()) {
-			IDesignEntryPoint entryPoint = designEntriesById.get(exitPoint
-					.getTargetId());
+			IDesignEntryPoint entryPoint = designEntriesById.get(exitPoint.getTargetId());
 			if (entryPoint != null) {
 				designExitsByDesignEntry.get(entryPoint.getId()).add(exitPoint);
 				designEntriesByDesignExit.put(exitPoint.getId(), entryPoint);
@@ -68,8 +66,7 @@ public class WorkflowTraversalHelper {
 					break;
 				}
 			}
-			List<IDesignEntryPoint> entryPoints = document
-					.getDesignEntryPoints();
+			List<IDesignEntryPoint> entryPoints = document.getDesignEntryPoints();
 			designEntriesByDocument.put(document, entryPoints);
 			for (IDesignEntryPoint entryPoint : entryPoints) {
 				documentsByDesignEntry.put(entryPoint.getId(), document);
@@ -81,15 +78,13 @@ public class WorkflowTraversalHelper {
 				documentsByDesignExit.put(exitPoint.getId(), document);
 				designExitsById.put(exitPoint.getId(), exitPoint);
 			}
-			List<IWorkflowEntry> workflowEntryPoints = document
-					.getWorkflowEntries();
+			List<IWorkflowEntry> workflowEntryPoints = document.getWorkflowEntries();
 			workflowEntriesByDocument.put(document, workflowEntryPoints);
 			for (IWorkflowEntry entryPoint : workflowEntryPoints) {
 				documentsByWorkflowEntry.put(entryPoint.getId(), document);
 				workflowEntriesById.put(entryPoint.getId(), entryPoint);
 			}
-			List<IWorkflowExit> workflowExitPoints = document
-					.getWorkflowExits();
+			List<IWorkflowExit> workflowExitPoints = document.getWorkflowExits();
 			workflowExitsByDocument.put(document, workflowExitPoints);
 			for (IWorkflowExit exitPoint : workflowExitPoints) {
 				documentsByWorkflowExit.put(exitPoint.getId(), document);
@@ -110,8 +105,7 @@ public class WorkflowTraversalHelper {
 		return new LinkedList<IWorkflowEntry>(workflowEntriesById.values());
 	}
 
-	public List<IDesignExitPoint> getUpStreamExitPoints(
-			IDesignEntryPoint entryPoint) {
+	public List<IDesignExitPoint> getUpStreamExitPoints(IDesignEntryPoint entryPoint) {
 		List<IDesignExitPoint> ret = new ArrayList<IDesignExitPoint>();
 		Map<String, IDesignEntryPoint> visited = new HashMap<String, IDesignEntryPoint>();
 		visited.put(entryPoint.getId(), entryPoint);
@@ -119,8 +113,7 @@ public class WorkflowTraversalHelper {
 		return ret;
 	}
 
-	public List<IDesignExitPoint> getUpStreamExitPoints(
-			List<IDesignEntryPoint> entryPoints) {
+	public List<IDesignExitPoint> getUpStreamExitPoints(List<IDesignEntryPoint> entryPoints) {
 		List<IDesignExitPoint> ret = new ArrayList<IDesignExitPoint>();
 		Map<String, IDesignEntryPoint> visited = new HashMap<String, IDesignEntryPoint>();
 		for (IDesignEntryPoint entryPoint : entryPoints) {
@@ -130,14 +123,12 @@ public class WorkflowTraversalHelper {
 		return ret;
 	}
 
-	private void getUpStreamExitPoints(IDesignEntryPoint entryPoint,
-			List<IDesignExitPoint> exits, Map<String, IDesignEntryPoint> visited) {
-		List<IDesignExitPoint> connectedExits = designExitsByDesignEntry
-				.get(entryPoint.getId());
+	private void getUpStreamExitPoints(IDesignEntryPoint entryPoint, List<IDesignExitPoint> exits,
+			Map<String, IDesignEntryPoint> visited) {
+		List<IDesignExitPoint> connectedExits = designExitsByDesignEntry.get(entryPoint.getId());
 		for (IDesignExitPoint connectedExit : connectedExits) {
 			exits.add(connectedExit);
-			IDesignDocument document = documentsByDesignExit.get(connectedExit
-					.getId());
+			IDesignDocument document = documentsByDesignExit.get(connectedExit.getId());
 			List<IDesignEntryPoint> upStreamEntries = document
 					.getUpStreamDesignEntries(connectedExit);
 			for (IDesignEntryPoint upStreamEntry : upStreamEntries) {
@@ -149,8 +140,7 @@ public class WorkflowTraversalHelper {
 		}
 	}
 
-	public List<IDesignEntryPoint> getDownStreamEntryPoints(
-			IDesignExitPoint exitPoint) {
+	public List<IDesignEntryPoint> getDownStreamEntryPoints(IDesignExitPoint exitPoint) {
 		List<IDesignEntryPoint> ret = new ArrayList<IDesignEntryPoint>();
 		Map<String, IDesignExitPoint> visited = new HashMap<String, IDesignExitPoint>();
 		visited.put(exitPoint.getId(), exitPoint);
@@ -158,8 +148,7 @@ public class WorkflowTraversalHelper {
 		return ret;
 	}
 
-	public List<IDesignEntryPoint> getDownStreamEntryPoints(
-			List<IDesignExitPoint> exitPoints) {
+	public List<IDesignEntryPoint> getDownStreamEntryPoints(List<IDesignExitPoint> exitPoints) {
 		List<IDesignEntryPoint> ret = new ArrayList<IDesignEntryPoint>();
 		Map<String, IDesignExitPoint> visited = new HashMap<String, IDesignExitPoint>();
 		for (IDesignExitPoint exitPoint : exitPoints) {
@@ -170,16 +159,12 @@ public class WorkflowTraversalHelper {
 	}
 
 	private void getDownStreamEntryPoints(IDesignExitPoint exitPoint,
-			List<IDesignEntryPoint> entries,
-			Map<String, IDesignExitPoint> visited) {
-		IDesignEntryPoint targetEntry = designEntriesByDesignExit.get(exitPoint
-				.getId());
+			List<IDesignEntryPoint> entries, Map<String, IDesignExitPoint> visited) {
+		IDesignEntryPoint targetEntry = designEntriesByDesignExit.get(exitPoint.getId());
 		if (targetEntry != null) {
 			entries.add(targetEntry);
-			IDesignDocument document = documentsByDesignEntry.get(targetEntry
-					.getId());
-			List<IDesignExitPoint> exits = document
-					.getDownStreamDesignExits(targetEntry);
+			IDesignDocument document = documentsByDesignEntry.get(targetEntry.getId());
+			List<IDesignExitPoint> exits = document.getDownStreamDesignExits(targetEntry);
 			for (IDesignExitPoint exit : exits) {
 				if (visited.get(exit.getId()) == null) {
 					visited.put(exit.getId(), exit);
@@ -189,25 +174,21 @@ public class WorkflowTraversalHelper {
 		}
 	}
 
-	public List<IWorkflowExit> getDownStreamWorkflowExits(
-			IWorkflowEntry workflowEntry) {
+	public List<IWorkflowExit> getDownStreamWorkflowExits(IWorkflowEntry workflowEntry) {
 		Map<String, IWorkflowExit> exits = new HashMap<String, IWorkflowExit>();
-		IDesignDocument document = documentsByWorkflowEntry.get(workflowEntry
-				.getId());
-		List<IDesignExitPoint> designExits = document
-				.getDownStreamDesignExits(workflowEntry);
+		IDesignDocument document = documentsByWorkflowEntry.get(workflowEntry.getId());
+		List<IDesignExitPoint> designExits = document.getDownStreamDesignExits(workflowEntry);
 		List<IDesignEntryPoint> downStreamDesignEntries = getDownStreamEntryPoints(designExits);
 		for (IDesignEntryPoint downStreamDesignEntry : downStreamDesignEntries) {
-			IDesignDocument downStreamDocument = documentsByDesignEntry
-					.get(downStreamDesignEntry.getId());
+			IDesignDocument downStreamDocument = documentsByDesignEntry.get(downStreamDesignEntry
+					.getId());
 			List<IWorkflowExit> downStreamExits = downStreamDocument
 					.getDownStreamWorkflowExits(downStreamDesignEntry);
 			for (IWorkflowExit downStreamExit : downStreamExits) {
 				exits.put(downStreamExit.getId(), downStreamExit);
 			}
 		}
-		List<IWorkflowExit> documentExits = document
-				.getDownStreamWorkflowExits(workflowEntry);
+		List<IWorkflowExit> documentExits = document.getDownStreamWorkflowExits(workflowEntry);
 		for (IWorkflowExit documentExit : documentExits) {
 			exits.put(documentExit.getId(), documentExit);
 		}

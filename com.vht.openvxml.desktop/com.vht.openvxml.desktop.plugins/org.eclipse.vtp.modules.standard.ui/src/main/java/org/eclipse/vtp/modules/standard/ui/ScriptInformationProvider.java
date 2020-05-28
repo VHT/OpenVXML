@@ -24,103 +24,92 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElementConn
 import com.openmethods.openvxml.desktop.model.workflow.design.ISecurableElement;
 import com.openmethods.openvxml.desktop.model.workflow.internal.design.ConnectorRecord;
 
-public class ScriptInformationProvider extends PrimitiveInformationProvider implements ISecurableElement
-{
+public class ScriptInformationProvider extends PrimitiveInformationProvider
+	implements
+	ISecurableElement {
 	List<ConnectorRecord> connectorRecords = new ArrayList<ConnectorRecord>();
 	String scriptText = "";
 	boolean secured = false;
 
-	public ScriptInformationProvider(PrimitiveElement element)
-	{
+	public ScriptInformationProvider(PrimitiveElement element) {
 		super(element);
-		connectorRecords.add(new ConnectorRecord(element, "Continue", IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
-		connectorRecords.add(new ConnectorRecord(element, "error.script", IDesignElementConnectionPoint.ConnectionPointType.ERROR_POINT));
+		connectorRecords.add(new ConnectorRecord(element, "Continue",
+				IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
+		connectorRecords.add(new ConnectorRecord(element, "error.script",
+				IDesignElementConnectionPoint.ConnectionPointType.ERROR_POINT));
 	}
 
-	public boolean acceptsConnector(IDesignElement origin)
-	{
+	public boolean acceptsConnector(IDesignElement origin) {
 		return true;
 	}
 
-	public ConnectorRecord getConnectorRecord(String recordName)
-	{
-		for(int i = 0; i < connectorRecords.size(); i++)
-		{
+	public ConnectorRecord getConnectorRecord(String recordName) {
+		for (int i = 0; i < connectorRecords.size(); i++) {
 			ConnectorRecord cr = connectorRecords.get(i);
-			if(cr.getName().equals(recordName))
-				return cr;
+			if (cr.getName().equals(recordName)) return cr;
 		}
 		return null;
 	}
 
-	public List<ConnectorRecord> getConnectorRecords()
-	{
+	public List<ConnectorRecord> getConnectorRecords() {
 		return connectorRecords;
 	}
 
-	public List<ConnectorRecord> getConnectorRecords(IDesignElementConnectionPoint.ConnectionPointType... types)
-	{
+	public List<ConnectorRecord> getConnectorRecords(
+			IDesignElementConnectionPoint.ConnectionPointType... types) {
 		List<ConnectorRecord> ret = new ArrayList<ConnectorRecord>();
-		for(int i = 0; i < connectorRecords.size(); i++)
-		{
+		for (int i = 0; i < connectorRecords.size(); i++) {
 			ConnectorRecord cr = connectorRecords.get(i);
-			if(cr.getType().isSet(IDesignElementConnectionPoint.ConnectionPointType.getFlagSet(types)))
-				ret.add(cr);
+			if (cr.getType().isSet(
+					IDesignElementConnectionPoint.ConnectionPointType.getFlagSet(types))) ret
+					.add(cr);
 		}
 		return ret;
 	}
 
-	public void readConfiguration(org.w3c.dom.Element configuration)
-	{
+	public void readConfiguration(org.w3c.dom.Element configuration) {
 		NodeList nl = configuration.getElementsByTagName("script");
-		if(nl.getLength() > 0)
-		{
-			org.w3c.dom.Element scriptElement = (org.w3c.dom.Element)nl.item(0);
+		if (nl.getLength() > 0) {
+			org.w3c.dom.Element scriptElement = (org.w3c.dom.Element) nl.item(0);
 			secured = Boolean.parseBoolean(scriptElement.getAttribute("secured"));
-            scriptText = XMLUtilities.getElementTextDataNoEx(scriptElement, true);
-            if(scriptText == null)
-            	scriptText = "";
+			scriptText = XMLUtilities.getElementTextDataNoEx(scriptElement, true);
+			if (scriptText == null) scriptText = "";
 		}
 	}
 
-	public void writeConfiguration(org.w3c.dom.Element configuration)
-	{
-		org.w3c.dom.Element scriptElement = configuration.getOwnerDocument().createElement("script");
+	public void writeConfiguration(org.w3c.dom.Element configuration) {
+		org.w3c.dom.Element scriptElement = configuration.getOwnerDocument()
+				.createElement("script");
 		configuration.appendChild(scriptElement);
 		scriptElement.setAttribute("secured", Boolean.toString(secured));
 		scriptElement.setTextContent(scriptText);
 	}
 
-//	public List getPropertiesPanels()
-//	{
-//		List ret = new ArrayList();
-//		ret.add(new ScriptPropertiesPanel("Properties", getElement()));
-//		return ret;
-//	}
-	
-	public String getScriptText()
-	{
+	// public List getPropertiesPanels()
+	// {
+	// List ret = new ArrayList();
+	// ret.add(new ScriptPropertiesPanel("Properties", getElement()));
+	// return ret;
+	// }
+
+	public String getScriptText() {
 		return scriptText;
 	}
 
-	public void setScriptText(String text)
-	{
+	public void setScriptText(String text) {
 		this.scriptText = text;
 	}
 
-	public boolean hasConnectors()
-    {
-	    return true;
-    }
+	public boolean hasConnectors() {
+		return true;
+	}
 
-	public boolean isSecured()
-    {
-	    return secured;
-    }
+	public boolean isSecured() {
+		return secured;
+	}
 
-	public void setSecured(boolean secured)
-    {
+	public void setSecured(boolean secured) {
 		this.secured = secured;
-    }
-	
+	}
+
 }

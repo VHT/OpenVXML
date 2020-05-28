@@ -21,13 +21,11 @@ import org.eclipse.ui.actions.ActionGroup;
 
 /**
  * @since 3.2
- * 
  */
 public class ConvertActionGroup extends ActionGroup {
 	private ConvertWorkflowProjectAction convertAction;
 
 	/**
-	 * 
 	 * @param aShell
 	 */
 	public ConvertActionGroup() {
@@ -36,31 +34,26 @@ public class ConvertActionGroup extends ActionGroup {
 
 	@Override
 	public void fillContextMenu(IMenuManager menu) {
-		IStructuredSelection selection = (IStructuredSelection) getContext()
-				.getSelection();
+		IStructuredSelection selection = (IStructuredSelection) getContext().getSelection();
 		convertAction.selectionChanged(selection);
 		menu.add(convertAction);
 		// menu.appendToGroup("audio.group", playFileAction);
 	}
 
 	@Override
-	public void fillActionBars(IActionBars actionBars) {
-	}
+	public void fillActionBars(IActionBars actionBars) {}
 
 	/**
 	 * Handles a key pressed event by invoking the appropriate action.
 	 * 
-	 * @param event
-	 *            The Key Event
+	 * @param event The Key Event
 	 */
-	public void handleKeyPressed(KeyEvent event) {
-	}
+	public void handleKeyPressed(KeyEvent event) {}
 
 	protected void makeActions() {
 		convertAction = new ConvertWorkflowProjectAction();
 	}
 
 	@Override
-	public void updateActionBars() {
-	}
+	public void updateActionBars() {}
 }

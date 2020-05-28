@@ -35,8 +35,7 @@ import com.openmethods.openvxml.desktop.model.workflow.internal.design.Connector
 import com.openmethods.openvxml.desktop.model.workflow.internal.design.DesignElement;
 import com.openmethods.openvxml.desktop.model.workflow.internal.design.ElementResolutionVisitor;
 
-public class ApplicationFragmentElement extends DesignElement implements
-		IWorkflowReference {
+public class ApplicationFragmentElement extends DesignElement implements IWorkflowReference {
 	public static final String ELEMENT_TYPE = "org.eclipse.vtp.desktop.model.elements.core.include";
 
 	private List<ConnectorRecord> connectorRecords = new ArrayList<ConnectorRecord>();
@@ -52,12 +51,10 @@ public class ApplicationFragmentElement extends DesignElement implements
 		setFragmentId(fragmentId, true);
 	}
 
-	public ApplicationFragmentElement(String id, String name,
-			Properties properties) {
+	public ApplicationFragmentElement(String id, String name, Properties properties) {
 		super(id, name, properties);
-		setFragmentId(properties.getProperty("instanceId"),
-				Boolean.parseBoolean(properties.getProperty(
-						"followExternalReferences", "true")));
+		setFragmentId(properties.getProperty("instanceId"), Boolean.parseBoolean(properties
+				.getProperty("followExternalReferences", "true")));
 	}
 
 	@Override
@@ -65,12 +62,11 @@ public class ApplicationFragmentElement extends DesignElement implements
 		return ELEMENT_TYPE;
 	}
 
-	public void setFragmentId(String fragmentId,
-			boolean followExternalReferences) {
+	public void setFragmentId(String fragmentId, boolean followExternalReferences) {
 		this.fragmentId = fragmentId;
 		if (followExternalReferences) {
-			workflowProject = WorkflowCore.getDefault().getWorkflowModel()
-					.getWorkflowProject(fragmentId);
+			workflowProject = WorkflowCore.getDefault().getWorkflowModel().getWorkflowProject(
+					fragmentId);
 			if (workflowProject != null) {
 				missingModelMode = false;
 				workflowAspect = (IWorkflowProjectAspect) workflowProject
@@ -93,16 +89,14 @@ public class ApplicationFragmentElement extends DesignElement implements
 			if (entry != null) {
 				List<IDesignDocument> workingCopies = new ArrayList<IDesignDocument>();
 				workingCopies.add(getDesign().getDocument());
-				WorkflowTraversalHelper wth = new WorkflowTraversalHelper(
-						workflowAspect, workingCopies);
-				List<IWorkflowExit> exitPoints = wth
-						.getDownStreamWorkflowExits(entry);
+				WorkflowTraversalHelper wth = new WorkflowTraversalHelper(workflowAspect,
+						workingCopies);
+				List<IWorkflowExit> exitPoints = wth.getDownStreamWorkflowExits(entry);
 				outer: for (IWorkflowExit exit : exitPoints) {
 					for (ConnectorRecord oldCR : oldCRs) {
 						if (oldCR.getName().equals(exit.getName())
 								&& oldCR.getType()
-										.equals(exit.getType().equals(
-												IWorkflowExit.NORMAL) ? IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT
+										.equals(exit.getType().equals(IWorkflowExit.NORMAL) ? IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT
 												: IDesignElementConnectionPoint.ConnectionPointType.ERROR_POINT)) {
 							connectorRecords.add(oldCR);
 							continue outer;
@@ -117,10 +111,8 @@ public class ApplicationFragmentElement extends DesignElement implements
 				}
 				// Remove connectors not associated with the current entry
 				for (ConnectorRecord oldCR : oldCRs) {
-					if (!connectorRecords.contains(oldCR)
-							&& oldCR.getDesignConnector() != null) {
-						getDesign().removeDesignConnector(
-								oldCR.getDesignConnector());
+					if (!connectorRecords.contains(oldCR) && oldCR.getDesignConnector() != null) {
+						getDesign().removeDesignConnector(oldCR.getDesignConnector());
 					}
 				}
 			}
@@ -143,9 +135,7 @@ public class ApplicationFragmentElement extends DesignElement implements
 	public IDesignElementConnectionPoint getConnectorRecord(String recordName) {
 		for (int i = 0; i < connectorRecords.size(); i++) {
 			ConnectorRecord cr = connectorRecords.get(i);
-			if (cr.getName().equals(recordName)) {
-				return cr;
-			}
+			if (cr.getName().equals(recordName)) { return cr; }
 		}
 		if (missingModelMode) {
 			ConnectorRecord cr = new ConnectorRecord(
@@ -170,8 +160,7 @@ public class ApplicationFragmentElement extends DesignElement implements
 		List<IDesignElementConnectionPoint> ret = new ArrayList<IDesignElementConnectionPoint>();
 		for (ConnectorRecord cr : connectorRecords) {
 			if (cr.getType().isSet(
-					IDesignElementConnectionPoint.ConnectionPointType
-							.getFlagSet(types))) {
+					IDesignElementConnectionPoint.ConnectionPointType.getFlagSet(types))) {
 				;
 			}
 			ret.add(cr);
@@ -186,8 +175,7 @@ public class ApplicationFragmentElement extends DesignElement implements
 			FragmentConfigurationManager fragmentConfigurationManager = (FragmentConfigurationManager) manager;
 			String currentEntry = fragmentConfigurationManager.getEntryId();
 			if (currentEntry == null || currentEntry.equals("")) {
-				IWorkflowEntry entry = workflowAspect
-						.getWorkflowEntryByName("Begin Fragment");
+				IWorkflowEntry entry = workflowAspect.getWorkflowEntryByName("Begin Fragment");
 				if (entry != null) {
 					currentEntry = entry.getId();
 					fragmentConfigurationManager.setEntryId(currentEntry);
@@ -206,12 +194,10 @@ public class ApplicationFragmentElement extends DesignElement implements
 	}
 
 	@Override
-	public void readCustomConfiguration(org.w3c.dom.Element configuration) {
-	}
+	public void readCustomConfiguration(org.w3c.dom.Element configuration) {}
 
 	@Override
-	public void writeCustomConfiguration(org.w3c.dom.Element customElement) {
-	}
+	public void writeCustomConfiguration(org.w3c.dom.Element customElement) {}
 
 	@Override
 	public boolean acceptsConnector(IDesignElement origin) {
@@ -228,8 +214,7 @@ public class ApplicationFragmentElement extends DesignElement implements
 		return null;
 	}
 
-	public void resolve(ElementResolutionVisitor resolutionVisitor) {
-	}
+	public void resolve(ElementResolutionVisitor resolutionVisitor) {}
 
 	@Override
 	public boolean hasConnectors() {
@@ -246,9 +231,7 @@ public class ApplicationFragmentElement extends DesignElement implements
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) {
 		// System.out.println("Adapting fragment element to: " +
 		// adapter.getName() + " " + adapter.isAssignableFrom(getClass()));
-		if (adapter.isAssignableFrom(getClass())) {
-			return this;
-		}
+		if (adapter.isAssignableFrom(getClass())) { return this; }
 		return null;
 	}
 

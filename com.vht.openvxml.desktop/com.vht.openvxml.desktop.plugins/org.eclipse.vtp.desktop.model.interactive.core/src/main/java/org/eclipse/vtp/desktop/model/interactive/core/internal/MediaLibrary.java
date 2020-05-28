@@ -32,8 +32,8 @@ import org.eclipse.vtp.desktop.model.interactive.core.IMediaObjectContainer;
 import org.eclipse.vtp.desktop.model.interactive.core.IMediaResource;
 
 /**
- * This is a concrete implementation of <code>IMediaFilesFolder</code> and
- * provides the default behavior of that interface.
+ * This is a concrete implementation of <code>IMediaFilesFolder</code> and provides the default
+ * behavior of that interface.
  *
  * @author Trip Gilman
  * @version 2.0
@@ -51,13 +51,11 @@ public class MediaLibrary extends MediaObject implements IMediaLibrary {
 	IMediaLibrariesFolder parent;
 
 	/**
-	 * Creates a new <code>MediaFilesFolder</code> in the parent container with
-	 * the given eclipse folder resource.
+	 * Creates a new <code>MediaFilesFolder</code> in the parent container with the given eclipse
+	 * folder resource.
 	 *
-	 * @param parent
-	 *            The parent container of this resource
-	 * @param folder
-	 *            The eclipse folder resource this media file folder represents
+	 * @param parent The parent container of this resource
+	 * @param folder The eclipse folder resource this media file folder represents
 	 */
 	public MediaLibrary(IMediaLibrariesFolder parent, IFolder folder) {
 		super();
@@ -67,7 +65,6 @@ public class MediaLibrary extends MediaObject implements IMediaLibrary {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IVoiceResource#getName()
 	 */
 	@Override
@@ -77,9 +74,7 @@ public class MediaLibrary extends MediaObject implements IMediaLibrary {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IMediaContainer#listMediaResources()
+	 * @see org.eclipse.vtp.desktop.core.project.IMediaContainer#listMediaResources()
 	 */
 	@Override
 	public List<IMediaResource> listMediaResources() throws CoreException {
@@ -96,8 +91,7 @@ public class MediaLibrary extends MediaObject implements IMediaLibrary {
 				ret.add(new MediaFolder(this, f));
 			} else {
 				IFile f = (IFile) re;
-				IMediaFile mf = MediaTypeManager.getInstance().createMediaFile(
-						this, f);
+				IMediaFile mf = MediaTypeManager.getInstance().createMediaFile(this, f);
 				if (mf != null) {
 					ret.add(mf);
 				}
@@ -109,10 +103,7 @@ public class MediaLibrary extends MediaObject implements IMediaLibrary {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IMediaContainer#getMediaFolder(java
-	 * .lang.String)
+	 * @see org.eclipse.vtp.desktop.core.project.IMediaContainer#getMediaFolder(java .lang.String)
 	 */
 	@Override
 	public IMediaFolder getMediaFolder(String name) {
@@ -123,10 +114,7 @@ public class MediaLibrary extends MediaObject implements IMediaLibrary {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IMediaContainer#getMediaFile(java
-	 * .lang.String)
+	 * @see org.eclipse.vtp.desktop.core.project.IMediaContainer#getMediaFile(java .lang.String)
 	 */
 	@Override
 	public IMediaFile getMediaFile(String name) {
@@ -137,7 +125,6 @@ public class MediaLibrary extends MediaObject implements IMediaLibrary {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IVoiceResource#getParent()
 	 */
 	@Override
@@ -147,10 +134,7 @@ public class MediaLibrary extends MediaObject implements IMediaLibrary {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IMediaContainer#create(java.lang
-	 * .String)
+	 * @see org.eclipse.vtp.desktop.core.project.IMediaContainer#create(java.lang .String)
 	 */
 	@Override
 	public IMediaFile create(String name) throws CoreException {
@@ -159,17 +143,14 @@ public class MediaLibrary extends MediaObject implements IMediaLibrary {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IMediaContainer#create(java.lang
-	 * .String, java.io.InputStream, org.eclipse.core.runtime.IProgressMonitor)
+	 * @see org.eclipse.vtp.desktop.core.project.IMediaContainer#create(java.lang .String,
+	 * java.io.InputStream, org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
-	public IMediaFile create(String name, InputStream source,
-			IProgressMonitor monitor) throws CoreException {
+	public IMediaFile create(String name, InputStream source, IProgressMonitor monitor)
+			throws CoreException {
 		IFile file = folder.getFile(name);
-		IMediaFile mf = MediaTypeManager.getInstance().createMediaFile(this,
-				file);
+		IMediaFile mf = MediaTypeManager.getInstance().createMediaFile(this, file);
 		if (mf != null) {
 			file.create(source, false, null);
 		}
@@ -178,10 +159,7 @@ public class MediaLibrary extends MediaObject implements IMediaLibrary {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IMediaContainer#makeDirectory(java
-	 * .lang.String)
+	 * @see org.eclipse.vtp.desktop.core.project.IMediaContainer#makeDirectory(java .lang.String)
 	 */
 	@Override
 	public IMediaFolder makeDirectory(String name) throws CoreException {
@@ -193,10 +171,7 @@ public class MediaLibrary extends MediaObject implements IMediaLibrary {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.internals.VoiceResource#getObjectId
-	 * ()
+	 * @see org.eclipse.vtp.desktop.core.project.internals.VoiceResource#getObjectId ()
 	 */
 	@Override
 	public String getObjectId() {
@@ -209,8 +184,8 @@ public class MediaLibrary extends MediaObject implements IMediaLibrary {
 	}
 
 	/**
-	 * @return An eclipse file reference to the file that contains the alternate
-	 *         mapping information.
+	 * @return An eclipse file reference to the file that contains the alternate mapping
+	 *         information.
 	 */
 	public IFile getAlternateTextFile() {
 		return folder.getFile(".audioFiles");
@@ -229,17 +204,14 @@ public class MediaLibrary extends MediaObject implements IMediaLibrary {
 	@Override
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapterClass) {
-		if (adapterClass.isAssignableFrom(IFolder.class)) {
-			return folder;
-		}
+		if (adapterClass.isAssignableFrom(IFolder.class)) { return folder; }
 		return super.getAdapter(adapterClass);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof MediaLibrary) {
-			return folder.equals(((MediaLibrary) obj).getUnderlyingFolder());
-		}
+		if (obj instanceof MediaLibrary) { return folder.equals(((MediaLibrary) obj)
+				.getUnderlyingFolder()); }
 		return false;
 	}
 

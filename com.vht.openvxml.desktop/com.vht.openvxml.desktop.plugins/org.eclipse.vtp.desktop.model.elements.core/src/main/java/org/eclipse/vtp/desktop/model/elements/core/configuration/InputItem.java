@@ -43,12 +43,10 @@ public class InputItem {
 	}
 
 	/**
-	 * Reads the configuration data stored in the given dom element into this
-	 * brand binding instance. Any previous information stored in this brand
-	 * binding is lost.
+	 * Reads the configuration data stored in the given dom element into this brand binding
+	 * instance. Any previous information stored in this brand binding is lost.
 	 * 
-	 * @param brandBindingElement
-	 *            The dom element containing the configuration
+	 * @param brandBindingElement The dom element containing the configuration
 	 */
 	public void readConfiguration(Element brandBindingElement) {
 		type = brandBindingElement.getAttribute("type");
@@ -58,8 +56,7 @@ public class InputItem {
 	/**
 	 * Stores this brand binding's information into the given dom element.
 	 * 
-	 * @param brandBindingElement
-	 *            The dom element to hold this binding's data
+	 * @param brandBindingElement The dom element to hold this binding's data
 	 */
 	public void writeConfiguration(Element brandBindingElement) {
 		brandBindingElement.setAttribute("type", type);
@@ -67,11 +64,10 @@ public class InputItem {
 	}
 
 	/**
-	 * Prints this brand binding's information to the given print stream. This
-	 * is useful for logging and debugging.
+	 * Prints this brand binding's information to the given print stream. This is useful for logging
+	 * and debugging.
 	 * 
-	 * @param out
-	 *            The print stream to write the information to
+	 * @param out The print stream to write the information to
 	 */
 	public void dumpContents(PrintStream out) {
 		out.println("[Input Binding] " + type + "(" + value + ")");

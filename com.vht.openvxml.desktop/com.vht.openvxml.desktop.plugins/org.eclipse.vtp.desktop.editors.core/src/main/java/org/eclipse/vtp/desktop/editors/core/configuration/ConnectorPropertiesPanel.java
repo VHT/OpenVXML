@@ -67,13 +67,10 @@ public class ConnectorPropertiesPanel extends ComponentPropertiesPanel {
 		setControl(comp);
 		comp.setBackground(parent.getBackground());
 
-		List<IDesignElementConnectionPoint> freeExits = connector
-				.getOrigin()
-				.getConnectorRecords(
-						IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT,
-						IDesignElementConnectionPoint.ConnectionPointType.ERROR_POINT);
-		List<IDesignElementConnectionPoint> currentPoints = connector
-				.getConnectionPoints();
+		List<IDesignElementConnectionPoint> freeExits = connector.getOrigin().getConnectorRecords(
+				IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT,
+				IDesignElementConnectionPoint.ConnectionPointType.ERROR_POINT);
+		List<IDesignElementConnectionPoint> currentPoints = connector.getConnectionPoints();
 		List<Wrapper> curWraps = new LinkedList<Wrapper>();
 		for (int i = 0; i < currentPoints.size(); i++) {
 			Wrapper wrapper = new Wrapper(currentPoints.get(i));
@@ -100,35 +97,31 @@ public class ConnectorPropertiesPanel extends ComponentPropertiesPanel {
 			instructionLabelData.top = new FormAttachment(0, 10);
 			instructionLabel.setLayoutData(instructionLabelData);
 
-			Table pathTable = new Table(comp, SWT.MULTI | SWT.V_SCROLL
-					| SWT.FULL_SELECTION | SWT.BORDER);
-			final TableColumn pathNameColumn = new TableColumn(pathTable,
-					SWT.NONE);
+			Table pathTable = new Table(comp, SWT.MULTI | SWT.V_SCROLL | SWT.FULL_SELECTION
+					| SWT.BORDER);
+			final TableColumn pathNameColumn = new TableColumn(pathTable, SWT.NONE);
 			pathNameColumn.setText("Path Name");
 			pathNameColumn.setWidth(300);
 			pathTable.setHeaderVisible(false);
 			pathTable.addControlListener(new ControlListener() {
 				@Override
-				public void controlMoved(ControlEvent arg0) {
-				}
+				public void controlMoved(ControlEvent arg0) {}
 
 				@Override
 				public void controlResized(ControlEvent arg0) {
-					pathNameColumn.setWidth(pathViewer.getTable()
-							.getClientArea().width);
+					pathNameColumn.setWidth(pathViewer.getTable().getClientArea().width);
 				}
 			});
 			pathViewer = new TableViewer(pathTable);
 			pathViewer.setContentProvider(new PathContentProvider());
 			pathViewer.setLabelProvider(new PathLabelProvider());
 			pathViewer.setInput(this);
-			pathViewer
-					.addSelectionChangedListener(new ISelectionChangedListener() {
-						@Override
-						public void selectionChanged(SelectionChangedEvent event) {
-							fireEndPointUpdate();
-						}
-					});
+			pathViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+				@Override
+				public void selectionChanged(SelectionChangedEvent event) {
+					fireEndPointUpdate();
+				}
+			});
 
 			FormData resultSelectionData = new FormData();
 			resultSelectionData.left = new FormAttachment(0, 10);
@@ -143,11 +136,9 @@ public class ConnectorPropertiesPanel extends ComponentPropertiesPanel {
 		} else {
 			comp.setLayout(new GridLayout(1, false));
 			Label noneAvailableLabel = new Label(comp, SWT.NONE);
-			noneAvailableLabel
-					.setText("There are no available exits from the source element");
+			noneAvailableLabel.setText("There are no available exits from the source element");
 			noneAvailableLabel.setBackground(comp.getBackground());
-			noneAvailableLabel.setForeground(comp.getDisplay().getSystemColor(
-					SWT.COLOR_RED));
+			noneAvailableLabel.setForeground(comp.getDisplay().getSystemColor(SWT.COLOR_RED));
 			GridData gd = new GridData();
 			gd.horizontalAlignment = SWT.CENTER;
 			gd.verticalAlignment = SWT.CENTER;
@@ -165,8 +156,7 @@ public class ConnectorPropertiesPanel extends ComponentPropertiesPanel {
 		connector.clearConnectionPoints();
 		// fireUpdateStatusRequest();
 		if (exits.size() > 0) {
-			IStructuredSelection selection = (IStructuredSelection) pathViewer
-					.getSelection();
+			IStructuredSelection selection = (IStructuredSelection) pathViewer.getSelection();
 			@SuppressWarnings("unchecked")
 			Iterator<Wrapper> i = selection.iterator();
 			while (i.hasNext()) {
@@ -205,15 +195,13 @@ public class ConnectorPropertiesPanel extends ComponentPropertiesPanel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.ui.app.editor.model.UIConnector.
 	 * ConnectorEndPointProvider#getEndPoints()
 	 */
 	public List<IDesignElementConnectionPoint> getEndPoints() {
 		List<IDesignElementConnectionPoint> ret = new ArrayList<IDesignElementConnectionPoint>();
 
-		IStructuredSelection selection = (IStructuredSelection) pathViewer
-				.getSelection();
+		IStructuredSelection selection = (IStructuredSelection) pathViewer.getSelection();
 		@SuppressWarnings("unchecked")
 		Iterator<Wrapper> i = selection.iterator();
 		while (i.hasNext()) {
@@ -239,8 +227,7 @@ public class ConnectorPropertiesPanel extends ComponentPropertiesPanel {
 		public String toString() {
 			String ret = record.getName();
 
-			if ((record.getDesignConnector() != null)
-					&& (record.getDesignConnector() == connector)) {
+			if ((record.getDesignConnector() != null) && (record.getDesignConnector() == connector)) {
 				ret += " (Current)";
 			}
 
@@ -249,8 +236,7 @@ public class ConnectorPropertiesPanel extends ComponentPropertiesPanel {
 	}
 
 	@Override
-	public void setConfigurationContext(Map<String, Object> values) {
-	}
+	public void setConfigurationContext(Map<String, Object> values) {}
 
 	public class PathContentProvider implements IStructuredContentProvider {
 
@@ -260,12 +246,10 @@ public class ConnectorPropertiesPanel extends ComponentPropertiesPanel {
 		}
 
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 
 	}
 
@@ -282,12 +266,10 @@ public class ConnectorPropertiesPanel extends ComponentPropertiesPanel {
 		}
 
 		@Override
-		public void addListener(ILabelProviderListener listener) {
-		}
+		public void addListener(ILabelProviderListener listener) {}
 
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		@Override
 		public boolean isLabelProperty(Object element, String property) {
@@ -295,8 +277,7 @@ public class ConnectorPropertiesPanel extends ComponentPropertiesPanel {
 		}
 
 		@Override
-		public void removeListener(ILabelProviderListener listener) {
-		}
+		public void removeListener(ILabelProviderListener listener) {}
 
 	}
 

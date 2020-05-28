@@ -20,11 +20,9 @@ public interface ICommandVisitor {
 	/**
 	 * Called when an implementation-dependent visit method is not available.
 	 * 
-	 * @param unknownCommand
-	 *            The command to visit.
+	 * @param unknownCommand The command to visit.
 	 * @return An implementation-specific result.
-	 * @throws NullPointerException
-	 *             If the supplied command is <code>null</code>.
+	 * @throws NullPointerException If the supplied command is <code>null</code>.
 	 */
 	Object visitUnknown(ICommand unknownCommand) throws NullPointerException;
 }

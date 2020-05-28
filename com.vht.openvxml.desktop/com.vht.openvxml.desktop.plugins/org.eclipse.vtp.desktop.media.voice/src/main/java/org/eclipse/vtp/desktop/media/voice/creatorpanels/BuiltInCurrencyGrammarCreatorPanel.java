@@ -18,8 +18,7 @@ import org.eclipse.vtp.desktop.media.core.InputGrammarCreatorPanel;
 import org.eclipse.vtp.framework.interactions.core.media.InputGrammar;
 import org.eclipse.vtp.framework.interactions.voice.media.BuiltInCurrencyInputGrammar;
 
-public class BuiltInCurrencyGrammarCreatorPanel extends
-		InputGrammarCreatorPanel {
+public class BuiltInCurrencyGrammarCreatorPanel extends InputGrammarCreatorPanel {
 	BuiltInCurrencyInputGrammar grammar = new BuiltInCurrencyInputGrammar();
 
 	public BuiltInCurrencyGrammarCreatorPanel() {

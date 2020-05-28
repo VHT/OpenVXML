@@ -23,8 +23,7 @@ public final class TransferMessageCommand extends ConversationCommand {
 	/**
 	 * Creates a new TransferMessageCommand.
 	 */
-	public TransferMessageCommand() {
-	}
+	public TransferMessageCommand() {}
 
 	/**
 	 * Returns the destination to transfer to.
@@ -38,8 +37,7 @@ public final class TransferMessageCommand extends ConversationCommand {
 	/**
 	 * Sets the destination to transfer to.
 	 * 
-	 * @param destination
-	 *            The destination to transfer to.
+	 * @param destination The destination to transfer to.
 	 */
 	public void setDestination(String destination) {
 		this.destination = destination;
@@ -47,11 +45,8 @@ public final class TransferMessageCommand extends ConversationCommand {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.interactions.core.commands.
-	 * ConversationCommand#accept(
-	 * org.eclipse.vtp.framework.interactions.core.commands.
-	 * IConversationCommandVisitor)
+	 * @see org.eclipse.vtp.framework.interactions.core.commands. ConversationCommand#accept(
+	 * org.eclipse.vtp.framework.interactions.core.commands. IConversationCommandVisitor)
 	 */
 	@Override
 	Object accept(IConversationCommandVisitor visitor) {
@@ -60,7 +55,6 @@ public final class TransferMessageCommand extends ConversationCommand {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.ICommand#exportContents()
 	 */
 	@Override
@@ -70,9 +64,7 @@ public final class TransferMessageCommand extends ConversationCommand {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.ICommand#importContents(
-	 * java.lang.Object)
+	 * @see org.eclipse.vtp.framework.spi.ICommand#importContents( java.lang.Object)
 	 */
 	@Override
 	public void importContents(Object contents) {

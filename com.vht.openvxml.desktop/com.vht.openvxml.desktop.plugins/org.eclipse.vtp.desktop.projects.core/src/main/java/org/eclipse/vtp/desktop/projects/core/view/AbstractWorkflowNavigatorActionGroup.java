@@ -25,9 +25,8 @@ import org.eclipse.vtp.desktop.projects.core.DesktopCorePlugin;
 
 /**
  * A basic abstract action group implementation similar to
- * {@link org.eclipse.cdt.internal.ui.cview.CViewActionGroup}, avoiding the
- * explicit dependency on {@link org.eclipse.cdt.internal.ui.cview.CView} to
- * allow reuse in the Common Navigator.
+ * {@link org.eclipse.cdt.internal.ui.cview.CViewActionGroup}, avoiding the explicit dependency on
+ * {@link org.eclipse.cdt.internal.ui.cview.CView} to allow reuse in the Common Navigator.
  * 
  * @see org.eclipse.cdt.internal.ui.cview.CViewActionGroup
  */
@@ -41,8 +40,7 @@ public abstract class AbstractWorkflowNavigatorActionGroup extends ActionGroup {
 	/**
 	 * Create a new action group associated with given view part.
 	 * 
-	 * @param viewPart
-	 *            the view part this action group is associated with, may not be
+	 * @param viewPart the view part this action group is associated with, may not be
 	 *            <code>null</code>.
 	 */
 	public AbstractWorkflowNavigatorActionGroup(IViewPart viewPart) {
@@ -52,8 +50,7 @@ public abstract class AbstractWorkflowNavigatorActionGroup extends ActionGroup {
 	}
 
 	/**
-	 * Provide access to the view part this action group has been registered
-	 * with.
+	 * Provide access to the view part this action group has been registered with.
 	 * 
 	 * @return the view part
 	 */
@@ -66,8 +63,8 @@ public abstract class AbstractWorkflowNavigatorActionGroup extends ActionGroup {
 	 */
 	protected ImageDescriptor getImageDescriptor(String relativePath) {
 		String iconPath = "/icons/" + relativePath; //$NON-NLS-1$
-		URL iconURL = FileLocator.find(DesktopCorePlugin.getDefault()
-				.getBundle(), new Path(iconPath), null);
+		URL iconURL = FileLocator.find(DesktopCorePlugin.getDefault().getBundle(), new Path(
+				iconPath), null);
 		// it's safe to pass null
 		return ImageDescriptor.createFromURL(iconURL);
 	}
@@ -78,17 +75,14 @@ public abstract class AbstractWorkflowNavigatorActionGroup extends ActionGroup {
 	protected abstract void makeActions();
 
 	/*
-	 * @see
-	 * org.eclipse.ui.actions.ActionGroup#fillContextMenu(org.eclipse.jface.
+	 * @see org.eclipse.ui.actions.ActionGroup#fillContextMenu(org.eclipse.jface.
 	 * action.IMenuManager)
 	 */
 	@Override
 	public abstract void fillContextMenu(IMenuManager menu);
 
 	/*
-	 * @see
-	 * org.eclipse.ui.actions.ActionGroup#fillActionBars(org.eclipse.ui.IActionBars
-	 * )
+	 * @see org.eclipse.ui.actions.ActionGroup#fillActionBars(org.eclipse.ui.IActionBars )
 	 */
 	@Override
 	public abstract void fillActionBars(IActionBars actionBars);

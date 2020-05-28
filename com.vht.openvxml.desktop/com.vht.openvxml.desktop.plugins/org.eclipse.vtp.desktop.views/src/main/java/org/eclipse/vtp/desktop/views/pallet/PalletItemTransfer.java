@@ -29,8 +29,7 @@ public class PalletItemTransfer extends ByteArrayTransfer {
 	/**
 	 * Only the singleton instance of this class may be used.
 	 */
-	protected PalletItemTransfer() {
-	}
+	protected PalletItemTransfer() {}
 
 	/**
 	 * Returns the singleton.
@@ -53,14 +52,11 @@ public class PalletItemTransfer extends ByteArrayTransfer {
 	/**
 	 * Tests whether native drop data matches this transfer type.
 	 * 
-	 * @param result
-	 *            result of converting the native drop data to Java
-	 * @return true if the native drop data does not match this transfer type.
-	 *         false otherwise.
+	 * @param result result of converting the native drop data to Java
+	 * @return true if the native drop data does not match this transfer type. false otherwise.
 	 */
 	private boolean isInvalidNativeType(Object result) {
-		return !(result instanceof byte[])
-				|| !TYPE_NAME.equals(new String((byte[]) result));
+		return !(result instanceof byte[]) || !TYPE_NAME.equals(new String((byte[]) result));
 	}
 
 	/**
@@ -84,9 +80,8 @@ public class PalletItemTransfer extends ByteArrayTransfer {
 	}
 
 	/**
-	 * Overrides org.eclipse.swt.dnd.ByteArrayTransfer#javaToNative(Object,
-	 * TransferData). Only encode the transfer type name since the selection is
-	 * read and written in the same process.
+	 * Overrides org.eclipse.swt.dnd.ByteArrayTransfer#javaToNative(Object, TransferData). Only
+	 * encode the transfer type name since the selection is read and written in the same process.
 	 * 
 	 * @see org.eclipse.swt.dnd.ByteArrayTransfer#javaToNative(java.lang.Object,
 	 *      org.eclipse.swt.dnd.TransferData)
@@ -98,9 +93,8 @@ public class PalletItemTransfer extends ByteArrayTransfer {
 	}
 
 	/**
-	 * Overrides
-	 * org.eclipse.swt.dnd.ByteArrayTransfer#nativeToJava(TransferData). Test if
-	 * the native drop data matches this transfer type.
+	 * Overrides org.eclipse.swt.dnd.ByteArrayTransfer#nativeToJava(TransferData). Test if the
+	 * native drop data matches this transfer type.
 	 * 
 	 * @see org.eclipse.swt.dnd.ByteArrayTransfer#nativeToJava(TransferData)
 	 */
@@ -118,8 +112,7 @@ public class PalletItemTransfer extends ByteArrayTransfer {
 	/**
 	 * Sets the transfer data for local use.
 	 * 
-	 * @param s
-	 *            the transfer data
+	 * @param s the transfer data
 	 */
 	public void setPalletItem(PalletItem s) {
 		palletItem = s;

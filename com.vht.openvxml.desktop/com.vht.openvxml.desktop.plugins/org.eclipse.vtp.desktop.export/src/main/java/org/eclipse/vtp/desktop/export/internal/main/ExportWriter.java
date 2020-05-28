@@ -33,16 +33,14 @@ public abstract class ExportWriter implements Closeable, Flushable {
 
 	public abstract OutputStream write(String entryName) throws IOException;
 
-	public abstract void writeStream(String entryName, InputStream stream)
-			throws IOException;
+	public abstract void writeStream(String entryName, InputStream stream) throws IOException;
 
 	public abstract void writeURL(String entryName, URL url) throws IOException;
 
-	public abstract void writeFile(String entryName, File file,
-			FilenameFilter filter) throws IOException;
+	public abstract void writeFile(String entryName, File file, FilenameFilter filter)
+			throws IOException;
 
-	protected void copy(InputStream input, OutputStream output)
-			throws IOException {
+	protected void copy(InputStream input, OutputStream output) throws IOException {
 		for (int i = input.read(buffer); i >= 0; i = input.read(buffer)) {
 			output.write(buffer, 0, i);
 		}
@@ -61,15 +59,13 @@ public abstract class ExportWriter implements Closeable, Flushable {
 		public OutputStream write(String entryName) throws IOException {
 			File target = new File(directory, entryName).getCanonicalFile();
 			File parent = target.getParentFile().getCanonicalFile();
-			if (!parent.isDirectory() & !parent.mkdirs()) {
-				throw new FileNotFoundException(parent.getAbsolutePath());
-			}
+			if (!parent.isDirectory() & !parent.mkdirs()) { throw new FileNotFoundException(parent
+					.getAbsolutePath()); }
 			return new BufferedOutputStream(new FileOutputStream(target));
 		}
 
 		@Override
-		public void writeStream(String entryName, InputStream stream)
-				throws IOException {
+		public void writeStream(String entryName, InputStream stream) throws IOException {
 			OutputStream output = write(entryName);
 			try {
 				copy(stream, output);
@@ -110,14 +106,12 @@ public abstract class ExportWriter implements Closeable, Flushable {
 					output.close();
 				}
 			} else {
-				File[] children = filter == null ? canonical.listFiles()
-						: canonical.listFiles(filter);
+				File[] children = filter == null ? canonical.listFiles() : canonical
+						.listFiles(filter);
 				if (children != null) {
 					for (File child : children) {
-						writeFile(
-								entryName
-										+ (child.isFile() ? child.getName()
-												: child.getName() + "/"),
+						writeFile(entryName
+								+ (child.isFile() ? child.getName() : child.getName() + "/"),
 								child, filter);
 					}
 				}
@@ -146,8 +140,7 @@ public abstract class ExportWriter implements Closeable, Flushable {
 			FileOutputStream fileOutput = new FileOutputStream(archive);
 			boolean failed = true;
 			try {
-				output = new ZipOutputStream(new BufferedOutputStream(
-						fileOutput));
+				output = new ZipOutputStream(new BufferedOutputStream(fileOutput));
 				failed = false;
 			} finally {
 				if (failed) {
@@ -172,8 +165,7 @@ public abstract class ExportWriter implements Closeable, Flushable {
 				}
 
 				@Override
-				public void write(byte[] b, int off, int len)
-						throws IOException {
+				public void write(byte[] b, int off, int len) throws IOException {
 					output.write(b, off, len);
 				}
 
@@ -185,8 +177,7 @@ public abstract class ExportWriter implements Closeable, Flushable {
 		}
 
 		@Override
-		public void writeStream(String entryName, InputStream stream)
-				throws IOException {
+		public void writeStream(String entryName, InputStream stream) throws IOException {
 			writeParentEntries(entryName);
 			startEntry(entryName, true);
 			try {
@@ -230,14 +221,12 @@ public abstract class ExportWriter implements Closeable, Flushable {
 					output.closeEntry();
 				}
 			} else {
-				File[] children = filter == null ? canonical.listFiles()
-						: canonical.listFiles(filter);
+				File[] children = filter == null ? canonical.listFiles() : canonical
+						.listFiles(filter);
 				if (children != null) {
 					for (File child : children) {
-						writeFile(
-								entryName
-										+ (child.isFile() ? child.getName()
-												: child.getName() + "/"),
+						writeFile(entryName
+								+ (child.isFile() ? child.getName() : child.getName() + "/"),
 								child, filter);
 					}
 				}
@@ -259,9 +248,7 @@ public abstract class ExportWriter implements Closeable, Flushable {
 			if (lastSlash == entryName.length() - 1) {
 				lastSlash = entryName.lastIndexOf('/', lastSlash - 1);
 			}
-			if (lastSlash < 0) {
-				return;
-			}
+			if (lastSlash < 0) { return; }
 			String parentEntryName = entryName.substring(0, lastSlash + 1);
 			writeParentEntries(parentEntryName);
 			if (startEntry(parentEntryName, false)) {
@@ -269,14 +256,12 @@ public abstract class ExportWriter implements Closeable, Flushable {
 			}
 		}
 
-		private boolean startEntry(String entryName, boolean failOnDuplicate)
-				throws IOException {
+		private boolean startEntry(String entryName, boolean failOnDuplicate) throws IOException {
 			writeParentEntries(entryName);
 			if (!writtenEntries.add(entryName)) {
 				if (failOnDuplicate) {
 					throw new ZipException(String.format(
-							"An entry with the name \"%s\" already exisits.",
-							entryName));
+							"An entry with the name \"%s\" already exisits.", entryName));
 				} else {
 					return false;
 				}

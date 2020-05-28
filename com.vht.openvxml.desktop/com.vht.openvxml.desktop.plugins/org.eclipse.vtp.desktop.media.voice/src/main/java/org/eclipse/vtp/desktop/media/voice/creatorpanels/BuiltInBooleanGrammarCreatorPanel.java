@@ -47,8 +47,7 @@ public class BuiltInBooleanGrammarCreatorPanel extends InputGrammarCreatorPanel 
 		yesKeyLabel.setBackground(comp.getBackground());
 		yesKeyLabel.setText("Key to signify YES");
 		yesKeyLabel.setLayoutData(new GridData());
-		yesKeyCombo = new Combo(comp, SWT.DROP_DOWN | SWT.READ_ONLY
-				| SWT.SINGLE);
+		yesKeyCombo = new Combo(comp, SWT.DROP_DOWN | SWT.READ_ONLY | SWT.SINGLE);
 		yesKeyCombo.add("1");
 		yesKeyCombo.add("2");
 		yesKeyCombo.add("3");

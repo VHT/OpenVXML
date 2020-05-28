@@ -4,8 +4,7 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElement;
 
 public class AllElementsFilter implements DesignElementActionFilter {
 
-	public AllElementsFilter() {
-	}
+	public AllElementsFilter() {}
 
 	@Override
 	public boolean isApplicable(IDesignElement designElement) {

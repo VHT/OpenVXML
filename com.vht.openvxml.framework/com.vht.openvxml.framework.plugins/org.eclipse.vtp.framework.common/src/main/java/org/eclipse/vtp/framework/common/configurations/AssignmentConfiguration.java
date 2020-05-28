@@ -31,8 +31,7 @@ public class AssignmentConfiguration implements IConfiguration, CommonConstants 
 	/**
 	 * Creates a new AssignmentConfiguration.
 	 */
-	public AssignmentConfiguration() {
-	}
+	public AssignmentConfiguration() {}
 
 	/**
 	 * Returns the name of the variable to assign to.
@@ -67,9 +66,7 @@ public class AssignmentConfiguration implements IConfiguration, CommonConstants 
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#load( org.w3c.dom.Element)
 	 */
 	@Override
 	public void load(Element configurationElement) {
@@ -80,15 +77,12 @@ public class AssignmentConfiguration implements IConfiguration, CommonConstants 
 		} else {
 			value = null;
 		}
-		secured = Boolean.parseBoolean(configurationElement
-				.getAttribute(NAME_SECURED));
+		secured = Boolean.parseBoolean(configurationElement.getAttribute(NAME_SECURED));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#save( org.w3c.dom.Element)
 	 */
 	@Override
 	public void save(Element configurationElement) {
@@ -97,15 +91,13 @@ public class AssignmentConfiguration implements IConfiguration, CommonConstants 
 		if (value != null) {
 			configurationElement.setAttribute(NAME_VALUE, value);
 		}
-		configurationElement.setAttribute(NAME_SECURED,
-				Boolean.toString(secured));
+		configurationElement.setAttribute(NAME_SECURED, Boolean.toString(secured));
 	}
 
 	/**
 	 * Sets the name of the variable to assign to.
 	 * 
-	 * @param name
-	 *            The name of the variable to assign to.
+	 * @param name The name of the variable to assign to.
 	 */
 	public void setName(String name) {
 		this.name = name == null ? "" : name; //$NON-NLS-1$;
@@ -118,8 +110,7 @@ public class AssignmentConfiguration implements IConfiguration, CommonConstants 
 	/**
 	 * Sets the type of the variable to assign to.
 	 * 
-	 * @param type
-	 *            The type of the variable to assign to.
+	 * @param type The type of the variable to assign to.
 	 */
 	public void setType(String type) {
 		this.type = type == null ? "" : type; //$NON-NLS-1$
@@ -128,8 +119,7 @@ public class AssignmentConfiguration implements IConfiguration, CommonConstants 
 	/**
 	 * Sets the value to assign to the variable.
 	 * 
-	 * @param value
-	 *            The value to assign to the variable.
+	 * @param value The value to assign to the variable.
 	 */
 	public void setValue(String value) {
 		this.value = value;

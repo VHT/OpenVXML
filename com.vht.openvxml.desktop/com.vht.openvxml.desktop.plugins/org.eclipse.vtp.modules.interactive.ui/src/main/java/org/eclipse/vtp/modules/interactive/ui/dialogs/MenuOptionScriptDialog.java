@@ -23,50 +23,50 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.vtp.desktop.model.interactive.core.internal.MenuChoice;
 
-public class MenuOptionScriptDialog extends Dialog
-{
+public class MenuOptionScriptDialog extends Dialog {
 	/** The MenuChoice to which this script will apply */
 	MenuChoice menuChoice = null;
-	/**	The text field that contains the script and serves as the editor */
+	/** The text field that contains the script and serves as the editor */
 	Text scriptText = null;
 
 	/**
 	 * Creates a new dialog on which to display the guard condition script
+	 * 
 	 * @param parentShell
 	 */
-	public MenuOptionScriptDialog(Shell parentShell)
-	{
+	public MenuOptionScriptDialog(Shell parentShell) {
 		super(parentShell);
 	}
 
 	/**
 	 * Creates a new dialog on which to display the guard condition script
+	 * 
 	 * @param parentShell
 	 */
-	public MenuOptionScriptDialog(IShellProvider parentShell)
-	{
+	public MenuOptionScriptDialog(IShellProvider parentShell) {
 		super(parentShell);
 	}
 
 	/**
 	 * Sets the MenuChoice to which this script will apply
+	 * 
 	 * @param menuChoice - the MenuChoice to which this script will apply
 	 */
-	public void setMenuChoice(MenuChoice menuChoice)
-	{
+	public void setMenuChoice(MenuChoice menuChoice) {
 		this.menuChoice = menuChoice;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
 	 */
-	protected Control createDialogArea(Composite parent)
-    {
+	protected Control createDialogArea(Composite parent) {
 		this.getShell().setText("Guard Condition (" + menuChoice.getOptionName() + ")");
 		Composite comp = new Composite(parent, SWT.NONE);
 		comp.setLayout(new GridLayout(2, false));
 		Label descLabel = new Label(comp, SWT.WRAP);
-		descLabel.setText("The Guard condition entered below must evaluate to TRUE for this option to be available in the menu when presented to the user.");
+		descLabel
+				.setText("The Guard condition entered below must evaluate to TRUE for this option to be available in the menu when presented to the user.");
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 2;
 		gd.widthHint = 300;
@@ -78,16 +78,15 @@ public class MenuOptionScriptDialog extends Dialog
 		scriptText.setText(menuChoice.getScriptText() == null ? "" : menuChoice.getScriptText());
 		scriptText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		return comp;
-    }
+	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
-	protected void okPressed()
-    {
+	protected void okPressed() {
 		menuChoice.setScriptText(scriptText.getText());
-	    super.okPressed();
-    }
-	
-	
+		super.okPressed();
+	}
+
 }

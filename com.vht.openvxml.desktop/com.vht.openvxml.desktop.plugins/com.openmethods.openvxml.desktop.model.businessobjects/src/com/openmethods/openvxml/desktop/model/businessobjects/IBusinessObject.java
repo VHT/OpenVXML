@@ -18,8 +18,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.vtp.desktop.model.core.IWorkflowResource;
 
 /**
- * This interface represents a file rosource that contains the definition of a
- * business object used in the application.
+ * This interface represents a file rosource that contains the definition of a business object used
+ * in the application.
  *
  * @author Trip Gilman
  * @version 2.0
@@ -31,8 +31,8 @@ public interface IBusinessObject extends IWorkflowResource {
 	public String getId();
 
 	/**
-	 * @return A list of <code>IBusinessObjectField</code>s that define the
-	 *         names and data types of the business object's fields
+	 * @return A list of <code>IBusinessObjectField</code>s that define the names and data types of
+	 *         the business object's fields
 	 */
 	public List<IBusinessObjectField> getFields();
 

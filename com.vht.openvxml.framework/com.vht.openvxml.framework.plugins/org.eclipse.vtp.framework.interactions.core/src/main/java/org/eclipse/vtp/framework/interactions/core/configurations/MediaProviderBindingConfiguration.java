@@ -19,8 +19,7 @@ import org.w3c.dom.Element;
  * 
  * @author Lonnie Pryor
  */
-public class MediaProviderBindingConfiguration implements IConfiguration,
-		InteractionsConstants {
+public class MediaProviderBindingConfiguration implements IConfiguration, InteractionsConstants {
 	/** The key the binding is under. */
 	private String key = ""; //$NON-NLS-1$
 	/** The ID of the media provider. */
@@ -29,8 +28,7 @@ public class MediaProviderBindingConfiguration implements IConfiguration,
 	/**
 	 * Creates a new MediaProviderBindingConfiguration.
 	 */
-	public MediaProviderBindingConfiguration() {
-	}
+	public MediaProviderBindingConfiguration() {}
 
 	/**
 	 * Returns the key the binding is under.
@@ -44,8 +42,7 @@ public class MediaProviderBindingConfiguration implements IConfiguration,
 	/**
 	 * Sets the key the binding is under.
 	 * 
-	 * @param key
-	 *            The key the binding is under.
+	 * @param key The key the binding is under.
 	 */
 	public void setKey(String key) {
 		this.key = key == null ? "" : key; //$NON-NLS-1$
@@ -63,8 +60,7 @@ public class MediaProviderBindingConfiguration implements IConfiguration,
 	/**
 	 * Sets the ID of the media provider.
 	 * 
-	 * @param mediaProviderID
-	 *            The ID of the media provider.
+	 * @param mediaProviderID The ID of the media provider.
 	 */
 	public void setMediaProviderID(String mediaProviderID) {
 		this.mediaProviderID = mediaProviderID == null ? "" : mediaProviderID; //$NON-NLS-1$
@@ -72,20 +68,16 @@ public class MediaProviderBindingConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#load( org.w3c.dom.Element)
 	 */
 	@Override
 	public void load(Element configurationElement) {
 		key = configurationElement.getAttribute(NAME_KEY);
-		mediaProviderID = configurationElement
-				.getAttribute(NAME_MEDIA_PROVIDER);
+		mediaProviderID = configurationElement.getAttribute(NAME_MEDIA_PROVIDER);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(
 	 * org.w3c.dom.Element)NAME_SHARED_CONTENT
 	 */

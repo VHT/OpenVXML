@@ -14,39 +14,34 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesignComponent;
 
 /**
  * @author trip
- *
  */
-public class BroadcastReceiverPropertiesPanelProvider implements
-	ComponentPropertiesPanelProvider
-{
+public class BroadcastReceiverPropertiesPanelProvider implements ComponentPropertiesPanelProvider {
 
 	/**
 	 * 
 	 */
-	public BroadcastReceiverPropertiesPanelProvider()
-	{
-	}
+	public BroadcastReceiverPropertiesPanelProvider() {}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.vtp.desktop.editors.core.configuration.ComponentPropertiesPanelProvider#getPropertiesPanels(org.eclipse.vtp.desktop.model.core.design.IDesignComponent)
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.vtp.desktop.editors.core.configuration.ComponentPropertiesPanelProvider#
+	 * getPropertiesPanels(org.eclipse.vtp.desktop.model.core.design.IDesignComponent)
 	 */
-	public List<ComponentPropertiesPanel> getPropertiesPanels(
-		IDesignComponent designComponent)
-	{
-		PrimitiveElement pe = (PrimitiveElement)designComponent;
+	public List<ComponentPropertiesPanel> getPropertiesPanels(IDesignComponent designComponent) {
+		PrimitiveElement pe = (PrimitiveElement) designComponent;
 		List<ComponentPropertiesPanel> ret = new ArrayList<ComponentPropertiesPanel>();
 		ret.add(new BroadcastReceiverPropertiesPanel("General", pe));
 		return ret;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.vtp.desktop.editors.core.configuration.ComponentPropertiesPanelProvider#isApplicableFor(org.eclipse.vtp.desktop.model.core.design.IDesignComponent)
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.vtp.desktop.editors.core.configuration.ComponentPropertiesPanelProvider#
+	 * isApplicableFor(org.eclipse.vtp.desktop.model.core.design.IDesignComponent)
 	 */
-	public boolean isApplicableFor(IDesignComponent designComponent)
-	{
-		if(!(designComponent instanceof PrimitiveElement))
-			return false;
-		PrimitiveElement pe = (PrimitiveElement)designComponent;
+	public boolean isApplicableFor(IDesignComponent designComponent) {
+		if (!(designComponent instanceof PrimitiveElement)) return false;
+		PrimitiveElement pe = (PrimitiveElement) designComponent;
 		return pe.getSubTypeId().equals("org.eclipse.vtp.modules.standard.ui.broadcastreceiver");
 	}
 

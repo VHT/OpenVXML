@@ -23,7 +23,6 @@ import com.openmethods.openvxml.desktop.model.workflow.IDesignDocument;
 
 /**
  * @author trip
- *
  */
 public class WorkflowProjectLabelProvider implements ILabelProvider {
 	ILabelProvider parentlabelProvider = null;
@@ -33,21 +32,19 @@ public class WorkflowProjectLabelProvider implements ILabelProvider {
 	 */
 	public WorkflowProjectLabelProvider() {
 		super();
-		parentlabelProvider = WorkbenchLabelProvider
-				.getDecoratingWorkbenchLabelProvider();
+		parentlabelProvider = WorkbenchLabelProvider.getDecoratingWorkbenchLabelProvider();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
 	 */
 	@Override
 	public Image getImage(Object element) {
 		Image ret = null;
 		if (element instanceof IDependencySet) {
-			ret = org.eclipse.vtp.desktop.core.Activator.getDefault()
-					.getImageRegistry().get("ICON_LIBRARY");
+			ret = org.eclipse.vtp.desktop.core.Activator.getDefault().getImageRegistry().get(
+					"ICON_LIBRARY");
 		}
 		if (element instanceof IDesignDocument) {
 			ret = getInheritedImage(element);
@@ -57,27 +54,22 @@ public class WorkflowProjectLabelProvider implements ILabelProvider {
 					.getImage(ISharedImages.IMG_OBJ_FOLDER);
 		}
 		if (ret != null) {
-			ILabelDecorator decorator = PlatformUI.getWorkbench()
-					.getDecoratorManager().getLabelDecorator();
+			ILabelDecorator decorator = PlatformUI.getWorkbench().getDecoratorManager()
+					.getLabelDecorator();
 			if (decorator != null) {
 				Object obj = element;
-				IResource resource = (IResource) ((IAdaptable) element)
-						.getAdapter(IResource.class);
+				IResource resource = (IResource) ((IAdaptable) element).getAdapter(IResource.class);
 				if (resource != null) {
 					obj = resource;
 				}
 				if (decorator instanceof LabelDecorator) {
 					LabelDecorator ld2 = (LabelDecorator) decorator;
-					Image decorated = ld2.decorateImage(ret, obj,
-							DecorationContext.DEFAULT_CONTEXT);
-					if (decorated != null) {
-						return decorated;
-					}
+					Image decorated = ld2
+							.decorateImage(ret, obj, DecorationContext.DEFAULT_CONTEXT);
+					if (decorated != null) { return decorated; }
 				} else {
 					Image decorated = decorator.decorateImage(ret, obj);
-					if (decorated != null) {
-						return decorated;
-					}
+					if (decorated != null) { return decorated; }
 				}
 			}
 			return ret;
@@ -89,8 +81,7 @@ public class WorkflowProjectLabelProvider implements ILabelProvider {
 		Image ret = null;// parentlabelProvider.getImage(element);
 		if (ret == null) {
 			if (element instanceof IAdaptable) {
-				IResource resource = (IResource) ((IAdaptable) element)
-						.getAdapter(IResource.class);
+				IResource resource = (IResource) ((IAdaptable) element).getAdapter(IResource.class);
 				if (resource != null) {
 					ret = parentlabelProvider.getImage(resource);
 				}
@@ -101,24 +92,20 @@ public class WorkflowProjectLabelProvider implements ILabelProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
 	 */
 	@Override
 	public String getText(Object element) {
 		if (element instanceof IProject) {
 			return ((IProject) element).getName();
-		} else if (element instanceof IWorkflowResource) {
-			return ((IWorkflowResource) element).getName();
-		}
+		} else if (element instanceof IWorkflowResource) { return ((IWorkflowResource) element)
+				.getName(); }
 		return parentlabelProvider.getText(element);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.
+	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.
 	 * jface.viewers.ILabelProviderListener)
 	 */
 	@Override
@@ -129,7 +116,6 @@ public class WorkflowProjectLabelProvider implements ILabelProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#dispose()
 	 */
 	@Override
@@ -140,10 +126,8 @@ public class WorkflowProjectLabelProvider implements ILabelProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java.lang
-	 * .Object, java.lang.String)
+	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java.lang .Object,
+	 * java.lang.String)
 	 */
 	@Override
 	public boolean isLabelProperty(Object element, String property) {
@@ -153,9 +137,7 @@ public class WorkflowProjectLabelProvider implements ILabelProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
+	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
 	 * .jface.viewers.ILabelProviderListener)
 	 */
 	@Override

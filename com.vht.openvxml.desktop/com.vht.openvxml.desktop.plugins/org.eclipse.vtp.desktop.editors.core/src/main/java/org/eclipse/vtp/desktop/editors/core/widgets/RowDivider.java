@@ -18,10 +18,7 @@ public class RowDivider extends Canvas implements PaintListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events
-	 * .PaintEvent)
+	 * @see org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events .PaintEvent)
 	 */
 	@Override
 	public void paintControl(PaintEvent e) {

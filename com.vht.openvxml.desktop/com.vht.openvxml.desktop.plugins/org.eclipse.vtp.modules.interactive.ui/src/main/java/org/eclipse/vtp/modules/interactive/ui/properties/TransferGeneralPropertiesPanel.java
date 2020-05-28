@@ -60,8 +60,7 @@ import com.openmethods.openvxml.desktop.model.workflow.design.ObjectField;
 import com.openmethods.openvxml.desktop.model.workflow.design.Variable;
 
 @SuppressWarnings("restriction")
-public class TransferGeneralPropertiesPanel extends
-		DesignElementPropertiesPanel {
+public class TransferGeneralPropertiesPanel extends DesignElementPropertiesPanel {
 	GenericBindingManager bindingManager;
 	IBrand currentBrand;
 	String currentLanguage;
@@ -79,13 +78,11 @@ public class TransferGeneralPropertiesPanel extends
 	TreeViewer destinationTree;
 	List<Variable> variables = new ArrayList<Variable>();
 
-	public TransferGeneralPropertiesPanel(String name,
-			IDesignElement designElement) {
+	public TransferGeneralPropertiesPanel(String name, IDesignElement designElement) {
 		super(name, designElement);
 		bindingManager = (GenericBindingManager) designElement
 				.getConfigurationManager(GenericBindingManager.TYPE_ID);
-		List<Variable> vars = designElement.getDesign().getVariablesFor(
-				designElement);
+		List<Variable> vars = designElement.getDesign().getVariablesFor(designElement);
 		outer: for (Variable v : vars) {
 			for (int i = 0; i < variables.size(); i++) {
 				if (variables.get(i).getName().compareToIgnoreCase(v.getName()) > 0) {
@@ -99,9 +96,7 @@ public class TransferGeneralPropertiesPanel extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel#
+	 * @see org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel#
 	 * createControls(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -115,15 +110,13 @@ public class TransferGeneralPropertiesPanel extends
 		nameLabel.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_CENTER));
 		nameField = new Text(comp, SWT.SINGLE | SWT.BORDER);
 		nameField.setText(getElement().getName());
-		nameField.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
-				2, 1));
+		nameField.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 		Label valueLabel = new Label(comp, SWT.NONE);
 		valueLabel.setText("Destination: ");
 		valueLabel.setBackground(comp.getBackground());
 		valueLabel.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_CENTER));
 		destinationType = new Combo(comp, SWT.DROP_DOWN | SWT.READ_ONLY);
-		destinationType.setLayoutData(new GridData(
-				GridData.VERTICAL_ALIGN_CENTER));
+		destinationType.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_CENTER));
 		destinationType.add("Value");
 		destinationType.add("Expression");
 		destinationType.add("Variable");
@@ -135,40 +128,34 @@ public class TransferGeneralPropertiesPanel extends
 			}
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
 		destinationComp = new Composite(comp, SWT.NONE);
 		destinationComp.setBackground(comp.getBackground());
 		destinationComp.setLayout(destinationLayout = new StackLayout());
-		destinationComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
-				true, 1, 2));
+		destinationComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2));
 		destinationValueComp = new Composite(destinationComp, SWT.NONE);
 		destinationValueComp.setBackground(destinationComp.getBackground());
 		GridLayout layout = new GridLayout(1, false);
 		layout.marginWidth = layout.marginHeight = 0;
 		destinationValueComp.setLayout(layout);
-		destinationValue = new Text(destinationValueComp, SWT.SINGLE
-				| SWT.BORDER);
-		destinationValue.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING,
-				true, false));
+		destinationValue = new Text(destinationValueComp, SWT.SINGLE | SWT.BORDER);
+		destinationValue.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 		destinationExprComp = new Composite(destinationComp, SWT.NONE);
 		destinationExprComp.setBackground(destinationComp.getBackground());
 		layout = new GridLayout(1, false);
 		layout.marginWidth = layout.marginHeight = 0;
 		destinationExprComp.setLayout(layout);
 		destinationExpr = new Text(destinationExprComp, SWT.SINGLE | SWT.BORDER);
-		destinationExpr.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING,
-				true, false));
+		destinationExpr.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 		destinationTreeComp = new Composite(destinationComp, SWT.NONE);
 		destinationTreeComp.setBackground(destinationComp.getBackground());
 		layout = new GridLayout(1, false);
 		layout.marginWidth = layout.marginHeight = 0;
 		destinationTreeComp.setLayout(layout);
-		destinationTree = new TreeViewer(destinationTreeComp, SWT.H_SCROLL
-				| SWT.V_SCROLL | SWT.BORDER | SWT.SINGLE);
-		destinationTree.getControl().setLayoutData(
-				new GridData(SWT.FILL, SWT.FILL, true, true));
+		destinationTree = new TreeViewer(destinationTreeComp, SWT.H_SCROLL | SWT.V_SCROLL
+				| SWT.BORDER | SWT.SINGLE);
+		destinationTree.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		destinationTree.setContentProvider(new VariableContentProvider());
 		destinationTree.setLabelProvider(new VariableLabelProvider());
 		destinationTree.setInput(this);
@@ -199,30 +186,24 @@ public class TransferGeneralPropertiesPanel extends
 		currentLanguage = (String) values.get(LanguageContext.CONTEXT_ID);
 		Object object = values.get(InteractionTypeContext.CONTEXT_ID);
 		if (currentBrand == null || currentLanguage == null || object == null) {
-			final IOpenVXMLProject project = getElement().getDesign()
-					.getDocument().getProject();
+			final IOpenVXMLProject project = getElement().getDesign().getDocument().getProject();
 			System.out.println("project: " + project);
 			final IProject uproject = project.getUnderlyingProject();
 			final Shell shell = this.getContainer().getParentShell();
 			Display.getCurrent().asyncExec(new Runnable() {
 				@Override
 				public void run() {
-					MessageBox mb = new MessageBox(shell, SWT.OK | SWT.CANCEL
-							| SWT.ICON_ERROR);
+					MessageBox mb = new MessageBox(shell, SWT.OK | SWT.CANCEL | SWT.ICON_ERROR);
 					mb.setText("Configuration Problems");
 					mb.setMessage("The interaction and language configuration for this project is incomplete.  You will not be able edit the applications effectively until this is resolved.  Would you like to configure this now?");
 					if (mb.open() == SWT.OK) {
 						Display.getCurrent().asyncExec(new Runnable() {
 							@Override
 							public void run() {
-								PropertyDialog pd = PropertyDialog
-										.createDialogOn(
-												PlatformUI
-														.getWorkbench()
-														.getActiveWorkbenchWindow()
-														.getShell(),
-												"org.eclipse.vtp.desktop.projects.core.appproperties",
-												uproject);
+								PropertyDialog pd = PropertyDialog.createDialogOn(PlatformUI
+										.getWorkbench().getActiveWorkbenchWindow().getShell(),
+										"org.eclipse.vtp.desktop.projects.core.appproperties",
+										uproject);
 								pd.open();
 							}
 						});
@@ -238,10 +219,8 @@ public class TransferGeneralPropertiesPanel extends
 				.getInteractionBinding(interactionType);
 		NamedBinding namedBinding = interactionBinding.getNamedBinding("type");
 		LanguageBinding languageBinding = namedBinding.getLanguageBinding("");
-		BrandBinding brandBinding = languageBinding
-				.getBrandBinding(currentBrand);
-		PropertyBindingItem typePropertyItem = (PropertyBindingItem) brandBinding
-				.getBindingItem();
+		BrandBinding brandBinding = languageBinding.getBrandBinding(currentBrand);
+		PropertyBindingItem typePropertyItem = (PropertyBindingItem) brandBinding.getBindingItem();
 		if (typePropertyItem == null) {
 			typePropertyItem = new PropertyBindingItem();
 		}
@@ -255,16 +234,14 @@ public class TransferGeneralPropertiesPanel extends
 		namedBinding = interactionBinding.getNamedBinding("destination");
 		languageBinding = namedBinding.getLanguageBinding("");
 		brandBinding = languageBinding.getBrandBinding(currentBrand);
-		PropertyBindingItem valuePropertyItem = (PropertyBindingItem) brandBinding
-				.getBindingItem();
+		PropertyBindingItem valuePropertyItem = (PropertyBindingItem) brandBinding.getBindingItem();
 		if (valuePropertyItem == null) {
 			valuePropertyItem = new PropertyBindingItem();
 		}
 		if (valuePropertyItem.getValue() != null) {
 			switch (typeIndex) {
 			case 2:
-				ObjectDefinition od = getObjectDefinitionFromVariables(valuePropertyItem
-						.getValue());
+				ObjectDefinition od = getObjectDefinitionFromVariables(valuePropertyItem.getValue());
 				StructuredSelection ss = (od == null) ? StructuredSelection.EMPTY
 						: new StructuredSelection(od);
 				destinationTree.setSelection(ss);
@@ -291,8 +268,7 @@ public class TransferGeneralPropertiesPanel extends
 				ISelection selection = destinationTree.getSelection();
 				if ((selection != null) && !selection.isEmpty()
 						&& selection instanceof IStructuredSelection) {
-					Object selObj = ((IStructuredSelection) selection)
-							.getFirstElement();
+					Object selObj = ((IStructuredSelection) selection).getFirstElement();
 					if (selObj instanceof ObjectDefinition) {
 						value = ((ObjectDefinition) selObj).getPath();
 					}
@@ -308,19 +284,15 @@ public class TransferGeneralPropertiesPanel extends
 			}
 			InteractionBinding interactionBinding = bindingManager
 					.getInteractionBinding(interactionType);
-			NamedBinding namedBinding = interactionBinding
-					.getNamedBinding("type");
-			LanguageBinding languageBinding = namedBinding
-					.getLanguageBinding("");
-			BrandBinding brandBinding = languageBinding
-					.getBrandBinding(currentBrand);
+			NamedBinding namedBinding = interactionBinding.getNamedBinding("type");
+			LanguageBinding languageBinding = namedBinding.getLanguageBinding("");
+			BrandBinding brandBinding = languageBinding.getBrandBinding(currentBrand);
 			PropertyBindingItem typePropertyItem = (PropertyBindingItem) brandBinding
 					.getBindingItem();
 			if (typePropertyItem == null) {
 				typePropertyItem = new PropertyBindingItem();
 			} else {
-				typePropertyItem = (PropertyBindingItem) typePropertyItem
-						.clone();
+				typePropertyItem = (PropertyBindingItem) typePropertyItem.clone();
 			}
 			typePropertyItem.setValue(type);
 			brandBinding.setBindingItem(typePropertyItem);
@@ -332,8 +304,7 @@ public class TransferGeneralPropertiesPanel extends
 			if (valuePropertyItem == null) {
 				valuePropertyItem = new PropertyBindingItem();
 			} else {
-				valuePropertyItem = (PropertyBindingItem) valuePropertyItem
-						.clone();
+				valuePropertyItem = (PropertyBindingItem) valuePropertyItem.clone();
 			}
 			valuePropertyItem.setValue(value);
 			brandBinding.setBindingItem(valuePropertyItem);
@@ -350,8 +321,7 @@ public class TransferGeneralPropertiesPanel extends
 
 	public ObjectDefinition getObjectDefinitionFromVariables(String name) {
 		ObjectDefinition ret = null;
-		List<Variable> vars = getElement().getDesign().getVariablesFor(
-				getElement());
+		List<Variable> vars = getElement().getDesign().getVariablesFor(getElement());
 
 		for (int i = 0; i < vars.size(); i++) {
 			String varName = name;
@@ -367,8 +337,7 @@ public class TransferGeneralPropertiesPanel extends
 			if (v.getName().equals(varName)) {
 				if (sub) {
 					// dig deeper
-					ret = getObjectDefinitionFromFields(
-							name.substring(name.indexOf(".") + 1), v);
+					ret = getObjectDefinitionFromFields(name.substring(name.indexOf(".") + 1), v);
 				} else {
 					ret = v;
 
@@ -380,8 +349,7 @@ public class TransferGeneralPropertiesPanel extends
 		return ret;
 	}
 
-	public ObjectDefinition getObjectDefinitionFromFields(String name,
-			ObjectDefinition parent) {
+	public ObjectDefinition getObjectDefinitionFromFields(String name, ObjectDefinition parent) {
 		ObjectDefinition ret = null;
 		List<ObjectField> fields = parent.getFields();
 
@@ -398,8 +366,7 @@ public class TransferGeneralPropertiesPanel extends
 
 			if (of.getName().equals(varName)) {
 				if (sub) {
-					ret = getObjectDefinitionFromFields(
-							name.substring(name.indexOf(".") + 1), of);
+					ret = getObjectDefinitionFromFields(name.substring(name.indexOf(".") + 1), of);
 				} else {
 					ret = of;
 
@@ -448,12 +415,10 @@ public class TransferGeneralPropertiesPanel extends
 		}
 
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 	}
 
 	/**
@@ -473,12 +438,10 @@ public class TransferGeneralPropertiesPanel extends
 		}
 
 		@Override
-		public void addListener(ILabelProviderListener listener) {
-		}
+		public void addListener(ILabelProviderListener listener) {}
 
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		@Override
 		public boolean isLabelProperty(Object element, String property) {
@@ -486,8 +449,7 @@ public class TransferGeneralPropertiesPanel extends
 		}
 
 		@Override
-		public void removeListener(ILabelProviderListener listener) {
-		}
+		public void removeListener(ILabelProviderListener listener) {}
 	}
 
 	@Override

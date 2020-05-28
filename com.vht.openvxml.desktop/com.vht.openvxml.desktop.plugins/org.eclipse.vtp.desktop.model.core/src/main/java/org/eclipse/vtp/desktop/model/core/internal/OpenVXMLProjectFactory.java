@@ -11,19 +11,16 @@ import org.eclipse.vtp.desktop.model.core.natures.WorkflowProjectNature5_0;
 
 /**
  * @author trip
- *
  */
 public class OpenVXMLProjectFactory {
 
 	/**
 	 * 
 	 */
-	public OpenVXMLProjectFactory() {
-	}
+	public OpenVXMLProjectFactory() {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.model.core.IWorkflowProjectFactory#
 	 * convertToWorkflowProject(org.eclipse.core.resources.IProject)
 	 */
@@ -32,8 +29,7 @@ public class OpenVXMLProjectFactory {
 	}
 
 	public IOpenVXMLProject createWorkflowProject(String name) {
-		IProject newProject = ResourcesPlugin.getWorkspace().getRoot()
-				.getProject(name);
+		IProject newProject = ResourcesPlugin.getWorkspace().getRoot().getProject(name);
 		try {
 			newProject.create(null);
 			newProject.open(null);

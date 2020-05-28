@@ -68,10 +68,7 @@ public class ReplicateLanguageDialog extends Dialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
-	 * .Composite)
+	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets .Composite)
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
@@ -119,8 +116,7 @@ public class ReplicateLanguageDialog extends Dialog {
 				for (int i = 0; i < sourceCombo.getSelectionIndex(); i++) {
 					destinationCombo.add(languages.get(i));
 				}
-				for (int i = sourceCombo.getSelectionIndex() + 1; i < languages
-						.size(); i++) {
+				for (int i = sourceCombo.getSelectionIndex() + 1; i < languages.size(); i++) {
 					destinationCombo.add(languages.get(i));
 				}
 				destinationCombo.select(0);
@@ -128,8 +124,7 @@ public class ReplicateLanguageDialog extends Dialog {
 			}
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
 
 		destinationCombo.addSelectionListener(new SelectionListener() {
@@ -139,8 +134,7 @@ public class ReplicateLanguageDialog extends Dialog {
 			}
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
 
 		return comp;
@@ -156,27 +150,23 @@ public class ReplicateLanguageDialog extends Dialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
 	@Override
 	protected void okPressed() {
-		final String sourceLanguage = sourceCombo.getItem(sourceCombo
+		final String sourceLanguage = sourceCombo.getItem(sourceCombo.getSelectionIndex());
+		final String destinationLanguage = destinationCombo.getItem(destinationCombo
 				.getSelectionIndex());
-		final String destinationLanguage = destinationCombo
-				.getItem(destinationCombo.getSelectionIndex());
 		super.okPressed();
 		ProgressMonitorDialog pmd = new ProgressMonitorDialog(getShell());
 		try {
 			pmd.run(true, false, new IRunnableWithProgress() {
 				@Override
-				public void run(IProgressMonitor monitor)
-						throws InvocationTargetException, InterruptedException {
-					IDesignItemContainer root = workflowAspect
-							.getDesignRootFolder();
+				public void run(IProgressMonitor monitor) throws InvocationTargetException,
+						InterruptedException {
+					IDesignItemContainer root = workflowAspect.getDesignRootFolder();
 					int work = countContainer(root);
-					monitor.beginTask("Replicating language configuration",
-							work);
+					monitor.beginTask("Replicating language configuration", work);
 					processContainer(root, monitor);
 					monitor.done();
 					System.out.println("Done");
@@ -191,8 +181,7 @@ public class ReplicateLanguageDialog extends Dialog {
 					List<IDesignDocument> docs = container.getDesignDocuments();
 					for (IDesignDocument doc : docs) {
 						monitor.setTaskName("Processing "
-								+ doc.getUnderlyingFile()
-										.getProjectRelativePath().toString());
+								+ doc.getUnderlyingFile().getProjectRelativePath().toString());
 						doc.becomeWorkingCopy();
 						processDesign(doc.getMainDesign(), monitor);
 						for (IDesign dialog : doc.getDialogDesigns()) {
@@ -206,8 +195,7 @@ public class ReplicateLanguageDialog extends Dialog {
 					}
 				}
 
-				private void processDesign(IDesign design,
-						IProgressMonitor monitor) {
+				private void processDesign(IDesign design, IProgressMonitor monitor) {
 					monitor.subTask(design.getName());
 					List<IDesignElement> elements = design.getDesignElements();
 					for (IDesignElement element : elements) {
@@ -217,8 +205,7 @@ public class ReplicateLanguageDialog extends Dialog {
 								.getInteractionBinding("org.eclipse.vtp.framework.interactions.voice.interaction");
 						List<NamedBinding> nbs = ib.getNamedBindings();
 						for (NamedBinding nb : nbs) {
-							nb.duplicateLanguageBinding(sourceLanguage,
-									destinationLanguage, true);
+							nb.duplicateLanguageBinding(sourceLanguage, destinationLanguage, true);
 						}
 						element.commitConfigurationChanges(manager);
 					}

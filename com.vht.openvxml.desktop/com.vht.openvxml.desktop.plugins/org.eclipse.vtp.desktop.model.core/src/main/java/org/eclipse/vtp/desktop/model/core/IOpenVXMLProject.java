@@ -19,8 +19,7 @@ public interface IOpenVXMLProject extends IWorkflowResourceContainer {
 
 	public void setParentProject(IOpenVXMLProject parent);
 
-	public IOpenVXMLProjectAspect addProjectAspect(String aspectId)
-			throws CoreException;
+	public IOpenVXMLProjectAspect addProjectAspect(String aspectId) throws CoreException;
 
 	public IOpenVXMLProjectAspect getProjectAspect(String aspectId);
 

@@ -27,7 +27,8 @@ import com.openmethods.openvxml.desktop.model.workflow.design.Variable;
 import com.openmethods.openvxml.desktop.model.workflow.internal.design.ConnectorRecord;
 
 public class QuestionInformationProvider extends PrimitiveInformationProvider
-		implements ISecurableElement {
+	implements
+	ISecurableElement {
 	List<ConnectorRecord> connectorRecords = new ArrayList<ConnectorRecord>();
 	String variableName = "";
 	boolean secured = false;
@@ -36,23 +37,16 @@ public class QuestionInformationProvider extends PrimitiveInformationProvider
 		super(element);
 		connectorRecords.add(new ConnectorRecord(element, "Continue",
 				IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
-		connectorRecords.add(new ConnectorRecord(element,
-				"error.input.noinput",
+		connectorRecords.add(new ConnectorRecord(element, "error.input.noinput",
 				IDesignElementConnectionPoint.ConnectionPointType.ERROR_POINT));
-		connectorRecords.add(new ConnectorRecord(element,
-				"error.input.nomatch",
+		connectorRecords.add(new ConnectorRecord(element, "error.input.nomatch",
 				IDesignElementConnectionPoint.ConnectionPointType.ERROR_POINT));
-		connectorRecords.add(new ConnectorRecord(element,
-				"error.disconnect.hangup",
+		connectorRecords.add(new ConnectorRecord(element, "error.disconnect.hangup",
 				IDesignElementConnectionPoint.ConnectionPointType.ERROR_POINT));
-		List<String> events = ExtendedInteractiveEventManager.getDefault()
-				.getExtendedEvents();
+		List<String> events = ExtendedInteractiveEventManager.getDefault().getExtendedEvents();
 		for (String event : events) {
-			connectorRecords
-					.add(new ConnectorRecord(
-							element,
-							event,
-							IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
+			connectorRecords.add(new ConnectorRecord(element, event,
+					IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
 		}
 	}
 
@@ -65,9 +59,7 @@ public class QuestionInformationProvider extends PrimitiveInformationProvider
 	public ConnectorRecord getConnectorRecord(String recordName) {
 		for (int i = 0; i < connectorRecords.size(); i++) {
 			ConnectorRecord cr = connectorRecords.get(i);
-			if (cr.getName().equals(recordName)) {
-				return cr;
-			}
+			if (cr.getName().equals(recordName)) { return cr; }
 		}
 		return null;
 	}
@@ -84,8 +76,7 @@ public class QuestionInformationProvider extends PrimitiveInformationProvider
 		for (int i = 0; i < connectorRecords.size(); i++) {
 			ConnectorRecord cr = connectorRecords.get(i);
 			if (cr.getType().isSet(
-					IDesignElementConnectionPoint.ConnectionPointType
-							.getFlagSet(types))) {
+					IDesignElementConnectionPoint.ConnectionPointType.getFlagSet(types))) {
 				ret.add(cr);
 			}
 		}
@@ -121,8 +112,7 @@ public class QuestionInformationProvider extends PrimitiveInformationProvider
 	}
 
 	@Override
-	public List<Variable> getOutgoingVariables(String exitPoint,
-			boolean localOnly) {
+	public List<Variable> getOutgoingVariables(String exitPoint, boolean localOnly) {
 		List<Variable> ret = new ArrayList<Variable>();
 		if (exitPoint.equals("Continue") && !variableName.equals("")) {
 			Variable var = new Variable(variableName, FieldType.STRING);

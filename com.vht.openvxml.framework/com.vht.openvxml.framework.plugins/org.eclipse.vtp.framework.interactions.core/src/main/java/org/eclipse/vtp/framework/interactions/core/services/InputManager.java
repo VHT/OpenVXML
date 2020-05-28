@@ -40,8 +40,7 @@ public class InputManager implements IInputGrammarFactory {
 	/**
 	 * Creates a new InputManager.
 	 * 
-	 * @param registry
-	 *            The extension registry to load from.
+	 * @param registry The extension registry to load from.
 	 */
 	public InputManager(IExtensionRegistry registry) {
 		IExtensionPoint point = registry.getExtensionPoint(//
@@ -50,14 +49,11 @@ public class InputManager implements IInputGrammarFactory {
 		// Map inputTypes = new HashMap(extensions.length);
 		Map inputTypeIndex = new HashMap(extensions.length);
 		for (IExtension extension : extensions) {
-			Bundle bundle = Platform.getBundle(extension.getContributor()
-					.getName());
-			IConfigurationElement[] elements = extension
-					.getConfigurationElements();
+			Bundle bundle = Platform.getBundle(extension.getContributor().getName());
+			IConfigurationElement[] elements = extension.getConfigurationElements();
 			for (IConfigurationElement element : elements) {
 				try {
-					InputType inputType = new InputType(
-							element.getAttribute("id"), //$NON-NLS-1$
+					InputType inputType = new InputType(element.getAttribute("id"), //$NON-NLS-1$
 							element.getAttribute("class"), //$NON-NLS-1$
 							bundle.loadClass(element.getAttribute("class"))); //$NON-NLS-1$
 					// inputTypes.put(inputType.getId(), inputType);
@@ -75,20 +71,15 @@ public class InputManager implements IInputGrammarFactory {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.media.
 	 * IInputGrammarFactory#loadInput(org.w3c.dom.Element)
 	 */
 	@Override
 	public InputGrammar loadInput(Element configuration) {
-		if (configuration == null) {
-			return null;
-		}
-		InputType inputType = (InputType) inputTypeIndex.get(configuration
-				.getLocalName() + configuration.getNamespaceURI());
-		if (inputType == null) {
-			return null;
-		}
+		if (configuration == null) { return null; }
+		InputType inputType = (InputType) inputTypeIndex.get(configuration.getLocalName()
+				+ configuration.getNamespaceURI());
+		if (inputType == null) { return null; }
 		return inputType.newInstance(configuration);
 	}
 
@@ -108,24 +99,20 @@ public class InputManager implements IInputGrammarFactory {
 		/**
 		 * Creates a new InputType.
 		 * 
-		 * @param id
-		 *            The ID of this input type.
-		 * @param name
-		 *            The name of this input type.
-		 * @param contentClass
-		 *            The implementation type.
+		 * @param id The ID of this input type.
+		 * @param name The name of this input type.
+		 * @param contentClass The implementation type.
 		 */
 		InputType(String id, String name, Class contentClass) {
 			this.id = id;
 			Constructor constructor = null;
 			this.name = name;
 			try {
-				constructor = contentClass.getConstructor(new Class[] {
-						IInputGrammarFactory.class, Element.class });
+				constructor = contentClass.getConstructor(new Class[] { IInputGrammarFactory.class,
+						Element.class });
 			} catch (NoSuchMethodException e) {
 				try {
-					constructor = contentClass
-							.getConstructor(new Class[] { Element.class });
+					constructor = contentClass.getConstructor(new Class[] { Element.class });
 				} catch (NoSuchMethodException ex) {
 					throw new IllegalStateException(ex);
 				}
@@ -136,18 +123,16 @@ public class InputManager implements IInputGrammarFactory {
 		/**
 		 * Creates a new instance of this content type.
 		 * 
-		 * @param configuration
-		 *            The configuration to read.
+		 * @param configuration The configuration to read.
 		 * @return A new instance of this content type.
 		 */
 		InputGrammar newInstance(Element configuration) {
 			try {
 				if (constructor.getParameterTypes().length == 1) {
-					return (InputGrammar) constructor
-							.newInstance(new Object[] { configuration });
+					return (InputGrammar) constructor.newInstance(new Object[] { configuration });
 				} else {
-					return (InputGrammar) constructor.newInstance(new Object[] {
-							InputManager.this, configuration });
+					return (InputGrammar) constructor.newInstance(new Object[] { InputManager.this,
+							configuration });
 				}
 			} catch (Exception e) {
 				throw new IllegalStateException(e);

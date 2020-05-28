@@ -7,23 +7,17 @@ import org.eclipse.vtp.desktop.model.core.WorkflowCore;
 
 public class HasProjectAspect extends PropertyTester {
 
-	public HasProjectAspect() {
-	}
+	public HasProjectAspect() {}
 
 	@Override
-	public boolean test(Object receiver, String property, Object[] args,
-			Object expectedValue) {
+	public boolean test(Object receiver, String property, Object[] args, Object expectedValue) {
 		IOpenVXMLProject project = null;
 		if (receiver instanceof IOpenVXMLProject) {
 			project = (IOpenVXMLProject) receiver;
 		} else if (receiver instanceof IProject) {
 			IProject ip = (IProject) receiver;
-			if (!WorkflowCore.getDefault().getWorkflowModel()
-					.isWorkflowProject(ip)) {
-				return false;
-			}
-			project = WorkflowCore.getDefault().getWorkflowModel()
-					.convertToWorkflowProject(ip);
+			if (!WorkflowCore.getDefault().getWorkflowModel().isWorkflowProject(ip)) { return false; }
+			project = WorkflowCore.getDefault().getWorkflowModel().convertToWorkflowProject(ip);
 		} else {
 			return false;
 		}

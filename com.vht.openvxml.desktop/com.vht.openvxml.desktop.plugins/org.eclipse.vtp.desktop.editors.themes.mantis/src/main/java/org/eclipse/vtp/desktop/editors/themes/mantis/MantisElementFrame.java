@@ -31,16 +31,14 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesignConstants;
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElement;
 
 /**
- * This is the Mantis theme's implementation of the element frame interface. It
- * follows the typical block format with the element name within the box's
- * bounds. This frame also displays a secondary tray under the primary box that
- * contains the connector hot spot. This theme was created with explicit visual
- * support for expansion.
+ * This is the Mantis theme's implementation of the element frame interface. It follows the typical
+ * block format with the element name within the box's bounds. This frame also displays a secondary
+ * tray under the primary box that contains the connector hot spot. This theme was created with
+ * explicit visual support for expansion.
  * 
  * @author trip
  */
-public class MantisElementFrame extends MantisComponentFrame implements
-		ElementFrame {
+public class MantisElementFrame extends MantisComponentFrame implements ElementFrame {
 	/** The ui element this represents */
 	private IDesignElement uiElement;
 	/** Indicates whether this element is selected */
@@ -55,8 +53,7 @@ public class MantisElementFrame extends MantisComponentFrame implements
 	/**
 	 * Creates a new instance that represents the given ui element.
 	 * 
-	 * @param uiElement
-	 *            The ui element this frame represents
+	 * @param uiElement The ui element this frame represents
 	 */
 	public MantisElementFrame(IDesignElement uiElement) {
 		super(uiElement);
@@ -66,17 +63,14 @@ public class MantisElementFrame extends MantisComponentFrame implements
 		if (uiElement.getIcon() != null) {
 			icon = uiElement.getIcon();
 		} else {
-			icon = org.eclipse.vtp.desktop.core.Activator.getDefault()
-					.getImageRegistry().get("ICON_MODULE");
+			icon = org.eclipse.vtp.desktop.core.Activator.getDefault().getImageRegistry().get(
+					"ICON_MODULE");
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.theme.ElementFrame#alignEdge(int,
-	 * int)
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.ElementFrame#alignEdge(int, int)
 	 */
 	@Override
 	public void alignEdge(int edge, int xy) {
@@ -99,10 +93,7 @@ public class MantisElementFrame extends MantisComponentFrame implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.theme.ElementFrame#alignCenter(int,
-	 * int)
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.ElementFrame#alignCenter(int, int)
 	 */
 	@Override
 	public void alignCenter(int orientation, int xy) {
@@ -122,9 +113,7 @@ public class MantisElementFrame extends MantisComponentFrame implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.theme.ElementFrame#getUIElement()
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.ElementFrame#getUIElement()
 	 */
 	@Override
 	public IDesignElement getDesignElement() {
@@ -133,9 +122,7 @@ public class MantisElementFrame extends MantisComponentFrame implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.editors.core.theme.ElementFrame#setSize(int,
-	 * int)
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.ElementFrame#setSize(int, int)
 	 */
 	@Override
 	public void setSize(int width, int height) {
@@ -144,15 +131,13 @@ public class MantisElementFrame extends MantisComponentFrame implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#adjustPosition
-	 * (int, int)
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#adjustPosition (int, int)
 	 */
 	@Override
 	public void adjustPosition(int xoffset, int yoffset) {
-		Point newCenter = new Point(uiElement.getCenterPoint().x + xoffset,
-				uiElement.getCenterPoint().y + yoffset);
+		Point newCenter = new Point(uiElement.getCenterPoint().x + xoffset, uiElement
+				.getCenterPoint().y
+				+ yoffset);
 		uiElement.setCenterPoint(newCenter);
 		upperLeft.x = upperLeft.x + xoffset;
 		upperLeft.y = upperLeft.y + yoffset;
@@ -162,47 +147,34 @@ public class MantisElementFrame extends MantisComponentFrame implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#getBounds()
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#getBounds()
 	 */
 	@Override
 	public Rectangle getBounds() {
-		if (upperLeft == null) {
-			return new Rectangle(0, 0, 0, 0);
-		}
-		return new Rectangle(upperLeft.x, upperLeft.y, lowerRight.x
-				- upperLeft.x, lowerRight.y - upperLeft.y);
+		if (upperLeft == null) { return new Rectangle(0, 0, 0, 0); }
+		return new Rectangle(upperLeft.x, upperLeft.y, lowerRight.x - upperLeft.x, lowerRight.y
+				- upperLeft.y);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.editors.themes.mantis.MantisComponentFrame#
-	 * mouseDoubleClick
-	 * (org.eclipse.vtp.desktop.editors.core.commands.CommandListener, int, int,
-	 * int)
+	 * @see org.eclipse.vtp.desktop.editors.themes.mantis.MantisComponentFrame# mouseDoubleClick
+	 * (org.eclipse.vtp.desktop.editors.core.commands.CommandListener, int, int, int)
 	 */
 	@Override
-	public void mouseDoubleClick(CommandListener commandListener, int x, int y,
-			int modifiers) {
+	public void mouseDoubleClick(CommandListener commandListener, int x, int y, int modifiers) {
 		super.mouseDoubleClick(commandListener, x, y, modifiers);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#mouseDown(org
-	 * .eclipse.vtp.desktop.editors.core.commands.CommandListener, int, int,
-	 * int)
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#mouseDown(org
+	 * .eclipse.vtp.desktop.editors.core.commands.CommandListener, int, int, int)
 	 */
 	@Override
-	public void mouseDown(CommandListener commandListener, int x, int y,
-			int modifiers) {
+	public void mouseDown(CommandListener commandListener, int x, int y, int modifiers) {
 		if (uiElement.getConnectorRecords().size() > 0
-				&& new Rectangle(lowerRight.x - 17, lowerRight.y - 17, 14, 14)
-						.contains(x, y)) {
+				&& new Rectangle(lowerRight.x - 17, lowerRight.y - 17, 14, 14).contains(x, y)) {
 			commandListener.executeCommand(new BeginConnector());
 		} else if (getBounds().contains(x, y)) {
 			commandListener.executeCommand(new StartMove());
@@ -211,48 +183,34 @@ public class MantisElementFrame extends MantisComponentFrame implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#mouseMove(org
-	 * .eclipse.vtp.desktop.editors.core.commands.CommandListener, int, int,
-	 * int)
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#mouseMove(org
+	 * .eclipse.vtp.desktop.editors.core.commands.CommandListener, int, int, int)
 	 */
 	@Override
-	public void mouseMove(CommandListener commandListener, int x, int y,
-			int modifiers) {
-	}
+	public void mouseMove(CommandListener commandListener, int x, int y, int modifiers) {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#mouseUp(org
-	 * .eclipse.vtp.desktop.editors.core.commands.CommandListener, int, int,
-	 * int)
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#mouseUp(org
+	 * .eclipse.vtp.desktop.editors.core.commands.CommandListener, int, int, int)
 	 */
 	@Override
-	public void mouseUp(CommandListener commandListener, int x, int y,
-			int modifiers) {
-	}
+	public void mouseUp(CommandListener commandListener, int x, int y, int modifiers) {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.editors.themes.mantis.MantisComponentFrame#
 	 * renderFrame(org.eclipse.swt.graphics.GC, int, int, java.util.Map)
 	 */
 	@Override
-	public void renderFrame(GC gc, int renderingPhase, int options,
-			Map<String, Object> resourceMap) {
+	public void renderFrame(GC gc, int renderingPhase, int options, Map<String, Object> resourceMap) {
 		Font originalFont = gc.getFont();
 		Color foreground = gc.getForeground();
 		Color background = gc.getBackground();
-		Color selectedColor = getColor(gc, resourceMap, "rust.selection.color",
-				82, 140, 55);
-		Color elementBlue = getColor(gc, resourceMap, "rust.element.color",
-				207, 234, 195);
-		Color elementGradBlue = getColor(gc, resourceMap,
-				"rust.element.color.gradient", 161, 211, 137);
+		Color selectedColor = getColor(gc, resourceMap, "rust.selection.color", 82, 140, 55);
+		Color elementBlue = getColor(gc, resourceMap, "rust.element.color", 207, 234, 195);
+		Color elementGradBlue = getColor(gc, resourceMap, "rust.element.color.gradient", 161, 211,
+				137);
 		Font nameFont = new Font(gc.getDevice(), "Arial", 10, SWT.NORMAL);
 		gc.setFont(nameFont);
 		if (upperLeft == null) {
@@ -265,25 +223,21 @@ public class MantisElementFrame extends MantisComponentFrame implements
 		if (uiElement.hasConnectors()) {
 			// draw inspector tray
 			gc.setBackground(elementBlue);
-			gc.fillRoundRectangle(upperLeft.x, upperLeft.y + 3, width - 1,
-					height - 3, 20, 20);
+			gc.fillRoundRectangle(upperLeft.x, upperLeft.y + 3, width - 1, height - 3, 20, 20);
 
 			// draw inspector tray border
 			if (selected && (options & Theme.RENDER_FLAG_NO_SELECTION) == 0) {
 				gc.setForeground(selectedColor);
 			}
-			gc.drawRoundRectangle(upperLeft.x, upperLeft.y + 3, width - 1,
-					height - 3, 20, 20);
+			gc.drawRoundRectangle(upperLeft.x, upperLeft.y + 3, width - 1, height - 3, 20, 20);
 		}
 
 		// draw main body
 		gc.setBackground(elementBlue);
-		gc.fillRoundRectangle(upperLeft.x, upperLeft.y, width - 1,
-				mainBodyHeight - 1, 20, 20);
+		gc.fillRoundRectangle(upperLeft.x, upperLeft.y, width - 1, mainBodyHeight - 1, 20, 20);
 		gc.setBackground(elementGradBlue);
-		gc.fillRoundRectangle(upperLeft.x + 1, upperLeft.y
-				+ (mainBodyHeight / 2) - 1, lowerRight.x - upperLeft.x - 2,
-				(mainBodyHeight / 2) + (mainBodyHeight % 2), 20, 20);
+		gc.fillRoundRectangle(upperLeft.x + 1, upperLeft.y + (mainBodyHeight / 2) - 1, lowerRight.x
+				- upperLeft.x - 2, (mainBodyHeight / 2) + (mainBodyHeight % 2), 20, 20);
 		// gc.setForeground(elementBlue);
 		// gc.fillGradientRectangle(upperLeft.x + 2,
 		// upperLeft.y
@@ -298,27 +252,21 @@ public class MantisElementFrame extends MantisComponentFrame implements
 		if (selected && (options & Theme.RENDER_FLAG_NO_SELECTION) == 0) {
 			gc.setForeground(selectedColor);
 		}
-		gc.drawRoundRectangle(upperLeft.x, upperLeft.y, width - 1,
-				mainBodyHeight - 1, 20, 20);
+		gc.drawRoundRectangle(upperLeft.x, upperLeft.y, width - 1, mainBodyHeight - 1, 20, 20);
 
 		gc.setForeground(foreground);
 		// draw connector hot spot
 		if (uiElement.hasConnectors()) {
-			gc.drawLine(lowerRight.x - 19, lowerRight.y - 8, lowerRight.x - 5,
-					lowerRight.y - 8);
+			gc.drawLine(lowerRight.x - 19, lowerRight.y - 8, lowerRight.x - 5, lowerRight.y - 8);
 			// gc.drawLine(lowerRight.x - 8, lowerRight.y - 15, lowerRight.x -
 			// 3, lowerRight.y - 10);
-			gc.drawLine(lowerRight.x - 10, lowerRight.y - 3, lowerRight.x - 5,
-					lowerRight.y - 8);
+			gc.drawLine(lowerRight.x - 10, lowerRight.y - 3, lowerRight.x - 5, lowerRight.y - 8);
 		}
 
 		// draw icon
 		if ((options & Theme.RENDER_FLAG_NO_ICONS) == 0) {
-			gc.drawImage(
-					icon,
-					upperLeft.x + 5,
-					upperLeft.y
-							+ (((mainBodyHeight - 16) / 2) + ((mainBodyHeight - 16) % 2)));
+			gc.drawImage(icon, upperLeft.x + 5, upperLeft.y
+					+ (((mainBodyHeight - 16) / 2) + ((mainBodyHeight - 16) % 2)));
 		}
 
 		// draw element name
@@ -349,17 +297,14 @@ public class MantisElementFrame extends MantisComponentFrame implements
 		// draw decorator icons
 		if ((options & Theme.RENDER_FLAG_NO_MARKERS) == 0) {
 			if (uiElement.hasErrors()) {
-				gc.drawImage(org.eclipse.vtp.desktop.core.Activator
-						.getDefault().getImageRegistry().get("ICON_ERROR"),
-						lowerRight.x - 17, upperLeft.y);
+				gc.drawImage(org.eclipse.vtp.desktop.core.Activator.getDefault().getImageRegistry()
+						.get("ICON_ERROR"), lowerRight.x - 17, upperLeft.y);
 			} else if (uiElement.hasWarnings()) {
-				gc.drawImage(org.eclipse.vtp.desktop.core.Activator
-						.getDefault().getImageRegistry().get("ICON_WARNING"),
-						lowerRight.x - 16, upperLeft.y);
+				gc.drawImage(org.eclipse.vtp.desktop.core.Activator.getDefault().getImageRegistry()
+						.get("ICON_WARNING"), lowerRight.x - 16, upperLeft.y);
 			} else if (uiElement.hasTodo()) {
-				gc.drawImage(org.eclipse.vtp.desktop.core.Activator
-						.getDefault().getImageRegistry().get("ICON_TASK"),
-						lowerRight.x - 18, upperLeft.y + 2);
+				gc.drawImage(org.eclipse.vtp.desktop.core.Activator.getDefault().getImageRegistry()
+						.get("ICON_TASK"), lowerRight.x - 18, upperLeft.y + 2);
 			}
 		}
 
@@ -373,10 +318,7 @@ public class MantisElementFrame extends MantisComponentFrame implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#setSelected
-	 * (boolean)
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#setSelected (boolean)
 	 */
 	@Override
 	public void setSelected(boolean selected) {
@@ -385,90 +327,68 @@ public class MantisElementFrame extends MantisComponentFrame implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#touchesComponent
-	 * (int, int)
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#touchesComponent (int, int)
 	 */
 	@Override
 	public boolean touchesComponent(int x, int y) {
-		if (upperLeft == null) {
-			return false;
-		}
-		return new Rectangle(upperLeft.x, upperLeft.y, lowerRight.x
-				- upperLeft.x, lowerRight.y - upperLeft.y).contains(x, y);
+		if (upperLeft == null) { return false; }
+		return new Rectangle(upperLeft.x, upperLeft.y, lowerRight.x - upperLeft.x, lowerRight.y
+				- upperLeft.y).contains(x, y);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.theme.ElementFrame#touchesElement
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.ElementFrame#touchesElement
 	 * (org.eclipse.swt.graphics.Rectangle)
 	 */
 	@Override
 	public boolean touchesElement(Rectangle rect) {
-		if (upperLeft == null) {
-			return false;
-		}
-		return new Rectangle(upperLeft.x, upperLeft.y, lowerRight.x
-				- upperLeft.x, lowerRight.y - upperLeft.y).intersects(rect);
+		if (upperLeft == null) { return false; }
+		return new Rectangle(upperLeft.x, upperLeft.y, lowerRight.x - upperLeft.x, lowerRight.y
+				- upperLeft.y).intersects(rect);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.theme.ElementFrame#getIncursionPoint
-	 * (int, int)
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.ElementFrame#getIncursionPoint (int, int)
 	 */
 	@Override
 	public Point getIncursionPoint(int x, int y) {
-		if ((upperLeft == null) || (lowerRight == null)) {
-			return null;
-		}
+		if ((upperLeft == null) || (lowerRight == null)) { return null; }
 
 		Point p1 = new Point(x, y);
-		Point p2 = new Point(uiElement.getCenterPoint().x,
-				uiElement.getCenterPoint().y);
-		Point ret = getIntersection(p1, p2,
-				new Point(upperLeft.x, upperLeft.y), new Point(lowerRight.x,
-						upperLeft.y));
+		Point p2 = new Point(uiElement.getCenterPoint().x, uiElement.getCenterPoint().y);
+		Point ret = getIntersection(p1, p2, new Point(upperLeft.x, upperLeft.y), new Point(
+				lowerRight.x, upperLeft.y));
 
 		if (ret == null) {
-			ret = getIntersection(p1, p2, new Point(lowerRight.x, upperLeft.y),
-					new Point(lowerRight.x, lowerRight.y));
+			ret = getIntersection(p1, p2, new Point(lowerRight.x, upperLeft.y), new Point(
+					lowerRight.x, lowerRight.y));
 		}
 
 		if (ret == null) {
-			ret = getIntersection(p1, p2, new Point(upperLeft.x, upperLeft.y),
-					new Point(upperLeft.x, lowerRight.y));
+			ret = getIntersection(p1, p2, new Point(upperLeft.x, upperLeft.y), new Point(
+					upperLeft.x, lowerRight.y));
 		}
 
 		if (ret == null) {
-			ret = getIntersection(p1, p2, new Point(upperLeft.x, lowerRight.y),
-					new Point(lowerRight.x, lowerRight.y));
+			ret = getIntersection(p1, p2, new Point(upperLeft.x, lowerRight.y), new Point(
+					lowerRight.x, lowerRight.y));
 		}
 
 		return ret;
 	}
 
 	/**
-	 * Calculates the point that the lines described by the four given points
-	 * intersect. This point is used to place the point of the arrow head of
-	 * incoming connectors and where the connector should begin drawing if this
-	 * element is its source.
+	 * Calculates the point that the lines described by the four given points intersect. This point
+	 * is used to place the point of the arrow head of incoming connectors and where the connector
+	 * should begin drawing if this element is its source.
 	 * 
-	 * @param p1
-	 *            The source point of the first line
-	 * @param p2
-	 *            The destination point of the first line
-	 * @param p3
-	 *            The source point of the second line
-	 * @param p4
-	 *            The destination point of the second line
-	 * @return The point the two lines intersect or null if the lines don't
-	 *         touch
+	 * @param p1 The source point of the first line
+	 * @param p2 The destination point of the first line
+	 * @param p3 The source point of the second line
+	 * @param p4 The destination point of the second line
+	 * @return The point the two lines intersect or null if the lines don't touch
 	 */
 	protected Point getIntersection(Point p1, Point p2, Point p3, Point p4) {
 		double x1 = p1.x;
@@ -484,17 +404,14 @@ public class MantisElementFrame extends MantisComponentFrame implements
 		double uan = ((x4 - x3) * (y1 - y3)) - ((y4 - y3) * (x1 - x3));
 		double ud = ((y4 - y3) * (x2 - x1)) - ((x4 - x3) * (y2 - y1));
 
-		if (ud == 0) {
-			return null; // lines are either parallel or coincident
+		if (ud == 0) { return null; // lines are either parallel or coincident
 		}
 
 		double ua = uan / ud;
 		double ubn = ((x2 - x1) * (y1 - y3)) - ((y2 - y1) * (x1 - x3));
 		double ub = ubn / ud;
 
-		if ((ua <= 0) || (ua >= 1) || (ub <= 0) || (ub >= 1)) {
-			return null;
-		}
+		if ((ua <= 0) || (ua >= 1) || (ub <= 0) || (ub >= 1)) { return null; }
 
 		ix = x1 + (ua * (x2 - x1));
 		iy = y1 + (ua * (y2 - y1));
@@ -504,9 +421,7 @@ public class MantisElementFrame extends MantisComponentFrame implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#initializeGraphics
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#initializeGraphics
 	 * (org.eclipse.swt.graphics.GC, java.util.Map)
 	 */
 	@Override
@@ -544,18 +459,15 @@ public class MantisElementFrame extends MantisComponentFrame implements
 		int width = (extent.x + 35);
 		int height = (extent.y + 10 + (uiElement.hasConnectors() ? 12 : 0));
 		Point centerPoint = uiElement.getCenterPoint();
-		upperLeft = new Point(centerPoint.x - (width / 2), centerPoint.y
-				- (height / 2));
+		upperLeft = new Point(centerPoint.x - (width / 2), centerPoint.y - (height / 2));
 		int buffer = width % 2;
-		lowerRight = new Point(upperLeft.x + width + buffer, upperLeft.y
-				+ height + buffer);
+		lowerRight = new Point(upperLeft.x + width + buffer, upperLeft.y + height + buffer);
 		gc.setFont(originalFont);
 		nameFont.dispose();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.editors.themes.mantis.MantisComponentFrame#
 	 * propertyChange(java.beans.PropertyChangeEvent)
 	 */

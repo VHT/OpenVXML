@@ -27,34 +27,23 @@ public final class FieldDescriptor {
 	/**
 	 * Creates a new FieldDescriptor.
 	 * 
-	 * @param name
-	 *            The name of this field.
-	 * @param type
-	 *            The type of this field.
-	 * @param initialValue
-	 *            The initial value of this field when an object is created.
-	 * @throws IllegalArgumentException
-	 *             If the supplied name is empty.
-	 * @throws IllegalArgumentException
-	 *             If the supplied type is empty.
-	 * @throws NullPointerException
-	 *             If the supplied name is <code>null</code>.
-	 * @throws NullPointerException
-	 *             If the supplied type is <code>null</code>.
+	 * @param name The name of this field.
+	 * @param type The type of this field.
+	 * @param initialValue The initial value of this field when an object is created.
+	 * @throws IllegalArgumentException If the supplied name is empty.
+	 * @throws IllegalArgumentException If the supplied type is empty.
+	 * @throws NullPointerException If the supplied name is <code>null</code>.
+	 * @throws NullPointerException If the supplied type is <code>null</code>.
 	 */
 	public FieldDescriptor(String name, String type, String initialValue)
 			throws IllegalArgumentException, NullPointerException {
-		if (name == null) {
-			throw new NullPointerException("name"); //$NON-NLS-1$
+		if (name == null) { throw new NullPointerException("name"); //$NON-NLS-1$
 		}
-		if (name.length() == 0) {
-			throw new IllegalArgumentException("name"); //$NON-NLS-1$
+		if (name.length() == 0) { throw new IllegalArgumentException("name"); //$NON-NLS-1$
 		}
-		if (type == null) {
-			throw new NullPointerException("type"); //$NON-NLS-1$
+		if (type == null) { throw new NullPointerException("type"); //$NON-NLS-1$
 		}
-		if (type.length() == 0) {
-			throw new IllegalArgumentException("type"); //$NON-NLS-1$
+		if (type.length() == 0) { throw new IllegalArgumentException("type"); //$NON-NLS-1$
 		}
 		this.name = name;
 		this.type = type;
@@ -90,14 +79,12 @@ public final class FieldDescriptor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		return new StringBuffer(getClass().getName().substring(
-				getClass().getName().lastIndexOf('.') + 1)).append('[')
-				.append(name).append(';').append(type).append(';')
-				.append(initialValue).append(']').toString();
+				getClass().getName().lastIndexOf('.') + 1)).append('[').append(name).append(';')
+				.append(type).append(';').append(initialValue).append(']').toString();
 	}
 }

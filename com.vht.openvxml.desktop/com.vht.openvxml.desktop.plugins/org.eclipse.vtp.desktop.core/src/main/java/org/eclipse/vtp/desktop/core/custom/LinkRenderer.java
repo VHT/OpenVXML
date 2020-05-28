@@ -14,21 +14,18 @@ package org.eclipse.vtp.desktop.core.custom;
 import org.eclipse.swt.graphics.GC;
 
 /**
- * This interface represents a drawing facility that can render the contents of
- * a text link to a display.
+ * This interface represents a drawing facility that can render the contents of a text link to a
+ * display.
  *
  * @author Trip Gilman
  * @version 2.0
  */
 public interface LinkRenderer {
 	/**
-	 * Requests the contents of the given text link be rendered to the provided
-	 * graphical context.
+	 * Requests the contents of the given text link be rendered to the provided graphical context.
 	 *
-	 * @param link
-	 *            The text link to render
-	 * @param graphicalContext
-	 *            The graphical context of the display to be rendered on
+	 * @param link The text link to render
+	 * @param graphicalContext The graphical context of the display to be rendered on
 	 */
 	public void render(TextLink link, GC graphicalContext);
 }

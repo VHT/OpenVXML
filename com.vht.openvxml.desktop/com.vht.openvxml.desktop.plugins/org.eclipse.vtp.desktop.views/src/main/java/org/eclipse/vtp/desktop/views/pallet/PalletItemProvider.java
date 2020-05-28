@@ -23,8 +23,7 @@ public interface PalletItemProvider {
 
 	List<PalletItem> getPalletItems();
 
-	void createMenu(IAdaptable container, IMenuManager manager,
-			PalletItem[] selectedItems);
+	void createMenu(IAdaptable container, IMenuManager manager, PalletItem[] selectedItems);
 
 	void addPalletItemObserver(PalletItemObserver observer);
 

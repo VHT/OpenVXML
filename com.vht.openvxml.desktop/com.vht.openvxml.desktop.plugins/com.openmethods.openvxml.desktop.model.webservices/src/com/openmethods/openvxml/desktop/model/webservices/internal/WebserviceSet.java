@@ -43,18 +43,14 @@ public class WebserviceSet extends WorkflowResource implements IWebserviceSet {
 	 * @param aspect
 	 * @param folder
 	 */
-	public WebserviceSet(final WebserviceProjectAspect aspect,
-			final IFolder folder) {
+	public WebserviceSet(final WebserviceProjectAspect aspect, final IFolder folder) {
 		this.aspect = aspect;
 		this.folder = folder;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.internals.VoiceResource#getObjectId
-	 * ()
+	 * @see org.eclipse.vtp.desktop.core.project.internals.VoiceResource#getObjectId ()
 	 */
 	@Override
 	protected String getObjectId() {
@@ -63,7 +59,6 @@ public class WebserviceSet extends WorkflowResource implements IWebserviceSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IVoiceResource#getName()
 	 */
 	@Override
@@ -73,7 +68,6 @@ public class WebserviceSet extends WorkflowResource implements IWebserviceSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IVoiceResource#getParent()
 	 */
 	@Override
@@ -83,9 +77,7 @@ public class WebserviceSet extends WorkflowResource implements IWebserviceSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IDependencySet#getDependencies()
+	 * @see org.eclipse.vtp.desktop.core.project.IDependencySet#getDependencies()
 	 */
 	@Override
 	public List<IWebserviceDescriptor> getWebserviceDescriptors() {
@@ -99,8 +91,7 @@ public class WebserviceSet extends WorkflowResource implements IWebserviceSet {
 			IResource[] members = folder.members();
 			for (IResource member : members) {
 				if (member.getType() == IResource.FILE) {
-					WebserviceDescriptor descriptor = new WebserviceDescriptor(
-							this, (IFile) member);
+					WebserviceDescriptor descriptor = new WebserviceDescriptor(this, (IFile) member);
 					if (validate) {
 						try {
 							descriptor.getWSDL();
@@ -119,14 +110,11 @@ public class WebserviceSet extends WorkflowResource implements IWebserviceSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IDependencySet#createDependency(
-	 * java.lang.String, java.net.URL)
+	 * @see org.eclipse.vtp.desktop.core.project.IDependencySet#createDependency( java.lang.String,
+	 * java.net.URL)
 	 */
 	@Override
-	public IWebserviceDescriptor createWebserviceDescriptor(String name,
-			InputStream content) {
+	public IWebserviceDescriptor createWebserviceDescriptor(String name, InputStream content) {
 		IFile file = folder.getFile(name);
 		try {
 			if (!file.exists()) {
@@ -145,9 +133,7 @@ public class WebserviceSet extends WorkflowResource implements IWebserviceSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IDependencySet#removeDependency(
+	 * @see org.eclipse.vtp.desktop.core.project.IDependencySet#removeDependency(
 	 * org.eclipse.vtp.desktop.core.project.IDependency)
 	 */
 	@Override
@@ -166,21 +152,15 @@ public class WebserviceSet extends WorkflowResource implements IWebserviceSet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.internal.WorkflowResource#getAdapter
+	 * @see org.eclipse.vtp.desktop.model.core.internal.WorkflowResource#getAdapter
 	 * (java.lang.Class)
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapterClass) {
 		if (IResource.class.isAssignableFrom(adapterClass)
-				&& adapterClass.isAssignableFrom(folder.getClass())) {
-			return folder;
-		}
-		if (WebserviceSet.class.isAssignableFrom(adapterClass)) {
-			return this;
-		}
+				&& adapterClass.isAssignableFrom(folder.getClass())) { return folder; }
+		if (WebserviceSet.class.isAssignableFrom(adapterClass)) { return this; }
 		return super.getAdapter(adapterClass);
 	}
 
@@ -196,9 +176,8 @@ public class WebserviceSet extends WorkflowResource implements IWebserviceSet {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof WebserviceSet) {
-			return folder.equals(((WebserviceSet) obj).getUnderlyingFolder());
-		}
+		if (obj instanceof WebserviceSet) { return folder.equals(((WebserviceSet) obj)
+				.getUnderlyingFolder()); }
 		return false;
 	}
 

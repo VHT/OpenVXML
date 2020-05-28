@@ -3,8 +3,7 @@ package org.eclipse.vtp.modules.webservice.ui.configuration;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 
-public class WebserviceServiceBinding
-{
+public class WebserviceServiceBinding {
 	private String url = "";
 	private String descriptor = null;
 	private String service = null;
@@ -12,126 +11,95 @@ public class WebserviceServiceBinding
 	private String operation = null;
 	private String soapAction = null;
 
-	public WebserviceServiceBinding()
-	{
+	public WebserviceServiceBinding() {
 		super();
 	}
-	
-	public String getURL()
-	{
+
+	public String getURL() {
 		return url;
 	}
-	
-	public void setURL(String url)
-	{
+
+	public void setURL(String url) {
 		this.url = url;
 	}
-	
-	public String getDescriptor()
-	{
+
+	public String getDescriptor() {
 		return descriptor;
 	}
-	
-	public void setDescriptor(String descriptor)
-	{
+
+	public void setDescriptor(String descriptor) {
 		this.descriptor = descriptor;
 	}
-	
-	public String getService()
-	{
+
+	public String getService() {
 		return service;
 	}
-	
-	public void setService(String service)
-	{
+
+	public void setService(String service) {
 		this.service = service;
 	}
-	
-	public String getPort()
-	{
+
+	public String getPort() {
 		return port;
 	}
-	
-	public void setPort(String port)
-	{
+
+	public void setPort(String port) {
 		this.port = port;
 	}
-	
-	public String getOperation()
-	{
+
+	public String getOperation() {
 		return operation;
 	}
-	
-	public void setOperation(String operation)
-	{
+
+	public void setOperation(String operation) {
 		this.operation = operation;
 	}
-	
-	public String getSoapAction()
-	{
+
+	public String getSoapAction() {
 		return soapAction;
 	}
-	
-	public void setSoapAction(String soapAction)
-	{
+
+	public void setSoapAction(String soapAction) {
 		this.soapAction = soapAction;
 	}
 
 	/**
-	 * Reads the configuration data stored in the given DOM element into this
-	 * service binding instance.  Any previous information stored in this
-	 * service binding is lost.
+	 * Reads the configuration data stored in the given DOM element into this service binding
+	 * instance. Any previous information stored in this service binding is lost.
 	 * 
 	 * @param interactionElement The DOM element containing the configuration
 	 */
-	public void readConfiguration(Element serviceElement)
-	{
+	public void readConfiguration(Element serviceElement) {
 		url = serviceElement.getAttribute("url");
 		Attr descriptorAttr = serviceElement.getAttributeNode("descriptor");
-		if(descriptorAttr != null)
-		{
+		if (descriptorAttr != null) {
 			descriptor = descriptorAttr.getValue();
-		}
-		else
-			descriptor = null;
+		} else descriptor = null;
 		Attr serviceAttr = serviceElement.getAttributeNode("service");
-		if(serviceAttr != null)
-		{
+		if (serviceAttr != null) {
 			service = serviceAttr.getValue();
-		}
-		else
-			service = null;
+		} else service = null;
 		Attr portAttr = serviceElement.getAttributeNode("port");
-		if(portAttr != null)
-		{
+		if (portAttr != null) {
 			port = portAttr.getValue();
-		}
-		else
-			port = null;
+		} else port = null;
 		Attr operationAttr = serviceElement.getAttributeNode("operation");
-		if(operationAttr != null)
-		{
+		if (operationAttr != null) {
 			operation = operationAttr.getValue();
-		}
-		else
-			operation = null;
+		} else operation = null;
 		Attr soapActionAttr = serviceElement.getAttributeNode("soap-action");
-		if(soapActionAttr != null)
-			soapAction = soapActionAttr.getValue();
-		else
-			soapAction = null;
+		if (soapActionAttr != null) soapAction = soapActionAttr.getValue();
+		else soapAction = null;
 	}
-	
+
 	/**
 	 * Stores this service binding's information into the given DOM element.
 	 * 
 	 * @param interactionElement The DOM element to hold this binding's data
 	 */
-	public void writeConfiguration(Element serviceElement)
-	{
+	public void writeConfiguration(Element serviceElement) {
 		serviceElement.setAttribute("url", url);
-		if(descriptor != null)
-		{
+		if (descriptor != null) {
 			serviceElement.setAttribute("descriptor", descriptor);
 			serviceElement.setAttribute("service", service);
 			serviceElement.setAttribute("port", port);

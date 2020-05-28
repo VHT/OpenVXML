@@ -37,28 +37,23 @@ public class MediaTypeManager {
 		super();
 		mediaTypesByExtension = new HashMap<String, MediaTypeRecord>();
 		mimeTypesByExtension = new HashMap<String, String>();
-		IConfigurationElement[] mediaTypeExtensions = Platform
-				.getExtensionRegistry().getConfigurationElementsFor(
-						mediaTypeExtensionId);
+		IConfigurationElement[] mediaTypeExtensions = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(mediaTypeExtensionId);
 		for (IConfigurationElement mediaTypeExtension : mediaTypeExtensions) {
 			MediaTypeRecord mtr = new MediaTypeRecord();
 			mtr.id = mediaTypeExtension.getAttribute("id");
 			mtr.name = mediaTypeExtension.getAttribute("type-name");
 			String className = mediaTypeExtension.getAttribute("class");
-			Bundle contributor = Platform.getBundle(mediaTypeExtension
-					.getContributor().getName());
+			Bundle contributor = Platform.getBundle(mediaTypeExtension.getContributor().getName());
 			try {
-				mtr.mediaClass = (Class<IMediaFileFactory>) contributor
-						.loadClass(className);
+				mtr.mediaClass = (Class<IMediaFileFactory>) contributor.loadClass(className);
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 				continue;
 			}
-			IConfigurationElement[] mappings = mediaTypeExtension
-					.getChildren("mapping");
+			IConfigurationElement[] mappings = mediaTypeExtension.getChildren("mapping");
 			for (IConfigurationElement mapping : mappings) {
-				String extension = mapping.getAttribute("extension")
-						.toLowerCase();
+				String extension = mapping.getAttribute("extension").toLowerCase();
 				String mimeType = mapping.getAttribute("mime-type");
 				mimeTypesByExtension.put(extension, mimeType);
 				mediaTypesByExtension.put(extension, mtr);
@@ -83,9 +78,7 @@ public class MediaTypeManager {
 	public IMediaFile createMediaFile(IMediaContainer container, IFile file) {
 		String extension = file.getFileExtension().toLowerCase();
 		MediaTypeRecord mtr = mediaTypesByExtension.get(extension);
-		if (mtr == null) {
-			return null;
-		}
+		if (mtr == null) { return null; }
 		try {
 			IMediaFileFactory factory = mtr.mediaClass.newInstance();
 			return factory.createMediaFile(container, file);

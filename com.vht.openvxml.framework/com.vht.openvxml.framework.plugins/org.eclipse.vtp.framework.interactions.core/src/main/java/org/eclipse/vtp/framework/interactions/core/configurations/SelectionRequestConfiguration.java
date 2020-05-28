@@ -32,8 +32,7 @@ import org.w3c.dom.NodeList;
  * 
  * @author Lonnie Pryor
  */
-public class SelectionRequestConfiguration implements IConfiguration,
-		InteractionsConstants {
+public class SelectionRequestConfiguration implements IConfiguration, InteractionsConstants {
 	/** The content factory to use. */
 	private final IContentFactory contentFactory;
 	/** The input factory to use. */
@@ -53,10 +52,8 @@ public class SelectionRequestConfiguration implements IConfiguration,
 	/**
 	 * Creates a new SelectionRequestConfiguration.
 	 * 
-	 * @param contentFactory
-	 *            The content factory to use.
-	 * @param inputFactory
-	 *            The input factory to use.
+	 * @param contentFactory The content factory to use.
+	 * @param inputFactory The input factory to use.
 	 */
 	public SelectionRequestConfiguration(IContentFactory contentFactory,
 			IInputGrammarFactory inputFactory) {
@@ -76,8 +73,7 @@ public class SelectionRequestConfiguration implements IConfiguration,
 	/**
 	 * Sets the name of the output item to play.
 	 * 
-	 * @param outputName
-	 *            The name of the output item to play.
+	 * @param outputName The name of the output item to play.
 	 */
 	public void setOutputName(String outputName) {
 		this.outputName = outputName == null ? "" : outputName; //$NON-NLS-1$
@@ -95,8 +91,7 @@ public class SelectionRequestConfiguration implements IConfiguration,
 	/**
 	 * Sets the name of the data collected by this request.
 	 * 
-	 * @param dataName
-	 *            The name of the data collected by this request.
+	 * @param dataName The name of the data collected by this request.
 	 */
 	public void setDataName(String dataName) {
 		this.dataName = dataName == null ? "" : dataName; //$NON-NLS-1$
@@ -111,11 +106,11 @@ public class SelectionRequestConfiguration implements IConfiguration,
 	}
 
 	/**
-	 * Returns the media configuration for this message or <code>null</code> if
-	 * no such configuration is registered.
+	 * Returns the media configuration for this message or <code>null</code> if no such
+	 * configuration is registered.
 	 * 
-	 * @return The media configuration for this message or <code>null</code> if
-	 *         no such configuration is registered.
+	 * @return The media configuration for this message or <code>null</code> if no such
+	 *         configuration is registered.
 	 */
 	public MediaConfiguration getMediaConfiguration() {
 		return mediaConfiguration;
@@ -124,9 +119,8 @@ public class SelectionRequestConfiguration implements IConfiguration,
 	/**
 	 * Sets the media configuration for this message.
 	 * 
-	 * @param mediaConfiguration
-	 *            The media configuration for this message or <code>null</code>
-	 *            to remove the configuration.
+	 * @param mediaConfiguration The media configuration for this message or <code>null</code> to
+	 *            remove the configuration.
 	 */
 	public void setMediaConfiguration(MediaConfiguration mediaConfiguration) {
 		this.mediaConfiguration = mediaConfiguration;
@@ -145,8 +139,7 @@ public class SelectionRequestConfiguration implements IConfiguration,
 	/**
 	 * Adds a choice to this interaction.
 	 * 
-	 * @param choice
-	 *            The choice to add.
+	 * @param choice The choice to add.
 	 */
 	public void addChoice(SelectionChoiceConfiguration choice) {
 		if (choice != null) {
@@ -157,8 +150,7 @@ public class SelectionRequestConfiguration implements IConfiguration,
 	/**
 	 * Removes a choice from this interaction.
 	 * 
-	 * @param choice
-	 *            The choice to remove.
+	 * @param choice The choice to remove.
 	 */
 	public void removeChoice(SelectionChoiceConfiguration choice) {
 		if (choice != null) {
@@ -169,8 +161,7 @@ public class SelectionRequestConfiguration implements IConfiguration,
 	/**
 	 * Returns the choice names registered for the specified brand.
 	 * 
-	 * @param brandId
-	 *            The id of the brand to find the choice names for.
+	 * @param brandId The id of the brand to find the choice names for.
 	 * @return The choice names registered for the specified brand.
 	 */
 	public String[] getBrandedChoices(String brandId) {
@@ -180,15 +171,11 @@ public class SelectionRequestConfiguration implements IConfiguration,
 	/**
 	 * Sets the choice names registered for the specified brand.
 	 * 
-	 * @param brandId
-	 *            The id of the brand to set the choice names for.
-	 * @param choiceNames
-	 *            The choice names to register for the specified brand.
+	 * @param brandId The id of the brand to set the choice names for.
+	 * @param choiceNames The choice names to register for the specified brand.
 	 */
 	public void setBrandedChoices(String brandId, String[] choiceNames) {
-		if (brandId == null) {
-			return;
-		}
+		if (brandId == null) { return; }
 		if (choiceNames == null) {
 			brandedChoices.remove(brandId);
 		} else {
@@ -198,38 +185,31 @@ public class SelectionRequestConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.core.IConfiguration#load(org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(org.w3c.dom.Element)
 	 */
 	@Override
 	public void load(Element configurationElement) {
 		outputName = configurationElement.getAttribute(NAME_OUTPUT_NAME);
 		dataName = configurationElement.getAttribute(NAME_DATA_NAME);
-		secured = Boolean.parseBoolean(configurationElement
-				.getAttribute(NAME_SECURED));
-		NodeList elements = configurationElement.getElementsByTagNameNS(
-				NAMESPACE_URI, NAME_MEDIA);
+		secured = Boolean.parseBoolean(configurationElement.getAttribute(NAME_SECURED));
+		NodeList elements = configurationElement.getElementsByTagNameNS(NAMESPACE_URI, NAME_MEDIA);
 		if (elements.getLength() == 0) {
 			mediaConfiguration = null;
 		} else {
-			mediaConfiguration = new MediaConfiguration(contentFactory,
-					inputFactory);
+			mediaConfiguration = new MediaConfiguration(contentFactory, inputFactory);
 			mediaConfiguration.load((Element) elements.item(0));
 		}
 		choices.clear();
-		elements = configurationElement.getElementsByTagNameNS(NAMESPACE_URI,
-				NAME_CHOICE);
+		elements = configurationElement.getElementsByTagNameNS(NAMESPACE_URI, NAME_CHOICE);
 		for (int i = 0; i < elements.getLength(); ++i) {
-			SelectionChoiceConfiguration choice = new SelectionChoiceConfiguration(
-					contentFactory, inputFactory);
+			SelectionChoiceConfiguration choice = new SelectionChoiceConfiguration(contentFactory,
+					inputFactory);
 			choice.load((Element) elements.item(i));
 			choices.add(choice);
 		}
 		brandedChoices.clear();
 		List choiceNames = new ArrayList();
-		elements = configurationElement.getElementsByTagNameNS(NAMESPACE_URI,
-				NAME_CHOICES);
+		elements = configurationElement.getElementsByTagNameNS(NAMESPACE_URI, NAME_CHOICES);
 		for (int i = 0; i < elements.getLength(); ++i) {
 			Element element = (Element) elements.item(i);
 			String content = XMLUtilities.getElementTextDataNoEx(element, true);
@@ -239,24 +219,21 @@ public class SelectionRequestConfiguration implements IConfiguration,
 					choiceNames.add(st.nextToken().trim());
 				}
 			}
-			brandedChoices.put(element.getAttribute(NAME_KEY),
-					choiceNames.toArray(new String[choiceNames.size()]));
+			brandedChoices.put(element.getAttribute(NAME_KEY), choiceNames
+					.toArray(new String[choiceNames.size()]));
 			choiceNames.clear();
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.core.IConfiguration#save(org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(org.w3c.dom.Element)
 	 */
 	@Override
 	public void save(Element configurationElement) {
 		configurationElement.setAttribute(NAME_OUTPUT_NAME, outputName);
 		configurationElement.setAttribute(NAME_DATA_NAME, dataName);
-		configurationElement.setAttribute(NAME_SECURED,
-				Boolean.toString(secured));
+		configurationElement.setAttribute(NAME_SECURED, Boolean.toString(secured));
 		String mediaName = NAME_MEDIA;
 		String choiceName = NAME_CHOICE;
 		String choicesName = NAME_CHOICES;
@@ -267,23 +244,22 @@ public class SelectionRequestConfiguration implements IConfiguration,
 			choicesName = prefix + ":" + choicesName; //$NON-NLS-1$
 		}
 		if (mediaConfiguration != null) {
-			Element element = configurationElement.getOwnerDocument()
-					.createElementNS(NAMESPACE_URI, mediaName);
+			Element element = configurationElement.getOwnerDocument().createElementNS(
+					NAMESPACE_URI, mediaName);
 			mediaConfiguration.save(element);
 			configurationElement.appendChild(element);
 		}
 		for (Iterator i = choices.iterator(); i.hasNext();) {
-			SelectionChoiceConfiguration choice = (SelectionChoiceConfiguration) i
-					.next();
-			Element element = configurationElement.getOwnerDocument()
-					.createElementNS(NAMESPACE_URI, choiceName);
+			SelectionChoiceConfiguration choice = (SelectionChoiceConfiguration) i.next();
+			Element element = configurationElement.getOwnerDocument().createElementNS(
+					NAMESPACE_URI, choiceName);
 			choice.save(element);
 			configurationElement.appendChild(element);
 		}
 		for (Iterator i = brandedChoices.entrySet().iterator(); i.hasNext();) {
 			Map.Entry entry = (Map.Entry) i.next();
-			Element element = configurationElement.getOwnerDocument()
-					.createElementNS(NAMESPACE_URI, choicesName);
+			Element element = configurationElement.getOwnerDocument().createElementNS(
+					NAMESPACE_URI, choicesName);
 			element.setAttribute(NAME_KEY, (String) entry.getKey());
 			StringBuffer buffer = new StringBuffer();
 			String[] choiceNames = (String[]) entry.getValue();
@@ -296,8 +272,8 @@ public class SelectionRequestConfiguration implements IConfiguration,
 				}
 				buffer.append(choiceName2);
 			}
-			element.appendChild(configurationElement.getOwnerDocument()
-					.createTextNode(buffer.toString()));
+			element.appendChild(configurationElement.getOwnerDocument().createTextNode(
+					buffer.toString()));
 			configurationElement.appendChild(element);
 		}
 	}

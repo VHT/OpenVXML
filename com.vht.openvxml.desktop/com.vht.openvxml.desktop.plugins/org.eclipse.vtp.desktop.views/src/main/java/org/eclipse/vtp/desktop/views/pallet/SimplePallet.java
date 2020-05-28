@@ -57,8 +57,7 @@ public class SimplePallet implements Pallet {
 			PalletItemProvider rightProvider = right;
 			int diff = leftProvider.getRanking() - rightProvider.getRanking();
 			if (diff == 0) {
-				diff = leftProvider.getName()
-						.compareTo(rightProvider.getName());
+				diff = leftProvider.getName().compareTo(rightProvider.getName());
 			}
 			return diff;
 		}
@@ -76,8 +75,7 @@ public class SimplePallet implements Pallet {
 	/** The container this pallet is mapped to. */
 	private IDesign container = null;
 	/** The UI sections indexed by the provider they observe. */
-	private Map<PalletItemProvider, ProviderSection> sectionsByProvider = Collections
-			.emptyMap();
+	private Map<PalletItemProvider, ProviderSection> sectionsByProvider = Collections.emptyMap();
 	/** The form toolkit to use. */
 	private FormToolkit toolkit = null;
 	/** The control used for this pallet. */
@@ -86,14 +84,12 @@ public class SimplePallet implements Pallet {
 	/**
 	 * Creates a new SimplePallet.
 	 */
-	public SimplePallet() {
-	}
+	public SimplePallet() {}
 
 	/**
 	 * Sets the container this pallet is mapped to.
 	 * 
-	 * @param container
-	 *            The container this pallet is mapped to.
+	 * @param container The container this pallet is mapped to.
 	 */
 	@Override
 	public void setContainer(IDesign container) {
@@ -103,15 +99,13 @@ public class SimplePallet implements Pallet {
 	/**
 	 * Creates the control used for this pallet.
 	 * 
-	 * @param parent
-	 *            The parent element that contains this pallet.
+	 * @param parent The parent element that contains this pallet.
 	 */
 	@Override
 	public void createControl(Composite parent) {
 		Map<PalletItemProvider, ProviderSection> sectionsByProvider = new TreeMap<PalletItemProvider, ProviderSection>(
 				PALLATE_ITEM_PROVIDER_SORT);
-		for (PalletItemProvider provider : PallateProviderManager
-				.getPallateProviders()) {
+		for (PalletItemProvider provider : PallateProviderManager.getPallateProviders()) {
 			int numItems = 0;
 			List<PalletItem> items = provider.getPalletItems();
 			for (PalletItem item : items) {
@@ -123,8 +117,7 @@ public class SimplePallet implements Pallet {
 				sectionsByProvider.put(provider, new ProviderSection(provider));
 			}
 		}
-		this.sectionsByProvider = Collections
-				.unmodifiableMap(sectionsByProvider);
+		this.sectionsByProvider = Collections.unmodifiableMap(sectionsByProvider);
 		this.toolkit = new FormToolkit(parent.getDisplay());
 		this.form = toolkit.createScrolledForm(parent);
 		Composite formBody = form.getBody();
@@ -133,8 +126,7 @@ public class SimplePallet implements Pallet {
 		int width = 0;
 		for (ProviderSection ps : this.sectionsByProvider.values()) {
 			Control cps = ps.initialize();
-			cps.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true,
-					false));
+			cps.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, false));
 			Point point = cps.computeSize(SWT.DEFAULT, SWT.DEFAULT);
 			height = height + point.y;
 			if (point.x > width) {
@@ -175,9 +167,14 @@ public class SimplePallet implements Pallet {
 	 * 
 	 * @author Lonnie Pryor
 	 */
-	private final class ProviderSection extends LabelProvider implements
-			IStructuredContentProvider, ITableLabelProvider, IMenuListener,
-			DragSourceListener, IExpansionListener, PalletItemObserver {
+	private final class ProviderSection extends LabelProvider
+		implements
+		IStructuredContentProvider,
+		ITableLabelProvider,
+		IMenuListener,
+		DragSourceListener,
+		IExpansionListener,
+		PalletItemObserver {
 		/** The provider in question. */
 		final PalletItemProvider provider;
 		/** The UI section. */
@@ -188,8 +185,7 @@ public class SimplePallet implements Pallet {
 		/**
 		 * Creates a new ProviderSection.
 		 * 
-		 * @param provider
-		 *            The provider in question.
+		 * @param provider The provider in question.
 		 */
 		ProviderSection(PalletItemProvider provider) {
 			this.provider = provider;
@@ -213,8 +209,7 @@ public class SimplePallet implements Pallet {
 			MenuManager menuMgr = new MenuManager("#PopupMenu");
 			menuMgr.setRemoveAllWhenShown(true);
 			menuMgr.addMenuListener(this);
-			viewer.getControl().setMenu(
-					menuMgr.createContextMenu(viewer.getControl()));
+			viewer.getControl().setMenu(menuMgr.createContextMenu(viewer.getControl()));
 			section.setClient(viewer.getControl());
 			if (equals(sectionsByProvider.values().iterator().next())) {
 				section.setExpanded(true);
@@ -234,20 +229,15 @@ public class SimplePallet implements Pallet {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(
 		 * org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
 		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
-		 * java.lang.Object)
+		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements( java.lang.Object)
 		 */
 		@Override
 		public Object[] getElements(Object inputElement) {
@@ -264,18 +254,14 @@ public class SimplePallet implements Pallet {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.jface.viewers.BaseLabelProvider#dispose()
 		 */
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(
-		 * java.lang.Object, int)
+		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnText( java.lang.Object, int)
 		 */
 		@Override
 		public String getColumnText(Object element, int columnIndex) {
@@ -284,37 +270,29 @@ public class SimplePallet implements Pallet {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(
-		 * java.lang.Object, int)
+		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage( java.lang.Object, int)
 		 */
 		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			final Image icon = ((PalletItem) element).getIcon();
-			if (icon != null) {
-				return icon;
-			}
+			if (icon != null) { return icon; }
 			return Activator.getDefault().getImageRegistry().get("ICON_MODULE");
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.jface.action.IMenuListener#menuAboutToShow(
 		 * org.eclipse.jface.action.IMenuManager)
 		 */
 		@Override
 		@SuppressWarnings("unchecked")
 		public void menuAboutToShow(IMenuManager manager) {
-			provider.createMenu(null, manager,
-					(PalletItem[]) ((IStructuredSelection) viewer
-							.getSelection()).toList()
-							.toArray(new PalletItem[0]));
+			provider.createMenu(null, manager, (PalletItem[]) ((IStructuredSelection) viewer
+					.getSelection()).toList().toArray(new PalletItem[0]));
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.swt.dnd.DragSourceListener#dragStart(
 		 * org.eclipse.swt.dnd.DragSourceEvent)
 		 */
@@ -323,45 +301,38 @@ public class SimplePallet implements Pallet {
 			event.doit = true;
 			PalletItemTransfer.getInstance()
 					.setPalletItem(
-							((PalletItem) ((IStructuredSelection) viewer
-									.getSelection()).getFirstElement()));
+							((PalletItem) ((IStructuredSelection) viewer.getSelection())
+									.getFirstElement()));
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.swt.dnd.DragSourceListener#dragSetData(
 		 * org.eclipse.swt.dnd.DragSourceEvent)
 		 */
 		@Override
 		public void dragSetData(DragSourceEvent event) {
-			if (PalletItemTransfer.getInstance()
-					.isSupportedType(event.dataType)) {
+			if (PalletItemTransfer.getInstance().isSupportedType(event.dataType)) {
 				event.data = PalletItemTransfer.getInstance().getPalletItem();
 			}
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.swt.dnd.DragSourceListener#dragFinished(
 		 * org.eclipse.swt.dnd.DragSourceEvent)
 		 */
 		@Override
-		public void dragFinished(DragSourceEvent event) {
-		}
+		public void dragFinished(DragSourceEvent event) {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.ui.forms.events.IExpansionListener#
 		 * expansionStateChanging(org.eclipse.ui.forms.events.ExpansionEvent)
 		 */
 		@Override
 		public void expansionStateChanging(ExpansionEvent e) {
-			if (!e.getState()) {
-				return;
-			}
+			if (!e.getState()) { return; }
 			for (ProviderSection providerSection : sectionsByProvider.values()) {
 				if (providerSection == this) {
 					continue;
@@ -374,25 +345,20 @@ public class SimplePallet implements Pallet {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.ui.forms.events.IExpansionListener#
 		 * expansionStateChanged(org.eclipse.ui.forms.events.ExpansionEvent)
 		 */
 		@Override
-		public void expansionStateChanged(ExpansionEvent e) {
-		}
+		public void expansionStateChanged(ExpansionEvent e) {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.vtp.desktop.views.pallet.PalletItemObserver#
-		 * palletItemsChanged()
+		 * @see org.eclipse.vtp.desktop.views.pallet.PalletItemObserver# palletItemsChanged()
 		 */
 		@Override
 		public void palletItemsChanged() {
 			try {
-				System.err.println("Viewer null? "
-						+ Boolean.toString(viewer == null));
+				System.err.println("Viewer null? " + Boolean.toString(viewer == null));
 				if (viewer != null) {
 					viewer.getTable().getDisplay().asyncExec(new Runnable() {
 						@Override

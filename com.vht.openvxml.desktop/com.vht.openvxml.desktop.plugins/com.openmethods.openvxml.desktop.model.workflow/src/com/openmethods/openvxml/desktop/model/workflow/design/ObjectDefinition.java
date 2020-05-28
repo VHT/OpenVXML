@@ -21,7 +21,6 @@ import com.openmethods.openvxml.desktop.model.businessobjects.FieldType;
 
 /**
  * @author Trip
- *
  */
 public class ObjectDefinition implements PropertyChangeListener {
 	public static final String PROP_NAME = "name";
@@ -89,7 +88,6 @@ public class ObjectDefinition implements PropertyChangeListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -172,8 +170,7 @@ public class ObjectDefinition implements PropertyChangeListener {
 	}
 
 	private void postChange(String property, Object oldValue, Object newValue) {
-		PropertyChangeEvent evt = new PropertyChangeEvent(this, property,
-				oldValue, newValue);
+		PropertyChangeEvent evt = new PropertyChangeEvent(this, property, oldValue, newValue);
 		for (PropertyChangeListener listener : listeners) {
 			listener.propertyChange(evt);
 		}
@@ -192,8 +189,7 @@ public class ObjectDefinition implements PropertyChangeListener {
 			}
 			boolean inserted = false;
 			for (int i = 0; i < fields.size(); i++) {
-				if (fields.get(i).getName()
-						.compareToIgnoreCase(field.getName()) > 0) {
+				if (fields.get(i).getName().compareToIgnoreCase(field.getName()) > 0) {
 					fields.add(i, field);
 					inserted = true;
 					break;

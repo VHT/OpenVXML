@@ -45,8 +45,7 @@ import com.openmethods.openvxml.desktop.model.workflow.design.Variable;
 import com.openmethods.openvxml.desktop.model.workflow.internal.VariableHelper;
 import com.openmethods.openvxml.desktop.model.workflow.internal.design.ConnectorRecord;
 
-public class ScriptedPrimitiveInformationProvider extends
-		PrimitiveInformationProvider {
+public class ScriptedPrimitiveInformationProvider extends PrimitiveInformationProvider {
 	String typeId;
 	String typeName;
 	boolean acceptsConnectors = false;
@@ -66,28 +65,22 @@ public class ScriptedPrimitiveInformationProvider extends
 		acceptsConnectors = Boolean.parseBoolean(configurationElement
 				.getAttribute("acceptsConnectors"));
 		if (configurationElement.getAttribute("canDelete") != null) {
-			canDelete = Boolean.parseBoolean(configurationElement
-					.getAttribute("canDelete"));
+			canDelete = Boolean.parseBoolean(configurationElement.getAttribute("canDelete"));
 		}
 		typeId = configurationElement.getAttribute("typeid");
 		typeName = configurationElement.getAttribute("typename");
 
-		IConfigurationElement exitPointsElement = configurationElement
-				.getChildren("exit_points")[0];
-		IConfigurationElement[] exitPointElements = exitPointsElement
-				.getChildren("exit_point");
+		IConfigurationElement exitPointsElement = configurationElement.getChildren("exit_points")[0];
+		IConfigurationElement[] exitPointElements = exitPointsElement.getChildren("exit_point");
 		for (IConfigurationElement exitPointElement : exitPointElements) {
-			ConnectorRecord cr = new ConnectorRecord(getElement(),
-					exitPointElement.getAttribute("name"),
-					IDesignElementConnectionPoint.ConnectionPointType
-							.valueOf(exitPointElement.getAttribute("type")));
+			ConnectorRecord cr = new ConnectorRecord(getElement(), exitPointElement
+					.getAttribute("name"), IDesignElementConnectionPoint.ConnectionPointType
+					.valueOf(exitPointElement.getAttribute("type")));
 			connectorRecords.add(cr);
 			hasConnectors = true;
 		}
-		IConfigurationElement actionsElement = configurationElement
-				.getChildren("variables")[0];
-		IConfigurationElement[] actionElements = actionsElement
-				.getChildren("variable");
+		IConfigurationElement actionsElement = configurationElement.getChildren("variables")[0];
+		IConfigurationElement[] actionElements = actionsElement.getChildren("variable");
 		for (IConfigurationElement actionElement : actionElements) {
 			String variableName = actionElement.getAttribute("name");
 			String variableType = actionElement.getAttribute("type");
@@ -95,28 +88,27 @@ public class ScriptedPrimitiveInformationProvider extends
 			{
 				boolean array = false;
 				if (actionElement.getAttribute("array") != null
-						&& "true".equalsIgnoreCase(actionElement
-								.getAttribute("array"))) // support for old
-															// format
+						&& "true".equalsIgnoreCase(actionElement.getAttribute("array"))) // support
+																							// for
+																							// old
+																							// format
 				{
 					array = true;
 				}
 				Primitive prim = Primitive.find(variableType);
 				if (prim != null) {
 					if (array) {
-						varPropertySets.add(new VarPropertySet(variableName,
-								Primitive.ARRAY.getName(), variableType));
+						varPropertySets.add(new VarPropertySet(variableName, Primitive.ARRAY
+								.getName(), variableType));
 					} else {
-						varPropertySets.add(new VarPropertySet(variableName,
-								variableType, null));
+						varPropertySets.add(new VarPropertySet(variableName, variableType, null));
 					}
 				} else {
 					if (array) {
-						varPropertySets.add(new VarPropertySet(variableName,
-								Primitive.ARRAY.getName(), variableType));
+						varPropertySets.add(new VarPropertySet(variableName, Primitive.ARRAY
+								.getName(), variableType));
 					} else {
-						varPropertySets.add(new VarPropertySet(variableName,
-								variableType, null));
+						varPropertySets.add(new VarPropertySet(variableName, variableType, null));
 					}
 				}
 			} else {
@@ -124,8 +116,7 @@ public class ScriptedPrimitiveInformationProvider extends
 				String ftBaseTypeName = null;
 				int precision = 1;
 
-				IConfigurationElement[] typeElements = actionElement
-						.getChildren("data-type");
+				IConfigurationElement[] typeElements = actionElement.getChildren("data-type");
 				if (typeElements.length > 0) {
 					IConfigurationElement element = typeElements[0];
 					String typeName = element.getAttribute("type");
@@ -135,19 +126,16 @@ public class ScriptedPrimitiveInformationProvider extends
 						ftTypeName = typeName;
 						Primitive type = Primitive.find(typeName);
 						if (type.hasBaseType()) {
-							String baseTypeName = element
-									.getAttribute("base-type");
+							String baseTypeName = element.getAttribute("base-type");
 							if (baseTypeName.startsWith("primitive:")) {
 								baseTypeName = baseTypeName.substring(10);
 								ftBaseTypeName = baseTypeName;
-								Primitive baseType = Primitive
-										.find(baseTypeName);
+								Primitive baseType = Primitive.find(baseTypeName);
 								if (baseType.hasPrecision()) {
 									try {
 										precision = Integer.parseInt(element
 												.getAttribute("precision"));
-									} catch (NumberFormatException nfe) {
-									}
+									} catch (NumberFormatException nfe) {}
 								}
 							} else // business object type
 							{
@@ -158,15 +146,13 @@ public class ScriptedPrimitiveInformationProvider extends
 
 						if (type.hasPrecision()) {
 							try {
-								precision = Integer.parseInt(element
-										.getAttribute("precision"));
-							} catch (NumberFormatException nfe) {
-							}
+								precision = Integer.parseInt(element.getAttribute("precision"));
+							} catch (NumberFormatException nfe) {}
 						}
 					}
 
-					varPropertySets.add(new VarPropertySet(variableName,
-							ftTypeName, ftBaseTypeName, precision));
+					varPropertySets.add(new VarPropertySet(variableName, ftTypeName,
+							ftBaseTypeName, precision));
 				}
 			}
 		}
@@ -176,9 +162,7 @@ public class ScriptedPrimitiveInformationProvider extends
 	public ConnectorRecord getConnectorRecord(String recordName) {
 		for (int i = 0; i < connectorRecords.size(); i++) {
 			ConnectorRecord cr = connectorRecords.get(i);
-			if (cr.getName().equals(recordName)) {
-				return cr;
-			}
+			if (cr.getName().equals(recordName)) { return cr; }
 		}
 		return null;
 	}
@@ -191,8 +175,7 @@ public class ScriptedPrimitiveInformationProvider extends
 	@Override
 	public List<ConnectorRecord> getConnectorRecords(
 			IDesignElementConnectionPoint.ConnectionPointType... types) {
-		int flags = IDesignElementConnectionPoint.ConnectionPointType
-				.getFlagSet(types);
+		int flags = IDesignElementConnectionPoint.ConnectionPointType.getFlagSet(types);
 		if ((flags & 0xFFFFFFF8) != 0) {
 			// combination of the available types
 			throw new IllegalArgumentException(
@@ -209,12 +192,10 @@ public class ScriptedPrimitiveInformationProvider extends
 	}
 
 	@Override
-	public void readConfiguration(Element configuration) {
-	}
+	public void readConfiguration(Element configuration) {}
 
 	@Override
-	public void writeConfiguration(Element configuration) {
-	}
+	public void writeConfiguration(Element configuration) {}
 
 	@Override
 	public boolean acceptsConnector(IDesignElement origin) {
@@ -236,8 +217,7 @@ public class ScriptedPrimitiveInformationProvider extends
 
 	public void addVariable(String name, FieldType type) {
 		Variable v = new Variable(name, type);
-		IOpenVXMLProject project = getElement().getDesign().getDocument()
-				.getProject();
+		IOpenVXMLProject project = getElement().getDesign().getDocument().getProject();
 		IBusinessObjectProjectAspect aspect = (IBusinessObjectProjectAspect) project
 				.getProjectAspect(IBusinessObjectProjectAspect.ASPECT_ID);
 		VariableHelper.buildObjectFields(v, aspect.getBusinessObjectSet());
@@ -245,8 +225,7 @@ public class ScriptedPrimitiveInformationProvider extends
 	}
 
 	@Override
-	public List<Variable> getOutgoingVariables(String exitPoint,
-			boolean localOnly) {
+	public List<Variable> getOutgoingVariables(String exitPoint, boolean localOnly) {
 		varRecords.clear();
 		for (VarPropertySet vps : varPropertySets) {
 			varRecords.add(createVarRecord(vps));
@@ -262,18 +241,15 @@ public class ScriptedPrimitiveInformationProvider extends
 
 	public void declareBusinessObjects(IBusinessObjectSet businessObjectSet) {
 		if (configurationElement != null) {
-			IConfigurationElement[] bosArray = configurationElement
-					.getChildren("business-objects");
+			IConfigurationElement[] bosArray = configurationElement.getChildren("business-objects");
 			if (bosArray != null && bosArray.length > 0 && bosArray[0] != null) {
-				IConfigurationElement[] boElements = bosArray[0]
-						.getChildren("business-object");
+				IConfigurationElement[] boElements = bosArray[0].getChildren("business-object");
 				for (IConfigurationElement boElement : boElements) {
 					boolean safeToCreate = false;
 					String boDefName = boElement.getAttribute("name");
 
 					Map<String, BusinessObjectFieldDefinition> fieldDefs = new HashMap<String, BusinessObjectFieldDefinition>();
-					IConfigurationElement[] fieldElements = boElement
-							.getChildren("field");
+					IConfigurationElement[] fieldElements = boElement.getChildren("field");
 					for (IConfigurationElement fieldElement : fieldElements) {
 						String name = fieldElement.getAttribute("name"); // Was
 																			// already
@@ -287,12 +263,12 @@ public class ScriptedPrimitiveInformationProvider extends
 						if (fieldElement.getAttribute("object") != null) // legacy
 																			// support
 						{
-							boolean array = Boolean.parseBoolean(fieldElement
-									.getAttribute("array")); // Compatible
-																// because
-																// parseBoolean(null)
-																// returns
-																// false
+							boolean array = Boolean
+									.parseBoolean(fieldElement.getAttribute("array")); // Compatible
+																						// because
+																						// parseBoolean(null)
+																						// returns
+																						// false
 							Primitive prim = Primitive.find(type);
 							if (prim != null) {
 								if (array) {
@@ -301,8 +277,7 @@ public class ScriptedPrimitiveInformationProvider extends
 									ft = new FieldType(prim);
 								}
 							} else {
-								IBusinessObject bo = businessObjectSet
-										.getBusinessObject(type);
+								IBusinessObject bo = businessObjectSet.getBusinessObject(type);
 								if (array) {
 									ft = new FieldType(Primitive.ARRAY, bo);
 								} else {
@@ -313,31 +288,25 @@ public class ScriptedPrimitiveInformationProvider extends
 							Primitive prim = Primitive.find(type);
 							if (prim != null) {
 								if (prim.hasBaseType()) {
-									String baseType = fieldElement
-											.getAttribute("basetype");
-									Primitive basePrim = Primitive
-											.find(baseType);
+									String baseType = fieldElement.getAttribute("basetype");
+									Primitive basePrim = Primitive.find(baseType);
 									if (basePrim != null) {
 										ft = new FieldType(prim, basePrim);
 									} else {
-										ft = new FieldType(
-												prim,
-												businessObjectSet
-														.getBusinessObject(baseType));
+										ft = new FieldType(prim, businessObjectSet
+												.getBusinessObject(baseType));
 									}
 								} else {
 									ft = new FieldType(prim);
 								}
 							} else {
-								IBusinessObject bo = businessObjectSet
-										.getBusinessObject(type);
+								IBusinessObject bo = businessObjectSet.getBusinessObject(type);
 								ft = new FieldType(bo);
 							}
 						}
 						int precision; // Compatible because the null value
 										// loads old default
-						String precisionText = fieldElement
-								.getAttribute("precision");
+						String precisionText = fieldElement.getAttribute("precision");
 						if ("double".equals(precisionText)) {
 							precision = FieldType.DOUBLE;
 						} else if ("absolute".equals(precisionText)) {
@@ -346,32 +315,33 @@ public class ScriptedPrimitiveInformationProvider extends
 							precision = FieldType.SINGLE;
 						}
 						ft.setPrecision(precision);
-						String initialValue = fieldElement
-								.getAttribute("initial_value"); // Compatible
-																// because null
-																// value load
-																// old default
+						String initialValue = fieldElement.getAttribute("initial_value"); // Compatible
+																							// because
+																							// null
+																							// value
+																							// load
+																							// old
+																							// default
 						if (initialValue == null) {
 							initialValue = "";
 						}
-						boolean secured = Boolean.parseBoolean(fieldElement
-								.getAttribute("secured")); // Compatible because
-															// parseBoolean(null)
-															// returns false
+						boolean secured = Boolean
+								.parseBoolean(fieldElement.getAttribute("secured")); // Compatible
+																						// because
+																						// parseBoolean(null)
+																						// returns
+																						// false
 
 						fieldDefs.put(fieldElement.getAttribute("name"),
-								new BusinessObjectFieldDefinition(name, ft,
-										initialValue, secured));
+								new BusinessObjectFieldDefinition(name, ft, initialValue, secured));
 					}
 
-					List<IBusinessObject> existingBOs = businessObjectSet
-							.getBusinessObjects();
+					List<IBusinessObject> existingBOs = businessObjectSet.getBusinessObjects();
 					if (existingBOs != null && existingBOs.size() > 0) {
 						boolean noBoNameMatches = true;
 						for (IBusinessObject existingBo : existingBOs) {
 							// Is there a name collision?
-							if (existingBo.getName()
-									.equalsIgnoreCase(boDefName)) {
+							if (existingBo.getName().equalsIgnoreCase(boDefName)) {
 								noBoNameMatches = false;
 								List<IBusinessObjectField> existingBoFields = existingBo
 										.getFields();
@@ -382,35 +352,22 @@ public class ScriptedPrimitiveInformationProvider extends
 									// Compare each of the fields
 									for (IBusinessObjectField existingBof : existingBoFields) {
 										// Does the field name match?
-										if (fieldDefs.containsKey(existingBof
-												.getName())) {
+										if (fieldDefs.containsKey(existingBof.getName())) {
 											BusinessObjectFieldDefinition newBof = fieldDefs
 													.get(existingBof.getName());
-											if (!(existingBof.getDataType()
-													.getPrimitiveType() == newBof
-													.getType()
-													.getPrimitiveType()
-													&& (existingBof
-															.getDataType()
+											if (!(existingBof.getDataType().getPrimitiveType() == newBof
+													.getType().getPrimitiveType()
+													&& (existingBof.getDataType()
 															.getPrimitiveBaseType() == newBof
-															.getType()
-															.getPrimitiveType())
-													&& (existingBof
-															.getDataType()
-															.getObjectType() == newBof
-															.getType()
-															.getObjectType())
-													&& existingBof
-															.getDataType()
+															.getType().getPrimitiveType())
+													&& (existingBof.getDataType().getObjectType() == newBof
+															.getType().getObjectType())
+													&& existingBof.getDataType()
 															.getObjectBaseType() == newBof
-															.getType()
-															.getObjectBaseType()
-													&& existingBof
-															.getInitialValue()
-															.equals(newBof
-																	.getInitialValue()) && (existingBof
-														.isSecured() == newBof
-													.isSecured()))) {
+															.getType().getObjectBaseType()
+													&& existingBof.getInitialValue().equals(
+															newBof.getInitialValue()) && (existingBof
+														.isSecured() == newBof.isSecured()))) {
 												// there is an attribute of the
 												// field that doesn't match
 												fieldsMatch = false;
@@ -465,50 +422,38 @@ public class ScriptedPrimitiveInformationProvider extends
 						// The name is not taken - create the definition
 						BusinessObject bo;
 						try {
-							bo = (BusinessObject) businessObjectSet
-									.createBusinessObject(boDefName);
+							bo = (BusinessObject) businessObjectSet.createBusinessObject(boDefName);
 
 							Document doc = DocumentBuilderFactory.newInstance()
 									.newDocumentBuilder().newDocument();
-							Element rootElement = doc
-									.createElement("business-object");
+							Element rootElement = doc.createElement("business-object");
 							doc.appendChild(rootElement);
 							rootElement.setAttribute("id", bo.getId());
 							rootElement.setAttribute("name", bo.getName());
 
-							Element fields = rootElement.getOwnerDocument()
-									.createElement("fields");
+							Element fields = rootElement.getOwnerDocument().createElement("fields");
 							rootElement.appendChild(fields);
 
-							for (BusinessObjectFieldDefinition bofd : fieldDefs
-									.values()) {
-								BusinessObjectField bof = new BusinessObjectField(
-										bo, bofd.getName(), bofd.getType(),
-										bofd.getInitialValue(),
-										bofd.isSecured());
-								Element fieldElement = fields
-										.getOwnerDocument().createElement(
-												"field");
+							for (BusinessObjectFieldDefinition bofd : fieldDefs.values()) {
+								BusinessObjectField bof = new BusinessObjectField(bo, bofd
+										.getName(), bofd.getType(), bofd.getInitialValue(), bofd
+										.isSecured());
+								Element fieldElement = fields.getOwnerDocument().createElement(
+										"field");
 								fields.appendChild(fieldElement);
-								fieldElement
-										.setAttribute("name", bof.getName());
-								fieldElement.setAttribute("initialValue",
-										bof.getInitialValue());
-								fieldElement.setAttribute("secured",
-										Boolean.toString(bof.isSecured()));
+								fieldElement.setAttribute("name", bof.getName());
+								fieldElement.setAttribute("initialValue", bof.getInitialValue());
+								fieldElement.setAttribute("secured", Boolean.toString(bof
+										.isSecured()));
 								bofd.getType().write(fieldElement);
 							}
 
 							DOMSource source = new DOMSource(doc);
 							ByteArrayOutputStream baos = new ByteArrayOutputStream();
-							Transformer trans = TransformerFactory
-									.newInstance().newTransformer();
-							trans.setOutputProperty(OutputKeys.ENCODING,
-									"UTF-8");
-							trans.transform(source,
-									new XMLWriter(baos).toXMLResult());
-							bo.write(new ByteArrayInputStream(baos
-									.toByteArray()));
+							Transformer trans = TransformerFactory.newInstance().newTransformer();
+							trans.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+							trans.transform(source, new XMLWriter(baos).toXMLResult());
+							bo.write(new ByteArrayInputStream(baos.toByteArray()));
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -538,17 +483,12 @@ public class ScriptedPrimitiveInformationProvider extends
 				}
 			} else // business object type
 			{
-				IOpenVXMLProject project = getElement().getDesign()
-						.getDocument().getProject();
+				IOpenVXMLProject project = getElement().getDesign().getDocument().getProject();
 				IBusinessObjectProjectAspect aspect = (IBusinessObjectProjectAspect) project
 						.getProjectAspect(IBusinessObjectProjectAspect.ASPECT_ID);
-				IBusinessObject bo = aspect.getBusinessObjectSet()
-						.getBusinessObject(baseTypeName);
-				if (bo == null) {
-					throw new RuntimeException(
-							"Missing business object definition: "
-									+ baseTypeName);
-				}
+				IBusinessObject bo = aspect.getBusinessObjectSet().getBusinessObject(baseTypeName);
+				if (bo == null) { throw new RuntimeException("Missing business object definition: "
+						+ baseTypeName); }
 				ft = new FieldType(type, bo);
 			}
 		} else {
@@ -568,8 +508,8 @@ public class ScriptedPrimitiveInformationProvider extends
 		private String initialValue;
 		private boolean secured;
 
-		BusinessObjectFieldDefinition(String name, FieldType type,
-				String initialValue, boolean secured) {
+		BusinessObjectFieldDefinition(String name, FieldType type, String initialValue,
+				boolean secured) {
 			this.name = name;
 			this.type = type;
 			this.initialValue = initialValue;
@@ -613,15 +553,14 @@ public class ScriptedPrimitiveInformationProvider extends
 								// String,Date,Number,ObjectName, etc
 		int precision = 1; // Set 1 as the default
 
-		public VarPropertySet(String variableName, String typeName,
-				String baseTypeName) {
+		public VarPropertySet(String variableName, String typeName, String baseTypeName) {
 			this.variableName = variableName;
 			this.typeName = typeName;
 			this.baseTypeName = baseTypeName;
 		}
 
-		public VarPropertySet(String variableName, String typeName,
-				String baseTypeName, int precision) {
+		public VarPropertySet(String variableName, String typeName, String baseTypeName,
+				int precision) {
 			this.variableName = variableName;
 			this.typeName = typeName;
 			this.baseTypeName = baseTypeName;

@@ -46,15 +46,11 @@ public class AssignmentAction implements IAction {
 	/**
 	 * Creates a new AssignmentAction.
 	 * 
-	 * @param context
-	 *            The context to use.
-	 * @param variableRegistry
-	 *            The variable registry to use.
-	 * @param configurations
-	 *            The configurations to use.
+	 * @param context The context to use.
+	 * @param variableRegistry The variable registry to use.
+	 * @param configurations The configurations to use.
 	 */
-	public AssignmentAction(IActionContext context,
-			IVariableRegistry variableRegistry,
+	public AssignmentAction(IActionContext context, IVariableRegistry variableRegistry,
 			AssignmentConfiguration[] configurations) {
 		this.context = context;
 		this.variableRegistry = variableRegistry;
@@ -63,7 +59,6 @@ public class AssignmentAction implements IAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.core.IAction#execute()
 	 */
 	@Override
@@ -77,30 +72,26 @@ public class AssignmentAction implements IAction {
 	 * @param values
 	 * @return
 	 */
-	protected IActionResult execute(Map<String, String> values,
-			boolean overwrite) {
+	protected IActionResult execute(Map<String, String> values, boolean overwrite) {
 		try {
 			if (context.isInfoEnabled()) {
 				context.info("Performing variable assignments");
 			}
 			for (final AssignmentConfiguration configuration : configurations) {
 				if (context.isInfoEnabled()) {
-					context.info("Assigning variable \""
-							+ configuration.getName() + "\"");
+					context.info("Assigning variable \"" + configuration.getName() + "\"");
 				}
-				IDataObject object = variableRegistry.getVariable(configuration
-						.getName());
+				IDataObject object = variableRegistry.getVariable(configuration.getName());
 				if (object == null || (object != null && overwrite)) {
-					object = variableRegistry.createVariable(
-							configuration.getType(), configuration.isSecured());
+					object = variableRegistry.createVariable(configuration.getType(), configuration
+							.isSecured());
 					String value = configuration.getValue();
 					if (values.containsKey(configuration.getName())) {
 						value = values.get(configuration.getName());
 					}
 					if (value != null) {
 						IDataObject toSet = object;
-						final String primaryField = object.getType()
-								.getPrimaryFieldName();
+						final String primaryField = object.getType().getPrimaryFieldName();
 						if (primaryField != null) {
 							toSet = object.getField(primaryField);
 						}
@@ -116,23 +107,18 @@ public class AssignmentAction implements IAction {
 							((IStringObject) toSet).setValue(value);
 						}
 					}
-					variableRegistry.setVariable(configuration.getName(),
-							object);
+					variableRegistry.setVariable(configuration.getName(), object);
 					if (context.isReportingEnabled()) {
 						final Dictionary<String, Object> props = new Hashtable<String, Object>();
 						props.put("event", "assignment");
 						props.put("event.key", configuration.getName());
-						props.put("event.value",
-								configuration.isSecured() ? "**Secured**"
-										: String.valueOf(object));
-						context.report(
-								IReporter.SEVERITY_INFO,
-								"Assigned variable \""
-										+ configuration.getName()
-										+ "\" to \""
-										+ (configuration.isSecured() ? "**Secured**"
-												: String.valueOf(object))
-										+ "\"", props);
+						props.put("event.value", configuration.isSecured() ? "**Secured**" : String
+								.valueOf(object));
+						context.report(IReporter.SEVERITY_INFO, "Assigned variable \""
+								+ configuration.getName()
+								+ "\" to \""
+								+ (configuration.isSecured() ? "**Secured**" : String
+										.valueOf(object)) + "\"", props);
 					}
 				}
 			}

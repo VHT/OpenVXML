@@ -31,10 +31,9 @@ import com.openmethods.openvxml.desktop.model.workflow.configuration.Configurati
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesign;
 
 /**
- * This implementation of <code>ConfigurationManager</code> records
- * configuration data for the attached data request element. The names of the
- * attached data items requested and the destination variable names are stored
- * in this configuration.
+ * This implementation of <code>ConfigurationManager</code> records configuration data for the
+ * attached data request element. The names of the attached data items requested and the destination
+ * variable names are stored in this configuration.
  * 
  * @author trip
  */
@@ -51,19 +50,17 @@ public class AttachedDataManager implements ConfigurationManager {
 	/** A list of bindings contained by this manager */
 	private List<AttachedDataBinding> dataBindings;
 	/**
-	 * The brand manager used by this configuration manager to resolve brand
-	 * information
+	 * The brand manager used by this configuration manager to resolve brand information
 	 */
 	private BrandManager brandManager = null;
 	private IDesign design = null;
 
 	/**
 	 * Creates a new <code>AttachedDataManager</code> that will use the given
-	 * <code>BrandManager</code> to resolve needed brand information. There are
-	 * no bindings in this instance initially.
+	 * <code>BrandManager</code> to resolve needed brand information. There are no bindings in this
+	 * instance initially.
 	 * 
-	 * @param brandManager
-	 *            The brand manager to use to resolve brand information
+	 * @param brandManager The brand manager to use to resolve brand information
 	 */
 	public AttachedDataManager(IDesign design) {
 		super();
@@ -77,8 +74,8 @@ public class AttachedDataManager implements ConfigurationManager {
 	}
 
 	/**
-	 * Returns the brand manager instance used by this configuration manager to
-	 * resolve brand information.
+	 * Returns the brand manager instance used by this configuration manager to resolve brand
+	 * information.
 	 * 
 	 * @return BrandManager instance used to resolve brand information
 	 */
@@ -87,11 +84,10 @@ public class AttachedDataManager implements ConfigurationManager {
 	}
 
 	/**
-	 * Returns the attached data binding with the given name. If no binding is
-	 * present with that name, a new binding will be created and returned.
+	 * Returns the attached data binding with the given name. If no binding is present with that
+	 * name, a new binding will be created and returned.
 	 * 
-	 * @param name
-	 *            The name of the binding item
+	 * @param name The name of the binding item
 	 * @return The binding with the given name
 	 */
 	public AttachedDataBinding getAttachedDataBinding(String name) {
@@ -105,23 +101,19 @@ public class AttachedDataManager implements ConfigurationManager {
 	}
 
 	/**
-	 * Returns a list of the attached data bindings this configuration manager
-	 * currently contains.
+	 * Returns a list of the attached data bindings this configuration manager currently contains.
 	 * 
 	 * @return List of attached data bindings
 	 */
 	public List<AttachedDataBinding> listBindings() {
-		List<AttachedDataBinding> ret = new ArrayList<AttachedDataBinding>(
-				dataBindings.size());
+		List<AttachedDataBinding> ret = new ArrayList<AttachedDataBinding>(dataBindings.size());
 		ret.addAll(dataBindings);
 		return ret;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.configuration.ConfigurationManager#getType()
+	 * @see org.eclipse.vtp.desktop.core.configuration.ConfigurationManager#getType()
 	 */
 	@Override
 	public String getType() {
@@ -130,10 +122,7 @@ public class AttachedDataManager implements ConfigurationManager {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.configuration.ConfigurationManager#getXMLVersion
-	 * ()
+	 * @see org.eclipse.vtp.desktop.core.configuration.ConfigurationManager#getXMLVersion ()
 	 */
 	@Override
 	public String getXMLVersion() {
@@ -142,20 +131,16 @@ public class AttachedDataManager implements ConfigurationManager {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.configuration.ConfigurationManager#
 	 * readConfiguration(org.w3c.dom.Element)
 	 */
 	@Override
-	public void readConfiguration(Element configuration)
-			throws ConfigurationException {
+	public void readConfiguration(Element configuration) throws ConfigurationException {
 		String configVersion = configuration.getAttribute("xml-version");
-		if (!configVersion.equals(XML_VERSION)) {
-			return;
-		}
+		if (!configVersion.equals(XML_VERSION)) { return; }
 		// Data Bindings
-		NodeList bindingList = configuration.getElementsByTagNameNS(
-				NAMESPACE_URI, "attached-data-binding"); //$NON-NLS-1$
+		NodeList bindingList = configuration.getElementsByTagNameNS(NAMESPACE_URI,
+				"attached-data-binding"); //$NON-NLS-1$
 		for (int i = 0; i < bindingList.getLength(); i++) {
 			Element bindingElement = (Element) bindingList.item(i);
 			AttachedDataBinding binding = getAttachedDataBinding(bindingElement
@@ -166,7 +151,6 @@ public class AttachedDataManager implements ConfigurationManager {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.configuration.ConfigurationManager#
 	 * writeConfiguration(org.w3c.dom.Element)
 	 */
@@ -174,8 +158,8 @@ public class AttachedDataManager implements ConfigurationManager {
 	public void writeConfiguration(Element configuration) {
 		// Data Bindings
 		for (AttachedDataBinding binding : dataBindings) {
-			Element bindingElement = configuration.getOwnerDocument()
-					.createElementNS(NAMESPACE_URI, "attached-data-binding"); //$NON-NLS-1$
+			Element bindingElement = configuration.getOwnerDocument().createElementNS(
+					NAMESPACE_URI, "attached-data-binding"); //$NON-NLS-1$
 			bindingElement.setAttribute("name", binding.getName()); //$NON-NLS-1$
 			binding.writeBindingItems(bindingElement);
 			configuration.appendChild(bindingElement);
@@ -184,7 +168,6 @@ public class AttachedDataManager implements ConfigurationManager {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
@@ -192,11 +175,10 @@ public class AttachedDataManager implements ConfigurationManager {
 		AttachedDataManager copy = new AttachedDataManager(design);
 		try {
 			// build document contents
-			DocumentBuilderFactory factory = DocumentBuilderFactory
-					.newInstance();
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document document = builder.getDOMImplementation().createDocument(
-					null, "temporary-document", null); //$NON-NLS-1$
+			Document document = builder.getDOMImplementation().createDocument(null,
+					"temporary-document", null); //$NON-NLS-1$
 			org.w3c.dom.Element rootElement = document.getDocumentElement();
 			rootElement.setAttribute("xml-version", XML_VERSION); //$NON-NLS-1$
 			writeConfiguration(rootElement);

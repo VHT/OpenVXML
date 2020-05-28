@@ -12,10 +12,8 @@
 package org.eclipse.vtp.framework.common.controller;
 
 /**
- * A dispatcher that terminates the current process and forwards control to
- * another process.
+ * A dispatcher that terminates the current process and forwards control to another process.
  * 
  * @author Lonnie Pryor
  */
-public interface IForwardDispatcher extends IDispatcher {
-}
+public interface IForwardDispatcher extends IDispatcher {}

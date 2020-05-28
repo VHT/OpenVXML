@@ -41,15 +41,11 @@ public class ApplicationProjectMediaDefaultsPropertyPage extends PropertyPage {
 	List<Composite> interactionComposites = new ArrayList<Composite>();
 	List<IMediaDefaultPanel> settingPanels = new ArrayList<IMediaDefaultPanel>();
 
-	public ApplicationProjectMediaDefaultsPropertyPage() {
-	}
+	public ApplicationProjectMediaDefaultsPropertyPage() {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.dialogs.PropertyPage#setElement(org.eclipse.core.runtime
-	 * .IAdaptable)
+	 * @see org.eclipse.ui.dialogs.PropertyPage#setElement(org.eclipse.core.runtime .IAdaptable)
 	 */
 	@Override
 	public void setElement(IAdaptable element) {
@@ -59,11 +55,9 @@ public class ApplicationProjectMediaDefaultsPropertyPage extends PropertyPage {
 				applicationProject = (OpenVXMLProject) element;
 			} else if (element instanceof IProject) {
 				IProject project = (IProject) element;
-				if (WorkflowCore.getDefault().getWorkflowModel()
-						.isWorkflowProject(project)) {
-					OpenVXMLProject workflowProject = (OpenVXMLProject) WorkflowCore
-							.getDefault().getWorkflowModel()
-							.convertToWorkflowProject(project);
+				if (WorkflowCore.getDefault().getWorkflowModel().isWorkflowProject(project)) {
+					OpenVXMLProject workflowProject = (OpenVXMLProject) WorkflowCore.getDefault()
+							.getWorkflowModel().convertToWorkflowProject(project);
 					interactiveAspect = (InteractiveProjectAspect) workflowProject
 							.getProjectAspect(IInteractiveProjectAspect.ASPECT_ID);
 					if (interactiveAspect != null) {
@@ -81,8 +75,7 @@ public class ApplicationProjectMediaDefaultsPropertyPage extends PropertyPage {
 			if (stackComp != null) // already created controls
 			{
 				for (int i = 0; i < settingPanels.size(); i++) {
-					settingPanels.get(i).setDefaultSettings(
-							mediaDefaultSettings);
+					settingPanels.get(i).setDefaultSettings(mediaDefaultSettings);
 				}
 			}
 		} catch (Exception e) {
@@ -92,9 +85,7 @@ public class ApplicationProjectMediaDefaultsPropertyPage extends PropertyPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse
+	 * @see org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse
 	 * .swt.widgets.Composite)
 	 */
 	@Override
@@ -110,36 +101,29 @@ public class ApplicationProjectMediaDefaultsPropertyPage extends PropertyPage {
 
 		scrollComp = new ScrolledComposite(comp, SWT.V_SCROLL | SWT.BORDER);
 		scrollComp.getVerticalBar().setIncrement(4);
-		scrollComp.setBackground(parent.getDisplay().getSystemColor(
-				SWT.COLOR_WHITE));
+		scrollComp.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		GridData gridData = new GridData(GridData.FILL_BOTH);
 		gridData.horizontalSpan = 2;
 		gridData.heightHint = 400;
 		scrollComp.setLayoutData(gridData);
 		stack = new StackLayout();
 		stackComp = new Composite(scrollComp, SWT.NONE);
-		stackComp.setBackground(parent.getDisplay().getSystemColor(
-				SWT.COLOR_WHITE));
+		stackComp.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		stackComp.setLayout(stack);
 
-		interactionTypes = InteractionTypeManager.getInstance()
-				.getInteractionTypes();
+		interactionTypes = InteractionTypeManager.getInstance().getInteractionTypes();
 		for (int i = 0; i < interactionTypes.size(); i++) {
 			InteractionType interactionType = interactionTypes.get(i);
 			interactionSelector.add(interactionType.getName());
 			Composite interactionComp = new Composite(stackComp, SWT.NONE);
-			interactionComp.setBackground(parent.getDisplay().getSystemColor(
-					SWT.COLOR_WHITE));
+			interactionComp.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
 			interactionComposites.add(interactionComp);
 			interactionComp.setLayout(new GridLayout(1, false));
-			Map<String, IMediaDefaultPanel> panelMap = MediaDefaultsPanelManager
-					.getInstance().getIndexedMediaDefaultsPanels(
-							interactionType.getId());
+			Map<String, IMediaDefaultPanel> panelMap = MediaDefaultsPanelManager.getInstance()
+					.getIndexedMediaDefaultsPanels(interactionType.getId());
 			for (IMediaDefaultPanel panel : panelMap.values()) {
-				Control panelControl = panel.createControls(interactionComp,
-						true);
-				panelControl.setLayoutData(new GridData(
-						GridData.FILL_HORIZONTAL));
+				Control panelControl = panel.createControls(interactionComp, true);
+				panelControl.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 				settingPanels.add(panel);
 				if (mediaDefaultSettings != null) {
 					panel.setDefaultSettings(mediaDefaultSettings);
@@ -150,26 +134,23 @@ public class ApplicationProjectMediaDefaultsPropertyPage extends PropertyPage {
 		stack.topControl = interactionComposites.get(0);
 		stackComp.layout(true, true);
 		scrollComp.setContent(stackComp);
-		scrollComp.setMinWidth(stackComp.computeSize(SWT.DEFAULT, SWT.DEFAULT,
-				true).x);
-		scrollComp.setMinHeight(stackComp.computeSize(SWT.DEFAULT, SWT.DEFAULT,
-				true).y);
+		scrollComp.setMinWidth(stackComp.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).x);
+		scrollComp.setMinHeight(stackComp.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).y);
 		scrollComp.setExpandHorizontal(true);
 		scrollComp.setExpandVertical(true);
 
 		interactionSelector.addSelectionListener(new SelectionListener() {
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {
-			}
+			public void widgetDefaultSelected(SelectionEvent arg0) {}
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				stack.topControl = interactionComposites
-						.get(interactionSelector.getSelectionIndex());
+				stack.topControl = interactionComposites.get(interactionSelector
+						.getSelectionIndex());
 				stackComp.layout(true, true);
-				Point preferred = stackComp.computeSize(
-						scrollComp.getMinWidth(), SWT.DEFAULT, true);
+				Point preferred = stackComp
+						.computeSize(scrollComp.getMinWidth(), SWT.DEFAULT, true);
 				scrollComp.setMinSize(preferred);
 				stackComp.layout();
 				if (preferred.y > scrollComp.getClientArea().height) // need to
@@ -180,8 +161,8 @@ public class ApplicationProjectMediaDefaultsPropertyPage extends PropertyPage {
 																		// bar
 																		// appeared
 				{
-					preferred = stackComp.computeSize(
-							scrollComp.getClientArea().width, SWT.DEFAULT, true);
+					preferred = stackComp.computeSize(scrollComp.getClientArea().width,
+							SWT.DEFAULT, true);
 					scrollComp.setMinSize(preferred);
 					stackComp.layout();
 				}
@@ -200,7 +181,6 @@ public class ApplicationProjectMediaDefaultsPropertyPage extends PropertyPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.preference.PreferencePage#performOk()
 	 */
 	@Override

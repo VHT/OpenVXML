@@ -32,8 +32,7 @@ public class BroadcastReceiverAction implements IAction {
 	/**
 	 * Creates a new BranchAction.
 	 * 
-	 * @param context
-	 *            The context to use.
+	 * @param context The context to use.
 	 */
 	public BroadcastReceiverAction(IActionContext context) {
 		this.context = context;
@@ -41,7 +40,6 @@ public class BroadcastReceiverAction implements IAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.core.IAction#execute()
 	 */
 	@Override
@@ -49,8 +47,7 @@ public class BroadcastReceiverAction implements IAction {
 		if (context.isReportingEnabled()) {
 			final Dictionary<String, Object> props = new Hashtable<String, Object>();
 			props.put("event", "broadcast receiver");
-			context.report(IReporter.SEVERITY_INFO, "Exit caught by receiver.",
-					props);
+			context.report(IReporter.SEVERITY_INFO, "Exit caught by receiver.", props);
 		}
 		return context.createResult(IActionResult.RESULT_NAME_DEFAULT);
 	}

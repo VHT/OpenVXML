@@ -41,8 +41,7 @@ public class VXMLBWithIDriverPlatform extends VoicePlatform {
 	/**
 	 * Creates a new AvpPlatform.
 	 */
-	public VXMLBWithIDriverPlatform(IExecutionContext context,
-			IVariableRegistry variables) {
+	public VXMLBWithIDriverPlatform(IExecutionContext context, IVariableRegistry variables) {
 		super(context);
 		this.context = context;
 		this.variables = variables;
@@ -57,10 +56,8 @@ public class VXMLBWithIDriverPlatform extends VoicePlatform {
 	public void generateInitialVariableRequests(Map<String, String> variables) {
 		// TODO Auto-generated method stub
 		super.generateInitialVariableRequests(variables);
-		variables.put("vxmlbInviteURI",
-				"session.connection.cti.vars['sip_req_uri']");
-		variables.put("vxmlbFromUser",
-				"session.connection.cti.vars['sip_from_user']");
+		variables.put("vxmlbInviteURI", "session.connection.cti.vars['sip_req_uri']");
+		variables.put("vxmlbFromUser", "session.connection.cti.vars['sip_from_user']");
 	}
 
 	@Override
@@ -74,16 +71,12 @@ public class VXMLBWithIDriverPlatform extends VoicePlatform {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.support.AbstractPlatform#
-	 * createDocument(
+	 * @see org.eclipse.vtp.framework.interactions.core.support.AbstractPlatform# createDocument(
 	 * org.eclipse.vtp.framework.interactions.core.platforms.ILinkFactory,
 	 * org.eclipse.vtp.framework.interactions.core.platforms.IRenderingQueue)
 	 */
 	@Override
-	public IDocument createDocument(ILinkFactory links,
-			IRenderingQueue renderingQueue) {
+	public IDocument createDocument(ILinkFactory links, IRenderingQueue renderingQueue) {
 		links.setUrlEncoded(false);
 		return super.createDocument(links, renderingQueue);
 	}
@@ -101,8 +94,7 @@ public class VXMLBWithIDriverPlatform extends VoicePlatform {
 	}
 
 	@Override
-	protected IDocument renderEndMessage(ILinkFactory links,
-			EndMessageCommand endMessageCommand) {
+	protected IDocument renderEndMessage(ILinkFactory links, EndMessageCommand endMessageCommand) {
 		new Exception().printStackTrace();
 		IDocument ret = super.renderEndMessage(links, endMessageCommand);
 		Long port = (Long) this.context.getRootAttribute("idriver.port");

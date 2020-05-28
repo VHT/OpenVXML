@@ -22,13 +22,11 @@ import org.eclipse.ui.actions.ActionGroup;
 
 /**
  * @since 3.2
- * 
  */
 public class AudioActionGroup extends ActionGroup {
 	private PlayFileAction playFileAction;
 
 	/**
-	 * 
 	 * @param aShell
 	 */
 	public AudioActionGroup(Shell aShell) {
@@ -37,31 +35,26 @@ public class AudioActionGroup extends ActionGroup {
 
 	@Override
 	public void fillContextMenu(IMenuManager menu) {
-		IStructuredSelection selection = (IStructuredSelection) getContext()
-				.getSelection();
+		IStructuredSelection selection = (IStructuredSelection) getContext().getSelection();
 		playFileAction.selectionChanged(selection);
 		menu.add(playFileAction);
 		// menu.appendToGroup("audio.group", playFileAction);
 	}
 
 	@Override
-	public void fillActionBars(IActionBars actionBars) {
-	}
+	public void fillActionBars(IActionBars actionBars) {}
 
 	/**
 	 * Handles a key pressed event by invoking the appropriate action.
 	 * 
-	 * @param event
-	 *            The Key Event
+	 * @param event The Key Event
 	 */
-	public void handleKeyPressed(KeyEvent event) {
-	}
+	public void handleKeyPressed(KeyEvent event) {}
 
 	protected void makeActions() {
 		playFileAction = new PlayFileAction();
 	}
 
 	@Override
-	public void updateActionBars() {
-	}
+	public void updateActionBars() {}
 }

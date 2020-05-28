@@ -32,73 +32,64 @@ import com.openmethods.openvxml.desktop.model.workflow.internal.VariableHelper;
 import com.openmethods.openvxml.desktop.model.workflow.internal.design.ConnectorRecord;
 import com.openmethods.openvxml.desktop.model.workflow.internal.design.ExitBroadcastReceiver;
 
-public class BroadcastReceiverInformationProvider extends PrimitiveInformationProvider implements PrimitiveBroadcastReceiverProvider
-{
+public class BroadcastReceiverInformationProvider extends PrimitiveInformationProvider
+	implements
+	PrimitiveBroadcastReceiverProvider {
 	private IBusinessObjectSet businessObjectSet = null;
 	List<ConnectorRecord> connectorRecords = new ArrayList<ConnectorRecord>();
 	private List<IExitBroadcastReceiver> receivers = new ArrayList<IExitBroadcastReceiver>();
-	
-	public BroadcastReceiverInformationProvider(PrimitiveElement element)
-	{
+
+	public BroadcastReceiverInformationProvider(PrimitiveElement element) {
 		super(element);
-		connectorRecords.add(new ConnectorRecord(element, "Continue", IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
+		connectorRecords.add(new ConnectorRecord(element, "Continue",
+				IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
 	}
-	
-	public void setExitBroadcastReceivers(List<IExitBroadcastReceiver> receivers)
-	{
+
+	public void setExitBroadcastReceivers(List<IExitBroadcastReceiver> receivers) {
 		this.receivers = receivers;
 		getElement().markDirty();
 	}
 
-	public boolean acceptsConnector(IDesignElement origin)
-	{
+	public boolean acceptsConnector(IDesignElement origin) {
 		return false;
 	}
 
-	public ConnectorRecord getConnectorRecord(String recordName)
-	{
-		for(int i = 0; i < connectorRecords.size(); i++)
-		{
+	public ConnectorRecord getConnectorRecord(String recordName) {
+		for (int i = 0; i < connectorRecords.size(); i++) {
 			ConnectorRecord cr = connectorRecords.get(i);
-			if(cr.getName().equals(recordName))
-				return cr;
+			if (cr.getName().equals(recordName)) return cr;
 		}
 		return null;
 	}
 
-	public List<ConnectorRecord> getConnectorRecords()
-	{
+	public List<ConnectorRecord> getConnectorRecords() {
 		return connectorRecords;
 	}
 
-	public List<ConnectorRecord> getConnectorRecords(IDesignElementConnectionPoint.ConnectionPointType... types)
-	{
+	public List<ConnectorRecord> getConnectorRecords(
+			IDesignElementConnectionPoint.ConnectionPointType... types) {
 		List<ConnectorRecord> ret = new ArrayList<ConnectorRecord>();
-		for(int i = 0; i < connectorRecords.size(); i++)
-		{
+		for (int i = 0; i < connectorRecords.size(); i++) {
 			ConnectorRecord cr = connectorRecords.get(i);
-			if(cr.getType().isSet(IDesignElementConnectionPoint.ConnectionPointType.getFlagSet(types)))
-				ret.add(cr);
+			if (cr.getType().isSet(
+					IDesignElementConnectionPoint.ConnectionPointType.getFlagSet(types))) ret
+					.add(cr);
 		}
 		return ret;
 	}
 
-	public void readConfiguration(org.w3c.dom.Element configuration)
-	{
+	public void readConfiguration(org.w3c.dom.Element configuration) {
 		IOpenVXMLProject project = getElement().getDesign().getDocument().getProject();
-		IBusinessObjectProjectAspect businessObjectAspect = (IBusinessObjectProjectAspect)project.getProjectAspect(IBusinessObjectProjectAspect.ASPECT_ID);
+		IBusinessObjectProjectAspect businessObjectAspect = (IBusinessObjectProjectAspect) project
+				.getProjectAspect(IBusinessObjectProjectAspect.ASPECT_ID);
 		businessObjectSet = businessObjectAspect.getBusinessObjectSet();
 		NodeList recGroupList = configuration.getElementsByTagName("receivers");
-		if(recGroupList.getLength() != 1)
-			return;
-		org.w3c.dom.Element recGroupElement = (org.w3c.dom.Element)recGroupList.item(0);
-		NodeList recList =
-			recGroupElement.getElementsByTagName("receiver");
+		if (recGroupList.getLength() != 1) return;
+		org.w3c.dom.Element recGroupElement = (org.w3c.dom.Element) recGroupList.item(0);
+		NodeList recList = recGroupElement.getElementsByTagName("receiver");
 
-		for(int v = 0; v < recList.getLength(); v++)
-		{
-			org.w3c.dom.Element recElement =
-				(org.w3c.dom.Element)recList.item(v);
+		for (int v = 0; v < recList.getLength(); v++) {
+			org.w3c.dom.Element recElement = (org.w3c.dom.Element) recList.item(v);
 			String pattern = recElement.getAttribute("pattern");
 			ExitBroadcastReceiver ebr = new ExitBroadcastReceiver(pattern);
 			receivers.add(ebr);
@@ -106,66 +97,59 @@ public class BroadcastReceiverInformationProvider extends PrimitiveInformationPr
 
 	}
 
-	public void writeConfiguration(org.w3c.dom.Element configuration)
-	{
-		org.w3c.dom.Element receiversElement =
-			configuration.getOwnerDocument().createElement("receivers");
+	public void writeConfiguration(org.w3c.dom.Element configuration) {
+		org.w3c.dom.Element receiversElement = configuration.getOwnerDocument().createElement(
+				"receivers");
 		configuration.appendChild(receiversElement);
 
-		for(int i = 0; i < receivers.size(); i++)
-		{
+		for (int i = 0; i < receivers.size(); i++) {
 			IExitBroadcastReceiver receiver = receivers.get(i);
-			org.w3c.dom.Element receiverElement =
-				receiversElement.getOwnerDocument().createElement("receiver");
+			org.w3c.dom.Element receiverElement = receiversElement.getOwnerDocument()
+					.createElement("receiver");
 			receiversElement.appendChild(receiverElement);
-			receiverElement.setAttribute("pattern",
-				(receiver.getExitPattern() == null) ? "" : receiver.getExitPattern());
+			receiverElement.setAttribute("pattern", (receiver.getExitPattern() == null) ? ""
+					: receiver.getExitPattern());
 		}
 	}
 
-//	public List getPropertiesPanels()
-//	{
-//		List ret = new ArrayList();
-//		ret.add(new ApplicationStartVariablesPropertyPanel("Variables", getElement()));
-//		return ret;
-//	}
-	
-	public List<Variable> getOutgoingVariables(String exitPoint, boolean localOnly)
-    {
+	// public List getPropertiesPanels()
+	// {
+	// List ret = new ArrayList();
+	// ret.add(new ApplicationStartVariablesPropertyPanel("Variables", getElement()));
+	// return ret;
+	// }
+
+	public List<Variable> getOutgoingVariables(String exitPoint, boolean localOnly) {
 		List<Variable> variables = new ArrayList<Variable>();
-		Variable platform = VariableHelper.constructVariable("receivedExit", businessObjectSet, FieldType.STRING);
+		Variable platform = VariableHelper.constructVariable("receivedExit", businessObjectSet,
+				FieldType.STRING);
 		variables.add(platform);
-	    return variables;
-    }
+		return variables;
+	}
 
-	public boolean canDelete()
-	{
+	public boolean canDelete() {
 		return true;
 	}
-	
-	public boolean hasPathToStart(Map<String, IDesignElement> path)
-	{
+
+	public boolean hasPathToStart(Map<String, IDesignElement> path) {
 		return true;
 	}
-	public boolean hasConnectors()
-    {
-	    return true;
-    }
 
-	public String getId()
-	{
+	public boolean hasConnectors() {
+		return true;
+	}
+
+	public String getId() {
 		return getElement().getId();
 	}
 
-	public String getName()
-	{
+	public String getName() {
 		return getElement().getName();
 	}
 
 	@Override
-	public List<IExitBroadcastReceiver> getExitBroadcastReceivers()
-	{
+	public List<IExitBroadcastReceiver> getExitBroadcastReceivers() {
 		return receivers;
 	}
-	
+
 }

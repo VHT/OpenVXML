@@ -19,8 +19,8 @@ import org.eclipse.vtp.desktop.model.interactive.core.IMediaContainer;
 import org.eclipse.vtp.desktop.model.interactive.core.IMediaFile;
 
 /**
- * This is a concrete implementation of <code>IMediaFile</code> and provides the
- * default behavior of that interface.
+ * This is a concrete implementation of <code>IMediaFile</code> and provides the default behavior of
+ * that interface.
  *
  * @author Trip Gilman
  * @version 2.0
@@ -33,13 +33,11 @@ public class MediaFile extends MediaResource implements IMediaFile {
 	IFile file;
 
 	/**
-	 * Creates a new <code>MediaFile</code> in the given container with the
-	 * provided eclipse file resource.
+	 * Creates a new <code>MediaFile</code> in the given container with the provided eclipse file
+	 * resource.
 	 *
-	 * @param container
-	 *            The parent media container
-	 * @param file
-	 *            The eclipse file resource this media file represents
+	 * @param container The parent media container
+	 * @param file The eclipse file resource this media file represents
 	 */
 	public MediaFile(IMediaContainer container, IFile file) {
 		super(container, file);
@@ -48,7 +46,6 @@ public class MediaFile extends MediaResource implements IMediaFile {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IMediaFile#open()
 	 */
 	@Override
@@ -58,7 +55,6 @@ public class MediaFile extends MediaResource implements IMediaFile {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IMediaFile#length()
 	 */
 	@Override
@@ -77,17 +73,13 @@ public class MediaFile extends MediaResource implements IMediaFile {
 	@Override
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapterClass) {
-		if (adapterClass.isAssignableFrom(IFile.class)) {
-			return file;
-		}
+		if (adapterClass.isAssignableFrom(IFile.class)) { return file; }
 		return super.getAdapter(adapterClass);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof MediaFile) {
-			return file.equals(((MediaFile) obj).getUnderlyingFile());
-		}
+		if (obj instanceof MediaFile) { return file.equals(((MediaFile) obj).getUnderlyingFile()); }
 		return false;
 	}
 

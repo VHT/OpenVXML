@@ -49,8 +49,8 @@ public class ResourceChooserDialog extends Dialog {
 	 * 
 	 * @param parentShell
 	 */
-	public ResourceChooserDialog(Shell parentShell,
-			IResourceManager resourceManager, String initialValue) {
+	public ResourceChooserDialog(Shell parentShell, IResourceManager resourceManager,
+			String initialValue) {
 		super(parentShell);
 		super.setShellStyle(super.getShellStyle() | SWT.RESIZE);
 		this.resourceManager = resourceManager;
@@ -59,10 +59,7 @@ public class ResourceChooserDialog extends Dialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.window.Window#createContents(org.eclipse.swt.widgets
-	 * .Composite)
+	 * @see org.eclipse.jface.window.Window#createContents(org.eclipse.swt.widgets .Composite)
 	 */
 	@Override
 	protected Control createContents(Composite parent) {
@@ -76,16 +73,12 @@ public class ResourceChooserDialog extends Dialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
-	 * .Composite)
+	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets .Composite)
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
-		viewer = new TreeViewer(composite, SWT.SINGLE | SWT.H_SCROLL
-				| SWT.V_SCROLL);
+		viewer = new TreeViewer(composite, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL);
 		viewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
 		viewer.setContentProvider(new FilesContentProvider());
 		viewer.setLabelProvider(new FilesLabelProvider());
@@ -93,15 +86,13 @@ public class ResourceChooserDialog extends Dialog {
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
-				IStructuredSelection selection = (IStructuredSelection) event
-						.getSelection();
+				IStructuredSelection selection = (IStructuredSelection) event.getSelection();
 
 				if ((selection == null) || selection.isEmpty()) {
 					ResourceChooserDialog.this.getButton(OK).setEnabled(false);
 				} else {
 					ResourceChooserDialog.this.getButton(OK).setEnabled(
-							!selection.getFirstElement().toString()
-									.endsWith("/"));
+							!selection.getFirstElement().toString().endsWith("/"));
 				}
 			}
 		});
@@ -113,13 +104,11 @@ public class ResourceChooserDialog extends Dialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
 	@Override
 	protected void okPressed() {
-		value = ((IStructuredSelection) viewer.getSelection())
-				.getFirstElement().toString();
+		value = ((IStructuredSelection) viewer.getSelection()).getFirstElement().toString();
 		super.okPressed();
 	}
 
@@ -137,25 +126,21 @@ public class ResourceChooserDialog extends Dialog {
 	 * 
 	 * @author Lonnie Pryor
 	 */
-	private final class FilesContentProvider implements
-			IStructuredContentProvider, ITreeContentProvider {
+	private final class FilesContentProvider
+		implements
+		IStructuredContentProvider,
+		ITreeContentProvider {
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
+		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
 		 * .jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
 		@Override
-		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer v, Object oldInput, Object newInput) {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
-		 * java.lang.Object)
+		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements( java.lang.Object)
 		 */
 		@Override
 		public Object[] getElements(Object parent) {
@@ -164,43 +149,30 @@ public class ResourceChooserDialog extends Dialog {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang
-		 * .Object)
+		 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang .Object)
 		 */
 		@Override
 		public Object getParent(Object child) {
-			if (child == resourceManager) {
-				return null;
-			}
+			if (child == resourceManager) { return null; }
 			String str = child.toString();
 			while (str.endsWith("/")) {
 				str = str.substring(0, str.length() - 1);
 			}
-			if (str.lastIndexOf('/') < 0) {
-				return resourceManager;
-			}
+			if (str.lastIndexOf('/') < 0) { return resourceManager; }
 			return str.substring(0, str.lastIndexOf('/') + 1);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang
-		 * .Object)
+		 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang .Object)
 		 */
 		@Override
 		public Object[] getChildren(Object parent) {
 			if (parent == resourceManager) {
 				parent = "";
 			}
-			String[] children = resourceManager
-					.listResources(parent.toString());
-			if (children == null) {
-				return new Object[0];
-			}
+			String[] children = resourceManager.listResources(parent.toString());
+			if (children == null) { return new Object[0]; }
 			Object[] results = new Object[children.length];
 			for (int i = 0; i < results.length; i++) {
 				results[i] = parent + children[i];
@@ -210,10 +182,7 @@ public class ResourceChooserDialog extends Dialog {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang
-		 * .Object)
+		 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang .Object)
 		 */
 		@Override
 		public boolean hasChildren(Object parent) {
@@ -222,12 +191,10 @@ public class ResourceChooserDialog extends Dialog {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 		 */
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 	}
 
 	/**
@@ -238,15 +205,11 @@ public class ResourceChooserDialog extends Dialog {
 	private final class FilesLabelProvider extends LabelProvider {
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
+		 * @see org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
 		 */
 		@Override
 		public String getText(Object obj) {
-			if (obj == resourceManager) {
-				return "Media Files";
-			}
+			if (obj == resourceManager) { return "Media Files"; }
 			String str = obj.toString();
 			while (str.endsWith("/")) {
 				str = str.substring(0, str.length() - 1);
@@ -256,18 +219,13 @@ public class ResourceChooserDialog extends Dialog {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
+		 * @see org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
 		 */
 		@Override
 		public Image getImage(Object obj) {
-			if (obj == resourceManager || obj.toString().endsWith("/")) {
-				return PlatformUI.getWorkbench().getSharedImages()
-						.getImage(ISharedImages.IMG_OBJ_FOLDER);
-			}
-			return PlatformUI.getWorkbench().getSharedImages()
-					.getImage(ISharedImages.IMG_OBJ_FILE);
+			if (obj == resourceManager || obj.toString().endsWith("/")) { return PlatformUI
+					.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_FOLDER); }
+			return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_FILE);
 		}
 	}
 
@@ -279,15 +237,11 @@ public class ResourceChooserDialog extends Dialog {
 	private final class FilesSorter extends ViewerSorter {
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ViewerSorter#category(java.lang.Object)
+		 * @see org.eclipse.jface.viewers.ViewerSorter#category(java.lang.Object)
 		 */
 		@Override
 		public int category(Object element) {
-			if (element == resourceManager || element.toString().endsWith("/")) {
-				return 1;
-			}
+			if (element == resourceManager || element.toString().endsWith("/")) { return 1; }
 			return 2;
 		}
 	}

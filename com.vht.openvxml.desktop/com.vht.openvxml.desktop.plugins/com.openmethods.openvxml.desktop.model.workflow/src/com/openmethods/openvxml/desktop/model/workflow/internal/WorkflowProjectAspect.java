@@ -27,15 +27,12 @@ import com.openmethods.openvxml.desktop.model.workflow.IWorkflowProjectAspect;
 import com.openmethods.openvxml.desktop.model.workflow.builders.WorkflowProjectBuilder;
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesignViewer;
 
-public class WorkflowProjectAspect extends OpenVXMLProjectAspect implements
-		IWorkflowProjectAspect {
+public class WorkflowProjectAspect extends OpenVXMLProjectAspect implements IWorkflowProjectAspect {
 	private DesignRootFolder designRootFolder = null;
 
-	public WorkflowProjectAspect(IOpenVXMLProject hostProject,
-			Element aspectConfiguration) {
+	public WorkflowProjectAspect(IOpenVXMLProject hostProject, Element aspectConfiguration) {
 		super(hostProject);
-		IFolder designFolder = hostProject.getUnderlyingProject().getFolder(
-				"Workflow Design");
+		IFolder designFolder = hostProject.getUnderlyingProject().getFolder("Workflow Design");
 		designRootFolder = new DesignRootFolder(this, designFolder);
 	}
 
@@ -61,9 +58,7 @@ public class WorkflowProjectAspect extends OpenVXMLProjectAspect implements
 		WorkflowTraversalHelper wth = new WorkflowTraversalHelper(this,
 				new LinkedList<IDesignDocument>());
 		for (IWorkflowEntry entry : wth.getAllWorkflowEntries()) {
-			if (entry.getName().equals(name)) {
-				return entry;
-			}
+			if (entry.getName().equals(name)) { return entry; }
 		}
 		return null;
 	}
@@ -86,29 +81,24 @@ public class WorkflowProjectAspect extends OpenVXMLProjectAspect implements
 				getHostProject().getUnderlyingProject());
 		String documentPath = index.locateElement(elementId);
 		if (documentPath != null) {
-			IFile file = getHostProject().getUnderlyingProject().getFile(
-					documentPath);
+			IFile file = getHostProject().getUnderlyingProject().getFile(documentPath);
 			if (file.exists()) {
-				IWorkflowResource workflowResource = WorkflowCore.getDefault()
-						.getWorkflowModel().convertToWorkflowResource(file);
+				IWorkflowResource workflowResource = WorkflowCore.getDefault().getWorkflowModel()
+						.convertToWorkflowResource(file);
 				if (workflowResource instanceof IDesignDocument) {
-					IWorkbenchWindow workbenchWindow = PlatformUI
-							.getWorkbench().getActiveWorkbenchWindow();
+					IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench()
+							.getActiveWorkbenchWindow();
 					if (workbenchWindow == null) {
 						if (PlatformUI.getWorkbench().getWorkbenchWindowCount() > 0) {
-							workbenchWindow = PlatformUI.getWorkbench()
-									.getWorkbenchWindows()[0];
+							workbenchWindow = PlatformUI.getWorkbench().getWorkbenchWindows()[0];
 						}
 					}
 					if (workbenchWindow != null) {
 						try {
-							IEditorPart editor = IDE
-									.openEditor(
-											workbenchWindow.getActivePage(),
-											file, true);
+							IEditorPart editor = IDE.openEditor(workbenchWindow.getActivePage(),
+									file, true);
 							if (editor instanceof IDesignViewer) {
-								((IDesignViewer) editor)
-										.displayElement(elementId);
+								((IDesignViewer) editor).displayElement(elementId);
 								return;
 							}
 						} catch (PartInitException e) {
@@ -125,7 +115,6 @@ public class WorkflowProjectAspect extends OpenVXMLProjectAspect implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.model.core.spi.OpenVXMLProjectAspect#
 	 * getAspectResources(java.util.List)
 	 */
@@ -139,12 +128,10 @@ public class WorkflowProjectAspect extends OpenVXMLProjectAspect implements
 		ICommand[] commands = description.getBuildSpec();
 
 		for (int i = 0; i < commands.length; ++i) {
-			if (commands[i].getBuilderName().equals(
-					WorkflowProjectBuilder.BUILDER_ID)) {
+			if (commands[i].getBuilderName().equals(WorkflowProjectBuilder.BUILDER_ID)) {
 				ICommand[] newCommands = new ICommand[commands.length - 1];
 				System.arraycopy(commands, 0, newCommands, 0, i);
-				System.arraycopy(commands, i + 1, newCommands, i,
-						commands.length - i - 1);
+				System.arraycopy(commands, i + 1, newCommands, i, commands.length - i - 1);
 				description.setBuildSpec(newCommands);
 
 				return true;
@@ -155,8 +142,8 @@ public class WorkflowProjectAspect extends OpenVXMLProjectAspect implements
 
 	@Override
 	public void removeProjectLayout() {
-		IFolder dependenciesFolder = getHostProject().getUnderlyingProject()
-				.getFolder("Workflow Design");
+		IFolder dependenciesFolder = getHostProject().getUnderlyingProject().getFolder(
+				"Workflow Design");
 		try {
 			dependenciesFolder.delete(true, null);
 		} catch (CoreException e) {
@@ -165,7 +152,6 @@ public class WorkflowProjectAspect extends OpenVXMLProjectAspect implements
 	}
 
 	@Override
-	public void writeConfiguration(Element aspectElement) {
-	}
+	public void writeConfiguration(Element aspectElement) {}
 
 }

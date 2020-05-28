@@ -59,35 +59,26 @@ import com.openmethods.openvxml.desktop.model.branding.internal.Brand;
 import com.openmethods.openvxml.desktop.model.branding.internal.DefaultBrandManager;
 
 /**
- * This wizard walks the user through the steps required to create a new
- * OpenVXML voice application project.
- *
- * <b>Step 1)</b> Enter a name for the application.<br>
- * The name must be unique among the other projects contained in the eclipse
- * workspace. The user will not be able to move to the next step until the name
- * is entered and is unique. <br>
+ * This wizard walks the user through the steps required to create a new OpenVXML voice application
+ * project. <b>Step 1)</b> Enter a name for the application.<br>
+ * The name must be unique among the other projects contained in the eclipse workspace. The user
+ * will not be able to move to the next step until the name is entered and is unique. <br>
  * <b>Step 2)</b> Determine supported languages.<br>
- * A persona project must be associated with each language the application will
- * support.<br>
- *
- * Note: Currently all applications must support both English and Spanish.
- *
- * The new project is created by this wizard automatically and requires nothing
- * of the caller of the wizard.
+ * A persona project must be associated with each language the application will support.<br>
+ * Note: Currently all applications must support both English and Spanish. The new project is
+ * created by this wizard automatically and requires nothing of the caller of the wizard.
  *
  * @author Trip
  * @version 1.0
  */
-public class CreateUmbrellaProjectWizard extends Wizard implements INewWizard,
-		IExecutableExtension {
+public class CreateUmbrellaProjectWizard extends Wizard implements INewWizard, IExecutableExtension {
 	/**
 	 * Wizard page that collects the name of the new application project.
 	 */
 	ApplicationPage applicationPage = null;
 
 	/**
-	 * Wizard page that configures the build path of the new application
-	 * project.
+	 * Wizard page that configures the build path of the new application project.
 	 */
 	BuildPathPage buildPathPage = null;
 	InteractionTypePage interactionTypePage = null;
@@ -99,8 +90,7 @@ public class CreateUmbrellaProjectWizard extends Wizard implements INewWizard,
 	private InteractionSupportManager supportManager = null;
 
 	/**
-	 * Creates a new <code>CreateApplicationWizard</code> instance with default
-	 * values.
+	 * Creates a new <code>CreateApplicationWizard</code> instance with default values.
 	 */
 	public CreateUmbrellaProjectWizard() {
 		super();
@@ -108,11 +98,11 @@ public class CreateUmbrellaProjectWizard extends Wizard implements INewWizard,
 		defaultManager.setDefaultBrand(new Brand(Guid.createGUID(), "Default"));
 		brandManager = new ConfigurationBrandManager(defaultManager);
 		List<InteractionTypeSupport> supportList = new LinkedList<InteractionTypeSupport>();
-		List<InteractionType> installedTypes = InteractionTypeManager
-				.getInstance().getInteractionTypes();
+		List<InteractionType> installedTypes = InteractionTypeManager.getInstance()
+				.getInteractionTypes();
 		for (InteractionType installedType : installedTypes) {
-			InteractionTypeSupport typeSupport = new InteractionTypeSupport(
-					installedType.getId(), installedType.getName());
+			InteractionTypeSupport typeSupport = new InteractionTypeSupport(installedType.getId(),
+					installedType.getName());
 			supportList.add(typeSupport);
 			typeSupport.addLanguageSupport("English");
 		}
@@ -126,7 +116,6 @@ public class CreateUmbrellaProjectWizard extends Wizard implements INewWizard,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.wizard.Wizard#addPages()
 	 */
 	@Override
@@ -139,15 +128,12 @@ public class CreateUmbrellaProjectWizard extends Wizard implements INewWizard,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.wizard.IWizard#performFinish()
 	 */
 	@Override
 	public boolean performFinish() {
-		OpenVXMLProject workflowProject = (OpenVXMLProject) WorkflowCore
-				.getDefault()
-				.getWorkflowModel()
-				.createWorkflowProject(WorkflowProjectNature5_0.NATURE_ID,
+		OpenVXMLProject workflowProject = (OpenVXMLProject) WorkflowCore.getDefault()
+				.getWorkflowModel().createWorkflowProject(WorkflowProjectNature5_0.NATURE_ID,
 						applicationPage.nameField.getText());
 		try {
 			IBrandingProjectAspect brandingAspect = (IBrandingProjectAspect) workflowProject
@@ -155,8 +141,7 @@ public class CreateUmbrellaProjectWizard extends Wizard implements INewWizard,
 			buildPathPage.configureBuildPath(brandingAspect);
 			LanguageSupportProjectAspect languageSupportAspect = (LanguageSupportProjectAspect) workflowProject
 					.addProjectAspect(ILanguageSupportProjectAspect.ASPECT_ID);
-			languageSupportAspect.setInteractionTypeSupport(supportManager
-					.getSupport());
+			languageSupportAspect.setInteractionTypeSupport(supportManager.getSupport());
 			workflowProject.addProjectAspect(IUmbrellaProjectAspect.ASPECT_ID);
 			workflowProject.storeBuildPath();
 			BasicNewProjectResourceWizard.updatePerspective(configElement);
@@ -168,31 +153,24 @@ public class CreateUmbrellaProjectWizard extends Wizard implements INewWizard,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org
-	 * .eclipse.core.runtime.IConfigurationElement, java.lang.String,
-	 * java.lang.Object)
+	 * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org
+	 * .eclipse.core.runtime.IConfigurationElement, java.lang.String, java.lang.Object)
 	 */
 	@Override
-	public void setInitializationData(IConfigurationElement cfig,
-			String propertyName, Object data) {
+	public void setInitializationData(IConfigurationElement cfig, String propertyName, Object data) {
 		configElement = cfig;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench,
 	 * org.eclipse.jface.viewers.IStructuredSelection)
 	 */
 	@Override
-	public void init(IWorkbench workbench, IStructuredSelection selection) {
-	}
+	public void init(IWorkbench workbench, IStructuredSelection selection) {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.wizard.Wizard#canFinish()
 	 */
 	@Override
@@ -210,16 +188,13 @@ public class CreateUmbrellaProjectWizard extends Wizard implements INewWizard,
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt
+		 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt
 		 * .widgets.Composite)
 		 */
 		@Override
 		public void createControl(Composite parent) {
 			Composite comp = new Composite(parent, SWT.NONE);
-			comp.setBackground(parent.getDisplay().getSystemColor(
-					SWT.COLOR_WHITE));
+			comp.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
 			setControl(comp);
 
 			Label hostLabel = new Label(comp, SWT.NONE);
@@ -233,11 +208,8 @@ public class CreateUmbrellaProjectWizard extends Wizard implements INewWizard,
 				public void verifyText(VerifyEvent e) {
 					String text = e.text;
 					char[] chars = text.toCharArray();
-					String currentName = nameField.getText().substring(0,
-							e.start)
-							+ e.text
-							+ nameField.getText(e.end, (nameField.getText()
-									.length() - 1));
+					String currentName = nameField.getText().substring(0, e.start) + e.text
+							+ nameField.getText(e.end, (nameField.getText().length() - 1));
 					if (currentName.length() > 255) {
 						e.doit = false;
 						return;
@@ -261,20 +233,18 @@ public class CreateUmbrellaProjectWizard extends Wizard implements INewWizard,
 			});
 			nameField.addKeyListener(new KeyListener() {
 				@Override
-				public void keyPressed(KeyEvent e) {
-				}
+				public void keyPressed(KeyEvent e) {}
 
 				@Override
 				public void keyReleased(KeyEvent e) {
 					if (nameField.getText().length() == 0) {
 						setPageComplete(false);
 					} else {
-						IProject[] existingProjects = ResourcesPlugin
-								.getWorkspace().getRoot().getProjects();
+						IProject[] existingProjects = ResourcesPlugin.getWorkspace().getRoot()
+								.getProjects();
 
 						for (IProject existingProject : existingProjects) {
-							if (nameField.getText().equalsIgnoreCase(
-									existingProject.getName())) {
+							if (nameField.getText().equalsIgnoreCase(existingProject.getName())) {
 								setPageComplete(false);
 								setErrorMessage("Another project already exists with that name.");
 
@@ -285,8 +255,7 @@ public class CreateUmbrellaProjectWizard extends Wizard implements INewWizard,
 						setPageComplete(true);
 						setErrorMessage(null);
 					}
-					ApplicationPage.this.getWizard().getContainer()
-							.updateButtons();
+					ApplicationPage.this.getWizard().getContainer().updateButtons();
 				}
 			});
 
@@ -298,10 +267,8 @@ public class CreateUmbrellaProjectWizard extends Wizard implements INewWizard,
 			FormData hostLabelFormData = new FormData();
 			hostLabelFormData.left = new FormAttachment(0, 10);
 			hostLabelFormData.top = new FormAttachment(0, 10);
-			hostLabelFormData.right = new FormAttachment(0,
-					10 + hostLabel.getSize().x);
-			hostLabelFormData.bottom = new FormAttachment(0,
-					10 + hostLabel.getSize().y);
+			hostLabelFormData.right = new FormAttachment(0, 10 + hostLabel.getSize().x);
+			hostLabelFormData.bottom = new FormAttachment(0, 10 + hostLabel.getSize().y);
 			hostLabel.setLayoutData(hostLabelFormData);
 
 			FormData hostFieldFormData = new FormData();
@@ -331,9 +298,7 @@ public class CreateUmbrellaProjectWizard extends Wizard implements INewWizard,
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt
+		 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt
 		 * .widgets.Composite)
 		 */
 		@Override
@@ -364,9 +329,7 @@ public class CreateUmbrellaProjectWizard extends Wizard implements INewWizard,
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt
+		 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt
 		 * .widgets.Composite)
 		 */
 		@Override
@@ -380,8 +343,7 @@ public class CreateUmbrellaProjectWizard extends Wizard implements INewWizard,
 		/**
 		 * @param project
 		 */
-		void configureBuildPath(InteractiveProjectAspect project) {
-		}
+		void configureBuildPath(InteractiveProjectAspect project) {}
 
 	}
 
@@ -396,9 +358,7 @@ public class CreateUmbrellaProjectWizard extends Wizard implements INewWizard,
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt
+		 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt
 		 * .widgets.Composite)
 		 */
 		@Override
@@ -412,8 +372,7 @@ public class CreateUmbrellaProjectWizard extends Wizard implements INewWizard,
 		/**
 		 * @param project
 		 */
-		void configureBuildPath(InteractiveProjectAspect project) {
-		}
+		void configureBuildPath(InteractiveProjectAspect project) {}
 
 	}
 }

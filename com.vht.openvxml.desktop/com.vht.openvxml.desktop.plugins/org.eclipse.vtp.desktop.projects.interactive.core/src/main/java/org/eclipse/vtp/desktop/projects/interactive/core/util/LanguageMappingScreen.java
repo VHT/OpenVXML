@@ -84,8 +84,8 @@ public class LanguageMappingScreen {
 	 */
 	public LanguageMappingScreen() {
 		super();
-		mediaProjects = InteractiveWorkflowCore.getDefault()
-				.getInteractiveWorkflowModel().listMediaProjects();
+		mediaProjects = InteractiveWorkflowCore.getDefault().getInteractiveWorkflowModel()
+				.listMediaProjects();
 	}
 
 	public void init(BrandManager brandManager, SupportRecord supportRecord) {
@@ -93,16 +93,13 @@ public class LanguageMappingScreen {
 		brandManager.addListener(new BrandManagerListener() {
 
 			@Override
-			public void brandRemoved(IBrand brand) {
-			}
+			public void brandRemoved(IBrand brand) {}
 
 			@Override
-			public void brandParentChanged(IBrand brand, IBrand oldParent) {
-			}
+			public void brandParentChanged(IBrand brand, IBrand oldParent) {}
 
 			@Override
-			public void brandIdChanged(IBrand brand, String oldId) {
-			}
+			public void brandIdChanged(IBrand brand, String oldId) {}
 
 			@Override
 			public void brandNameChanged(IBrand brand, String oldName) {
@@ -158,13 +155,12 @@ public class LanguageMappingScreen {
 		languageButton.setLayoutData(gd);
 		languageButton.addSelectionListener(new SelectionListener() {
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				LanguageConfigurationDialog lcd = new LanguageConfigurationDialog(
-						languageButton.getShell());
+				LanguageConfigurationDialog lcd = new LanguageConfigurationDialog(languageButton
+						.getShell());
 				lcd.setCurrentSupport(support);
 				if (lcd.open() == Dialog.OK) {
 					brandViewer.getControl().dispose();
@@ -179,8 +175,7 @@ public class LanguageMappingScreen {
 	}
 
 	private void createTree(Composite parent) {
-		Tree tree = new Tree(parent, SWT.BORDER | SWT.SINGLE
-				| SWT.FULL_SELECTION);
+		Tree tree = new Tree(parent, SWT.BORDER | SWT.SINGLE | SWT.FULL_SELECTION);
 		tree.setHeaderVisible(true);
 		brandViewer = new TreeViewer(tree);
 
@@ -189,12 +184,10 @@ public class LanguageMappingScreen {
 		brandColumn.setText("Brands");
 
 		for (LanguageSupport language : support.getSupportedLanguages()) {
-			TreeViewerColumn languageColumn = new TreeViewerColumn(brandViewer,
-					SWT.NONE);
+			TreeViewerColumn languageColumn = new TreeViewerColumn(brandViewer, SWT.NONE);
 			languageColumn.getColumn().setText(language.getLanguage());
 			languageColumn.getColumn().setWidth(100);
-			ProjectEditingSupport pes = new ProjectEditingSupport(brandViewer,
-					language);
+			ProjectEditingSupport pes = new ProjectEditingSupport(brandViewer, language);
 			languageColumn.setEditingSupport(pes);
 		}
 
@@ -222,20 +215,17 @@ public class LanguageMappingScreen {
 	 * @param manager
 	 */
 	private void fillContextMenu(IMenuManager manager) {
-		IStructuredSelection sel = ((IStructuredSelection) brandViewer
-				.getSelection());
+		IStructuredSelection sel = ((IStructuredSelection) brandViewer.getSelection());
 		if (!sel.isEmpty()) {
 			final IBrand brand = (IBrand) sel.getFirstElement();
 			manager.add(new Action("Add Brand") {
 				@Override
 				public void run() {
-					Shell workbenchShell = Display.getCurrent()
-							.getActiveShell();
+					Shell workbenchShell = Display.getCurrent().getActiveShell();
 					BrandDialog bd = new BrandDialog(workbenchShell);
 					bd.setReservedNames(getBrandNames(brand));
 					if (bd.open() == Dialog.OK) {
-						Brand nbrand = new Brand(Guid.createGUID(), bd
-								.getBrandName());
+						Brand nbrand = new Brand(Guid.createGUID(), bd.getBrandName());
 						nbrand.setParent(brand);
 						brandViewer.refresh(brand);
 					}
@@ -255,15 +245,11 @@ public class LanguageMappingScreen {
 		}
 	}
 
-	private class BrandContentProvider implements IStructuredContentProvider,
-			ITreeContentProvider {
+	private class BrandContentProvider implements IStructuredContentProvider, ITreeContentProvider {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
-		 * java.lang.Object)
+		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements( java.lang.Object)
 		 */
 		@Override
 		public Object[] getElements(Object inputElement) {
@@ -272,30 +258,22 @@ public class LanguageMappingScreen {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 		 */
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
+		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
 		 * .jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
 		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang
-		 * .Object)
+		 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang .Object)
 		 */
 		@Override
 		public Object[] getChildren(Object parentElement) {
@@ -304,10 +282,7 @@ public class LanguageMappingScreen {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang
-		 * .Object)
+		 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang .Object)
 		 */
 		@Override
 		public Object getParent(Object element) {
@@ -316,10 +291,7 @@ public class LanguageMappingScreen {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang
-		 * .Object)
+		 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang .Object)
 		 */
 		@Override
 		public boolean hasChildren(Object element) {
@@ -327,8 +299,7 @@ public class LanguageMappingScreen {
 		}
 	}
 
-	private class BrandLabelProvider extends LabelProvider implements
-			ITableLabelProvider {
+	private class BrandLabelProvider extends LabelProvider implements ITableLabelProvider {
 
 		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
@@ -338,19 +309,13 @@ public class LanguageMappingScreen {
 		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			IBrand brand = (IBrand) element;
-			if (columnIndex == 0) {
-				return brand.getName();
-			}
-			LanguageSupport language = support.getSupportedLanguages().get(
-					columnIndex - 1);
+			if (columnIndex == 0) { return brand.getName(); }
+			LanguageSupport language = support.getSupportedLanguages().get(columnIndex - 1);
 			String mediaProjectId = language.getMediaProjectId(brand, false);
 			if (mediaProjectId != null) {
-				IMediaProject mediaProject = InteractiveWorkflowCore
-						.getDefault().getInteractiveWorkflowModel()
-						.getMediaProject(mediaProjectId);
-				if (mediaProject == null) {
-					return "Not Found (" + mediaProjectId + ")";
-				}
+				IMediaProject mediaProject = InteractiveWorkflowCore.getDefault()
+						.getInteractiveWorkflowModel().getMediaProject(mediaProjectId);
+				if (mediaProject == null) { return "Not Found (" + mediaProjectId + ")"; }
 				return mediaProject.getName();
 			}
 			if (brand.equals(brandManager.getDefaultBrand())) {
@@ -388,17 +353,16 @@ public class LanguageMappingScreen {
 				defaultItems[i + 1] = mediaProjects.get(i).getName();
 				subItems[i + 1] = mediaProjects.get(i).getName();
 			}
-			defaultBrandEditor = new ComboBoxCellEditor(viewer.getTree(),
-					defaultItems, SWT.DROP_DOWN | SWT.READ_ONLY);
-			subBrandEditor = new ComboBoxCellEditor(viewer.getTree(), subItems,
+			defaultBrandEditor = new ComboBoxCellEditor(viewer.getTree(), defaultItems,
 					SWT.DROP_DOWN | SWT.READ_ONLY);
+			subBrandEditor = new ComboBoxCellEditor(viewer.getTree(), subItems, SWT.DROP_DOWN
+					| SWT.READ_ONLY);
 		}
 
 		public void modify(Object element, String property, Object value) {
 			IBrand brand = (IBrand) ((TreeItem) element).getData();
 			LanguageSupport ls = support.getLanguageSupport(property);
-			if (value.equals("Inherit From Parent")
-					|| value.equals("Not Configured")) {
+			if (value.equals("Inherit From Parent") || value.equals("Not Configured")) {
 				ls.assignMediaProject(brand.getId(), null);
 			} else {
 				IMediaProject mediaProject = (IMediaProject) value;
@@ -415,9 +379,7 @@ public class LanguageMappingScreen {
 		@Override
 		protected CellEditor getCellEditor(Object element) {
 			IBrand brand = (IBrand) element;
-			if (brand.getParent() == null) {
-				return defaultBrandEditor;
-			}
+			if (brand.getParent() == null) { return defaultBrandEditor; }
 			return subBrandEditor;
 		}
 
@@ -427,8 +389,7 @@ public class LanguageMappingScreen {
 			System.out.println("in get value");
 			try {
 				IBrand brand = (IBrand) element;
-				String mediaProjectId = language
-						.getMediaProjectId(brand, false);
+				String mediaProjectId = language.getMediaProjectId(brand, false);
 				System.out.println("media project id: " + mediaProjectId);
 				if (mediaProjectId == null) {
 					ret = new Integer(0);
@@ -455,8 +416,7 @@ public class LanguageMappingScreen {
 			if (vi == 0) {
 				language.assignMediaProject(brand.getId(), null);
 			} else {
-				language.assignMediaProject(brand.getId(),
-						mediaProjects.get(vi - 1).getId());
+				language.assignMediaProject(brand.getId(), mediaProjects.get(vi - 1).getId());
 			}
 			this.getViewer().refresh();
 		}

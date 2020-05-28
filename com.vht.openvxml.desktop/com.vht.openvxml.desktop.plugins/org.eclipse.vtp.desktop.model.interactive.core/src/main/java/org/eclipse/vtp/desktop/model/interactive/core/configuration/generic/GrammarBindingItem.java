@@ -18,8 +18,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * This implementation of the <code>BindingItem</code> interface represents an
- * input grammar binding. Input grammars are used to validate user input.
+ * This implementation of the <code>BindingItem</code> interface represents an input grammar
+ * binding. Input grammars are used to validate user input.
  * 
  * @author trip
  */
@@ -32,9 +32,7 @@ public class GrammarBindingItem implements BindingItem {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.configuration.generic.BindingItem#getType()
+	 * @see org.eclipse.vtp.desktop.core.configuration.generic.BindingItem#getType()
 	 */
 	@Override
 	public String getType() {
@@ -51,8 +49,7 @@ public class GrammarBindingItem implements BindingItem {
 	/**
 	 * Binds the given input grammar to this binding structure.
 	 * 
-	 * @param grammar
-	 *            The input grammar to bind
+	 * @param grammar The input grammar to bind
 	 */
 	public void setGrammar(InputGrammar grammar) {
 		this.grammar = grammar;
@@ -60,7 +57,6 @@ public class GrammarBindingItem implements BindingItem {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.configuration.generic.BindingItem#
 	 * readConfiguration(org.w3c.dom.Element)
 	 */
@@ -69,8 +65,7 @@ public class GrammarBindingItem implements BindingItem {
 		NodeList inputList = configuration.getChildNodes();
 		for (int i = 0; i < inputList.getLength(); i++) {
 			if (inputList.item(i).getNodeType() == Node.ELEMENT_NODE) {
-				setGrammar(InputLoadingManager.getInstance().loadInput(
-						(Element) inputList.item(i)));
+				setGrammar(InputLoadingManager.getInstance().loadInput((Element) inputList.item(i)));
 				break;
 			}
 		}
@@ -78,7 +73,6 @@ public class GrammarBindingItem implements BindingItem {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.configuration.generic.BindingItem#
 	 * writeConfiguration(org.w3c.dom.Element)
 	 */
@@ -89,7 +83,6 @@ public class GrammarBindingItem implements BindingItem {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.lang.Object#clone()
 	 */
 	@Override

@@ -17,12 +17,9 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
 /**
- * The <code>ActionSet</code> class bundles multiple <code>Action</code>
- * instances so they may be added to a container en mass instead of
- * individually.
- * 
- * The <code>Action</code> instances contained by an instance of this class are
- * output in the order in which they were added.
+ * The <code>ActionSet</code> class bundles multiple <code>Action</code> instances so they may be
+ * added to a container en mass instead of individually. The <code>Action</code> instances contained
+ * by an instance of this class are output in the order in which they were added.
  * 
  * @author Trip Gilman
  * @author Lonnie Pryor
@@ -35,8 +32,7 @@ public class ActionSet extends Action {
 	/**
 	 * Constructs a new <code>ActionSet</code> instance that is initially empty.
 	 */
-	public ActionSet() {
-	}
+	public ActionSet() {}
 
 	/**
 	 * Returns the list of actions in this set.
@@ -48,17 +44,14 @@ public class ActionSet extends Action {
 	}
 
 	/**
-	 * Adds the action to this set. The list of actions are written to the VXML
-	 * document in the order they were added.
+	 * Adds the action to this set. The list of actions are written to the VXML document in the
+	 * order they were added.
 	 * 
-	 * @param action
-	 *            The action to add.
-	 * @throws NullPointerException
-	 *             If the supplied action is <code>null</code>.
+	 * @param action The action to add.
+	 * @throws NullPointerException If the supplied action is <code>null</code>.
 	 */
 	public void addAction(Action action) throws NullPointerException {
-		if (action == null) {
-			throw new NullPointerException("action"); //$NON-NLS-1$
+		if (action == null) { throw new NullPointerException("action"); //$NON-NLS-1$
 		}
 		actions.add(action);
 	}
@@ -66,42 +59,34 @@ public class ActionSet extends Action {
 	/**
 	 * Removes the action from this set.
 	 * 
-	 * @param action
-	 *            The action to remove.
-	 * @throws NullPointerException
-	 *             If the supplied action is <code>null</code>.
+	 * @param action The action to remove.
+	 * @throws NullPointerException If the supplied action is <code>null</code>.
 	 */
 	public void removeAction(Action action) throws NullPointerException {
-		if (action == null) {
-			throw new NullPointerException("action"); //$NON-NLS-1$
+		if (action == null) { throw new NullPointerException("action"); //$NON-NLS-1$
 		}
 		actions.remove(action);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.core.output.Widget#writeWidget(
 	 * org.xml.sax.ContentHandler)
 	 */
 	@Override
-	public void writeWidget(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
+	public void writeWidget(ContentHandler outputHandler) throws NullPointerException, SAXException {
 		writeActions(outputHandler);
 	}
 
 	/**
 	 * Write the actions in this set to the specified content handler.
 	 * 
-	 * @param outputHandler
-	 *            The content handler to write to.
-	 * @throws NullPointerException
-	 *             If the supplied content handler is <code>null</code>.
-	 * @throws SAXException
-	 *             If the writing of one of the actions fails.
+	 * @param outputHandler The content handler to write to.
+	 * @throws NullPointerException If the supplied content handler is <code>null</code>.
+	 * @throws SAXException If the writing of one of the actions fails.
 	 */
-	protected void writeActions(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
+	protected void writeActions(ContentHandler outputHandler) throws NullPointerException,
+			SAXException {
 		writeChildren(outputHandler, actions);
 	}
 }

@@ -43,37 +43,30 @@ public interface Theme {
 	public String getName();
 
 	/**
-	 * Requests that a canvas frame for the given canvas be created by this
-	 * theme.
+	 * Requests that a canvas frame for the given canvas be created by this theme.
 	 * 
-	 * @param canvas
-	 *            The canvas to be themed
+	 * @param canvas The canvas to be themed
 	 * @return The canvas frame created
 	 */
 	public CanvasFrame createCanvasFrame(IDesign canvas);
 
 	/**
-	 * Requests that an element frame for the given element be created by this
-	 * theme.
+	 * Requests that an element frame for the given element be created by this theme.
 	 * 
-	 * @param element
-	 *            The element to be themed
+	 * @param element The element to be themed
 	 * @return The element frame created
 	 */
 	public ElementFrame createElementFrame(IDesignElement element);
 
 	/**
-	 * Requests that a connector frame for the given connector be created that
-	 * connects the given element frames together.
+	 * Requests that a connector frame for the given connector be created that connects the given
+	 * element frames together.
 	 * 
-	 * @param source
-	 *            The origin element frame for the connector
-	 * @param destination
-	 *            The destination element frame for the connector
-	 * @param connector
-	 *            The connector to be themed
+	 * @param source The origin element frame for the connector
+	 * @param destination The destination element frame for the connector
+	 * @param connector The connector to be themed
 	 * @return The connector frame created
 	 */
-	public ConnectorFrame createConnectorFrame(ElementFrame source,
-			ElementFrame destination, IDesignConnector connector);
+	public ConnectorFrame createConnectorFrame(ElementFrame source, ElementFrame destination,
+			IDesignConnector connector);
 }

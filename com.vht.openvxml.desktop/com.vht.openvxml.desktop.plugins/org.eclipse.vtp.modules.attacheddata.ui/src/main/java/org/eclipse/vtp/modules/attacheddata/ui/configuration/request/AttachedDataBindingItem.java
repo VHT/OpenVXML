@@ -17,8 +17,8 @@ import java.util.List;
 
 /**
  * This class provides an attached data request specific implementation of
- * <code>GenericBindingitem</code>. Each item holds a list of item entries that
- * represent the each data point that will be requested.
+ * <code>GenericBindingitem</code>. Each item holds a list of item entries that represent the each
+ * data point that will be requested.
  * 
  * @author trip
  */
@@ -46,12 +46,11 @@ public class AttachedDataBindingItem extends GenericBindingItem {
 	}
 
 	/**
-	 * Adds the given entry to this item. The entry is appended to the end of
-	 * the current list. If the entry was already in the list, it is removed
-	 * from the list and added to the end of the list.
+	 * Adds the given entry to this item. The entry is appended to the end of the current list. If
+	 * the entry was already in the list, it is removed from the list and added to the end of the
+	 * list.
 	 * 
-	 * @param entry
-	 *            The entry to add to this item
+	 * @param entry The entry to add to this item
 	 */
 	public void addEntry(AttachedDataItemEntry entry) {
 		entries.remove(entry);
@@ -59,16 +58,12 @@ public class AttachedDataBindingItem extends GenericBindingItem {
 	}
 
 	/**
-	 * Adds the given entry to this item. The entry is inserted into the current
-	 * list at the specified index. If the entry was already in the list, it is
-	 * removed prior to being inserted.
+	 * Adds the given entry to this item. The entry is inserted into the current list at the
+	 * specified index. If the entry was already in the list, it is removed prior to being inserted.
 	 * 
-	 * @param entry
-	 *            The entry to add to this item
-	 * @param index
-	 *            The index in the list to insert the entry
-	 * @throws IndexOutOfBoundsException
-	 *             if the index is out of range (index &lt; 0 || index &gt;
+	 * @param entry The entry to add to this item
+	 * @param index The index in the list to insert the entry
+	 * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt;
 	 *             size()).
 	 */
 	public void addEntry(AttachedDataItemEntry entry, int index) {
@@ -79,8 +74,7 @@ public class AttachedDataBindingItem extends GenericBindingItem {
 	/**
 	 * Removes the given entry from this item's list.
 	 * 
-	 * @param entry
-	 *            The entry to remove from this item
+	 * @param entry The entry to remove from this item
 	 */
 	public void removeEntry(AttachedDataItemEntry entry) {
 		entries.remove(entry);
@@ -95,10 +89,7 @@ public class AttachedDataBindingItem extends GenericBindingItem {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.configuration.adrequest.GenericBindingItem
-	 * #clone()
+	 * @see org.eclipse.vtp.desktop.core.configuration.adrequest.GenericBindingItem #clone()
 	 */
 	@Override
 	public Object clone() {

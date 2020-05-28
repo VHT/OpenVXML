@@ -68,15 +68,13 @@ public class DesktopCorePlugin extends Plugin {
 	}
 
 	/**
-	 * Returns the string from the plugin's resource bundle, or 'key' if not
-	 * found.
+	 * Returns the string from the plugin's resource bundle, or 'key' if not found.
 	 * 
 	 * @param key
 	 * @return
 	 */
 	public static String getResourceString(String key) {
-		ResourceBundle bundle = DesktopCorePlugin.getDefault()
-				.getResourceBundle();
+		ResourceBundle bundle = DesktopCorePlugin.getDefault().getResourceBundle();
 
 		try {
 			return (bundle != null) ? bundle.getString(key) : key;

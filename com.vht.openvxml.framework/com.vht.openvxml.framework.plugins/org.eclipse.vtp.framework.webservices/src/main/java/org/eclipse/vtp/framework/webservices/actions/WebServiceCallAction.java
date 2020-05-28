@@ -75,20 +75,14 @@ public class WebServiceCallAction implements IAction {
 	/**
 	 * Creates a new WebServiceCallAction.
 	 * 
-	 * @param context
-	 *            The context to use.
-	 * @param types
-	 *            The data type registry to use.
-	 * @param variables
-	 *            The variable registry to use.
-	 * @param webServices
-	 *            The web service registry to use.
-	 * @param configuration
-	 *            The configuration to use.
+	 * @param context The context to use.
+	 * @param types The data type registry to use.
+	 * @param variables The variable registry to use.
+	 * @param webServices The web service registry to use.
+	 * @param configuration The configuration to use.
 	 */
-	public WebServiceCallAction(IActionContext context,
-			IVariableRegistry variables, IScriptingService scriptingService,
-			IBrandSelection brandSelection,
+	public WebServiceCallAction(IActionContext context, IVariableRegistry variables,
+			IScriptingService scriptingService, IBrandSelection brandSelection,
 			WebServiceConfiguration configuration) {
 		this.context = context;
 		this.variables = variables;
@@ -99,7 +93,6 @@ public class WebServiceCallAction implements IAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.core.IAction#execute()
 	 */
 	@Override
@@ -108,8 +101,7 @@ public class WebServiceCallAction implements IAction {
 		if (context.isReportingEnabled()) {
 			Dictionary props = new Hashtable();
 			props.put("event", "wscall.before");
-			context.report(IReporter.SEVERITY_INFO, "Calling web service...",
-					props);
+			context.report(IReporter.SEVERITY_INFO, "Calling web service...", props);
 		}
 		try {
 			StringBuilder payload = new StringBuilder();
@@ -117,8 +109,7 @@ public class WebServiceCallAction implements IAction {
 			payload.append(" xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">");// \"\r\n");
 			// payload.append("\tSOAP-ENV:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">");
 			payload.append("<SOAP-ENV:Body>");
-			InputDocumentStructure structure = configuration
-					.getInputStructure();
+			InputDocumentStructure structure = configuration.getInputStructure();
 			processDocumentItemContainer(payload, structure);
 			payload.append("</SOAP-ENV:Body>");
 			payload.append("</SOAP-ENV:Envelope>");
@@ -127,24 +118,18 @@ public class WebServiceCallAction implements IAction {
 			if (urlType.equals(WebServiceConfiguration.STATIC)) {
 				url = new URL(configuration.getURL());
 			} else if (urlType.equals(WebServiceConfiguration.VARIABLE)) {
-				url = new URL(String.valueOf(variables
-						.getVariable(configuration.getURL())));
+				url = new URL(String.valueOf(variables.getVariable(configuration.getURL())));
 			} else {
-				IScriptingEngine engine = scriptingService
-						.createScriptingEngine("JavaScript");
-				url = new URL(String.valueOf(engine.execute(configuration
-						.getURL())));
+				IScriptingEngine engine = scriptingService.createScriptingEngine("JavaScript");
+				url = new URL(String.valueOf(engine.execute(configuration.getURL())));
 			}
 			if (url != null) {
-				HttpURLConnection con = (HttpURLConnection) url
-						.openConnection();
+				HttpURLConnection con = (HttpURLConnection) url.openConnection();
 				con.setDoOutput(true);
 				con.setRequestMethod("POST");
-				con.setRequestProperty("Content-Type",
-						"text/xml; charset=\"utf-8\"");
-				con.setRequestProperty("SOAPAction",
-						configuration.getSoapAction() == null ? "" : "\""
-								+ configuration.getSoapAction() + "\"");
+				con.setRequestProperty("Content-Type", "text/xml; charset=\"utf-8\"");
+				con.setRequestProperty("SOAPAction", configuration.getSoapAction() == null ? ""
+						: "\"" + configuration.getSoapAction() + "\"");
 				OutputStream out = con.getOutputStream();
 				Writer ps = new OutputStreamWriter(out);
 				ps.write(payload.toString());
@@ -153,8 +138,7 @@ public class WebServiceCallAction implements IAction {
 				ps.close();
 				int rc = con.getResponseCode();
 				if (rc == 200) {
-					DocumentBuilderFactory factory = DocumentBuilderFactory
-							.newInstance();
+					DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 					factory.setNamespaceAware(true);
 					DocumentBuilder builder = factory.newDocumentBuilder();
 					Document document = builder.parse(con.getInputStream());
@@ -163,44 +147,36 @@ public class WebServiceCallAction implements IAction {
 						if (context.isErrorEnabled()) {
 							context.error("Webservice returned invalid document");
 							ByteArrayOutputStream baos = new ByteArrayOutputStream();
-							Transformer transformer = TransformerFactory
-									.newInstance().newTransformer();
-							transformer.transform(new DOMSource(document),
-									new StreamResult(baos));
+							Transformer transformer = TransformerFactory.newInstance()
+									.newTransformer();
+							transformer.transform(new DOMSource(document), new StreamResult(baos));
 							context.error(baos.toString());
 							if (context.isReportingEnabled()) {
 								Dictionary props = new Hashtable();
 								props.put("event", "wscall.after");
-								context.report(
-										IReporter.SEVERITY_INFO,
-										"Called web service but received invalid response",
-										props);
+								context.report(IReporter.SEVERITY_INFO,
+										"Called web service but received invalid response", props);
 							}
 							return context.createResult("error.webservice");
 						}
 					}
-					IDataObject resultObject = variables
-							.createVariable("WSResponse");
-					variables.setVariable(configuration.getVariableName(),
-							resultObject);
+					IDataObject resultObject = variables.createVariable("WSResponse");
+					variables.setVariable(configuration.getVariableName(), resultObject);
 					IArrayObject headerArrayObject = (IArrayObject) variables
 							.createVariable(IArrayObject.TYPE_NAME);
 					resultObject.setField("headers", headerArrayObject);
-					List<Element> headerElementList = XMLUtilities
-							.getElementsByTagNameNS(rootElement,
-									SOAP_ENVELOPE_URI, "Header", true);
+					List<Element> headerElementList = XMLUtilities.getElementsByTagNameNS(
+							rootElement, SOAP_ENVELOPE_URI, "Header", true);
 					if (headerElementList.size() > 0) {
 						Element headerElement = headerElementList.get(0);
-						List<Element> entryList = XMLUtilities
-								.getChildElements(headerElement);
+						List<Element> entryList = XMLUtilities.getChildElements(headerElement);
 						for (Element entryElement : entryList) {
 							ByteArrayOutputStream baos = new ByteArrayOutputStream();
-							Transformer transformer = TransformerFactory
-									.newInstance().newTransformer();
-							transformer.transform(new DOMSource(entryElement),
-									new StreamResult(baos));
-							IDataObject headerObject = variables
-									.createVariable("WSHeader");
+							Transformer transformer = TransformerFactory.newInstance()
+									.newTransformer();
+							transformer.transform(new DOMSource(entryElement), new StreamResult(
+									baos));
+							IDataObject headerObject = variables.createVariable("WSHeader");
 							IStringObject nameObject = (IStringObject) variables
 									.createVariable(IStringObject.TYPE_NAME);
 							nameObject.setValue(entryElement.getLocalName());
@@ -211,16 +187,13 @@ public class WebServiceCallAction implements IAction {
 							headerObject.setField("rawContent", rawContent);
 						}
 					}
-					List<Element> bodyElementList = XMLUtilities
-							.getElementsByTagNameNS(rootElement,
-									SOAP_ENVELOPE_URI, "Body", true);
+					List<Element> bodyElementList = XMLUtilities.getElementsByTagNameNS(
+							rootElement, SOAP_ENVELOPE_URI, "Body", true);
 					if (bodyElementList.size() > 0) {
 						Element bodyElement = bodyElementList.get(0);
 						ByteArrayOutputStream baos = new ByteArrayOutputStream();
-						Transformer transformer = TransformerFactory
-								.newInstance().newTransformer();
-						transformer.transform(new DOMSource(bodyElement),
-								new StreamResult(baos));
+						Transformer transformer = TransformerFactory.newInstance().newTransformer();
+						transformer.transform(new DOMSource(bodyElement), new StreamResult(baos));
 						IStringObject rawContent = (IStringObject) variables
 								.createVariable(IStringObject.TYPE_NAME);
 						rawContent.setValue(baos.toString());
@@ -228,8 +201,7 @@ public class WebServiceCallAction implements IAction {
 					}
 				} else {
 					if (context.isErrorEnabled()) {
-						context.error("Web service call failed: "
-								+ Integer.toString(rc));
+						context.error("Web service call failed: " + Integer.toString(rc));
 						ByteArrayOutputStream baos = new ByteArrayOutputStream();
 						InputStream in = con.getErrorStream();
 						byte[] buf = new byte[1024];
@@ -246,10 +218,8 @@ public class WebServiceCallAction implements IAction {
 						Dictionary props = new Hashtable();
 						props.put("event", "wscall.after");
 						props.put("http.response", Integer.toString(rc));
-						context.report(
-								IReporter.SEVERITY_INFO,
-								"Call web service failed: "
-										+ Integer.toString(rc), props);
+						context.report(IReporter.SEVERITY_INFO, "Call web service failed: "
+								+ Integer.toString(rc), props);
 					}
 					return context.createResult("error.webservice");
 				}
@@ -262,8 +232,7 @@ public class WebServiceCallAction implements IAction {
 			if (context.isReportingEnabled()) {
 				Dictionary props = new Hashtable();
 				props.put("event", "wscall.after");
-				context.report(IReporter.SEVERITY_INFO,
-						"Call web service failed: " + e, props);
+				context.report(IReporter.SEVERITY_INFO, "Call web service failed: " + e, props);
 			}
 			return context.createResult("error.webservice", e);
 		}
@@ -275,13 +244,11 @@ public class WebServiceCallAction implements IAction {
 		return context.createResult(IActionResult.RESULT_NAME_DEFAULT);
 	}
 
-	private void processDocumentItemContainer(StringBuilder payload,
-			DocumentItemContainer container) {
+	private void processDocumentItemContainer(StringBuilder payload, DocumentItemContainer container) {
 		List<DocumentItem> children = container.getItems();
 		for (DocumentItem child : children) {
 			if (child instanceof ConditionalContainerSet) {
-				processConditionalContainerSet(payload,
-						(ConditionalContainerSet) child);
+				processConditionalContainerSet(payload, (ConditionalContainerSet) child);
 			} else if (child instanceof ForLoopDocumentItem) {
 				ForLoopDocumentItem fldi = (ForLoopDocumentItem) child;
 				String sourceName = fldi.getTransform();
@@ -291,10 +258,8 @@ public class WebServiceCallAction implements IAction {
 					if (source instanceof IArrayObject) {
 						IArrayObject sourceArray = (IArrayObject) source;
 						for (int i = 0; i < sourceArray.getLength().getValue(); i++) {
-							IDataObject currentObject = sourceArray
-									.getElement(i);
-							variables
-									.setVariable(targetVariable, currentObject);
+							IDataObject currentObject = sourceArray.getElement(i);
+							variables.setVariable(targetVariable, currentObject);
 							processDocumentItemContainer(payload, fldi);
 						}
 					} else {
@@ -305,22 +270,18 @@ public class WebServiceCallAction implements IAction {
 			} else if (child instanceof ElementDocumentItem) {
 				ElementDocumentItem elementItem = (ElementDocumentItem) child;
 				payload.append("<").append(elementItem.getName());
-				if (elementItem.getNamespace() != null
-						&& !elementItem.getNamespace().equals("")) {
-					payload.append(" xmlns=\"")
-							.append(elementItem.getNamespace()).append("\"");
+				if (elementItem.getNamespace() != null && !elementItem.getNamespace().equals("")) {
+					payload.append(" xmlns=\"").append(elementItem.getNamespace()).append("\"");
 				}
 				// else
 				// {
 				// payload.append(" xmlns=\"http://example1.org/example1\"");
 				// }
-				List<ElementAttributeDocumentItem> attributes = elementItem
-						.getAttributes();
+				List<ElementAttributeDocumentItem> attributes = elementItem.getAttributes();
 				for (ElementAttributeDocumentItem attribute : attributes) {
-					payload.append(" ").append(attribute.getName())
-							.append("=\"");
-					payload.append(resolveValue(attribute
-							.getBrandBinding(brandSelection.getSelectedBrand())));
+					payload.append(" ").append(attribute.getName()).append("=\"");
+					payload.append(resolveValue(attribute.getBrandBinding(brandSelection
+							.getSelectedBrand())));
 					payload.append("\"");
 				}
 				payload.append(">");
@@ -336,17 +297,14 @@ public class WebServiceCallAction implements IAction {
 
 	private void processConditionalContainerSet(StringBuilder payload,
 			ConditionalContainerSet container) {
-		IScriptingEngine engine = scriptingService
-				.createScriptingEngine("JavaScript");
+		IScriptingEngine engine = scriptingService.createScriptingEngine("JavaScript");
 		ConditionalDocumentItem ifItem = container.getIf();
-		if (Boolean
-				.valueOf(String.valueOf(engine.execute(ifItem.getCondition())))) {
+		if (Boolean.valueOf(String.valueOf(engine.execute(ifItem.getCondition())))) {
 			processDocumentItemContainer(payload, ifItem);
 			return;
 		}
 		for (ConditionalDocumentItem elseIfItem : container.getElseIfs()) {
-			if (Boolean.valueOf(String.valueOf(engine.execute(elseIfItem
-					.getCondition())))) {
+			if (Boolean.valueOf(String.valueOf(engine.execute(elseIfItem.getCondition())))) {
 				processDocumentItemContainer(payload, elseIfItem);
 				return;
 			}
@@ -365,8 +323,7 @@ public class WebServiceCallAction implements IAction {
 			return String.valueOf(variables.getVariable(value.getValue()));
 		} else // expression
 		{
-			IScriptingEngine engine = scriptingService
-					.createScriptingEngine("JavaScript");
+			IScriptingEngine engine = scriptingService.createScriptingEngine("JavaScript");
 			return String.valueOf(engine.execute(value.getValue()));
 		}
 	}

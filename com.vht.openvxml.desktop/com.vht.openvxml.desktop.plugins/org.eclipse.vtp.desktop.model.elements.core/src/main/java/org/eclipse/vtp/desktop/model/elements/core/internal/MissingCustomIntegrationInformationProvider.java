@@ -16,8 +16,7 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElement;
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElementConnectionPoint;
 import com.openmethods.openvxml.desktop.model.workflow.internal.design.ConnectorRecord;
 
-public class MissingCustomIntegrationInformationProvider extends
-		PrimitiveInformationProvider {
+public class MissingCustomIntegrationInformationProvider extends PrimitiveInformationProvider {
 	private org.w3c.dom.Element configuration = null;
 	private List<ConnectorRecord> connectorRecords = new LinkedList<ConnectorRecord>();
 
@@ -41,9 +40,7 @@ public class MissingCustomIntegrationInformationProvider extends
 			}
 		}
 		if (cr == null) {
-			cr = new ConnectorRecord(
-					getElement(),
-					recordName,
+			cr = new ConnectorRecord(getElement(), recordName,
 					IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT);
 			connectorRecords.add(cr);
 		}
@@ -62,8 +59,7 @@ public class MissingCustomIntegrationInformationProvider extends
 		for (int i = 0; i < connectorRecords.size(); i++) {
 			ConnectorRecord cr = connectorRecords.get(i);
 			if (cr.getType().isSet(
-					IDesignElementConnectionPoint.ConnectionPointType
-							.getFlagSet(types))) {
+					IDesignElementConnectionPoint.ConnectionPointType.getFlagSet(types))) {
 				ret.add(cr);
 			}
 		}
@@ -83,10 +79,8 @@ public class MissingCustomIntegrationInformationProvider extends
 	@Override
 	public void writeConfiguration(org.w3c.dom.Element configuration) {
 		try {
-			Transformer transformer = TransformerFactory.newInstance()
-					.newTransformer();
-			transformer.transform(new DOMSource(this.configuration),
-					new DOMResult(configuration));
+			Transformer transformer = TransformerFactory.newInstance().newTransformer();
+			transformer.transform(new DOMSource(this.configuration), new DOMResult(configuration));
 		} catch (TransformerException e) {
 			e.printStackTrace();
 		}

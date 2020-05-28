@@ -18,9 +18,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 /**
- * This implementation of the binding item interface represents a prompt.
- * Prompts are the output of an application. A prompt can contain any number of
- * content entries.
+ * This implementation of the binding item interface represents a prompt. Prompts are the output of
+ * an application. A prompt can contain any number of content entries.
  * 
  * @author trip
  */
@@ -33,9 +32,7 @@ public class PromptBindingItem implements BindingItem {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.configuration.generic.BindingItem#getType()
+	 * @see org.eclipse.vtp.desktop.core.configuration.generic.BindingItem#getType()
 	 */
 	public String getType() {
 		return TYPE_ID;
@@ -56,11 +53,10 @@ public class PromptBindingItem implements BindingItem {
 	}
 
 	/**
-	 * Adds the given entry to this binding item. The entry is added at the end
-	 * of the current list of entries.
+	 * Adds the given entry to this binding item. The entry is added at the end of the current list
+	 * of entries.
 	 * 
-	 * @param entry
-	 *            The entry to add
+	 * @param entry The entry to add
 	 */
 	public void addEntry(PromptBindingNode entry) {
 		entries.add(entry);
@@ -68,21 +64,17 @@ public class PromptBindingItem implements BindingItem {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.configuration.generic.BindingItem#
 	 * readConfiguration(org.w3c.dom.Element)
 	 */
 	public void readConfiguration(Element configuration) {
 		NodeList contentList = configuration.getChildNodes();
 		for (int i = 0; i < contentList.getLength(); i++) {
-			if (!(contentList.item(i) instanceof Element))
-				continue;
+			if (!(contentList.item(i) instanceof Element)) continue;
 			Element element = (Element) contentList.item(i);
 			PromptBindingNode child = null;
-			if ("binding-branch".equals(element.getTagName()))
-				child = new PromptBindingSwitch();
-			else
-				child = new PromptBindingEntry();
+			if ("binding-branch".equals(element.getTagName())) child = new PromptBindingSwitch();
+			else child = new PromptBindingEntry();
 			child.readConfiguration(element);
 			entries.add(child);
 		}
@@ -90,7 +82,6 @@ public class PromptBindingItem implements BindingItem {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.configuration.generic.BindingItem#
 	 * writeConfiguration(org.w3c.dom.Element)
 	 */
@@ -102,7 +93,6 @@ public class PromptBindingItem implements BindingItem {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.lang.Object#clone()
 	 */
 	public Object clone() {

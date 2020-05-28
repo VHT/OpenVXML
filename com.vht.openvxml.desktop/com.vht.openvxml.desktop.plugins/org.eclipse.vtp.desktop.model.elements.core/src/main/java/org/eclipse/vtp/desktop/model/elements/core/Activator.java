@@ -44,15 +44,11 @@ public class Activator extends AbstractUIPlugin {
 	/**
 	 * The constructor
 	 */
-	public Activator() {
-	}
+	public Activator() {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext
-	 * )
+	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext )
 	 */
 	@Override
 	public void start(BundleContext context) throws Exception {
@@ -77,8 +73,8 @@ public class Activator extends AbstractUIPlugin {
 			for (Object obj : localDialogMap.keySet()) {
 				String dialogId = (String) obj;
 				localDialogs.add(new LocalDialogRecord(dialogId, localDialogMap
-						.getProperty(dialogId), new File(dialogFolder, dialogId
-						+ ".xml").toURI().toURL()));
+						.getProperty(dialogId), new File(dialogFolder, dialogId + ".xml").toURI()
+						.toURL()));
 			}
 			String[] fnames = dialogFolder.list();
 			for (String fname : fnames) {
@@ -91,10 +87,7 @@ public class Activator extends AbstractUIPlugin {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext
-	 * )
+	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext )
 	 */
 	@Override
 	public void stop(BundleContext context) throws Exception {
@@ -113,9 +106,7 @@ public class Activator extends AbstractUIPlugin {
 
 	public LocalDialogRecord getLocalDialog(String id) {
 		for (LocalDialogRecord record : localDialogs) {
-			if (record.getId().equals(id)) {
-				return record;
-			}
+			if (record.getId().equals(id)) { return record; }
 		}
 		return null;
 	}
@@ -127,11 +118,10 @@ public class Activator extends AbstractUIPlugin {
 	public void addLocalDialog(String name, Design model) {
 		try {
 			// build document contents
-			DocumentBuilderFactory factory = DocumentBuilderFactory
-					.newInstance();
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document document = builder.getDOMImplementation().createDocument(
-					null, "dialog-definition", null);
+			Document document = builder.getDOMImplementation().createDocument(null,
+					"dialog-definition", null);
 			org.w3c.dom.Element rootElement = document.getDocumentElement();
 			DesignWriter designWriter = new DesignWriter();
 			designWriter.writeDesign(rootElement, model);
@@ -143,13 +133,11 @@ public class Activator extends AbstractUIPlugin {
 			Transformer t = transfactory.newTransformer();
 			t.setOutputProperty(OutputKeys.METHOD, "xml");
 			t.setOutputProperty(OutputKeys.INDENT, "yes");
-			t.setOutputProperty("{http://xml.apache.org/xslt}indent-amount",
-					"4");
-			t.transform(new DOMSource(document),
-					new XMLWriter(baos).toXMLResult());
+			t.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+			t.transform(new DOMSource(document), new XMLWriter(baos).toXMLResult());
 			localDialogMap.setProperty(dialogId, name);
-			localDialogs.add(new LocalDialogRecord(dialogId, localDialogMap
-					.getProperty(dialogId), dialogTemplate.toURI().toURL()));
+			localDialogs.add(new LocalDialogRecord(dialogId, localDialogMap.getProperty(dialogId),
+					dialogTemplate.toURI().toURL()));
 			File propFile = new File(dialogFolder, "dialog_map.properties");
 			OutputStream propOut = new FileOutputStream(propFile);
 			localDialogMap.store(propOut, "");

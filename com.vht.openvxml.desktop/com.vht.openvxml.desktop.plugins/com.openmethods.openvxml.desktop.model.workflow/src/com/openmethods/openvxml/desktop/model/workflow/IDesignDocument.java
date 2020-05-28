@@ -29,37 +29,29 @@ public interface IDesignDocument extends IWorkflowResource {
 
 	public List<IWorkflowEntry> getWorkflowEntries();
 
-	public List<IWorkflowEntry> getUpStreamWorkflowEntries(
-			IWorkflowExit workflowExit);
+	public List<IWorkflowEntry> getUpStreamWorkflowEntries(IWorkflowExit workflowExit);
 
-	public List<IWorkflowEntry> getUpStreamWorkflowEntries(
-			IDesignExitPoint designExit);
+	public List<IWorkflowEntry> getUpStreamWorkflowEntries(IDesignExitPoint designExit);
 
 	public List<IWorkflowExit> getWorkflowExits();
 
 	public List<IWorkflowReference> getWorkflowReferences();
 
-	public List<IWorkflowExit> getDownStreamWorkflowExits(
-			IWorkflowEntry workflowEntry);
+	public List<IWorkflowExit> getDownStreamWorkflowExits(IWorkflowEntry workflowEntry);
 
-	public List<IWorkflowExit> getDownStreamWorkflowExits(
-			IDesignEntryPoint designEntry);
+	public List<IWorkflowExit> getDownStreamWorkflowExits(IDesignEntryPoint designEntry);
 
 	public List<IDesignEntryPoint> getDesignEntryPoints();
 
-	public List<IDesignEntryPoint> getUpStreamDesignEntries(
-			IWorkflowExit workflowExit);
+	public List<IDesignEntryPoint> getUpStreamDesignEntries(IWorkflowExit workflowExit);
 
-	public List<IDesignEntryPoint> getUpStreamDesignEntries(
-			IDesignExitPoint designExit);
+	public List<IDesignEntryPoint> getUpStreamDesignEntries(IDesignExitPoint designExit);
 
 	public List<IDesignExitPoint> getDesignExitPoints();
 
-	public List<IDesignExitPoint> getDownStreamDesignExits(
-			IWorkflowEntry workflowEntry);
+	public List<IDesignExitPoint> getDownStreamDesignExits(IWorkflowEntry workflowEntry);
 
-	public List<IDesignExitPoint> getDownStreamDesignExits(
-			IDesignEntryPoint designEntry);
+	public List<IDesignExitPoint> getDownStreamDesignExits(IDesignEntryPoint designEntry);
 
 	public void becomeWorkingCopy();
 

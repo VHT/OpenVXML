@@ -86,10 +86,17 @@ import com.openmethods.openvxml.desktop.model.workflow.internal.design.Design;
 import com.openmethods.openvxml.desktop.model.workflow.internal.design.DesignConnector;
 import com.openmethods.openvxml.desktop.model.workflow.internal.design.DesignElement;
 
-public class BasicController implements CommandListener, MouseListener,
-		MouseMoveListener, MouseTrackListener, PaintListener,
-		DropTargetListener, DragSourceListener, KeyListener,
-		RenderedModelListener {
+public class BasicController
+	implements
+	CommandListener,
+	MouseListener,
+	MouseMoveListener,
+	MouseTrackListener,
+	PaintListener,
+	DropTargetListener,
+	DragSourceListener,
+	KeyListener,
+	RenderedModelListener {
 	RenderedModel currentCanvas;
 	Point commandPosition = null;
 	List<ControllerListener> listeners = new ArrayList<ControllerListener>();
@@ -137,12 +144,10 @@ public class BasicController implements CommandListener, MouseListener,
 		try {
 			Shell workbenchShell = Display.getCurrent().getActiveShell();
 			boolean canDelete = connector.getConnectionPoints().isEmpty();
-			ComponentPropertiesDialog cpd = new ComponentPropertiesDialog(
-					currentCanvas.getUIModel(), workbenchShell);
-			final Color dialogFrameColor = new Color(Display.getCurrent(), 77,
-					113, 179);
-			final Color dialogSideBarColor = new Color(Display.getCurrent(),
-					240, 243, 249);
+			ComponentPropertiesDialog cpd = new ComponentPropertiesDialog(currentCanvas
+					.getUIModel(), workbenchShell);
+			final Color dialogFrameColor = new Color(Display.getCurrent(), 77, 113, 179);
+			final Color dialogSideBarColor = new Color(Display.getCurrent(), 240, 243, 249);
 			if (dialogFrameColor != null) {
 				cpd.setFrameColor(dialogFrameColor);
 			}
@@ -151,8 +156,7 @@ public class BasicController implements CommandListener, MouseListener,
 				cpd.setSideBarColor(dialogSideBarColor);
 			}
 
-			cpd.setTitle("DesignConnector Properties: "
-					+ connector.getOrigin().getName() + " -> "
+			cpd.setTitle("DesignConnector Properties: " + connector.getOrigin().getName() + " -> "
 					+ connector.getDestination().getName());
 			List<ComponentPropertiesPanel> panels = ComponentPropertiesPanelProviderRegistry
 					.getInstance().getPropertiesPanels(connector);
@@ -174,8 +178,8 @@ public class BasicController implements CommandListener, MouseListener,
 				connector.getDesign().removeDesignConnector(connector);
 			}
 			// TODO currentCanvas.getUICanvas().validateCanvasStatus();
-			fireGraphicUpdate(0, 0, currentCanvas.getUIModel().getWidth(),
-					currentCanvas.getUIModel().getHeight(), false);
+			fireGraphicUpdate(0, 0, currentCanvas.getUIModel().getWidth(), currentCanvas
+					.getUIModel().getHeight(), false);
 			dialogFrameColor.dispose();
 			dialogSideBarColor.dispose();
 		} catch (RuntimeException e) {
@@ -194,18 +198,15 @@ public class BasicController implements CommandListener, MouseListener,
 		CanvasPropertiesDialog cpd = new CanvasPropertiesDialog(workbenchShell);
 		cpd.setRenderedCanvas(currentCanvas);
 		if (cpd.open() == ComponentPropertiesDialog.OK) {
-			fireGraphicUpdate(0, 0, currentCanvas.getUIModel().getWidth(),
-					currentCanvas.getUIModel().getHeight(), false);
+			fireGraphicUpdate(0, 0, currentCanvas.getUIModel().getWidth(), currentCanvas
+					.getUIModel().getHeight(), false);
 		}
 	}
 
 	/**
-	 * Creates a ComponentPropertiesDialog and displays the PropertiesPanel for
-	 * the element
+	 * Creates a ComponentPropertiesDialog and displays the PropertiesPanel for the element
 	 * 
-	 * @param element
-	 *            - The element the PropertiesPanels of which are to be
-	 *            displayed
+	 * @param element - The element the PropertiesPanels of which are to be displayed
 	 * @see org.eclipse.vtp.desktop.editors.core.controller.BasicController#showElementProperties(DesignElement,
 	 *      boolean)
 	 */
@@ -214,27 +215,21 @@ public class BasicController implements CommandListener, MouseListener,
 	}
 
 	/**
-	 * Creates a ComponentPropertiesDialog and displays the PropertiesPanels for
-	 * the element
+	 * Creates a ComponentPropertiesDialog and displays the PropertiesPanels for the element
 	 * 
-	 * @param element
-	 *            - The element the PropertiesPanels of which is to be displayed
-	 * @param deleteOnCancel
-	 *            - If true, the module will be deleted if the user clicks the
-	 *            cancel button.
+	 * @param element - The element the PropertiesPanels of which is to be displayed
+	 * @param deleteOnCancel - If true, the module will be deleted if the user clicks the cancel
+	 *            button.
 	 * @see org.eclipse.vtp.desktop.editors.core.controller.BasicController#showElementProperties(DesignElement)
 	 */
-	public boolean showElementProperties(IDesignElement element,
-			boolean deleteOnCancel) {
+	public boolean showElementProperties(IDesignElement element, boolean deleteOnCancel) {
 		boolean persists = !deleteOnCancel;
 		try {
 			Shell workbenchShell = Display.getCurrent().getActiveShell();
-			ComponentPropertiesDialog cpd = new ComponentPropertiesDialog(
-					currentCanvas.getUIModel(), workbenchShell);
-			final Color dialogFrameColor = new Color(Display.getCurrent(), 77,
-					113, 179);
-			final Color dialogSideBarColor = new Color(Display.getCurrent(),
-					240, 243, 249);
+			ComponentPropertiesDialog cpd = new ComponentPropertiesDialog(currentCanvas
+					.getUIModel(), workbenchShell);
+			final Color dialogFrameColor = new Color(Display.getCurrent(), 77, 113, 179);
+			final Color dialogSideBarColor = new Color(Display.getCurrent(), 240, 243, 249);
 			if (dialogFrameColor != null) {
 				cpd.setFrameColor(dialogFrameColor);
 			}
@@ -259,8 +254,8 @@ public class BasicController implements CommandListener, MouseListener,
 				} else if (deleteOnCancel) {
 					persists = true;
 				}
-				fireGraphicUpdate(0, 0, currentCanvas.getUIModel().getWidth(),
-						currentCanvas.getUIModel().getHeight(), false);
+				fireGraphicUpdate(0, 0, currentCanvas.getUIModel().getWidth(), currentCanvas
+						.getUIModel().getHeight(), false);
 			}
 			dialogFrameColor.dispose();
 			dialogSideBarColor.dispose();
@@ -275,8 +270,8 @@ public class BasicController implements CommandListener, MouseListener,
 	 */
 	public void setControl(Control interactiveSurface) {
 		this.interactionSurface = interactiveSurface;
-		dropTarget = new DropTarget(interactionSurface, DND.DROP_COPY
-				| DND.DROP_DEFAULT | DND.DROP_MOVE);
+		dropTarget = new DropTarget(interactionSurface, DND.DROP_COPY | DND.DROP_DEFAULT
+				| DND.DROP_MOVE);
 		dropTarget.setTransfer(new Transfer[] { TextTransfer.getInstance(),
 				PalletItemTransfer.getInstance() });
 		dropTarget.addDropListener(this);
@@ -310,8 +305,7 @@ public class BasicController implements CommandListener, MouseListener,
 	 */
 	public void fillContextMenu(IMenuManager menuManager) {
 		try {
-			final Point contextPoint = new Point(commandPosition.x,
-					commandPosition.y);
+			final Point contextPoint = new Point(commandPosition.x, commandPosition.y);
 			MenuManager addMenu = new MenuManager("Add");
 			menuManager.add(addMenu);
 
@@ -378,8 +372,7 @@ public class BasicController implements CommandListener, MouseListener,
 				alignCenterMenu.add(new Action("Horizontal") {
 					@Override
 					public void run() {
-						currentCanvas.getSelection()
-								.alignCenter(SWT.HORIZONTAL);
+						currentCanvas.getSelection().alignCenter(SWT.HORIZONTAL);
 					}
 				});
 				alignCenterMenu.add(new Action("Vertical") {
@@ -393,13 +386,12 @@ public class BasicController implements CommandListener, MouseListener,
 			if (currentCanvas.getSelection() != null
 					&& currentCanvas.getSelection().getSelectedItems().size() == 1
 					&& currentCanvas.getSelection().getPrimarySelection() instanceof ElementFrame
-					&& ((ElementFrame) currentCanvas.getSelection()
-							.getPrimarySelection()).getDesignElement() instanceof PrimitiveElement) {
+					&& ((ElementFrame) currentCanvas.getSelection().getPrimarySelection())
+							.getDesignElement() instanceof PrimitiveElement) {
 				PrimitiveElement primitiveElement = (PrimitiveElement) ((ElementFrame) currentCanvas
-						.getSelection().getPrimarySelection())
-						.getDesignElement();
-				List<DesignElementAction> actionList = DesignElementActionManager
-						.getDefault().getActions(primitiveElement, this);
+						.getSelection().getPrimarySelection()).getDesignElement();
+				List<DesignElementAction> actionList = DesignElementActionManager.getDefault()
+						.getActions(primitiveElement, this);
 				for (DesignElementAction action : actionList) {
 					menuManager.add(action);
 				}
@@ -407,18 +399,17 @@ public class BasicController implements CommandListener, MouseListener,
 			if (currentCanvas.getSelection() != null
 					&& currentCanvas.getSelection().getSelectedItems().size() == 1
 					&& currentCanvas.getSelection().getPrimarySelection() instanceof ElementFrame
-					&& ((ElementFrame) currentCanvas.getSelection()
-							.getPrimarySelection()).getDesignElement() instanceof DialogElement) {
+					&& ((ElementFrame) currentCanvas.getSelection().getPrimarySelection())
+							.getDesignElement() instanceof DialogElement) {
 				final DialogElement primitiveElement = (DialogElement) ((ElementFrame) currentCanvas
-						.getSelection().getPrimarySelection())
-						.getDesignElement();
+						.getSelection().getPrimarySelection()).getDesignElement();
 				menuManager.add(new Action("Create Template") {
 					@Override
 					public void run() {
 						CreateDialogTemplateWizard cdtw = new CreateDialogTemplateWizard(
 								primitiveElement);
-						WizardDialog wd = new WizardDialog(Display.getCurrent()
-								.getActiveShell(), cdtw);
+						WizardDialog wd = new WizardDialog(Display.getCurrent().getActiveShell(),
+								cdtw);
 						wd.open();
 					}
 				});
@@ -428,8 +419,8 @@ public class BasicController implements CommandListener, MouseListener,
 				menuManager.add(new Action("Toggle Midpoint") {
 					@Override
 					public void run() {
-						ConnectorFrame cf = (ConnectorFrame) currentCanvas
-								.getSelection().getPrimarySelection();
+						ConnectorFrame cf = (ConnectorFrame) currentCanvas.getSelection()
+								.getPrimarySelection();
 						cf.toggleMidPoint(contextPoint.x, contextPoint.y);
 						fireGraphicUpdate(cf.getBounds(), false);
 					}
@@ -439,8 +430,7 @@ public class BasicController implements CommandListener, MouseListener,
 					&& currentCanvas.getSelection().getPrimarySelection() instanceof ElementFrame) {
 				boolean canDelete = true;
 				if (currentCanvas.getSelection().getPrimarySelection() instanceof ElementFrame) {
-					List<ComponentFrame> items = currentCanvas.getSelection()
-							.getSelectedItems();
+					List<ComponentFrame> items = currentCanvas.getSelection().getSelectedItems();
 					for (int i = 0; i < items.size(); i++) {
 						ElementFrame ef = (ElementFrame) items.get(i);
 						IDesignElement el = ef.getDesignElement();
@@ -451,9 +441,8 @@ public class BasicController implements CommandListener, MouseListener,
 					menuManager.add(new Action("Delete") {
 						@Override
 						public void run() {
-							MessageBox confirmationDialog = new MessageBox(
-									Display.getCurrent().getActiveShell(),
-									SWT.YES | SWT.NO | SWT.ICON_WARNING);
+							MessageBox confirmationDialog = new MessageBox(Display.getCurrent()
+									.getActiveShell(), SWT.YES | SWT.NO | SWT.ICON_WARNING);
 							confirmationDialog
 									.setMessage("Are you sure you want to delete the selected item(s)?");
 
@@ -461,9 +450,8 @@ public class BasicController implements CommandListener, MouseListener,
 
 							if (result == SWT.YES) {
 								currentCanvas.deleteSelectedItems();
-								fireGraphicUpdate(0, 0, currentCanvas
-										.getUIModel().getWidth(), currentCanvas
-										.getUIModel().getHeight(), false);
+								fireGraphicUpdate(0, 0, currentCanvas.getUIModel().getWidth(),
+										currentCanvas.getUIModel().getHeight(), false);
 							}
 						}
 					});
@@ -474,9 +462,8 @@ public class BasicController implements CommandListener, MouseListener,
 				menuManager.add(new Action("Delete") {
 					@Override
 					public void run() {
-						MessageBox confirmationDialog = new MessageBox(Display
-								.getCurrent().getActiveShell(), SWT.YES
-								| SWT.NO | SWT.ICON_WARNING);
+						MessageBox confirmationDialog = new MessageBox(Display.getCurrent()
+								.getActiveShell(), SWT.YES | SWT.NO | SWT.ICON_WARNING);
 						confirmationDialog
 								.setMessage("Are you sure you want to delete the selected item(s)?");
 
@@ -484,9 +471,8 @@ public class BasicController implements CommandListener, MouseListener,
 
 						if (result == SWT.YES) {
 							currentCanvas.deleteSelectedItems();
-							fireGraphicUpdate(0, 0, currentCanvas.getUIModel()
-									.getWidth(), currentCanvas.getUIModel()
-									.getHeight(), false);
+							fireGraphicUpdate(0, 0, currentCanvas.getUIModel().getWidth(),
+									currentCanvas.getUIModel().getHeight(), false);
 						}
 					}
 				});
@@ -497,17 +483,13 @@ public class BasicController implements CommandListener, MouseListener,
 				menuManager.add(new Action("Properties") {
 					@Override
 					public void run() {
-						ComponentFrame cf = currentCanvas.getSelection()
-								.getSelectedItems().size() > 1 ? null
-								: currentCanvas.getSelection()
-										.getPrimarySelection();
+						ComponentFrame cf = currentCanvas.getSelection().getSelectedItems().size() > 1 ? null
+								: currentCanvas.getSelection().getPrimarySelection();
 						if (cf != null) {
 							if (cf instanceof ConnectorFrame) {
-								showConnectorProperties(((ConnectorFrame) cf)
-										.getDesignConnector());
+								showConnectorProperties(((ConnectorFrame) cf).getDesignConnector());
 							} else {
-								showElementProperties(((ElementFrame) cf)
-										.getDesignElement());
+								showElementProperties(((ElementFrame) cf).getDesignElement());
 							}
 						} else {
 							showCanvasProperties();
@@ -518,26 +500,19 @@ public class BasicController implements CommandListener, MouseListener,
 			if (currentCanvas.getSelection().getPrimarySelection() != null
 					&& currentCanvas.getSelection().getSelectedItems().size() == 1
 					&& currentCanvas.getSelection().getPrimarySelection() instanceof ElementFrame
-					&& ComponentPropertiesPanelProviderRegistry.getInstance()
-							.hasPropertiesPanels(
-									((ElementFrame) currentCanvas
-											.getSelection()
-											.getPrimarySelection())
-											.getDesignElement())) {
+					&& ComponentPropertiesPanelProviderRegistry.getInstance().hasPropertiesPanels(
+							((ElementFrame) currentCanvas.getSelection().getPrimarySelection())
+									.getDesignElement())) {
 				menuManager.add(new Action("Properties") {
 					@Override
 					public void run() {
-						ComponentFrame cf = currentCanvas.getSelection()
-								.getSelectedItems().size() > 1 ? null
-								: currentCanvas.getSelection()
-										.getPrimarySelection();
+						ComponentFrame cf = currentCanvas.getSelection().getSelectedItems().size() > 1 ? null
+								: currentCanvas.getSelection().getPrimarySelection();
 						if (cf != null) {
 							if (cf instanceof ConnectorFrame) {
-								showConnectorProperties(((ConnectorFrame) cf)
-										.getDesignConnector());
+								showConnectorProperties(((ConnectorFrame) cf).getDesignConnector());
 							} else {
-								showElementProperties(((ElementFrame) cf)
-										.getDesignElement());
+								showElementProperties(((ElementFrame) cf).getDesignElement());
 							}
 						} else {
 							showCanvasProperties();
@@ -566,8 +541,7 @@ public class BasicController implements CommandListener, MouseListener,
 	 * @param height
 	 * @param inProgress
 	 */
-	public void fireGraphicUpdate(int x, int y, int width, int height,
-			boolean inProgress) {
+	public void fireGraphicUpdate(int x, int y, int width, int height, boolean inProgress) {
 		for (int i = 0; i < listeners.size(); i++) {
 			listeners.get(i).graphicUpdate(x, y, width, height, inProgress);
 		}
@@ -586,33 +560,29 @@ public class BasicController implements CommandListener, MouseListener,
 	public void mouseDown(MouseEvent event) {
 		try {
 			commandPosition = new Point(event.x, event.y);
-			Rectangle initialSelectionRect = currentCanvas.getSelection()
-					.getTertiaryBounds();
-			ComponentFrame initialPrimarySelection = currentCanvas
-					.getSelection().getPrimarySelection();
+			Rectangle initialSelectionRect = currentCanvas.getSelection().getTertiaryBounds();
+			ComponentFrame initialPrimarySelection = currentCanvas.getSelection()
+					.getPrimarySelection();
 			SelectionResult result = currentCanvas.selectAt(event.x, event.y,
 					(event.stateMask & SWT.SHIFT) != 0);
-			System.out.println("result: hit=" + result.wasHit()
-					+ " selectionChanged=" + result.wasSelectionChanged()
-					+ " primaryChanged=" + result.wasPrimaryChanged());
+			System.out.println("result: hit=" + result.wasHit() + " selectionChanged="
+					+ result.wasSelectionChanged() + " primaryChanged="
+					+ result.wasPrimaryChanged());
 			if (result.wasSelectionChanged()) {
 				if (initialPrimarySelection == null) {
-					fireGraphicUpdate(currentCanvas.getSelection()
-							.getTertiaryBounds(), false);
+					fireGraphicUpdate(currentCanvas.getSelection().getTertiaryBounds(), false);
 				} else {
 					fireGraphicUpdate(
 							currentCanvas.getSelection().getTertiaryBounds() == null ? initialSelectionRect
-									: initialSelectionRect
-											.union(currentCanvas.getSelection()
-													.getTertiaryBounds()),
-							false);
+									: initialSelectionRect.union(currentCanvas.getSelection()
+											.getTertiaryBounds()), false);
 				}
 				fireSelectionChanged();
 			}
 			if (event.button == 1) {
 				if (result.wasHit()) {
-					currentCanvas.getSelection().getPrimarySelection()
-							.mouseDown(this, event.x, event.y, event.stateMask);
+					currentCanvas.getSelection().getPrimarySelection().mouseDown(this, event.x,
+							event.y, event.stateMask);
 				} else // same selection, start area selection
 				{
 					dragPoint = commandPosition;
@@ -627,15 +597,12 @@ public class BasicController implements CommandListener, MouseListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.MouseListener#mouseUp(org.eclipse.swt.events.
-	 * MouseEvent)
+	 * @see org.eclipse.swt.events.MouseListener#mouseUp(org.eclipse.swt.events. MouseEvent)
 	 */
 	@Override
 	public void mouseUp(MouseEvent event) {
 		try {
-			interactionSurface.setCursor(Display.getCurrent().getSystemCursor(
-					SWT.CURSOR_ARROW));
+			interactionSurface.setCursor(Display.getCurrent().getSystemCursor(SWT.CURSOR_ARROW));
 			commandPosition = new Point(event.x, event.y);
 			if (dragging) {
 				boolean wasLine = isLine;
@@ -645,67 +612,50 @@ public class BasicController implements CommandListener, MouseListener,
 				isArea = false;
 				if (wasLine) // find destination element
 				{
-					ElementFrame ef = (ElementFrame) currentCanvas
-							.getSelection().getPrimarySelection();
-					ElementFrame dest = currentCanvas.findElementAt(event.x,
-							event.y);
+					ElementFrame ef = (ElementFrame) currentCanvas.getSelection()
+							.getPrimarySelection();
+					ElementFrame dest = currentCanvas.findElementAt(event.x, event.y);
 					if (dest != null) {
-						if (dest.getDesignElement().acceptsConnector(
-								ef.getDesignElement())) {
-							ConnectorFrame connectorFrame = currentCanvas
-									.connectElements(ef, dest);
-							showConnectorProperties(connectorFrame
-									.getDesignConnector());
+						if (dest.getDesignElement().acceptsConnector(ef.getDesignElement())) {
+							ConnectorFrame connectorFrame = currentCanvas.connectElements(ef, dest);
+							showConnectorProperties(connectorFrame.getDesignConnector());
 							// TODO need to delete the connector is no exit
 							// points were selected
 							currentCanvas.select(connectorFrame, false);
 							currentCanvas.postAddedItem();
 						}
 						currentCanvas.getSelection().validateSelection();
-						fireGraphicUpdate(ef.getBounds()
-								.union(dest.getBounds()), false);
+						fireGraphicUpdate(ef.getBounds().union(dest.getBounds()), false);
 					} else {
-						fireGraphicUpdate(
-								ef.getBounds().union(
-										new Rectangle(Math.min(dragPoint.x,
-												commandPosition.x),
-												Math.min(dragPoint.y,
-														commandPosition.y),
-												Math.abs(commandPosition.x
-														- dragPoint.x) + 2,
-												Math.abs(commandPosition.y
-														- dragPoint.y) + 2)),
-								false);
+						fireGraphicUpdate(ef.getBounds().union(
+								new Rectangle(Math.min(dragPoint.x, commandPosition.x), Math.min(
+										dragPoint.y, commandPosition.y), Math.abs(commandPosition.x
+										- dragPoint.x) + 2, Math.abs(commandPosition.y
+										- dragPoint.y) + 2)), false);
 					}
 				} else if (wasArea) {
-					Rectangle selectionArea = new Rectangle(Math.min(
-							dragPoint.x, commandPosition.x) - 2, Math.min(
-							dragPoint.y, commandPosition.y) - 2,
-							Math.abs(dragPoint.x - commandPosition.x) + 4,
+					Rectangle selectionArea = new Rectangle(Math
+							.min(dragPoint.x, commandPosition.x) - 2, Math.min(dragPoint.y,
+							commandPosition.y) - 2, Math.abs(dragPoint.x - commandPosition.x) + 4,
 							Math.abs(dragPoint.y - commandPosition.y) + 4);
-					Rectangle initialSelectionRect = currentCanvas
-							.getSelection().getTertiaryBounds();
-					currentCanvas.selectRegion(selectionArea,
-							(event.stateMask & SWT.SHIFT) != 0);
-					Rectangle currentSelectionRect = currentCanvas
-							.getSelection().getTertiaryBounds();
-					if (initialSelectionRect != null
-							&& !initialSelectionRect.isEmpty()) {
+					Rectangle initialSelectionRect = currentCanvas.getSelection()
+							.getTertiaryBounds();
+					currentCanvas.selectRegion(selectionArea, (event.stateMask & SWT.SHIFT) != 0);
+					Rectangle currentSelectionRect = currentCanvas.getSelection()
+							.getTertiaryBounds();
+					if (initialSelectionRect != null && !initialSelectionRect.isEmpty()) {
 						selectionArea.add(initialSelectionRect);
 					}
-					if (currentSelectionRect != null
-							&& !currentSelectionRect.isEmpty()) {
+					if (currentSelectionRect != null && !currentSelectionRect.isEmpty()) {
 						selectionArea.add(currentSelectionRect);
 					}
 					fireGraphicUpdate(selectionArea, false);
 				} else {
 					currentCanvas.getSelection().endMove();
-					fireGraphicUpdate(currentCanvas.getSelection()
-							.getTertiaryBounds(), false);
+					fireGraphicUpdate(currentCanvas.getSelection().getTertiaryBounds(), false);
 				}
 			} else {
-				ComponentFrame cf = currentCanvas.findComponentAt(event.x,
-						event.y);
+				ComponentFrame cf = currentCanvas.findComponentAt(event.x, event.y);
 				if (cf != null) {
 					cf.mouseUp(this, event.x, event.y, event.stateMask);
 				}
@@ -717,16 +667,13 @@ public class BasicController implements CommandListener, MouseListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.swt.events.MouseListener#mouseDoubleClick(org.eclipse.swt
+	 * @see org.eclipse.swt.events.MouseListener#mouseDoubleClick(org.eclipse.swt
 	 * .events.MouseEvent)
 	 */
 	@Override
 	public void mouseDoubleClick(MouseEvent event) {
 		commandPosition = new Point(event.x, event.y);
-		interactionSurface.setCursor(Display.getCurrent().getSystemCursor(
-				SWT.CURSOR_ARROW));
+		interactionSurface.setCursor(Display.getCurrent().getSystemCursor(SWT.CURSOR_ARROW));
 		dragging = false;
 		isLine = false;
 		isArea = false;
@@ -753,50 +700,42 @@ public class BasicController implements CommandListener, MouseListener,
 			if (!isLine && !isArea) // dragging a selection
 			{
 				redrawArea = currentCanvas.getSelection().getTertiaryBounds();
-				currentCanvas.getSelection().adjustPosition(
-						commandPosition.x - dragPoint.x,
+				currentCanvas.getSelection().adjustPosition(commandPosition.x - dragPoint.x,
 						commandPosition.y - dragPoint.y);
-				redrawArea
-						.add(currentCanvas.getSelection().getTertiaryBounds());
+				redrawArea.add(currentCanvas.getSelection().getTertiaryBounds());
 				dragPoint = commandPosition;
 			} else if (isArea) {
 				if (oldPosition == null) {
 					oldPosition = new Point(0, 0);
 				}
-				Rectangle previousSelectionArea = new Rectangle(Math.min(
-						dragPoint.x, oldPosition.x) - 2, Math.min(dragPoint.y,
-						oldPosition.y) - 2, Math.abs(dragPoint.x
-						- oldPosition.x) + 4, Math.abs(dragPoint.y
-						- oldPosition.y) + 4);
-				Rectangle currentSelectionArea = new Rectangle(Math.min(
-						dragPoint.x, commandPosition.x) - 2, Math.min(
-						dragPoint.y, commandPosition.y) - 2,
-						Math.abs(dragPoint.x - commandPosition.x) + 4,
-						Math.abs(dragPoint.y - commandPosition.y) + 4);
+				Rectangle previousSelectionArea = new Rectangle(Math
+						.min(dragPoint.x, oldPosition.x) - 2,
+						Math.min(dragPoint.y, oldPosition.y) - 2, Math.abs(dragPoint.x
+								- oldPosition.x) + 4, Math.abs(dragPoint.y - oldPosition.y) + 4);
+				Rectangle currentSelectionArea = new Rectangle(Math.min(dragPoint.x,
+						commandPosition.x) - 2, Math.min(dragPoint.y, commandPosition.y) - 2, Math
+						.abs(dragPoint.x - commandPosition.x) + 4, Math.abs(dragPoint.y
+						- commandPosition.y) + 4);
 				redrawArea = previousSelectionArea.union(currentSelectionArea);
 			} else // creating connector
 			{
-				ElementFrame ef = (ElementFrame) currentCanvas.getSelection()
-						.getPrimarySelection();
+				ElementFrame ef = (ElementFrame) currentCanvas.getSelection().getPrimarySelection();
 				redrawArea = ef.getBounds().union(
-						new Rectangle(Math.min(dragPoint.x, commandPosition.x),
-								Math.min(dragPoint.y, commandPosition.y),
-								Math.abs(commandPosition.x - dragPoint.x) + 2,
-								Math.abs(commandPosition.y - dragPoint.y) + 2));
-				redrawArea.add(new Rectangle(Math.min(dragPoint.x,
-						oldPosition.x), Math.min(dragPoint.y, oldPosition.y),
-						Math.abs(oldPosition.x - dragPoint.x) + 2, Math
-								.abs(oldPosition.y - dragPoint.y) + 2));
+						new Rectangle(Math.min(dragPoint.x, commandPosition.x), Math.min(
+								dragPoint.y, commandPosition.y), Math.abs(commandPosition.x
+								- dragPoint.x) + 2, Math.abs(commandPosition.y - dragPoint.y) + 2));
+				redrawArea.add(new Rectangle(Math.min(dragPoint.x, oldPosition.x), Math.min(
+						dragPoint.y, oldPosition.y), Math.abs(oldPosition.x - dragPoint.x) + 2,
+						Math.abs(oldPosition.y - dragPoint.y) + 2));
 				ElementFrame df = currentCanvas.findElementAt(event.x, event.y);
 				if (df != null) {
-					if (!df.getDesignElement().acceptsConnector(
-							ef.getDesignElement())) {
-						interactionSurface.setCursor(Display.getCurrent()
-								.getSystemCursor(SWT.CURSOR_NO));
+					if (!df.getDesignElement().acceptsConnector(ef.getDesignElement())) {
+						interactionSurface.setCursor(Display.getCurrent().getSystemCursor(
+								SWT.CURSOR_NO));
 					}
 				} else {
-					interactionSurface.setCursor(Display.getCurrent()
-							.getSystemCursor(SWT.CURSOR_CROSS));
+					interactionSurface.setCursor(Display.getCurrent().getSystemCursor(
+							SWT.CURSOR_CROSS));
 				}
 			}
 			// if(redrawArea != null)
@@ -809,29 +748,21 @@ public class BasicController implements CommandListener, MouseListener,
 	 * Implementation of org.eclipse.swt.events.MouseTrackListener
 	 *************************************************************/
 	@Override
-	public void mouseEnter(MouseEvent event) {
-	}
+	public void mouseEnter(MouseEvent event) {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.swt.events.MouseTrackListener#mouseExit(org.eclipse.swt.events
-	 * .MouseEvent)
+	 * @see org.eclipse.swt.events.MouseTrackListener#mouseExit(org.eclipse.swt.events .MouseEvent)
 	 */
 	@Override
 	public void mouseExit(MouseEvent event) {
 		if (dragging && !isLine && !isArea) // moving a selection
-		{
-		}
+		{}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.swt.events.MouseTrackListener#mouseHover(org.eclipse.swt.
-	 * events.MouseEvent)
+	 * @see org.eclipse.swt.events.MouseTrackListener#mouseHover(org.eclipse.swt. events.MouseEvent)
 	 */
 	@Override
 	public void mouseHover(MouseEvent event) {
@@ -853,26 +784,24 @@ public class BasicController implements CommandListener, MouseListener,
 	public void paintCanvas(GC gc1) {
 		int curPri = Thread.currentThread().getPriority();
 		Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
-		Image buffer = new Image(gc1.getDevice(), currentCanvas.getUIModel()
-				.getWidth(), currentCanvas.getUIModel().getHeight());
+		Image buffer = new Image(gc1.getDevice(), currentCanvas.getUIModel().getWidth(),
+				currentCanvas.getUIModel().getHeight());
 		GC gc = new GC(buffer);
 		gc.setBackground(gc1.getBackground());
 		gc.setForeground(gc1.getForeground());
-		gc.fillRectangle(0, 0, currentCanvas.getUIModel().getWidth(),
-				currentCanvas.getUIModel().getHeight());
+		gc.fillRectangle(0, 0, currentCanvas.getUIModel().getWidth(), currentCanvas.getUIModel()
+				.getHeight());
 		if (isLine && dragging) {
-			gc.drawLine(dragPoint.x, dragPoint.y, commandPosition.x,
-					commandPosition.y);
+			gc.drawLine(dragPoint.x, dragPoint.y, commandPosition.x, commandPosition.y);
 		}
 		currentCanvas.paintCanvas(gc, resourceMap, 0);
 		if (isArea && dragging) {
 			gc.setLineStyle(SWT.LINE_DOT);
 			gc.setLineWidth(2);
-			Rectangle currentSelectionArea = new Rectangle(Math.min(
-					dragPoint.x, commandPosition.x), Math.min(dragPoint.y,
-					commandPosition.y), Math.abs(dragPoint.x
-					- commandPosition.x), Math.abs(dragPoint.y
-					- commandPosition.y));
+			Rectangle currentSelectionArea = new Rectangle(
+					Math.min(dragPoint.x, commandPosition.x), Math.min(dragPoint.y,
+							commandPosition.y), Math.abs(dragPoint.x - commandPosition.x), Math
+							.abs(dragPoint.y - commandPosition.y));
 			gc.drawRectangle(currentSelectionArea);
 			gc.setLineWidth(1);
 		}
@@ -883,31 +812,25 @@ public class BasicController implements CommandListener, MouseListener,
 	}
 
 	/****************************************************************************
-	 * Implementation of
-	 * org.eclipse.vtp.desktop.editors.commands.CommandListener
+	 * Implementation of org.eclipse.vtp.desktop.editors.commands.CommandListener
 	 ****************************************************************************/
 	@Override
 	public void executeCommand(Command command) {
 		if (command instanceof StartMove) {
 			dragging = true;
 			dragPoint = commandPosition;
-			interactionSurface.setCursor(Display.getCurrent().getSystemCursor(
-					SWT.CURSOR_SIZEALL));
+			interactionSurface.setCursor(Display.getCurrent().getSystemCursor(SWT.CURSOR_SIZEALL));
 			currentCanvas.getSelection().startMove();
 		} else if (command instanceof BeginConnector) {
 			dragging = true;
-			ElementFrame ef = (ElementFrame) currentCanvas.getSelection()
-					.getPrimarySelection();
+			ElementFrame ef = (ElementFrame) currentCanvas.getSelection().getPrimarySelection();
 			dragPoint = ef.getDesignElement().getCenterPoint();
 			isLine = true;
-			interactionSurface.setCursor(Display.getCurrent().getSystemCursor(
-					SWT.CURSOR_CROSS));
+			interactionSurface.setCursor(Display.getCurrent().getSystemCursor(SWT.CURSOR_CROSS));
 		} else if (command instanceof ShowProperties) {
-			ComponentFrame cof = currentCanvas.getSelection()
-					.getPrimarySelection();
+			ComponentFrame cof = currentCanvas.getSelection().getPrimarySelection();
 			IDesignComponent component = (cof instanceof ElementFrame) ? ((ElementFrame) cof)
-					.getDesignElement() : ((ConnectorFrame) cof)
-					.getDesignConnector();
+					.getDesignElement() : ((ConnectorFrame) cof).getDesignConnector();
 			if (component instanceof DesignConnector) {
 				showConnectorProperties((DesignConnector) component);
 			} else {
@@ -916,8 +839,7 @@ public class BasicController implements CommandListener, MouseListener,
 					ModelNavigationListener navigationListener = (ModelNavigationListener) adaptableContainer
 							.getAdapter(ModelNavigationListener.class);
 					if (navigationListener != null) {
-						navigationListener.showDesign(((DialogElement) element)
-								.getId());
+						navigationListener.showDesign(((DialogElement) element).getId());
 					}
 				}
 				this.showElementProperties(element);
@@ -937,46 +859,33 @@ public class BasicController implements CommandListener, MouseListener,
 	 * Implementation of org.eclipse.swt.dnd.DropTargetListener
 	 **********************************************************/
 	@Override
-	public void dragEnter(DropTargetEvent event) {
-	}
+	public void dragEnter(DropTargetEvent event) {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.swt.dnd.DropTargetListener#dragLeave(org.eclipse.swt.dnd.
-	 * DropTargetEvent)
+	 * @see org.eclipse.swt.dnd.DropTargetListener#dragLeave(org.eclipse.swt.dnd. DropTargetEvent)
 	 */
 	@Override
-	public void dragLeave(DropTargetEvent event) {
-	}
+	public void dragLeave(DropTargetEvent event) {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.swt.dnd.DropTargetListener#dragOperationChanged(org.eclipse
+	 * @see org.eclipse.swt.dnd.DropTargetListener#dragOperationChanged(org.eclipse
 	 * .swt.dnd.DropTargetEvent)
 	 */
 	@Override
-	public void dragOperationChanged(DropTargetEvent event) {
-	}
+	public void dragOperationChanged(DropTargetEvent event) {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.dnd.DropTargetListener#dragOver(org.eclipse.swt.dnd.
-	 * DropTargetEvent)
+	 * @see org.eclipse.swt.dnd.DropTargetListener#dragOver(org.eclipse.swt.dnd. DropTargetEvent)
 	 */
 	@Override
-	public void dragOver(DropTargetEvent event) {
-	}
+	public void dragOver(DropTargetEvent event) {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.dnd.DropTargetListener#drop(org.eclipse.swt.dnd.
-	 * DropTargetEvent)
+	 * @see org.eclipse.swt.dnd.DropTargetListener#drop(org.eclipse.swt.dnd. DropTargetEvent)
 	 */
 	@Override
 	public void drop(DropTargetEvent event) {
@@ -995,11 +904,10 @@ public class BasicController implements CommandListener, MouseListener,
 	 * @param dropPoint
 	 */
 	private void addElement(PalletItem pi, Point dropPoint) {
-		DesignElement createdElement = pi.createElement((Design) currentCanvas
-				.getUIModel());
+		DesignElement createdElement = pi.createElement((Design) currentCanvas.getUIModel());
 		currentCanvas.addElement(createdElement, dropPoint.x, dropPoint.y);
-		fireGraphicUpdate(0, 0, currentCanvas.getUIModel().getWidth(),
-				currentCanvas.getUIModel().getHeight(), false);
+		fireGraphicUpdate(0, 0, currentCanvas.getUIModel().getWidth(), currentCanvas.getUIModel()
+				.getHeight(), false);
 		boolean persists = true;
 		if (pi.isPopOnDrop()) {
 			persists = showElementProperties(createdElement, true);
@@ -1012,15 +920,11 @@ public class BasicController implements CommandListener, MouseListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.swt.dnd.DropTargetListener#dropAccept(org.eclipse.swt.dnd
-	 * .DropTargetEvent)
+	 * @see org.eclipse.swt.dnd.DropTargetListener#dropAccept(org.eclipse.swt.dnd .DropTargetEvent)
 	 */
 	@Override
 	public void dropAccept(DropTargetEvent event) {
-		if (!PalletItemTransfer.getInstance().isSupportedType(
-				event.currentDataType)) {
+		if (!PalletItemTransfer.getInstance().isSupportedType(event.currentDataType)) {
 			event.detail = DND.DROP_NONE;
 		}
 	}
@@ -1036,10 +940,7 @@ public class BasicController implements CommandListener, MouseListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.swt.dnd.DragSourceListener#dragSetData(org.eclipse.swt.dnd
-	 * .DragSourceEvent)
+	 * @see org.eclipse.swt.dnd.DragSourceListener#dragSetData(org.eclipse.swt.dnd .DragSourceEvent)
 	 */
 	@Override
 	public void dragSetData(DragSourceEvent event) {
@@ -1049,10 +950,7 @@ public class BasicController implements CommandListener, MouseListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.swt.dnd.DragSourceListener#dragStart(org.eclipse.swt.dnd.
-	 * DragSourceEvent)
+	 * @see org.eclipse.swt.dnd.DragSourceListener#dragStart(org.eclipse.swt.dnd. DragSourceEvent)
 	 */
 	@Override
 	public void dragStart(DragSourceEvent event) {
@@ -1061,10 +959,7 @@ public class BasicController implements CommandListener, MouseListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.swt.events.KeyListener#keyPressed(org.eclipse.swt.events.
-	 * KeyEvent)
+	 * @see org.eclipse.swt.events.KeyListener#keyPressed(org.eclipse.swt.events. KeyEvent)
 	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -1072,20 +967,16 @@ public class BasicController implements CommandListener, MouseListener,
 			if (currentCanvas.getSelection().getPrimarySelection() != null) {
 				boolean canDelete = true;
 				if (currentCanvas.getSelection().getPrimarySelection() instanceof ElementFrame) {
-					List<ComponentFrame> items = currentCanvas.getSelection()
-							.getSelectedItems();
+					List<ComponentFrame> items = currentCanvas.getSelection().getSelectedItems();
 					for (int i = 0; i < items.size(); i++) {
 						ElementFrame ef = (ElementFrame) items.get(i);
 						IDesignElement el = ef.getDesignElement();
 						canDelete = canDelete & el.canDelete();
 					}
 				}
-				if (!canDelete) {
-					return;
-				}
-				MessageBox confirmationDialog = new MessageBox(Display
-						.getCurrent().getActiveShell(), SWT.YES | SWT.NO
-						| SWT.ICON_WARNING);
+				if (!canDelete) { return; }
+				MessageBox confirmationDialog = new MessageBox(Display.getCurrent()
+						.getActiveShell(), SWT.YES | SWT.NO | SWT.ICON_WARNING);
 				confirmationDialog
 						.setMessage("Are you sure you want to delete the selected item(s)?");
 
@@ -1093,9 +984,8 @@ public class BasicController implements CommandListener, MouseListener,
 
 				if (result == SWT.YES) {
 					currentCanvas.deleteSelectedItems();
-					fireGraphicUpdate(0, 0, currentCanvas.getUIModel()
-							.getWidth(),
-							currentCanvas.getUIModel().getHeight(), false);
+					fireGraphicUpdate(0, 0, currentCanvas.getUIModel().getWidth(), currentCanvas
+							.getUIModel().getHeight(), false);
 				}
 			}
 		}
@@ -1103,10 +993,7 @@ public class BasicController implements CommandListener, MouseListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.swt.events.KeyListener#keyReleased(org.eclipse.swt.events
-	 * .KeyEvent)
+	 * @see org.eclipse.swt.events.KeyListener#keyReleased(org.eclipse.swt.events .KeyEvent)
 	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
@@ -1116,28 +1003,24 @@ public class BasicController implements CommandListener, MouseListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.editors.core.model.RenderedCanvasListener#
-	 * renderedCanvasChanged
+	 * @see org.eclipse.vtp.desktop.editors.core.model.RenderedCanvasListener# renderedCanvasChanged
 	 * (org.eclipse.vtp.desktop.editors.core.model.RenderedCanvas)
 	 */
 	@Override
 	public void renderedModelChanged(RenderedModel renderedCanvas) {
-		fireGraphicUpdate(0, 0, currentCanvas.getUIModel().getWidth(),
-				currentCanvas.getUIModel().getHeight(), false);
+		fireGraphicUpdate(0, 0, currentCanvas.getUIModel().getWidth(), currentCanvas.getUIModel()
+				.getHeight(), false);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.editors.core.model.RenderedCanvasListener#
-	 * renderedCanvasFormatChanged
-	 * (org.eclipse.vtp.desktop.editors.core.model.RenderedCanvas)
+	 * renderedCanvasFormatChanged (org.eclipse.vtp.desktop.editors.core.model.RenderedCanvas)
 	 */
 	@Override
 	public void renderedModelFormatChanged(RenderedModel renderedCanvas) {
-		fireGraphicUpdate(0, 0, currentCanvas.getUIModel().getWidth(),
-				currentCanvas.getUIModel().getHeight(), false);
+		fireGraphicUpdate(0, 0, currentCanvas.getUIModel().getWidth(), currentCanvas.getUIModel()
+				.getHeight(), false);
 	}
 
 	/**

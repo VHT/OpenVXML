@@ -31,18 +31,15 @@ public class ContentCreatorPanelManager {
 
 	@SuppressWarnings("unchecked")
 	public ContentCreatorPanelManager() {
-		IConfigurationElement[] creatorExtensions = Platform
-				.getExtensionRegistry().getConfigurationElementsFor(
-						contentCreatorPanelExtensionId);
+		IConfigurationElement[] creatorExtensions = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(contentCreatorPanelExtensionId);
 		for (IConfigurationElement creatorExtension : creatorExtensions) {
 			ContentCreatorRecord ccr = new ContentCreatorRecord();
 			ccr.contentType = creatorExtension.getAttribute("content-type");
 			String className = creatorExtension.getAttribute("class");
-			Bundle contributor = Platform.getBundle(creatorExtension
-					.getContributor().getName());
+			Bundle contributor = Platform.getBundle(creatorExtension.getContributor().getName());
 			try {
-				ccr.creatorClass = (Class<ContentCreatorPanel>) contributor
-						.loadClass(className);
+				ccr.creatorClass = (Class<ContentCreatorPanel>) contributor.loadClass(className);
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 				continue;

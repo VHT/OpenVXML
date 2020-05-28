@@ -43,7 +43,6 @@ import org.eclipse.vtp.framework.interactions.core.support.AbstractPlatform;
  */
 /**
  * @author trip
- *
  */
 public class MetaDataRequestAction implements IAction {
 	/** The context to use. */
@@ -61,20 +60,14 @@ public class MetaDataRequestAction implements IAction {
 	/**
 	 * Creates a new MetaDataMessageAction.
 	 * 
-	 * @param context
-	 *            The context to use.
-	 * @param conversation
-	 *            The conversation to use.
-	 * @param configuration
-	 *            The configuration to use.
-	 * @param variables
-	 *            The variable registry to use.
+	 * @param context The context to use.
+	 * @param conversation The conversation to use.
+	 * @param configuration The configuration to use.
+	 * @param variables The variable registry to use.
 	 */
-	public MetaDataRequestAction(IActionContext context,
-			IConversation conversation,
-			MetaDataRequestConfiguration configuration,
-			IVariableRegistry variables, IBrandSelection brandSelection,
-			IPlatformSelector platformSelector) {
+	public MetaDataRequestAction(IActionContext context, IConversation conversation,
+			MetaDataRequestConfiguration configuration, IVariableRegistry variables,
+			IBrandSelection brandSelection, IPlatformSelector platformSelector) {
 		this.context = context;
 		this.conversation = conversation;
 		this.configuration = configuration;
@@ -85,13 +78,11 @@ public class MetaDataRequestAction implements IAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.core.IAction#execute()
 	 */
 	@Override
 	public IActionResult execute() {
-		String resultParameterName = ACTION_PREFIX
-				+ context.getActionID().replace(':', '_');
+		String resultParameterName = ACTION_PREFIX + context.getActionID().replace(':', '_');
 		try {
 			if (context.isDebugEnabled()) {
 				context.debug(getClass().getName().substring(
@@ -103,30 +94,26 @@ public class MetaDataRequestAction implements IAction {
 				if (context.isReportingEnabled()) {
 					Dictionary props = new Hashtable();
 					props.put("event", "metadata.request.filled");
-					context.report(IReporter.SEVERITY_INFO,
-							"Received meta-data.", props);
+					context.report(IReporter.SEVERITY_INFO, "Received meta-data.", props);
 				}
 
 				/*
-				 * IBrand brand = brandSelection.getSelectedBrand();
-				 * MetaDataItemConfiguration[] items = null; for (; brand !=
-				 * null && items == null; brand = brand.getParentBrand()) {
-				 * items = configuration.getItem(brand.getId() + "" + ""); }
+				 * IBrand brand = brandSelection.getSelectedBrand(); MetaDataItemConfiguration[]
+				 * items = null; for (; brand != null && items == null; brand =
+				 * brand.getParentBrand()) { items = configuration.getItem(brand.getId() + "" + "");
+				 * }
 				 */
 
 				AbstractPlatform platform = (AbstractPlatform) platformSelector
 						.getSelectedPlatform();
-				Map dataMap = platform.processMetaDataResponse(configuration,
-						context);
+				Map dataMap = platform.processMetaDataResponse(configuration, context);
 
 				IMapObject outputMap;
-				IDataObject ido = variables.getVariable(configuration
-						.getOutput());
+				IDataObject ido = variables.getVariable(configuration.getOutput());
 				if (ido instanceof IMapObject) {
 					outputMap = (IMapObject) ido;
 				} else {
-					outputMap = (IMapObject) variables
-							.createVariable(IMapObject.TYPE_NAME);
+					outputMap = (IMapObject) variables.createVariable(IMapObject.TYPE_NAME);
 				}
 
 				for (String keyName : configuration.getKvpMap().keySet()) {
@@ -138,24 +125,19 @@ public class MetaDataRequestAction implements IAction {
 				variables.setVariable(configuration.getOutput(), outputMap);
 
 				/*
-				 * if (items != null) { for (int i = 0; i < items.length; ++i) {
-				 * IDataObject object =
-				 * variables.getVariable(items[i].getValue()); if (object ==
-				 * null) variables.setVariable(items[i].getValue(), object =
-				 * variables .createVariable(IStringObject.TYPE_NAME));
-				 * IDataObject toSet = object; String primaryField =
-				 * object.getType().getPrimaryFieldName(); if (primaryField !=
-				 * null) toSet = object.getField(primaryField); if (toSet
-				 * instanceof IBooleanObject)
-				 * ((IBooleanObject)toSet).setValue(dataMap.get(items[i]
-				 * .getName())); else if (toSet instanceof IDateObject)
-				 * ((IDateObject)toSet).setValue(dataMap.get(items[i]
+				 * if (items != null) { for (int i = 0; i < items.length; ++i) { IDataObject object
+				 * = variables.getVariable(items[i].getValue()); if (object == null)
+				 * variables.setVariable(items[i].getValue(), object = variables
+				 * .createVariable(IStringObject.TYPE_NAME)); IDataObject toSet = object; String
+				 * primaryField = object.getType().getPrimaryFieldName(); if (primaryField != null)
+				 * toSet = object.getField(primaryField); if (toSet instanceof IBooleanObject)
+				 * ((IBooleanObject)toSet).setValue(dataMap.get(items[i] .getName())); else if
+				 * (toSet instanceof IDateObject) ((IDateObject)toSet).setValue(dataMap.get(items[i]
 				 * .getName())); else if (toSet instanceof IDecimalObject)
-				 * ((IDecimalObject)toSet).setValue(dataMap.get(items[i]
-				 * .getName())); else if (toSet instanceof INumberObject)
-				 * ((INumberObject)toSet).setValue(dataMap.get(items[i]
-				 * .getName())); else if (toSet instanceof IStringObject)
-				 * ((IStringObject)toSet).setValue(dataMap.get(items[i]
+				 * ((IDecimalObject)toSet).setValue(dataMap.get(items[i] .getName())); else if
+				 * (toSet instanceof INumberObject)
+				 * ((INumberObject)toSet).setValue(dataMap.get(items[i] .getName())); else if (toSet
+				 * instanceof IStringObject) ((IStringObject)toSet).setValue(dataMap.get(items[i]
 				 * .getName())); } }
 				 */
 
@@ -164,8 +146,8 @@ public class MetaDataRequestAction implements IAction {
 				if (context.isReportingEnabled()) {
 					Dictionary props = new Hashtable();
 					props.put("event", "error.disconnect.hangup");
-					context.report(IReporter.SEVERITY_INFO,
-							"Got disconnect during interaction.", props);
+					context.report(IReporter.SEVERITY_INFO, "Got disconnect during interaction.",
+							props);
 				}
 				return context.createResult(IConversation.RESULT_NAME_HANGUP);
 			} else if (value != null) {
@@ -174,14 +156,12 @@ public class MetaDataRequestAction implements IAction {
 				if (context.isReportingEnabled()) {
 					Dictionary props = new Hashtable();
 					props.put("event", "metadata.request.before");
-					context.report(IReporter.SEVERITY_INFO,
-							"Requesting meta-data.", props);
+					context.report(IReporter.SEVERITY_INFO, "Requesting meta-data.", props);
 				}
 
 				Map<String, IDataObject> kvpMap = new HashMap<String, IDataObject>();
 				IArrayObject inputStringObjectArray;
-				IDataObject ido = variables.getVariable(configuration
-						.getInput());
+				IDataObject ido = variables.getVariable(configuration.getInput());
 				if (ido instanceof IArrayObject) {
 					inputStringObjectArray = (IArrayObject) ido;
 				} else {
@@ -189,19 +169,14 @@ public class MetaDataRequestAction implements IAction {
 							.createVariable(IArrayObject.TYPE_NAME);
 				}
 
-				for (int b = 0; b < inputStringObjectArray.getLength()
-						.getValue(); b++) {
-					String keyName = inputStringObjectArray.getElement(b)
-							.toString();
+				for (int b = 0; b < inputStringObjectArray.getLength().getValue(); b++) {
+					String keyName = inputStringObjectArray.getElement(b).toString();
 					kvpMap.put(keyName, null);
 				}
 				configuration.setKvpMap(kvpMap);
 
-				if (conversation.createMetaDataRequest(configuration,
-						resultParameterName).enqueue()) {
-					return context
-							.createResult(IActionResult.RESULT_NAME_REPEAT);
-				}
+				if (conversation.createMetaDataRequest(configuration, resultParameterName)
+						.enqueue()) { return context.createResult(IActionResult.RESULT_NAME_REPEAT); }
 			}
 		} catch (Exception e) {
 			return context.createResult("error.meta-data.request", e); //$NON-NLS-1$

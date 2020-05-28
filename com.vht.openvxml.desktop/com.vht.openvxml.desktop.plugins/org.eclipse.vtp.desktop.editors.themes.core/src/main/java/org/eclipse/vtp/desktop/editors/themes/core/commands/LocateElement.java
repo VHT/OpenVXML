@@ -12,9 +12,8 @@
 package org.eclipse.vtp.desktop.editors.themes.core.commands;
 
 /**
- * Indicates that a particular design element should be revealed in an editor or
- * a new editor should be created to display the design canvas which contains
- * the desired element.
+ * Indicates that a particular design element should be revealed in an editor or a new editor should
+ * be created to display the design canvas which contains the desired element.
  * 
  * @author trip
  */
@@ -25,8 +24,7 @@ public class LocateElement extends Command {
 	/**
 	 * Creates a new instance of this command with the given element identifier.
 	 * 
-	 * @param elementId
-	 *            The identifier of the element to display
+	 * @param elementId The identifier of the element to display
 	 */
 	public LocateElement(String elementId) {
 		super();

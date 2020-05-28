@@ -64,10 +64,8 @@ import com.openmethods.openvxml.desktop.model.workflow.internal.VariableHelper;
  * The graphical user interface used to configure the Variable Assignment module.
  * 
  * @author Trip Gilman
- *
  */
-public class AssignmentVariablesPropertyPanel extends DesignElementPropertiesPanel
-{
+public class AssignmentVariablesPropertyPanel extends DesignElementPropertiesPanel {
 	IBusinessObjectSet businessObjectSet = null;
 	List<VariableDeclaration> declarations;
 	List<Variable> variables;
@@ -87,48 +85,48 @@ public class AssignmentVariablesPropertyPanel extends DesignElementPropertiesPan
 	/**
 	 * @param name
 	 */
-	public AssignmentVariablesPropertyPanel(String name, IDesignElement element)
-	{
+	public AssignmentVariablesPropertyPanel(String name, IDesignElement element) {
 		super(name, element);
 		IOpenVXMLProject wp = getElement().getDesign().getDocument().getProject();
-		IBusinessObjectProjectAspect businessObjectAspect = (IBusinessObjectProjectAspect)wp.getProjectAspect(IBusinessObjectProjectAspect.ASPECT_ID);
+		IBusinessObjectProjectAspect businessObjectAspect = (IBusinessObjectProjectAspect) wp
+				.getProjectAspect(IBusinessObjectProjectAspect.ASPECT_ID);
 		businessObjectSet = businessObjectAspect.getBusinessObjectSet();
-		declarations = ((VariableAssignmentInformationProvider)((PrimitiveElement)element).getInformationProvider()).getDeclarations();
+		declarations = ((VariableAssignmentInformationProvider) ((PrimitiveElement) element)
+				.getInformationProvider()).getDeclarations();
 		populateVariables();
 	}
-	
-	public void populateVariables()
-	{
+
+	public void populateVariables() {
 		variables = new ArrayList<Variable>();
 		List<Variable> incomingVariables = getElement().getDesign().getVariablesFor(getElement());
 		Map<String, Variable> lookup = new HashMap<String, Variable>();
-		for(Variable v : incomingVariables)
+		for (Variable v : incomingVariables)
 			lookup.put(v.getName(), v);
-		for(VariableDeclaration vd : declarations)
-		{
-			Variable v = VariableHelper.constructVariable(vd.getName(), businessObjectSet, vd.getType());
-			if(v != null)
-			{
+		for (VariableDeclaration vd : declarations) {
+			Variable v = VariableHelper.constructVariable(vd.getName(), businessObjectSet, vd
+					.getType());
+			if (v != null) {
 				v.setSecure(vd.isSecure());
 				lookup.put(v.getName(), v);
 			}
 		}
-		for(Variable v : lookup.values())
+		for (Variable v : lookup.values())
 			variables.add(v);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel#createControls(org.eclipse.swt.widgets.Composite)
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel#createControls(org
+	 * .eclipse.swt.widgets.Composite)
 	 */
-	public void createControls(Composite parent)
-	{
+	public void createControls(Composite parent) {
 		parent.setLayout(new GridLayout(2, false));
 
 		toolkit = new FormToolkit(parent.getDisplay());
-		final Section generalSection =
-			toolkit.createSection(parent, Section.TITLE_BAR);
+		final Section generalSection = toolkit.createSection(parent, Section.TITLE_BAR);
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL
-						| GridData.VERTICAL_ALIGN_BEGINNING);
+				| GridData.VERTICAL_ALIGN_BEGINNING);
 		gridData.horizontalSpan = 2;
 		generalSection.setLayoutData(gridData);
 		generalSection.setText("General");
@@ -137,7 +135,7 @@ public class AssignmentVariablesPropertyPanel extends DesignElementPropertiesPan
 		generalComp.setBackground(parent.getBackground());
 		generalComp.setLayout(new GridLayout(2, false));
 		generalSection.setClient(generalComp);
-		
+
 		Label nameLabel = new Label(generalComp, SWT.NONE);
 		nameLabel.setText("Name: ");
 		nameLabel.setBackground(generalComp.getBackground());
@@ -147,34 +145,26 @@ public class AssignmentVariablesPropertyPanel extends DesignElementPropertiesPan
 		nameField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
 				| GridData.VERTICAL_ALIGN_CENTER));
 
-
-		final Section contentSection =
-			toolkit.createSection(parent, Section.TITLE_BAR);
-		gridData = new GridData(GridData.FILL_HORIZONTAL
-						| GridData.VERTICAL_ALIGN_BEGINNING);
+		final Section contentSection = toolkit.createSection(parent, Section.TITLE_BAR);
+		gridData = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
 		gridData.horizontalSpan = 2;
 		contentSection.setLayoutData(gridData);
 		contentSection.setText("Variable Assignments");
-		
+
 		filterButton = new Button(parent, SWT.CHECK);
 		filterButton.setText("Show only new or modified variables");
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 2;
 		filterButton.setLayoutData(gd);
-		filterButton.addSelectionListener(new SelectionListener()
-		{
-			public void widgetDefaultSelected(SelectionEvent e)
-            {
-            }
+		filterButton.addSelectionListener(new SelectionListener() {
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
-			public void widgetSelected(SelectionEvent e)
-            {
+			public void widgetSelected(SelectionEvent e) {
 				variableViewer.refresh();
-            }
+			}
 		});
-		
-		Table variableTable =
-			new Table(parent, SWT.SINGLE | SWT.FULL_SELECTION | SWT.BORDER);
+
+		Table variableTable = new Table(parent, SWT.SINGLE | SWT.FULL_SELECTION | SWT.BORDER);
 		variableTable.setHeaderVisible(true);
 
 		TableColumn newColumn = new TableColumn(variableTable, SWT.NONE);
@@ -185,7 +175,7 @@ public class AssignmentVariablesPropertyPanel extends DesignElementPropertiesPan
 		secureColumn.setImage(Activator.getDefault().getImageRegistry().get("ICON_LOCK"));
 		secureColumn.setAlignment(SWT.CENTER);
 		secureColumn.setWidth(23);
-		
+
 		TableColumn nameColumn = new TableColumn(variableTable, SWT.NONE);
 		nameColumn.setText("Variable Name");
 		nameColumn.setWidth(150);
@@ -206,143 +196,106 @@ public class AssignmentVariablesPropertyPanel extends DesignElementPropertiesPan
 		valueEditor = new TextCellEditor(variableTable);
 		secureEditor = new CheckboxCellEditor(variableTable);
 		variableViewer = new TableViewer(variableTable);
-		variableViewer.setColumnProperties(new String[]
-			{
-				"New", "Secure", "Name", "Type", "Value"
-			});
-		variableViewer.setCellEditors(new CellEditor[]
-			{
-				null, secureEditor, null, null, valueEditor
-			});
+		variableViewer
+				.setColumnProperties(new String[] { "New", "Secure", "Name", "Type", "Value" });
+		variableViewer.setCellEditors(new CellEditor[] { null, secureEditor, null, null,
+				valueEditor });
 		variableViewer.setCellModifier(new ValueCellModifier());
 		variableViewer.setContentProvider(new VariableContentProvider());
 		variableViewer.setLabelProvider(new VariableLabelProvider());
 		variableViewer.setInput(this);
-		variableViewer.setComparator(new ViewerComparator()
-		{
+		variableViewer.setComparator(new ViewerComparator() {
 
 			@Override
-            public int compare(Viewer viewer, Object e1, Object e2)
-            {
-	            Variable v1 = (Variable)e1;
-	            Variable v2 = (Variable)e2;
-	            return v1.getName().compareTo(v2.getName());
-            }
-			
-		});
-		variableViewer.addSelectionChangedListener(new ISelectionChangedListener()
-			{
-				public void selectionChanged(SelectionChangedEvent event)
-				{
-					if(variableViewer.getSelection().isEmpty())
-					{
-						removeButton.setEnabled(false);
-
-						return;
-					}
-
-					Map<String, VariableDeclaration> vdm = new HashMap<String, VariableDeclaration>();
-
-					for(int i = 0; i < declarations.size(); i++)
-					{
-						VariableDeclaration vd =
-							declarations.get(i);
-						vdm.put(vd.getName(), vd);
-					}
-
-					Variable v =
-						(Variable)((IStructuredSelection)variableViewer
-						.getSelection()).getFirstElement();
-					removeButton.setEnabled(vdm.get(v.getName()) != null);
-				}
-			});
-		variableViewer.getControl().addKeyListener(new KeyListener()
-		{
-			public void keyPressed(KeyEvent e)
-			{
+			public int compare(Viewer viewer, Object e1, Object e2) {
+				Variable v1 = (Variable) e1;
+				Variable v2 = (Variable) e2;
+				return v1.getName().compareTo(v2.getName());
 			}
 
-			public void keyReleased(KeyEvent e)
-			{
-				if(e.keyCode == SWT.DEL || e.keyCode == SWT.BS)
-					removeVariable();
+		});
+		variableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			public void selectionChanged(SelectionChangedEvent event) {
+				if (variableViewer.getSelection().isEmpty()) {
+					removeButton.setEnabled(false);
+
+					return;
+				}
+
+				Map<String, VariableDeclaration> vdm = new HashMap<String, VariableDeclaration>();
+
+				for (int i = 0; i < declarations.size(); i++) {
+					VariableDeclaration vd = declarations.get(i);
+					vdm.put(vd.getName(), vd);
+				}
+
+				Variable v = (Variable) ((IStructuredSelection) variableViewer.getSelection())
+						.getFirstElement();
+				removeButton.setEnabled(vdm.get(v.getName()) != null);
+			}
+		});
+		variableViewer.getControl().addKeyListener(new KeyListener() {
+			public void keyPressed(KeyEvent e) {}
+
+			public void keyReleased(KeyEvent e) {
+				if (e.keyCode == SWT.DEL || e.keyCode == SWT.BS) removeVariable();
 			}
 		});
 		addButton = new Button(parent, SWT.PUSH);
 		addButton.setText("Add");
 		addButton.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
-		addButton.addSelectionListener(new SelectionListener()
-			{
-				public void widgetSelected(SelectionEvent e)
-				{
-					try
-                    {
-						List<String> reservedNames = new ArrayList<String>();
-						for(VariableDeclaration vd : declarations)
-						{
-							reservedNames.add(vd.getName());
-						}
-						NewVariableDialog nvd =
-							new NewVariableDialog(addButton.getShell(), reservedNames, businessObjectSet);
+		addButton.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					List<String> reservedNames = new ArrayList<String>();
+					for (VariableDeclaration vd : declarations) {
+						reservedNames.add(vd.getName());
+					}
+					NewVariableDialog nvd = new NewVariableDialog(addButton.getShell(),
+							reservedNames, businessObjectSet);
 
-	                    if(nvd.open() == SWT.OK)
-	                    {
-	                    	declarations.add(new VariableDeclaration(nvd.name,
-	                    			nvd.type, 0, null, nvd.secure));
-	                    	populateVariables();
-	                    }
-	                    variableViewer.refresh();
-                    }
-                    catch(RuntimeException e1)
-                    {
-	                    e1.printStackTrace();
-                    }
+					if (nvd.open() == SWT.OK) {
+						declarations.add(new VariableDeclaration(nvd.name, nvd.type, 0, null,
+								nvd.secure));
+						populateVariables();
+					}
+					variableViewer.refresh();
+				} catch (RuntimeException e1) {
+					e1.printStackTrace();
 				}
+			}
 
-				public void widgetDefaultSelected(SelectionEvent e)
-				{
-				}
-			});
+			public void widgetDefaultSelected(SelectionEvent e) {}
+		});
 		removeButton = new Button(parent, SWT.PUSH);
 		removeButton.setText("Clear");
 		removeButton.setEnabled(false);
 		removeButton.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
-		removeButton.addSelectionListener(new SelectionListener()
-			{
-				public void widgetSelected(SelectionEvent e)
-				{
-					removeVariable();
-				}
+		removeButton.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				removeVariable();
+			}
 
-				public void widgetDefaultSelected(SelectionEvent e)
-				{
-				}
-			});
+			public void widgetDefaultSelected(SelectionEvent e) {}
+		});
 	}
-	
-	public void removeVariable()
-	{
-		Variable v =
-			(Variable)((IStructuredSelection)variableViewer
-			.getSelection()).getFirstElement();
+
+	public void removeVariable() {
+		Variable v = (Variable) ((IStructuredSelection) variableViewer.getSelection())
+				.getFirstElement();
 		VariableDeclaration vd = null;
 
-		for(int i = 0; i < declarations.size(); i++)
-		{
+		for (int i = 0; i < declarations.size(); i++) {
 			vd = declarations.get(i);
 
-			if(!vd.getName().equals(v.getName()))
-			{
+			if (!vd.getName().equals(v.getName())) {
 				vd = null;
-			}
-			else
-			{
+			} else {
 				break;
 			}
 		}
 
-		if(vd != null)
-		{
+		if (vd != null) {
 			declarations.remove(vd);
 			populateVariables();
 		}
@@ -350,44 +303,39 @@ public class AssignmentVariablesPropertyPanel extends DesignElementPropertiesPan
 		variableViewer.refresh();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel#save()
 	 */
-	public void save()
-	{
+	public void save() {
 		getElement().setName(nameField.getText());
-		((VariableAssignmentInformationProvider)((PrimitiveElement)getElement()).getInformationProvider()).setDeclarations(declarations);
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.vtp.desktop.model.core.configuration.ComponentPropertiesPanel#cancel()
-	 */
-	public void cancel()
-	{
-		
+		((VariableAssignmentInformationProvider) ((PrimitiveElement) getElement())
+				.getInformationProvider()).setDeclarations(declarations);
 	}
 
-	public class VariableContentProvider implements IStructuredContentProvider
-	{
-		/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.vtp.desktop.model.core.configuration.ComponentPropertiesPanel#cancel()
+	 */
+	public void cancel() {
+
+	}
+
+	public class VariableContentProvider implements IStructuredContentProvider {
+		/*
+		 * (non-Javadoc)
 		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)
 		 */
-		public Object[] getElements(Object inputElement)
-		{
-			if(filterButton.getSelection())
-			{
+		public Object[] getElements(Object inputElement) {
+			if (filterButton.getSelection()) {
 				Map<String, VariableDeclaration> vdm = new HashMap<String, VariableDeclaration>();
-				for(int i = 0; i < declarations.size(); i++)
-				{
-					VariableDeclaration vd =
-						declarations.get(i);
+				for (int i = 0; i < declarations.size(); i++) {
+					VariableDeclaration vd = declarations.get(i);
 					vdm.put(vd.getName(), vd);
 				}
 				List<Variable> filteredList = new ArrayList<Variable>();
-				for(Variable vd : variables)
-				{
-					if(vdm.get(vd.getName()) != null)
-					{
+				for (Variable vd : variables) {
+					if (vdm.get(vd.getName()) != null) {
 						filteredList.add(vd);
 					}
 				}
@@ -396,145 +344,118 @@ public class AssignmentVariablesPropertyPanel extends DesignElementPropertiesPan
 			return variables.toArray();
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
 		 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 		 */
-		public void dispose()
-		{
-		}
+		public void dispose() {}
 
-		/* (non-Javadoc)
-		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
+		/*
+		 * (non-Javadoc)
+		 * @see
+		 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer,
+		 * java.lang.Object, java.lang.Object)
 		 */
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput)
-		{
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 	}
 
-	public class VariableLabelProvider implements ITableLabelProvider
-	{
-		/* (non-Javadoc)
+	public class VariableLabelProvider implements ITableLabelProvider {
+		/*
+		 * (non-Javadoc)
 		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java.lang.Object, int)
 		 */
-		public Image getColumnImage(Object element, int columnIndex)
-		{
-			Variable v = (Variable)element;
-			if(columnIndex == 1 && v.isSecure())
-				return Activator.getDefault().getImageRegistry().get("ICON_LOCK");
+		public Image getColumnImage(Object element, int columnIndex) {
+			Variable v = (Variable) element;
+			if (columnIndex == 1 && v.isSecure()) return Activator.getDefault().getImageRegistry()
+					.get("ICON_LOCK");
 			return null;
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
 		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.lang.Object, int)
 		 */
-		public String getColumnText(Object element, int columnIndex)
-		{
+		public String getColumnText(Object element, int columnIndex) {
 			Map<String, VariableDeclaration> vdm = new HashMap<String, VariableDeclaration>();
 
-			for(int i = 0; i < declarations.size(); i++)
-			{
-				VariableDeclaration vd =
-					declarations.get(i);
+			for (int i = 0; i < declarations.size(); i++) {
+				VariableDeclaration vd = declarations.get(i);
 				vdm.put(vd.getName(), vd);
 			}
 
-			Variable vd = (Variable)element;
+			Variable vd = (Variable) element;
 
-			if(columnIndex == 0)
-			{
-				if(vdm.get(vd.getName()) != null)
-				{
-					return "*";
-				}
+			if (columnIndex == 0) {
+				if (vdm.get(vd.getName()) != null) { return "*"; }
 
 				return "";
-			}
-			else if(columnIndex == 1)
-			{
+			} else if (columnIndex == 1) {
 				return "";
-			}
-			else if(columnIndex == 2)
-			{
+			} else if (columnIndex == 2) {
 				return vd.getName();
-			}
-			else if(columnIndex == 3)
-			{
+			} else if (columnIndex == 3) {
 				String ret = vd.getType().getName();
-				if(vd.getType().hasBaseType())
-				{
+				if (vd.getType().hasBaseType()) {
 					ret += " Of ";
 					ret += vd.getType().getBaseTypeName();
 				}
 				return ret;
-			}
-			else if(columnIndex == 4)
-			{
-				if(vd.getType().hasValue())
-				{
-					if(vdm.get(vd.getName()) != null)
-					{
-						return vdm.get(vd.getName()).getValue();
-					}
+			} else if (columnIndex == 4) {
+				if (vd.getType().hasValue()) {
+					if (vdm.get(vd.getName()) != null) { return vdm.get(vd.getName()).getValue(); }
 				}
 			}
 
 			return "N/A";
 		}
 
-		/* (non-Javadoc)
-		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.jface.viewers.ILabelProviderListener)
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.jface.viewers.
+		 * ILabelProviderListener)
 		 */
-		public void addListener(ILabelProviderListener listener)
-		{
-		}
+		public void addListener(ILabelProviderListener listener) {}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
 		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#dispose()
 		 */
-		public void dispose()
-		{
-		}
+		public void dispose() {}
 
-		/* (non-Javadoc)
-		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java.lang.Object, java.lang.String)
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java.lang.Object,
+		 * java.lang.String)
 		 */
-		public boolean isLabelProperty(Object element, String property)
-		{
+		public boolean isLabelProperty(Object element, String property) {
 			return false;
 		}
 
-		/* (non-Javadoc)
-		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse.jface.viewers.ILabelProviderListener)
+		/*
+		 * (non-Javadoc)
+		 * @see
+		 * org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse.jface.viewers
+		 * .ILabelProviderListener)
 		 */
-		public void removeListener(ILabelProviderListener listener)
-		{
-		}
+		public void removeListener(ILabelProviderListener listener) {}
 	}
 
-	public class ValueCellModifier implements ICellModifier
-	{
-		/* (non-Javadoc)
-		 * @see org.eclipse.jface.viewers.ICellModifier#canModify(java.lang.Object, java.lang.String)
+	public class ValueCellModifier implements ICellModifier {
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.ICellModifier#canModify(java.lang.Object,
+		 * java.lang.String)
 		 */
-		public boolean canModify(Object element, String property)
-		{
-			Variable v = (Variable)element;
-			if(property.equals("Value"))
-			{
+		public boolean canModify(Object element, String property) {
+			Variable v = (Variable) element;
+			if (property.equals("Value")) {
 
-				if(v.getType().hasValue())
-				{
-					return true;
-				}
-			}
-			else if(property.equals("Secure"))
-			{
+				if (v.getType().hasValue()) { return true; }
+			} else if (property.equals("Secure")) {
 				Map<String, VariableDeclaration> vdm = new HashMap<String, VariableDeclaration>();
 
-				for(int i = 0; i < declarations.size(); i++)
-				{
-					VariableDeclaration vd =
-						declarations.get(i);
+				for (int i = 0; i < declarations.size(); i++) {
+					VariableDeclaration vd = declarations.get(i);
 					vdm.put(vd.getName(), vd);
 				}
 				return vdm.get(v.getName()) != null;
@@ -543,85 +464,67 @@ public class AssignmentVariablesPropertyPanel extends DesignElementPropertiesPan
 			return false;
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
 		 * @see org.eclipse.jface.viewers.ICellModifier#getValue(java.lang.Object, java.lang.String)
 		 */
-		public Object getValue(Object element, String property)
-		{
+		public Object getValue(Object element, String property) {
 			Map<String, VariableDeclaration> vdm = new HashMap<String, VariableDeclaration>();
 
-			for(int i = 0; i < declarations.size(); i++)
-			{
-				VariableDeclaration vd =
-					declarations.get(i);
+			for (int i = 0; i < declarations.size(); i++) {
+				VariableDeclaration vd = declarations.get(i);
 				vdm.put(vd.getName(), vd);
 			}
 
-			Variable vd = (Variable)element;
+			Variable vd = (Variable) element;
 
-			if(property.equals("Value"))
-			{
+			if (property.equals("Value")) {
 				return (vdm.get(vd.getName()) == null) ? ""
-													   : (
-					(
-						vdm.get(vd.getName()).getValue() == null
-					) ? "" : vdm.get(vd.getName()).getValue()
-				);
-			}
-			else if(property.equals("Secure"))
-				return new Boolean(vd.isSecure());
+						: ((vdm.get(vd.getName()).getValue() == null) ? "" : vdm.get(vd.getName())
+								.getValue());
+			} else if (property.equals("Secure")) return new Boolean(vd.isSecure());
 
 			return "";
 		}
 
-		/* (non-Javadoc)
-		 * @see org.eclipse.jface.viewers.ICellModifier#modify(java.lang.Object, java.lang.String, java.lang.Object)
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.ICellModifier#modify(java.lang.Object, java.lang.String,
+		 * java.lang.Object)
 		 */
-		public void modify(Object element, String property, Object value)
-		{
+		public void modify(Object element, String property, Object value) {
 			Map<String, VariableDeclaration> vdm = new HashMap<String, VariableDeclaration>();
 
-			for(int i = 0; i < declarations.size(); i++)
-			{
-				VariableDeclaration vd =
-					declarations.get(i);
+			for (int i = 0; i < declarations.size(); i++) {
+				VariableDeclaration vd = declarations.get(i);
 				vdm.put(vd.getName(), vd);
 			}
 
-			TableItem ti = (TableItem)element;
-			Variable vd = (Variable)ti.getData();
-			VariableDeclaration varDec =
-				vdm.get(vd.getName());
+			TableItem ti = (TableItem) element;
+			Variable vd = (Variable) ti.getData();
+			VariableDeclaration varDec = vdm.get(vd.getName());
 
-			if(varDec == null)
-			{
-				varDec = new VariableDeclaration(vd.getName(),
-						vd.getType(), 0, null);
+			if (varDec == null) {
+				varDec = new VariableDeclaration(vd.getName(), vd.getType(), 0, null);
 				declarations.add(varDec);
 			}
 
-			if(property.equals("Value"))
-			{
+			if (property.equals("Value")) {
 				varDec.setValueType(0);
-				varDec.setValue((String)value);
+				varDec.setValue((String) value);
 				variableViewer.refresh(true);
-			}
-			else if(property.equals("Secure"))
-			{
-				vd.setSecure(((Boolean)value).booleanValue());
+			} else if (property.equals("Secure")) {
+				vd.setSecure(((Boolean) value).booleanValue());
 				variableViewer.refresh(true);
 			}
 		}
 	}
 
 	@Override
-	public void setConfigurationContext(Map<String, Object> values)
-	{
-	}
+	public void setConfigurationContext(Map<String, Object> values) {}
 
 	@Override
-	public List<String> getApplicableContexts()
-	{
+	public List<String> getApplicableContexts() {
 		return Collections.emptyList();
 	}
 

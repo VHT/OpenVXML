@@ -38,7 +38,6 @@ import com.openmethods.openvxml.desktop.model.workflow.IDesignRootFolder;
 
 /**
  * @since 3.2
- * 
  */
 public class EditActionGroup extends ActionGroup {
 	private Clipboard clipboard;
@@ -49,7 +48,6 @@ public class EditActionGroup extends ActionGroup {
 	private Shell shell;
 
 	/**
-	 * 
 	 * @param aShell
 	 */
 	public EditActionGroup(Shell aShell) {
@@ -68,16 +66,13 @@ public class EditActionGroup extends ActionGroup {
 
 	@Override
 	public void fillContextMenu(IMenuManager menu) {
-		IStructuredSelection selection = (IStructuredSelection) getContext()
-				.getSelection();
+		IStructuredSelection selection = (IStructuredSelection) getContext().getSelection();
 		List<IResource> deleteSelection = new LinkedList<IResource>();
 		for (Object obj : selection.toList()) {
 			if (obj instanceof IResource) {
 				deleteSelection.add((IResource) obj);
-			} else if (!(obj instanceof IDesignRootFolder)
-					&& obj instanceof IAdaptable) {
-				IResource resource = (IResource) ((IAdaptable) obj)
-						.getAdapter(IResource.class);
+			} else if (!(obj instanceof IDesignRootFolder) && obj instanceof IAdaptable) {
+				IResource resource = (IResource) ((IAdaptable) obj).getAdapter(IResource.class);
 				if (resource != null) {
 					deleteSelection.add(resource);
 				}
@@ -118,8 +113,7 @@ public class EditActionGroup extends ActionGroup {
 	/**
 	 * Handles a key pressed event by invoking the appropriate action.
 	 * 
-	 * @param event
-	 *            The Key Event
+	 * @param event The Key Event
 	 */
 	public void handleKeyPressed(KeyEvent event) {
 		if (event.character == SWT.DEL && event.stateMask == 0) {
@@ -139,16 +133,13 @@ public class EditActionGroup extends ActionGroup {
 		ISharedImages images = PlatformUI.getWorkbench().getSharedImages();
 		pasteAction.setDisabledImageDescriptor(images
 				.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE_DISABLED));
-		pasteAction.setImageDescriptor(images
-				.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE));
-		pasteAction
-				.setActionDefinitionId(IWorkbenchCommandConstants.EDIT_PASTE);
+		pasteAction.setImageDescriptor(images.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE));
+		pasteAction.setActionDefinitionId(IWorkbenchCommandConstants.EDIT_PASTE);
 
 		copyAction = new CopyAction(shell, clipboard, pasteAction);
 		copyAction.setDisabledImageDescriptor(images
 				.getImageDescriptor(ISharedImages.IMG_TOOL_COPY_DISABLED));
-		copyAction.setImageDescriptor(images
-				.getImageDescriptor(ISharedImages.IMG_TOOL_COPY));
+		copyAction.setImageDescriptor(images.getImageDescriptor(ISharedImages.IMG_TOOL_COPY));
 		copyAction.setActionDefinitionId(IWorkbenchCommandConstants.EDIT_COPY);
 
 		IShellProvider sp = new IShellProvider() {
@@ -161,16 +152,13 @@ public class EditActionGroup extends ActionGroup {
 		deleteAction = new DeleteResourceAction(sp);
 		deleteAction.setDisabledImageDescriptor(images
 				.getImageDescriptor(ISharedImages.IMG_TOOL_DELETE_DISABLED));
-		deleteAction.setImageDescriptor(images
-				.getImageDescriptor(ISharedImages.IMG_TOOL_DELETE));
-		deleteAction
-				.setActionDefinitionId(IWorkbenchCommandConstants.EDIT_DELETE);
+		deleteAction.setImageDescriptor(images.getImageDescriptor(ISharedImages.IMG_TOOL_DELETE));
+		deleteAction.setActionDefinitionId(IWorkbenchCommandConstants.EDIT_DELETE);
 	}
 
 	@Override
 	public void updateActionBars() {
-		IStructuredSelection selection = (IStructuredSelection) getContext()
-				.getSelection();
+		IStructuredSelection selection = (IStructuredSelection) getContext().getSelection();
 
 		copyAction.selectionChanged(selection);
 		pasteAction.selectionChanged(selection);

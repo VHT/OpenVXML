@@ -91,7 +91,6 @@ import com.openmethods.openvxml.desktop.model.businessobjects.internal.BusinessO
 
 /**
  * @author Trip
- *
  */
 public class BusinessObjectEditor extends EditorPart {
 	BusinessObject bo;
@@ -115,39 +114,32 @@ public class BusinessObjectEditor extends EditorPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.
-	 * IProgressMonitor)
+	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime. IProgressMonitor)
 	 */
 	@Override
 	public void doSave(IProgressMonitor monitor) {
 		try {
-			Document doc = DocumentBuilderFactory.newInstance()
-					.newDocumentBuilder().newDocument();
+			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 			Element rootElement = doc.createElement("business-object");
 			doc.appendChild(rootElement);
 			rootElement.setAttribute("id", bo.getId());
 			rootElement.setAttribute("name", bo.getName());
 
-			Element fields = rootElement.getOwnerDocument().createElement(
-					"fields");
+			Element fields = rootElement.getOwnerDocument().createElement("fields");
 			rootElement.appendChild(fields);
 
 			for (FieldRecord fr : fieldRecords) {
-				Element fieldElement = fields.getOwnerDocument().createElement(
-						"field");
+				Element fieldElement = fields.getOwnerDocument().createElement("field");
 				fields.appendChild(fieldElement);
 				fieldElement.setAttribute("name", fr.name);
 				fieldElement.setAttribute("initialValue", fr.initialValue);
-				fieldElement.setAttribute("secured",
-						Boolean.toString(fr.secured));
+				fieldElement.setAttribute("secured", Boolean.toString(fr.secured));
 				fr.type.write(fieldElement);
 			}
 
 			DOMSource source = new DOMSource(doc);
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			Transformer trans = TransformerFactory.newInstance()
-					.newTransformer();
+			Transformer trans = TransformerFactory.newInstance().newTransformer();
 			trans.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 			trans.transform(source, new XMLWriter(baos).toXMLResult());
 			bo.write(new ByteArrayInputStream(baos.toByteArray()));
@@ -164,16 +156,13 @@ public class BusinessObjectEditor extends EditorPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.ui.part.EditorPart#init(org.eclipse.ui.IEditorSite,
 	 * org.eclipse.ui.IEditorInput)
 	 */
 	@Override
-	public void init(IEditorSite site, IEditorInput input)
-			throws PartInitException {
-		if (!(input instanceof FileEditorInput)) {
-			throw new PartInitException("Cannot edit: " + input);
-		}
+	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
+		if (!(input instanceof FileEditorInput)) { throw new PartInitException("Cannot edit: "
+				+ input); }
 
 		setInput(input);
 		setSite(site);
@@ -181,22 +170,20 @@ public class BusinessObjectEditor extends EditorPart {
 		IFile file = ((FileEditorInput) input).getFile();
 		IProject project = file.getProject();
 		try {
-			IOpenVXMLProject workflowProject = WorkflowCore.getDefault()
-					.getWorkflowModel().convertToWorkflowProject(project);
+			IOpenVXMLProject workflowProject = WorkflowCore.getDefault().getWorkflowModel()
+					.convertToWorkflowProject(project);
 			IBusinessObjectProjectAspect businessObjectProjectAspect = (IBusinessObjectProjectAspect) workflowProject
 					.getProjectAspect(IBusinessObjectProjectAspect.ASPECT_ID);
-			List<IBusinessObject> dbs = businessObjectProjectAspect
-					.getBusinessObjectSet().getBusinessObjects();
+			List<IBusinessObject> dbs = businessObjectProjectAspect.getBusinessObjectSet()
+					.getBusinessObjects();
 			for (IBusinessObject bus : dbs) {
 				if (bus.getUnderlyingFile().equals(file)) {
 					bo = (BusinessObject) bus;
 					break;
 				}
 			}
-			if (bo == null) {
-				throw new PartInitException(
-						"database table file not associated correctly");
-			}
+			if (bo == null) { throw new PartInitException(
+					"database table file not associated correctly"); }
 		} catch (CoreException e) {
 			e.printStackTrace();
 			throw new PartInitException("not in application project", e);
@@ -216,7 +203,6 @@ public class BusinessObjectEditor extends EditorPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.ui.part.EditorPart#isDirty()
 	 */
 	@Override
@@ -226,7 +212,6 @@ public class BusinessObjectEditor extends EditorPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.ui.part.EditorPart#isSaveAsAllowed()
 	 */
 	@Override
@@ -236,19 +221,14 @@ public class BusinessObjectEditor extends EditorPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.ui.part.EditorPart#doSaveAs()
 	 */
 	@Override
-	public void doSaveAs() {
-	}
+	public void doSaveAs() {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets
-	 * .Composite)
+	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets .Composite)
 	 */
 	@Override
 	public void createPartControl(Composite parent) {
@@ -257,8 +237,7 @@ public class BusinessObjectEditor extends EditorPart {
 		table.setHeaderVisible(true);
 
 		TableColumn fieldLock = new TableColumn(table, SWT.NONE);
-		fieldLock.setImage(Activator.getDefault().getImageRegistry()
-				.get("ICON_LOCK"));
+		fieldLock.setImage(Activator.getDefault().getImageRegistry().get("ICON_LOCK"));
 		fieldLock.setWidth(23);
 
 		TableColumn fieldName = new TableColumn(table, SWT.NONE);
@@ -286,14 +265,12 @@ public class BusinessObjectEditor extends EditorPart {
 					text = "";
 				}
 
-				FieldRecord fr = (FieldRecord) ((IStructuredSelection) viewer
-						.getSelection()).getFirstElement();
+				FieldRecord fr = (FieldRecord) ((IStructuredSelection) viewer.getSelection())
+						.getFirstElement();
 
 				for (int i = 0; i < fieldRecords.size(); i++) {
 					if (fr != fieldRecords.get(i)) {
-						if (fieldRecords.get(i).name.equals(text)) {
-							return "A field with that name already exists.";
-						}
+						if (fieldRecords.get(i).name.equals(text)) { return "A field with that name already exists."; }
 					}
 				}
 
@@ -302,42 +279,35 @@ public class BusinessObjectEditor extends EditorPart {
 		});
 		nameEditor.addListener(new ICellEditorListener() {
 			@Override
-			public void applyEditorValue() {
-			}
+			public void applyEditorValue() {}
 
 			@Override
-			public void cancelEditor() {
-			}
+			public void cancelEditor() {}
 
 			@Override
-			public void editorValueChanged(boolean oldValidState,
-					boolean newValidState) {
+			public void editorValueChanged(boolean oldValidState, boolean newValidState) {
 				if (!newValidState) {
 					nameEditor.getControl().setForeground(
-							nameEditor.getControl().getDisplay()
-									.getSystemColor(SWT.COLOR_RED));
+							nameEditor.getControl().getDisplay().getSystemColor(SWT.COLOR_RED));
 				} else {
 					nameEditor.getControl().setForeground(
-							nameEditor.getControl().getDisplay()
-									.getSystemColor(SWT.COLOR_BLACK));
+							nameEditor.getControl().getDisplay().getSystemColor(SWT.COLOR_BLACK));
 				}
 			}
 		});
-		typeEditor = new ComboBoxCellEditor(table, new String[] { "String",
-				"Number", "Decimal", "Boolean", "DateTime", "Array", "Map" },
-				SWT.READ_ONLY | SWT.DROP_DOWN);
-		precisionEditor = new ComboBoxCellEditor(table, new String[] {
-				"Single", "Double", "Absolute" }, SWT.READ_ONLY | SWT.DROP_DOWN);
+		typeEditor = new ComboBoxCellEditor(table, new String[] { "String", "Number", "Decimal",
+				"Boolean", "DateTime", "Array", "Map" }, SWT.READ_ONLY | SWT.DROP_DOWN);
+		precisionEditor = new ComboBoxCellEditor(table, new String[] { "Single", "Double",
+				"Absolute" }, SWT.READ_ONLY | SWT.DROP_DOWN);
 		initialValueEditor = new TextCellEditor(table);
 		securedEditor = new CheckboxCellEditor(table);
 		viewer = new TableViewer(table);
-		viewer.setColumnProperties(new String[] { "Secured", "Name", "Type",
-				"Precision", "Initial" });
+		viewer.setColumnProperties(new String[] { "Secured", "Name", "Type", "Precision", "Initial" });
 		viewer.setContentProvider(new FieldContentProvider());
 		viewer.setLabelProvider(new FieldLabelProvider());
 		viewer.setCellModifier(new FieldCellModifier());
-		viewer.setCellEditors(new CellEditor[] { securedEditor, nameEditor,
-				typeEditor, precisionEditor, initialValueEditor });
+		viewer.setCellEditors(new CellEditor[] { securedEditor, nameEditor, typeEditor,
+				precisionEditor, initialValueEditor });
 		viewer.setInput(this);
 		hookContextMenu();
 	}
@@ -373,13 +343,13 @@ public class BusinessObjectEditor extends EditorPart {
 		});
 
 		if (!viewer.getSelection().isEmpty()) {
-			final FieldRecord fr = (FieldRecord) ((IStructuredSelection) viewer
-					.getSelection()).getFirstElement();
+			final FieldRecord fr = (FieldRecord) ((IStructuredSelection) viewer.getSelection())
+					.getFirstElement();
 			manager.add(new Action("Remove Field") {
 				@Override
 				public void run() {
-					MessageBox mb = new MessageBox(viewer.getControl()
-							.getShell(), SWT.YES | SWT.NO | SWT.ICON_WARNING);
+					MessageBox mb = new MessageBox(viewer.getControl().getShell(), SWT.YES | SWT.NO
+							| SWT.ICON_WARNING);
 					mb.setMessage("Are you sure you want to delete this?");
 
 					int result = mb.open();
@@ -396,12 +366,10 @@ public class BusinessObjectEditor extends EditorPart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
 	 */
 	@Override
-	public void setFocus() {
-	}
+	public void setFocus() {}
 
 	private void fireModified() {
 		dirty = true;
@@ -415,22 +383,16 @@ public class BusinessObjectEditor extends EditorPart {
 		}
 
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 	}
 
-	public class FieldLabelProvider implements ITableLabelProvider,
-			IColorProvider {
-		Color alternateBackground = new Color(viewer.getControl().getDisplay(),
-				216, 238, 255);
-		Color background = viewer.getControl().getDisplay()
-				.getSystemColor(SWT.COLOR_WHITE);
-		Color foreground = viewer.getControl().getDisplay()
-				.getSystemColor(SWT.COLOR_BLACK);
+	public class FieldLabelProvider implements ITableLabelProvider, IColorProvider {
+		Color alternateBackground = new Color(viewer.getControl().getDisplay(), 216, 238, 255);
+		Color background = viewer.getControl().getDisplay().getSystemColor(SWT.COLOR_WHITE);
+		Color foreground = viewer.getControl().getDisplay().getSystemColor(SWT.COLOR_BLACK);
 
 		public FieldLabelProvider() {
 			super();
@@ -441,14 +403,9 @@ public class BusinessObjectEditor extends EditorPart {
 			FieldRecord fr = (FieldRecord) element;
 
 			if (columnIndex == 0) {
-				if (fr.secured) {
-					return Activator.getDefault().getImageRegistry()
-							.get("ICON_LOCK");
-				}
-			} else if (columnIndex == 1) {
-				return Activator.getDefault().getImageRegistry()
-						.get("ICON_TINY_SQUARE");
-			}
+				if (fr.secured) { return Activator.getDefault().getImageRegistry().get("ICON_LOCK"); }
+			} else if (columnIndex == 1) { return Activator.getDefault().getImageRegistry().get(
+					"ICON_TINY_SQUARE"); }
 
 			return null;
 		}
@@ -462,9 +419,8 @@ public class BusinessObjectEditor extends EditorPart {
 			} else if (columnIndex == 1) {
 				return fr.name;
 			} else if (columnIndex == 2) {
-				StringBuilder builder = new StringBuilder(
-						fr.type.isObject() ? fr.type.getObjectType().getName()
-								: fr.type.getPrimitiveType().getName());
+				StringBuilder builder = new StringBuilder(fr.type.isObject() ? fr.type
+						.getObjectType().getName() : fr.type.getPrimitiveType().getName());
 				if (fr.type.hasBaseType()) {
 					builder.append(" <");
 					if (fr.type.isObjectBaseType()) {
@@ -476,29 +432,23 @@ public class BusinessObjectEditor extends EditorPart {
 				}
 				return builder.toString();
 			} else if (columnIndex == 3) {
-				if (!fr.type.isObject()
-						&& fr.type.getPrimitiveType().hasPrecision()) {
+				if (!fr.type.isObject() && fr.type.getPrimitiveType().hasPrecision()) {
 					if (fr.type.getPrecision() == 0) // single
 					{
 						return "Single";
 					} else if (fr.type.getPrecision() == 1) {
 						return "Double";
-					} else if (fr.type.getPrecision() == 2) {
-						return "Absolute";
-					}
+					} else if (fr.type.getPrecision() == 2) { return "Absolute"; }
 				}
 
 				return "";
-			} else if (columnIndex == 4) {
-				return (fr.initialValue == null) ? "" : fr.initialValue;
-			}
+			} else if (columnIndex == 4) { return (fr.initialValue == null) ? "" : fr.initialValue; }
 
 			return null;
 		}
 
 		@Override
-		public void addListener(ILabelProviderListener listener) {
-		}
+		public void addListener(ILabelProviderListener listener) {}
 
 		@Override
 		public void dispose() {
@@ -511,15 +461,11 @@ public class BusinessObjectEditor extends EditorPart {
 		}
 
 		@Override
-		public void removeListener(ILabelProviderListener listener) {
-		}
+		public void removeListener(ILabelProviderListener listener) {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IColorProvider#getForeground(java.lang.
-		 * Object)
+		 * @see org.eclipse.jface.viewers.IColorProvider#getForeground(java.lang. Object)
 		 */
 		@Override
 		public Color getForeground(Object element) {
@@ -528,10 +474,7 @@ public class BusinessObjectEditor extends EditorPart {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IColorProvider#getBackground(java.lang.
-		 * Object)
+		 * @see org.eclipse.jface.viewers.IColorProvider#getBackground(java.lang. Object)
 		 */
 		@Override
 		public Color getBackground(Object element) {
@@ -555,15 +498,11 @@ public class BusinessObjectEditor extends EditorPart {
 		public boolean canModify(Object element, String property) {
 			FieldRecord fr = (FieldRecord) element;
 
-			if (property.equals("Type") || property.equals("Name")
-					|| property.equals("Initial")) {
+			if (property.equals("Type") || property.equals("Name") || property.equals("Initial")) {
 				return true;
 			} else if (property.equals("Precision")) {
-				return !fr.type.isObject()
-						&& fr.type.getPrimitiveType().hasPrecision();
-			} else if (property.equals("Secured")) {
-				return true;
-			}
+				return !fr.type.isObject() && fr.type.getPrimitiveType().hasPrecision();
+			} else if (property.equals("Secured")) { return true; }
 
 			return false;
 		}
@@ -592,8 +531,7 @@ public class BusinessObjectEditor extends EditorPart {
 				currentTypes.add("Map");
 
 				int sel = -1;
-				List<IBusinessObject> bos = bo.getBusinessObjectSet()
-						.getBusinessObjects();
+				List<IBusinessObject> bos = bo.getBusinessObjectSet().getBusinessObjects();
 
 				for (int i = 0; i < bos.size(); i++) {
 					IBusinessObject b = bos.get(i);
@@ -602,15 +540,13 @@ public class BusinessObjectEditor extends EditorPart {
 						currentTypes.add(b.getName());
 
 						if (fr.type.isObject()
-								&& b.getName().equals(
-										fr.type.getObjectType().getName())) {
+								&& b.getName().equals(fr.type.getObjectType().getName())) {
 							sel = i + 7;
 						}
 					}
 				}
 
-				typeEditor.setItems(currentTypes
-						.toArray(new String[currentTypes.size()]));
+				typeEditor.setItems(currentTypes.toArray(new String[currentTypes.size()]));
 
 				if (sel == -1) {
 					switch (fr.type.getPrimitiveType()) {
@@ -667,13 +603,11 @@ public class BusinessObjectEditor extends EditorPart {
 				}
 
 				String selectedType = currentTypes.get(sel);
-				FieldType.Primitive prim = FieldType.Primitive
-						.find(selectedType);
+				FieldType.Primitive prim = FieldType.Primitive.find(selectedType);
 				if (prim != null) {
 					if (prim.hasBaseType()) {
-						BaseTypeDialog btd = new BaseTypeDialog(
-								BusinessObjectEditor.this.getEditorSite()
-										.getShell());
+						BaseTypeDialog btd = new BaseTypeDialog(BusinessObjectEditor.this
+								.getEditorSite().getShell());
 						if (fr.type.getPrimitiveType().hasBaseType()) {
 							btd.setCurrentType(fr.type.getBaseTypeName());
 						}
@@ -684,8 +618,7 @@ public class BusinessObjectEditor extends EditorPart {
 						types.add("Decimal");
 						types.add("Boolean");
 						types.add("DateTime");
-						List<IBusinessObject> bos = bo.getBusinessObjectSet()
-								.getBusinessObjects();
+						List<IBusinessObject> bos = bo.getBusinessObjectSet().getBusinessObjects();
 						for (IBusinessObject b : bos) {
 							if (!b.equals(bo)) {
 								types.add(b.getName());
@@ -694,8 +627,7 @@ public class BusinessObjectEditor extends EditorPart {
 						btd.setTypes(types);
 						int d = btd.open();
 						if (d == Dialog.OK) {
-							Primitive basePrim = Primitive.find(btd
-									.getBaseType());
+							Primitive basePrim = Primitive.find(btd.getBaseType());
 							if (basePrim != null) {
 								fr.type = new FieldType(prim, basePrim);
 							}
@@ -704,8 +636,7 @@ public class BusinessObjectEditor extends EditorPart {
 						fr.type = new FieldType(prim);
 					}
 				} else {
-					List<IBusinessObject> bos = bo.getBusinessObjectSet()
-							.getBusinessObjects();
+					List<IBusinessObject> bos = bo.getBusinessObjectSet().getBusinessObjects();
 					for (IBusinessObject b : bos) {
 						if (b.getName().equals(selectedType)) {
 							fr.type = new FieldType(b);
@@ -756,9 +687,7 @@ public class BusinessObjectEditor extends EditorPart {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt
+		 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt
 		 * .widgets.Composite)
 		 */
 		@Override
@@ -792,8 +721,7 @@ public class BusinessObjectEditor extends EditorPart {
 				}
 
 				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-				}
+				public void widgetDefaultSelected(SelectionEvent e) {}
 			});
 			return parent;
 		}

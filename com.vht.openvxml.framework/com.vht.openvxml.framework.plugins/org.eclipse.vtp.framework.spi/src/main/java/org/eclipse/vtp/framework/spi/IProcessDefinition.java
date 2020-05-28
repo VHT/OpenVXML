@@ -68,8 +68,7 @@ public interface IProcessDefinition {
 	 * @param actionResultID
 	 * @return
 	 */
-	String getActionResultTargetInstanceID(String actionInstanceID,
-			String actionResultID);
+	String getActionResultTargetInstanceID(String actionInstanceID, String actionResultID);
 
 	// Observers //
 
@@ -84,8 +83,7 @@ public interface IProcessDefinition {
 	 * @param actionResultID
 	 * @return
 	 */
-	String[] getAfterObserverInstanceIDs(String actionInstanceID,
-			String actionResultID);
+	String[] getAfterObserverInstanceIDs(String actionInstanceID, String actionResultID);
 
 	/**
 	 * @param observerInstanceID

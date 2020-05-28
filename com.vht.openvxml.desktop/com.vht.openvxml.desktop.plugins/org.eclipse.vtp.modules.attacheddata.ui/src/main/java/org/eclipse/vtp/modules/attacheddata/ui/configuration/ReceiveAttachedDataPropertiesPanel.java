@@ -43,8 +43,7 @@ import com.openmethods.openvxml.desktop.model.workflow.design.ObjectDefinition;
 import com.openmethods.openvxml.desktop.model.workflow.design.ObjectField;
 import com.openmethods.openvxml.desktop.model.workflow.design.Variable;
 
-public class ReceiveAttachedDataPropertiesPanel extends
-		DesignElementPropertiesPanel {
+public class ReceiveAttachedDataPropertiesPanel extends DesignElementPropertiesPanel {
 	static final String lastString = "LastResult";
 	/** The InformationProvider for this particular module */
 	ReceiveAttachedDataInformationProvider info = null;
@@ -80,9 +79,7 @@ public class ReceiveAttachedDataPropertiesPanel extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel#
+	 * @see org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel#
 	 * createControls(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -125,8 +122,7 @@ public class ReceiveAttachedDataPropertiesPanel extends
 		final StackLayout sl1 = new StackLayout();
 		stackComp1.setLayout(sl1);
 		stackComp1.setBackground(lGroup.getBackground());
-		lVarTree = new TreeViewer(stackComp1, SWT.H_SCROLL | SWT.V_SCROLL
-				| SWT.BORDER | SWT.SINGLE);
+		lVarTree = new TreeViewer(stackComp1, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.SINGLE);
 		lVarTree.setContentProvider(new VariableContentProvider());
 		lVarTree.setLabelProvider(new VariableLabelProvider());
 		lVarTree.setInput(this);
@@ -147,8 +143,7 @@ public class ReceiveAttachedDataPropertiesPanel extends
 
 		final StackLayout sl2 = new StackLayout();
 		stackComp2.setLayout(sl2);
-		rVarTree = new TreeViewer(stackComp2, SWT.H_SCROLL | SWT.V_SCROLL
-				| SWT.BORDER | SWT.SINGLE);
+		rVarTree = new TreeViewer(stackComp2, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.SINGLE);
 		rVarTree.setContentProvider(new VariableContentProvider());
 		rVarTree.setLabelProvider(new VariableLabelProvider());
 		rVarTree.setInput(this);
@@ -159,8 +154,7 @@ public class ReceiveAttachedDataPropertiesPanel extends
 				: new StructuredSelection(od);
 		lVarTree.setSelection(ss);
 
-		ObjectDefinition rod = getObjectDefinitionFromVariables(info
-				.getOutput());
+		ObjectDefinition rod = getObjectDefinitionFromVariables(info.getOutput());
 		StructuredSelection rss = (rod == null) ? StructuredSelection.EMPTY
 				: new StructuredSelection(rod);
 		rVarTree.setSelection(rss);
@@ -169,10 +163,7 @@ public class ReceiveAttachedDataPropertiesPanel extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel
-	 * #save()
+	 * @see org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel #save()
 	 */
 	@Override
 	public void save() {
@@ -230,10 +221,7 @@ public class ReceiveAttachedDataPropertiesPanel extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.configuration.ComponentPropertiesPanel
-	 * #cancel()
+	 * @see org.eclipse.vtp.desktop.model.core.configuration.ComponentPropertiesPanel #cancel()
 	 */
 	@Override
 	public void cancel() {
@@ -246,8 +234,7 @@ public class ReceiveAttachedDataPropertiesPanel extends
 	 */
 	public ObjectDefinition getObjectDefinitionFromVariables(String name) {
 		ObjectDefinition ret = null;
-		List<Variable> vars = getElement().getDesign().getVariablesFor(
-				getElement());
+		List<Variable> vars = getElement().getDesign().getVariablesFor(getElement());
 
 		for (int i = 0; i < vars.size(); i++) {
 			String varName = name;
@@ -263,8 +250,7 @@ public class ReceiveAttachedDataPropertiesPanel extends
 			if (v.getName().equals(varName)) {
 				if (sub) {
 					// dig deeper
-					ret = getObjectDefinitionFromFields(
-							name.substring(name.indexOf(".") + 1), v);
+					ret = getObjectDefinitionFromFields(name.substring(name.indexOf(".") + 1), v);
 				} else {
 					ret = v;
 
@@ -281,8 +267,7 @@ public class ReceiveAttachedDataPropertiesPanel extends
 	 * @param parent
 	 * @return
 	 */
-	public ObjectDefinition getObjectDefinitionFromFields(String name,
-			ObjectDefinition parent) {
+	public ObjectDefinition getObjectDefinitionFromFields(String name, ObjectDefinition parent) {
 		ObjectDefinition ret = null;
 		List<ObjectField> fields = parent.getFields();
 
@@ -299,8 +284,7 @@ public class ReceiveAttachedDataPropertiesPanel extends
 
 			if (of.getName().equals(varName)) {
 				if (sub) {
-					ret = getObjectDefinitionFromFields(
-							name.substring(name.indexOf(".") + 1), of);
+					ret = getObjectDefinitionFromFields(name.substring(name.indexOf(".") + 1), of);
 				} else {
 					ret = of;
 
@@ -315,10 +299,7 @@ public class ReceiveAttachedDataPropertiesPanel extends
 	public class VariableContentProvider implements ITreeContentProvider {
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang
-		 * .Object)
+		 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang .Object)
 		 */
 		@Override
 		public Object[] getChildren(Object parentElement) {
@@ -327,28 +308,22 @@ public class ReceiveAttachedDataPropertiesPanel extends
 
 				return v.getFields().toArray();
 			} else if (parentElement instanceof String
-					&& ((String) parentElement).equals(lastString)) {
-				return new String[] { "markname", "marktime", "confidence",
-						"inputmode", "interpretation", "utterance" };
-			}
+					&& ((String) parentElement).equals(lastString)) { return new String[] {
+					"markname", "marktime", "confidence", "inputmode", "interpretation",
+					"utterance" }; }
 			return null;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang
-		 * .Object)
+		 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang .Object)
 		 */
 		@Override
 		public Object getParent(Object element) {
 			if (element instanceof Variable) {
 				return null;
 			} else if (element instanceof String) {
-				if (((String) element).equals(lastString)) {
-					return null;
-				}
+				if (((String) element).equals(lastString)) { return null; }
 				return lastString;
 			} else {
 				return ((ObjectField) element).getParent();
@@ -357,17 +332,12 @@ public class ReceiveAttachedDataPropertiesPanel extends
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang
-		 * .Object)
+		 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang .Object)
 		 */
 		@Override
 		public boolean hasChildren(Object element) {
 			if (element instanceof String) {
-				if (((String) element).equals(lastString)) {
-					return true;
-				}
+				if (((String) element).equals(lastString)) { return true; }
 				return false;
 			}
 			return ((ObjectDefinition) element).getFields().size() > 0;
@@ -375,10 +345,7 @@ public class ReceiveAttachedDataPropertiesPanel extends
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
-		 * java.lang.Object)
+		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements( java.lang.Object)
 		 */
 		@Override
 		public Object[] getElements(Object inputElement) {
@@ -387,31 +354,24 @@ public class ReceiveAttachedDataPropertiesPanel extends
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 		 */
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
+		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
 		 * .jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
 		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 	}
 
 	public class VariableLabelProvider implements ILabelProvider {
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
+		 * @see org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
 		 */
 		@Override
 		public Image getImage(Object element) {
@@ -420,44 +380,33 @@ public class ReceiveAttachedDataPropertiesPanel extends
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
+		 * @see org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
 		 */
 		@Override
 		public String getText(Object element) {
-			if (element instanceof String) {
-				return (String) element;
-			}
+			if (element instanceof String) { return (String) element; }
 			return ((ObjectDefinition) element).getName();
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse
 		 * .jface.viewers.ILabelProviderListener)
 		 */
 		@Override
-		public void addListener(ILabelProviderListener listener) {
-		}
+		public void addListener(ILabelProviderListener listener) {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#dispose()
 		 */
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java
-		 * .lang.Object, java.lang.String)
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java .lang.Object,
+		 * java.lang.String)
 		 */
 		@Override
 		public boolean isLabelProperty(Object element, String property) {
@@ -466,19 +415,15 @@ public class ReceiveAttachedDataPropertiesPanel extends
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
 		 * .jface.viewers.ILabelProviderListener)
 		 */
 		@Override
-		public void removeListener(ILabelProviderListener listener) {
-		}
+		public void removeListener(ILabelProviderListener listener) {}
 	}
 
 	@Override
-	public void setConfigurationContext(Map<String, Object> values) {
-	}
+	public void setConfigurationContext(Map<String, Object> values) {}
 
 	@Override
 	public List<String> getApplicableContexts() {

@@ -25,61 +25,46 @@ public class AdvancedTransferLegacyConverter implements XMLConverter {
 			if (newModuleElement.getAttribute("type").equals(
 					"org.eclipse.vtp.desktop.editors.core.elements.primitive")) {
 				// It's a primitive of some sort
-				NodeList propertyNodes = newModuleElement
-						.getElementsByTagName("property");
+				NodeList propertyNodes = newModuleElement.getElementsByTagName("property");
 				for (int c = 0; c < propertyNodes.getLength(); c++) {
 					// Cycle through the property tags, searching for one in
 					// which attribute 'name' == "type"
-					if (((Element) propertyNodes.item(c)).getAttribute("name")
-							.equals("type")) {
+					if (((Element) propertyNodes.item(c)).getAttribute("name").equals("type")) {
 						// We have the right property tag. What type of of
 						// primitive is this?
-						if (((Element) propertyNodes.item(c))
-								.getAttribute("value")
-								.equals("org.eclipse.vtp.desktop.editors.core.transfer")) {
+						if (((Element) propertyNodes.item(c)).getAttribute("value").equals(
+								"org.eclipse.vtp.desktop.editors.core.transfer")) {
 							NodeList namedBindingNodes = newModuleElement
 									.getElementsByTagName("named-binding");
 							for (int d = 0; d < namedBindingNodes.getLength(); d++) {
-								if (((Element) namedBindingNodes.item(d))
-										.getAttribute("name").equals(
-												"destination")) {
+								if (((Element) namedBindingNodes.item(d)).getAttribute("name")
+										.equals("destination")) {
 									Element newTransferTypeElement = (Element) namedBindingNodes
 											.item(d).cloneNode(true);
-									newTransferTypeElement.setAttribute("name",
-											"transferType");
+									newTransferTypeElement.setAttribute("name", "transferType");
 
 									NodeList propertyValueNodes = newTransferTypeElement
 											.getElementsByTagName("property-value");
-									((Element) propertyValueNodes.item(0))
-											.setTextContent("blind");
+									((Element) propertyValueNodes.item(0)).setTextContent("blind");
 
-									namedBindingNodes
-											.item(d)
-											.getParentNode()
-											.insertBefore(
-													newTransferTypeElement,
-													namedBindingNodes.item(d));
+									namedBindingNodes.item(d).getParentNode().insertBefore(
+											newTransferTypeElement, namedBindingNodes.item(d));
 									break;
 								}
 							}
-						} else if (((Element) propertyNodes.item(c))
-								.getAttribute("value")
-								.equals("org.eclipse.vtp.desktop.editors.core.advancedtransfer")) {
+						} else if (((Element) propertyNodes.item(c)).getAttribute("value").equals(
+								"org.eclipse.vtp.desktop.editors.core.advancedtransfer")) {
 							NodeList namedBindingNodes = newModuleElement
 									.getElementsByTagName("named-binding");
 							for (int d = 0; d < namedBindingNodes.getLength(); d++) {
-								if (((Element) namedBindingNodes.item(d))
-										.getAttribute("name").equals("bridged")) {
-									((Element) namedBindingNodes.item(d))
-											.setAttribute("name",
-													"transferType");
+								if (((Element) namedBindingNodes.item(d)).getAttribute("name")
+										.equals("bridged")) {
+									((Element) namedBindingNodes.item(d)).setAttribute("name",
+											"transferType");
 									NodeList propertyValueNodes = ((Element) namedBindingNodes
-											.item(d))
-											.getElementsByTagName("property-value");
-									if (Boolean
-											.parseBoolean(((Element) propertyValueNodes
-													.item(0)).getTextContent()
-													.trim())) {
+											.item(d)).getElementsByTagName("property-value");
+									if (Boolean.parseBoolean(((Element) propertyValueNodes.item(0))
+											.getTextContent().trim())) {
 										((Element) propertyValueNodes.item(0))
 												.setTextContent("bridged");
 									} else {

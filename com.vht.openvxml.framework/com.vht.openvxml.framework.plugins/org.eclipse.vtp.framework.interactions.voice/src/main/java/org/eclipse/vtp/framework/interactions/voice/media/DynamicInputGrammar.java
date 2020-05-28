@@ -21,7 +21,6 @@ import org.w3c.dom.Element;
 
 /**
  * @author lonnie
- * 
  */
 public class DynamicInputGrammar extends InlineInputGrammar {
 	public static final String ELEMENT_NAME = "dynamic-input-grammar"; //$NON-NLS-1$
@@ -46,11 +45,9 @@ public class DynamicInputGrammar extends InlineInputGrammar {
 	}
 
 	@Override
-	public InputGrammar captureData(IScriptingService scriptingService,
-			IDataSet dataSet) {
+	public InputGrammar captureData(IScriptingService scriptingService, IDataSet dataSet) {
 		try {
-			IScriptingEngine engine = scriptingService
-					.createScriptingEngine("JavaScript");
+			IScriptingEngine engine = scriptingService.createScriptingEngine("JavaScript");
 			Object obj = engine.execute(script);
 			if (obj != null && obj instanceof String) {
 				TextInputGrammar ret = new TextInputGrammar();

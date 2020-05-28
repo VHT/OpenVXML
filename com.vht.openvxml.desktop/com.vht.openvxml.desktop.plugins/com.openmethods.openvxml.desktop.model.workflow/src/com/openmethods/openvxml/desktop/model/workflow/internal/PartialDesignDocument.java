@@ -30,16 +30,14 @@ import com.openmethods.openvxml.desktop.model.workflow.internal.design.Design;
 import com.openmethods.openvxml.desktop.model.workflow.internal.design.DesignElement;
 import com.openmethods.openvxml.desktop.model.workflow.internal.design.ElementResolutionVisitor;
 
-public class PartialDesignDocument implements IDesignDocument,
-		ElementResolutionVisitor {
+public class PartialDesignDocument implements IDesignDocument, ElementResolutionVisitor {
 	private boolean dialogOnly = false;
 	private List<Design> dialogs = new LinkedList<Design>();
 	private Design mainDesign = null;
 	private IDesignDocument backingDocument = null;
 	private Design baseDesign = null;
 
-	public PartialDesignDocument(IDesignDocument baseDocument,
-			Design baseDesign, Document document) {
+	public PartialDesignDocument(IDesignDocument baseDocument, Design baseDesign, Document document) {
 		this.backingDocument = baseDocument;
 		this.baseDesign = baseDesign;
 		DesignParser parser = new DesignParser();
@@ -48,29 +46,23 @@ public class PartialDesignDocument implements IDesignDocument,
 			dialogOnly = true;
 			NodeList mainList = rootElement.getElementsByTagName("workflow");
 			if (mainList.getLength() > 0) {
-				org.w3c.dom.Element mainElement = (org.w3c.dom.Element) mainList
-						.item(0);
-				mainDesign = parser.parseDesign(this, baseDesign, mainElement,
-						this, true);
+				org.w3c.dom.Element mainElement = (org.w3c.dom.Element) mainList.item(0);
+				mainDesign = parser.parseDesign(this, baseDesign, mainElement, this, true);
 			}
 		} else {
 			NodeList dialogsList = rootElement.getElementsByTagName("dialogs");
 			if (dialogsList.getLength() > 0) {
-				NodeList dialogList = ((org.w3c.dom.Element) dialogsList
-						.item(0)).getElementsByTagName("workflow");
+				NodeList dialogList = ((org.w3c.dom.Element) dialogsList.item(0))
+						.getElementsByTagName("workflow");
 				for (int i = 0; i < dialogList.getLength(); i++) {
-					org.w3c.dom.Element dialogElement = (org.w3c.dom.Element) dialogList
-							.item(i);
-					dialogs.add(parser.parseDesign(this, dialogElement, null,
-							true));
+					org.w3c.dom.Element dialogElement = (org.w3c.dom.Element) dialogList.item(i);
+					dialogs.add(parser.parseDesign(this, dialogElement, null, true));
 				}
 			}
 			NodeList mainList = rootElement.getElementsByTagName("workflow");
 			if (mainList.getLength() > 0) {
-				org.w3c.dom.Element mainElement = (org.w3c.dom.Element) mainList
-						.item(0);
-				mainDesign = parser.parseDesign(this, baseDesign, mainElement,
-						this, true);
+				org.w3c.dom.Element mainElement = (org.w3c.dom.Element) mainList.item(0);
+				mainDesign = parser.parseDesign(this, baseDesign, mainElement, this, true);
 			}
 		}
 	}
@@ -80,12 +72,10 @@ public class PartialDesignDocument implements IDesignDocument,
 		try {
 			DesignWriter writer = new DesignWriter();
 			// build document contents
-			DocumentBuilderFactory factory = DocumentBuilderFactory
-					.newInstance();
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			factory.setNamespaceAware(true);
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			document = builder.getDOMImplementation().createDocument(null,
-					"design-fragment", null);
+			document = builder.getDOMImplementation().createDocument(null, "design-fragment", null);
 			org.w3c.dom.Element rootElement = document.getDocumentElement();
 			rootElement.setAttribute("xml-version", "4.0.0");
 			IDesignFilter filter = new IDesignFilter() {
@@ -100,8 +90,8 @@ public class PartialDesignDocument implements IDesignDocument,
 			} else {
 				writer.writeDesign(rootElement, mainDesign, filter);
 
-				org.w3c.dom.Element dialogsElement = rootElement
-						.getOwnerDocument().createElement("dialogs");
+				org.w3c.dom.Element dialogsElement = rootElement.getOwnerDocument().createElement(
+						"dialogs");
 				rootElement.appendChild(dialogsElement);
 				for (IDesign dialogDesign : dialogs) {
 					writer.writeDesign(dialogsElement, (Design) dialogDesign);
@@ -115,8 +105,7 @@ public class PartialDesignDocument implements IDesignDocument,
 
 	@Override
 	public PartialDesignDocument clone() {
-		return new PartialDesignDocument(backingDocument, baseDesign,
-				toDocument());
+		return new PartialDesignDocument(backingDocument, baseDesign, toDocument());
 	}
 
 	public void forceNewIds() {
@@ -143,16 +132,13 @@ public class PartialDesignDocument implements IDesignDocument,
 	@Override
 	public IDesign getDialogDesign(String id) {
 		for (Design dialog : dialogs) {
-			if (dialog.getDesignId().equals(id)) {
-				return dialog;
-			}
+			if (dialog.getDesignId().equals(id)) { return dialog; }
 		}
 		return null;
 	}
 
 	@Override
-	public void resolveElement(DesignElement element) {
-	}
+	public void resolveElement(DesignElement element) {}
 
 	@Override
 	public String getName() {
@@ -165,24 +151,19 @@ public class PartialDesignDocument implements IDesignDocument,
 	}
 
 	@Override
-	public void addRefreshListener(IRefreshListener listener) {
-	}
+	public void addRefreshListener(IRefreshListener listener) {}
 
 	@Override
-	public void removeRefreshListener(IRefreshListener listener) {
-	}
+	public void removeRefreshListener(IRefreshListener listener) {}
 
 	@Override
-	public void deferEvents() {
-	}
+	public void deferEvents() {}
 
 	@Override
-	public void resumeEvents() {
-	}
+	public void resumeEvents() {}
 
 	@Override
-	public void refresh() {
-	}
+	public void refresh() {}
 
 	@Override
 	public IOpenVXMLProject getProject() {
@@ -211,14 +192,12 @@ public class PartialDesignDocument implements IDesignDocument,
 	}
 
 	@Override
-	public List<IWorkflowEntry> getUpStreamWorkflowEntries(
-			IWorkflowExit workflowExit) {
+	public List<IWorkflowEntry> getUpStreamWorkflowEntries(IWorkflowExit workflowExit) {
 		return null;
 	}
 
 	@Override
-	public List<IWorkflowEntry> getUpStreamWorkflowEntries(
-			IDesignExitPoint designExit) {
+	public List<IWorkflowEntry> getUpStreamWorkflowEntries(IDesignExitPoint designExit) {
 		return null;
 	}
 
@@ -233,14 +212,12 @@ public class PartialDesignDocument implements IDesignDocument,
 	}
 
 	@Override
-	public List<IWorkflowExit> getDownStreamWorkflowExits(
-			IWorkflowEntry workflowEntry) {
+	public List<IWorkflowExit> getDownStreamWorkflowExits(IWorkflowEntry workflowEntry) {
 		return null;
 	}
 
 	@Override
-	public List<IWorkflowExit> getDownStreamWorkflowExits(
-			IDesignEntryPoint designEntry) {
+	public List<IWorkflowExit> getDownStreamWorkflowExits(IDesignEntryPoint designEntry) {
 		return null;
 	}
 
@@ -250,14 +227,12 @@ public class PartialDesignDocument implements IDesignDocument,
 	}
 
 	@Override
-	public List<IDesignEntryPoint> getUpStreamDesignEntries(
-			IWorkflowExit workflowExit) {
+	public List<IDesignEntryPoint> getUpStreamDesignEntries(IWorkflowExit workflowExit) {
 		return null;
 	}
 
 	@Override
-	public List<IDesignEntryPoint> getUpStreamDesignEntries(
-			IDesignExitPoint designExit) {
+	public List<IDesignEntryPoint> getUpStreamDesignEntries(IDesignExitPoint designExit) {
 		return null;
 	}
 
@@ -267,36 +242,29 @@ public class PartialDesignDocument implements IDesignDocument,
 	}
 
 	@Override
-	public List<IDesignExitPoint> getDownStreamDesignExits(
-			IWorkflowEntry workflowEntry) {
+	public List<IDesignExitPoint> getDownStreamDesignExits(IWorkflowEntry workflowEntry) {
 		return null;
 	}
 
 	@Override
-	public List<IDesignExitPoint> getDownStreamDesignExits(
-			IDesignEntryPoint designEntry) {
+	public List<IDesignExitPoint> getDownStreamDesignExits(IDesignEntryPoint designEntry) {
 		return null;
 	}
 
 	@Override
-	public void becomeWorkingCopy() {
-	}
+	public void becomeWorkingCopy() {}
 
 	@Override
-	public void becomeWorkingCopy(boolean followExternalReferences) {
-	}
+	public void becomeWorkingCopy(boolean followExternalReferences) {}
 
 	@Override
-	public void discardWorkingCopy() {
-	}
+	public void discardWorkingCopy() {}
 
 	@Override
-	public void restoreWorkingCopy() {
-	}
+	public void restoreWorkingCopy() {}
 
 	@Override
-	public void commitWorkingCopy() {
-	}
+	public void commitWorkingCopy() {}
 
 	@Override
 	public boolean isWorkingCopy() {
@@ -319,10 +287,8 @@ public class PartialDesignDocument implements IDesignDocument,
 	}
 
 	@Override
-	public void addDocumentListener(IDesignDocumentListener listener) {
-	}
+	public void addDocumentListener(IDesignDocumentListener listener) {}
 
 	@Override
-	public void removeDocumentListener(IDesignDocumentListener listener) {
-	}
+	public void removeDocumentListener(IDesignDocumentListener listener) {}
 }

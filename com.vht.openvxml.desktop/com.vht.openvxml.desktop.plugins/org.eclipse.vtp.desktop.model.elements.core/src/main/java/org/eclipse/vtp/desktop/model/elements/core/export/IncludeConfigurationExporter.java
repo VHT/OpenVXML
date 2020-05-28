@@ -9,42 +9,36 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 public class IncludeConfigurationExporter implements IConfigurationExporter {
-	public IncludeConfigurationExporter() {
-	}
+	public IncludeConfigurationExporter() {}
 
 	@Override
-	public void exportConfiguration(IFlowElement flowElement,
-			Element actionElement) {
+	public void exportConfiguration(IFlowElement flowElement, Element actionElement) {
 		//		String uri = "http://www.eclipse.org/vtp/namespaces/config";//$NON-NLS-1$
 		DispatchConfiguration config = new DispatchConfiguration();
 		config.setTargetProcessURI(flowElement.getName());
 		Element includeManagedConfig = null;
-		NodeList managedConfigList = flowElement.getConfiguration()
-				.getElementsByTagName("managed-config");
-		for (int i = 0; includeManagedConfig == null
-				&& i < managedConfigList.getLength(); ++i) {
+		NodeList managedConfigList = flowElement.getConfiguration().getElementsByTagName(
+				"managed-config");
+		for (int i = 0; includeManagedConfig == null && i < managedConfigList.getLength(); ++i) {
 			Element element = (Element) managedConfigList.item(i);
-			if ("org.eclipse.vtp.configuration.include".equals(element
-					.getAttribute("type"))) {
+			if ("org.eclipse.vtp.configuration.include".equals(element.getAttribute("type"))) {
 				includeManagedConfig = element;
 			}
 		}
 		if (includeManagedConfig != null) {
 			// Input data.
-			NodeList inputBindingList = includeManagedConfig
-					.getElementsByTagName("input-binding");
+			NodeList inputBindingList = includeManagedConfig.getElementsByTagName("input-binding");
 			for (int i = 0; i < inputBindingList.getLength(); ++i) {
 				Element inputBinding = (Element) inputBindingList.item(i);
 				VariableMappingConfiguration vmc = new VariableMappingConfiguration();
-				NodeList brandBindingList = inputBinding
-						.getElementsByTagName("brand-binding");
+				NodeList brandBindingList = inputBinding.getElementsByTagName("brand-binding");
 				for (int j = 0; j < brandBindingList.getLength(); ++j) {
 					Element brandBinding = (Element) brandBindingList.item(j);
 					if (!"/Default".equals(brandBinding.getAttribute("name"))) {
 						continue;
 					}
-					Element inputItem = (Element) brandBinding
-							.getElementsByTagName("input-item").item(0);
+					Element inputItem = (Element) brandBinding.getElementsByTagName("input-item")
+							.item(0);
 					String type = inputItem.getAttribute("type");
 					String value = inputItem.getTextContent().trim();
 					if ("VARIABLE".equalsIgnoreCase(type)) {
@@ -57,42 +51,33 @@ public class IncludeConfigurationExporter implements IConfigurationExporter {
 						vmc.setNoValue();
 					}
 				}
-				config.setVariableMapping(inputBinding.getAttribute("name"),
-						vmc);
+				config.setVariableMapping(inputBinding.getAttribute("name"), vmc);
 			}
 			// Output data.
-			NodeList exitBindingList = includeManagedConfig
-					.getElementsByTagName("exit-binding");
+			NodeList exitBindingList = includeManagedConfig.getElementsByTagName("exit-binding");
 			for (int i = 0; i < exitBindingList.getLength(); ++i) {
 				Element exitBinding = (Element) exitBindingList.item(i);
-				NodeList outputBindingList = exitBinding
-						.getElementsByTagName("output-binding");
+				NodeList outputBindingList = exitBinding.getElementsByTagName("output-binding");
 				for (int j = 0; j < outputBindingList.getLength(); ++j) {
 					Element outputBinding = (Element) outputBindingList.item(j);
-					NodeList brandBindingList = outputBinding
-							.getElementsByTagName("brand-binding");
+					NodeList brandBindingList = outputBinding.getElementsByTagName("brand-binding");
 					for (int k = 0; k < brandBindingList.getLength(); ++k) {
-						Element brandBinding = (Element) brandBindingList
-								.item(k);
-						if (!"/Default".equals(brandBinding
-								.getAttribute("name"))) {
+						Element brandBinding = (Element) brandBindingList.item(k);
+						if (!"/Default".equals(brandBinding.getAttribute("name"))) {
 							continue;
 						}
-						Element outputItem = (Element) brandBinding
-								.getElementsByTagName("output-item").item(0);
-						config.setOutgoingDataValue(exitBinding
-								.getAttribute("name"), outputBinding
-								.getAttribute("name"), outputItem
-								.getTextContent().trim());
+						Element outputItem = (Element) brandBinding.getElementsByTagName(
+								"output-item").item(0);
+						config.setOutgoingDataValue(exitBinding.getAttribute("name"), outputBinding
+								.getAttribute("name"), outputItem.getTextContent().trim());
 					}
 				}
 
 			}
 
 		}
-		Element configElement = actionElement.getOwnerDocument()
-				.createElementNS(IDefinitionBuilder.NAMESPACE_URI_COMMON,
-						"common:dispatch"); //$NON-NLS-1$
+		Element configElement = actionElement.getOwnerDocument().createElementNS(
+				IDefinitionBuilder.NAMESPACE_URI_COMMON, "common:dispatch"); //$NON-NLS-1$
 		config.save(configElement);
 		actionElement.appendChild(configElement);
 	}
@@ -113,8 +98,7 @@ public class IncludeConfigurationExporter implements IConfigurationExporter {
 	}
 
 	@Override
-	public String getTargetId(IFlowElement flowElement,
-			Element afterTransitionElement) {
+	public String getTargetId(IFlowElement flowElement, Element afterTransitionElement) {
 		return flowElement.getDefaultTargetId(afterTransitionElement);
 	}
 

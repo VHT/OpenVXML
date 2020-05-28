@@ -12,15 +12,14 @@
 package org.eclipse.vtp.modules.attacheddata.ui.configuration.request;
 
 /**
- * The <code>GenericBindingItem</code> interface defines the common functions
- * each binding item implementation must provide.
+ * The <code>GenericBindingItem</code> interface defines the common functions each binding item
+ * implementation must provide.
  * 
  * @author trip
  */
 public abstract class GenericBindingItem implements Cloneable {
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.lang.Object#clone()
 	 */
 	@Override

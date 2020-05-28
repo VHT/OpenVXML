@@ -55,8 +55,7 @@ public class ContentEntryDialog extends Dialog {
 	/**
 	 * Creates a new <code>ContentEntryDialog</code>.
 	 * 
-	 * @param parentShell
-	 *            The shell to create the dialog from.
+	 * @param parentShell The shell to create the dialog from.
 	 */
 	public ContentEntryDialog(Shell parentShell) {
 		super(parentShell);
@@ -65,8 +64,7 @@ public class ContentEntryDialog extends Dialog {
 	/**
 	 * Creates a new <code>ContentEntryDialog</code>.
 	 * 
-	 * @param parentShellProvider
-	 *            The shell provider to create the dialog from.
+	 * @param parentShellProvider The shell provider to create the dialog from.
 	 */
 	public ContentEntryDialog(IShellProvider parentShellProvider) {
 		super(parentShellProvider);
@@ -83,8 +81,7 @@ public class ContentEntryDialog extends Dialog {
 	/**
 	 * Sets the media provider the item is bound to.
 	 * 
-	 * @param mediaProvider
-	 *            The media provider the item is bound to.
+	 * @param mediaProvider The media provider the item is bound to.
 	 */
 	public void setMediaProvider(IMediaProvider mediaProvider) {
 		this.mediaProvider = mediaProvider;
@@ -92,9 +89,7 @@ public class ContentEntryDialog extends Dialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(
-	 * org.eclipse.swt.widgets.Composite)
+	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea( org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
@@ -116,8 +111,7 @@ public class ContentEntryDialog extends Dialog {
 					"org.eclipse.vtp.framework.interactions.core.media.content.placeholder",
 					"Placeholder");
 			for (int i = 0; i < supportedTypes.size(); i++) {
-				if (supportedTypes.get(i).getName()
-						.compareToIgnoreCase("Placeholder") > 0) {
+				if (supportedTypes.get(i).getName().compareToIgnoreCase("Placeholder") > 0) {
 					inserted = true;
 					supportedTypes.set(i, placeholderType);
 					break;
@@ -134,15 +128,13 @@ public class ContentEntryDialog extends Dialog {
 		for (int i = 0; i < supportedTypes.size(); i++) {
 			ContentType ct = (ContentType) supportedTypes.get(i);
 			typeCombo.add(ct.getName());
-			ContentCreatorPanel ccp = ContentCreatorPanelManager.getInstance()
-					.getCreatorPanel(ct);
+			ContentCreatorPanel ccp = ContentCreatorPanelManager.getInstance().getCreatorPanel(ct);
 			ccp.setMediaProvider(mediaProvider);
 			if (ccp instanceof DynamicContentCreatorPanel) {
 				((DynamicContentCreatorPanel) ccp).setVariables(variables);
 			}
 			if (ccp instanceof PlaceholderContentCreatorPanel) {
-				((PlaceholderContentCreatorPanel) ccp)
-						.setPlaceholders(placeholders);
+				((PlaceholderContentCreatorPanel) ccp).setPlaceholders(placeholders);
 			}
 			creatorControls.add(ccp);
 			ccp.createControls(creatorComp);
@@ -160,13 +152,12 @@ public class ContentEntryDialog extends Dialog {
 		typeCombo.addSelectionListener(new SelectionListener() {
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				stackLayout.topControl = creatorControls.get(
-						typeCombo.getSelectionIndex()).getControl();
+				stackLayout.topControl = creatorControls.get(typeCombo.getSelectionIndex())
+						.getControl();
 				creatorComp.layout(true, true);
 			}
 
@@ -176,13 +167,11 @@ public class ContentEntryDialog extends Dialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
 	@Override
 	protected void okPressed() {
-		ContentCreatorPanel ccp = creatorControls.get(typeCombo
-				.getSelectionIndex());
+		ContentCreatorPanel ccp = creatorControls.get(typeCombo.getSelectionIndex());
 		content = ccp.createContent();
 		super.okPressed();
 	}

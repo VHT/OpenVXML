@@ -25,8 +25,7 @@ import org.w3c.dom.NodeList;
  * 
  * @author Lonnie Pryor
  */
-public class PropertyConfiguration implements IConfiguration,
-		InteractionsConstants {
+public class PropertyConfiguration implements IConfiguration, InteractionsConstants {
 	/** Constant indicating the value is static */
 	public static final String STATIC = "static";
 	/** Constant indicating the value is an expression */
@@ -39,55 +38,44 @@ public class PropertyConfiguration implements IConfiguration,
 	/**
 	 * Creates a new PropertyConfiguration.
 	 */
-	public PropertyConfiguration() {
-	}
+	public PropertyConfiguration() {}
 
 	/**
-	 * Returns the item configured for the specified brand, interaction type,
-	 * and language or <code>null</code> if no such item is configured.
+	 * Returns the item configured for the specified brand, interaction type, and language or
+	 * <code>null</code> if no such item is configured.
 	 * 
-	 * @param brandId
-	 *            The id of the brand to find the item for.
-	 * @param interactionTypeID
-	 *            The ID of the interaction type to find the item for.
-	 * @return The item configured for the specified brand, interaction type,
-	 *         and language or <code>null</code> if no such item is configured.
+	 * @param brandId The id of the brand to find the item for.
+	 * @param interactionTypeID The ID of the interaction type to find the item for.
+	 * @return The item configured for the specified brand, interaction type, and language or
+	 *         <code>null</code> if no such item is configured.
 	 */
 	public Value getItem(String brandId, String interactionTypeID) {
 		return getItem(brandId, interactionTypeID, "");
 	}
 
-	public Value getItem(String brandId, String interactionTypeID,
-			String language) {
+	public Value getItem(String brandId, String interactionTypeID, String language) {
 		String key = brandId + ":" + interactionTypeID + ":" + language;
 		return items.get(key);
 	}
 
 	/**
-	 * Sets the item configured for the specified brand, interaction type, and
-	 * language.
+	 * Sets the item configured for the specified brand, interaction type, and language.
 	 * 
-	 * @param brandId
-	 *            The id of the brand to set the item for.
-	 * @param interactionTypeID
-	 *            The ID of the interaction type to set the item for.
-	 * @param item
-	 *            The item to set as the configuration or <code>null</code> to
-	 *            remove the specified configuration.
+	 * @param brandId The id of the brand to set the item for.
+	 * @param interactionTypeID The ID of the interaction type to set the item for.
+	 * @param item The item to set as the configuration or <code>null</code> to remove the specified
+	 *            configuration.
 	 */
-	public void setItem(String brandId, String interactionTypeID, String type,
-			String value) {
+	public void setItem(String brandId, String interactionTypeID, String type, String value) {
 		setItem(brandId, interactionTypeID, "", type, value);
 	}
 
 	/**
 	 * Sets the item configured for the specified key.
 	 * 
-	 * @param key
-	 *            The key to set the item for.
-	 * @param item
-	 *            The item to set as the configuration or <code>null</code> to
-	 *            remove the specified configuration.
+	 * @param key The key to set the item for.
+	 * @param item The item to set as the configuration or <code>null</code> to remove the specified
+	 *            configuration.
 	 */
 	public void setItem(String key, String type, String value) {
 		setItem(key, new Value(type, value));
@@ -101,36 +89,30 @@ public class PropertyConfiguration implements IConfiguration,
 		}
 	}
 
-	public void setItem(String brandName, String interactionTypeID,
-			String language, String type, String value) {
-		setItem(brandName + ":" + interactionTypeID + ":" + language,
-				new Value(type, value));
+	public void setItem(String brandName, String interactionTypeID, String language, String type,
+			String value) {
+		setItem(brandName + ":" + interactionTypeID + ":" + language, new Value(type, value));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.core.IConfiguration#load(org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(org.w3c.dom.Element)
 	 */
 	@Override
 	public void load(Element configurationElement) {
 		items.clear();
-		NodeList propertyItemElements = configurationElement
-				.getElementsByTagNameNS(NAMESPACE_URI, NAME_PROPERTY_ITEM);
+		NodeList propertyItemElements = configurationElement.getElementsByTagNameNS(NAMESPACE_URI,
+				NAME_PROPERTY_ITEM);
 		for (int i = 0; i < propertyItemElements.getLength(); ++i) {
-			Element propertyItemElement = (Element) propertyItemElements
-					.item(i);
+			Element propertyItemElement = (Element) propertyItemElements.item(i);
 			String key = propertyItemElement.getAttribute(NAME_KEY);
 			String type = propertyItemElement.getAttribute("type");
 			if (type == null || "".equals(type)) {
 				type = STATIC;
 			}
 			try {
-				items.put(
-						key,
-						new Value(type, XMLUtilities.getElementTextData(
-								propertyItemElement, true)));
+				items.put(key, new Value(type, XMLUtilities.getElementTextData(propertyItemElement,
+						true)));
 			} catch (Exception e) {
 				throw new IllegalArgumentException(e);
 			}
@@ -139,9 +121,7 @@ public class PropertyConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.core.IConfiguration#save(org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(org.w3c.dom.Element)
 	 */
 	@Override
 	public void save(Element configurationElement) {
@@ -151,12 +131,12 @@ public class PropertyConfiguration implements IConfiguration,
 			propertyItemName = prefix + ":" + propertyItemName; //$NON-NLS-1$
 		}
 		for (Entry<String, Value> entry : items.entrySet()) {
-			Element element = configurationElement.getOwnerDocument()
-					.createElementNS(NAMESPACE_URI, propertyItemName);
+			Element element = configurationElement.getOwnerDocument().createElementNS(
+					NAMESPACE_URI, propertyItemName);
 			element.setAttribute(NAME_KEY, entry.getKey());
 			element.setAttribute("type", entry.getValue().getType());
-			element.appendChild(configurationElement.getOwnerDocument()
-					.createTextNode(entry.getValue().getValue()));
+			element.appendChild(configurationElement.getOwnerDocument().createTextNode(
+					entry.getValue().getValue()));
 			configurationElement.appendChild(element);
 		}
 	}

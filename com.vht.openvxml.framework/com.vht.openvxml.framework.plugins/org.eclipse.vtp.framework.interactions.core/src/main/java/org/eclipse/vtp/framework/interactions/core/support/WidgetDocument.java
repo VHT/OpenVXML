@@ -46,8 +46,7 @@ public abstract class WidgetDocument extends Widget implements IDocument {
 	/**
 	 * Creates a new WidgetDocument object.
 	 */
-	protected WidgetDocument() {
-	}
+	protected WidgetDocument() {}
 
 	@Override
 	public boolean isCachable() {
@@ -60,7 +59,6 @@ public abstract class WidgetDocument extends Widget implements IDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.core.output.IDocument#getContentType()
 	 */
 	@Override
@@ -70,9 +68,7 @@ public abstract class WidgetDocument extends Widget implements IDocument {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.core.output.IOutputDocument#
-	 * toXMLSource()
+	 * @see org.eclipse.vtp.framework.spi.core.output.IOutputDocument# toXMLSource()
 	 */
 	@Override
 	public Source toXMLSource() throws IllegalStateException {
@@ -80,8 +76,7 @@ public abstract class WidgetDocument extends Widget implements IDocument {
 	}
 
 	/**
-	 * An implementation of {@link XMLReader} that turns a widget document into
-	 * SAX events.
+	 * An implementation of {@link XMLReader} that turns a widget document into SAX events.
 	 * 
 	 * @author Lonnie Pryor
 	 */
@@ -101,29 +96,26 @@ public abstract class WidgetDocument extends Widget implements IDocument {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.xml.sax.XMLReader#getFeature(java.lang.String)
 		 */
 		@Override
-		public boolean getFeature(String name)
-				throws SAXNotRecognizedException, SAXNotSupportedException {
+		public boolean getFeature(String name) throws SAXNotRecognizedException,
+				SAXNotSupportedException {
 			return Boolean.TRUE.equals(features.get(name));
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.xml.sax.XMLReader#getProperty(java.lang.String)
 		 */
 		@Override
-		public Object getProperty(String name)
-				throws SAXNotRecognizedException, SAXNotSupportedException {
+		public Object getProperty(String name) throws SAXNotRecognizedException,
+				SAXNotSupportedException {
 			return properties.get(name);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.xml.sax.XMLReader#getContentHandler()
 		 */
 		@Override
@@ -133,7 +125,6 @@ public abstract class WidgetDocument extends Widget implements IDocument {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.xml.sax.XMLReader#getDTDHandler()
 		 */
 		@Override
@@ -143,7 +134,6 @@ public abstract class WidgetDocument extends Widget implements IDocument {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.xml.sax.XMLReader#getEntityResolver()
 		 */
 		@Override
@@ -153,7 +143,6 @@ public abstract class WidgetDocument extends Widget implements IDocument {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.xml.sax.XMLReader#getErrorHandler()
 		 */
 		@Override
@@ -163,12 +152,11 @@ public abstract class WidgetDocument extends Widget implements IDocument {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.xml.sax.XMLReader#setFeature(java.lang.String, boolean)
 		 */
 		@Override
-		public void setFeature(String name, boolean value)
-				throws SAXNotRecognizedException, SAXNotSupportedException {
+		public void setFeature(String name, boolean value) throws SAXNotRecognizedException,
+				SAXNotSupportedException {
 			if (value) {
 				features.put(name, Boolean.TRUE);
 			} else {
@@ -178,13 +166,11 @@ public abstract class WidgetDocument extends Widget implements IDocument {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.xml.sax.XMLReader#setProperty(java.lang.String,
-		 * java.lang.Object)
+		 * @see org.xml.sax.XMLReader#setProperty(java.lang.String, java.lang.Object)
 		 */
 		@Override
-		public void setProperty(String name, Object value)
-				throws SAXNotRecognizedException, SAXNotSupportedException {
+		public void setProperty(String name, Object value) throws SAXNotRecognizedException,
+				SAXNotSupportedException {
 			if (value == null) {
 				properties.remove(name);
 			} else {
@@ -194,9 +180,7 @@ public abstract class WidgetDocument extends Widget implements IDocument {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.xml.sax.XMLReader#setContentHandler(org.xml.sax.ContentHandler)
+		 * @see org.xml.sax.XMLReader#setContentHandler(org.xml.sax.ContentHandler)
 		 */
 		@Override
 		public void setContentHandler(ContentHandler handler) {
@@ -205,7 +189,6 @@ public abstract class WidgetDocument extends Widget implements IDocument {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.xml.sax.XMLReader#setDTDHandler(org.xml.sax.DTDHandler)
 		 */
 		@Override
@@ -215,9 +198,7 @@ public abstract class WidgetDocument extends Widget implements IDocument {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.xml.sax.XMLReader#setEntityResolver(org.xml.sax.EntityResolver)
+		 * @see org.xml.sax.XMLReader#setEntityResolver(org.xml.sax.EntityResolver)
 		 */
 		@Override
 		public void setEntityResolver(EntityResolver resolver) {
@@ -226,7 +207,6 @@ public abstract class WidgetDocument extends Widget implements IDocument {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.xml.sax.XMLReader#setErrorHandler(org.xml.sax.ErrorHandler)
 		 */
 		@Override
@@ -236,7 +216,6 @@ public abstract class WidgetDocument extends Widget implements IDocument {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.xml.sax.XMLReader#parse(java.lang.String)
 		 */
 		@Override
@@ -246,7 +225,6 @@ public abstract class WidgetDocument extends Widget implements IDocument {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.xml.sax.XMLReader#parse(org.xml.sax.InputSource)
 		 */
 		@Override

@@ -16,10 +16,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- * This is the base class for all pages to be displayed in a
- * MultiPageFramedDialog. Subclasses need to provide an implementation of
- * createPage() that performs any UI construction and returns the root control
- * for their page.
+ * This is the base class for all pages to be displayed in a MultiPageFramedDialog. Subclasses need
+ * to provide an implementation of createPage() that performs any UI construction and returns the
+ * root control for their page.
  * 
  * @author Trip
  */
@@ -32,8 +31,7 @@ public abstract class ContentPage {
 	/**
 	 * Constructs a new content page with the given name.
 	 * 
-	 * @param name
-	 *            The name of this content page
+	 * @param name The name of this content page
 	 */
 	public ContentPage(String name) {
 		super();
@@ -50,21 +48,19 @@ public abstract class ContentPage {
 	/**
 	 * Provides a reference to the shell that contains this content page.
 	 * 
-	 * @param rootShell
-	 *            The shell that contains this content page
+	 * @param rootShell The shell that contains this content page
 	 */
 	void setRootShell(Shell rootShell) {
 		this.rootShell = rootShell;
 	}
 
 	/**
-	 * Subclasses must provide an implementation for this method that constructs
-	 * their UI and returns the root control for the page.
+	 * Subclasses must provide an implementation for this method that constructs their UI and
+	 * returns the root control for the page.
 	 * 
-	 * @param parent
-	 *            The composite that will contain this page
-	 * @return The control that was added to the parent composite and is the
-	 *         root of all UI elements of this page
+	 * @param parent The composite that will contain this page
+	 * @return The control that was added to the parent composite and is the root of all UI elements
+	 *         of this page
 	 */
 	protected abstract Control createPage(Composite parent);
 

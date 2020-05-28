@@ -20,10 +20,8 @@ public interface IFinal extends IInteraction {
 	/**
 	 * Sets the value of a variable configured on this interaction.
 	 * 
-	 * @param variableName
-	 *            The name of the variable to set the value of.
-	 * @param variableValue
-	 *            The value to set the variable to.
+	 * @param variableName The name of the variable to set the value of.
+	 * @param variableValue The value to set the variable to.
 	 */
 	void setVariableValue(String variableName, String variableValue);
 }

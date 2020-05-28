@@ -55,15 +55,11 @@ public class ApplicationProjectConfigurationPropertyPage extends PropertyPage {
 	private IBrandingProjectAspect brandingAspect = null;
 	private LanguageSupportProjectAspect languageSupportAspect = null;
 
-	public ApplicationProjectConfigurationPropertyPage() {
-	}
+	public ApplicationProjectConfigurationPropertyPage() {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.dialogs.PropertyPage#setElement(org.eclipse.core.runtime
-	 * .IAdaptable)
+	 * @see org.eclipse.ui.dialogs.PropertyPage#setElement(org.eclipse.core.runtime .IAdaptable)
 	 */
 	@Override
 	public void setElement(IAdaptable element) {
@@ -73,11 +69,9 @@ public class ApplicationProjectConfigurationPropertyPage extends PropertyPage {
 				applicationProject = (OpenVXMLProject) element;
 			} else if (element instanceof IProject) {
 				IProject project = (IProject) element;
-				if (WorkflowCore.getDefault().getWorkflowModel()
-						.isWorkflowProject(project)) {
-					applicationProject = (OpenVXMLProject) WorkflowCore
-							.getDefault().getWorkflowModel()
-							.convertToWorkflowProject(project);
+				if (WorkflowCore.getDefault().getWorkflowModel().isWorkflowProject(project)) {
+					applicationProject = (OpenVXMLProject) WorkflowCore.getDefault()
+							.getWorkflowModel().convertToWorkflowProject(project);
 				} else {
 					throw new RuntimeException("Unsupported element type");
 				}
@@ -88,13 +82,11 @@ public class ApplicationProjectConfigurationPropertyPage extends PropertyPage {
 			if (parentProject == null) {
 				brandingAspect = (IBrandingProjectAspect) applicationProject
 						.getProjectAspect(IBrandingProjectAspect.ASPECT_ID);
-				brandManager = new ConfigurationBrandManager(
-						brandingAspect.getBrandManager());
+				brandManager = new ConfigurationBrandManager(brandingAspect.getBrandManager());
 				languageSupportAspect = (LanguageSupportProjectAspect) applicationProject
 						.getProjectAspect(ILanguageSupportProjectAspect.ASPECT_ID);
 				supportManager = new InteractionSupportManager();
-				supportManager.init(languageSupportAspect
-						.getInteractionTypeSupport());
+				supportManager.init(languageSupportAspect.getInteractionTypeSupport());
 				brandScreen.init(brandManager);
 				interactionScreen.setSupport(supportManager);
 				languageScreen.init(brandManager, supportManager);
@@ -106,9 +98,7 @@ public class ApplicationProjectConfigurationPropertyPage extends PropertyPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse
+	 * @see org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse
 	 * .swt.widgets.Composite)
 	 */
 	@Override
@@ -116,26 +106,21 @@ public class ApplicationProjectConfigurationPropertyPage extends PropertyPage {
 		Composite comp = new Composite(parent, SWT.NONE);
 		comp.setLayout(new GridLayout(1, false));
 		if (parentProject == null) {
-			if (applicationProject
-					.getProjectAspect(IUmbrellaProjectAspect.ASPECT_ID) == null) {
+			if (applicationProject.getProjectAspect(IUmbrellaProjectAspect.ASPECT_ID) == null) {
 				Link connectLink = new Link(comp, SWT.NONE);
-				connectLink
-						.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+				connectLink.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 				connectLink.setText("<A>Connect project to umbrella</A>");
 				connectLink.addSelectionListener(new SelectionListener() {
 					@Override
 					public void widgetSelected(SelectionEvent e) {
-						WizardDialog wizard = new WizardDialog(PlatformUI
-								.getWorkbench().getActiveWorkbenchWindow()
-								.getShell(),
-								new ConnectWorkflowToUmbrellaWizard(
-										applicationProject));
+						WizardDialog wizard = new WizardDialog(PlatformUI.getWorkbench()
+								.getActiveWorkbenchWindow().getShell(),
+								new ConnectWorkflowToUmbrellaWizard(applicationProject));
 						wizard.open();
 					}
 
 					@Override
-					public void widgetDefaultSelected(SelectionEvent e) {
-					}
+					public void widgetDefaultSelected(SelectionEvent e) {}
 				});
 			}
 			TabFolder tabFolder = new TabFolder(comp, SWT.NONE);
@@ -161,28 +146,22 @@ public class ApplicationProjectConfigurationPropertyPage extends PropertyPage {
 		} else {
 			Label inheritLabel = new Label(comp, SWT.NONE);
 			inheritLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-			inheritLabel
-					.setText("This project is currently inheriting its configuration from the "
-							+ applicationProject.getParentProject().getName()
-							+ " Umbrella project.");
+			inheritLabel.setText("This project is currently inheriting its configuration from the "
+					+ applicationProject.getParentProject().getName() + " Umbrella project.");
 			Link disconnectLink = new Link(comp, SWT.NONE);
-			disconnectLink
-					.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+			disconnectLink.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			disconnectLink.setText("<A>Disconnect project from umbrella</A>");
 			disconnectLink.addSelectionListener(new SelectionListener() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					WizardDialog wizard = new WizardDialog(PlatformUI
-							.getWorkbench().getActiveWorkbenchWindow()
-							.getShell(),
-							new DisconnectInteractiveWorkflowWizard(
-									applicationProject));
+					WizardDialog wizard = new WizardDialog(PlatformUI.getWorkbench()
+							.getActiveWorkbenchWindow().getShell(),
+							new DisconnectInteractiveWorkflowWizard(applicationProject));
 					wizard.open();
 				}
 
 				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-				}
+				public void widgetDefaultSelected(SelectionEvent e) {}
 			});
 		}
 		return comp;
@@ -190,17 +169,14 @@ public class ApplicationProjectConfigurationPropertyPage extends PropertyPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.preference.PreferencePage#performDefaults()
 	 */
 	@Override
 	protected void performDefaults() {
 		if (parentProject == null) {
-			brandManager = new ConfigurationBrandManager(
-					brandingAspect.getBrandManager());
+			brandManager = new ConfigurationBrandManager(brandingAspect.getBrandManager());
 			supportManager = new InteractionSupportManager();
-			supportManager.init(languageSupportAspect
-					.getInteractionTypeSupport());
+			supportManager.init(languageSupportAspect.getInteractionTypeSupport());
 			brandScreen.init(brandManager);
 			interactionScreen.setSupport(supportManager);
 			languageScreen.init(brandManager, supportManager);
@@ -210,15 +186,13 @@ public class ApplicationProjectConfigurationPropertyPage extends PropertyPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.preference.PreferencePage#performOk()
 	 */
 	@Override
 	public boolean performOk() {
 		if (parentProject == null) {
 			brandManager.saveTo(brandingAspect.getBrandManager());
-			languageSupportAspect.setInteractionTypeSupport(supportManager
-					.getSupport());
+			languageSupportAspect.setInteractionTypeSupport(supportManager.getSupport());
 			applicationProject.storeBuildPath();
 		}
 		return true;

@@ -37,8 +37,7 @@ public final class EndMessageCommand extends ConversationCommand {
 	/**
 	 * Creates a new EndMessageCommand.
 	 */
-	public EndMessageCommand() {
-	}
+	public EndMessageCommand() {}
 
 	/**
 	 * getVariables.
@@ -82,11 +81,8 @@ public final class EndMessageCommand extends ConversationCommand {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.interactions.core.commands.
-	 * ConversationCommand#accept(
-	 * org.eclipse.vtp.framework.interactions.core.commands.
-	 * IConversationCommandVisitor)
+	 * @see org.eclipse.vtp.framework.interactions.core.commands. ConversationCommand#accept(
+	 * org.eclipse.vtp.framework.interactions.core.commands. IConversationCommandVisitor)
 	 */
 	@Override
 	Object accept(IConversationCommandVisitor visitor) {
@@ -95,7 +91,6 @@ public final class EndMessageCommand extends ConversationCommand {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.ICommand#exportContents()
 	 */
 	@Override
@@ -110,9 +105,7 @@ public final class EndMessageCommand extends ConversationCommand {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.ICommand#importContents(
-	 * java.lang.Object)
+	 * @see org.eclipse.vtp.framework.spi.ICommand#importContents( java.lang.Object)
 	 */
 	@Override
 	public void importContents(Object contents) {
@@ -139,8 +132,7 @@ public final class EndMessageCommand extends ConversationCommand {
 	}
 
 	/**
-	 * @param method
-	 *            - Sets the method of the fetch
+	 * @param method - Sets the method of the fetch
 	 */
 	public void setMethod(String method) {
 		this.method = method;

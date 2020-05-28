@@ -44,8 +44,8 @@ public class GrammarBindingViewer implements MouseListener {
 	 * @param grammarBinding
 	 * @param interactionType
 	 */
-	public GrammarBindingViewer(IDesignElement designElement,
-			NamedBinding grammarBinding, String interactionType) {
+	public GrammarBindingViewer(IDesignElement designElement, NamedBinding grammarBinding,
+			String interactionType) {
 		super();
 		this.grammarBinding = grammarBinding;
 		this.interactionType = interactionType;
@@ -80,17 +80,13 @@ public class GrammarBindingViewer implements MouseListener {
 	}
 
 	private void setContents() {
-		LanguageBinding languageBinding = grammarBinding
-				.getLanguageBinding(currentLanguage);
-		BrandBinding brandBinding = languageBinding
-				.getBrandBinding(currentBrand);
-		GrammarBindingItem pbi = (GrammarBindingItem) brandBinding
-				.getBindingItem();
+		LanguageBinding languageBinding = grammarBinding.getLanguageBinding(currentLanguage);
+		BrandBinding brandBinding = languageBinding.getBrandBinding(currentBrand);
+		GrammarBindingItem pbi = (GrammarBindingItem) brandBinding.getBindingItem();
 		if (pbi == null) {
 			pbi = new GrammarBindingItem();
 		}
-		contents.setText(pbi.getGrammar() == null ? "Not Configured" : pbi
-				.getGrammar().toString());
+		contents.setText(pbi.getGrammar() == null ? "Not Configured" : pbi.getGrammar().toString());
 		contents.getParent().layout();
 	}
 
@@ -106,9 +102,7 @@ public class GrammarBindingViewer implements MouseListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.swt.events.MouseListener#mouseDoubleClick(org.eclipse.swt
+	 * @see org.eclipse.swt.events.MouseListener#mouseDoubleClick(org.eclipse.swt
 	 * .events.MouseEvent)
 	 */
 	@Override
@@ -116,21 +110,17 @@ public class GrammarBindingViewer implements MouseListener {
 		try {
 			Shell workbenchShell = Display.getCurrent().getActiveShell();
 			GrammarEntryDialog pbd = new GrammarEntryDialog(workbenchShell);
-			LanguageBinding languageBinding = grammarBinding
-					.getLanguageBinding(currentLanguage);
-			BrandBinding brandBinding = languageBinding
-					.getBrandBinding(currentBrand);
-			GrammarBindingItem pbi = (GrammarBindingItem) brandBinding
-					.getBindingItem();
+			LanguageBinding languageBinding = grammarBinding.getLanguageBinding(currentLanguage);
+			BrandBinding brandBinding = languageBinding.getBrandBinding(currentBrand);
+			GrammarBindingItem pbi = (GrammarBindingItem) brandBinding.getBindingItem();
 			if (pbi == null) {
 				pbi = new GrammarBindingItem();
 			}
 			IMediaProviderManager mediaProviderManager = ((ILanguageSupportProjectAspect) designElement
-					.getDesign().getDocument().getProject()
-					.getProjectAspect(ILanguageSupportProjectAspect.ASPECT_ID))
-					.getMediaProviderManager();
-			pbd.setMediaProvider(mediaProviderManager.getMediaProvider(
-					interactionType, currentBrand, currentLanguage));
+					.getDesign().getDocument().getProject().getProjectAspect(
+							ILanguageSupportProjectAspect.ASPECT_ID)).getMediaProviderManager();
+			pbd.setMediaProvider(mediaProviderManager.getMediaProvider(interactionType,
+					currentBrand, currentLanguage));
 			pbd.setContent(pbi.getGrammar());
 			int result = pbd.open();
 			if (result == Window.OK) {
@@ -144,8 +134,7 @@ public class GrammarBindingViewer implements MouseListener {
 				}
 				setContents();
 				Composite comp = contents.getParent();
-				while (comp.getParent() != null
-						&& comp.getParent().getLayout() != null
+				while (comp.getParent() != null && comp.getParent().getLayout() != null
 						&& comp.getParent().getLayout() instanceof GridLayout) {
 					comp = comp.getParent();
 				}
@@ -158,22 +147,15 @@ public class GrammarBindingViewer implements MouseListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.swt.events.MouseListener#mouseDown(org.eclipse.swt.events
-	 * .MouseEvent)
+	 * @see org.eclipse.swt.events.MouseListener#mouseDown(org.eclipse.swt.events .MouseEvent)
 	 */
 	@Override
-	public void mouseDown(MouseEvent e) {
-	}
+	public void mouseDown(MouseEvent e) {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.MouseListener#mouseUp(org.eclipse.swt.events.
-	 * MouseEvent)
+	 * @see org.eclipse.swt.events.MouseListener#mouseUp(org.eclipse.swt.events. MouseEvent)
 	 */
 	@Override
-	public void mouseUp(MouseEvent e) {
-	}
+	public void mouseUp(MouseEvent e) {}
 }

@@ -19,11 +19,8 @@ public class GrammarFileFactory implements IMediaFileFactory {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.projects.core.IMediaFileFactory#createMediaFile
-	 * (org.eclipse.vtp.desktop.projects.core.IMediaContainer,
-	 * org.eclipse.core.resources.IFile)
+	 * @see org.eclipse.vtp.desktop.projects.core.IMediaFileFactory#createMediaFile
+	 * (org.eclipse.vtp.desktop.projects.core.IMediaContainer, org.eclipse.core.resources.IFile)
 	 */
 	@Override
 	public IMediaFile createMediaFile(IMediaContainer container, IFile file) {

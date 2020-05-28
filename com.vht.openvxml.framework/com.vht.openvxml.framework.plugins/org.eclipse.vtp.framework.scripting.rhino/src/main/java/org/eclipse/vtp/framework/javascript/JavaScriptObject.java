@@ -34,63 +34,39 @@ public class JavaScriptObject extends ScriptableObject implements Wrapper {
 	/**
 	 * Converts a Java object into a JavaScript object.
 	 * 
-	 * @param object
-	 *            Java The object to convert.
-	 * @param start
-	 *            The top scope object used for conversion.
+	 * @param object Java The object to convert.
+	 * @param start The top scope object used for conversion.
 	 * @return The converted JavaScript object.
 	 */
 	protected static Object javaToJS(Object object, Scriptable start) {
-		if (object == null) {
-			return Context.getUndefinedValue();
-		}
+		if (object == null) { return Context.getUndefinedValue(); }
 		if (object instanceof Object[]) {
 			Object[] input = (Object[]) object;
-			Scriptable output = Context.getCurrentContext().newArray(start,
-					input.length);
+			Scriptable output = Context.getCurrentContext().newArray(start, input.length);
 			for (int i = 0; i < input.length; ++i) {
 				output.put(i, start, javaToJS(input[i], start));
 			}
 			return output;
 		}
-		if (object instanceof IScriptable) {
-			return new JavaScriptObject((IScriptable) object);
-		}
-		if (object instanceof Calendar) {
-			return object;
-		}
-		if (object instanceof ZonedDateTime) {
-			return object;
-		}
+		if (object instanceof IScriptable) { return new JavaScriptObject((IScriptable) object); }
+		if (object instanceof Calendar) { return object; }
+		if (object instanceof ZonedDateTime) { return object; }
 		return Context.javaToJS(object, start);
 	}
 
 	/**
 	 * Converts a JavaScript object into a Java string.
 	 * 
-	 * @param object
-	 *            JavaScript The object to convert.
+	 * @param object JavaScript The object to convert.
 	 * @return The converted Java string.
 	 */
 	protected static Object jsToJava(Object object) {
-		if (object == null) {
-			return null;
-		}
-		if (object.equals(Context.getUndefinedValue())) {
-			return null;
-		}
-		if (object instanceof Calendar) {
-			return object;
-		}
-		if (object instanceof ZonedDateTime) {
-			return object;
-		}
-		if (object instanceof JavaScriptObject) {
-			return ((JavaScriptObject) object).scriptable;
-		}
-		if (object instanceof NativeJavaObject) {
-			return ((NativeJavaObject) object).unwrap();
-		}
+		if (object == null) { return null; }
+		if (object.equals(Context.getUndefinedValue())) { return null; }
+		if (object instanceof Calendar) { return object; }
+		if (object instanceof ZonedDateTime) { return object; }
+		if (object instanceof JavaScriptObject) { return ((JavaScriptObject) object).scriptable; }
+		if (object instanceof NativeJavaObject) { return ((NativeJavaObject) object).unwrap(); }
 		if (object instanceof Scriptable) {
 			Scriptable input = (Scriptable) object;
 			int count = 0;
@@ -116,8 +92,7 @@ public class JavaScriptObject extends ScriptableObject implements Wrapper {
 	/**
 	 * Creates a new ScriptableHost.
 	 * 
-	 * @param scriptable
-	 *            The scriptable to manage.
+	 * @param scriptable The scriptable to manage.
 	 */
 	public JavaScriptObject(IScriptable scriptable) {
 		this.scriptable = scriptable;
@@ -126,8 +101,7 @@ public class JavaScriptObject extends ScriptableObject implements Wrapper {
 			for (String functionName : functionNames) {
 				if (functionName != null) {
 					defineProperty(functionName, new Function(functionName),
-							ScriptableObject.PERMANENT
-									| ScriptableObject.READONLY
+							ScriptableObject.PERMANENT | ScriptableObject.READONLY
 									| ScriptableObject.DONTENUM);
 				}
 			}
@@ -145,7 +119,6 @@ public class JavaScriptObject extends ScriptableObject implements Wrapper {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.mozilla.javascript.Wrapper#unwrap()
 	 */
 	@Override
@@ -165,9 +138,7 @@ public class JavaScriptObject extends ScriptableObject implements Wrapper {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.mozilla.javascript.ScriptableObject#has(int,
-	 * org.mozilla.javascript.Scriptable)
+	 * @see org.mozilla.javascript.ScriptableObject#has(int, org.mozilla.javascript.Scriptable)
 	 */
 	@Override
 	public boolean has(int index, Scriptable start) {
@@ -176,7 +147,6 @@ public class JavaScriptObject extends ScriptableObject implements Wrapper {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.mozilla.javascript.ScriptableObject#has(java.lang.String,
 	 * org.mozilla.javascript.Scriptable)
 	 */
@@ -187,9 +157,7 @@ public class JavaScriptObject extends ScriptableObject implements Wrapper {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.mozilla.javascript.ScriptableObject#get(int,
-	 * org.mozilla.javascript.Scriptable)
+	 * @see org.mozilla.javascript.ScriptableObject#get(int, org.mozilla.javascript.Scriptable)
 	 */
 	@Override
 	public Object get(int index, Scriptable start) {
@@ -198,23 +166,19 @@ public class JavaScriptObject extends ScriptableObject implements Wrapper {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String,
 	 * org.mozilla.javascript.Scriptable)
 	 */
 	@Override
 	public Object get(String name, Scriptable start) {
-		if (super.has(name, start)) {
-			return super.get(name, start);
-		}
+		if (super.has(name, start)) { return super.get(name, start); }
 		return javaToJS(scriptable.getEntry(name), this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.mozilla.javascript.ScriptableObject#put(int,
-	 * org.mozilla.javascript.Scriptable, java.lang.Object)
+	 * @see org.mozilla.javascript.ScriptableObject#put(int, org.mozilla.javascript.Scriptable,
+	 * java.lang.Object)
 	 */
 	@Override
 	public void put(int index, Scriptable start, Object value) {
@@ -223,15 +187,12 @@ public class JavaScriptObject extends ScriptableObject implements Wrapper {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.mozilla.javascript.ScriptableObject#put(java.lang.String,
 	 * org.mozilla.javascript.Scriptable, java.lang.Object)
 	 */
 	@Override
 	public void put(String name, Scriptable start, Object value) {
-		if (super.has(name, start)) {
-			return;
-		}
+		if (super.has(name, start)) { return; }
 		if ("valueOf".equals(name)) //$NON-NLS-1$
 		{
 			super.put(name, start, value);
@@ -248,7 +209,6 @@ public class JavaScriptObject extends ScriptableObject implements Wrapper {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.mozilla.javascript.ScriptableObject#delete(int)
 	 */
 	@Override
@@ -258,7 +218,6 @@ public class JavaScriptObject extends ScriptableObject implements Wrapper {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.mozilla.javascript.ScriptableObject#delete(java.lang.String)
 	 */
 	@Override
@@ -270,7 +229,6 @@ public class JavaScriptObject extends ScriptableObject implements Wrapper {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.mozilla.javascript.ScriptableObject#getClassName()
 	 */
 	@Override
@@ -293,8 +251,7 @@ public class JavaScriptObject extends ScriptableObject implements Wrapper {
 		/**
 		 * Creates a new FunctionInstance.
 		 * 
-		 * @param name
-		 *            The name of the function.
+		 * @param name The name of the function.
 		 */
 		Function(String name) {
 			this.name = name;
@@ -302,7 +259,6 @@ public class JavaScriptObject extends ScriptableObject implements Wrapper {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.mozilla.javascript.BaseFunction#getFunctionName()
 		 */
 		@Override
@@ -312,15 +268,11 @@ public class JavaScriptObject extends ScriptableObject implements Wrapper {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.mozilla.javascript.BaseFunction#call(org.mozilla.javascript.Context
-		 * , org.mozilla.javascript.Scriptable,
-		 * org.mozilla.javascript.Scriptable, java.lang.Object[])
+		 * @see org.mozilla.javascript.BaseFunction#call(org.mozilla.javascript.Context ,
+		 * org.mozilla.javascript.Scriptable, org.mozilla.javascript.Scriptable, java.lang.Object[])
 		 */
 		@Override
-		public Object call(Context ctx, Scriptable scope, Scriptable thisObj,
-				Object[] args) {
+		public Object call(Context ctx, Scriptable scope, Scriptable thisObj, Object[] args) {
 			if ("valueOf".equals(name)) //$NON-NLS-1$
 			{
 				Object value = scriptable;

@@ -14,11 +14,9 @@ import org.w3c.dom.Element;
 import com.openmethods.openvxml.desktop.model.dependencies.IExternalDependenciesProjectAspect;
 import com.openmethods.openvxml.desktop.model.workflow.IWorkflowProjectAspect;
 
-public class ExternalDependenciesProjectAspectFactory implements
-		IOpenVXMLProjectAspectFactory {
+public class ExternalDependenciesProjectAspectFactory implements IOpenVXMLProjectAspectFactory {
 
-	public ExternalDependenciesProjectAspectFactory() {
-	}
+	public ExternalDependenciesProjectAspectFactory() {}
 
 	@Override
 	public String getAspectId() {
@@ -33,10 +31,8 @@ public class ExternalDependenciesProjectAspectFactory implements
 	}
 
 	@Override
-	public void createProjectLayout(IOpenVXMLProject project,
-			Element aspectConfiguration) {
-		IFolder dependenciesFolder = project.getUnderlyingProject().getFolder(
-				"Dependencies");
+	public void createProjectLayout(IOpenVXMLProject project, Element aspectConfiguration) {
+		IFolder dependenciesFolder = project.getUnderlyingProject().getFolder("Dependencies");
 		if (!dependenciesFolder.exists()) {
 			try {
 				dependenciesFolder.create(true, true, null);
@@ -47,16 +43,15 @@ public class ExternalDependenciesProjectAspectFactory implements
 	}
 
 	@Override
-	public boolean configureProject(IOpenVXMLProject project,
-			IProjectDescription description, Element aspectConfiguration) {
+	public boolean configureProject(IOpenVXMLProject project, IProjectDescription description,
+			Element aspectConfiguration) {
 		return false;
 	}
 
 	@Override
 	public OpenVXMLProjectAspect createProjectAspect(IOpenVXMLProject project,
 			Element aspectConfiguration) {
-		return new ExternalDependenciesProjectAspect(project,
-				aspectConfiguration);
+		return new ExternalDependenciesProjectAspect(project, aspectConfiguration);
 	}
 
 }

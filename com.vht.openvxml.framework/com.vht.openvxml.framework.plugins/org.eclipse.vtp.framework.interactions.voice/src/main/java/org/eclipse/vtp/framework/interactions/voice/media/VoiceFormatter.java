@@ -25,13 +25,12 @@ public abstract class VoiceFormatter implements IFormatter {
 	}
 
 	/**
-	 * Convenience function to locate a requested audio resource given the
-	 * expected path and filename. This function attempts the locate the file
-	 * using a set of file extensions. If the file is not located, the provided
-	 * alternate text is wrapped in a TextContent object and returned.<br>
+	 * Convenience function to locate a requested audio resource given the expected path and
+	 * filename. This function attempts the locate the file using a set of file extensions. If the
+	 * file is not located, the provided alternate text is wrapped in a TextContent object and
+	 * returned.<br>
 	 * <br>
-	 * The file resource is located using the following audio file extension in
-	 * descending order:<br>
+	 * The file resource is located using the following audio file extension in descending order:<br>
 	 * <table>
 	 * <tr>
 	 * <td>Extension</td><!--
@@ -52,20 +51,16 @@ public abstract class VoiceFormatter implements IFormatter {
 	 * </tr>
 	 * </table>
 	 * 
-	 * @param resourceManager
-	 *            Provides access to the available file resources.
-	 * @param path
-	 *            The path to the file. This path is rooted at the voice project
-	 *            utilizing this language formatter.
-	 * @param filename
-	 *            The name of the file minus the extension.
-	 * @param defaultText
-	 *            The default text to be used if the file is not located.
-	 * @return Either a AudioContent with the requested audio resource, or the
-	 *         provided alternate text wrapped in a TextContent object.
+	 * @param resourceManager Provides access to the available file resources.
+	 * @param path The path to the file. This path is rooted at the voice project utilizing this
+	 *            language formatter.
+	 * @param filename The name of the file minus the extension.
+	 * @param defaultText The default text to be used if the file is not located.
+	 * @return Either a AudioContent with the requested audio resource, or the provided alternate
+	 *         text wrapped in a TextContent object.
 	 */
-	protected Content getAudioContent(IResourceManager resourceManager,
-			String path, String filename, String defaultText) {
+	protected Content getAudioContent(IResourceManager resourceManager, String path,
+			String filename, String defaultText) {
 		Content ret = null;
 		if (resourceManager.isFileResource(path + filename + ".wav")) {
 			AudioContent ac = new AudioContent();
@@ -88,38 +83,31 @@ public abstract class VoiceFormatter implements IFormatter {
 	}
 
 	@Override
-	public List<Content> formatDate(Calendar cal, String formatDefinition,
-			String formatOptions, IResourceManager resourceManager) {
-		return formatDate(cal.getTime(), formatDefinition, formatOptions,
-				resourceManager);
+	public List<Content> formatDate(Calendar cal, String formatDefinition, String formatOptions,
+			IResourceManager resourceManager) {
+		return formatDate(cal.getTime(), formatDefinition, formatOptions, resourceManager);
 	}
 
 	@Override
 	public List<Content> formatDate(ZonedDateTime zdt, String formatDefinition,
 			String formatOptions, IResourceManager resourceManager) {
-		return formatDate(Date.from(zdt.toInstant()), formatDefinition,
-				formatOptions, resourceManager);
+		return formatDate(Date.from(zdt.toInstant()), formatDefinition, formatOptions,
+				resourceManager);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.interactions.core.media.IFormatter#
-	 * getDefaultFormatDefintion
-	 * (org.eclipse.vtp.framework.interactions.core.media.FormattableContent,
-	 * java.lang.String)
+	 * @see org.eclipse.vtp.framework.interactions.core.media.IFormatter# getDefaultFormatDefintion
+	 * (org.eclipse.vtp.framework.interactions.core.media.FormattableContent, java.lang.String)
 	 */
 	@Override
-	public String getDefaultFormatDefintion(FormattableContent formattable,
-			String formatName) {
+	public String getDefaultFormatDefintion(FormattableContent formattable, String formatName) {
 		return formatName;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.interactions.core.media.IFormatter#
-	 * getDefaultFormats
+	 * @see org.eclipse.vtp.framework.interactions.core.media.IFormatter# getDefaultFormats
 	 * (org.eclipse.vtp.framework.interactions.core.media.FormattableContent)
 	 */
 	@Override

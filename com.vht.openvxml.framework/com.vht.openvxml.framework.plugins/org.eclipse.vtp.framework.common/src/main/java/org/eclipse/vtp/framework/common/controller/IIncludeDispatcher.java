@@ -12,8 +12,8 @@
 package org.eclipse.vtp.framework.common.controller;
 
 /**
- * A dispatcher that suspends the current process, forwards control to another
- * process, and resumes the current process when the target process completes.
+ * A dispatcher that suspends the current process, forwards control to another process, and resumes
+ * the current process when the target process completes.
  * 
  * @author Lonnie Pryor
  */
@@ -21,20 +21,16 @@ public interface IIncludeDispatcher extends IDispatcher {
 	/**
 	 * Configures a parameter set when the current process resumes.
 	 * 
-	 * @param name
-	 *            The name of the parameter to set.
-	 * @param value
-	 *            The value to set the parameter to.
+	 * @param name The name of the parameter to set.
+	 * @param value The value to set the parameter to.
 	 */
 	void setParameterValue(String name, String value);
 
 	/**
 	 * Configures a parameter set when the current process resumes.
 	 * 
-	 * @param name
-	 *            The name of the parameter to set.
-	 * @param values
-	 *            The values to set the parameter to.
+	 * @param name The name of the parameter to set.
+	 * @param values The values to set the parameter to.
 	 */
 	void setParameterValues(String name, String[] values);
 }

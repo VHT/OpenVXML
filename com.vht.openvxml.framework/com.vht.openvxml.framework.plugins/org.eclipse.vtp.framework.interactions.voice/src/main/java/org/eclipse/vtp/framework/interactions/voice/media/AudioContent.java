@@ -18,8 +18,7 @@ import org.w3c.dom.Element;
 public class AudioContent extends FileContent {
 	public static final String ELEMENT_NAME = "audio-content"; //$NON-NLS-1$
 
-	public AudioContent() {
-	}
+	public AudioContent() {}
 
 	public AudioContent(Element element) {
 		super(element);
@@ -46,9 +45,7 @@ public class AudioContent extends FileContent {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.media.Content#createCopy()
+	 * @see org.eclipse.vtp.framework.interactions.core.media.Content#createCopy()
 	 */
 	@Override
 	public Content createCopy() {

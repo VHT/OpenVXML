@@ -25,25 +25,19 @@ public interface IArrayObject extends IDataObject {
 	/**
 	 * Adds an item to the end of this array.
 	 * 
-	 * @param item
-	 *            The name item to add to this array.
-	 * @throws IllegalArgumentException
-	 *             If the supplied item was not created by the registry that
+	 * @param item The name item to add to this array.
+	 * @throws IllegalArgumentException If the supplied item was not created by the registry that
 	 *             created this array.
-	 * @throws IllegalStateException
-	 *             If this object is read-only.
+	 * @throws IllegalStateException If this object is read-only.
 	 */
-	void addElement(IDataObject item) throws IllegalArgumentException,
-			IllegalStateException;
+	void addElement(IDataObject item) throws IllegalArgumentException, IllegalStateException;
 
 	/**
 	 * Returns the item at the specified index in this array.
 	 * 
-	 * @param index
-	 *            The index of the item to return.
+	 * @param index The index of the item to return.
 	 * @return The item at the specified index in this array.
-	 * @throws IndexOutOfBoundsException
-	 *             If the specified index is less than zero or greater than or
+	 * @throws IndexOutOfBoundsException If the specified index is less than zero or greater than or
 	 *             equal to the length of this array.
 	 */
 	IDataObject getElement(int index) throws IndexOutOfBoundsException;
@@ -58,54 +52,38 @@ public interface IArrayObject extends IDataObject {
 	/**
 	 * Inserts an item at the specified index in this array.
 	 * 
-	 * @param index
-	 *            The index to insert the item at.
-	 * @param item
-	 *            The item to insert into this array.
-	 * @throws IllegalArgumentException
-	 *             If the supplied item was not created by the registry that
+	 * @param index The index to insert the item at.
+	 * @param item The item to insert into this array.
+	 * @throws IllegalArgumentException If the supplied item was not created by the registry that
 	 *             created this array.
-	 * @throws IllegalStateException
-	 *             If this object is read-only.
-	 * @throws IndexOutOfBoundsException
-	 *             If the specified index is less than zero or greater than the
-	 *             length of this array.
+	 * @throws IllegalStateException If this object is read-only.
+	 * @throws IndexOutOfBoundsException If the specified index is less than zero or greater than
+	 *             the length of this array.
 	 */
-	void insertElement(int index, IDataObject item)
-			throws IllegalArgumentException, IllegalStateException,
-			IndexOutOfBoundsException;
+	void insertElement(int index, IDataObject item) throws IllegalArgumentException,
+			IllegalStateException, IndexOutOfBoundsException;
 
 	/**
 	 * Removes the item at the specified index in this array.
 	 * 
-	 * @param item
-	 *            The item to remove from this array.
-	 * @throws IllegalStateException
-	 *             If this object is read-only.
-	 * @throws IndexOutOfBoundsException
-	 *             If the specified index is less than zero or greater than or
+	 * @param item The item to remove from this array.
+	 * @throws IllegalStateException If this object is read-only.
+	 * @throws IndexOutOfBoundsException If the specified index is less than zero or greater than or
 	 *             equal to the length of this array.
 	 */
-	void removeElement(int index) throws IllegalStateException,
-			IndexOutOfBoundsException;
+	void removeElement(int index) throws IllegalStateException, IndexOutOfBoundsException;
 
 	/**
 	 * Sets the item at the specified index in this array.
 	 * 
-	 * @param index
-	 *            The index to set the item at.
-	 * @param item
-	 *            The item to set at the specified index in this array.
-	 * @throws IllegalArgumentException
-	 *             If the supplied item was not created by the registry that
+	 * @param index The index to set the item at.
+	 * @param item The item to set at the specified index in this array.
+	 * @throws IllegalArgumentException If the supplied item was not created by the registry that
 	 *             created this array.
-	 * @throws IllegalStateException
-	 *             If this object is read-only.
-	 * @throws IndexOutOfBoundsException
-	 *             If the specified index is less than zero or greater than the
-	 *             length of this array.
+	 * @throws IllegalStateException If this object is read-only.
+	 * @throws IndexOutOfBoundsException If the specified index is less than zero or greater than
+	 *             the length of this array.
 	 */
-	void setElement(int index, IDataObject item)
-			throws IllegalArgumentException, IllegalStateException,
-			IndexOutOfBoundsException;
+	void setElement(int index, IDataObject item) throws IllegalArgumentException,
+			IllegalStateException, IndexOutOfBoundsException;
 }

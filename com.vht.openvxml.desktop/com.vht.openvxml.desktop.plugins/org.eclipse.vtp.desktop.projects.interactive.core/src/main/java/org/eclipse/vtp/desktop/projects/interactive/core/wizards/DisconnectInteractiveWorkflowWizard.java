@@ -27,13 +27,11 @@ public class DisconnectInteractiveWorkflowWizard extends Wizard {
 		this.umbrellaProject = vxmlProject.getParentProject();
 		IBrandingProjectAspect brandingAspect = (IBrandingProjectAspect) umbrellaProject
 				.getProjectAspect(IBrandingProjectAspect.ASPECT_ID);
-		parentBrandManager = new ConfigurationBrandManager(
-				brandingAspect.getBrandManager());
+		parentBrandManager = new ConfigurationBrandManager(brandingAspect.getBrandManager());
 		LanguageSupportProjectAspect languageAspect = (LanguageSupportProjectAspect) umbrellaProject
 				.getProjectAspect(ILanguageSupportProjectAspect.ASPECT_ID);
 		parentInteractionManager = new InteractionSupportManager();
-		parentInteractionManager.init(languageAspect
-				.getInteractionTypeSupport());
+		parentInteractionManager.init(languageAspect.getInteractionTypeSupport());
 		this.addPage(new ConfirmPage());
 	}
 
@@ -46,9 +44,7 @@ public class DisconnectInteractiveWorkflowWizard extends Wizard {
 		LanguageSupportProjectAspect childLanguageAspect = (LanguageSupportProjectAspect) vxmlProject
 				.getProjectAspect(ILanguageSupportProjectAspect.ASPECT_ID);
 		if (childLanguageAspect != null) {
-			childLanguageAspect
-					.setInteractionTypeSupport(parentInteractionManager
-							.getSupport());
+			childLanguageAspect.setInteractionTypeSupport(parentInteractionManager.getSupport());
 		}
 		vxmlProject.storeBuildPath();
 		return true;

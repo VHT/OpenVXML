@@ -24,8 +24,7 @@ public class ContentComposite extends Content {
 	public static final String ELEMENT_NAME = "composite-content"; //$NON-NLS-1$
 	private List<Content> children = new ArrayList<Content>();
 
-	public ContentComposite() {
-	}
+	public ContentComposite() {}
 
 	public ContentComposite(List<Content> content) {
 		children.addAll(content);
@@ -54,18 +53,14 @@ public class ContentComposite extends Content {
 
 	public void moveContentUp(Content content) {
 		int idex = children.indexOf(content);
-		if (idex < 1) {
-			return;
-		}
+		if (idex < 1) { return; }
 		children.remove(content);
 		children.add(idex - 1, content);
 	}
 
 	public void moveContentDown(Content content) {
 		int idex = children.indexOf(content);
-		if (idex < 0 || idex > children.size() - 2) {
-			return;
-		}
+		if (idex < 0 || idex > children.size() - 2) { return; }
 		children.remove(content);
 		children.add(idex + 1, content);
 	}
@@ -76,8 +71,8 @@ public class ContentComposite extends Content {
 
 	@Override
 	public Element store(Element element) {
-		Element thisElement = element.getOwnerDocument().createElementNS(
-				ELEMENT_NAMESPACE, ELEMENT_NAME);
+		Element thisElement = element.getOwnerDocument().createElementNS(ELEMENT_NAMESPACE,
+				ELEMENT_NAME);
 		element.appendChild(thisElement);
 		for (Content c : children) {
 			c.store(thisElement);
@@ -110,9 +105,7 @@ public class ContentComposite extends Content {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.media.Content#createCopy()
+	 * @see org.eclipse.vtp.framework.interactions.core.media.Content#createCopy()
 	 */
 	@Override
 	public Content createCopy() {

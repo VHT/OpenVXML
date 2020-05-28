@@ -25,9 +25,7 @@ public class LanguageSupport implements Cloneable {
 		String key = brand.getId();
 		String projectId = projectMappings.get(key);
 		if (inherit && projectId == null) {
-			if (brand.getParent() != null) {
-				return getMediaProjectId(brand.getParent());
-			}
+			if (brand.getParent() != null) { return getMediaProjectId(brand.getParent()); }
 		}
 		return projectId;
 	}

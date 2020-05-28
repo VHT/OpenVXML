@@ -26,14 +26,11 @@ import org.w3c.dom.NodeList;
 public class AttachedDataBinding extends GenericBinding {
 
 	/**
-	 * Creates a new <code>AttachedDataBinding</code> instance with the given
-	 * name and managed by the <code>AttachedDataManager</code> instance
-	 * provided.
+	 * Creates a new <code>AttachedDataBinding</code> instance with the given name and managed by
+	 * the <code>AttachedDataManager</code> instance provided.
 	 * 
-	 * @param manager
-	 *            The binding container to manage this binding
-	 * @param name
-	 *            The name of this binding
+	 * @param manager The binding container to manage this binding
+	 * @param name The name of this binding
 	 * @see GenericBinding#GenericBinding(AttachedDataManager, String)
 	 */
 	public AttachedDataBinding(AttachedDataManager manager, String name) {
@@ -41,25 +38,20 @@ public class AttachedDataBinding extends GenericBinding {
 	}
 
 	/**
-	 * Locates the <code>AttachedDataBindingItem</code> mapped to the given
-	 * brand, interactionType, and language. If there is not an item already
-	 * mapped to the provided information a new binding item is created and
-	 * returned.
+	 * Locates the <code>AttachedDataBindingItem</code> mapped to the given brand, interactionType,
+	 * and language. If there is not an item already mapped to the provided information a new
+	 * binding item is created and returned.
 	 * 
-	 * @param brand
-	 *            The brand the binding item pertains to
-	 * @param interactionType
-	 *            The interaction type the binding item is valid for
-	 * @param language
-	 *            The language the binding item is associated with
-	 * @return The binding item registered under the given brand, interaction
-	 *         type, and language, or a new binding item instance if none was
-	 *         registered previously.
+	 * @param brand The brand the binding item pertains to
+	 * @param interactionType The interaction type the binding item is valid for
+	 * @param language The language the binding item is associated with
+	 * @return The binding item registered under the given brand, interaction type, and language, or
+	 *         a new binding item instance if none was registered previously.
 	 */
-	public AttachedDataBindingItem getAttachedDataItem(String brand,
-			String interactionType, String language) {
-		AttachedDataBindingItem attachedDataBinding = (AttachedDataBindingItem) super
-				.getItem(brand, interactionType, language);
+	public AttachedDataBindingItem getAttachedDataItem(String brand, String interactionType,
+			String language) {
+		AttachedDataBindingItem attachedDataBinding = (AttachedDataBindingItem) super.getItem(
+				brand, interactionType, language);
 		if (attachedDataBinding == null) // no current items
 		{
 			attachedDataBinding = new AttachedDataBindingItem();
@@ -74,9 +66,7 @@ public class AttachedDataBinding extends GenericBinding {
 				if (entry.getValue() != null) {
 					List<AttachedDataItemEntry> entries = ((AttachedDataBindingItem) entry
 							.getValue()).getEntries();
-					if (entries.size() > 0) {
-						return true;
-					}
+					if (entries.size() > 0) { return true; }
 				}
 			}
 		}
@@ -84,29 +74,22 @@ public class AttachedDataBinding extends GenericBinding {
 	}
 
 	/**
-	 * Registers the binding item instance under the given brand, interaction
-	 * type, and language. Any previously mapped binding item will be replaced
-	 * and disposed of.
+	 * Registers the binding item instance under the given brand, interaction type, and language.
+	 * Any previously mapped binding item will be replaced and disposed of.
 	 * 
-	 * @param brand
-	 *            The brand to map the binding item to
-	 * @param interactionType
-	 *            The interaction type to map the binding item to
-	 * @param language
-	 *            The language associated with the binding item
-	 * @param item
-	 *            The binding item to map to the given information.
+	 * @param brand The brand to map the binding item to
+	 * @param interactionType The interaction type to map the binding item to
+	 * @param language The language associated with the binding item
+	 * @param item The binding item to map to the given information.
 	 */
-	public void putAttachedDataItem(String brand, String interactionType,
-			String language, AttachedDataBindingItem item) {
+	public void putAttachedDataItem(String brand, String interactionType, String language,
+			AttachedDataBindingItem item) {
 		super.putItem(brand, interactionType, language, item);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.configuration.attacheddata.GenericBinding
+	 * @see org.eclipse.vtp.desktop.core.configuration.attacheddata.GenericBinding
 	 * #readBindingItem(org.w3c.dom.Element)
 	 */
 	@Override
@@ -144,23 +127,17 @@ public class AttachedDataBinding extends GenericBinding {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.configuration.attacheddata.GenericBinding
-	 * #writeBindingItem
-	 * (org.eclipse.vtp.desktop.core.configuration.attacheddata.
-	 * GenericBindingItem, org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.desktop.core.configuration.attacheddata.GenericBinding #writeBindingItem
+	 * (org.eclipse.vtp.desktop.core.configuration.attacheddata. GenericBindingItem,
+	 * org.w3c.dom.Element)
 	 */
 	@Override
-	public void writeBindingItem(GenericBindingItem item,
-			Element itemConfiguration) {
-		for (AttachedDataItemEntry entry : ((AttachedDataBindingItem) item)
-				.getEntries()) {
+	public void writeBindingItem(GenericBindingItem item, Element itemConfiguration) {
+		for (AttachedDataItemEntry entry : ((AttachedDataBindingItem) item).getEntries()) {
 			if (entry.getValue() == null) {
 				continue;
 			}
-			Element entryElement = itemConfiguration.getOwnerDocument()
-					.createElement("entry");
+			Element entryElement = itemConfiguration.getOwnerDocument().createElement("entry");
 			itemConfiguration.appendChild(entryElement);
 			entryElement.setAttribute("name", entry.getName());
 			String dataTypeString = "static"; //$NON-NLS-1$

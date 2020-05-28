@@ -23,8 +23,7 @@ import org.w3c.dom.Element;
  * 
  * @author Lonnie Pryor
  */
-public class WebServiceConfiguration implements IConfiguration,
-		WebServiceConstants {
+public class WebServiceConfiguration implements IConfiguration, WebServiceConstants {
 	private String serviceType = SOAP;
 	private String urlType = STATIC;
 	private String url = null;
@@ -40,8 +39,7 @@ public class WebServiceConfiguration implements IConfiguration,
 	/**
 	 * Creates a new DatabaseConfiguration.
 	 */
-	public WebServiceConfiguration() {
-	}
+	public WebServiceConfiguration() {}
 
 	public String getServiceType() {
 		return serviceType;
@@ -107,14 +105,12 @@ public class WebServiceConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#load( org.w3c.dom.Element)
 	 */
 	@Override
 	public void load(Element configurationElement) {
-		List<Element> serviceElementList = XMLUtilities.getElementsByTagName(
-				configurationElement, NAME_SERVICE_INFO, true);
+		List<Element> serviceElementList = XMLUtilities.getElementsByTagName(configurationElement,
+				NAME_SERVICE_INFO, true);
 		if (serviceElementList.size() > 0) {
 			Element serviceElement = serviceElementList.get(0);
 			serviceType = serviceElement.getAttribute(NAME_SERVICE_TYPE);
@@ -123,21 +119,19 @@ public class WebServiceConfiguration implements IConfiguration,
 			urlType = serviceElement.getAttribute(NAME_URL_TYPE);
 			url = serviceElement.getAttribute(NAME_URL);
 		}
-		List<Element> inputStructureElementList = XMLUtilities
-				.getElementsByTagName(configurationElement,
-						NAME_INPUT_STRUCTURE, true);
+		List<Element> inputStructureElementList = XMLUtilities.getElementsByTagName(
+				configurationElement, NAME_INPUT_STRUCTURE, true);
 		if (inputStructureElementList.size() > 0) {
 			inputStructure.readConfiguration(inputStructureElementList.get(0));
 		}
-		List<Element> outputElementList = XMLUtilities.getElementsByTagName(
-				configurationElement, NAME_OUTPUT, true);
+		List<Element> outputElementList = XMLUtilities.getElementsByTagName(configurationElement,
+				NAME_OUTPUT, true);
 		if (outputElementList.size() > 0) {
 			Element outputElement = outputElementList.get(0);
 			variableName = outputElement.getAttribute(NAME_VARIABLE);
 			process = "true".equals(outputElement.getAttribute(NAME_PROCESS));
 			try {
-				outputScriptText = XMLUtilities.getElementTextData(
-						outputElement, true);
+				outputScriptText = XMLUtilities.getElementTextData(outputElement, true);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -146,26 +140,24 @@ public class WebServiceConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#save( org.w3c.dom.Element)
 	 */
 	@Override
 	public void save(Element configurationElement) {
-		Element serviceElement = configurationElement.getOwnerDocument()
-				.createElementNS(null, NAME_SERVICE_INFO);
+		Element serviceElement = configurationElement.getOwnerDocument().createElementNS(null,
+				NAME_SERVICE_INFO);
 		configurationElement.appendChild(serviceElement);
 		serviceElement.setAttribute(NAME_SERVICE_TYPE, serviceType);
 		serviceElement.setAttribute(NAME_SOAP_ACTION_TYPE, soapActionType);
 		serviceElement.setAttribute(NAME_SOAP_ACTION, soapAction);
 		serviceElement.setAttribute(NAME_URL_TYPE, urlType);
 		serviceElement.setAttribute(NAME_URL, url);
-		Element inputStructureElement = configurationElement.getOwnerDocument()
-				.createElementNS(null, NAME_INPUT_STRUCTURE);
+		Element inputStructureElement = configurationElement.getOwnerDocument().createElementNS(
+				null, NAME_INPUT_STRUCTURE);
 		configurationElement.appendChild(inputStructureElement);
 		inputStructure.writeConfiguration(inputStructureElement);
-		Element outputElement = configurationElement.getOwnerDocument()
-				.createElementNS(null, NAME_OUTPUT);
+		Element outputElement = configurationElement.getOwnerDocument().createElementNS(null,
+				NAME_OUTPUT);
 		configurationElement.appendChild(outputElement);
 		outputElement.setAttribute(NAME_VARIABLE, variableName);
 		outputElement.setAttribute(NAME_PROCESS, process ? "true" : "false");

@@ -39,8 +39,7 @@ public final class MetaDataMessageCommand extends ConversationCommand {
 	/**
 	 * Creates a new MetaDataMessageCommand.
 	 */
-	public MetaDataMessageCommand() {
-	}
+	public MetaDataMessageCommand() {}
 
 	/**
 	 * Returns the name of the parameter to pass the result of the request as.
@@ -54,9 +53,7 @@ public final class MetaDataMessageCommand extends ConversationCommand {
 	/**
 	 * Sets the name of the parameter to pass the result of the request as.
 	 * 
-	 * @param resultName
-	 *            The name of the parameter to pass the result of the request
-	 *            as.
+	 * @param resultName The name of the parameter to pass the result of the request as.
 	 */
 	public void setResultName(String resultName) {
 		this.resultName = resultName;
@@ -74,9 +71,7 @@ public final class MetaDataMessageCommand extends ConversationCommand {
 	/**
 	 * Sets the value of the result parameter to pass if the input is valid.
 	 * 
-	 * @param filledResultValue
-	 *            The value of the result parameter to pass if the input is
-	 *            valid.
+	 * @param filledResultValue The value of the result parameter to pass if the input is valid.
 	 */
 	public void setFilledResultValue(String filledResultValue) {
 		this.filledResultValue = filledResultValue;
@@ -94,9 +89,7 @@ public final class MetaDataMessageCommand extends ConversationCommand {
 	/**
 	 * Sets the value of the result parameter to pass if the caller hungup.
 	 * 
-	 * @param noInputResultValue
-	 *            The value of the result parameter to pass if the caller
-	 *            hungup.
+	 * @param noInputResultValue The value of the result parameter to pass if the caller hungup.
 	 */
 	public void setHangupResultValue(String hangupResultValue) {
 		this.hangupResultValue = hangupResultValue;
@@ -108,36 +101,28 @@ public final class MetaDataMessageCommand extends ConversationCommand {
 	 * @return The names of the meta-data in the interaction.
 	 */
 	public String[] getMetaDataNames() {
-		return (String[]) metaData.keySet()
-				.toArray(new String[metaData.size()]);
+		return (String[]) metaData.keySet().toArray(new String[metaData.size()]);
 	}
 
 	/**
 	 * Returns the value of a meta-data item in the interaction.
 	 * 
-	 * @param name
-	 *            The name of the meta-data item to be set.
+	 * @param name The name of the meta-data item to be set.
 	 * @return The value that the specified meta-data item will be set to.
 	 */
 	public String getMetaDataValue(String name) {
-		if (name == null) {
-			return null;
-		}
+		if (name == null) { return null; }
 		return (String) metaData.get(name);
 	}
 
 	/**
 	 * Configures a meta-data item in the interaction.
 	 * 
-	 * @param name
-	 *            The name of the meta-data item to set.
-	 * @param value
-	 *            The value to set the meta-data item to.
+	 * @param name The name of the meta-data item to set.
+	 * @param value The value to set the meta-data item to.
 	 */
 	public void setMetaDataValue(String name, String value) {
-		if (name == null) {
-			return;
-		}
+		if (name == null) { return; }
 		if (value == null) {
 			metaData.remove(name);
 		} else {
@@ -146,47 +131,35 @@ public final class MetaDataMessageCommand extends ConversationCommand {
 	}
 
 	/**
-	 * Returns the names of the parameters that will be returned from the
-	 * interaction.
+	 * Returns the names of the parameters that will be returned from the interaction.
 	 * 
-	 * @return The names of the parameters that will be returned from the
-	 *         interaction.
+	 * @return The names of the parameters that will be returned from the interaction.
 	 */
 	public String[] getParameterNames() {
-		return (String[]) parameters.keySet().toArray(
-				new String[parameters.size()]);
+		return (String[]) parameters.keySet().toArray(new String[parameters.size()]);
 	}
 
 	/**
 	 * Returns the values of a parameter to be set when the process resumes.
 	 * 
-	 * @param name
-	 *            The name of the parameter to be set.
+	 * @param name The name of the parameter to be set.
 	 * @return The values that specified parameter will be set to.
 	 */
 	public String[] getParameterValues(String name) {
-		if (name == null) {
-			return null;
-		}
+		if (name == null) { return null; }
 		List list = (List) parameters.get(name);
-		if (list == null) {
-			return null;
-		}
+		if (list == null) { return null; }
 		return (String[]) list.toArray(new String[list.size()]);
 	}
 
 	/**
 	 * Configures a parameter set when the current process resumes.
 	 * 
-	 * @param name
-	 *            The name of the parameter to set.
-	 * @param values
-	 *            The values to set the parameter to.
+	 * @param name The name of the parameter to set.
+	 * @param values The values to set the parameter to.
 	 */
 	public void setParameterValues(String name, String[] values) {
-		if (name == null) {
-			return;
-		}
+		if (name == null) { return; }
 		if (values == null) {
 			parameters.remove(name);
 		} else {
@@ -206,11 +179,8 @@ public final class MetaDataMessageCommand extends ConversationCommand {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.interactions.core.commands.
-	 * ConversationCommand#accept(
-	 * org.eclipse.vtp.framework.interactions.core.commands.
-	 * IConversationCommandVisitor)
+	 * @see org.eclipse.vtp.framework.interactions.core.commands. ConversationCommand#accept(
+	 * org.eclipse.vtp.framework.interactions.core.commands. IConversationCommandVisitor)
 	 */
 	@Override
 	Object accept(IConversationCommandVisitor visitor) {
@@ -219,7 +189,6 @@ public final class MetaDataMessageCommand extends ConversationCommand {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.ICommand#exportContents()
 	 */
 	@Override
@@ -236,17 +205,14 @@ public final class MetaDataMessageCommand extends ConversationCommand {
 			parameters.add(entry.getKey());
 			parameters.add(entry.getValue());
 		}
-		return new Object[] { resultName, filledResultValue,
-				Boolean.toString(ignoreErrors),
+		return new Object[] { resultName, filledResultValue, Boolean.toString(ignoreErrors),
 				metaData.toArray(new String[metaData.size()]),
 				parameters.toArray(new String[parameters.size()]) };
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.ICommand#importContents(
-	 * java.lang.Object)
+	 * @see org.eclipse.vtp.framework.spi.ICommand#importContents( java.lang.Object)
 	 */
 	@Override
 	public void importContents(Object contents) {

@@ -12,8 +12,8 @@
 package com.openmethods.openvxml.desktop.model.businessobjects;
 
 /**
- * This interface represents a definition of a business object field. This
- * includes the field name, data type definition, and initial value if any.
+ * This interface represents a definition of a business object field. This includes the field name,
+ * data type definition, and initial value if any.
  *
  * @author Trip Gilman
  * @version 2.0
@@ -30,8 +30,8 @@ public interface IBusinessObjectField {
 	public FieldType getDataType();
 
 	/**
-	 * @return The initial value this field will have when a new instance of
-	 *         it's containing business object is created
+	 * @return The initial value this field will have when a new instance of it's containing
+	 *         business object is created
 	 */
 	public String getInitialValue();
 

@@ -50,11 +50,9 @@ import org.eclipse.vtp.framework.util.Guid;
 
 public class VXMLBInitialAction extends InitialAction {
 
-	private static final Set INITAL_TYPES = Collections
-			.unmodifiableSet(new HashSet(Arrays.asList(new String[] {
-					IBooleanObject.TYPE_NAME, IDateObject.TYPE_NAME,
-					IDecimalObject.TYPE_NAME, INumberObject.TYPE_NAME,
-					IStringObject.TYPE_NAME })));
+	private static final Set INITAL_TYPES = Collections.unmodifiableSet(new HashSet(Arrays
+			.asList(new String[] { IBooleanObject.TYPE_NAME, IDateObject.TYPE_NAME,
+					IDecimalObject.TYPE_NAME, INumberObject.TYPE_NAME, IStringObject.TYPE_NAME })));
 
 	/** The conversation to use. */
 	private final IConversation conversation;
@@ -67,18 +65,13 @@ public class VXMLBInitialAction extends InitialAction {
 	private final ILanguageSelection languageSelection;
 	private final ILanguageRegistry languageRegistry;
 
-	public VXMLBInitialAction(IActionContext context,
-			IVariableRegistry variableRegistry,
-			IDataTypeRegistry dataTypeRegistry,
-			AssignmentConfiguration[] assignCongigs,
-			IConversation conversation, IBrandSelection brand,
-			IPlatformSelector platformSelector,
+	public VXMLBInitialAction(IActionContext context, IVariableRegistry variableRegistry,
+			IDataTypeRegistry dataTypeRegistry, AssignmentConfiguration[] assignCongigs,
+			IConversation conversation, IBrandSelection brand, IPlatformSelector platformSelector,
 			InitialConfiguration initialConfig, IBrandRegistry brandRegistry,
-			ILanguageSelection languageSelection,
-			ILanguageRegistry languageRegistry) {
-		super(context, variableRegistry, dataTypeRegistry, assignCongigs,
-				conversation, brand, platformSelector, initialConfig,
-				brandRegistry, languageSelection, languageRegistry);
+			ILanguageSelection languageSelection, ILanguageRegistry languageRegistry) {
+		super(context, variableRegistry, dataTypeRegistry, assignCongigs, conversation, brand,
+				platformSelector, initialConfig, brandRegistry, languageSelection, languageRegistry);
 
 		this.conversation = conversation;
 		this.brand = brand;
@@ -103,8 +96,7 @@ public class VXMLBInitialAction extends InitialAction {
 			if (context.isReportingEnabled()) {
 				Dictionary<String, Object> props = new Hashtable<String, Object>();
 				props.put("event", "initial.after");
-				context.report(IReporter.SEVERITY_INFO,
-						"Processing initial variables.", props);
+				context.report(IReporter.SEVERITY_INFO, "Processing initial variables.", props);
 			}
 			IDataObject platform = variableRegistry.createVariable("Platform");
 			String anivalue = context.getParameter("PLATFORM_ANI");
@@ -115,12 +107,10 @@ public class VXMLBInitialAction extends InitialAction {
 					props2.put("event.key", "Platform.ANI");
 					props2.put("event.value", String.valueOf(anivalue));
 					context.report(IReporter.SEVERITY_INFO,
-							"Assigned variable \"Platform.ANI\" to \""
-									+ anivalue + "\"", props2);
+							"Assigned variable \"Platform.ANI\" to \"" + anivalue + "\"", props2);
 				}
 				((IStringObject) platform.getField("ANI")).setValue(anivalue);
-				((IStringObject) platform.getField("PLATFORM_ANI"))
-						.setValue(anivalue);
+				((IStringObject) platform.getField("PLATFORM_ANI")).setValue(anivalue);
 			}
 			String dnisvalue = context.getParameter("PLATFORM_DNIS");
 			if (dnisvalue != null) {
@@ -130,30 +120,24 @@ public class VXMLBInitialAction extends InitialAction {
 					props2.put("event.key", "Platform.DNIS");
 					props2.put("event.value", String.valueOf(dnisvalue));
 					context.report(IReporter.SEVERITY_INFO,
-							"Assigned variable \"Platform.DNIS\" to \""
-									+ dnisvalue + "\"", props2);
+							"Assigned variable \"Platform.DNIS\" to \"" + dnisvalue + "\"", props2);
 				}
 				((IStringObject) platform.getField("DNIS")).setValue(dnisvalue);
-				((IStringObject) platform.getField("PLATFORM_DNIS"))
-						.setValue(dnisvalue);
+				((IStringObject) platform.getField("PLATFORM_DNIS")).setValue(dnisvalue);
 			}
 			IBrand b = brand.getSelectedBrand();
 			if (b != null) {
-				((IStringObject) platform.getField("Brand")).setValue(b
-						.getPath());
+				((IStringObject) platform.getField("Brand")).setValue(b.getPath());
 			} else {
-				b = brandRegistry.getBrandById(initialConfig
-						.getDefaultBrandId());
+				b = brandRegistry.getBrandById(initialConfig.getDefaultBrandId());
 				if (b != null) {
-					((IStringObject) platform.getField("Brand")).setValue(b
-							.getPath());
+					((IStringObject) platform.getField("Brand")).setValue(b.getPath());
 				} else {
-					((IStringObject) platform.getField("Brand"))
-							.setValue(brandRegistry.getDefaultBrand().getPath());
+					((IStringObject) platform.getField("Brand")).setValue(brandRegistry
+							.getDefaultBrand().getPath());
 				}
 			}
-			languageSelection.setDefaultLanguage(initialConfig
-					.getDefaultLanguageName());
+			languageSelection.setDefaultLanguage(initialConfig.getDefaultLanguageName());
 			variableRegistry.setVariable("Platform", platform);
 			Map values = new HashMap();
 			for (AssignmentConfiguration configuration : configurations) {
@@ -166,60 +150,49 @@ public class VXMLBInitialAction extends InitialAction {
 			// platform extension variables
 			AbstractPlatform abstractPlatform = (AbstractPlatform) platformSelector
 					.getSelectedPlatform();
-			List<String> incomingParametersNames = abstractPlatform
-					.getPlatformVariableNames();
+			List<String> incomingParametersNames = abstractPlatform.getPlatformVariableNames();
 			if (incomingParametersNames.size() > 0) {
 				for (int i = 0; i < incomingParametersNames.size(); i++) {
-					incomingParametersNames.set(
-							i,
-							incomingParametersNames.get(i).replaceAll(
-									Pattern.quote("."), "_"));
-					incomingParametersNames
-							.set(i,
-									incomingParametersNames.get(i).replaceAll(
-											"-", "_"));
+					incomingParametersNames.set(i, incomingParametersNames.get(i).replaceAll(
+							Pattern.quote("."), "_"));
+					incomingParametersNames.set(i, incomingParametersNames.get(i).replaceAll("-",
+							"_"));
 				}
 				CustomDataField[] platformFields = new CustomDataField[incomingParametersNames
 						.size()];
 				for (int i = 0; i < incomingParametersNames.size(); i++) {
-					platformFields[i] = new CustomDataField(
-							incomingParametersNames.get(i),
-							dataTypeRegistry
-									.getDataType(IStringObject.TYPE_NAME), "");
+					platformFields[i] = new CustomDataField(incomingParametersNames.get(i),
+							dataTypeRegistry.getDataType(IStringObject.TYPE_NAME), "");
 				}
-				CustomDataType cdt = new CustomDataType(Guid.createGUID(),
-						incomingParametersNames.get(0), platformFields);
-				IDataObject initialParameters = variableRegistry
-						.createVariable(cdt);
+				CustomDataType cdt = new CustomDataType(Guid.createGUID(), incomingParametersNames
+						.get(0), platformFields);
+				IDataObject initialParameters = variableRegistry.createVariable(cdt);
 				for (int i = 0; i < incomingParametersNames.size(); i++) {
-					System.out.println("Looping on incoming parameter name: "
-							+ i + " " + incomingParametersNames.get(i));// TODO
-																		// remove
-																		// this
-																		// line
-					String parameter = context
-							.getParameter(incomingParametersNames.get(i));
+					System.out.println("Looping on incoming parameter name: " + i + " "
+							+ incomingParametersNames.get(i));// TODO
+																// remove
+																// this
+																// line
+					String parameter = context.getParameter(incomingParametersNames.get(i));
 					IStringObject field = (IStringObject) initialParameters
 							.getField(incomingParametersNames.get(i));
 					if (field != null) {
 						if (incomingParametersNames.get(i).equals("ctiUUI")) {
 							; // Is this the Avaya UUI parameter?
 						}
-						field.setValue(parameter == null ? ""
-								: decodeUUI(parameter)); // Then decode it
+						field.setValue(parameter == null ? "" : decodeUUI(parameter)); // Then
+																						// decode it
 						field.setValue(parameter == null ? "" : parameter);
 					}
 				}
-				variableRegistry.setVariable("PlatformVariables",
-						initialParameters);
+				variableRegistry.setVariable("PlatformVariables", initialParameters);
 			}
 			return execute(values, false);
 		} else if (IConversation.RESULT_NAME_HANGUP.equals(result)) {
 			if (context.isReportingEnabled()) {
 				Dictionary<String, Object> props = new Hashtable<String, Object>();
 				props.put("event", "error.disconnect.hangup");
-				context.report(IReporter.SEVERITY_INFO,
-						"Got disconnect during interaction.", props);
+				context.report(IReporter.SEVERITY_INFO, "Got disconnect during interaction.", props);
 			}
 			return context.createResult(IConversation.RESULT_NAME_HANGUP);
 		} else if (result != null) {
@@ -228,57 +201,46 @@ public class VXMLBInitialAction extends InitialAction {
 			try {
 				String[] incomingParametersNames = context.getParameterNames();
 				for (int i = 0; i < incomingParametersNames.length; i++) {
-					incomingParametersNames[i] = incomingParametersNames[i]
-							.replaceAll(Pattern.quote("."), "_");
-					incomingParametersNames[i] = incomingParametersNames[i]
-							.replaceAll("-", "_");
+					incomingParametersNames[i] = incomingParametersNames[i].replaceAll(Pattern
+							.quote("."), "_");
+					incomingParametersNames[i] = incomingParametersNames[i].replaceAll("-", "_");
 				}
 				CustomDataField[] fields = new CustomDataField[incomingParametersNames.length];
 				for (int i = 0; i < incomingParametersNames.length; i++) {
-					fields[i] = new CustomDataField(incomingParametersNames[i],
-							dataTypeRegistry
-									.getDataType(IStringObject.TYPE_NAME), "");
+					fields[i] = new CustomDataField(incomingParametersNames[i], dataTypeRegistry
+							.getDataType(IStringObject.TYPE_NAME), "");
 				}
 				if (fields.length < 1) {
-					fields = new CustomDataField[] { new CustomDataField(
-							"empty",
-							dataTypeRegistry
-									.getDataType(IStringObject.TYPE_NAME), "") };
+					fields = new CustomDataField[] { new CustomDataField("empty", dataTypeRegistry
+							.getDataType(IStringObject.TYPE_NAME), "") };
 				}
-				CustomDataType cdt = new CustomDataType(
-						Guid.createGUID(),
-						incomingParametersNames.length > 1 ? incomingParametersNames[0]
-								: "empty", fields);
-				IDataObject initialParameters = variableRegistry
-						.createVariable(cdt);
+				CustomDataType cdt = new CustomDataType(Guid.createGUID(),
+						incomingParametersNames.length > 1 ? incomingParametersNames[0] : "empty",
+						fields);
+				IDataObject initialParameters = variableRegistry.createVariable(cdt);
 				for (String incomingParametersName : incomingParametersNames) {
-					String parameter = context
-							.getParameter(incomingParametersName);
+					String parameter = context.getParameter(incomingParametersName);
 					IStringObject field = (IStringObject) initialParameters
 							.getField(incomingParametersName);
 					if (field != null) {
 						field.setValue(parameter == null ? "" : parameter);
 					}
 				}
-				variableRegistry.setVariable("InitialParameters",
-						initialParameters);
+				variableRegistry.setVariable("InitialParameters", initialParameters);
 				if (context.isReportingEnabled()) {
 					Dictionary<String, Object> props = new Hashtable<String, Object>();
 					props.put("event", "initial.before");
-					context.report(IReporter.SEVERITY_INFO,
-							"Requesting initial variables.", props);
+					context.report(IReporter.SEVERITY_INFO, "Requesting initial variables.", props);
 				}
 				Map vars = new LinkedHashMap();
 				if ("true".equals(context.getAttribute("subdialog"))) {
 					for (AssignmentConfiguration configuration : configurations) {
 						if (INITAL_TYPES.contains(configuration.getType())) {
-							vars.put(configuration.getName(),
-									configuration.getValue());
+							vars.put(configuration.getName(), configuration.getValue());
 						}
 					}
 				}
-				conversation.createInitial(context.getActionID(), vars)
-						.enqueue();
+				conversation.createInitial(context.getActionID(), vars).enqueue();
 			} catch (NullPointerException e) {
 				e.printStackTrace();
 			} catch (IllegalArgumentException e) {
@@ -302,8 +264,8 @@ public class VXMLBInitialAction extends InitialAction {
 				int offset = 4;
 				char[] messageBytes = new char[length];
 				for (int c = 0; c < length; c++) {
-					String byteString = undecodedString.substring(b + (c * 2)
-							+ offset, b + (c * 2) + offset + 2);
+					String byteString = undecodedString.substring(b + (c * 2) + offset, b + (c * 2)
+							+ offset + 2);
 					messageBytes[c] = (char) Integer.parseInt(byteString, 16);
 				}
 

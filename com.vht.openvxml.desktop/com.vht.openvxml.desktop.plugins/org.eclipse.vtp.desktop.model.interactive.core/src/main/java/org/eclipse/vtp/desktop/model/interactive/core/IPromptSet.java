@@ -18,40 +18,32 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 /**
- * This interface represents the file resource that contains the prompt
- * configuration of a persona project or an application brand.
+ * This interface represents the file resource that contains the prompt configuration of a persona
+ * project or an application brand.
  *
  * @author Trip
  * @version 2.0
  */
 public interface IPromptSet extends IMediaObject {
 	/**
-	 * Opens the prompt definition resource and returns an
-	 * <code>InputStream</code> that will produce the byte contents of the
-	 * resource.
+	 * Opens the prompt definition resource and returns an <code>InputStream</code> that will
+	 * produce the byte contents of the resource.
 	 *
 	 * @return An input stream to the contents of the resource
-	 * @throws CoreException
-	 *             If an error occurs while opening the resource
+	 * @throws CoreException If an error occurs while opening the resource
 	 */
 	public InputStream read() throws CoreException;
 
 	/**
-	 * Requests the contents of the prompt definition resource be replaced with
-	 * the contents of the given input stream.
+	 * Requests the contents of the prompt definition resource be replaced with the contents of the
+	 * given input stream.
 	 *
-	 * @param source
-	 *            An input stream to the new contents of the prompt definition
-	 *            resource
-	 * @param monitor
-	 *            The progress monitor to be used to provide user feedback
-	 *            during the storage operation
-	 * @throws CoreException
-	 *             If and error occurs while storing the new prompt definition
-	 *             contents
+	 * @param source An input stream to the new contents of the prompt definition resource
+	 * @param monitor The progress monitor to be used to provide user feedback during the storage
+	 *            operation
+	 * @throws CoreException If and error occurs while storing the new prompt definition contents
 	 */
-	public void write(InputStream source, IProgressMonitor monitor)
-			throws CoreException;
+	public void write(InputStream source, IProgressMonitor monitor) throws CoreException;
 
 	/**
 	 * @return

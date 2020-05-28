@@ -31,10 +31,9 @@ import org.eclipse.vtp.modules.interactive.ui.properties.MenuChoiceBindingManage
 import com.openmethods.openvxml.desktop.model.branding.IBrand;
 
 /**
- * This wizard walks the user through the steps required to create a new option
- * in a menu dialog. The user is prompted to enter the name of the new menu
- * option. The name must be unique among the current options of the menu dialog.
- * The menu option is automatically created by this wizard.
+ * This wizard walks the user through the steps required to create a new option in a menu dialog.
+ * The user is prompted to enter the name of the new menu option. The name must be unique among the
+ * current options of the menu dialog. The menu option is automatically created by this wizard.
  *
  * @author Trip
  */
@@ -56,8 +55,7 @@ public class NewMenuChoiceWizard extends Wizard {
 	/**
 	 * Creates a new <code>NewMenuChoiceWizard</code> for the given menu.
 	 *
-	 * @param menu
-	 *            The menu that will contain the new option.
+	 * @param menu The menu that will contain the new option.
 	 */
 	public NewMenuChoiceWizard(IBrand brand, OptionSetInformationProvider menu,
 			MenuChoiceBindingManager mcBindingManager) {
@@ -71,7 +69,6 @@ public class NewMenuChoiceWizard extends Wizard {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.wizard.IWizard#performFinish()
 	 */
 	@Override
@@ -94,9 +91,7 @@ public class NewMenuChoiceWizard extends Wizard {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt
+		 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt
 		 * .widgets.Composite)
 		 */
 		@Override
@@ -109,19 +104,16 @@ public class NewMenuChoiceWizard extends Wizard {
 			nameField = new Text(parent, SWT.SINGLE | SWT.BORDER);
 			nameField.addKeyListener(new KeyListener() {
 				@Override
-				public void keyPressed(KeyEvent e) {
-				}
+				public void keyPressed(KeyEvent e) {}
 
 				@Override
 				public void keyReleased(KeyEvent e) {
 					if (nameField.getText().length() == 0) {
 						setPageComplete(false);
 					} else {
-						List<MenuChoice> options = mcBindingManager
-								.getChoicesByBrand(brand);
+						List<MenuChoice> options = mcBindingManager.getChoicesByBrand(brand);
 						for (MenuChoice mc : options) {
-							if (nameField.getText().equalsIgnoreCase(
-									mc.getOptionName())) {
+							if (nameField.getText().equalsIgnoreCase(mc.getOptionName())) {
 								setPageComplete(false);
 								setErrorMessage("Another option already exists with that name.");
 								return;
@@ -142,10 +134,8 @@ public class NewMenuChoiceWizard extends Wizard {
 			FormData hostLabelFormData = new FormData();
 			hostLabelFormData.left = new FormAttachment(0, 10);
 			hostLabelFormData.top = new FormAttachment(0, 13);
-			hostLabelFormData.right = new FormAttachment(0,
-					10 + hostLabel.getSize().x);
-			hostLabelFormData.bottom = new FormAttachment(0,
-					13 + hostLabel.getSize().y);
+			hostLabelFormData.right = new FormAttachment(0, 10 + hostLabel.getSize().x);
+			hostLabelFormData.bottom = new FormAttachment(0, 13 + hostLabel.getSize().y);
 			hostLabel.setLayoutData(hostLabelFormData);
 
 			FormData hostFieldFormData = new FormData();

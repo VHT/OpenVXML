@@ -11,8 +11,7 @@ import org.w3c.dom.NodeList;
 public class OutputContent extends OutputNode implements InteractionsConstants {
 	private Content[] content = null;
 
-	public OutputContent() {
-	}
+	public OutputContent() {}
 
 	public OutputContent(Content[] content) {
 		this.content = content;
@@ -29,8 +28,7 @@ public class OutputContent extends OutputNode implements InteractionsConstants {
 	@Override
 	void load(Element configurationElement, IContentFactory contentFactory) {
 		NodeList contentElements = configurationElement.getChildNodes();
-		List<Content> content = new ArrayList<Content>(
-				contentElements.getLength());
+		List<Content> content = new ArrayList<Content>(contentElements.getLength());
 		for (int j = 0; j < contentElements.getLength(); j++) {
 			if (contentElements.item(j) instanceof Element) {
 				Element item = (Element) contentElements.item(j);
@@ -48,8 +46,8 @@ public class OutputContent extends OutputNode implements InteractionsConstants {
 		if (prefix != null && prefix.length() > 0) {
 			outputNodeName = prefix + ":" + outputNodeName; //$NON-NLS-1$
 		}
-		Element outputNodeElement = configurationElement.getOwnerDocument()
-				.createElementNS(NAMESPACE_URI, outputNodeName);
+		Element outputNodeElement = configurationElement.getOwnerDocument().createElementNS(
+				NAMESPACE_URI, outputNodeName);
 		if (content != null) {
 			for (Content element : content) {
 				element.store(outputNodeElement);

@@ -22,8 +22,7 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElement;
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElementConnectionPoint;
 import com.openmethods.openvxml.desktop.model.workflow.internal.design.ConnectorRecord;
 
-public class ComparisonInformationProvider extends PrimitiveInformationProvider
-{
+public class ComparisonInformationProvider extends PrimitiveInformationProvider {
 	List<ConnectorRecord> connectorRecords = new ArrayList<ConnectorRecord>();
 	private int lType = 0;
 	private String lValue = "";
@@ -32,98 +31,76 @@ public class ComparisonInformationProvider extends PrimitiveInformationProvider
 	private String rValue = "";
 	private boolean lsecured = false;
 	private boolean rsecured = false;
-	
-	public ComparisonInformationProvider(PrimitiveElement element)
-	{
+
+	public ComparisonInformationProvider(PrimitiveElement element) {
 		super(element);
-		connectorRecords.add(new ConnectorRecord(element, "True", IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
-		connectorRecords.add(new ConnectorRecord(element, "False", IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
-		connectorRecords.add(new ConnectorRecord(element, "error.script", IDesignElementConnectionPoint.ConnectionPointType.ERROR_POINT));
+		connectorRecords.add(new ConnectorRecord(element, "True",
+				IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
+		connectorRecords.add(new ConnectorRecord(element, "False",
+				IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
+		connectorRecords.add(new ConnectorRecord(element, "error.script",
+				IDesignElementConnectionPoint.ConnectionPointType.ERROR_POINT));
 	}
 
-	public boolean acceptsConnector(IDesignElement origin)
-	{
+	public boolean acceptsConnector(IDesignElement origin) {
 		return true;
 	}
 
-	public ConnectorRecord getConnectorRecord(String recordName)
-	{
-		for(int i = 0; i < connectorRecords.size(); i++)
-		{
+	public ConnectorRecord getConnectorRecord(String recordName) {
+		for (int i = 0; i < connectorRecords.size(); i++) {
 			ConnectorRecord cr = connectorRecords.get(i);
-			if(cr.getName().equals(recordName))
-				return cr;
+			if (cr.getName().equals(recordName)) return cr;
 		}
 		return null;
 	}
 
-	public List<ConnectorRecord> getConnectorRecords()
-	{
+	public List<ConnectorRecord> getConnectorRecords() {
 		return connectorRecords;
 	}
 
-	public List<ConnectorRecord> getConnectorRecords(IDesignElementConnectionPoint.ConnectionPointType... types)
-	{
+	public List<ConnectorRecord> getConnectorRecords(
+			IDesignElementConnectionPoint.ConnectionPointType... types) {
 		List<ConnectorRecord> ret = new ArrayList<ConnectorRecord>();
-		for(int i = 0; i < connectorRecords.size(); i++)
-		{
+		for (int i = 0; i < connectorRecords.size(); i++) {
 			ConnectorRecord cr = connectorRecords.get(i);
-			if(cr.getType().isSet(IDesignElementConnectionPoint.ConnectionPointType.getFlagSet(types)))
-				ret.add(cr);
+			if (cr.getType().isSet(
+					IDesignElementConnectionPoint.ConnectionPointType.getFlagSet(types))) ret
+					.add(cr);
 		}
 		return ret;
 	}
 
-	public void readConfiguration(org.w3c.dom.Element configuration)
-	{
+	public void readConfiguration(org.w3c.dom.Element configuration) {
 		NodeList nl = configuration.getElementsByTagName("comparison");
 		org.w3c.dom.Element comparisonElement = null;
-		if(nl.getLength() == 0)
-		{
-			comparisonElement = configuration.getOwnerDocument()
-			.createElement("comparison");
-		}
-		else
-			comparisonElement = (org.w3c.dom.Element)nl.item(0);
+		if (nl.getLength() == 0) {
+			comparisonElement = configuration.getOwnerDocument().createElement("comparison");
+		} else comparisonElement = (org.w3c.dom.Element) nl.item(0);
 
 		String compTypeStr = comparisonElement.getAttribute("type");
-		if ("equal".equalsIgnoreCase(compTypeStr))
-			compType = 0;
-		if ("less-than".equalsIgnoreCase(compTypeStr))
-			compType = 1;
-		if ("less-than-or-equal".equalsIgnoreCase(compTypeStr))
-			compType = 2;
-		if ("greater-than".equalsIgnoreCase(compTypeStr))
-			compType = 3;
-		if ("greater-than-or-equal".equalsIgnoreCase(compTypeStr))
-			compType = 4;
-		if ("not-equal".equalsIgnoreCase(compTypeStr))
-			compType = 5;
-		if ("expression".equalsIgnoreCase(comparisonElement.getAttribute("left-type")))
-		{
+		if ("equal".equalsIgnoreCase(compTypeStr)) compType = 0;
+		if ("less-than".equalsIgnoreCase(compTypeStr)) compType = 1;
+		if ("less-than-or-equal".equalsIgnoreCase(compTypeStr)) compType = 2;
+		if ("greater-than".equalsIgnoreCase(compTypeStr)) compType = 3;
+		if ("greater-than-or-equal".equalsIgnoreCase(compTypeStr)) compType = 4;
+		if ("not-equal".equalsIgnoreCase(compTypeStr)) compType = 5;
+		if ("expression".equalsIgnoreCase(comparisonElement.getAttribute("left-type"))) {
 			lType = 1;
 			lsecured = Boolean.parseBoolean(comparisonElement.getAttribute("left-secured"));
-		}
-		else
-			lType = 0;
+		} else lType = 0;
 		lValue = comparisonElement.getAttribute("left-value");
-		if ("expression".equalsIgnoreCase(comparisonElement.getAttribute("right-type")))
-		{
+		if ("expression".equalsIgnoreCase(comparisonElement.getAttribute("right-type"))) {
 			rType = 1;
 			rsecured = Boolean.parseBoolean(comparisonElement.getAttribute("right-secured"));
-		}
-		else
-			rType = 0;
+		} else rType = 0;
 		rValue = comparisonElement.getAttribute("right-value");
 	}
 
-	public void writeConfiguration(org.w3c.dom.Element configuration)
-	{
-		org.w3c.dom.Element comparisonElement = configuration.getOwnerDocument()
-				.createElement("comparison");
+	public void writeConfiguration(org.w3c.dom.Element configuration) {
+		org.w3c.dom.Element comparisonElement = configuration.getOwnerDocument().createElement(
+				"comparison");
 		String compTypeStr = null;
-		switch (compType)
-		{
+		switch (compType) {
 		case 0:
 			compTypeStr = "equal";
 			break;
@@ -144,97 +121,80 @@ public class ComparisonInformationProvider extends PrimitiveInformationProvider
 			break;
 		}
 		comparisonElement.setAttribute("type", compTypeStr);
-		comparisonElement.setAttribute("left-type", lType == 0 ? "variable"
-				: "expression");
+		comparisonElement.setAttribute("left-type", lType == 0 ? "variable" : "expression");
 		comparisonElement.setAttribute("left-secured", Boolean.toString(lsecured));
 		comparisonElement.setAttribute("left-value", lValue);
-		comparisonElement.setAttribute("right-type", rType == 0 ? "variable"
-				: "expression");
+		comparisonElement.setAttribute("right-type", rType == 0 ? "variable" : "expression");
 		comparisonElement.setAttribute("right-secured", Boolean.toString(rsecured));
 		comparisonElement.setAttribute("right-value", rValue);
 		configuration.appendChild(comparisonElement);
 	}
 
-//	public List getPropertiesPanels()
-//	{
-//		List ret = new ArrayList();
-//		ret.add(new PrimitiveGeneralPropertiesPanel(getElement()));
-//		ret.add(new ComparisonPropertiesPanel("Comparison", getElement()));
-//		return ret;
-//	}
-	
-	public int getCompType()
-	{
+	// public List getPropertiesPanels()
+	// {
+	// List ret = new ArrayList();
+	// ret.add(new PrimitiveGeneralPropertiesPanel(getElement()));
+	// ret.add(new ComparisonPropertiesPanel("Comparison", getElement()));
+	// return ret;
+	// }
+
+	public int getCompType() {
 		return compType;
 	}
 
-	public void setCompType(int compType)
-	{
+	public void setCompType(int compType) {
 		this.compType = compType;
 	}
 
-	public int getLType()
-	{
+	public int getLType() {
 		return lType;
 	}
 
-	public void setLType(int type)
-	{
+	public void setLType(int type) {
 		lType = type;
 	}
 
-	public String getLValue()
-	{
+	public String getLValue() {
 		return lValue;
 	}
 
-	public void setLValue(String value)
-	{
+	public void setLValue(String value) {
 		lValue = value;
 	}
 
-	public int getRType()
-	{
+	public int getRType() {
 		return rType;
 	}
 
-	public void setRType(int type)
-	{
+	public void setRType(int type) {
 		rType = type;
 	}
 
-	public String getRValue()
-	{
+	public String getRValue() {
 		return rValue;
 	}
 
-	public void setRValue(String value)
-	{
+	public void setRValue(String value) {
 		rValue = value;
 	}
-	
-	public boolean isLeftSecured()
-	{
+
+	public boolean isLeftSecured() {
 		return lsecured;
 	}
-	
-	public void setLeftSecured(boolean secured)
-	{
+
+	public void setLeftSecured(boolean secured) {
 		this.lsecured = secured;
 	}
-	
-	public boolean isRightSecured()
-	{
+
+	public boolean isRightSecured() {
 		return rsecured;
 	}
-	
-	public void setRightSecured(boolean secured)
-	{
+
+	public void setRightSecured(boolean secured) {
 		this.rsecured = secured;
 	}
-	
-	public boolean hasConnectors()
-    {
-	    return true;
-    }
+
+	public boolean hasConnectors() {
+		return true;
+	}
 }

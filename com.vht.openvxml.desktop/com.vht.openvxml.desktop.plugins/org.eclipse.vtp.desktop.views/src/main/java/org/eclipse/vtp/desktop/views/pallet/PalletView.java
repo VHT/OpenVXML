@@ -29,10 +29,7 @@ public class PalletView extends PageBookView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.part.PageBookView#createDefaultPage(org.eclipse.ui.part
-	 * .PageBook)
+	 * @see org.eclipse.ui.part.PageBookView#createDefaultPage(org.eclipse.ui.part .PageBook)
 	 */
 	@Override
 	protected IPage createDefaultPage(PageBook book) {
@@ -45,10 +42,7 @@ public class PalletView extends PageBookView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.part.PageBookView#doCreatePage(org.eclipse.ui.IWorkbenchPart
-	 * )
+	 * @see org.eclipse.ui.part.PageBookView#doCreatePage(org.eclipse.ui.IWorkbenchPart )
 	 */
 	@Override
 	protected PageRec doCreatePage(IWorkbenchPart part) {
@@ -60,10 +54,8 @@ public class PalletView extends PageBookView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.part.PageBookView#doDestroyPage(org.eclipse.ui.IWorkbenchPart
-	 * , org.eclipse.ui.part.PageBookView.PageRec)
+	 * @see org.eclipse.ui.part.PageBookView#doDestroyPage(org.eclipse.ui.IWorkbenchPart ,
+	 * org.eclipse.ui.part.PageBookView.PageRec)
 	 */
 	@Override
 	protected void doDestroyPage(IWorkbenchPart part, PageRec pageRecord) {
@@ -74,29 +66,22 @@ public class PalletView extends PageBookView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.ui.part.PageBookView#getBootstrapPart()
 	 */
 	@Override
 	protected IWorkbenchPart getBootstrapPart() {
 		IWorkbenchPage page = getSite().getPage();
-		if (page != null) {
-			return page.getActiveEditor();
-		}
+		if (page != null) { return page.getActiveEditor(); }
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.part.PageBookView#isImportant(org.eclipse.ui.IWorkbenchPart
-	 * )
+	 * @see org.eclipse.ui.part.PageBookView#isImportant(org.eclipse.ui.IWorkbenchPart )
 	 */
 	@Override
 	protected boolean isImportant(IWorkbenchPart part) {
-		return part instanceof IEditorPart
-				&& (part.getAdapter(IDesign.class) != null);
+		return part instanceof IEditorPart && (part.getAdapter(IDesign.class) != null);
 	}
 
 }

@@ -9,7 +9,6 @@ import java.util.Set;
 
 /**
  * @author trip
- *
  */
 public class Output {
 	public static final String TYPE_FILE = "org.eclipse.vtp.output.File";

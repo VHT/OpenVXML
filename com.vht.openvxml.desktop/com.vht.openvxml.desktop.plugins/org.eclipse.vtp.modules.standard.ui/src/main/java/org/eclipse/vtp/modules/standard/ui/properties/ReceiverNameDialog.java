@@ -26,8 +26,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-public class ReceiverNameDialog extends Dialog
-{
+public class ReceiverNameDialog extends Dialog {
 	String name = null;
 	Text nameText = null;
 	Button okButton = null;
@@ -35,23 +34,21 @@ public class ReceiverNameDialog extends Dialog
 	/**
 	 * @param parentShell
 	 */
-	public ReceiverNameDialog(Shell parentShell)
-	{
+	public ReceiverNameDialog(Shell parentShell) {
 		super(parentShell);
 	}
 
 	/**
 	 * @param parentShell
 	 */
-	public ReceiverNameDialog(IShellProvider parentShell)
-	{
+	public ReceiverNameDialog(IShellProvider parentShell) {
 		super(parentShell);
 	}
 
 	protected Control createContents(Composite parent) {
 		// create the top level composite for the dialog
 		Composite composite = new Composite(parent, 0);
-		
+
 		GridLayout layout = new GridLayout();
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
@@ -61,35 +58,33 @@ public class ReceiverNameDialog extends Dialog
 		applyDialogFont(composite);
 		// initialize the dialog units
 		initializeDialogUnits(composite);
-		
+
 		// create the dialog area and button bar
 		buttonBar = createButtonBar(composite);
 		dialogArea = createDialogArea(composite);
-		
+
 		buttonBar.moveBelow(null);
 		return composite;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
 	 */
-	protected Control createDialogArea(Composite parent)
-	{
+	protected Control createDialogArea(Composite parent) {
 		parent.setLayout(new GridLayout(2, false));
 		Label nameLabel = new Label(parent, SWT.NONE);
 		nameLabel.setText("Name");
 		nameLabel.setLayoutData(new GridData());
 		nameText = new Text(parent, SWT.BORDER | SWT.FLAT | SWT.SINGLE);
-		if(name != null)
-			nameText.setText(name);
+		if (name != null) nameText.setText(name);
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 2;
 		nameText.setLayoutData(gd);
-		nameText.addVerifyListener(new VerifyListener()
-		{
-			public void verifyText(VerifyEvent e)
-			{
-				String currentName = nameText.getText().substring(0, e.start) + e.text + nameText.getText(e.end, (nameText.getText().length() - 1));
+		nameText.addVerifyListener(new VerifyListener() {
+			public void verifyText(VerifyEvent e) {
+				String currentName = nameText.getText().substring(0, e.start) + e.text
+						+ nameText.getText(e.end, (nameText.getText().length() - 1));
 				okButton.setEnabled(!currentName.equals(""));
 			}
 		});
@@ -98,12 +93,12 @@ public class ReceiverNameDialog extends Dialog
 		okButton.setEnabled(!nameText.getText().equals(""));
 		return parent;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
-	protected void okPressed()
-	{
+	protected void okPressed() {
 		name = nameText.getText();
 		super.okPressed();
 	}
@@ -111,15 +106,12 @@ public class ReceiverNameDialog extends Dialog
 	/**
 	 * @return
 	 */
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
-	
-	public void setName(String name)
-	{
+
+	public void setName(String name) {
 		this.name = name;
-		if(nameText != null)
-			nameText.setText(name);
+		if (nameText != null) nameText.setText(name);
 	}
 }

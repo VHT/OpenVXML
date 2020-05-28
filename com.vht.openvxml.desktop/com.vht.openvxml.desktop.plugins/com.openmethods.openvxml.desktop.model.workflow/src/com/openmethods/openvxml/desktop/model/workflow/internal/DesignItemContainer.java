@@ -23,10 +23,8 @@ import com.openmethods.openvxml.desktop.model.workflow.IDesignItemContainer;
 
 /**
  * @author trip
- *
  */
-public abstract class DesignItemContainer extends WorkflowResource implements
-		IDesignItemContainer {
+public abstract class DesignItemContainer extends WorkflowResource implements IDesignItemContainer {
 	private static final String HASHPREFIX = "DesignItemContainer";
 	private IFolder folder = null;
 
@@ -40,10 +38,7 @@ public abstract class DesignItemContainer extends WorkflowResource implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.internal.WorkflowResource#getObjectId
-	 * ()
+	 * @see org.eclipse.vtp.desktop.model.core.internal.WorkflowResource#getObjectId ()
 	 */
 	@Override
 	protected String getObjectId() {
@@ -52,9 +47,7 @@ public abstract class DesignItemContainer extends WorkflowResource implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.IDesignItemContainer#createDesignDocument
+	 * @see org.eclipse.vtp.desktop.model.core.IDesignItemContainer#createDesignDocument
 	 * (java.lang.String)
 	 */
 	@Override
@@ -63,8 +56,8 @@ public abstract class DesignItemContainer extends WorkflowResource implements
 		try {
 			String fileName = name + ".canvas";
 			IFile designDocument = folder.getFile(fileName);
-			InputStream templateIn = this.getClass().getClassLoader()
-					.getResourceAsStream("design_document_template.xml");
+			InputStream templateIn = this.getClass().getClassLoader().getResourceAsStream(
+					"design_document_template.xml");
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			byte[] buf = new byte[10240];
 			int len = templateIn.read(buf);
@@ -74,16 +67,13 @@ public abstract class DesignItemContainer extends WorkflowResource implements
 			}
 			templateIn.close();
 			String template = baos.toString();
-			template = template.replaceAll("\\[\\[flow_id\\]\\]",
-					Guid.createGUID());
-			template = template.replaceAll("\\[\\[portal_id\\]\\]",
-					Guid.createGUID());
+			template = template.replaceAll("\\[\\[flow_id\\]\\]", Guid.createGUID());
+			template = template.replaceAll("\\[\\[portal_id\\]\\]", Guid.createGUID());
 			template = template.replaceAll("\\[\\[portal_name\\]\\]", name);
 			template = template.replaceAll("\\[\\[canvas_name\\]\\]", name);
 
 			document = new DesignDocument(this, designDocument);
-			designDocument.create(
-					new ByteArrayInputStream(template.getBytes()), true, null);
+			designDocument.create(new ByteArrayInputStream(template.getBytes()), true, null);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -92,19 +82,15 @@ public abstract class DesignItemContainer extends WorkflowResource implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.IDesignItemContainer#createDesignFolder
+	 * @see org.eclipse.vtp.desktop.model.core.IDesignItemContainer#createDesignFolder
 	 * (java.lang.String)
 	 */
 	@Override
 	public IDesignFolder createDesignFolder(String name) {
 		DesignFolder designFolder = null;
 		IFolder newFolder = folder.getFolder(name);
-		if (newFolder.exists()) {
-			throw new IllegalArgumentException(
-					"Folder with that name already exists");
-		}
+		if (newFolder.exists()) { throw new IllegalArgumentException(
+				"Folder with that name already exists"); }
 		try {
 			designFolder = new DesignFolder(this, newFolder);
 			newFolder.create(true, true, null);
@@ -116,9 +102,7 @@ public abstract class DesignItemContainer extends WorkflowResource implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.IDesignItemContainer#deleteDesignDocument
+	 * @see org.eclipse.vtp.desktop.model.core.IDesignItemContainer#deleteDesignDocument
 	 * (org.eclipse.vtp.desktop.model.core.IDesignDocument)
 	 */
 	@Override
@@ -132,9 +116,7 @@ public abstract class DesignItemContainer extends WorkflowResource implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.IDesignItemContainer#deleteDesignDocument
+	 * @see org.eclipse.vtp.desktop.model.core.IDesignItemContainer#deleteDesignDocument
 	 * (java.lang.String)
 	 */
 	@Override
@@ -151,9 +133,7 @@ public abstract class DesignItemContainer extends WorkflowResource implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.IDesignItemContainer#deleteDesignFolder
+	 * @see org.eclipse.vtp.desktop.model.core.IDesignItemContainer#deleteDesignFolder
 	 * (org.eclipse.vtp.desktop.model.core.IDesignFolder)
 	 */
 	@Override
@@ -167,9 +147,7 @@ public abstract class DesignItemContainer extends WorkflowResource implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.IDesignItemContainer#deleteDesignFolder
+	 * @see org.eclipse.vtp.desktop.model.core.IDesignItemContainer#deleteDesignFolder
 	 * (java.lang.String)
 	 */
 	@Override
@@ -186,19 +164,15 @@ public abstract class DesignItemContainer extends WorkflowResource implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.IDesignItemContainer#getDesignDocument
+	 * @see org.eclipse.vtp.desktop.model.core.IDesignItemContainer#getDesignDocument
 	 * (java.lang.String)
 	 */
 	@Override
 	public IDesignDocument getDesignDocument(String name) {
 		try {
 			for (IResource child : folder.members()) {
-				if (child.getType() == IResource.FILE
-						&& child.getName().equals(name)) {
-					DesignDocument designDocument = new DesignDocument(this,
-							(IFile) child);
+				if (child.getType() == IResource.FILE && child.getName().equals(name)) {
+					DesignDocument designDocument = new DesignDocument(this, (IFile) child);
 					return designDocument;
 				}
 			}
@@ -210,18 +184,14 @@ public abstract class DesignItemContainer extends WorkflowResource implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.IDesignItemContainer#getDesignDocuments
-	 * ()
+	 * @see org.eclipse.vtp.desktop.model.core.IDesignItemContainer#getDesignDocuments ()
 	 */
 	@Override
 	public List<IDesignDocument> getDesignDocuments() {
 		List<IDesignDocument> documents = new ArrayList<IDesignDocument>();
 		try {
 			for (IResource child : folder.members()) {
-				if (child.getType() == IResource.FILE
-						&& child.getFileExtension() != null
+				if (child.getType() == IResource.FILE && child.getFileExtension() != null
 						&& child.getFileExtension().equals("canvas")) {
 					DesignDocument dd = new DesignDocument(this, (IFile) child);
 					documents.add(dd);
@@ -235,19 +205,15 @@ public abstract class DesignItemContainer extends WorkflowResource implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.IDesignItemContainer#getDesignFolder
+	 * @see org.eclipse.vtp.desktop.model.core.IDesignItemContainer#getDesignFolder
 	 * (java.lang.String)
 	 */
 	@Override
 	public IDesignFolder getDesignFolder(String name) {
 		try {
 			for (IResource child : folder.members()) {
-				if (child.getType() == IResource.FOLDER
-						&& child.getName().equals(name)) {
-					DesignFolder designFolder = new DesignFolder(this,
-							(IFolder) child);
+				if (child.getType() == IResource.FOLDER && child.getName().equals(name)) {
+					DesignFolder designFolder = new DesignFolder(this, (IFolder) child);
 					return designFolder;
 				}
 			}
@@ -259,10 +225,7 @@ public abstract class DesignItemContainer extends WorkflowResource implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.IDesignItemContainer#getDesignFolders
-	 * ()
+	 * @see org.eclipse.vtp.desktop.model.core.IDesignItemContainer#getDesignFolders ()
 	 */
 	@Override
 	public List<IDesignFolder> getDesignFolders() {
@@ -270,8 +233,7 @@ public abstract class DesignItemContainer extends WorkflowResource implements
 		try {
 			for (IResource child : folder.members()) {
 				if (child.getType() == IResource.FOLDER) {
-					DesignFolder designFolder = new DesignFolder(this,
-							(IFolder) child);
+					DesignFolder designFolder = new DesignFolder(this, (IFolder) child);
 					folders.add(designFolder);
 				}
 			}
@@ -283,10 +245,7 @@ public abstract class DesignItemContainer extends WorkflowResource implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.IWorkflowResourceContainer#getChildren
-	 * ()
+	 * @see org.eclipse.vtp.desktop.model.core.IWorkflowResourceContainer#getChildren ()
 	 */
 	@Override
 	public List<IWorkflowResource> getChildren() {
@@ -298,7 +257,6 @@ public abstract class DesignItemContainer extends WorkflowResource implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.model.core.IWorkflowResource#getName()
 	 */
 	@Override
@@ -313,27 +271,21 @@ public abstract class DesignItemContainer extends WorkflowResource implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.internal.WorkflowResource#getAdapter
+	 * @see org.eclipse.vtp.desktop.model.core.internal.WorkflowResource#getAdapter
 	 * (java.lang.Class)
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapterClass) {
 		if (IResource.class.isAssignableFrom(adapterClass)
-				&& adapterClass.isAssignableFrom(folder.getClass())) {
-			return folder;
-		}
+				&& adapterClass.isAssignableFrom(folder.getClass())) { return folder; }
 		return super.getAdapter(adapterClass);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof DesignItemContainer) {
-			return folder.equals(((DesignItemContainer) obj)
-					.getUnderlyingFolder());
-		}
+		if (obj instanceof DesignItemContainer) { return folder.equals(((DesignItemContainer) obj)
+				.getUnderlyingFolder()); }
 		return false;
 	}
 

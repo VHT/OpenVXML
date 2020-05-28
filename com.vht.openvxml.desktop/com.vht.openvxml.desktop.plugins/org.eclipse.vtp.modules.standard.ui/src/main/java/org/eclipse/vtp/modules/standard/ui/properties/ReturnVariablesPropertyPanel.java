@@ -39,10 +39,8 @@ import com.openmethods.openvxml.desktop.model.workflow.design.Variable;
 
 /**
  * @author Trip
- *
  */
-public class ReturnVariablesPropertyPanel extends DesignElementPropertiesPanel
-{
+public class ReturnVariablesPropertyPanel extends DesignElementPropertiesPanel {
 	List<String> exportedVars;
 	CheckboxTableViewer variableViewer;
 	List<Variable> variables = new ArrayList<Variable>();
@@ -51,32 +49,27 @@ public class ReturnVariablesPropertyPanel extends DesignElementPropertiesPanel
 	/**
 	 * @param name
 	 */
-	public ReturnVariablesPropertyPanel(String name, IDesignElement element)
-	{
+	public ReturnVariablesPropertyPanel(String name, IDesignElement element) {
 		super(name, element);
-		info = (ReturnInformationProvider)((PrimitiveElement)element).getInformationProvider();
+		info = (ReturnInformationProvider) ((PrimitiveElement) element).getInformationProvider();
 		exportedVars = new ArrayList<String>(info.getExports());
 		List<Variable> vars = element.getDesign().getVariablesFor(element);
-		outer:	for(Variable v : vars)
-				{
-					for(int i = 0; i < variables.size(); i++)
-					{
-						if(variables.get(i).getName().compareToIgnoreCase(v.getName()) > 0)
-						{
-							variables.add(i, v);
-							continue outer;
-						}
-					}
-					variables.add(v);
+		outer: for (Variable v : vars) {
+			for (int i = 0; i < variables.size(); i++) {
+				if (variables.get(i).getName().compareToIgnoreCase(v.getName()) > 0) {
+					variables.add(i, v);
+					continue outer;
 				}
+			}
+			variables.add(v);
+		}
 	}
 
-	public void createControls(Composite parent)
-	{
+	public void createControls(Composite parent) {
 		parent.setLayout(new GridLayout(2, false));
 
-		Table variableTable =
-			new Table(parent, SWT.SINGLE | SWT.FULL_SELECTION | SWT.BORDER | SWT.CHECK);
+		Table variableTable = new Table(parent, SWT.SINGLE | SWT.FULL_SELECTION | SWT.BORDER
+				| SWT.CHECK);
 		variableTable.setHeaderVisible(true);
 
 		TableColumn nameColumn = new TableColumn(variableTable, SWT.NONE);
@@ -93,79 +86,60 @@ public class ReturnVariablesPropertyPanel extends DesignElementPropertiesPanel
 		gd.heightHint = 200;
 		variableTable.setLayoutData(gd);
 		variableViewer = new CheckboxTableViewer(variableTable);
-		variableViewer.addCheckStateListener(new ICheckStateListener(){
+		variableViewer.addCheckStateListener(new ICheckStateListener() {
 
-			public void checkStateChanged(CheckStateChangedEvent event)
-            {
-				exportedVars.remove(((Variable)event.getElement()).getName());
-				if(event.getChecked())
-					exportedVars.add(((Variable)event.getElement()).getName());
-            }
-			
+			public void checkStateChanged(CheckStateChangedEvent event) {
+				exportedVars.remove(((Variable) event.getElement()).getName());
+				if (event.getChecked()) exportedVars.add(((Variable) event.getElement()).getName());
+			}
+
 		});
-		variableViewer.setColumnProperties(new String[] {"Name", "Type", "Value"});
+		variableViewer.setColumnProperties(new String[] { "Name", "Type", "Value" });
 		variableViewer.setContentProvider(new VariableContentProvider());
 		variableViewer.setLabelProvider(new VariableLabelProvider());
 		variableViewer.setInput(this);
-		for(Variable vd : variables)
-		{
+		for (Variable vd : variables) {
 			variableViewer.setChecked(vd, exportedVars.contains(vd.getName()));
 		}
 
 	}
 
-	public void save()
-	{
+	public void save() {
 		info.setExports(exportedVars);
 	}
-	
-	public void cancel()
-	{
-		
+
+	public void cancel() {
+
 	}
 
-	public class VariableContentProvider implements IStructuredContentProvider
-	{
-		public Object[] getElements(Object inputElement)
-		{
+	public class VariableContentProvider implements IStructuredContentProvider {
+		public Object[] getElements(Object inputElement) {
 			List<Variable> ret = new ArrayList<Variable>();
-			for(int i = 0; i < variables.size(); i++)
-			{
-				if(!variables.get(i).getType().isObject())
-					ret.add(variables.get(i));
+			for (int i = 0; i < variables.size(); i++) {
+				if (!variables.get(i).getType().isObject()) ret.add(variables.get(i));
 			}
 			return ret.toArray();
 		}
 
-		public void dispose()
-		{
-		}
+		public void dispose() {}
 
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput)
-		{
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 	}
 
-	public class VariableLabelProvider implements ITableLabelProvider
-	{
-		public Image getColumnImage(Object element, int columnIndex)
-		{
+	public class VariableLabelProvider implements ITableLabelProvider {
+		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
 		}
 
-		public String getColumnText(Object element, int columnIndex)
-		{
-			Variable vd = (Variable)element;
+		public String getColumnText(Object element, int columnIndex) {
+			Variable vd = (Variable) element;
 
-			if(columnIndex == 0)
-			{
+			if (columnIndex == 0) {
 				return vd.getName();
-			}
-			else if(columnIndex == 1)
-			{
+			} else if (columnIndex == 1) {
 				StringBuffer buf = new StringBuffer();
 				buf.append(vd.getType().getName());
-				if(vd.getType().hasBaseType()) //is array or map
+				if (vd.getType().hasBaseType()) // is array or map
 				{
 					buf.append(" of ");
 					buf.append(vd.getType().getBaseTypeName());
@@ -176,32 +150,22 @@ public class ReturnVariablesPropertyPanel extends DesignElementPropertiesPanel
 			return "N/A";
 		}
 
-		public void addListener(ILabelProviderListener listener)
-		{
-		}
+		public void addListener(ILabelProviderListener listener) {}
 
-		public void dispose()
-		{
-		}
+		public void dispose() {}
 
-		public boolean isLabelProperty(Object element, String property)
-		{
+		public boolean isLabelProperty(Object element, String property) {
 			return false;
 		}
 
-		public void removeListener(ILabelProviderListener listener)
-		{
-		}
+		public void removeListener(ILabelProviderListener listener) {}
 	}
 
 	@Override
-	public void setConfigurationContext(Map<String, Object> values)
-	{
-	}
+	public void setConfigurationContext(Map<String, Object> values) {}
 
 	@Override
-	public List<String> getApplicableContexts()
-	{
+	public List<String> getApplicableContexts() {
 		return Collections.emptyList();
 	}
 

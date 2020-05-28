@@ -32,40 +32,34 @@ public class DefaultSettingsRegistry {
 
 	public DefaultSettingsRegistry() {
 		super();
-		IConfigurationElement[] managerExtensions = Platform
-				.getExtensionRegistry().getConfigurationElementsFor(
-						configurationManagerExtensionId);
+		IConfigurationElement[] managerExtensions = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(configurationManagerExtensionId);
 		for (IConfigurationElement managerExtension : managerExtensions) {
 			String elementType = managerExtension.getAttribute("element-type");
-			String interactionType = managerExtension
-					.getAttribute("interaction-type");
-			DefaultSettingGroupRecord cmr = new DefaultSettingGroupRecord(
-					elementType, interactionType);
+			String interactionType = managerExtension.getAttribute("interaction-type");
+			DefaultSettingGroupRecord cmr = new DefaultSettingGroupRecord(elementType,
+					interactionType);
 			managerRecords.add(cmr);
-			IConfigurationElement[] settings = managerExtension
-					.getChildren("default-setting");
+			IConfigurationElement[] settings = managerExtension.getChildren("default-setting");
 			for (IConfigurationElement setting : settings) {
 				for (String an : setting.getAttributeNames()) {
 					System.out.println(setting.getName() + " " + an + " "
 							+ setting.getAttribute(an));
 				}
-				cmr.defaultSettings.put(setting.getAttribute("name"),
-						setting.getAttribute("default-value"));
+				cmr.defaultSettings.put(setting.getAttribute("name"), setting
+						.getAttribute("default-value"));
 			}
 		}
 	}
 
-	public List<String> getDefaultSettingNames(String elementType,
-			String interactionType) {
-		System.err.println("Getting default settings names for: " + elementType
-				+ " " + interactionType);
+	public List<String> getDefaultSettingNames(String elementType, String interactionType) {
+		System.err.println("Getting default settings names for: " + elementType + " "
+				+ interactionType);
 		for (DefaultSettingGroupRecord dsgr : managerRecords) {
-			System.err.println("Checking record: " + dsgr.elementType + " "
-					+ dsgr.interactionType);
+			System.err.println("Checking record: " + dsgr.elementType + " " + dsgr.interactionType);
 			if (dsgr.elementType.equals(elementType)
-					&& dsgr.interactionType.equals(interactionType)) {
-				return new ArrayList<String>(dsgr.defaultSettings.keySet());
-			}
+					&& dsgr.interactionType.equals(interactionType)) { return new ArrayList<String>(
+					dsgr.defaultSettings.keySet()); }
 		}
 		return Collections.emptyList();
 	}
@@ -79,8 +73,7 @@ public class DefaultSettingsRegistry {
 		public String interactionType;
 		public Map<String, String> defaultSettings = new HashMap<String, String>();
 
-		public DefaultSettingGroupRecord(String elementType,
-				String interactionType) {
+		public DefaultSettingGroupRecord(String elementType, String interactionType) {
 			super();
 			this.elementType = elementType;
 			this.interactionType = interactionType;

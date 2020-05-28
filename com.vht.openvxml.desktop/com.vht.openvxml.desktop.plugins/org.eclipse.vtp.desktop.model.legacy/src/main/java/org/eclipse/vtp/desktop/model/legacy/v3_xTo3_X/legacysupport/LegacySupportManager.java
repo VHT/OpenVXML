@@ -37,19 +37,16 @@ public class LegacySupportManager {
 	public LegacySupportManager() {
 		super();
 		modelConverters = new HashMap<String, ModelConverter>();
-		IConfigurationElement[] modelConverterExtensions = Platform
-				.getExtensionRegistry().getConfigurationElementsFor(
-						modelConvertsExtensionId);
+		IConfigurationElement[] modelConverterExtensions = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(modelConvertsExtensionId);
 		for (IConfigurationElement modelConverterExtension : modelConverterExtensions) {
 			ModelConverter mc = new ModelConverter();
-			mc.modelVersion = modelConverterExtension
-					.getAttribute("xml-version");
+			mc.modelVersion = modelConverterExtension.getAttribute("xml-version");
 			String className = modelConverterExtension.getAttribute("class");
-			Bundle contributor = Platform.getBundle(modelConverterExtension
-					.getContributor().getName());
+			Bundle contributor = Platform.getBundle(modelConverterExtension.getContributor()
+					.getName());
 			try {
-				mc.converterClass = (Class<XMLConverter>) contributor
-						.loadClass(className);
+				mc.converterClass = (Class<XMLConverter>) contributor.loadClass(className);
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 				continue;
@@ -57,23 +54,20 @@ public class LegacySupportManager {
 			modelConverters.put(mc.modelVersion, mc);
 		}
 		elementConverters = new HashMap<String, LegacyElementConverter>();
-		IConfigurationElement[] elementConverterExtensions = Platform
-				.getExtensionRegistry().getConfigurationElementsFor(
-						elementConvertsExtensionId);
+		IConfigurationElement[] elementConverterExtensions = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(elementConvertsExtensionId);
 		for (IConfigurationElement elementConverterExtension : elementConverterExtensions) {
 			LegacyElementConverter lec = new LegacyElementConverter();
 			lec.tagName = elementConverterExtension.getAttribute("xml-element");
-			lec.namespace = elementConverterExtension
-					.getAttribute("xml-namespace");
+			lec.namespace = elementConverterExtension.getAttribute("xml-namespace");
 			if (lec.namespace == null) {
 				lec.namespace = "";
 			}
 			String className = elementConverterExtension.getAttribute("class");
-			Bundle contributor = Platform.getBundle(elementConverterExtension
-					.getContributor().getName());
+			Bundle contributor = Platform.getBundle(elementConverterExtension.getContributor()
+					.getName());
 			try {
-				lec.converterClass = (Class<XMLConverter>) contributor
-						.loadClass(className);
+				lec.converterClass = (Class<XMLConverter>) contributor.loadClass(className);
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 				continue;
@@ -86,27 +80,21 @@ public class LegacySupportManager {
 						configurationManagerConvertersExtensionId);
 		for (IConfigurationElement configurationManagerConverterExtension : configurationManagerConverterExtensions) {
 			LegacyConfigurationManagerConverter lec = new LegacyConfigurationManagerConverter();
-			lec.tagName = configurationManagerConverterExtension
-					.getAttribute("xml-element");
-			lec.namespace = configurationManagerConverterExtension
-					.getAttribute("xml-namespace");
+			lec.tagName = configurationManagerConverterExtension.getAttribute("xml-element");
+			lec.namespace = configurationManagerConverterExtension.getAttribute("xml-namespace");
 			if (lec.namespace == null) {
 				lec.namespace = "";
 			}
-			String className = configurationManagerConverterExtension
-					.getAttribute("class");
-			Bundle contributor = Platform
-					.getBundle(configurationManagerConverterExtension
-							.getContributor().getName());
+			String className = configurationManagerConverterExtension.getAttribute("class");
+			Bundle contributor = Platform.getBundle(configurationManagerConverterExtension
+					.getContributor().getName());
 			try {
-				lec.converterClass = (Class<XMLConverter>) contributor
-						.loadClass(className);
+				lec.converterClass = (Class<XMLConverter>) contributor.loadClass(className);
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 				continue;
 			}
-			configurationManagerConverters
-					.put(lec.namespace + lec.tagName, lec);
+			configurationManagerConverters.put(lec.namespace + lec.tagName, lec);
 		}
 	}
 
@@ -131,15 +119,13 @@ public class LegacySupportManager {
 	 * @param namespace
 	 * @return
 	 */
-	public XMLConverter getLegacyElementConverter(String tagName,
-			String namespace) {
+	public XMLConverter getLegacyElementConverter(String tagName, String namespace) {
 		String key = "";
 		if (namespace != null) {
 			key = namespace;
 		}
 		key += tagName;
-		LegacyElementConverter legacyElementConverter = elementConverters
-				.get(key);
+		LegacyElementConverter legacyElementConverter = elementConverters.get(key);
 		if (legacyElementConverter != null) {
 			try {
 				return legacyElementConverter.converterClass.newInstance();
@@ -155,8 +141,7 @@ public class LegacySupportManager {
 	 * @param namespace
 	 * @return
 	 */
-	public XMLConverter getLegacyConfigurationManagerConverter(String tagName,
-			String namespace) {
+	public XMLConverter getLegacyConfigurationManagerConverter(String tagName, String namespace) {
 		String key = "";
 		if (namespace != null) {
 			key = namespace;

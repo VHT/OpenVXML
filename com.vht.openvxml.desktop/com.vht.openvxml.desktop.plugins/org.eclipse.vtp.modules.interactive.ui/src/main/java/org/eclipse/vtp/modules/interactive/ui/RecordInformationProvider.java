@@ -35,7 +35,8 @@ import com.openmethods.openvxml.desktop.model.workflow.internal.design.Connector
  * @version 1.0
  */
 public class RecordInformationProvider extends PrimitiveInformationProvider
-		implements ISecurableElement {
+	implements
+	ISecurableElement {
 	List<ConnectorRecord> connectorRecords = new ArrayList<ConnectorRecord>();
 	private String varName = "";
 	boolean secured = false;
@@ -48,25 +49,18 @@ public class RecordInformationProvider extends PrimitiveInformationProvider
 		super(element);
 		connectorRecords.add(new ConnectorRecord(element, "Continue",
 				IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
-		connectorRecords.add(new ConnectorRecord(element,
-				"error.input.nomatch",
+		connectorRecords.add(new ConnectorRecord(element, "error.input.nomatch",
 				IDesignElementConnectionPoint.ConnectionPointType.ERROR_POINT));
-		connectorRecords.add(new ConnectorRecord(element,
-				"error.input.noinput",
+		connectorRecords.add(new ConnectorRecord(element, "error.input.noinput",
 				IDesignElementConnectionPoint.ConnectionPointType.ERROR_POINT));
-		connectorRecords.add(new ConnectorRecord(element,
-				"error.disconnect.hangup",
+		connectorRecords.add(new ConnectorRecord(element, "error.disconnect.hangup",
 				IDesignElementConnectionPoint.ConnectionPointType.ERROR_POINT));
 		connectorRecords.add(new ConnectorRecord(element, "error.data.request",
 				IDesignElementConnectionPoint.ConnectionPointType.ERROR_POINT));
-		List<String> events = ExtendedInteractiveEventManager.getDefault()
-				.getExtendedEvents();
+		List<String> events = ExtendedInteractiveEventManager.getDefault().getExtendedEvents();
 		for (String event : events) {
-			connectorRecords
-					.add(new ConnectorRecord(
-							element,
-							event,
-							IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
+			connectorRecords.add(new ConnectorRecord(element, event,
+					IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
 		}
 	}
 
@@ -74,9 +68,7 @@ public class RecordInformationProvider extends PrimitiveInformationProvider
 	public ConnectorRecord getConnectorRecord(String recordName) {
 		for (int i = 0; i < connectorRecords.size(); i++) {
 			ConnectorRecord cr = connectorRecords.get(i);
-			if (cr.getName().equals(recordName)) {
-				return cr;
-			}
+			if (cr.getName().equals(recordName)) { return cr; }
 		}
 		return null;
 	}
@@ -93,8 +85,7 @@ public class RecordInformationProvider extends PrimitiveInformationProvider
 		for (int i = 0; i < connectorRecords.size(); i++) {
 			ConnectorRecord cr = connectorRecords.get(i);
 			if (cr.getType().isSet(
-					IDesignElementConnectionPoint.ConnectionPointType
-							.getFlagSet(types))) {
+					IDesignElementConnectionPoint.ConnectionPointType.getFlagSet(types))) {
 				ret.add(cr);
 			}
 		}
@@ -111,8 +102,8 @@ public class RecordInformationProvider extends PrimitiveInformationProvider
 
 	@Override
 	public void readConfiguration(org.w3c.dom.Element configuration) {
-		businessObjectAspect = (IBusinessObjectProjectAspect) getElement()
-				.getDesign().getDocument().getProject()
+		businessObjectAspect = (IBusinessObjectProjectAspect) getElement().getDesign()
+				.getDocument().getProject()
 				.getProjectAspect(IBusinessObjectProjectAspect.ASPECT_ID);
 		varName = configuration.getAttribute("var-name");
 		secured = Boolean.parseBoolean(configuration.getAttribute("secured"));
@@ -120,16 +111,13 @@ public class RecordInformationProvider extends PrimitiveInformationProvider
 
 	@Override
 	public void writeConfiguration(org.w3c.dom.Element configuration) {
-		configuration.setAttribute("var-name",
-				XMLUtilities.encodeAttribute(varName));
+		configuration.setAttribute("var-name", XMLUtilities.encodeAttribute(varName));
 		configuration.setAttribute("secured", Boolean.toString(secured));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.ui.app.editor.model.EditorComponent#
-	 * getPropertiesPanel()
+	 * @see org.eclipse.vtp.desktop.ui.app.editor.model.EditorComponent# getPropertiesPanel()
 	 */
 	// public List getPropertiesPanels()
 	// {
@@ -144,14 +132,11 @@ public class RecordInformationProvider extends PrimitiveInformationProvider
 	}
 
 	@Override
-	public List<Variable> getOutgoingVariables(String exitPoint,
-			boolean localOnly) {
-		if (exitPoint.equals("Continue")
-				|| exitPoint.equals("error.disconnect.hangup")) {
+	public List<Variable> getOutgoingVariables(String exitPoint, boolean localOnly) {
+		if (exitPoint.equals("Continue") || exitPoint.equals("error.disconnect.hangup")) {
 			List<Variable> ret = new ArrayList<Variable>();
 			if (varName != null && !varName.equals("")) {
-				IBusinessObjectSet bos = businessObjectAspect
-						.getBusinessObjectSet();
+				IBusinessObjectSet bos = businessObjectAspect.getBusinessObjectSet();
 				FieldType ft = FieldType.STRING;
 				Variable v = new Variable(varName, ft);
 				VariableHelper.buildObjectFields(v, bos);
@@ -160,6 +145,12 @@ public class RecordInformationProvider extends PrimitiveInformationProvider
 					Variable dtmf = new Variable("RecordDTMF", ft);
 					VariableHelper.buildObjectFields(dtmf, bos);
 					ret.add(dtmf);
+					Variable duration = new Variable("RecordDuration", ft);
+					VariableHelper.buildObjectFields(duration, bos);
+					ret.add(duration);
+					Variable size = new Variable("RecordSize", ft);
+					VariableHelper.buildObjectFields(size, bos);
+					ret.add(size);
 				}
 			}
 			return ret;

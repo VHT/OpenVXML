@@ -33,9 +33,8 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElement;
 /**
  * The graphical user interface used to configure a script module
  */
-public class ScriptPropertiesPanel extends DesignElementPropertiesPanel
-{
-	/**	The text field that contains the script and serves as the editor */
+public class ScriptPropertiesPanel extends DesignElementPropertiesPanel {
+	/** The text field that contains the script and serves as the editor */
 	Text scriptText = null;
 	FormToolkit toolkit = null;
 	/** The text field used to set name of this particular Script module */
@@ -48,24 +47,24 @@ public class ScriptPropertiesPanel extends DesignElementPropertiesPanel
 	 * @param name
 	 * @param element
 	 */
-	public ScriptPropertiesPanel(String name, IDesignElement element)
-	{
+	public ScriptPropertiesPanel(String name, IDesignElement element) {
 		super(name, element);
-		info = (ScriptInformationProvider)((PrimitiveElement)element).getInformationProvider();
+		info = (ScriptInformationProvider) ((PrimitiveElement) element).getInformationProvider();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel#createControls(org.eclipse.swt.widgets.Composite)
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel#createControls(org
+	 * .eclipse.swt.widgets.Composite)
 	 */
-	public void createControls(Composite parent)
-	{
+	public void createControls(Composite parent) {
 		parent.setLayout(new GridLayout(1, false));
-		
+
 		toolkit = new FormToolkit(parent.getDisplay());
-		final Section generalSection =
-			toolkit.createSection(parent, Section.TITLE_BAR);
+		final Section generalSection = toolkit.createSection(parent, Section.TITLE_BAR);
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL
-						| GridData.VERTICAL_ALIGN_BEGINNING);
+				| GridData.VERTICAL_ALIGN_BEGINNING);
 		generalSection.setLayoutData(gridData);
 		generalSection.setText("General");
 
@@ -73,7 +72,7 @@ public class ScriptPropertiesPanel extends DesignElementPropertiesPanel
 		generalComp.setBackground(parent.getBackground());
 		generalComp.setLayout(new GridLayout(2, false));
 		generalSection.setClient(generalComp);
-		
+
 		Label nameLabel = new Label(generalComp, SWT.NONE);
 		nameLabel.setText("Name: ");
 		nameLabel.setBackground(generalComp.getBackground());
@@ -90,13 +89,11 @@ public class ScriptPropertiesPanel extends DesignElementPropertiesPanel
 		secureElementButton.setLayoutData(gridData);
 		secureElementButton.setSelection(info.isSecured());
 
-		final Section contentSection =
-			toolkit.createSection(parent, Section.TITLE_BAR);
-		gridData = new GridData(GridData.FILL_HORIZONTAL
-						| GridData.VERTICAL_ALIGN_BEGINNING);
+		final Section contentSection = toolkit.createSection(parent, Section.TITLE_BAR);
+		gridData = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
 		contentSection.setLayoutData(gridData);
 		contentSection.setText("Script");
-		
+
 		scriptText = new Text(parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
 		gridData = new GridData(GridData.FILL_BOTH);
 		gridData.heightHint = 400;
@@ -105,32 +102,29 @@ public class ScriptPropertiesPanel extends DesignElementPropertiesPanel
 		scriptText.setText(info.getScriptText());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel#save()
 	 */
-	public void save()
-	{
+	public void save() {
 		getElement().setName(nameField.getText());
 		info.setScriptText(scriptText.getText());
 		info.setSecured(secureElementButton.getSelection());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.vtp.desktop.model.core.configuration.ComponentPropertiesPanel#cancel()
 	 */
-	public void cancel()
-	{
-		
+	public void cancel() {
+
 	}
 
 	@Override
-	public void setConfigurationContext(Map<String, Object> values)
-	{
-	}
+	public void setConfigurationContext(Map<String, Object> values) {}
 
 	@Override
-	public List<String> getApplicableContexts()
-	{
+	public List<String> getApplicableContexts() {
 		return Collections.emptyList();
 	}
 

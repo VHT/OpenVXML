@@ -34,7 +34,6 @@ import com.openmethods.openvxml.desktop.model.workflow.markers.WorkflowMarkerCon
 
 /**
  * @author trip
- *
  */
 public class WorkflowProjectBuilder extends IncrementalProjectBuilder {
 	/**
@@ -48,31 +47,24 @@ public class WorkflowProjectBuilder extends IncrementalProjectBuilder {
 	/**
 	 * 
 	 */
-	public WorkflowProjectBuilder() {
-	}
+	public WorkflowProjectBuilder() {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.core.resources.IncrementalProjectBuilder#build(int,
-	 * java.util.Map, org.eclipse.core.runtime.IProgressMonitor)
+	 * @see org.eclipse.core.resources.IncrementalProjectBuilder#build(int, java.util.Map,
+	 * org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
-	protected IProject[] build(int kind,
-			@SuppressWarnings("rawtypes") Map args, IProgressMonitor monitor)
-			throws CoreException {
+	protected IProject[] build(int kind, @SuppressWarnings("rawtypes") Map args,
+			IProgressMonitor monitor) throws CoreException {
 		modifiedByBuilder.clear();
-		System.err.println("building: " + getProject().getName() + " this: "
-				+ this);
+		System.err.println("building: " + getProject().getName() + " this: " + this);
 		// index|build of project
-		boolean isFirstTime = !WorkflowIndexService.getInstance().isIndexed(
-				getProject());
+		boolean isFirstTime = !WorkflowIndexService.getInstance().isIndexed(getProject());
 		if (!getProject().isSynchronized(IResource.DEPTH_INFINITE)) {
-			System.err
-					.println("Resource out of synch with filesystem, refreshing");
+			System.err.println("Resource out of synch with filesystem, refreshing");
 			if (!isFirstTime) {
-				index = WorkflowIndexService.getInstance().getIndex(
-						getProject());
+				index = WorkflowIndexService.getInstance().getIndex(getProject());
 				index.cleanProject();
 			}
 			getProject().refreshLocal(IResource.DEPTH_INFINITE, monitor);
@@ -90,8 +82,7 @@ public class WorkflowProjectBuilder extends IncrementalProjectBuilder {
 				} else {
 					ChangeCounter counter = new ChangeCounter();
 					delta.accept(counter);
-					System.err.println("delta: " + delta + " changes: "
-							+ counter.affected);
+					System.err.println("delta: " + delta + " changes: " + counter.affected);
 					if (counter.affected > 0) {
 						incrementalBuild(delta, monitor);
 					}
@@ -108,14 +99,13 @@ public class WorkflowProjectBuilder extends IncrementalProjectBuilder {
 		// update to project references
 		IProjectDescription desc = getProject().getDescription();
 		IProject[] oldReferences = desc.getDynamicReferences();
-		IProject[] allProjects = getProject().getWorkspace().getRoot()
-				.getProjects();
+		IProject[] allProjects = getProject().getWorkspace().getRoot().getProjects();
 		List<IProject> refProjects = new LinkedList<IProject>();
 		List<IWorkflowReference> newRefs = index.getWorkflowReferences();
 		for (IWorkflowReference ref : newRefs) {
 			for (IProject p : allProjects) {
-				IOpenVXMLProject wp = WorkflowCore.getDefault()
-						.getWorkflowModel().convertToWorkflowProject(p);
+				IOpenVXMLProject wp = WorkflowCore.getDefault().getWorkflowModel()
+						.convertToWorkflowProject(p);
 				if (wp != null && wp.getId().equals(ref.getTargetId())) {
 					if (!refProjects.contains(p)) {
 						refProjects.add(p);
@@ -147,8 +137,7 @@ public class WorkflowProjectBuilder extends IncrementalProjectBuilder {
 			}
 		}
 		if (mismatch) {
-			desc.setDynamicReferences(refProjects
-					.toArray(new IProject[refProjects.size()]));
+			desc.setDynamicReferences(refProjects.toArray(new IProject[refProjects.size()]));
 			getProject().setDescription(desc, monitor);
 		}
 		if (!index.isValidated()) {
@@ -159,42 +148,33 @@ public class WorkflowProjectBuilder extends IncrementalProjectBuilder {
 
 	private void validate(final IProgressMonitor monitor) {
 		try {
-			getProject().deleteMarkers(WorkflowMarkerConstants.WORKFLOW_MARKER,
-					true, IResource.DEPTH_INFINITE);
+			getProject().deleteMarkers(WorkflowMarkerConstants.WORKFLOW_MARKER, true,
+					IResource.DEPTH_INFINITE);
 			index.setValidated(true);
-		} catch (CoreException e) {
-		}
+		} catch (CoreException e) {}
 	}
 
 	/**
 	 * Performs all tasks required by a full build of the application project.
 	 *
-	 * @param monitor
-	 *            The progress monitor used to provide user feedback
-	 * @throws CoreException
-	 *             If the build encounters an error during execution
+	 * @param monitor The progress monitor used to provide user feedback
+	 * @throws CoreException If the build encounters an error during execution
 	 */
-	protected void fullBuild(final IProgressMonitor monitor)
-			throws CoreException {
-		System.err
-				.println("##########doing full build****************************");
+	protected void fullBuild(final IProgressMonitor monitor) throws CoreException {
+		System.err.println("##########doing full build****************************");
 		index.cleanProject();
 		index.fullIndex();
 	}
 
 	/**
-	 * Performs any build tasks required by the resource delta of the
-	 * application project.
+	 * Performs any build tasks required by the resource delta of the application project.
 	 *
-	 * @param delta
-	 *            The changes to the application project
-	 * @param monitor
-	 *            The progress monitor used to provide user feedback
-	 * @throws CoreException
-	 *             If the build encounters an error during execution
+	 * @param delta The changes to the application project
+	 * @param monitor The progress monitor used to provide user feedback
+	 * @throws CoreException If the build encounters an error during execution
 	 */
-	protected void incrementalBuild(IResourceDelta delta,
-			IProgressMonitor monitor) throws CoreException {
+	protected void incrementalBuild(IResourceDelta delta, IProgressMonitor monitor)
+			throws CoreException {
 		RemovalDeltaVisitor removalVisitor = new RemovalDeltaVisitor();
 		delta.accept(removalVisitor);
 		AddedDeltaVisitor addedVisitor = new AddedDeltaVisitor();
@@ -209,11 +189,9 @@ public class WorkflowProjectBuilder extends IncrementalProjectBuilder {
 						try {
 							document.commitWorkingCopy();
 						} catch (Exception ex) {
-							IStatus status = new Status(IStatus.ERROR,
-									WorkflowCore.PLUGIN_ID, 0,
+							IStatus status = new Status(IStatus.ERROR, WorkflowCore.PLUGIN_ID, 0,
 									"Error during build: updating a copied or moved document. "
-											+ document.getUnderlyingFile()
-													.getFullPath(), ex);
+											+ document.getUnderlyingFile().getFullPath(), ex);
 							WorkflowCore.getDefault().getLog().log(status);
 						}
 					}
@@ -223,22 +201,19 @@ public class WorkflowProjectBuilder extends IncrementalProjectBuilder {
 	}
 
 	/**
-	 * This delta visitor is currently a NOOP. Any resource delta analysis
-	 * needed by future incarnations of this builder will be performed here.
+	 * This delta visitor is currently a NOOP. Any resource delta analysis needed by future
+	 * incarnations of this builder will be performed here.
 	 */
 	private class RemovalDeltaVisitor implements IResourceDeltaVisitor {
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.core.resources.IResourceDeltaVisitor#visit(org.eclipse
+		 * @see org.eclipse.core.resources.IResourceDeltaVisitor#visit(org.eclipse
 		 * .core.resources.IResourceDelta)
 		 */
 		@Override
 		public boolean visit(IResourceDelta delta) throws CoreException {
 			IResource resource = delta.getResource();
-			if (resource instanceof IFile
-					&& delta.getKind() == IResourceDelta.REMOVED) {
+			if (resource instanceof IFile && delta.getKind() == IResourceDelta.REMOVED) {
 				System.out.println("Removal Vistor: " + resource);
 				System.out.println(delta);
 				index.remove(resource.getProjectRelativePath().toString());
@@ -251,24 +226,21 @@ public class WorkflowProjectBuilder extends IncrementalProjectBuilder {
 	}
 
 	/**
-	 * This delta visitor is currently a NOOP. Any resource delta analysis
-	 * needed by future incarnations of this builder will be performed here.
+	 * This delta visitor is currently a NOOP. Any resource delta analysis needed by future
+	 * incarnations of this builder will be performed here.
 	 */
 	private class ChangedDeltaVisitor implements IResourceDeltaVisitor {
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.core.resources.IResourceDeltaVisitor#visit(org.eclipse
+		 * @see org.eclipse.core.resources.IResourceDeltaVisitor#visit(org.eclipse
 		 * .core.resources.IResourceDelta)
 		 */
 		@Override
 		public boolean visit(IResourceDelta delta) throws CoreException {
 			IResource resource = delta.getResource();
-			if (resource instanceof IFile
-					&& delta.getKind() == IResourceDelta.CHANGED) {
-				IWorkflowResource workflowResource = WorkflowCore.getDefault()
-						.getWorkflowModel().convertToWorkflowResource(resource);
+			if (resource instanceof IFile && delta.getKind() == IResourceDelta.CHANGED) {
+				IWorkflowResource workflowResource = WorkflowCore.getDefault().getWorkflowModel()
+						.convertToWorkflowResource(resource);
 				if (workflowResource instanceof IDesignDocument) {
 					System.out.println("Changed Vistor: " + resource);
 					System.out.println(delta);
@@ -282,15 +254,13 @@ public class WorkflowProjectBuilder extends IncrementalProjectBuilder {
 	}
 
 	/**
-	 * This delta visitor is currently a NOOP. Any resource delta analysis
-	 * needed by future incarnations of this builder will be performed here.
+	 * This delta visitor is currently a NOOP. Any resource delta analysis needed by future
+	 * incarnations of this builder will be performed here.
 	 */
 	private class AddedDeltaVisitor implements IResourceDeltaVisitor {
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.core.resources.IResourceDeltaVisitor#visit(org.eclipse
+		 * @see org.eclipse.core.resources.IResourceDeltaVisitor#visit(org.eclipse
 		 * .core.resources.IResourceDelta)
 		 */
 		@Override
@@ -299,23 +269,21 @@ public class WorkflowProjectBuilder extends IncrementalProjectBuilder {
 			if (delta.getKind() == IResourceDelta.ADDED) {
 				System.out.println("Added Vistor: " + resource);
 				System.out.println(delta);
-				IWorkflowResource workflowResource = WorkflowCore.getDefault()
-						.getWorkflowModel().convertToWorkflowResource(resource);
+				IWorkflowResource workflowResource = WorkflowCore.getDefault().getWorkflowModel()
+						.convertToWorkflowResource(resource);
 				if (workflowResource instanceof IDesignDocument) {
 					final IDesignDocument designDocument = (IDesignDocument) workflowResource;
 					if (delta.getFlags() != IResourceDelta.MOVED_FROM) {
 						System.out.println("not a move operation");
 						designDocument.becomeWorkingCopy();
-						List<IDesignElement> mainElements = designDocument
-								.getMainDesign().getDesignElements();
+						List<IDesignElement> mainElements = designDocument.getMainDesign()
+								.getDesignElements();
 						for (IDesignElement element : mainElements) {
-							if (index.elementExists(designDocument,
-									element.getId())) {
+							if (index.elementExists(designDocument, element.getId())) {
 								System.out.println("duplicate id detected");
 								// there is an id collision that must be
 								// resolved
-								((Design) designDocument.getMainDesign())
-										.forceNewIds();
+								((Design) designDocument.getMainDesign()).forceNewIds();
 								modifiedByBuilder.add(designDocument);
 							}
 						}
@@ -335,14 +303,10 @@ public class WorkflowProjectBuilder extends IncrementalProjectBuilder {
 		@Override
 		public boolean visit(IResourceDelta delta) {
 			IResource resource = delta.getResource();
-			if (resource instanceof IProject) {
-				return true;
-			}
-			IWorkflowResource workflowResource = WorkflowCore.getDefault()
-					.getWorkflowModel().convertToWorkflowResource(resource);
-			if (workflowResource instanceof IDesignItemContainer) {
-				return true;
-			}
+			if (resource instanceof IProject) { return true; }
+			IWorkflowResource workflowResource = WorkflowCore.getDefault().getWorkflowModel()
+					.convertToWorkflowResource(resource);
+			if (workflowResource instanceof IDesignItemContainer) { return true; }
 			if (workflowResource instanceof IDesignDocument) {
 				++affected;
 			}

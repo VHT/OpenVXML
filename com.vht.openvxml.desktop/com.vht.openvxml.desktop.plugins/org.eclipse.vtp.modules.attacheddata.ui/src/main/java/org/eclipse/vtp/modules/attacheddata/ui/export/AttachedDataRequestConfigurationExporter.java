@@ -8,30 +8,26 @@ import org.eclipse.vtp.framework.interactions.core.configurations.MetaDataReques
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class AttachedDataRequestConfigurationExporter implements
-		IConfigurationExporter, InteractionsConstants {
+public class AttachedDataRequestConfigurationExporter
+	implements
+	IConfigurationExporter,
+	InteractionsConstants {
 
-	public AttachedDataRequestConfigurationExporter() {
-	}
+	public AttachedDataRequestConfigurationExporter() {}
 
 	@Override
-	public void exportConfiguration(IFlowElement flowElement,
-			Element actionElement) {
+	public void exportConfiguration(IFlowElement flowElement, Element actionElement) {
 		String uri = "http://www.eclipse.org/vtp/namespaces/config";
-		NodeList metadataRequestNodeList = ((Element) flowElement
-				.getConfiguration()
-				.getElementsByTagNameNS(uri, "custom-config").item(0))
-				.getElementsByTagNameNS(uri, "meta-data-request");
+		NodeList metadataRequestNodeList = ((Element) flowElement.getConfiguration()
+				.getElementsByTagNameNS(uri, "custom-config").item(0)).getElementsByTagNameNS(uri,
+				"meta-data-request");
 		if (metadataRequestNodeList.getLength() > 0) {
-			Element metadataRequestElement = (Element) metadataRequestNodeList
-					.item(0);
+			Element metadataRequestElement = (Element) metadataRequestNodeList.item(0);
 			MetaDataRequestConfiguration config = new MetaDataRequestConfiguration();
 			config.setInput(metadataRequestElement.getAttribute("input"));
 			config.setOutput(metadataRequestElement.getAttribute("output"));
-			Element configElement = actionElement.getOwnerDocument()
-					.createElementNS(
-							IDefinitionBuilder.NAMESPACE_URI_INTERACTIONS_CORE,
-							"common:meta-data-request");
+			Element configElement = actionElement.getOwnerDocument().createElementNS(
+					IDefinitionBuilder.NAMESPACE_URI_INTERACTIONS_CORE, "common:meta-data-request");
 			config.save(configElement);
 			actionElement.appendChild(configElement);
 		}
@@ -53,8 +49,7 @@ public class AttachedDataRequestConfigurationExporter implements
 	}
 
 	@Override
-	public String getTargetId(IFlowElement flowElement,
-			Element afterTransitionElement) {
+	public String getTargetId(IFlowElement flowElement, Element afterTransitionElement) {
 		return flowElement.getDefaultTargetId(afterTransitionElement);
 	}
 

@@ -21,8 +21,8 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
 /**
- * The <code>InlineGrammar</code> class represents the &lt;grammar&gt; VXML
- * element with the grammar structure embedded as child elements.
+ * The <code>InlineGrammar</code> class represents the &lt;grammar&gt; VXML element with the grammar
+ * structure embedded as child elements.
  * 
  * @author Trip Gilman
  * @author Lonnie Pryor
@@ -35,13 +35,10 @@ public class InlineGrammar extends Grammar {
 	/**
 	 * Creates a new InlineGrammar.
 	 * 
-	 * @throws IllegalArgumentException
-	 *             If the specified mode is not one of "dtmf" or "voice".
-	 * @throws NullPointerException
-	 *             If the specified mode is <code>null</code>.
+	 * @throws IllegalArgumentException If the specified mode is not one of "dtmf" or "voice".
+	 * @throws NullPointerException If the specified mode is <code>null</code>.
 	 */
-	public InlineGrammar(String mode) throws IllegalArgumentException,
-			NullPointerException {
+	public InlineGrammar(String mode) throws IllegalArgumentException, NullPointerException {
 		super(mode);
 	}
 
@@ -57,14 +54,11 @@ public class InlineGrammar extends Grammar {
 	/**
 	 * Adds a rule to this grammar's list.
 	 * 
-	 * @param rule
-	 *            The rule to add.
-	 * @throws NullPointerException
-	 *             If the specified rule is <code>null</code>.
+	 * @param rule The rule to add.
+	 * @throws NullPointerException If the specified rule is <code>null</code>.
 	 */
 	public void addRule(Rule rule) throws NullPointerException {
-		if (rule == null) {
-			throw new NullPointerException("rule"); //$NON-NLS-1$
+		if (rule == null) { throw new NullPointerException("rule"); //$NON-NLS-1$
 		}
 		rules.add(rule);
 	}
@@ -72,40 +66,34 @@ public class InlineGrammar extends Grammar {
 	/**
 	 * Removes a rule from this grammar's list.
 	 * 
-	 * @param rule
-	 *            The rule to remove.
-	 * @throws NullPointerException
-	 *             If the specified rule is <code>null</code>.
+	 * @param rule The rule to remove.
+	 * @throws NullPointerException If the specified rule is <code>null</code>.
 	 */
 	public void removeRule(Rule rule) throws NullPointerException {
-		if (rule == null) {
-			throw new NullPointerException("rule"); //$NON-NLS-1$
+		if (rule == null) { throw new NullPointerException("rule"); //$NON-NLS-1$
 		}
 		rules.remove(rule);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.voice.output.Grammar#writeAttributes(
 	 * org.xml.sax.helpers.AttributesImpl)
 	 */
 	@Override
 	protected void writeAttributes(AttributesImpl attributes) {
 		super.writeAttributes(attributes);
-		writeAttribute(attributes, null, null, NAME_ROOT, TYPE_CDATA, rules
-				.getFirst().getId());
+		writeAttribute(attributes, null, null, NAME_ROOT, TYPE_CDATA, rules.getFirst().getId());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.voice.output.Grammar#writeChildren(
 	 * org.xml.sax.ContentHandler)
 	 */
 	@Override
-	protected void writeChildren(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
+	protected void writeChildren(ContentHandler outputHandler) throws NullPointerException,
+			SAXException {
 		writeChildren(outputHandler, rules);
 	}
 }

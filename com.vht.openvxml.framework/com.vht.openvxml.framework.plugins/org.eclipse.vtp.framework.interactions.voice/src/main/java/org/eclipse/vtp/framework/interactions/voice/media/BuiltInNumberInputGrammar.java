@@ -16,7 +16,6 @@ import org.w3c.dom.Element;
 
 /**
  * @author lonnie
- * 
  */
 public class BuiltInNumberInputGrammar extends BuiltInInputGrammar {
 	public static final String ELEMENT_NAME = "builtin-number-input-grammar"; //$NON-NLS-1$
@@ -45,9 +44,7 @@ public class BuiltInNumberInputGrammar extends BuiltInInputGrammar {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.media.CustomInputGrammar#
+	 * @see org.eclipse.vtp.framework.interactions.core.media.CustomInputGrammar#
 	 * getCustomInputData()
 	 */
 	@Override

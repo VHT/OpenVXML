@@ -36,8 +36,7 @@ import com.openmethods.openvxml.desktop.model.workflow.IDesignRootFolder;
 import com.openmethods.openvxml.desktop.model.workflow.IWorkflowExit;
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElement;
 
-public class ReturnGeneralPropertiesPanel extends DesignElementPropertiesPanel
-{
+public class ReturnGeneralPropertiesPanel extends DesignElementPropertiesPanel {
 	Label errorField;
 	Label nameLabel;
 	Text nameField;
@@ -46,41 +45,36 @@ public class ReturnGeneralPropertiesPanel extends DesignElementPropertiesPanel
 	List<IWorkflowExit> returnElements = new ArrayList<IWorkflowExit>();
 	private ReturnInformationProvider info = null;
 
-	public ReturnGeneralPropertiesPanel(String name, IDesignElement ppe)
-	{
+	public ReturnGeneralPropertiesPanel(String name, IDesignElement ppe) {
 		super(name, ppe);
-		info = (ReturnInformationProvider)((PrimitiveElement)ppe).getInformationProvider();
+		info = (ReturnInformationProvider) ((PrimitiveElement) ppe).getInformationProvider();
 		returnElements.addAll(ppe.getDesign().getDocument().getWorkflowExits());
 		IDesignItemContainer container = ppe.getDesign().getDocument().getParentDesignContainer();
-		while(!(container instanceof IDesignRootFolder))
-			container = (IDesignItemContainer)container.getParent();
+		while (!(container instanceof IDesignRootFolder))
+			container = (IDesignItemContainer) container.getParent();
 		traverseDesigns(container);
 	}
-	
-	private void traverseDesigns(IDesignItemContainer container)
-	{
+
+	private void traverseDesigns(IDesignItemContainer container) {
 		List<IDesignDocument> documents = container.getDesignDocuments();
-		for(IDesignDocument document : documents)
-		{
-			if(!document.equals(getElement().getDesign().getDocument()))
-			{
+		for (IDesignDocument document : documents) {
+			if (!document.equals(getElement().getDesign().getDocument())) {
 				returnElements.addAll(document.getWorkflowExits());
 			}
 		}
 		List<IDesignFolder> folders = container.getDesignFolders();
-		for(IDesignFolder folder : folders)
-		{
+		for (IDesignFolder folder : folders) {
 			traverseDesigns(folder);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
-	 * @see org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel#createControls(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel#createControls(org.eclipse
+	 * .swt.widgets.Composite)
 	 */
-	public void createControls(Composite parent)
-	{
+	public void createControls(Composite parent) {
 		Composite comp = new Composite(parent, SWT.NONE);
 		comp.setBackground(parent.getBackground());
 		comp.setLayout(new GridLayout(2, false));
@@ -97,17 +91,12 @@ public class ReturnGeneralPropertiesPanel extends DesignElementPropertiesPanel
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL | GridData.HORIZONTAL_ALIGN_CENTER);
 		gd.horizontalSpan = 2;
 		errorField.setLayoutData(gd);
-		nameField.addModifyListener(new ModifyListener()
-		{
-			
-			public void modifyText(ModifyEvent e)
-			{
-				for(IWorkflowExit exit : returnElements)
-				{
-					if(!exit.getId().equals(getElement().getId()))
-					{
-						if(exit.getName().equals(nameField.getText()))
-						{
+		nameField.addModifyListener(new ModifyListener() {
+
+			public void modifyText(ModifyEvent e) {
+				for (IWorkflowExit exit : returnElements) {
+					if (!exit.getId().equals(getElement().getId())) {
+						if (exit.getName().equals(nameField.getText())) {
 							errorField.setText("There is already a Return with that name.");
 							ReturnGeneralPropertiesPanel.this.getContainer().setCanFinish(false);
 							return;
@@ -117,17 +106,14 @@ public class ReturnGeneralPropertiesPanel extends DesignElementPropertiesPanel
 				errorField.setText("");
 				ReturnGeneralPropertiesPanel.this.getContainer().setCanFinish(true);
 			}
-			
+
 		});
 		nameField.setText(getElement().getName());
 		errorField.setText("");
 		getContainer().setCanFinish(true);
-		for(IWorkflowExit exit : returnElements)
-		{
-			if(!exit.getId().equals(getElement().getId()))
-			{
-				if(exit.getName().equals(nameField.getText()))
-				{
+		for (IWorkflowExit exit : returnElements) {
+			if (!exit.getId().equals(getElement().getId())) {
+				if (exit.getName().equals(nameField.getText())) {
 					errorField.setText("There is already a Return with that name.");
 					getContainer().setCanFinish(false);
 					break;
@@ -141,40 +127,31 @@ public class ReturnGeneralPropertiesPanel extends DesignElementPropertiesPanel
 		exitTypeCombo = new Combo(comp, SWT.SINGLE | SWT.READ_ONLY | SWT.DROP_DOWN);
 		exitTypeCombo.add("Normal");
 		exitTypeCombo.add("Error");
-		if(info.getExitType() != null && info.getExitType().equals("Error"))
-			exitTypeCombo.select(1);
-		else
-			exitTypeCombo.select(0);
+		if (info.getExitType() != null && info.getExitType().equals("Error")) exitTypeCombo
+				.select(1);
+		else exitTypeCombo.select(0);
 
 		setControl(comp);
 	}
 
-	public void save()
-	{
-		try
-		{
+	public void save() {
+		try {
 			getElement().setName(nameField.getText());
 			info.setExitType(exitTypeCombo.getItem(exitTypeCombo.getSelectionIndex()));
-		}
-		catch(Exception ex)
-		{
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
-	
-	public void cancel()
-	{
-		
+
+	public void cancel() {
+
 	}
 
 	@Override
-	public void setConfigurationContext(Map<String, Object> values)
-	{
-	}
+	public void setConfigurationContext(Map<String, Object> values) {}
 
 	@Override
-	public List<String> getApplicableContexts()
-	{
+	public List<String> getApplicableContexts() {
 		return Collections.emptyList();
 	}
 

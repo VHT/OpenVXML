@@ -22,10 +22,9 @@ public class PrimitiveElementFactory implements ElementFactory {
 	@Override
 	public DesignElement createElement(Design design, Object data) {
 		String specializationId = (String) data;
-		PrimitiveElementTemplate template = PrimitiveElementManager
-				.getDefault().getElementTemplate(specializationId);
-		PrimitiveElement element = new PrimitiveElement(specializationId,
-				template.getName());
+		PrimitiveElementTemplate template = PrimitiveElementManager.getDefault()
+				.getElementTemplate(specializationId);
+		PrimitiveElement element = new PrimitiveElement(specializationId, template.getName());
 		return element;
 	}
 

@@ -20,38 +20,28 @@ public interface IProcessEngine {
 	/**
 	 * Creates a new process instance from the specified descriptor.
 	 * 
-	 * @param definition
-	 *            The definition of the process to create.
-	 * @param descriptor
-	 *            The descriptor of the process to create.
+	 * @param definition The definition of the process to create.
+	 * @param descriptor The descriptor of the process to create.
 	 * @return A new process instance from the specified descriptor.
-	 * @throws NullPointerException
-	 *             If the specified definition is <code>null</code>.
-	 * @throws NullPointerException
-	 *             If the specified descriptor is <code>null</code>.
+	 * @throws NullPointerException If the specified definition is <code>null</code>.
+	 * @throws NullPointerException If the specified descriptor is <code>null</code>.
 	 */
-	IProcess createProcess(IProcessDefinition definition,
-			IProcessDescriptor descriptor) throws NullPointerException;
+	IProcess createProcess(IProcessDefinition definition, IProcessDescriptor descriptor)
+			throws NullPointerException;
 
 	/**
 	 * Adds an observer that will be notified of changes to this process engine.
 	 * 
-	 * @param observer
-	 *            The observer to add.
-	 * @throws NullPointerException
-	 *             If the supplied observer is <code>null</code>.
+	 * @param observer The observer to add.
+	 * @throws NullPointerException If the supplied observer is <code>null</code>.
 	 */
-	void addProcessEngineObserver(IProcessEngineObserver observer)
-			throws NullPointerException;
+	void addProcessEngineObserver(IProcessEngineObserver observer) throws NullPointerException;
 
 	/**
 	 * Removes an observer form the list of this process engine's observers.
 	 * 
-	 * @param observer
-	 *            The observer to remove.
-	 * @throws NullPointerException
-	 *             If the supplied observer is <code>null</code>.
+	 * @param observer The observer to remove.
+	 * @throws NullPointerException If the supplied observer is <code>null</code>.
 	 */
-	void removeProcessEngineObserver(IProcessEngineObserver observer)
-			throws NullPointerException;
+	void removeProcessEngineObserver(IProcessEngineObserver observer) throws NullPointerException;
 }

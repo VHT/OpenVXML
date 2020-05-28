@@ -8,8 +8,7 @@ public class SecurableScriptedPrimitiveInformationProvider extends
 		ScriptedPrimitiveInformationProvider implements ISecurableElement {
 	boolean secured = false;
 
-	public SecurableScriptedPrimitiveInformationProvider(
-			PrimitiveElement element) {
+	public SecurableScriptedPrimitiveInformationProvider(PrimitiveElement element) {
 		super(element);
 	}
 

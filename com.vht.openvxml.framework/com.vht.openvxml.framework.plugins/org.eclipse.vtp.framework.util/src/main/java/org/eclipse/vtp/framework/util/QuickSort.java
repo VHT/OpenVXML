@@ -1,19 +1,18 @@
 package org.eclipse.vtp.framework.util;
 
 /**
- * A utility class that provides the quick sort algorithm for classes that
- * implement the Comparable interface
+ * A utility class that provides the quick sort algorithm for classes that implement the Comparable
+ * interface
  *
  * @see Comparable
  * @author Trip Gilman
  */
 public class QuickSort {
 	/**
-	 * Returns the quick sorted Comparable array. The compareTo function of the
-	 * Comparable interface provides the positional comparisons.
+	 * Returns the quick sorted Comparable array. The compareTo function of the Comparable interface
+	 * provides the positional comparisons.
 	 *
-	 * @param comps
-	 *            The array to sort.
+	 * @param comps The array to sort.
 	 * @return Comparable[] The original array in sorted order.
 	 **/
 	@SuppressWarnings("rawtypes")
@@ -22,22 +21,16 @@ public class QuickSort {
 	}
 
 	/**
-	 * Quick sorts the section of the given array specified between the src
-	 * index and the end index inclusive. The sorted original array is then
-	 * returned for ease-of-use reasons.
+	 * Quick sorts the section of the given array specified between the src index and the end index
+	 * inclusive. The sorted original array is then returned for ease-of-use reasons.
 	 *
-	 * @param comps
-	 *            The array to sort.
-	 * @param src
-	 *            The first element of the array section to sort.
-	 * @param end
-	 *            The last element of the array section to sort.
-	 * @return Comparable[] The original array with the specified section
-	 *         sorted.
+	 * @param comps The array to sort.
+	 * @param src The first element of the array section to sort.
+	 * @param end The last element of the array section to sort.
+	 * @return Comparable[] The original array with the specified section sorted.
 	 **/
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private static Comparable[] comparableSort(Comparable[] comps, int src,
-			int end) {
+	private static Comparable[] comparableSort(Comparable[] comps, int src, int end) {
 		Comparable tmp_comp = null;
 		int es = end - src;
 
@@ -129,9 +122,7 @@ public class QuickSort {
 		}
 		if (rp == lp) {
 			if (comps[lp].compareTo(pivot) > 0) {
-				if ((lp == src)) {
-					return comps;
-				}
+				if ((lp == src)) { return comps; }
 				comparableSort(comps, src, lp - 1);
 				comparableSort(comps, lp, end);
 			} else {

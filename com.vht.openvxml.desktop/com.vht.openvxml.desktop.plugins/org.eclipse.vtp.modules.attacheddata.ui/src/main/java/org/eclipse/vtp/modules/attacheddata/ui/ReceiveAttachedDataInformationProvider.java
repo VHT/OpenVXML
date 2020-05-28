@@ -24,8 +24,7 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElementConn
 import com.openmethods.openvxml.desktop.model.workflow.design.Variable;
 import com.openmethods.openvxml.desktop.model.workflow.internal.design.ConnectorRecord;
 
-public class ReceiveAttachedDataInformationProvider extends
-		PrimitiveInformationProvider {
+public class ReceiveAttachedDataInformationProvider extends PrimitiveInformationProvider {
 	List<ConnectorRecord> connectorRecords = new ArrayList<ConnectorRecord>();
 	private String output = "";
 	private String input = "";
@@ -34,8 +33,7 @@ public class ReceiveAttachedDataInformationProvider extends
 		super(element);
 		connectorRecords.add(new ConnectorRecord(element, "Continue",
 				IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
-		connectorRecords.add(new ConnectorRecord(element,
-				"error.disconnect.hangup",
+		connectorRecords.add(new ConnectorRecord(element, "error.disconnect.hangup",
 				IDesignElementConnectionPoint.ConnectionPointType.ERROR_POINT));
 	}
 
@@ -48,9 +46,7 @@ public class ReceiveAttachedDataInformationProvider extends
 	public ConnectorRecord getConnectorRecord(String recordName) {
 		for (int i = 0; i < connectorRecords.size(); i++) {
 			ConnectorRecord cr = connectorRecords.get(i);
-			if (cr.getName().equals(recordName)) {
-				return cr;
-			}
+			if (cr.getName().equals(recordName)) { return cr; }
 		}
 		return null;
 	}
@@ -67,8 +63,7 @@ public class ReceiveAttachedDataInformationProvider extends
 		for (int i = 0; i < connectorRecords.size(); i++) {
 			ConnectorRecord cr = connectorRecords.get(i);
 			if (cr.getType().isSet(
-					IDesignElementConnectionPoint.ConnectionPointType
-							.getFlagSet(types))) {
+					IDesignElementConnectionPoint.ConnectionPointType.getFlagSet(types))) {
 				ret.add(cr);
 			}
 		}
@@ -80,8 +75,8 @@ public class ReceiveAttachedDataInformationProvider extends
 		NodeList nl = configuration.getElementsByTagName("meta-data-request");
 		org.w3c.dom.Element metaDataRequestElement = null;
 		if (nl.getLength() == 0) {
-			metaDataRequestElement = configuration.getOwnerDocument()
-					.createElement("meta-data-request");
+			metaDataRequestElement = configuration.getOwnerDocument().createElement(
+					"meta-data-request");
 		} else {
 			metaDataRequestElement = (org.w3c.dom.Element) nl.item(0);
 		}
@@ -92,16 +87,15 @@ public class ReceiveAttachedDataInformationProvider extends
 
 	@Override
 	public void writeConfiguration(org.w3c.dom.Element configuration) {
-		org.w3c.dom.Element comparisonElement = configuration
-				.getOwnerDocument().createElement("meta-data-request");
+		org.w3c.dom.Element comparisonElement = configuration.getOwnerDocument().createElement(
+				"meta-data-request");
 		comparisonElement.setAttribute("input", input);
 		comparisonElement.setAttribute("output", output);
 		configuration.appendChild(comparisonElement);
 	}
 
 	@Override
-	public List<Variable> getOutgoingVariables(String exitPoint,
-			boolean localOnly) {
+	public List<Variable> getOutgoingVariables(String exitPoint, boolean localOnly) {
 		return Collections.emptyList();
 	}
 

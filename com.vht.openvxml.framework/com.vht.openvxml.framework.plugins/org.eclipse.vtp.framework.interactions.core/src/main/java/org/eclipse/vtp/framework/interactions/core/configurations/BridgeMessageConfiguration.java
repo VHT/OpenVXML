@@ -21,8 +21,7 @@ import org.w3c.dom.NodeList;
  * 
  * @author Lonnie Pryor
  */
-public class BridgeMessageConfiguration implements IConfiguration,
-		InteractionsConstants {
+public class BridgeMessageConfiguration implements IConfiguration, InteractionsConstants {
 	private MediaConfiguration mediaConfiguration = null;
 	private final IContentFactory contentFactory;
 
@@ -34,11 +33,11 @@ public class BridgeMessageConfiguration implements IConfiguration,
 	}
 
 	/**
-	 * Returns the media configuration for this message or <code>null</code> if
-	 * no such configuration is registered.
+	 * Returns the media configuration for this message or <code>null</code> if no such
+	 * configuration is registered.
 	 * 
-	 * @return The media configuration for this message or <code>null</code> if
-	 *         no such configuration is registered.
+	 * @return The media configuration for this message or <code>null</code> if no such
+	 *         configuration is registered.
 	 */
 	public MediaConfiguration getMediaConfiguration() {
 		return mediaConfiguration;
@@ -47,9 +46,8 @@ public class BridgeMessageConfiguration implements IConfiguration,
 	/**
 	 * Sets the media configuration for this message.
 	 * 
-	 * @param mediaConfiguration
-	 *            The media configuration for this message or <code>null</code>
-	 *            to remove the configuration.
+	 * @param mediaConfiguration The media configuration for this message or <code>null</code> to
+	 *            remove the configuration.
 	 */
 	public void setMediaConfiguration(MediaConfiguration mediaConfiguration) {
 		this.mediaConfiguration = mediaConfiguration;
@@ -57,14 +55,11 @@ public class BridgeMessageConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.core.IConfiguration#load(org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(org.w3c.dom.Element)
 	 */
 	@Override
 	public void load(Element configurationElement) {
-		NodeList elements = configurationElement.getElementsByTagNameNS(
-				NAMESPACE_URI, NAME_MEDIA);
+		NodeList elements = configurationElement.getElementsByTagNameNS(NAMESPACE_URI, NAME_MEDIA);
 		mediaConfiguration = null;
 		if (elements.getLength() == 0) {
 			mediaConfiguration = null;
@@ -76,22 +71,18 @@ public class BridgeMessageConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.core.IConfiguration#save(org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(org.w3c.dom.Element)
 	 */
 	@Override
 	public void save(Element configurationElement) {
-		if (mediaConfiguration == null) {
-			return;
-		}
+		if (mediaConfiguration == null) { return; }
 		String mediaName = NAME_MEDIA;
 		String prefix = configurationElement.getPrefix();
 		if (prefix != null && prefix.length() > 0) {
 			mediaName = prefix + ":" + mediaName; //$NON-NLS-1$
 		}
-		Element element = configurationElement.getOwnerDocument()
-				.createElementNS(NAMESPACE_URI, mediaName);
+		Element element = configurationElement.getOwnerDocument().createElementNS(NAMESPACE_URI,
+				mediaName);
 		mediaConfiguration.save(element);
 		configurationElement.appendChild(element);
 	}

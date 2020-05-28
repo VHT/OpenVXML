@@ -40,17 +40,14 @@ import org.eclipse.vtp.desktop.model.interactive.core.InteractiveWorkflowCore;
 import org.eclipse.vtp.desktop.model.interactive.voice.natures.VoiceProjectNature5_0;
 
 /**
- * This wizard walks the user through the steps required to create a new persona
- * project in the eclipse workspace. The user is prompted to enter a name for
- * the new persona. This name must be unique among the current projects in the
- * workspace, not just other personas. The persona project is automatically
- * created by this wizard and so requires no actions from the caller of the
- * wizard.
+ * This wizard walks the user through the steps required to create a new persona project in the
+ * eclipse workspace. The user is prompted to enter a name for the new persona. This name must be
+ * unique among the current projects in the workspace, not just other personas. The persona project
+ * is automatically created by this wizard and so requires no actions from the caller of the wizard.
  *
  * @author Trip
  */
-public class CreateVoiceWizard extends Wizard implements INewWizard,
-		IExecutableExtension {
+public class CreateVoiceWizard extends Wizard implements INewWizard, IExecutableExtension {
 	/**
 	 * The wizard page that collects the name of the new persona.
 	 */
@@ -64,61 +61,47 @@ public class CreateVoiceWizard extends Wizard implements INewWizard,
 	private List<FormatterRegistration> formatters = null;
 
 	/**
-	 * Creates a new <code>CreateVoiceWizard</code> instance with default
-	 * values.
+	 * Creates a new <code>CreateVoiceWizard</code> instance with default values.
 	 */
 	public CreateVoiceWizard() {
 		super();
 		this.setWindowTitle("New Voice Wizard");
-		formatters = FormatterRegistrationManager
-				.getInstance()
-				.getFormattersForInteractionType(
-						"org.eclipse.vtp.framework.interactions.voice.interaction");
+		formatters = FormatterRegistrationManager.getInstance().getFormattersForInteractionType(
+				"org.eclipse.vtp.framework.interactions.voice.interaction");
 		personaInformationPage = new PersonaInformationPage();
 		addPage(personaInformationPage);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.wizard.IWizard#performFinish()
 	 */
 	@Override
 	public boolean performFinish() {
-		FormatterRegistration fr = formatters
-				.get(personaInformationPage.languagePackSelector
-						.getSelectionIndex());
-		InteractiveWorkflowCore
-				.getDefault()
-				.getInteractiveWorkflowModel()
-				.createMediaProject(VoiceProjectNature5_0.NATURE_ID,
-						fr.getId(),
-						personaInformationPage.personaName.getText());
+		FormatterRegistration fr = formatters.get(personaInformationPage.languagePackSelector
+				.getSelectionIndex());
+		InteractiveWorkflowCore.getDefault().getInteractiveWorkflowModel().createMediaProject(
+				VoiceProjectNature5_0.NATURE_ID, fr.getId(),
+				personaInformationPage.personaName.getText());
 		BasicNewProjectResourceWizard.updatePerspective(configElement);
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench,
 	 * org.eclipse.jface.viewers.IStructuredSelection)
 	 */
 	@Override
-	public void init(IWorkbench workbench, IStructuredSelection selection) {
-	}
+	public void init(IWorkbench workbench, IStructuredSelection selection) {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org
-	 * .eclipse.core.runtime.IConfigurationElement, java.lang.String,
-	 * java.lang.Object)
+	 * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org
+	 * .eclipse.core.runtime.IConfigurationElement, java.lang.String, java.lang.Object)
 	 */
 	@Override
-	public void setInitializationData(IConfigurationElement cfig,
-			String propertyName, Object data) {
+	public void setInitializationData(IConfigurationElement cfig, String propertyName, Object data) {
 		configElement = cfig;
 	}
 
@@ -134,9 +117,7 @@ public class CreateVoiceWizard extends Wizard implements INewWizard,
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt
+		 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt
 		 * .widgets.Composite)
 		 */
 		@Override
@@ -154,20 +135,17 @@ public class CreateVoiceWizard extends Wizard implements INewWizard,
 			personaName = new Text(comp, SWT.SINGLE | SWT.BORDER);
 			personaName.addKeyListener(new KeyListener() {
 				@Override
-				public void keyPressed(KeyEvent e) {
-				}
+				public void keyPressed(KeyEvent e) {}
 
 				@Override
 				public void keyReleased(KeyEvent e) {
 					if (personaName.getText().length() == 0) {
 						setPageComplete(false);
 					} else {
-						IProject[] projs = ResourcesPlugin.getWorkspace()
-								.getRoot().getProjects();
+						IProject[] projs = ResourcesPlugin.getWorkspace().getRoot().getProjects();
 
 						for (IProject proj : projs) {
-							if (proj.getName().equalsIgnoreCase(
-									personaName.getText())) {
+							if (proj.getName().equalsIgnoreCase(personaName.getText())) {
 								setPageComplete(false);
 								setErrorMessage("There is already a project with that name.");
 								return;
@@ -184,11 +162,8 @@ public class CreateVoiceWizard extends Wizard implements INewWizard,
 				public void verifyText(VerifyEvent e) {
 					String text = e.text;
 					char[] chars = text.toCharArray();
-					String currentName = personaName.getText().substring(0,
-							e.start)
-							+ e.text
-							+ personaName.getText(e.end, (personaName.getText()
-									.length() - 1));
+					String currentName = personaName.getText().substring(0, e.start) + e.text
+							+ personaName.getText(e.end, (personaName.getText().length() - 1));
 					if (currentName.length() > 255) {
 						e.doit = false;
 						return;
@@ -213,17 +188,14 @@ public class CreateVoiceWizard extends Wizard implements INewWizard,
 
 			Label languageLabel = new Label(comp, SWT.NONE);
 			languageLabel.setText("Formatter:");
-			languagePackSelector = new Combo(comp, SWT.DROP_DOWN
-					| SWT.READ_ONLY | SWT.BORDER);
+			languagePackSelector = new Combo(comp, SWT.DROP_DOWN | SWT.READ_ONLY | SWT.BORDER);
 			nameLabel.setLayoutData(new GridData());
 			personaName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			languageLabel.setLayoutData(new GridData());
-			languagePackSelector.setLayoutData(new GridData(
-					GridData.FILL_HORIZONTAL));
+			languagePackSelector.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			setControl(comp);
 			for (FormatterRegistration fr : formatters) {
-				languagePackSelector.add(fr.getName() + "(" + fr.getVendor()
-						+ ")");
+				languagePackSelector.add(fr.getName() + "(" + fr.getVendor() + ")");
 			}
 			languagePackSelector.select(0);
 		}

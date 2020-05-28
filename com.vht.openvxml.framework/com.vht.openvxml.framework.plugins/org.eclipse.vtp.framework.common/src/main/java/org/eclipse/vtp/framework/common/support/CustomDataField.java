@@ -27,8 +27,7 @@ public class CustomDataField {
 		this(name, type, initialValue, false);
 	}
 
-	public CustomDataField(String name, IDataType type, String initialValue,
-			boolean secured) {
+	public CustomDataField(String name, IDataType type, String initialValue, boolean secured) {
 		this.name = name;
 		this.type = type;
 		this.initialValue = initialValue;

@@ -23,11 +23,9 @@ import com.openmethods.openvxml.desktop.model.businessobjects.IBusinessObjectPro
 import com.openmethods.openvxml.desktop.model.workflow.IWorkflowProjectAspect;
 import com.openmethods.openvxml.desktop.model.workflow.builders.WorkflowProjectBuilder;
 
-public class WorkflowProjectAspectFactory implements
-		IOpenVXMLProjectAspectFactory {
+public class WorkflowProjectAspectFactory implements IOpenVXMLProjectAspectFactory {
 
-	public WorkflowProjectAspectFactory() {
-	}
+	public WorkflowProjectAspectFactory() {}
 
 	@Override
 	public String getAspectId() {
@@ -43,15 +41,12 @@ public class WorkflowProjectAspectFactory implements
 	}
 
 	@Override
-	public boolean configureProject(IOpenVXMLProject project,
-			IProjectDescription desc, Element aspectConfiguration) {
+	public boolean configureProject(IOpenVXMLProject project, IProjectDescription desc,
+			Element aspectConfiguration) {
 		ICommand[] commands = desc.getBuildSpec();
 
 		for (ICommand command : commands) {
-			if (command.getBuilderName().equals(
-					WorkflowProjectBuilder.BUILDER_ID)) {
-				return false;
-			}
+			if (command.getBuilderName().equals(WorkflowProjectBuilder.BUILDER_ID)) { return false; }
 		}
 
 		ICommand[] newCommands = new ICommand[commands.length + 1];
@@ -65,23 +60,17 @@ public class WorkflowProjectAspectFactory implements
 	}
 
 	@Override
-	public void createProjectLayout(IOpenVXMLProject project,
-			Element aspectConfiguration) {
-		IFolder designFolder = project.getUnderlyingProject().getFolder(
-				"Workflow Design");
+	public void createProjectLayout(IOpenVXMLProject project, Element aspectConfiguration) {
+		IFolder designFolder = project.getUnderlyingProject().getFolder("Workflow Design");
 		if (!designFolder.exists()) {
 			try {
 				designFolder.create(true, true, null);
-				IFile mainDesignDocument = designFolder
-						.getFile("Main Canvas.canvas");
+				IFile mainDesignDocument = designFolder.getFile("Main Canvas.canvas");
 				String template = getTemplate("primary_design_document_template.xml");
-				template = template.replaceAll("\\[\\[flow_id\\]\\]",
-						Guid.createGUID());
-				template = template.replaceAll("\\[\\[begin_id\\]\\]",
-						Guid.createGUID());
-				mainDesignDocument.create(
-						new ByteArrayInputStream(template.getBytes()), true,
-						null);
+				template = template.replaceAll("\\[\\[flow_id\\]\\]", Guid.createGUID());
+				template = template.replaceAll("\\[\\[begin_id\\]\\]", Guid.createGUID());
+				mainDesignDocument
+						.create(new ByteArrayInputStream(template.getBytes()), true, null);
 			} catch (CoreException e) {
 				e.printStackTrace();
 				return;
@@ -97,8 +86,7 @@ public class WorkflowProjectAspectFactory implements
 
 	public String getTemplate(String name) {
 		try {
-			InputStream templateIn = this.getClass().getClassLoader()
-					.getResourceAsStream(name);
+			InputStream templateIn = this.getClass().getClassLoader().getResourceAsStream(name);
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			byte[] buf = new byte[10240];
 			int len = templateIn.read(buf);

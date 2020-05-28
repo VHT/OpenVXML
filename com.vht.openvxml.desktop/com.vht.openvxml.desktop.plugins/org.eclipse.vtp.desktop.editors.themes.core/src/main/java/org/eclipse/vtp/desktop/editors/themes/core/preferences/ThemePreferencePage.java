@@ -29,11 +29,10 @@ import org.eclipse.vtp.desktop.editors.themes.core.Theme;
 import org.eclipse.vtp.desktop.editors.themes.core.ThemeManager;
 
 /**
- * The preference page displayed in Eclipse preferences and used to change the
- * active graphical theme.
+ * The preference page displayed in Eclipse preferences and used to change the active graphical
+ * theme.
  */
-public class ThemePreferencePage extends PreferencePage implements
-		IWorkbenchPreferencePage {
+public class ThemePreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 	/** A list of available themes */
 	private List<Theme> themes = ThemeManager.getDefault().getInstalledThemes();
 	/** A combo box with which the user selects the a theme to use */
@@ -49,8 +48,7 @@ public class ThemePreferencePage extends PreferencePage implements
 	/**
 	 * Creates a new preference page with the given title and no image.
 	 *
-	 * @param title
-	 *            the title of this preference page
+	 * @param title the title of this preference page
 	 */
 	public ThemePreferencePage(String title) {
 		super(title);
@@ -59,11 +57,8 @@ public class ThemePreferencePage extends PreferencePage implements
 	/**
 	 * Creates a new preference page with the given title and image.
 	 *
-	 * @param title
-	 *            the title of this preference page
-	 * @param image
-	 *            the image for this preference page, or <code>null</code> if
-	 *            none
+	 * @param title the title of this preference page
+	 * @param image the image for this preference page, or <code>null</code> if none
 	 */
 	public ThemePreferencePage(String title, ImageDescriptor image) {
 		super(title, image);
@@ -71,9 +66,7 @@ public class ThemePreferencePage extends PreferencePage implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse
+	 * @see org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse
 	 * .swt.widgets.Composite)
 	 */
 	@Override
@@ -90,12 +83,10 @@ public class ThemePreferencePage extends PreferencePage implements
 		for (int i = 0; i < themes.size(); i++) {
 			Theme theme = themes.get(i);
 			themeCombo.add(theme.getName());
-			if (theme.getId().equals(
-					ThemeManager.getDefault().getDefaultTheme().getId())) {
+			if (theme.getId().equals(ThemeManager.getDefault().getDefaultTheme().getId())) {
 				defaultSelected = i;
 			}
-			if (theme.getId().equals(
-					ThemeManager.getDefault().getCurrentTheme().getId())) {
+			if (theme.getId().equals(ThemeManager.getDefault().getCurrentTheme().getId())) {
 				selected = i;
 			}
 		}
@@ -110,9 +101,7 @@ public class ThemePreferencePage extends PreferencePage implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
+	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
 	 */
 	@Override
 	public void init(IWorkbench workbench) {
@@ -121,7 +110,6 @@ public class ThemePreferencePage extends PreferencePage implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.preference.PreferencePage#performOk()
 	 */
 	@Override

@@ -29,53 +29,34 @@ public final class ObserverDescriptor {
 	/**
 	 * Creates a new ObserverDescriptor.
 	 * 
-	 * @param id
-	 *            The ID of this observer.
-	 * @param name
-	 *            The name of this observer.
-	 * @param type
-	 *            The type of this observer.
-	 * @param blocking
-	 *            True if this observer is blocking.
-	 * @throws IllegalArgumentException
-	 *             If the supplied ID is empty.
-	 * @throws IllegalArgumentException
-	 *             If the supplied name is empty.
-	 * @throws IllegalArgumentException
-	 *             If the supplied event is not one of before or after.
-	 * @throws IllegalArgumentException
-	 *             If the supplied type is not a public, concrete class with at
-	 *             least one public constructor or is not assignable to
-	 *             {@link Runnable}.
-	 * @throws NullPointerException
-	 *             If the supplied ID is <code>null</code>.
-	 * @throws NullPointerException
-	 *             If the supplied name is <code>null</code>.
-	 * @throws NullPointerException
-	 *             If the supplied event is <code>null</code>.
-	 * @throws NullPointerException
-	 *             If the supplied type is <code>null</code>.
+	 * @param id The ID of this observer.
+	 * @param name The name of this observer.
+	 * @param type The type of this observer.
+	 * @param blocking True if this observer is blocking.
+	 * @throws IllegalArgumentException If the supplied ID is empty.
+	 * @throws IllegalArgumentException If the supplied name is empty.
+	 * @throws IllegalArgumentException If the supplied event is not one of before or after.
+	 * @throws IllegalArgumentException If the supplied type is not a public, concrete class with at
+	 *             least one public constructor or is not assignable to {@link Runnable}.
+	 * @throws NullPointerException If the supplied ID is <code>null</code>.
+	 * @throws NullPointerException If the supplied name is <code>null</code>.
+	 * @throws NullPointerException If the supplied event is <code>null</code>.
+	 * @throws NullPointerException If the supplied type is <code>null</code>.
 	 */
-	public ObserverDescriptor(String id, String name, Class type,
-			boolean blocking) throws IllegalArgumentException,
-			NullPointerException {
-		if (id == null) {
-			throw new NullPointerException("id"); //$NON-NLS-1$
+	public ObserverDescriptor(String id, String name, Class type, boolean blocking)
+			throws IllegalArgumentException, NullPointerException {
+		if (id == null) { throw new NullPointerException("id"); //$NON-NLS-1$
 		}
-		if (id.length() == 0) {
-			throw new IllegalArgumentException("id"); //$NON-NLS-1$
+		if (id.length() == 0) { throw new IllegalArgumentException("id"); //$NON-NLS-1$
 		}
-		if (name == null) {
-			throw new NullPointerException("name"); //$NON-NLS-1$
+		if (name == null) { throw new NullPointerException("name"); //$NON-NLS-1$
 		}
-		if (name.length() == 0) {
-			throw new IllegalArgumentException("name"); //$NON-NLS-1$
+		if (name.length() == 0) { throw new IllegalArgumentException("name"); //$NON-NLS-1$
 		}
-		if (type == null) {
-			throw new NullPointerException("type"); //$NON-NLS-1$
+		if (type == null) { throw new NullPointerException("type"); //$NON-NLS-1$
 		}
-		if (!DescriptorUtils.isValidImplementation(type, Runnable.class)) {
-			throw new IllegalArgumentException("type"); //$NON-NLS-1$
+		if (!DescriptorUtils.isValidImplementation(type, Runnable.class)) { throw new IllegalArgumentException(
+				"type"); //$NON-NLS-1$
 		}
 		this.id = id;
 		this.name = name;
@@ -121,14 +102,12 @@ public final class ObserverDescriptor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		return new StringBuffer(getClass().getName().substring(
-				getClass().getName().lastIndexOf('.') + 1)).append('[')
-				.append(id).append(';').append(name).append(';').append(type)
-				.append(']').toString();
+				getClass().getName().lastIndexOf('.') + 1)).append('[').append(id).append(';')
+				.append(name).append(';').append(type).append(']').toString();
 	}
 }

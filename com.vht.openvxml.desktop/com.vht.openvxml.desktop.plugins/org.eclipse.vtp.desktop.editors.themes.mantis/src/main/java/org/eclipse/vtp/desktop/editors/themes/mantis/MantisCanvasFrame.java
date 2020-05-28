@@ -33,11 +33,10 @@ public class MantisCanvasFrame implements CanvasFrame {
 	private Rectangle bounds = new Rectangle(0, 0, 0, 0);
 
 	/**
-	 * Creates a new <code>MantisCanvasFrame</code> instance that represents the
-	 * the given ui canvas object.
+	 * Creates a new <code>MantisCanvasFrame</code> instance that represents the the given ui canvas
+	 * object.
 	 * 
-	 * @param uiCanvas
-	 *            The ui canvas represented by this canvas frame
+	 * @param uiCanvas The ui canvas represented by this canvas frame
 	 */
 	public MantisCanvasFrame(IDesign uiCanvas) {
 		super();
@@ -46,7 +45,6 @@ public class MantisCanvasFrame implements CanvasFrame {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.editors.core.theme.CanvasFrame#getInsets()
 	 */
 	@Override
@@ -56,9 +54,7 @@ public class MantisCanvasFrame implements CanvasFrame {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.theme.CanvasFrame#setBounds(org.
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.CanvasFrame#setBounds(org.
 	 * eclipse.swt.graphics.Rectangle)
 	 */
 	@Override
@@ -68,14 +64,11 @@ public class MantisCanvasFrame implements CanvasFrame {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.theme.ThematicFrame#renderFrame(
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.ThematicFrame#renderFrame(
 	 * org.eclipse.swt.graphics.GC, int, int, java.util.Map)
 	 */
 	@Override
-	public void renderFrame(GC gc, int stage, int renderFlags,
-			Map<String, Object> resourceMap) {
+	public void renderFrame(GC gc, int stage, int renderFlags, Map<String, Object> resourceMap) {
 		Color lightGray = (Color) resourceMap.get("LIGHT_GRAY");
 		if (lightGray == null) {
 			lightGray = new Color(gc.getDevice(), 204, 204, 204);
@@ -92,11 +85,10 @@ public class MantisCanvasFrame implements CanvasFrame {
 		Color background = gc.getBackground();
 		gc.setForeground(lightGray);
 		gc.setBackground(darkGray);
-		gc.fillGradientRectangle(bounds.x, bounds.y, bounds.width,
-				bounds.height, true);
+		gc.fillGradientRectangle(bounds.x, bounds.y, bounds.width, bounds.height, true);
 		gc.setForeground(gc.getDevice().getSystemColor(SWT.COLOR_BLACK));
-		Rectangle rect = new Rectangle(((bounds.width - w) / 2) - 1,
-				((bounds.height - h) / 2) - 1, w + 1, h + 1);
+		Rectangle rect = new Rectangle(((bounds.width - w) / 2) - 1, ((bounds.height - h) / 2) - 1,
+				w + 1, h + 1);
 		gc.drawRectangle(rect);
 		gc.setBackground(foreground);
 		rect.x += 3;

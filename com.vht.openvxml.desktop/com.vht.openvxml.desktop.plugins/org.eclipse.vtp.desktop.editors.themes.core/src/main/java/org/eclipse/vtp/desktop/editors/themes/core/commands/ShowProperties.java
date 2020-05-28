@@ -12,10 +12,8 @@
 package org.eclipse.vtp.desktop.editors.themes.core.commands;
 
 /**
- * This command indicates the properties of the frame that generated it should
- * be displayed.
+ * This command indicates the properties of the frame that generated it should be displayed.
  * 
  * @author trip
  */
-public class ShowProperties extends Command {
-}
+public class ShowProperties extends Command {}

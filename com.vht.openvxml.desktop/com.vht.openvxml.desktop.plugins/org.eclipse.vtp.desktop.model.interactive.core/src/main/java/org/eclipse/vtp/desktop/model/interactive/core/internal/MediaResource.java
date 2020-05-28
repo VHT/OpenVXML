@@ -19,14 +19,13 @@ import org.eclipse.vtp.desktop.model.interactive.core.IMediaObjectContainer;
 import org.eclipse.vtp.desktop.model.interactive.core.IMediaResource;
 
 /**
- * This is a concrete implementation of <code>IMediaResource</code> and provides
- * the default behavior of that interface.
+ * This is a concrete implementation of <code>IMediaResource</code> and provides the default
+ * behavior of that interface.
  *
  * @author Trip Gilman
  * @version 2.0
  */
-public abstract class MediaResource extends MediaObject implements
-		IMediaResource {
+public abstract class MediaResource extends MediaObject implements IMediaResource {
 	/**
 	 * The eclipse file resource this media resource represents.
 	 */
@@ -38,13 +37,11 @@ public abstract class MediaResource extends MediaObject implements
 	IMediaContainer container;
 
 	/**
-	 * Craetes a new <code>MediaResource</code> in the provided media container
-	 * with the given eclipse file resource.
+	 * Craetes a new <code>MediaResource</code> in the provided media container with the given
+	 * eclipse file resource.
 	 *
-	 * @param container
-	 *            The parent media container
-	 * @param resource
-	 *            The eclipse file resource this media resource represnets
+	 * @param container The parent media container
+	 * @param resource The eclipse file resource this media resource represnets
 	 */
 	public MediaResource(IMediaContainer container, IResource resource) {
 		super();
@@ -54,7 +51,6 @@ public abstract class MediaResource extends MediaObject implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IMediaResource#exists()
 	 */
 	@Override
@@ -64,10 +60,7 @@ public abstract class MediaResource extends MediaObject implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IMediaResource#getParentMediaContainer
-	 * ()
+	 * @see org.eclipse.vtp.desktop.core.project.IMediaResource#getParentMediaContainer ()
 	 */
 	@Override
 	public IMediaContainer getParentMediaContainer() {
@@ -76,7 +69,6 @@ public abstract class MediaResource extends MediaObject implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IVoiceResource#getParent()
 	 */
 	@Override
@@ -86,7 +78,6 @@ public abstract class MediaResource extends MediaObject implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IVoiceResource#getName()
 	 */
 	@Override
@@ -96,10 +87,7 @@ public abstract class MediaResource extends MediaObject implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.internals.VoiceResource#getObjectId
-	 * ()
+	 * @see org.eclipse.vtp.desktop.core.project.internals.VoiceResource#getObjectId ()
 	 */
 	@Override
 	protected String getObjectId() {
@@ -108,7 +96,6 @@ public abstract class MediaResource extends MediaObject implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IMediaResource#delete()
 	 */
 	@Override
@@ -117,13 +104,12 @@ public abstract class MediaResource extends MediaObject implements
 	}
 
 	/*
-	 * public String getLabel(Object o) { return resource.getName(); } public
-	 * Object getParent(Object o) { return getParent(); }
+	 * public String getLabel(Object o) { return resource.getName(); } public Object
+	 * getParent(Object o) { return getParent(); }
 	 */
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IMediaResource#getMediaPath()
 	 */
 	@Override

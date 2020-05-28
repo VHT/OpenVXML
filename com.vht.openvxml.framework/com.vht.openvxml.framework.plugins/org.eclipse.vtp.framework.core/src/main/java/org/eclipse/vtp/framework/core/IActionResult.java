@@ -34,11 +34,10 @@ public interface IActionResult {
 	String getName();
 
 	/**
-	 * Returns the cause of the failure if this result path represents a
-	 * failure, otherwise returns <code>null</code>.
+	 * Returns the cause of the failure if this result path represents a failure, otherwise returns
+	 * <code>null</code>.
 	 * 
-	 * @return The cause of the failure if this result path represents a
-	 *         failure.
+	 * @return The cause of the failure if this result path represents a failure.
 	 */
 	Throwable getFailureCause();
 }

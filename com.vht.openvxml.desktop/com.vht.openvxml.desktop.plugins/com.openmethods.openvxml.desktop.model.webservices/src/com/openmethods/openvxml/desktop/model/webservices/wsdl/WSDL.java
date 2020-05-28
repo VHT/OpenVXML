@@ -47,12 +47,11 @@ public class WSDL {
 		// add the default schema
 		schemas.add(Schema.DEFAULT_SCHEMA);
 		// load any imported wsdls
-		List<Element> imports = XMLUtilities.getElementsByTagNameNS(
-				wsdlElement, WSDL_NAMESPACE, "import", true);
+		List<Element> imports = XMLUtilities.getElementsByTagNameNS(wsdlElement, WSDL_NAMESPACE,
+				"import", true);
 		for (int i = 0; i < imports.size(); i++) {
 			Attr namespaceAttr = imports.get(i).getAttributeNode("namespace");
-			if (namespaceAttr != null
-					&& wsdlsByNamespace.get(namespaceAttr.getValue()) != null) {
+			if (namespaceAttr != null && wsdlsByNamespace.get(namespaceAttr.getValue()) != null) {
 				continue; // already in the parent wsdl set
 			}
 			String locationUri = null;
@@ -63,8 +62,7 @@ public class WSDL {
 				if (namespaceAttr != null) {
 					locationUri = namespaceAttr.getValue();
 				} else {
-					addProblem(createProblem(
-							"No URI source for imported WSDL.", imports.get(i)));
+					addProblem(createProblem("No URI source for imported WSDL.", imports.get(i)));
 					continue;
 				}
 			}
@@ -73,64 +71,56 @@ public class WSDL {
 				URLConnection con = url.openConnection();
 				InputStream in = con.getInputStream();
 				try {
-					DocumentBuilderFactory factory = DocumentBuilderFactory
-							.newInstance();
+					DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 					factory.setNamespaceAware(true);
 					DocumentBuilder builder = factory.newDocumentBuilder();
 					Document document = builder.parse(in);
-					org.w3c.dom.Element rootElement = document
-							.getDocumentElement();
+					org.w3c.dom.Element rootElement = document.getDocumentElement();
 					WSDL wsdl = new WSDL(rootElement);
-					if (wsdl.getSchemaProblems().size() > 0
-							|| wsdl.getWSDLProblems().size() > 0) {
-						addProblem(createProblem("Problems importing WSDL: "
-								+ locationUri, imports.get(i)));
+					if (wsdl.getSchemaProblems().size() > 0 || wsdl.getWSDLProblems().size() > 0) {
+						addProblem(createProblem("Problems importing WSDL: " + locationUri, imports
+								.get(i)));
 						continue;
 					}
 					wsdlsByNamespace.put(wsdl.targetNamespace, wsdl);
 				} catch (Exception ex) {
 					ex.printStackTrace();
-					addProblem(createProblem("Error while importing WSDL.",
-							imports.get(i), ex));
+					addProblem(createProblem("Error while importing WSDL.", imports.get(i), ex));
 				}
 				in.close();
 			} catch (Exception e) {
 				e.printStackTrace();
-				addProblem(createProblem("Error while importing WSDL.",
-						imports.get(i), e));
+				addProblem(createProblem("Error while importing WSDL.", imports.get(i), e));
 			}
 		}
 
-		List<Element> typesElementList = XMLUtilities.getElementsByTagNameNS(
-				wsdlElement, WSDL_NAMESPACE, "types", true);
+		List<Element> typesElementList = XMLUtilities.getElementsByTagNameNS(wsdlElement,
+				WSDL_NAMESPACE, "types", true);
 		if (typesElementList.size() > 0) {
 			Element typesElement = typesElementList.get(0);
-			List<Element> schemaElementList = XMLUtilities
-					.getElementsByTagNameNS(typesElement,
-							Schema.SCHEMA_NAMESPACE, "schema", true);
+			List<Element> schemaElementList = XMLUtilities.getElementsByTagNameNS(typesElement,
+					Schema.SCHEMA_NAMESPACE, "schema", true);
 			for (Element schemaElement : schemaElementList) {
 				Schema schema = new Schema(schemaElement);
 				schemas.add(schema);
 			}
 		}
 
-		List<Element> messageElementList = XMLUtilities.getElementsByTagNameNS(
-				wsdlElement, WSDL_NAMESPACE, "message", true);
+		List<Element> messageElementList = XMLUtilities.getElementsByTagNameNS(wsdlElement,
+				WSDL_NAMESPACE, "message", true);
 		for (Element messageElement : messageElementList) {
 			String name = messageElement.getAttribute("name");
 			Message message = new Message(name);
-			List<Element> partElementList = XMLUtilities
-					.getElementsByTagNameNS(messageElement, WSDL_NAMESPACE,
-							"part", true);
+			List<Element> partElementList = XMLUtilities.getElementsByTagNameNS(messageElement,
+					WSDL_NAMESPACE, "part", true);
 			for (Element partElement : partElementList) {
 				String partName = partElement.getAttribute("name");
 				Attr elementAttr = partElement.getAttributeNode("element");
 				if (elementAttr != null) {
-					ElementItem elementItem = resolveElementItem(partElement,
-							elementAttr.getValue());
+					ElementItem elementItem = resolveElementItem(partElement, elementAttr
+							.getValue());
 					if (elementItem == null) {
-						addProblem(createProblem(
-								"Could not resolve part element.", partElement));
+						addProblem(createProblem("Could not resolve part element.", partElement));
 						continue;
 					}
 					ElementPart part = new ElementPart(partName);
@@ -139,15 +129,12 @@ public class WSDL {
 				} else {
 					Attr typeAttr = partElement.getAttributeNode("type");
 					if (typeAttr == null) {
-						addProblem(createProblem(
-								"Missing type or element attribute.",
-								partElement));
+						addProblem(createProblem("Missing type or element attribute.", partElement));
 						continue;
 					}
 					Type type = resolveType(partElement, typeAttr.getValue());
 					if (type == null) {
-						addProblem(createProblem(
-								"Could not resolve part type.", partElement));
+						addProblem(createProblem("Could not resolve part type.", partElement));
 						continue;
 					}
 					TypedPart part = new TypedPart(partName);
@@ -158,37 +145,31 @@ public class WSDL {
 			messagesByName.put(name, message);
 		}
 
-		List<Element> portTypeElementList = XMLUtilities
-				.getElementsByTagNameNS(wsdlElement, WSDL_NAMESPACE,
-						"portType", true);
+		List<Element> portTypeElementList = XMLUtilities.getElementsByTagNameNS(wsdlElement,
+				WSDL_NAMESPACE, "portType", true);
 		for (Element portTypeElement : portTypeElementList) {
 			String portTypeName = portTypeElement.getAttribute("name");
 			PortType portType = new PortType(portTypeName);
-			List<Element> operationElementList = XMLUtilities
-					.getElementsByTagNameNS(portTypeElement, WSDL_NAMESPACE,
-							"operation", true);
+			List<Element> operationElementList = XMLUtilities.getElementsByTagNameNS(
+					portTypeElement, WSDL_NAMESPACE, "operation", true);
 			for (Element operationElement : operationElementList) {
 				String operationName = operationElement.getAttribute("name");
 				Operation operation = null;
-				List<Element> children = XMLUtilities.getChildElementsNS(
-						operationElement, WSDL_NAMESPACE);
+				List<Element> children = XMLUtilities.getChildElementsNS(operationElement,
+						WSDL_NAMESPACE);
 				if (children.size() < 1) {
-					addProblem(createProblem("No operation format specified: "
-							+ portTypeName + "(" + operationName + ")",
-							operationElement));
+					addProblem(createProblem("No operation format specified: " + portTypeName + "("
+							+ operationName + ")", operationElement));
 					continue;
 				}
 				if (children.size() == 1) // must be one-way or notification
 				{
-					UnidirectionalOperation uo = new UnidirectionalOperation(
-							operationName);
+					UnidirectionalOperation uo = new UnidirectionalOperation(operationName);
 					String operationElementName = operationName;
 					Element child = children.get(0);
-					Attr operationElementNameAttr = child
-							.getAttributeNode("name");
+					Attr operationElementNameAttr = child.getAttributeNode("name");
 					if (operationElementNameAttr != null) {
-						operationElementName = operationElementNameAttr
-								.getValue();
+						operationElementName = operationElementNameAttr.getValue();
 					}
 					OperationElement oe = null;
 					if (child.getLocalName().equals("input")) // one-way
@@ -197,14 +178,12 @@ public class WSDL {
 					} else if (child.getLocalName().equals("output")) {
 						oe = new OperationElement(OperationElement.OUTPUT);
 					} else {
-						addProblem(createProblem(
-								"Unexpected operation element type: "
-										+ child.getLocalName(), child));
+						addProblem(createProblem("Unexpected operation element type: "
+								+ child.getLocalName(), child));
 						continue;
 					}
 					oe.setName(operationElementName);
-					Message message = resolveMessage(child,
-							child.getAttribute("message"));
+					Message message = resolveMessage(child, child.getAttribute("message"));
 					if (message == null) {
 						addProblem(createProblem(
 								"Could not resolve message type for operation element: "
@@ -215,8 +194,7 @@ public class WSDL {
 					uo.setOperationElement(oe);
 					operation = uo;
 				} else {
-					BidirectionalOperation bo = new BidirectionalOperation(
-							operationName);
+					BidirectionalOperation bo = new BidirectionalOperation(operationName);
 					String inputElementName = operationName;
 					String outputElementName = operationName + "Response";
 					OperationElement oe = null;
@@ -242,19 +220,16 @@ public class WSDL {
 						bo.setType(BidirectionalOperation.SOLICIT);
 						bo.setOutputElement(oe);
 					} else {
-						addProblem(createProblem(
-								"Unexpected operation element type: "
-										+ firstElement.getLocalName(),
-								firstElement));
+						addProblem(createProblem("Unexpected operation element type: "
+								+ firstElement.getLocalName(), firstElement));
 						continue;
 					}
-					Message message = resolveMessage(firstElement,
-							firstElement.getAttribute("message"));
+					Message message = resolveMessage(firstElement, firstElement
+							.getAttribute("message"));
 					if (message == null) {
 						addProblem(createProblem(
 								"Could not resolve message type for operation element: "
-										+ firstElement.getAttribute("message"),
-								firstElement));
+										+ firstElement.getAttribute("message"), firstElement));
 						continue;
 					}
 					oe.setMessage(message);
@@ -268,40 +243,31 @@ public class WSDL {
 						oe.setName(outputElementName);
 						bo.setOutputElement(oe);
 					} else {
-						addProblem(createProblem(
-								"Unexpected operation element type: "
-										+ secondElement.getLocalName(),
-								secondElement));
+						addProblem(createProblem("Unexpected operation element type: "
+								+ secondElement.getLocalName(), secondElement));
 						continue;
 					}
-					message = resolveMessage(secondElement,
-							secondElement.getAttribute("message"));
+					message = resolveMessage(secondElement, secondElement.getAttribute("message"));
 					if (message == null) {
 						addProblem(createProblem(
 								"Could not resolve message type for operation element: "
-										+ secondElement.getAttribute("message"),
-								secondElement));
+										+ secondElement.getAttribute("message"), secondElement));
 						continue;
 					}
 					oe.setMessage(message);
 					for (int i = offset; i < children.size(); i++) {
 						Element faultElement = children.get(i);
 						if (!faultElement.getLocalName().equals("fault")) {
-							addProblem(createProblem(
-									"Unexpected operation element type: "
-											+ faultElement.getLocalName(),
-									faultElement));
+							addProblem(createProblem("Unexpected operation element type: "
+									+ faultElement.getLocalName(), faultElement));
 							continue;
 						}
 						oe = new OperationElement(OperationElement.FAULT);
-						message = resolveMessage(faultElement,
-								faultElement.getAttribute("message"));
+						message = resolveMessage(faultElement, faultElement.getAttribute("message"));
 						if (message == null) {
 							addProblem(createProblem(
 									"Could not resolve message type for fault element: "
-											+ faultElement
-													.getAttribute("message"),
-									faultElement));
+											+ faultElement.getAttribute("message"), faultElement));
 							continue;
 						}
 						oe.setMessage(message);
@@ -315,25 +281,20 @@ public class WSDL {
 			portTypesByName.put(portTypeName, portType);
 		}
 
-		List<Element> bindingElementList = XMLUtilities.getElementsByTagNameNS(
-				wsdlElement, WSDL_NAMESPACE, "binding", true);
+		List<Element> bindingElementList = XMLUtilities.getElementsByTagNameNS(wsdlElement,
+				WSDL_NAMESPACE, "binding", true);
 		for (Element bindingElement : bindingElementList) {
 			String bindingName = bindingElement.getAttribute("name");
-			PortType portType = resolvePortType(bindingElement,
-					bindingElement.getAttribute("type"));
+			PortType portType = resolvePortType(bindingElement, bindingElement.getAttribute("type"));
 			Binding binding = null;
-			List<Element> bindingExtensionElementList = XMLUtilities
-					.getElementsByTagNameNS(bindingElement, "*", "binding",
-							true);
-			List<Element> operationElementList = XMLUtilities
-					.getElementsByTagNameNS(bindingElement, WSDL_NAMESPACE,
-							"operation", true);
-			Element bindingExtensionElement = bindingExtensionElementList
-					.get(0);
-			if (bindingExtensionElement.getNamespaceURI().equals(
-					SoapConstants.SOAP_NAMESPACE)) {
-				binding = parseSoapBinding(bindingName, portType,
-						bindingExtensionElement, operationElementList);
+			List<Element> bindingExtensionElementList = XMLUtilities.getElementsByTagNameNS(
+					bindingElement, "*", "binding", true);
+			List<Element> operationElementList = XMLUtilities.getElementsByTagNameNS(
+					bindingElement, WSDL_NAMESPACE, "operation", true);
+			Element bindingExtensionElement = bindingExtensionElementList.get(0);
+			if (bindingExtensionElement.getNamespaceURI().equals(SoapConstants.SOAP_NAMESPACE)) {
+				binding = parseSoapBinding(bindingName, portType, bindingExtensionElement,
+						operationElementList);
 			}
 			if (binding == null) {
 				continue;
@@ -341,14 +302,13 @@ public class WSDL {
 			bindingsByName.put(bindingName, binding);
 		}
 
-		List<Element> serviceElementList = XMLUtilities.getElementsByTagNameNS(
-				wsdlElement, WSDL_NAMESPACE, "service", true);
+		List<Element> serviceElementList = XMLUtilities.getElementsByTagNameNS(wsdlElement,
+				WSDL_NAMESPACE, "service", true);
 		for (Element serviceElement : serviceElementList) {
 			String serviceName = serviceElement.getAttribute("name");
 			Service service = new Service(serviceName);
-			List<Element> portElementList = XMLUtilities
-					.getElementsByTagNameNS(serviceElement, WSDL_NAMESPACE,
-							"port", true);
+			List<Element> portElementList = XMLUtilities.getElementsByTagNameNS(serviceElement,
+					WSDL_NAMESPACE, "port", true);
 			for (Element portElement : portElementList) {
 				String portName = portElement.getAttribute("name");
 				String bindingName = portElement.getAttribute("binding");
@@ -372,14 +332,11 @@ public class WSDL {
 	public Binding parseSoapBinding(String bindingName, PortType portType,
 			Element bindingExtensionElement, List<Element> operationElementList) {
 		SoapBinding binding = new SoapBinding(bindingName);
-		Attr transportAttr = bindingExtensionElement
-				.getAttributeNode("transport");
+		Attr transportAttr = bindingExtensionElement.getAttributeNode("transport");
 		if (transportAttr != null) {
 			if (!SoapConstants.HTTP_TRANSPORT.equals(transportAttr.getValue())) {
-				addProblem(createProblem(
-						"Unsupported soap transport encountered: "
-								+ transportAttr.getValue(),
-						bindingExtensionElement));
+				addProblem(createProblem("Unsupported soap transport encountered: "
+						+ transportAttr.getValue(), bindingExtensionElement));
 				return null;
 			}
 		}
@@ -388,21 +345,16 @@ public class WSDL {
 			binding.setStyle(styleAttr.getValue());
 		}
 		for (Element operationElement : operationElementList) {
-			Operation operation = portType.getOperation(operationElement
-					.getAttribute("name"));
-			SoapBindingOperation bindingOperation = new SoapBindingOperation(
-					operation);
+			Operation operation = portType.getOperation(operationElement.getAttribute("name"));
+			SoapBindingOperation bindingOperation = new SoapBindingOperation(operation);
 			bindingOperation.setStyle(binding.getStyle());
-			List<Element> operationExtensionElementList = XMLUtilities
-					.getElementsByTagNameNS(operationElement,
-							SoapConstants.SOAP_NAMESPACE, "operation", true);
+			List<Element> operationExtensionElementList = XMLUtilities.getElementsByTagNameNS(
+					operationElement, SoapConstants.SOAP_NAMESPACE, "operation", true);
 			if (operationExtensionElementList.size() > 0) // this element is
 															// optional
 			{
-				Element operationExtensionElement = operationExtensionElementList
-						.get(0);
-				Attr soapActionAttr = operationExtensionElement
-						.getAttributeNode("soapAction");
+				Element operationExtensionElement = operationExtensionElementList.get(0);
+				Attr soapActionAttr = operationExtensionElement.getAttributeNode("soapAction");
 				if (soapActionAttr != null) {
 					bindingOperation.setSoapAction(soapActionAttr.getValue());
 				}
@@ -411,8 +363,8 @@ public class WSDL {
 					bindingOperation.setStyle(styleAttr.getValue());
 				}
 			}
-			List<Element> operationItemElementList = XMLUtilities
-					.getChildElementsNS(operationElement, WSDL_NAMESPACE);
+			List<Element> operationItemElementList = XMLUtilities.getChildElementsNS(
+					operationElement, WSDL_NAMESPACE);
 			for (Element operationItemElement : operationItemElementList) {
 				if (operationItemElement.getLocalName().equals("input")) {
 					SoapBindingOperationElement bindingOperationElement = parseSoapBindingOperationItem(
@@ -424,8 +376,7 @@ public class WSDL {
 					bindingOperation.setOutput(bindingOperationElement);
 				} else // fault
 				{
-					String faultName = operationItemElement
-							.getAttribute("name");
+					String faultName = operationItemElement.getAttribute("name");
 					String use = operationItemElement.getAttribute("use");
 					SoapFault soapFault = new SoapFault(faultName, use);
 					bindingOperation.addFault(soapFault);
@@ -436,61 +387,54 @@ public class WSDL {
 		return binding;
 	}
 
-	public SoapBindingOperationElement parseSoapBindingOperationItem(
-			Element operationItemElement, Operation operation) {
+	public SoapBindingOperationElement parseSoapBindingOperationItem(Element operationItemElement,
+			Operation operation) {
 		SoapBindingOperationElement bindingOperationItem = new SoapBindingOperationElement();
-		List<Element> headerElementList = XMLUtilities.getElementsByTagNameNS(
-				operationItemElement, SoapConstants.SOAP_NAMESPACE, "header",
-				true);
+		List<Element> headerElementList = XMLUtilities.getElementsByTagNameNS(operationItemElement,
+				SoapConstants.SOAP_NAMESPACE, "header", true);
 		for (Element headerElement : headerElementList) {
 			String messageName = headerElement.getAttribute("message");
 			Message headerMessage = resolveMessage(headerElement, messageName);
 			if (headerMessage == null) {
-				addProblem(createProblem("Could not resolve header message: "
-						+ messageName, headerElement));
+				addProblem(createProblem("Could not resolve header message: " + messageName,
+						headerElement));
 				return null;
 			}
 			String partName = headerElement.getAttribute("part");
 			Part headerPart = headerMessage.getPart(partName);
 			if (headerPart == null) {
-				addProblem(createProblem("Could not locate part: " + partName
-						+ " in message: " + messageName, headerElement));
+				addProblem(createProblem("Could not locate part: " + partName + " in message: "
+						+ messageName, headerElement));
 				return null;
 			}
 			String headerUse = headerElement.getAttribute("use");
-			SoapHeader header = new SoapHeader(headerMessage, headerPart,
-					headerUse);
-			List<Element> headerFaultElementList = XMLUtilities
-					.getElementsByTagNameNS(headerElement,
-							SoapConstants.SOAP_NAMESPACE, "headerfault", true);
+			SoapHeader header = new SoapHeader(headerMessage, headerPart, headerUse);
+			List<Element> headerFaultElementList = XMLUtilities.getElementsByTagNameNS(
+					headerElement, SoapConstants.SOAP_NAMESPACE, "headerfault", true);
 			for (Element headerFaultElement : headerFaultElementList) {
 				messageName = headerFaultElement.getAttribute("message");
-				Message headerFaultMessage = resolveMessage(headerFaultElement,
-						messageName);
+				Message headerFaultMessage = resolveMessage(headerFaultElement, messageName);
 				if (headerFaultMessage == null) {
-					addProblem(createProblem(
-							"Could not resolve header fault message: "
-									+ messageName, headerFaultElement));
+					addProblem(createProblem("Could not resolve header fault message: "
+							+ messageName, headerFaultElement));
 					return null;
 				}
 				partName = headerFaultElement.getAttribute("part");
 				Part headerFaultPart = headerFaultMessage.getPart(partName);
 				if (headerFaultPart == null) {
-					addProblem(createProblem("Could not locate part: "
-							+ partName + " in message: " + messageName,
-							headerFaultElement));
+					addProblem(createProblem("Could not locate part: " + partName + " in message: "
+							+ messageName, headerFaultElement));
 					return null;
 				}
 				String headerFaultUse = headerFaultElement.getAttribute("use");
-				SoapHeaderFault headerFault = new SoapHeaderFault(
-						headerFaultMessage, headerFaultPart, headerFaultUse);
+				SoapHeaderFault headerFault = new SoapHeaderFault(headerFaultMessage,
+						headerFaultPart, headerFaultUse);
 				header.addHeaderFault(headerFault);
 			}
 			bindingOperationItem.addHeader(header);
 		}
-		List<Element> bodyElementList = XMLUtilities.getElementsByTagNameNS(
-				operationItemElement, SoapConstants.SOAP_NAMESPACE, "body",
-				true);
+		List<Element> bodyElementList = XMLUtilities.getElementsByTagNameNS(operationItemElement,
+				SoapConstants.SOAP_NAMESPACE, "body", true);
 		if (bodyElementList.size() != 1) {
 			addProblem(createProblem("Wrong number of soap body elements in "
 					+ operationItemElement.getLocalName() + " for operation: "
@@ -504,8 +448,7 @@ public class WSDL {
 		if (operation instanceof UnidirectionalOperation) {
 			oe = ((UnidirectionalOperation) operation).getOperationElement();
 		} else {
-			if (operationItemElement.getLocalName().equals(
-					OperationElement.INPUT)) {
+			if (operationItemElement.getLocalName().equals(OperationElement.INPUT)) {
 				oe = ((BidirectionalOperation) operation).getInputElement();
 			} else {
 				oe = ((BidirectionalOperation) operation).getOutputElement();
@@ -520,8 +463,7 @@ public class WSDL {
 			for (String partName : partNames) {
 				Part part = oe.getMessage().getPart(partName);
 				if (part == null) {
-					addProblem(createProblem(
-							"Could not locate part for soap body: " + partName,
+					addProblem(createProblem("Could not locate part for soap body: " + partName,
 							bodyElement));
 					return null;
 				}
@@ -545,11 +487,8 @@ public class WSDL {
 		String nameSpace = hostElement.lookupNamespaceURI(prefix);
 		String partialName = baseParts[baseParts.length - 1];
 		for (Schema schema : schemas) {
-			ElementItem item = schema
-					.resolveElementItem(nameSpace, partialName);
-			if (item != null) {
-				return item;
-			}
+			ElementItem item = schema.resolveElementItem(nameSpace, partialName);
+			if (item != null) { return item; }
 		}
 		return null;
 	}
@@ -564,9 +503,7 @@ public class WSDL {
 		String partialName = baseParts[baseParts.length - 1];
 		for (Schema schema : schemas) {
 			Type type = schema.resolveType(nameSpace, partialName);
-			if (type != null) {
-				return type;
-			}
+			if (type != null) { return type; }
 		}
 		return null;
 	}
@@ -587,9 +524,7 @@ public class WSDL {
 			return messagesByName.get(name);
 		} else {
 			WSDL wsdl = wsdlsByNamespace.get(uri);
-			if (wsdl == null) {
-				return null;
-			}
+			if (wsdl == null) { return null; }
 			return wsdl.getMessage(name);
 		}
 	}
@@ -614,9 +549,7 @@ public class WSDL {
 			return portTypesByName.get(name);
 		} else {
 			WSDL wsdl = wsdlsByNamespace.get(uri);
-			if (wsdl == null) {
-				return null;
-			}
+			if (wsdl == null) { return null; }
 			return wsdl.getPortType(name);
 		}
 	}
@@ -641,9 +574,7 @@ public class WSDL {
 			return bindingsByName.get(name);
 		} else {
 			WSDL wsdl = wsdlsByNamespace.get(uri);
-			if (wsdl == null) {
-				return null;
-			}
+			if (wsdl == null) { return null; }
 			return wsdl.getBinding(name);
 		}
 	}
@@ -672,15 +603,13 @@ public class WSDL {
 		return createProblem(message, source, null);
 	}
 
-	private WSDLProblem createProblem(String message, Element source,
-			Throwable t) {
+	private WSDLProblem createProblem(String message, Element source, Throwable t) {
 		Object userData = source.getUserData("line_Number");
 		int lineNumber = -1;
 		if (userData != null && userData instanceof String) {
 			try {
 				lineNumber = Integer.parseInt((String) userData);
-			} catch (NumberFormatException nfe) {
-			}
+			} catch (NumberFormatException nfe) {}
 		}
 		return new WSDLProblem(message, lineNumber, t);
 	}
@@ -696,8 +625,7 @@ public class WSDL {
 			System.exit(1);
 		}
 		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory
-					.newInstance();
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			factory.setNamespaceAware(true);
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document document = builder.parse(file);

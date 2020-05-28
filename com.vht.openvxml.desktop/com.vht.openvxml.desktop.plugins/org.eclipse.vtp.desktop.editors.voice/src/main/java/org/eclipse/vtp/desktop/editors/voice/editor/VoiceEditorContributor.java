@@ -17,10 +17,9 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.part.MultiPageEditorActionBarContributor;
 
 /**
- * Manages the installation/deinstallation of global actions for multi-page
- * editors. Responsible for the redirection of global actions to the active
- * editor. Multi-page contributor replaces the contributors for the individual
- * editors in the multi-page editor.
+ * Manages the installation/deinstallation of global actions for multi-page editors. Responsible for
+ * the redirection of global actions to the active editor. Multi-page contributor replaces the
+ * contributors for the individual editors in the multi-page editor.
  */
 public class VoiceEditorContributor extends MultiPageEditorActionBarContributor {
 	private IEditorPart activeEditorPart;
@@ -33,37 +32,28 @@ public class VoiceEditorContributor extends MultiPageEditorActionBarContributor 
 	}
 
 	/*
-	 * (non-JavaDoc) Method declared in
-	 * AbstractMultiPageEditorActionBarContributor.
+	 * (non-JavaDoc) Method declared in AbstractMultiPageEditorActionBarContributor.
 	 */
 	@Override
 	public void setActivePage(IEditorPart part) {
-		if (activeEditorPart == part) {
-			return;
-		}
+		if (activeEditorPart == part) { return; }
 
 		activeEditorPart = part;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.part.EditorActionBarContributor#contributeToMenu(org.eclipse
+	 * @see org.eclipse.ui.part.EditorActionBarContributor#contributeToMenu(org.eclipse
 	 * .jface.action.IMenuManager)
 	 */
 	@Override
-	public void contributeToMenu(IMenuManager manager) {
-	}
+	public void contributeToMenu(IMenuManager manager) {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.part.EditorActionBarContributor#contributeToToolBar(org
+	 * @see org.eclipse.ui.part.EditorActionBarContributor#contributeToToolBar(org
 	 * .eclipse.jface.action.IToolBarManager)
 	 */
 	@Override
-	public void contributeToToolBar(IToolBarManager manager) {
-	}
+	public void contributeToToolBar(IToolBarManager manager) {}
 }

@@ -34,42 +34,33 @@ public interface ISession {
 	Date getSessionStartTime();
 
 	/**
-	 * Looks up the service selected for the specified identifier or
-	 * <code>null</code> if no such service exists.
+	 * Looks up the service selected for the specified identifier or <code>null</code> if no such
+	 * service exists.
 	 * 
-	 * @param identifier
-	 *            The identifier of the service to look up.
-	 * @return The service selected for the specified identifier or
-	 *         <code>null</code> if no such service exists.
-	 * @throws NullPointerException
-	 *             If the supplied identifier is <code>null</code>.
+	 * @param identifier The identifier of the service to look up.
+	 * @return The service selected for the specified identifier or <code>null</code> if no such
+	 *         service exists.
+	 * @throws NullPointerException If the supplied identifier is <code>null</code>.
 	 */
 	Object lookupService(String identifier) throws NullPointerException;
 
 	/**
-	 * Returns an array containing all the services registered under the
-	 * specified identifier.
+	 * Returns an array containing all the services registered under the specified identifier.
 	 * 
-	 * @param identifier
-	 *            The identifier of the services to look up.
-	 * @return An array containing all the services registered under the
-	 *         specified identifier.
-	 * @throws NullPointerException
-	 *             If the supplied identifier is <code>null</code>.
+	 * @param identifier The identifier of the services to look up.
+	 * @return An array containing all the services registered under the specified identifier.
+	 * @throws NullPointerException If the supplied identifier is <code>null</code>.
 	 */
 	Object[] lookupAllServices(String identifier) throws NullPointerException;
 
 	/**
 	 * Creates a new process execution context at the current location.
 	 * 
-	 * @param descriptor
-	 *            The descriptor of the execution to create.
+	 * @param descriptor The descriptor of the execution to create.
 	 * @return A new process engine session from the specified descriptor.
-	 * @throws NullPointerException
-	 *             If the specified descriptor is <code>null</code>.
+	 * @throws NullPointerException If the specified descriptor is <code>null</code>.
 	 */
-	IExecution createExecution(IExecutionDescriptor descriptor)
-			throws NullPointerException;;
+	IExecution createExecution(IExecutionDescriptor descriptor) throws NullPointerException;;
 
 	/**
 	 * Returns the process that created this session.

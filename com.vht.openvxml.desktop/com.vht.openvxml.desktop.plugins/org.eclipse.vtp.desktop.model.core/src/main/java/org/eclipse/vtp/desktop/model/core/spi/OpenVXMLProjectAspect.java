@@ -20,13 +20,11 @@ public abstract class OpenVXMLProjectAspect implements IOpenVXMLProjectAspect {
 		return hostProject;
 	}
 
-	public abstract boolean removeProjectConfiguration(
-			IProjectDescription description);
+	public abstract boolean removeProjectConfiguration(IProjectDescription description);
 
 	public abstract void removeProjectLayout();
 
 	public abstract void writeConfiguration(Element aspectElement);
 
-	public void getAspectResources(List<IWorkflowResource> resources) {
-	}
+	public void getAspectResources(List<IWorkflowResource> resources) {}
 }

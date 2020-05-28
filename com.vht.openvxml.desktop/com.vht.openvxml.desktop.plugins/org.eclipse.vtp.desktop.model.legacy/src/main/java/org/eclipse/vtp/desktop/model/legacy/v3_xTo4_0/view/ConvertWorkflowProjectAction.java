@@ -24,11 +24,10 @@ import org.eclipse.vtp.desktop.projects.core.builder.VoiceApplicationFragmentNat
 import org.eclipse.vtp.desktop.projects.core.builder.VoiceApplicationNature;
 
 /**
- * Used in context menus to initiate the creation of a new application. This
- * action is not view or perspective specific. The resulting wizard will be
- * centered on the current shell associated with the current UI thread. This
- * action will terminate upon opening of the wizard dialog, and does not block
- * until its completion or cancellation.
+ * Used in context menus to initiate the creation of a new application. This action is not view or
+ * perspective specific. The resulting wizard will be centered on the current shell associated with
+ * the current UI thread. This action will terminate upon opening of the wizard dialog, and does not
+ * block until its completion or cancellation.
  *
  * @author Trip
  * @version 1.0
@@ -36,8 +35,7 @@ import org.eclipse.vtp.desktop.projects.core.builder.VoiceApplicationNature;
 @SuppressWarnings("deprecation")
 public class ConvertWorkflowProjectAction extends SelectionListenerAction {
 	/**
-	 * Constructs a new <code>CreateApplicationAction</code> instance with the
-	 * default values.
+	 * Constructs a new <code>CreateApplicationAction</code> instance with the default values.
 	 */
 	public ConvertWorkflowProjectAction() {
 		super("Convert to 4.0 VTP Project");
@@ -45,8 +43,8 @@ public class ConvertWorkflowProjectAction extends SelectionListenerAction {
 
 	@Override
 	public void run() {
-		ConversionSelectionDialog dialog = new ConversionSelectionDialog(
-				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
+		ConversionSelectionDialog dialog = new ConversionSelectionDialog(PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getShell());
 		if (dialog.open() == Dialog.OK) {
 			ProjectConverter pc = new ProjectConverter();
 			VoiceConverter voiceConverter = new VoiceConverter();
@@ -54,8 +52,7 @@ public class ConvertWorkflowProjectAction extends SelectionListenerAction {
 			for (IProject project : projects) {
 				try {
 					if (project.hasNature(VoiceApplicationNature.NATURE_ID)
-							|| project
-									.hasNature(VoiceApplicationFragmentNature.NATURE_ID)) {
+							|| project.hasNature(VoiceApplicationFragmentNature.NATURE_ID)) {
 						pc.convertProject(project);
 					} else {
 						voiceConverter.convertVoice(project);

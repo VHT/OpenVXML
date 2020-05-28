@@ -44,8 +44,8 @@ public interface SingletonTrackerCustomizer {
 	 *         reference should not be selected and the old reference should be
 	 *         maintained.
 	 */
-	Object changingSelectedService(ServiceReference oldReference,
-			Object oldService, ServiceReference newReference);
+	Object changingSelectedService(ServiceReference oldReference, Object oldService,
+			ServiceReference newReference);
 
 	@SuppressWarnings("rawtypes")
 	/**

@@ -25,6 +25,5 @@ public abstract class Iota extends Widget implements VXMLConstants {
 	/**
 	 * Creates a new Iota.
 	 */
-	public Iota() {
-	}
+	public Iota() {}
 }

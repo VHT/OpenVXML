@@ -19,8 +19,8 @@ public interface IWorkflowProjectAspect extends IOpenVXMLProjectAspect {
 	public List<IWorkflowEntry> getWorkflowEntries();
 
 	/**
-	 * @return A list of exit points out of this workflow project that are
-	 *         reachable from the given entry point.
+	 * @return A list of exit points out of this workflow project that are reachable from the given
+	 *         entry point.
 	 */
 	public List<IWorkflowExit> getWorkflowExits(IWorkflowEntry entryPoint);
 

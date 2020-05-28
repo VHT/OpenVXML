@@ -27,25 +27,21 @@ import org.osgi.service.prefs.Preferences;
  */
 public final class ExportCore {
 
-	private static final IPreferencesService preferences = Platform
-			.getPreferencesService();
+	private static final IPreferencesService preferences = Platform.getPreferencesService();
 	private static Map<String, IConfigurationExporter> exporters = new HashMap<String, IConfigurationExporter>();
 
 	static {
 		try {
-			IConfigurationElement[] extensions = Platform
-					.getExtensionRegistry()
+			IConfigurationElement[] extensions = Platform.getExtensionRegistry()
 					.getConfigurationElementsFor(
 							"org.eclipse.vtp.desktop.export.configurationExporters");
 			for (IConfigurationElement extension : extensions) {
 				String id = extension.getAttribute("id");
-				Bundle contributor = Platform.getBundle(extension
-						.getContributor().getName());
+				Bundle contributor = Platform.getBundle(extension.getContributor().getName());
 				String className = extension.getAttribute("class");
 				try {
 					Class<?> exporterClass = contributor.loadClass(className);
-					exporters.put(id, (IConfigurationExporter) exporterClass
-							.newInstance());
+					exporters.put(id, (IConfigurationExporter) exporterClass.newInstance());
 				} catch (Exception e) {
 					e.printStackTrace();
 					continue;
@@ -70,18 +66,15 @@ public final class ExportCore {
 		thrown.printStackTrace(System.err);
 	}
 
-	public static void displayError(Shell shell, String message,
-			Throwable thrown) {
-		new ErrorDialog(shell, "Error Exporting Projects", message, new Status(
-				Status.ERROR, getSymbolicName(), 1, message, thrown),
-				Status.ERROR).open();
+	public static void displayError(Shell shell, String message, Throwable thrown) {
+		new ErrorDialog(shell, "Error Exporting Projects", message, new Status(Status.ERROR,
+				getSymbolicName(), 1, message, thrown), Status.ERROR).open();
 	}
 
-	public static Map<String, String> loadSettings(String archive,
-			String project) {
+	public static Map<String, String> loadSettings(String archive, String project) {
 		Map<String, String> settings = new HashMap<String, String>();
-		Preferences rootNode = preferences.getRootNode()
-				.node(InstanceScope.SCOPE).node(getSymbolicName());
+		Preferences rootNode = preferences.getRootNode().node(InstanceScope.SCOPE).node(
+				getSymbolicName());
 		Preferences archiveNode = rootNode.node(escapeKey(archive));
 		Preferences projectNode = archiveNode.node(escapeKey(project));
 		try {
@@ -94,10 +87,9 @@ public final class ExportCore {
 		return settings;
 	}
 
-	public static void saveSettings(String archive, String project,
-			Map<String, String> settings) {
-		Preferences rootNode = preferences.getRootNode()
-				.node(InstanceScope.SCOPE).node(getSymbolicName());
+	public static void saveSettings(String archive, String project, Map<String, String> settings) {
+		Preferences rootNode = preferences.getRootNode().node(InstanceScope.SCOPE).node(
+				getSymbolicName());
 		Preferences archiveNode = rootNode.node(escapeKey(archive));
 		Preferences projectNode = archiveNode.node(escapeKey(project));
 		try {
@@ -111,18 +103,17 @@ public final class ExportCore {
 	}
 
 	public static String getPreference(String key) {
-		return preferences.getRootNode().node(InstanceScope.SCOPE)
-				.node(getSymbolicName()).get(escapeKey(key), null);
+		return preferences.getRootNode().node(InstanceScope.SCOPE).node(getSymbolicName()).get(
+				escapeKey(key), null);
 	}
 
 	public static void setPreference(String key, String value) {
-		preferences.getRootNode().node(InstanceScope.SCOPE)
-				.node(getSymbolicName()).put(escapeKey(key), value);
+		preferences.getRootNode().node(InstanceScope.SCOPE).node(getSymbolicName()).put(
+				escapeKey(key), value);
 	}
 
 	public static void flushPreferences() throws BackingStoreException {
-		preferences.getRootNode().node(InstanceScope.SCOPE)
-				.node(getSymbolicName()).flush();
+		preferences.getRootNode().node(InstanceScope.SCOPE).node(getSymbolicName()).flush();
 	}
 
 	private static String escapeKey(String key) {
@@ -137,17 +128,14 @@ public final class ExportCore {
 	}
 
 	public static List<ExportAgent> createExportAgents() {
-		IExtension[] agents = Platform.getExtensionRegistry()
-				.getExtensionPoint(getSymbolicName() + ".exportAgents")
-				.getExtensions();
+		IExtension[] agents = Platform.getExtensionRegistry().getExtensionPoint(
+				getSymbolicName() + ".exportAgents").getExtensions();
 		int count = 0;
 		Integer ZERO = 0;
 		Map<Integer, List<ExportAgent>> map = new TreeMap<Integer, List<ExportAgent>>();
 		for (IExtension agent : agents) {
-			Bundle contributor = Platform.getBundle(agent.getContributor()
-					.getName());
-			for (IConfigurationElement element : agent
-					.getConfigurationElements()) {
+			Bundle contributor = Platform.getBundle(agent.getContributor().getName());
+			for (IConfigurationElement element : agent.getConfigurationElements()) {
 				String id = element.getAttribute("id");
 				try {
 					Integer ranking = ZERO;
@@ -156,8 +144,7 @@ public final class ExportCore {
 						ranking = Integer.parseInt(value);
 					}
 					String name = element.getAttribute("class");
-					IExportAgent object = (IExportAgent) contributor.loadClass(
-							name).newInstance();
+					IExportAgent object = (IExportAgent) contributor.loadClass(name).newInstance();
 					List<ExportAgent> list = map.get(ranking);
 					if (list == null) {
 						map.put(ranking, list = new LinkedList<ExportAgent>());
@@ -176,8 +163,7 @@ public final class ExportCore {
 		return result;
 	}
 
-	public static IConfigurationExporter getConfigurationExporter(
-			String elementTypeId) {
+	public static IConfigurationExporter getConfigurationExporter(String elementTypeId) {
 		return exporters.get(elementTypeId);
 	}
 

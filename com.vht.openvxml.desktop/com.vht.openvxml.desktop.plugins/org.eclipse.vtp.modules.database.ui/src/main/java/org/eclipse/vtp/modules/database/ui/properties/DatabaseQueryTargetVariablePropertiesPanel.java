@@ -62,10 +62,8 @@ import com.openmethods.openvxml.desktop.model.workflow.design.Variable;
 
 /**
  * @author Trip
- *
  */
-public class DatabaseQueryTargetVariablePropertiesPanel extends
-		DesignElementPropertiesPanel {
+public class DatabaseQueryTargetVariablePropertiesPanel extends DesignElementPropertiesPanel {
 	IBusinessObjectProjectAspect businessObjectAspect = null;
 	DatabaseQueryInformationProvider queryElement;
 	DatabaseQuerySettingsStructure settings;
@@ -88,17 +86,14 @@ public class DatabaseQueryTargetVariablePropertiesPanel extends
 		IOpenVXMLProject project = dqe.getDesign().getDocument().getProject();
 		businessObjectAspect = (IBusinessObjectProjectAspect) project
 				.getProjectAspect(IBusinessObjectProjectAspect.ASPECT_ID);
-		this.queryElement = (DatabaseQueryInformationProvider) dqe
-				.getInformationProvider();
+		this.queryElement = (DatabaseQueryInformationProvider) dqe.getInformationProvider();
 		this.settings = settings;
 		incomingVariables = dqe.getDesign().getVariablesFor(dqe);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel#
+	 * @see org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel#
 	 * createControls(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -117,8 +112,7 @@ public class DatabaseQueryTargetVariablePropertiesPanel extends
 		existingVariableButton.setFont(bold);
 		existingVariableButton.setBackground(parent.getBackground());
 
-		Tree existingVariableTree = new Tree(parent, SWT.FULL_SELECTION
-				| SWT.SINGLE | SWT.BORDER);
+		Tree existingVariableTree = new Tree(parent, SWT.FULL_SELECTION | SWT.SINGLE | SWT.BORDER);
 		existingVariableTree.setHeaderVisible(true);
 		existingVariableTree.setEnabled(settings.targetVariableExists);
 
@@ -130,8 +124,7 @@ public class DatabaseQueryTargetVariablePropertiesPanel extends
 		typeColumn.setText("Type");
 		typeColumn.setWidth(100);
 		existingVariableViewer = new TreeViewer(existingVariableTree);
-		existingVariableViewer
-				.setContentProvider(new VariableContentProvider());
+		existingVariableViewer.setContentProvider(new VariableContentProvider());
 		existingVariableViewer.setLabelProvider(new VariableLabelProvider());
 		existingVariableViewer.setInput(this);
 
@@ -140,8 +133,7 @@ public class DatabaseQueryTargetVariablePropertiesPanel extends
 				Variable v = incomingVariables.get(i);
 
 				if (v.getName().equals(settings.targetVariableName)) {
-					existingVariableViewer
-							.setSelection(new StructuredSelection(v));
+					existingVariableViewer.setSelection(new StructuredSelection(v));
 				} else if ((settings.targetVariableName != null)
 						&& settings.targetVariableName.startsWith(v.getName())) {
 					List<ObjectField> objectFields = v.getFields();
@@ -150,8 +142,7 @@ public class DatabaseQueryTargetVariablePropertiesPanel extends
 						ObjectField of = objectFields.get(f);
 
 						if (of.getPath().equals(settings.targetVariableName)) {
-							existingVariableViewer
-									.setSelection(new StructuredSelection(of));
+							existingVariableViewer.setSelection(new StructuredSelection(of));
 						}
 					}
 				}
@@ -171,19 +162,18 @@ public class DatabaseQueryTargetVariablePropertiesPanel extends
 		newVariableNameField.addVerifyListener(new VerifyListener() {
 			@Override
 			public void verifyText(VerifyEvent e) {
-				String currentName = newVariableNameField.getText().substring(
-						0, e.start)
+				String currentName = newVariableNameField.getText().substring(0, e.start)
 						+ e.text
-						+ newVariableNameField.getText(e.end,
-								(newVariableNameField.getText().length() - 1));
+						+ newVariableNameField.getText(e.end, (newVariableNameField.getText()
+								.length() - 1));
 				if (VariableNameValidator.followsVtpNamingRules(currentName)
 						|| currentName.equals("")) {
-					newVariableNameField.setForeground(newVariableNameField
-							.getDisplay().getSystemColor(SWT.COLOR_BLACK));
+					newVariableNameField.setForeground(newVariableNameField.getDisplay()
+							.getSystemColor(SWT.COLOR_BLACK));
 					getContainer().setCanFinish(true);
 				} else {
-					newVariableNameField.setForeground(newVariableNameField
-							.getDisplay().getSystemColor(SWT.COLOR_RED));
+					newVariableNameField.setForeground(newVariableNameField.getDisplay()
+							.getSystemColor(SWT.COLOR_RED));
 					getContainer().setCanFinish(false);
 				}
 			}
@@ -196,8 +186,7 @@ public class DatabaseQueryTargetVariablePropertiesPanel extends
 		newVariableNameField.setEnabled(!settings.targetVariableExists);
 		newVariableNameField.addKeyListener(new KeyListener() {
 			@Override
-			public void keyPressed(KeyEvent e) {
-			}
+			public void keyPressed(KeyEvent e) {}
 
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -215,8 +204,7 @@ public class DatabaseQueryTargetVariablePropertiesPanel extends
 		multiplicityCombo.setEnabled(!settings.targetVariableExists);
 
 		if (!settings.targetVariableExists) {
-			multiplicityCombo
-					.select(settings.targetVariableType.hasBaseType() ? 1 : 0);
+			multiplicityCombo.select(settings.targetVariableType.hasBaseType() ? 1 : 0);
 		} else {
 			multiplicityCombo.select(0);
 		}
@@ -225,38 +213,29 @@ public class DatabaseQueryTargetVariablePropertiesPanel extends
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (multiplicityCombo.getSelectionIndex() == 0) {
-					Primitive prim = Primitive.find(typeList.get(typeCombo
-							.getSelectionIndex()));
+					Primitive prim = Primitive.find(typeList.get(typeCombo.getSelectionIndex()));
 					if (prim != null) {
 						settings.targetVariableType = new FieldType(prim);
 					} else {
-						settings.targetVariableType = new FieldType(
-								businessObjectAspect.getBusinessObjectSet()
-										.getBusinessObject(
-												typeList.get(typeCombo
-														.getSelectionIndex())));
+						settings.targetVariableType = new FieldType(businessObjectAspect
+								.getBusinessObjectSet().getBusinessObject(
+										typeList.get(typeCombo.getSelectionIndex())));
 					}
 				} else {
-					Primitive prim = Primitive.find(typeList.get(typeCombo
-							.getSelectionIndex()));
+					Primitive prim = Primitive.find(typeList.get(typeCombo.getSelectionIndex()));
 					if (prim != null) {
-						settings.targetVariableType = new FieldType(
-								Primitive.ARRAY, prim);
+						settings.targetVariableType = new FieldType(Primitive.ARRAY, prim);
 					} else {
-						settings.targetVariableType = new FieldType(
-								Primitive.ARRAY, businessObjectAspect
-										.getBusinessObjectSet()
-										.getBusinessObject(
-												typeList.get(typeCombo
-														.getSelectionIndex())));
+						settings.targetVariableType = new FieldType(Primitive.ARRAY,
+								businessObjectAspect.getBusinessObjectSet().getBusinessObject(
+										typeList.get(typeCombo.getSelectionIndex())));
 					}
 				}
 				settings.fireTargetChanged();
 			}
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
 		typeCombo = new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY);
 		typeList = new ArrayList<String>();
@@ -279,11 +258,9 @@ public class DatabaseQueryTargetVariablePropertiesPanel extends
 			typeCombo.add(typeList.get(i));
 
 			if (!settings.targetVariableExists) {
-				if (typeList
-						.get(i)
-						.equals(settings.targetVariableType.hasBaseType() ? settings.targetVariableType
-								.getBaseTypeName()
-								: settings.targetVariableType.getName())) {
+				if (typeList.get(i).equals(
+						settings.targetVariableType.hasBaseType() ? settings.targetVariableType
+								.getBaseTypeName() : settings.targetVariableType.getName())) {
 					sel = i;
 				}
 			}
@@ -295,38 +272,29 @@ public class DatabaseQueryTargetVariablePropertiesPanel extends
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (multiplicityCombo.getSelectionIndex() == 0) {
-					Primitive prim = Primitive.find(typeList.get(typeCombo
-							.getSelectionIndex()));
+					Primitive prim = Primitive.find(typeList.get(typeCombo.getSelectionIndex()));
 					if (prim != null) {
 						settings.targetVariableType = new FieldType(prim);
 					} else {
-						settings.targetVariableType = new FieldType(
-								businessObjectAspect.getBusinessObjectSet()
-										.getBusinessObject(
-												typeList.get(typeCombo
-														.getSelectionIndex())));
+						settings.targetVariableType = new FieldType(businessObjectAspect
+								.getBusinessObjectSet().getBusinessObject(
+										typeList.get(typeCombo.getSelectionIndex())));
 					}
 				} else {
-					Primitive prim = Primitive.find(typeList.get(typeCombo
-							.getSelectionIndex()));
+					Primitive prim = Primitive.find(typeList.get(typeCombo.getSelectionIndex()));
 					if (prim != null) {
-						settings.targetVariableType = new FieldType(
-								Primitive.ARRAY, prim);
+						settings.targetVariableType = new FieldType(Primitive.ARRAY, prim);
 					} else {
-						settings.targetVariableType = new FieldType(
-								Primitive.ARRAY, businessObjectAspect
-										.getBusinessObjectSet()
-										.getBusinessObject(
-												typeList.get(typeCombo
-														.getSelectionIndex())));
+						settings.targetVariableType = new FieldType(Primitive.ARRAY,
+								businessObjectAspect.getBusinessObjectSet().getBusinessObject(
+										typeList.get(typeCombo.getSelectionIndex())));
 					}
 				}
 				settings.fireTargetChanged();
 			}
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
 
 		newVariableSecureButton = new Button(parent, SWT.CHECK);
@@ -336,13 +304,11 @@ public class DatabaseQueryTargetVariablePropertiesPanel extends
 		newVariableSecureButton.setEnabled(!settings.targetVariableExists);
 		newVariableSecureButton.addSelectionListener(new SelectionListener() {
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				settings.setTargetVariableSecure(newVariableSecureButton
-						.getSelection());
+				settings.setTargetVariableSecure(newVariableSecureButton.getSelection());
 			}
 		});
 
@@ -356,17 +322,14 @@ public class DatabaseQueryTargetVariablePropertiesPanel extends
 
 		FormData existingVariableViewerData = new FormData();
 		existingVariableViewerData.left = new FormAttachment(0, 20);
-		existingVariableViewerData.top = new FormAttachment(
-				existingVariableButton, 10);
+		existingVariableViewerData.top = new FormAttachment(existingVariableButton, 10);
 		existingVariableViewerData.right = new FormAttachment(100, -10);
 		existingVariableViewerData.height = 80;
-		existingVariableViewer.getControl().setLayoutData(
-				existingVariableViewerData);
+		existingVariableViewer.getControl().setLayoutData(existingVariableViewerData);
 
 		FormData newVariableButtonData = new FormData();
 		newVariableButtonData.left = new FormAttachment(0, 20);
-		newVariableButtonData.top = new FormAttachment(
-				existingVariableViewer.getControl(), 20);
+		newVariableButtonData.top = new FormAttachment(existingVariableViewer.getControl(), 20);
 		newVariableButtonData.right = new FormAttachment(100, -10);
 		newVariableButton.setLayoutData(newVariableButtonData);
 
@@ -376,16 +339,14 @@ public class DatabaseQueryTargetVariablePropertiesPanel extends
 		newVariableNameLabel.setLayoutData(newVariableNameLabelData);
 
 		FormData newVariableNameFieldData = new FormData();
-		newVariableNameFieldData.left = new FormAttachment(
-				newVariableNameLabel, 10);
+		newVariableNameFieldData.left = new FormAttachment(newVariableNameLabel, 10);
 		newVariableNameFieldData.top = new FormAttachment(newVariableButton, 10);
 		newVariableNameFieldData.right = new FormAttachment(100, -10);
 		newVariableNameField.setLayoutData(newVariableNameFieldData);
 
 		FormData newVariableTypeLabelData = new FormData();
 		newVariableTypeLabelData.left = new FormAttachment(0, 20);
-		newVariableTypeLabelData.top = new FormAttachment(newVariableNameField,
-				10);
+		newVariableTypeLabelData.top = new FormAttachment(newVariableNameField, 10);
 		newVariableTypeLabelData.right = new FormAttachment(100, -10);
 		newVariableTypeLabel.setLayoutData(newVariableTypeLabelData);
 
@@ -406,50 +367,42 @@ public class DatabaseQueryTargetVariablePropertiesPanel extends
 		secureData.right = new FormAttachment(100, -10);
 		newVariableSecureButton.setLayoutData(secureData);
 
-		existingVariableViewer
-				.addSelectionChangedListener(new ISelectionChangedListener() {
-					@Override
-					public void selectionChanged(SelectionChangedEvent event) {
-						IStructuredSelection selection = (IStructuredSelection) event
-								.getSelection();
+		existingVariableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				IStructuredSelection selection = (IStructuredSelection) event.getSelection();
 
-						if (selection.isEmpty()) {
-							settings.targetVariableName = null;
-							settings.targetVariableType = null;
-						} else // there is a variable selected
-						{
-							if (selection.getFirstElement() instanceof Variable) {
-								Variable v = (Variable) selection
-										.getFirstElement();
-								settings.targetVariableName = v.getName();
-								settings.targetVariableType = v.getType();
-							} else // instance of ObjectField
-							{
-								ObjectField field = (ObjectField) selection
-										.getFirstElement();
-								settings.targetVariableName = field.getPath();
-								settings.targetVariableType = field.getType();
-							}
-						}
-
-						settings.fireTargetChanged();
+				if (selection.isEmpty()) {
+					settings.targetVariableName = null;
+					settings.targetVariableType = null;
+				} else // there is a variable selected
+				{
+					if (selection.getFirstElement() instanceof Variable) {
+						Variable v = (Variable) selection.getFirstElement();
+						settings.targetVariableName = v.getName();
+						settings.targetVariableType = v.getType();
+					} else // instance of ObjectField
+					{
+						ObjectField field = (ObjectField) selection.getFirstElement();
+						settings.targetVariableName = field.getPath();
+						settings.targetVariableType = field.getType();
 					}
-				});
+				}
+
+				settings.fireTargetChanged();
+			}
+		});
 
 		existingVariableButton.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				existingVariableViewer.getControl().setEnabled(
 						existingVariableButton.getSelection());
-				newVariableNameField.setEnabled(!existingVariableButton
-						.getSelection());
-				multiplicityCombo.setEnabled(!existingVariableButton
-						.getSelection());
+				newVariableNameField.setEnabled(!existingVariableButton.getSelection());
+				multiplicityCombo.setEnabled(!existingVariableButton.getSelection());
 				typeCombo.setEnabled(!existingVariableButton.getSelection());
-				newVariableSecureButton.setEnabled(!existingVariableButton
-						.getSelection());
-				settings.targetVariableExists = existingVariableButton
-						.getSelection();
+				newVariableSecureButton.setEnabled(!existingVariableButton.getSelection());
+				settings.targetVariableExists = existingVariableButton.getSelection();
 
 				if (existingVariableButton.getSelection()) {
 					IStructuredSelection selection = (IStructuredSelection) existingVariableViewer
@@ -466,8 +419,7 @@ public class DatabaseQueryTargetVariablePropertiesPanel extends
 							settings.targetVariableType = v.getType();
 						} else // instance of ObjectField
 						{
-							ObjectField field = (ObjectField) selection
-									.getFirstElement();
+							ObjectField field = (ObjectField) selection.getFirstElement();
 							settings.targetVariableName = field.getPath();
 							settings.targetVariableType = field.getType();
 						}
@@ -475,42 +427,30 @@ public class DatabaseQueryTargetVariablePropertiesPanel extends
 					getContainer().setCanFinish(true);
 				} else // this is a new variable
 				{
-					settings.targetVariableName = newVariableNameField
-							.getText();
+					settings.targetVariableName = newVariableNameField.getText();
 					if (multiplicityCombo.getSelectionIndex() == 0) {
-						Primitive prim = Primitive.find(typeList.get(typeCombo
-								.getSelectionIndex()));
+						Primitive prim = Primitive
+								.find(typeList.get(typeCombo.getSelectionIndex()));
 						if (prim != null) {
 							settings.targetVariableType = new FieldType(prim);
 						} else {
-							settings.targetVariableType = new FieldType(
-									businessObjectAspect
-											.getBusinessObjectSet()
-											.getBusinessObject(
-													typeList.get(typeCombo
-															.getSelectionIndex())));
+							settings.targetVariableType = new FieldType(businessObjectAspect
+									.getBusinessObjectSet().getBusinessObject(
+											typeList.get(typeCombo.getSelectionIndex())));
 						}
 					} else {
-						Primitive prim = Primitive.find(typeList.get(typeCombo
-								.getSelectionIndex()));
+						Primitive prim = Primitive
+								.find(typeList.get(typeCombo.getSelectionIndex()));
 						if (prim != null) {
-							settings.targetVariableType = new FieldType(
-									Primitive.ARRAY, prim);
+							settings.targetVariableType = new FieldType(Primitive.ARRAY, prim);
 						} else {
-							settings.targetVariableType = new FieldType(
-									Primitive.ARRAY,
-									businessObjectAspect
-											.getBusinessObjectSet()
-											.getBusinessObject(
-													typeList.get(typeCombo
-															.getSelectionIndex())));
+							settings.targetVariableType = new FieldType(Primitive.ARRAY,
+									businessObjectAspect.getBusinessObjectSet().getBusinessObject(
+											typeList.get(typeCombo.getSelectionIndex())));
 						}
 					}
-					settings.setTargetVariableSecure(newVariableSecureButton
-							.getSelection());
-					if (VariableNameValidator
-							.followsVtpNamingRules(newVariableNameField
-									.getText())
+					settings.setTargetVariableSecure(newVariableSecureButton.getSelection());
+					if (VariableNameValidator.followsVtpNamingRules(newVariableNameField.getText())
 							|| newVariableNameField.getText().equals("")) {
 						getContainer().setCanFinish(true);
 					} else {
@@ -522,17 +462,13 @@ public class DatabaseQueryTargetVariablePropertiesPanel extends
 			}
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel#
-	 * save()
+	 * @see org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel# save()
 	 */
 	@Override
 	public void save() {
@@ -548,10 +484,7 @@ public class DatabaseQueryTargetVariablePropertiesPanel extends
 	public class VariableContentProvider implements ITreeContentProvider {
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
-		 * java.lang.Object)
+		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements( java.lang.Object)
 		 */
 		@Override
 		public Object[] getElements(Object inputElement) {
@@ -560,10 +493,7 @@ public class DatabaseQueryTargetVariablePropertiesPanel extends
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang
-		 * .Object)
+		 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang .Object)
 		 */
 		@Override
 		public Object getParent(Object element) {
@@ -576,10 +506,7 @@ public class DatabaseQueryTargetVariablePropertiesPanel extends
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang
-		 * .Object)
+		 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang .Object)
 		 */
 		@Override
 		public boolean hasChildren(Object element) {
@@ -588,10 +515,7 @@ public class DatabaseQueryTargetVariablePropertiesPanel extends
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang
-		 * .Object)
+		 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang .Object)
 		 */
 		@Override
 		public Object[] getChildren(Object parentElement) {
@@ -599,12 +523,10 @@ public class DatabaseQueryTargetVariablePropertiesPanel extends
 		}
 
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 	}
 
 	public class VariableLabelProvider implements ITableLabelProvider {
@@ -631,8 +553,7 @@ public class DatabaseQueryTargetVariablePropertiesPanel extends
 		}
 
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		@Override
 		public boolean isLabelProperty(Object element, String property) {
@@ -640,17 +561,14 @@ public class DatabaseQueryTargetVariablePropertiesPanel extends
 		}
 
 		@Override
-		public void addListener(ILabelProviderListener listener) {
-		}
+		public void addListener(ILabelProviderListener listener) {}
 
 		@Override
-		public void removeListener(ILabelProviderListener listener) {
-		}
+		public void removeListener(ILabelProviderListener listener) {}
 	}
 
 	@Override
-	public void setConfigurationContext(Map<String, Object> values) {
-	}
+	public void setConfigurationContext(Map<String, Object> values) {}
 
 	@Override
 	public List<String> getApplicableContexts() {

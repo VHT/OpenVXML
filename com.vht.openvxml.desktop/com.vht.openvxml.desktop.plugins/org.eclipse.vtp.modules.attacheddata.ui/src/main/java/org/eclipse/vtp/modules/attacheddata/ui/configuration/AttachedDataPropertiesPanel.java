@@ -58,7 +58,8 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElementConn
 import com.openmethods.openvxml.desktop.model.workflow.internal.design.ConnectorRecord;
 
 public class AttachedDataPropertiesPanel extends ComponentPropertiesPanel
-		implements ConnectorPropertiesListener {
+	implements
+	ConnectorPropertiesListener {
 	private IDesignConnector connector = null;
 	private TreeViewer dataViewer = null;
 	private AttachedDataManager attachedDataManager = null;
@@ -91,8 +92,7 @@ public class AttachedDataPropertiesPanel extends ComponentPropertiesPanel
 		Composite comp = new Composite(parent, SWT.NONE);
 		comp.setBackground(parent.getBackground());
 		comp.setLayout(new GridLayout(1, false));
-		Tree dataTree = new Tree(comp, SWT.FULL_SELECTION | SWT.BORDER
-				| SWT.SINGLE | SWT.V_SCROLL);
+		Tree dataTree = new Tree(comp, SWT.FULL_SELECTION | SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
 		dataTree.setHeaderVisible(true);
 		TreeColumn nameColumn = new TreeColumn(dataTree, SWT.NONE);
 		nameColumn.setText("Name");
@@ -110,29 +110,17 @@ public class AttachedDataPropertiesPanel extends ComponentPropertiesPanel
 
 		/*
 		 * Composite buttonComp = new Composite(comp, SWT.NONE);
-		 * buttonComp.setBackground(comp.getBackground());
-		 * buttonComp.setLayout(new GridLayout(1, false)); GridData gd = new
-		 * GridData(); gd.verticalAlignment = SWT.TOP;
-		 * buttonComp.setLayoutData(gd);
-		 * 
-		 * addDataButton = new Button(buttonComp, SWT.PUSH);
-		 * addDataButton.setText("Add Attached Data"); gd = new
-		 * GridData(GridData.FILL_HORIZONTAL); addDataButton.setLayoutData(gd);
-		 * addDataButton.addSelectionListener(new SelectionListener() {
-		 * 
-		 * public void widgetDefaultSelected(SelectionEvent e) { }
-		 * 
-		 * public void widgetSelected(SelectionEvent e) { }
-		 * 
-		 * });
-		 * 
-		 * editButton = new Button(buttonComp, SWT.PUSH);
-		 * editButton.setText("Edit Attached Data");
-		 * editButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		 * 
-		 * removeButton = new Button(buttonComp, SWT.PUSH);
-		 * removeButton.setText("Remove Attached Data");
-		 * removeButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		 * buttonComp.setBackground(comp.getBackground()); buttonComp.setLayout(new GridLayout(1,
+		 * false)); GridData gd = new GridData(); gd.verticalAlignment = SWT.TOP;
+		 * buttonComp.setLayoutData(gd); addDataButton = new Button(buttonComp, SWT.PUSH);
+		 * addDataButton.setText("Add Attached Data"); gd = new GridData(GridData.FILL_HORIZONTAL);
+		 * addDataButton.setLayoutData(gd); addDataButton.addSelectionListener(new
+		 * SelectionListener() { public void widgetDefaultSelected(SelectionEvent e) { } public void
+		 * widgetSelected(SelectionEvent e) { } }); editButton = new Button(buttonComp, SWT.PUSH);
+		 * editButton.setText("Edit Attached Data"); editButton.setLayoutData(new
+		 * GridData(GridData.FILL_HORIZONTAL)); removeButton = new Button(buttonComp, SWT.PUSH);
+		 * removeButton.setText("Remove Attached Data"); removeButton.setLayoutData(new
+		 * GridData(GridData.FILL_HORIZONTAL));
 		 */this.setControl(comp);
 		hookContextMenu();
 		hookDoubleClickAction();
@@ -162,23 +150,17 @@ public class AttachedDataPropertiesPanel extends ComponentPropertiesPanel
 		dataViewer.addDoubleClickListener(new IDoubleClickListener() {
 			@Override
 			public void doubleClick(DoubleClickEvent event) {
-				final IStructuredSelection sel = (IStructuredSelection) dataViewer
-						.getSelection();
+				final IStructuredSelection sel = (IStructuredSelection) dataViewer.getSelection();
 				if (sel.getFirstElement() instanceof EntryRecord) {
-					final EntryRecord entryRecord = (EntryRecord) sel
-							.getFirstElement();
+					final EntryRecord entryRecord = (EntryRecord) sel.getFirstElement();
 					try {
-						Shell workbenchShell = Display.getCurrent()
-								.getActiveShell();
-						AttachedDataEntryDialog aded = new AttachedDataEntryDialog(
-								workbenchShell);
-						aded.setConnector(connector,
-								entryRecord.connectorRecord.getName());
+						Shell workbenchShell = Display.getCurrent().getActiveShell();
+						AttachedDataEntryDialog aded = new AttachedDataEntryDialog(workbenchShell);
+						aded.setConnector(connector, entryRecord.connectorRecord.getName());
 						aded.setEntry(entryRecord.entry);
 						if (aded.open() == Dialog.OK) {
-							entryRecord.binding.putAttachedDataItem(
-									currentBrand.getId(), interactionType,
-									currentLanguage, entryRecord.item);
+							entryRecord.binding.putAttachedDataItem(currentBrand.getId(),
+									interactionType, currentLanguage, entryRecord.item);
 							dataViewer.refresh();
 						}
 					} catch (RuntimeException e) {
@@ -197,32 +179,25 @@ public class AttachedDataPropertiesPanel extends ComponentPropertiesPanel
 	 */
 	private void fillContextMenu(IMenuManager manager) {
 		if (!dataViewer.getSelection().isEmpty()) {
-			final IStructuredSelection sel = (IStructuredSelection) dataViewer
-					.getSelection();
+			final IStructuredSelection sel = (IStructuredSelection) dataViewer.getSelection();
 			if (sel.getFirstElement() instanceof ConnectorRecord) {
 				manager.add(new Action("Add Attached Data") {
 					@Override
 					public void run() {
 						try {
-							ConnectorRecord cr = (ConnectorRecord) sel
-									.getFirstElement();
-							Shell workbenchShell = Display.getCurrent()
-									.getActiveShell();
+							ConnectorRecord cr = (ConnectorRecord) sel.getFirstElement();
+							Shell workbenchShell = Display.getCurrent().getActiveShell();
 							AttachedDataEntryDialog aded = new AttachedDataEntryDialog(
 									workbenchShell);
 							aded.setConnector(connector, cr.getName());
 							if (aded.open() == Dialog.OK) {
 								AttachedDataBinding dataBinding = attachedDataManager
 										.getAttachedDataBinding(cr.getName());
-								AttachedDataBindingItem item = dataBinding
-										.getAttachedDataItem(
-												currentBrand.getId(),
-												interactionType,
-												currentLanguage);
+								AttachedDataBindingItem item = dataBinding.getAttachedDataItem(
+										currentBrand.getId(), interactionType, currentLanguage);
 								item.addEntry(aded.getEntry());
-								dataBinding.putAttachedDataItem(
-										currentBrand.getId(), interactionType,
-										currentLanguage, item);
+								dataBinding.putAttachedDataItem(currentBrand.getId(),
+										interactionType, currentLanguage, item);
 								dataViewer.refresh();
 							}
 						} catch (RuntimeException e) {
@@ -233,24 +208,19 @@ public class AttachedDataPropertiesPanel extends ComponentPropertiesPanel
 				});
 			} else // attached data entry
 			{
-				final EntryRecord entryRecord = (EntryRecord) sel
-						.getFirstElement();
+				final EntryRecord entryRecord = (EntryRecord) sel.getFirstElement();
 				manager.add(new Action("Edit This") {
 					@Override
 					public void run() {
 						try {
-							Shell workbenchShell = Display.getCurrent()
-									.getActiveShell();
+							Shell workbenchShell = Display.getCurrent().getActiveShell();
 							AttachedDataEntryDialog aded = new AttachedDataEntryDialog(
 									workbenchShell);
-							aded.setConnector(connector,
-									entryRecord.connectorRecord.getName());
+							aded.setConnector(connector, entryRecord.connectorRecord.getName());
 							aded.setEntry(entryRecord.entry);
 							if (aded.open() == Dialog.OK) {
-								entryRecord.binding.putAttachedDataItem(
-										currentBrand.getName(),
-										interactionType, currentLanguage,
-										entryRecord.item);
+								entryRecord.binding.putAttachedDataItem(currentBrand.getName(),
+										interactionType, currentLanguage, entryRecord.item);
 								dataViewer.refresh();
 							}
 						} catch (RuntimeException e) {
@@ -262,9 +232,8 @@ public class AttachedDataPropertiesPanel extends ComponentPropertiesPanel
 					@Override
 					public void run() {
 						entryRecord.item.removeEntry(entryRecord.entry);
-						entryRecord.binding.putAttachedDataItem(
-								currentBrand.getName(), interactionType,
-								currentLanguage, entryRecord.item);
+						entryRecord.binding.putAttachedDataItem(currentBrand.getName(),
+								interactionType, currentLanguage, entryRecord.item);
 						dataViewer.refresh();
 					}
 				});
@@ -294,8 +263,8 @@ public class AttachedDataPropertiesPanel extends ComponentPropertiesPanel
 	public void setConfigurationContext(Map<String, Object> values) {
 		currentBrand = (IBrand) values.get(BrandContext.CONTEXT_ID);
 		currentLanguage = (String) values.get(LanguageContext.CONTEXT_ID);
-		this.interactionType = ((InteractionType) values
-				.get(InteractionTypeContext.CONTEXT_ID)).getId();
+		this.interactionType = ((InteractionType) values.get(InteractionTypeContext.CONTEXT_ID))
+				.getId();
 		dataViewer.refresh();
 	}
 
@@ -307,20 +276,19 @@ public class AttachedDataPropertiesPanel extends ComponentPropertiesPanel
 			if (parentElement instanceof ConnectorRecord) {
 				ConnectorRecord cr = (ConnectorRecord) parentElement;
 				System.out.println("connector: " + cr.getName());
-				AttachedDataBinding dataBinding = attachedDataManager
-						.getAttachedDataBinding(cr.getName());
+				AttachedDataBinding dataBinding = attachedDataManager.getAttachedDataBinding(cr
+						.getName());
 				System.out.println("data binding: " + dataBinding);
 				AttachedDataBindingItem item = dataBinding.getAttachedDataItem(
 						currentBrand.getId(), interactionType, currentLanguage);
 				System.out.println("binding item: " + item);
 				List<AttachedDataItemEntry> copy = item.getEntries();
-				System.out.println("item entries: " + copy + " [" + copy.size()
-						+ "]");
+				System.out.println("item entries: " + copy + " [" + copy.size() + "]");
 				List<EntryRecord> ret = new ArrayList<EntryRecord>();
 				for (int i = 0; i < copy.size(); i++) {
 					AttachedDataItemEntry entry = copy.get(i);
-					System.out.println("Entry: " + entry.getName() + " "
-							+ entry.getDataType() + " " + entry.getValue());
+					System.out.println("Entry: " + entry.getName() + " " + entry.getDataType()
+							+ " " + entry.getValue());
 					ret.add(new EntryRecord(cr, dataBinding, item, entry));
 				}
 				return ret.toArray();
@@ -330,9 +298,7 @@ public class AttachedDataPropertiesPanel extends ComponentPropertiesPanel
 
 		@Override
 		public Object getParent(Object element) {
-			if (element instanceof EntryRecord) {
-				return ((EntryRecord) element).connectorRecord;
-			}
+			if (element instanceof EntryRecord) { return ((EntryRecord) element).connectorRecord; }
 			return null;
 		}
 
@@ -347,17 +313,14 @@ public class AttachedDataPropertiesPanel extends ComponentPropertiesPanel
 		}
 
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 
 	}
 
-	private class AttachedDataLabelProvider extends LabelProvider implements
-			ITableLabelProvider {
+	private class AttachedDataLabelProvider extends LabelProvider implements ITableLabelProvider {
 
 		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
@@ -368,14 +331,12 @@ public class AttachedDataPropertiesPanel extends ComponentPropertiesPanel
 		public String getColumnText(Object element, int columnIndex) {
 			if (columnIndex == 0) // name column
 			{
-				if (element instanceof ConnectorRecord) {
-					return ((ConnectorRecord) element).getName();
-				}
+				if (element instanceof ConnectorRecord) { return ((ConnectorRecord) element)
+						.getName(); }
 				return ((EntryRecord) element).entry.getName();
 			} else if (columnIndex == 1) {
-				if (element instanceof EntryRecord) {
-					return ((EntryRecord) element).entry.getValue();
-				}
+				if (element instanceof EntryRecord) { return ((EntryRecord) element).entry
+						.getValue(); }
 			}
 			return null;
 		}
@@ -388,9 +349,8 @@ public class AttachedDataPropertiesPanel extends ComponentPropertiesPanel
 		AttachedDataBindingItem item;
 		AttachedDataItemEntry entry;
 
-		public EntryRecord(ConnectorRecord connectorRecord,
-				AttachedDataBinding binding, AttachedDataBindingItem item,
-				AttachedDataItemEntry entry) {
+		public EntryRecord(ConnectorRecord connectorRecord, AttachedDataBinding binding,
+				AttachedDataBindingItem item, AttachedDataItemEntry entry) {
 			super();
 			this.connectorRecord = connectorRecord;
 			this.binding = binding;
@@ -400,8 +360,7 @@ public class AttachedDataPropertiesPanel extends ComponentPropertiesPanel
 	}
 
 	@Override
-	public void exitPointSelectionChanged(
-			List<IDesignElementConnectionPoint> selection) {
+	public void exitPointSelectionChanged(List<IDesignElementConnectionPoint> selection) {
 		currentExits = selection;
 		if (dataViewer != null) {
 			dataViewer.getTree().getDisplay().asyncExec(new Runnable() {

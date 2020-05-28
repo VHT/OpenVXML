@@ -10,22 +10,19 @@ import org.eclipse.vtp.desktop.model.interactive.core.IInteractiveProjectAspect;
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesignComponent;
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesignConnector;
 
-public class ConnectorPropertiesPanelProvider implements
-		ComponentPropertiesPanelProvider {
+public class ConnectorPropertiesPanelProvider implements ComponentPropertiesPanelProvider {
 
-	public ConnectorPropertiesPanelProvider() {
-	}
+	public ConnectorPropertiesPanelProvider() {}
 
 	@Override
 	public boolean isApplicableFor(IDesignComponent designComponent) {
 		return (designComponent instanceof IDesignConnector)
-				&& (designComponent.getDesign().getDocument().getProject()
-						.getProjectAspect(IInteractiveProjectAspect.ASPECT_ID) != null);
+				&& (designComponent.getDesign().getDocument().getProject().getProjectAspect(
+						IInteractiveProjectAspect.ASPECT_ID) != null);
 	}
 
 	@Override
-	public List<ComponentPropertiesPanel> getPropertiesPanels(
-			IDesignComponent designComponent) {
+	public List<ComponentPropertiesPanel> getPropertiesPanels(IDesignComponent designComponent) {
 		List<ComponentPropertiesPanel> ret = new LinkedList<ComponentPropertiesPanel>();
 		IDesignConnector connector = (IDesignConnector) designComponent;
 		AttachedDataPropertiesPanel attachedDataPropertiesPanel = new AttachedDataPropertiesPanel(

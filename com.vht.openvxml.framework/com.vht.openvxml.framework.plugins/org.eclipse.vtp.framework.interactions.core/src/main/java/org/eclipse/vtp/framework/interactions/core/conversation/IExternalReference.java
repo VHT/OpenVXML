@@ -20,21 +20,16 @@ public interface IExternalReference extends IInteraction {
 	/**
 	 * Sets the value of a parameter configured on this interaction.
 	 * 
-	 * @param parameterName
-	 *            The name of the parameter to set the value of.
-	 * @param parameterValue
-	 *            The value to set the parameter to.
+	 * @param parameterName The name of the parameter to set the value of.
+	 * @param parameterValue The value to set the parameter to.
 	 */
 	void setParameterValue(String parameterName, String parameterValue);
 
 	/**
-	 * Sets all the values configured for the specified parameter on this
-	 * interaction.
+	 * Sets all the values configured for the specified parameter on this interaction.
 	 * 
-	 * @param parameterName
-	 *            The name of the parameter to set the values of.
-	 * @param parameterValues
-	 *            The values to set the parameter to.
+	 * @param parameterName The name of the parameter to set the values of.
+	 * @param parameterValues The values to set the parameter to.
 	 */
 	void setParameterValues(String parameterName, String[] parameterValues);
 }

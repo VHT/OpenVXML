@@ -18,8 +18,7 @@ import org.eclipse.swt.graphics.Point;
 public interface IDesignConnector extends IDesignComponent {
 	public void addConnectionPoint(IDesignElementConnectionPoint connectionPoint);
 
-	public void removeConnectionPoint(
-			IDesignElementConnectionPoint connectionPoint);
+	public void removeConnectionPoint(IDesignElementConnectionPoint connectionPoint);
 
 	public List<IDesignElementConnectionPoint> getConnectionPoints();
 

@@ -36,8 +36,8 @@ import com.openmethods.openvxml.desktop.model.businessobjects.IBusinessObjectFie
 import com.openmethods.openvxml.desktop.model.businessobjects.IBusinessObjectSet;
 
 /**
- * This is a concrete implementation of <code>IBusinessObject</code> and
- * provides the default behavior of that interface.
+ * This is a concrete implementation of <code>IBusinessObject</code> and provides the default
+ * behavior of that interface.
  *
  * @author Trip Gilman
  * @version 2.0
@@ -64,20 +64,16 @@ public class BusinessObject extends WorkflowResource implements IBusinessObject 
 	private String name;
 
 	/**
-	 * The list of <code>BusinessObjectField</code>s defined for this business
-	 * object type.
+	 * The list of <code>BusinessObjectField</code>s defined for this business object type.
 	 */
 	private List<BusinessObjectField> fields;
 
 	/**
-	 * Creates a new <code>BusinessObject</code> with the given parent business
-	 * object set and eclipse file resource.
+	 * Creates a new <code>BusinessObject</code> with the given parent business object set and
+	 * eclipse file resource.
 	 *
-	 * @param objectSet
-	 *            The parent business object set
-	 * @param file
-	 *            The eclipse file resource that contains this business object
-	 *            type's definition
+	 * @param objectSet The parent business object set
+	 * @param file The eclipse file resource that contains this business object type's definition
 	 */
 	public BusinessObject(BusinessObjectSet objectSet, IFile file) {
 		super();
@@ -88,13 +84,13 @@ public class BusinessObject extends WorkflowResource implements IBusinessObject 
 	}
 
 	/**
-	 * Initializes the member variables and creates the business object fields
-	 * for this business object type.
+	 * Initializes the member variables and creates the business object fields for this business
+	 * object type.
 	 */
 	private void loadHeaders() {
 		try {
-			Document document = DocumentBuilderFactory.newInstance()
-					.newDocumentBuilder().parse(file.getContents());
+			Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(
+					file.getContents());
 			Element rootElement = document.getDocumentElement();
 			id = rootElement.getAttribute("id");
 			name = rootElement.getAttribute("name");
@@ -106,13 +102,13 @@ public class BusinessObject extends WorkflowResource implements IBusinessObject 
 	}
 
 	/**
-	 * Initializes the member variables and creates the business object fields
-	 * for this business object type.
+	 * Initializes the member variables and creates the business object fields for this business
+	 * object type.
 	 */
 	void loadModel() {
 		try {
-			Document document = DocumentBuilderFactory.newInstance()
-					.newDocumentBuilder().parse(file.getContents());
+			Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(
+					file.getContents());
 			Element rootElement = document.getDocumentElement();
 			fields = new ArrayList<BusinessObjectField>();
 			System.err.println("Loading object:" + name);
@@ -122,16 +118,13 @@ public class BusinessObject extends WorkflowResource implements IBusinessObject 
 				Element fieldElement = (Element) nl.item(i);
 				String fieldName = fieldElement.getAttribute("name");
 				System.err.println("Loading field: " + fieldName);
-				String fieldInitialValue = fieldElement
-						.getAttribute("initialValue");
+				String fieldInitialValue = fieldElement.getAttribute("initialValue");
 				NodeList dtnl = fieldElement.getElementsByTagName("data-type");
 
 				if (dtnl.getLength() > 0) {
-					FieldType fieldDataType = FieldType.load(objectSet,
-							(Element) dtnl.item(0));
-					BusinessObjectField bof = new BusinessObjectField(this,
-							fieldName, fieldDataType, fieldInitialValue,
-							Boolean.parseBoolean(fieldElement
+					FieldType fieldDataType = FieldType.load(objectSet, (Element) dtnl.item(0));
+					BusinessObjectField bof = new BusinessObjectField(this, fieldName,
+							fieldDataType, fieldInitialValue, Boolean.parseBoolean(fieldElement
 									.getAttribute("secured")));
 					fields.add(bof);
 				}
@@ -145,10 +138,7 @@ public class BusinessObject extends WorkflowResource implements IBusinessObject 
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.internals.VoiceResource#getObjectId
-	 * ()
+	 * @see org.eclipse.vtp.desktop.core.project.internals.VoiceResource#getObjectId ()
 	 */
 	@Override
 	protected String getObjectId() {
@@ -157,7 +147,6 @@ public class BusinessObject extends WorkflowResource implements IBusinessObject 
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IBusinessObject#getId()
 	 */
 	@Override
@@ -167,7 +156,6 @@ public class BusinessObject extends WorkflowResource implements IBusinessObject 
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IBusinessObject#getName()
 	 */
 	@Override
@@ -177,7 +165,6 @@ public class BusinessObject extends WorkflowResource implements IBusinessObject 
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IBusinessObject#getFields()
 	 */
 	@Override
@@ -187,7 +174,6 @@ public class BusinessObject extends WorkflowResource implements IBusinessObject 
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IVoiceResource#getParent()
 	 */
 	@Override
@@ -196,14 +182,12 @@ public class BusinessObject extends WorkflowResource implements IBusinessObject 
 	}
 
 	/**
-	 * Opens the underlying eclipse file resource that contains the XML format
-	 * definition of this business object. The contents are return in an
-	 * <code>InputStream</code>.
+	 * Opens the underlying eclipse file resource that contains the XML format definition of this
+	 * business object. The contents are return in an <code>InputStream</code>.
 	 *
-	 * @return An input stream containing the contents of the XML format
-	 *         definition of this business object tyep
-	 * @throws CoreException
-	 *             If an error occured while opening the file resource
+	 * @return An input stream containing the contents of the XML format definition of this business
+	 *         object tyep
+	 * @throws CoreException If an error occured while opening the file resource
 	 */
 	public InputStream read() throws CoreException {
 		return file.getContents();
@@ -211,9 +195,7 @@ public class BusinessObject extends WorkflowResource implements IBusinessObject 
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.core.project.internals.event.ObjectListener#
-	 * processObjectEvent
+	 * @see org.eclipse.vtp.desktop.core.project.internals.event.ObjectListener# processObjectEvent
 	 * (org.eclipse.vtp.desktop.core.project.internals.event.ObjectEvent)
 	 */
 	@Override
@@ -227,27 +209,20 @@ public class BusinessObject extends WorkflowResource implements IBusinessObject 
 	}
 
 	/**
-	 * Requests the contents of the XML format definition of this business
-	 * object definition be replaced with the data from the given input stream.
+	 * Requests the contents of the XML format definition of this business object definition be
+	 * replaced with the data from the given input stream.
 	 *
-	 * @param source
-	 *            An input stream to the new file contents
-	 * @throws CoreException
-	 *             If an error occured while writing the new contents of the
-	 *             file
+	 * @param source An input stream to the new file contents
+	 * @throws CoreException If an error occured while writing the new contents of the file
 	 */
 	public void write(InputStream source) throws CoreException {
 		file.setContents(source, true, true, null);
-		WorkflowCore.getDefault().postObjectEvent(
-				new ReloadObjectDataEvent(getObjectId()));
+		WorkflowCore.getDefault().postObjectEvent(new ReloadObjectDataEvent(getObjectId()));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IBusinessObject#getBusinessObjectSet
-	 * ()
+	 * @see org.eclipse.vtp.desktop.core.project.IBusinessObject#getBusinessObjectSet ()
 	 */
 	@Override
 	public IBusinessObjectSet getBusinessObjectSet() {
@@ -256,7 +231,6 @@ public class BusinessObject extends WorkflowResource implements IBusinessObject 
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.projects.core.IBusinessObject#delete()
 	 */
 	@Override
@@ -267,9 +241,7 @@ public class BusinessObject extends WorkflowResource implements IBusinessObject 
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.projects.core.IBusinessObject#getUnderlyingFile()
+	 * @see org.eclipse.vtp.desktop.projects.core.IBusinessObject#getUnderlyingFile()
 	 */
 	@Override
 	public IFile getUnderlyingFile() {
@@ -278,27 +250,20 @@ public class BusinessObject extends WorkflowResource implements IBusinessObject 
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.internal.WorkflowResource#getAdapter
+	 * @see org.eclipse.vtp.desktop.model.core.internal.WorkflowResource#getAdapter
 	 * (java.lang.Class)
 	 */
 	@Override
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapterClass) {
-		if (IResource.class.isAssignableFrom(adapterClass)) {
-			return getUnderlyingFile();
-		}
-		if (BusinessObject.class.isAssignableFrom(adapterClass)) {
-			return this;
-		}
+		if (IResource.class.isAssignableFrom(adapterClass)) { return getUnderlyingFile(); }
+		if (BusinessObject.class.isAssignableFrom(adapterClass)) { return this; }
 		return super.getAdapter(adapterClass);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof BusinessObject) {
-			return file.equals(((BusinessObject) obj).getUnderlyingFile());
-		}
+		if (obj instanceof BusinessObject) { return file.equals(((BusinessObject) obj)
+				.getUnderlyingFile()); }
 		return false;
 	}
 

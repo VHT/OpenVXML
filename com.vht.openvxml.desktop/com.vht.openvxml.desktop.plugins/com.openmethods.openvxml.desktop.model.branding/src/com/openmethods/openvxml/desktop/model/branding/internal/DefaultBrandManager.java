@@ -157,9 +157,7 @@ public class DefaultBrandManager implements BrandManager {
 	public void addListener(BrandManagerListener listener) {
 		for (int i = 0; i < listeners.size(); i++) {
 			WeakReference<BrandManagerListener> l = listeners.get(i);
-			if (listener == l.get()) {
-				return;
-			}
+			if (listener == l.get()) { return; }
 		}
 		listeners.add(new WeakReference<BrandManagerListener>(listener));
 	}
@@ -178,9 +176,7 @@ public class DefaultBrandManager implements BrandManager {
 	@Override
 	public boolean checkBrandName(IBrand parent, String name) {
 		for (IBrand child : parent.getChildBrands()) {
-			if (child.getName().equals(name)) {
-				return false;
-			}
+			if (child.getName().equals(name)) { return false; }
 		}
 		return true;
 	}
@@ -203,9 +199,7 @@ public class DefaultBrandManager implements BrandManager {
 			s = 1;
 		}
 		IBrand brand = defaultBrand;
-		if (!brand.getName().equals(parts[s])) {
-			return null;
-		}
+		if (!brand.getName().equals(parts[s])) { return null; }
 		++s;
 		for (int i = s; i < parts.length; i++) {
 			boolean found = false;
@@ -216,9 +210,7 @@ public class DefaultBrandManager implements BrandManager {
 					break;
 				}
 			}
-			if (!found) {
-				return null;
-			}
+			if (!found) { return null; }
 		}
 		return brand;
 	}

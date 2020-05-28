@@ -23,22 +23,18 @@ public class ProjectAspectRegistry {
 	private Map<String, IOpenVXMLProjectAspectFactory> aspectsById = new HashMap<String, IOpenVXMLProjectAspectFactory>();
 
 	public ProjectAspectRegistry() {
-		IConfigurationElement[] aspectExtensions = Platform
-				.getExtensionRegistry().getConfigurationElementsFor(
-						projectAspectsExtensionId);
+		IConfigurationElement[] aspectExtensions = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(projectAspectsExtensionId);
 		for (IConfigurationElement element : aspectExtensions) {
 			String aspectId = element.getAttribute("id");
 			String className = element.getAttribute("factory");
-			System.out.println("Registering aspect: " + aspectId + " "
-					+ className);
-			Bundle contributor = Platform.getBundle(element.getContributor()
-					.getName());
+			System.out.println("Registering aspect: " + aspectId + " " + className);
+			Bundle contributor = Platform.getBundle(element.getContributor().getName());
 			try {
 				@SuppressWarnings("unchecked")
 				Class<IOpenVXMLProjectAspectFactory> factoryClass = (Class<IOpenVXMLProjectAspectFactory>) contributor
 						.loadClass(className);
-				IOpenVXMLProjectAspectFactory factory = factoryClass
-						.newInstance();
+				IOpenVXMLProjectAspectFactory factory = factoryClass.newInstance();
 				System.out.println("Loaded aspect factory class: " + factory);
 				aspectRecords.add(factory);
 				aspectsById.put(aspectId, factory);

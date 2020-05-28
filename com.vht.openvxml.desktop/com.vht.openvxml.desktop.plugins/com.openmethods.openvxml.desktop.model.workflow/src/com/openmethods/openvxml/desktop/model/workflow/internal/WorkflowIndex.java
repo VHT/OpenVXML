@@ -44,7 +44,6 @@ import com.openmethods.openvxml.desktop.model.workflow.internal.DesignDocument.I
 
 /**
  * @author trip
- *
  */
 public class WorkflowIndex {
 	IProject project = null;
@@ -81,13 +80,11 @@ public class WorkflowIndex {
 		this.validated = validated;
 	}
 
-	public List<IWorkflowEntry> getWorkflowEntries(
-			IDesignDocument designDocument) {
+	public List<IWorkflowEntry> getWorkflowEntries(IDesignDocument designDocument) {
 		List<IWorkflowEntry> ret = new ArrayList<IWorkflowEntry>();
 		lock.readLock().lock();
 		IBusinessObjectSet businessObjects = ((IBusinessObjectProjectAspect) designDocument
-				.getProject().getProjectAspect(
-						IBusinessObjectProjectAspect.ASPECT_ID))
+				.getProject().getProjectAspect(IBusinessObjectProjectAspect.ASPECT_ID))
 				.getBusinessObjectSet();
 		String documentId = getDocumentId(designDocument);
 		try {
@@ -107,9 +104,7 @@ public class WorkflowIndex {
 				rs.close();
 				for (IWorkflowEntry workflowEntry : ret) {
 					rs = st.executeQuery("select name, type, basetype, precision from variables where documentid = '"
-							+ documentId
-							+ "' and elementid = '"
-							+ workflowEntry.getId() + "'");
+							+ documentId + "' and elementid = '" + workflowEntry.getId() + "'");
 					while (rs.next()) {
 						String name = rs.getString(1);
 						String type = rs.getString(2);
@@ -123,23 +118,19 @@ public class WorkflowIndex {
 								if (basePrim != null) {
 									ft = new FieldType(prim, basePrim);
 								} else {
-									ft = new FieldType(
-											prim,
-											businessObjects
-													.getBusinessObject(baseType));
+									ft = new FieldType(prim, businessObjects
+											.getBusinessObject(baseType));
 								}
 							} else {
 								ft = new FieldType(prim);
 							}
 							ft.setPrecision(precision);
 						} else {
-							ft = new FieldType(
-									businessObjects.getBusinessObject(type));
+							ft = new FieldType(businessObjects.getBusinessObject(type));
 						}
 						Variable v = new Variable(name, ft);
 						VariableHelper.buildObjectFields(v, businessObjects);
-						((IndexedWorkflowEntry) workflowEntry)
-								.addInputVariable(v);
+						((IndexedWorkflowEntry) workflowEntry).addInputVariable(v);
 					}
 					rs.close();
 				}
@@ -158,8 +149,7 @@ public class WorkflowIndex {
 		List<IWorkflowExit> ret = new ArrayList<IWorkflowExit>();
 		lock.readLock().lock();
 		IBusinessObjectSet businessObjects = ((IBusinessObjectProjectAspect) designDocument
-				.getProject().getProjectAspect(
-						IBusinessObjectProjectAspect.ASPECT_ID))
+				.getProject().getProjectAspect(IBusinessObjectProjectAspect.ASPECT_ID))
 				.getBusinessObjectSet();
 		String documentId = getDocumentId(designDocument);
 		try {
@@ -180,9 +170,7 @@ public class WorkflowIndex {
 				rs.close();
 				for (IWorkflowExit workflowExit : ret) {
 					rs = st.executeQuery("select name, type, basetype, precision from variables where documentid = '"
-							+ documentId
-							+ "' and elementid = '"
-							+ workflowExit.getId() + "'");
+							+ documentId + "' and elementid = '" + workflowExit.getId() + "'");
 					while (rs.next()) {
 						String name = rs.getString(1);
 						String type = rs.getString(2);
@@ -196,23 +184,19 @@ public class WorkflowIndex {
 								if (basePrim != null) {
 									ft = new FieldType(prim, basePrim);
 								} else {
-									ft = new FieldType(
-											prim,
-											businessObjects
-													.getBusinessObject(baseType));
+									ft = new FieldType(prim, businessObjects
+											.getBusinessObject(baseType));
 								}
 							} else {
 								ft = new FieldType(prim);
 							}
 							ft.setPrecision(precision);
 						} else {
-							ft = new FieldType(
-									businessObjects.getBusinessObject(type));
+							ft = new FieldType(businessObjects.getBusinessObject(type));
 						}
 						Variable v = new Variable(name, ft);
 						VariableHelper.buildObjectFields(v, businessObjects);
-						((IndexedWorkflowExit) workflowExit)
-								.addExportedVariable(v);
+						((IndexedWorkflowExit) workflowExit).addExportedVariable(v);
 					}
 					rs.close();
 				}
@@ -227,8 +211,7 @@ public class WorkflowIndex {
 		return ret;
 	}
 
-	public List<IWorkflowReference> getWorkflowReferences(
-			IDesignDocument designDocument) {
+	public List<IWorkflowReference> getWorkflowReferences(IDesignDocument designDocument) {
 		List<IWorkflowReference> ret = new ArrayList<IWorkflowReference>();
 		lock.readLock().lock();
 		String documentId = getDocumentId(designDocument);
@@ -265,8 +248,7 @@ public class WorkflowIndex {
 		try {
 			Connection con = createConnection(true);
 			Statement st = con.createStatement();
-			ResultSet rs = st
-					.executeQuery("select id, target, entry from workflowreferences");
+			ResultSet rs = st.executeQuery("select id, target, entry from workflowreferences");
 			while (rs.next()) {
 				String id = rs.getString(1);
 				String target = rs.getString(2);
@@ -286,8 +268,7 @@ public class WorkflowIndex {
 		return ret;
 	}
 
-	public List<IDesignEntryPoint> getDesignEntries(
-			IDesignDocument designDocument) {
+	public List<IDesignEntryPoint> getDesignEntries(IDesignDocument designDocument) {
 		List<IDesignEntryPoint> ret = new ArrayList<IDesignEntryPoint>();
 		lock.readLock().lock();
 		String documentId = getDocumentId(designDocument);
@@ -321,8 +302,7 @@ public class WorkflowIndex {
 		List<IDesignExitPoint> ret = new ArrayList<IDesignExitPoint>();
 		lock.readLock().lock();
 		IBusinessObjectSet businessObjects = ((IBusinessObjectProjectAspect) designDocument
-				.getProject().getProjectAspect(
-						IBusinessObjectProjectAspect.ASPECT_ID))
+				.getProject().getProjectAspect(IBusinessObjectProjectAspect.ASPECT_ID))
 				.getBusinessObjectSet();
 		String documentId = getDocumentId(designDocument);
 		try {
@@ -343,9 +323,7 @@ public class WorkflowIndex {
 				rs.close();
 				for (IDesignExitPoint workflowExit : ret) {
 					rs = st.executeQuery("select name, type, basetype, precision from variables where documentid = '"
-							+ documentId
-							+ "' and elementid = '"
-							+ workflowExit.getId() + "'");
+							+ documentId + "' and elementid = '" + workflowExit.getId() + "'");
 					while (rs.next()) {
 						String name = rs.getString(1);
 						String type = rs.getString(2);
@@ -359,23 +337,19 @@ public class WorkflowIndex {
 								if (basePrim != null) {
 									ft = new FieldType(prim, basePrim);
 								} else {
-									ft = new FieldType(
-											prim,
-											businessObjects
-													.getBusinessObject(baseType));
+									ft = new FieldType(prim, businessObjects
+											.getBusinessObject(baseType));
 								}
 							} else {
 								ft = new FieldType(prim);
 							}
 							ft.setPrecision(precision);
 						} else {
-							ft = new FieldType(
-									businessObjects.getBusinessObject(type));
+							ft = new FieldType(businessObjects.getBusinessObject(type));
 						}
 						Variable v = new Variable(name, ft);
 						VariableHelper.buildObjectFields(v, businessObjects);
-						((IndexedDesignExit) workflowExit)
-								.addExportedVariable(v);
+						((IndexedDesignExit) workflowExit).addExportedVariable(v);
 					}
 					rs.close();
 				}
@@ -390,23 +364,22 @@ public class WorkflowIndex {
 		return ret;
 	}
 
-	public List<IWorkflowEntry> getUpstreamWorkflowEntries(
-			IDesignDocument designDocument, IWorkflowExit workflowExit) {
+	public List<IWorkflowEntry> getUpstreamWorkflowEntries(IDesignDocument designDocument,
+			IWorkflowExit workflowExit) {
 		return getUpstreamWorkflowEntries(designDocument, workflowExit.getId());
 	}
 
-	public List<IWorkflowEntry> getUpstreamWorkflowEntries(
-			IDesignDocument designDocument, IDesignExitPoint designExit) {
+	public List<IWorkflowEntry> getUpstreamWorkflowEntries(IDesignDocument designDocument,
+			IDesignExitPoint designExit) {
 		return getUpstreamWorkflowEntries(designDocument, designExit.getId());
 	}
 
-	private List<IWorkflowEntry> getUpstreamWorkflowEntries(
-			IDesignDocument designDocument, String sourceId) {
+	private List<IWorkflowEntry> getUpstreamWorkflowEntries(IDesignDocument designDocument,
+			String sourceId) {
 		List<IWorkflowEntry> ret = new ArrayList<IWorkflowEntry>();
 		lock.readLock().lock();
 		IBusinessObjectSet businessObjects = ((IBusinessObjectProjectAspect) designDocument
-				.getProject().getProjectAspect(
-						IBusinessObjectProjectAspect.ASPECT_ID))
+				.getProject().getProjectAspect(IBusinessObjectProjectAspect.ASPECT_ID))
 				.getBusinessObjectSet();
 		String documentId = getDocumentId(designDocument);
 		try {
@@ -417,9 +390,7 @@ public class WorkflowIndex {
 						.executeQuery("select id, name from workflowentries where documentid = '"
 								+ documentId
 								+ "' and id in (select upstreamid from streamindex where documentid = '"
-								+ documentId
-								+ "' and downstreamid = '"
-								+ sourceId + "')");
+								+ documentId + "' and downstreamid = '" + sourceId + "')");
 				while (rs.next()) {
 					String id = rs.getString(1);
 					String name = rs.getString(2);
@@ -430,9 +401,7 @@ public class WorkflowIndex {
 				rs.close();
 				for (IWorkflowEntry workflowEntry : ret) {
 					rs = st.executeQuery("select name, type, basetype, precision from variables where documentid = '"
-							+ documentId
-							+ "' and elementid = '"
-							+ workflowEntry.getId() + "'");
+							+ documentId + "' and elementid = '" + workflowEntry.getId() + "'");
 					while (rs.next()) {
 						String name = rs.getString(1);
 						String type = rs.getString(2);
@@ -446,23 +415,19 @@ public class WorkflowIndex {
 								if (basePrim != null) {
 									ft = new FieldType(prim, basePrim);
 								} else {
-									ft = new FieldType(
-											prim,
-											businessObjects
-													.getBusinessObject(baseType));
+									ft = new FieldType(prim, businessObjects
+											.getBusinessObject(baseType));
 								}
 							} else {
 								ft = new FieldType(prim);
 							}
 							ft.setPrecision(precision);
 						} else {
-							ft = new FieldType(
-									businessObjects.getBusinessObject(type));
+							ft = new FieldType(businessObjects.getBusinessObject(type));
 						}
 						Variable v = new Variable(name, ft);
 						VariableHelper.buildObjectFields(v, businessObjects);
-						((IndexedWorkflowEntry) workflowEntry)
-								.addInputVariable(v);
+						((IndexedWorkflowEntry) workflowEntry).addInputVariable(v);
 					}
 					rs.close();
 				}
@@ -477,18 +442,18 @@ public class WorkflowIndex {
 		return ret;
 	}
 
-	public List<IDesignEntryPoint> getUpstreamDesignEntries(
-			IDesignDocument designDocument, IWorkflowExit workflowExit) {
+	public List<IDesignEntryPoint> getUpstreamDesignEntries(IDesignDocument designDocument,
+			IWorkflowExit workflowExit) {
 		return getUpstreamDesignEntries(designDocument, workflowExit.getId());
 	}
 
-	public List<IDesignEntryPoint> getUpstreamDesignEntries(
-			IDesignDocument designDocument, IDesignExitPoint designExit) {
+	public List<IDesignEntryPoint> getUpstreamDesignEntries(IDesignDocument designDocument,
+			IDesignExitPoint designExit) {
 		return getUpstreamDesignEntries(designDocument, designExit.getId());
 	}
 
-	public List<IDesignEntryPoint> getUpstreamDesignEntries(
-			IDesignDocument designDocument, String sourceId) {
+	public List<IDesignEntryPoint> getUpstreamDesignEntries(IDesignDocument designDocument,
+			String sourceId) {
 		List<IDesignEntryPoint> ret = new ArrayList<IDesignEntryPoint>();
 		lock.readLock().lock();
 		String documentId = getDocumentId(designDocument);
@@ -500,9 +465,7 @@ public class WorkflowIndex {
 						.executeQuery("select id, name from designentries where documentid = '"
 								+ documentId
 								+ "' and id in (select upstreamid from streamindex where documentid = '"
-								+ documentId
-								+ "' and downstreamid = '"
-								+ sourceId + "')");
+								+ documentId + "' and downstreamid = '" + sourceId + "')");
 				while (rs.next()) {
 					String id = rs.getString(1);
 					String name = rs.getString(2);
@@ -522,23 +485,22 @@ public class WorkflowIndex {
 		return ret;
 	}
 
-	public List<IWorkflowExit> getDownstreamWorkflowExits(
-			IDesignDocument designDocument, IWorkflowEntry workflowEntry) {
+	public List<IWorkflowExit> getDownstreamWorkflowExits(IDesignDocument designDocument,
+			IWorkflowEntry workflowEntry) {
 		return getDownstreamWorkflowExits(designDocument, workflowEntry.getId());
 	}
 
-	public List<IWorkflowExit> getDownstreamWorkflowExits(
-			IDesignDocument designDocument, IDesignEntryPoint designEntry) {
+	public List<IWorkflowExit> getDownstreamWorkflowExits(IDesignDocument designDocument,
+			IDesignEntryPoint designEntry) {
 		return getDownstreamWorkflowExits(designDocument, designEntry.getId());
 	}
 
-	public List<IWorkflowExit> getDownstreamWorkflowExits(
-			IDesignDocument designDocument, String sourceId) {
+	public List<IWorkflowExit> getDownstreamWorkflowExits(IDesignDocument designDocument,
+			String sourceId) {
 		List<IWorkflowExit> ret = new ArrayList<IWorkflowExit>();
 		lock.readLock().lock();
 		IBusinessObjectSet businessObjects = ((IBusinessObjectProjectAspect) designDocument
-				.getProject().getProjectAspect(
-						IBusinessObjectProjectAspect.ASPECT_ID))
+				.getProject().getProjectAspect(IBusinessObjectProjectAspect.ASPECT_ID))
 				.getBusinessObjectSet();
 		String documentId = getDocumentId(designDocument);
 		try {
@@ -549,9 +511,7 @@ public class WorkflowIndex {
 						.executeQuery("select id, name, type from workflowexits where documentid = '"
 								+ documentId
 								+ "' and id in (select downstreamid from streamindex where documentid = '"
-								+ documentId
-								+ "' and upstreamid = '"
-								+ sourceId + "')");
+								+ documentId + "' and upstreamid = '" + sourceId + "')");
 				while (rs.next()) {
 					String id = rs.getString(1);
 					String name = rs.getString(2);
@@ -563,9 +523,7 @@ public class WorkflowIndex {
 				rs.close();
 				for (IWorkflowExit workflowExit : ret) {
 					rs = st.executeQuery("select name, type, basetype, precision from variables where documentid = '"
-							+ documentId
-							+ "' and elementid = '"
-							+ workflowExit.getId() + "'");
+							+ documentId + "' and elementid = '" + workflowExit.getId() + "'");
 					while (rs.next()) {
 						String name = rs.getString(1);
 						String type = rs.getString(2);
@@ -579,23 +537,19 @@ public class WorkflowIndex {
 								if (basePrim != null) {
 									ft = new FieldType(prim, basePrim);
 								} else {
-									ft = new FieldType(
-											prim,
-											businessObjects
-													.getBusinessObject(baseType));
+									ft = new FieldType(prim, businessObjects
+											.getBusinessObject(baseType));
 								}
 							} else {
 								ft = new FieldType(prim);
 							}
 							ft.setPrecision(precision);
 						} else {
-							ft = new FieldType(
-									businessObjects.getBusinessObject(type));
+							ft = new FieldType(businessObjects.getBusinessObject(type));
 						}
 						Variable v = new Variable(name, ft);
 						VariableHelper.buildObjectFields(v, businessObjects);
-						((IndexedWorkflowExit) workflowExit)
-								.addExportedVariable(v);
+						((IndexedWorkflowExit) workflowExit).addExportedVariable(v);
 					}
 					rs.close();
 				}
@@ -610,23 +564,22 @@ public class WorkflowIndex {
 		return ret;
 	}
 
-	public List<IDesignExitPoint> getDownstreamDesignExits(
-			IDesignDocument designDocument, IWorkflowEntry workflowEntry) {
+	public List<IDesignExitPoint> getDownstreamDesignExits(IDesignDocument designDocument,
+			IWorkflowEntry workflowEntry) {
 		return getDownstreamDesignExits(designDocument, workflowEntry.getId());
 	}
 
-	public List<IDesignExitPoint> getDownstreamDesignExits(
-			IDesignDocument designDocument, IDesignEntryPoint designEntry) {
+	public List<IDesignExitPoint> getDownstreamDesignExits(IDesignDocument designDocument,
+			IDesignEntryPoint designEntry) {
 		return getDownstreamDesignExits(designDocument, designEntry.getId());
 	}
 
-	public List<IDesignExitPoint> getDownstreamDesignExits(
-			IDesignDocument designDocument, String sourceId) {
+	public List<IDesignExitPoint> getDownstreamDesignExits(IDesignDocument designDocument,
+			String sourceId) {
 		List<IDesignExitPoint> ret = new ArrayList<IDesignExitPoint>();
 		lock.readLock().lock();
 		IBusinessObjectSet businessObjects = ((IBusinessObjectProjectAspect) designDocument
-				.getProject().getProjectAspect(
-						IBusinessObjectProjectAspect.ASPECT_ID))
+				.getProject().getProjectAspect(IBusinessObjectProjectAspect.ASPECT_ID))
 				.getBusinessObjectSet();
 		String documentId = getDocumentId(designDocument);
 		try {
@@ -637,9 +590,7 @@ public class WorkflowIndex {
 						.executeQuery("select id, targetid, targetname from designexits where documentid = '"
 								+ documentId
 								+ "' and id in (select downstreamid from streamindex where documentid = '"
-								+ documentId
-								+ "' and upstreamid = '"
-								+ sourceId + "')");
+								+ documentId + "' and upstreamid = '" + sourceId + "')");
 				while (rs.next()) {
 					String id = rs.getString(1);
 					String targetId = rs.getString(2);
@@ -651,9 +602,7 @@ public class WorkflowIndex {
 				rs.close();
 				for (IDesignExitPoint workflowExit : ret) {
 					rs = st.executeQuery("select name, type, basetype, precision from variables where documentid = '"
-							+ documentId
-							+ "' and elementid = '"
-							+ workflowExit.getId() + "'");
+							+ documentId + "' and elementid = '" + workflowExit.getId() + "'");
 					while (rs.next()) {
 						String name = rs.getString(1);
 						String type = rs.getString(2);
@@ -667,23 +616,19 @@ public class WorkflowIndex {
 								if (basePrim != null) {
 									ft = new FieldType(prim, basePrim);
 								} else {
-									ft = new FieldType(
-											prim,
-											businessObjects
-													.getBusinessObject(baseType));
+									ft = new FieldType(prim, businessObjects
+											.getBusinessObject(baseType));
 								}
 							} else {
 								ft = new FieldType(prim);
 							}
 							ft.setPrecision(precision);
 						} else {
-							ft = new FieldType(
-									businessObjects.getBusinessObject(type));
+							ft = new FieldType(businessObjects.getBusinessObject(type));
 						}
 						Variable v = new Variable(name, ft);
 						VariableHelper.buildObjectFields(v, businessObjects);
-						((IndexedDesignExit) workflowExit)
-								.addExportedVariable(v);
+						((IndexedDesignExit) workflowExit).addExportedVariable(v);
 					}
 					rs.close();
 				}
@@ -704,12 +649,9 @@ public class WorkflowIndex {
 			Connection con = createConnection(true);
 			Statement st = con.createStatement();
 			String documentId = getDocumentId(newDocument);
-			ResultSet rs = st
-					.executeQuery("select * from elementindex where elementid = '"
-							+ elementId
-							+ "'"
-							+ (documentId == null ? "" : " and documentid != '"
-									+ documentId + "'"));
+			ResultSet rs = st.executeQuery("select * from elementindex where elementid = '"
+					+ elementId + "'"
+					+ (documentId == null ? "" : " and documentid != '" + documentId + "'"));
 			boolean ret = rs.next();
 			rs.close();
 			st.close();
@@ -749,8 +691,8 @@ public class WorkflowIndex {
 	}
 
 	public void fullIndex() {
-		IOpenVXMLProject wproject = WorkflowCore.getDefault()
-				.getWorkflowModel().convertToWorkflowProject(project);
+		IOpenVXMLProject wproject = WorkflowCore.getDefault().getWorkflowModel()
+				.convertToWorkflowProject(project);
 		IWorkflowProjectAspect aspect = (IWorkflowProjectAspect) wproject
 				.getProjectAspect(IWorkflowProjectAspect.ASPECT_ID);
 		IDesignRootFolder designRootFolder = aspect.getDesignRootFolder();
@@ -852,15 +794,14 @@ public class WorkflowIndex {
 	}
 
 	public void indexExportedData() {
-		IOpenVXMLProject wproject = WorkflowCore.getDefault()
-				.getWorkflowModel().convertToWorkflowProject(project);
+		IOpenVXMLProject wproject = WorkflowCore.getDefault().getWorkflowModel()
+				.convertToWorkflowProject(project);
 		IWorkflowProjectAspect aspect = (IWorkflowProjectAspect) wproject
 				.getProjectAspect(IWorkflowProjectAspect.ASPECT_ID);
 		indexExportedData(aspect.getDesignRootFolder());
 	}
 
-	private void collectDocuments(IDesignItemContainer container,
-			List<IDesignDocument> documents) {
+	private void collectDocuments(IDesignItemContainer container, List<IDesignDocument> documents) {
 		List<IDesignDocument> docs = container.getDesignDocuments();
 		for (IDesignDocument doc : docs) {
 			documents.add(doc);
@@ -902,8 +843,8 @@ public class WorkflowIndex {
 				+ designDocument.isWorkingCopy());
 		if (!designDocument.isWorkingCopy()) {
 			designDocument.becomeWorkingCopy(false);
-			System.out.println("Working copy for " + designDocument.getName()
-					+ " in " + Long.toString(System.currentTimeMillis() - t));
+			System.out.println("Working copy for " + designDocument.getName() + " in "
+					+ Long.toString(System.currentTimeMillis() - t));
 		}
 		t = System.currentTimeMillis();
 		lock.writeLock().lock();
@@ -915,40 +856,29 @@ public class WorkflowIndex {
 			if (documentId == null) // should always be true
 			{
 				documentId = Guid.createGUID();
-				st.executeUpdate("insert into designdocuments values ('"
-						+ documentId
-						+ "', '"
-						+ designDocument.getUnderlyingFile()
-								.getProjectRelativePath().toString() + "')");
+				st.executeUpdate("insert into designdocuments values ('" + documentId + "', '"
+						+ designDocument.getUnderlyingFile().getProjectRelativePath().toString()
+						+ "')");
 			}
-			List<IWorkflowExit> workflowExits = designDocument
-					.getWorkflowExits();
+			List<IWorkflowExit> workflowExits = designDocument.getWorkflowExits();
 			for (IWorkflowExit workflowExit : workflowExits) {
-				System.out.println("indexing exports for: "
-						+ workflowExit.getId() + " " + workflowExit.getName());
-				st.executeUpdate("insert into workflowexits values ('"
-						+ workflowExit.getId() + "', '"
-						+ workflowExit.getName() + "', '"
-						+ workflowExit.getType() + "', '" + documentId + "')");
-				st.executeUpdate("delete from variables where elementid = '"
-						+ workflowExit.getId() + "' and documentid = '"
-						+ documentId + "'");
-				List<Variable> exportedVariables = workflowExit
-						.getExportedVariables();
+				System.out.println("indexing exports for: " + workflowExit.getId() + " "
+						+ workflowExit.getName());
+				st.executeUpdate("insert into workflowexits values ('" + workflowExit.getId()
+						+ "', '" + workflowExit.getName() + "', '" + workflowExit.getType()
+						+ "', '" + documentId + "')");
+				st.executeUpdate("delete from variables where elementid = '" + workflowExit.getId()
+						+ "' and documentid = '" + documentId + "'");
+				List<Variable> exportedVariables = workflowExit.getExportedVariables();
 				for (Variable v : exportedVariables) {
-					st.executeUpdate("insert into variables values ('"
-							+ v.getName()
-							+ "', '"
-							+ v.getType().getName()
-							+ "', '"
-							+ (v.getType().hasBaseType() ? v.getType()
-									.getBaseTypeName() : "") + "', "
-							+ v.getType().getPrecision() + ", '"
-							+ workflowExit.getId() + "', '" + documentId + "')");
+					st.executeUpdate("insert into variables values ('" + v.getName() + "', '"
+							+ v.getType().getName() + "', '"
+							+ (v.getType().hasBaseType() ? v.getType().getBaseTypeName() : "")
+							+ "', " + v.getType().getPrecision() + ", '" + workflowExit.getId()
+							+ "', '" + documentId + "')");
 				}
 			}
-			System.out.println("indexing exported data for "
-					+ designDocument.getName() + " in "
+			System.out.println("indexing exported data for " + designDocument.getName() + " in "
 					+ Long.toString(System.currentTimeMillis() - t));
 			st.close();
 			con.close();
@@ -968,8 +898,8 @@ public class WorkflowIndex {
 				+ designDocument.isWorkingCopy());
 		if (!designDocument.isWorkingCopy()) {
 			designDocument.becomeWorkingCopy(false);
-			System.out.println("Working copy for " + designDocument.getName()
-					+ " in " + Long.toString(System.currentTimeMillis() - t));
+			System.out.println("Working copy for " + designDocument.getName() + " in "
+					+ Long.toString(System.currentTimeMillis() - t));
 		}
 		t = System.currentTimeMillis();
 		lock.writeLock().lock();
@@ -984,94 +914,67 @@ public class WorkflowIndex {
 			if (documentId == null) // should always be true
 			{
 				documentId = Guid.createGUID();
-				st.executeUpdate("insert into designdocuments values ('"
-						+ documentId
-						+ "', '"
-						+ designDocument.getUnderlyingFile()
-								.getProjectRelativePath().toString() + "')");
+				st.executeUpdate("insert into designdocuments values ('" + documentId + "', '"
+						+ designDocument.getUnderlyingFile().getProjectRelativePath().toString()
+						+ "')");
 			}
 			System.out.println("Time: document id: "
 					+ Long.toString(System.currentTimeMillis() - t2));
 			t2 = System.currentTimeMillis();
-			List<IWorkflowEntry> workflowEntries = designDocument
-					.getWorkflowEntries();
+			List<IWorkflowEntry> workflowEntries = designDocument.getWorkflowEntries();
 			for (IWorkflowEntry workflowEntry : workflowEntries) {
-				System.out
-						.println("indexing workflow entry: "
-								+ workflowEntry.getId() + " "
-								+ workflowEntry.getName());
-				st.executeUpdate("insert into workflowentries values ('"
-						+ workflowEntry.getId() + "', '"
-						+ workflowEntry.getName() + "', '" + documentId + "')");
-				List<Variable> inputVariables = workflowEntry
-						.getInputVariables();
+				System.out.println("indexing workflow entry: " + workflowEntry.getId() + " "
+						+ workflowEntry.getName());
+				st.executeUpdate("insert into workflowentries values ('" + workflowEntry.getId()
+						+ "', '" + workflowEntry.getName() + "', '" + documentId + "')");
+				List<Variable> inputVariables = workflowEntry.getInputVariables();
 				for (Variable v : inputVariables) {
-					st.executeUpdate("insert into variables values ('"
-							+ v.getName()
-							+ "', '"
-							+ v.getType().getName()
-							+ "', '"
-							+ (v.getType().hasBaseType() ? v.getType()
-									.getBaseTypeName() : "") + "', "
-							+ v.getType().getPrecision() + ", '"
-							+ workflowEntry.getId() + "', '" + documentId
-							+ "')");
+					st.executeUpdate("insert into variables values ('" + v.getName() + "', '"
+							+ v.getType().getName() + "', '"
+							+ (v.getType().hasBaseType() ? v.getType().getBaseTypeName() : "")
+							+ "', " + v.getType().getPrecision() + ", '" + workflowEntry.getId()
+							+ "', '" + documentId + "')");
 				}
 			}
 			System.out.println("Time: workflow entry: "
 					+ Long.toString(System.currentTimeMillis() - t2));
 			t2 = System.currentTimeMillis();
-			List<IWorkflowReference> workflowReferences = designDocument
-					.getWorkflowReferences();
+			List<IWorkflowReference> workflowReferences = designDocument.getWorkflowReferences();
 			for (IWorkflowReference workflowReference : workflowReferences) {
-				System.out.println("indexing workflow reference: "
-						+ workflowReference.getId() + " "
-						+ workflowReference.getTargetId() + " "
+				System.out.println("indexing workflow reference: " + workflowReference.getId()
+						+ " " + workflowReference.getTargetId() + " "
 						+ workflowReference.getEntryId());
 				st.executeUpdate("insert into workflowreferences values ('"
-						+ workflowReference.getId() + "', '"
-						+ workflowReference.getTargetId() + "', '"
-						+ workflowReference.getEntryId() + "', '" + documentId
-						+ "')");
+						+ workflowReference.getId() + "', '" + workflowReference.getTargetId()
+						+ "', '" + workflowReference.getEntryId() + "', '" + documentId + "')");
 			}
 			System.out.println("Time: workflow reference: "
 					+ Long.toString(System.currentTimeMillis() - t2));
 			t2 = System.currentTimeMillis();
-			List<IDesignEntryPoint> designEntries = designDocument
-					.getDesignEntryPoints();
+			List<IDesignEntryPoint> designEntries = designDocument.getDesignEntryPoints();
 			for (IDesignEntryPoint designEntry : designEntries) {
-				System.out.println("indexing design entry: "
-						+ designEntry.getId() + " " + designEntry.getName());
-				st.executeUpdate("insert into designentries values ('"
-						+ designEntry.getId() + "', '" + designEntry.getName()
-						+ "', '" + documentId + "')");
+				System.out.println("indexing design entry: " + designEntry.getId() + " "
+						+ designEntry.getName());
+				st.executeUpdate("insert into designentries values ('" + designEntry.getId()
+						+ "', '" + designEntry.getName() + "', '" + documentId + "')");
 			}
 			System.out.println("Time: design entry: "
 					+ Long.toString(System.currentTimeMillis() - t2));
 			t2 = System.currentTimeMillis();
-			List<IDesignExitPoint> designExits = designDocument
-					.getDesignExitPoints();
+			List<IDesignExitPoint> designExits = designDocument.getDesignExitPoints();
 			for (IDesignExitPoint designExit : designExits) {
-				System.out.println("indexing design exit: "
-						+ designExit.getId() + " " + designExit.getTargetId()
-						+ " " + designExit.getTargetName());
-				st.executeUpdate("insert into designexits values ('"
-						+ designExit.getId() + "', '"
-						+ designExit.getTargetId() + "', '"
-						+ designExit.getTargetName() + "', '" + documentId
-						+ "')");
-				List<Variable> variables = designExit
-						.getExportedDesignVariables();
+				System.out.println("indexing design exit: " + designExit.getId() + " "
+						+ designExit.getTargetId() + " " + designExit.getTargetName());
+				st.executeUpdate("insert into designexits values ('" + designExit.getId() + "', '"
+						+ designExit.getTargetId() + "', '" + designExit.getTargetName() + "', '"
+						+ documentId + "')");
+				List<Variable> variables = designExit.getExportedDesignVariables();
 				for (Variable v : variables) {
-					st.executeUpdate("insert into variables values ('"
-							+ v.getName()
-							+ "', '"
-							+ v.getType().getName()
-							+ "', '"
-							+ (v.getType().hasBaseType() ? v.getType()
-									.getBaseTypeName() : "") + "', "
-							+ v.getType().getPrecision() + ", '"
-							+ designExit.getId() + "', '" + documentId + "')");
+					st.executeUpdate("insert into variables values ('" + v.getName() + "', '"
+							+ v.getType().getName() + "', '"
+							+ (v.getType().hasBaseType() ? v.getType().getBaseTypeName() : "")
+							+ "', " + v.getType().getPrecision() + ", '" + designExit.getId()
+							+ "', '" + documentId + "')");
 				}
 			}
 			System.out.println("Time: design exit: "
@@ -1081,16 +984,14 @@ public class WorkflowIndex {
 				List<IWorkflowExit> downStreamWorkflowExits = designDocument
 						.getDownStreamWorkflowExits(workflowEntry);
 				for (IWorkflowExit workflowExit : downStreamWorkflowExits) {
-					st.executeUpdate("insert into streamindex values ('"
-							+ workflowEntry.getId() + "', '"
-							+ workflowExit.getId() + "', '" + documentId + "')");
+					st.executeUpdate("insert into streamindex values ('" + workflowEntry.getId()
+							+ "', '" + workflowExit.getId() + "', '" + documentId + "')");
 				}
 				List<IDesignExitPoint> downStreamDesignExits = designDocument
 						.getDownStreamDesignExits(workflowEntry);
 				for (IDesignExitPoint designExit : downStreamDesignExits) {
-					st.executeUpdate("insert into streamindex values ('"
-							+ workflowEntry.getId() + "', '"
-							+ designExit.getId() + "', '" + documentId + "')");
+					st.executeUpdate("insert into streamindex values ('" + workflowEntry.getId()
+							+ "', '" + designExit.getId() + "', '" + documentId + "')");
 				}
 			}
 			System.out.println("Time: stream index: workflow entry: "
@@ -1100,35 +1001,30 @@ public class WorkflowIndex {
 				List<IWorkflowExit> downStreamWorkflowExits = designDocument
 						.getDownStreamWorkflowExits(designEntry);
 				for (IWorkflowExit workflowExit : downStreamWorkflowExits) {
-					st.executeUpdate("insert into streamindex values ('"
-							+ designEntry.getId() + "', '"
-							+ workflowExit.getId() + "', '" + documentId + "')");
+					st.executeUpdate("insert into streamindex values ('" + designEntry.getId()
+							+ "', '" + workflowExit.getId() + "', '" + documentId + "')");
 				}
 				List<IDesignExitPoint> downStreamDesignExits = designDocument
 						.getDownStreamDesignExits(designEntry);
 				for (IDesignExitPoint designExit : downStreamDesignExits) {
-					st.executeUpdate("insert into streamindex values ('"
-							+ designEntry.getId() + "', '" + designExit.getId()
-							+ "', '" + documentId + "')");
+					st.executeUpdate("insert into streamindex values ('" + designEntry.getId()
+							+ "', '" + designExit.getId() + "', '" + documentId + "')");
 				}
 			}
 			System.out.println("Time: stream index: design entry: "
 					+ Long.toString(System.currentTimeMillis() - t2));
 			t2 = System.currentTimeMillis();
-			for (IDesignElement designElement : designDocument.getMainDesign()
-					.getDesignElements()) {
-				st.executeUpdate("insert into elementindex values('"
-						+ designElement.getId() + "', '" + documentId + "')");
+			for (IDesignElement designElement : designDocument.getMainDesign().getDesignElements()) {
+				st.executeUpdate("insert into elementindex values('" + designElement.getId()
+						+ "', '" + documentId + "')");
 			}
 			System.out.println("Time: element index: "
 					+ Long.toString(System.currentTimeMillis() - t2));
 			t2 = System.currentTimeMillis();
 			con.commit();
-			System.out.println("Time: commit: "
-					+ Long.toString(System.currentTimeMillis() - t2));
+			System.out.println("Time: commit: " + Long.toString(System.currentTimeMillis() - t2));
 			System.out.println(Long.toString(System.currentTimeMillis() - t));
-			System.out.println("indexing structure of "
-					+ designDocument.getName() + " in "
+			System.out.println("indexing structure of " + designDocument.getName() + " in "
 					+ Long.toString(System.currentTimeMillis() - t));
 			st.close();
 			con.close();
@@ -1143,27 +1039,18 @@ public class WorkflowIndex {
 		lock.writeLock().lock();
 		try {
 			String documentId = getDocumentId(designDocument);
-			if (documentId == null) {
-				return;
-			}
+			if (documentId == null) { return; }
 			Connection con = createConnection(false);
 			Statement st = con.createStatement();
-			st.executeUpdate("delete from workflowentries where documentid = '"
-					+ documentId + "'");
-			st.executeUpdate("delete from variables where documentid = '"
-					+ documentId + "'");
-			st.executeUpdate("delete from workflowexits where documentid = '"
-					+ documentId + "'");
-			st.executeUpdate("delete from workflowreferences where documentid = '"
-					+ documentId + "'");
-			st.executeUpdate("delete from designentries where documentid = '"
-					+ documentId + "'");
-			st.executeUpdate("delete from designexits where documentid = '"
-					+ documentId + "'");
-			st.executeUpdate("delete from streamindex where documentid = '"
-					+ documentId + "'");
-			st.executeUpdate("delete from elementindex where documentid = '"
-					+ documentId + "'");
+			st.executeUpdate("delete from workflowentries where documentid = '" + documentId + "'");
+			st.executeUpdate("delete from variables where documentid = '" + documentId + "'");
+			st.executeUpdate("delete from workflowexits where documentid = '" + documentId + "'");
+			st.executeUpdate("delete from workflowreferences where documentid = '" + documentId
+					+ "'");
+			st.executeUpdate("delete from designentries where documentid = '" + documentId + "'");
+			st.executeUpdate("delete from designexits where documentid = '" + documentId + "'");
+			st.executeUpdate("delete from streamindex where documentid = '" + documentId + "'");
+			st.executeUpdate("delete from elementindex where documentid = '" + documentId + "'");
 			con.commit();
 			st.close();
 			con.close();
@@ -1177,16 +1064,14 @@ public class WorkflowIndex {
 	public void cleanProject() {
 		lock.writeLock().lock();
 		try {
-			File dataDirectory = project.getWorkingLocation(
-					"org.eclipse.vtp.desktop.model.core").toFile();
+			File dataDirectory = project.getWorkingLocation("org.eclipse.vtp.desktop.model.core")
+					.toFile();
 			File indexDirectory = new File(dataDirectory, "index/");
 			if (indexDirectory.exists()) {
 				try {
-					DriverManager.getConnection("jdbc:derby:"
-							+ indexDirectory.getAbsolutePath()
+					DriverManager.getConnection("jdbc:derby:" + indexDirectory.getAbsolutePath()
 							+ ";shutdown=true");
-				} catch (Exception ex) {
-				}
+				} catch (Exception ex) {}
 				deleteDir(indexDirectory);
 				indexDirectory.delete();
 			}
@@ -1214,32 +1099,26 @@ public class WorkflowIndex {
 		try {
 			Connection con = createConnection(false);
 			Statement st = con.createStatement();
-			ResultSet rs = st
-					.executeQuery("select id from designdocuments where path = '"
-							+ documentPath + "'");
+			ResultSet rs = st.executeQuery("select id from designdocuments where path = '"
+					+ documentPath + "'");
 			if (rs.next()) {
 				documentId = rs.getString(1);
 			}
 			rs.close();
 			if (documentId != null) {
-				st.executeUpdate("delete from designdocuments where id = '"
-						+ documentId + "'");
-				st.executeUpdate("delete from workflowentries where documentid = '"
-						+ documentId + "'");
-				st.executeUpdate("delete from variables where documentid = '"
-						+ documentId + "'");
-				st.executeUpdate("delete from workflowexits where documentid = '"
-						+ documentId + "'");
-				st.executeUpdate("delete from workflowreferences where documentid = '"
-						+ documentId + "'");
-				st.executeUpdate("delete from designentries where documentid = '"
-						+ documentId + "'");
-				st.executeUpdate("delete from designexits where documentid = '"
-						+ documentId + "'");
-				st.executeUpdate("delete from streamindex where documentid = '"
-						+ documentId + "'");
-				st.executeUpdate("delete from elementindex where documentid = '"
-						+ documentId + "'");
+				st.executeUpdate("delete from designdocuments where id = '" + documentId + "'");
+				st.executeUpdate("delete from workflowentries where documentid = '" + documentId
+						+ "'");
+				st.executeUpdate("delete from variables where documentid = '" + documentId + "'");
+				st.executeUpdate("delete from workflowexits where documentid = '" + documentId
+						+ "'");
+				st.executeUpdate("delete from workflowreferences where documentid = '" + documentId
+						+ "'");
+				st.executeUpdate("delete from designentries where documentid = '" + documentId
+						+ "'");
+				st.executeUpdate("delete from designexits where documentid = '" + documentId + "'");
+				st.executeUpdate("delete from streamindex where documentid = '" + documentId + "'");
+				st.executeUpdate("delete from elementindex where documentid = '" + documentId + "'");
 			}
 			con.commit();
 			st.close();
@@ -1256,8 +1135,8 @@ public class WorkflowIndex {
 		try {
 			Connection con = createConnection(true);
 			Statement st = con.createStatement();
-			st.executeUpdate("update designdocuments set path = '"
-					+ destinationPath + "' where path = '" + originalPath + "'");
+			st.executeUpdate("update designdocuments set path = '" + destinationPath
+					+ "' where path = '" + originalPath + "'");
 			st.close();
 			con.close();
 		} catch (SQLException e) {
@@ -1273,10 +1152,8 @@ public class WorkflowIndex {
 		try {
 			Connection con = createConnection(true);
 			Statement st = con.createStatement();
-			ResultSet rs = st
-					.executeQuery("select id from designdocuments where path = '"
-							+ designDocument.getUnderlyingFile()
-									.getProjectRelativePath().toString() + "'");
+			ResultSet rs = st.executeQuery("select id from designdocuments where path = '"
+					+ designDocument.getUnderlyingFile().getProjectRelativePath().toString() + "'");
 			if (rs.next()) {
 				documentId = rs.getString(1);
 			}
@@ -1297,9 +1174,8 @@ public class WorkflowIndex {
 		try {
 			Connection con = createConnection(true);
 			Statement st = con.createStatement();
-			ResultSet rs = st
-					.executeQuery("select path from designdocuments where id = '"
-							+ documentId + "'");
+			ResultSet rs = st.executeQuery("select path from designdocuments where id = '"
+					+ documentId + "'");
 			if (rs.next()) {
 				documentPath = rs.getString(1);
 			}
@@ -1320,8 +1196,8 @@ public class WorkflowIndex {
 
 	private boolean setupDB(boolean retry) {
 		lock.writeLock().lock();
-		File dataDirectory = project.getWorkingLocation(
-				"org.eclipse.vtp.desktop.model.core").toFile();
+		File dataDirectory = project.getWorkingLocation("org.eclipse.vtp.desktop.model.core")
+				.toFile();
 		System.err.println("data directory: " + dataDirectory);
 		File indexDirectory = new File(dataDirectory, "index/");
 		boolean previousIndex = indexDirectory.exists();
@@ -1329,8 +1205,8 @@ public class WorkflowIndex {
 			long t = System.currentTimeMillis();
 			Connection con = DriverManager.getConnection("jdbc:derby:"
 					+ indexDirectory.getAbsolutePath() + ";create=true");
-			System.err.println("Connection Creation: " + project.getName()
-					+ " in " + Long.toString(System.currentTimeMillis() - t));
+			System.err.println("Connection Creation: " + project.getName() + " in "
+					+ Long.toString(System.currentTimeMillis() - t));
 			if (!previousIndex) {
 				Statement st = con.createStatement();
 				createStructure(con, st);
@@ -1341,14 +1217,11 @@ public class WorkflowIndex {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			if (retry) {
-				System.err
-						.println("Deleting the database directory and trying again.");
+				System.err.println("Deleting the database directory and trying again.");
 				try {
-					DriverManager.getConnection("jdbc:derby:"
-							+ indexDirectory.getAbsolutePath()
+					DriverManager.getConnection("jdbc:derby:" + indexDirectory.getAbsolutePath()
 							+ ";shutdown=true");
-				} catch (Exception ex) {
-				}
+				} catch (Exception ex) {}
 				deleteDir(indexDirectory);
 				indexDirectory.delete();
 				return setupDB(false);
@@ -1360,8 +1233,8 @@ public class WorkflowIndex {
 	}
 
 	private Connection createConnection(boolean autoCommit) throws SQLException {
-		File dataDirectory = project.getWorkingLocation(
-				"org.eclipse.vtp.desktop.model.core").toFile();
+		File dataDirectory = project.getWorkingLocation("org.eclipse.vtp.desktop.model.core")
+				.toFile();
 		File indexDirectory = new File(dataDirectory, "index/");
 		Connection con = DriverManager.getConnection("jdbc:derby:"
 				+ indexDirectory.getAbsolutePath());

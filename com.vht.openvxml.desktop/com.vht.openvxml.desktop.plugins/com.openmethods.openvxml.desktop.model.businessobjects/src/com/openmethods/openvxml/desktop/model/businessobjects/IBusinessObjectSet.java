@@ -17,8 +17,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.vtp.desktop.model.core.IWorkflowResourceContainer;
 
 /**
- * This interface represents the folder resource that contains the business
- * objects defined in an application project.
+ * This interface represents the folder resource that contains the business objects defined in an
+ * application project.
  *
  * @author Trip Gilman
  * @version 2.0
@@ -28,35 +28,27 @@ public interface IBusinessObjectSet extends IWorkflowResourceContainer {
 	public IBusinessObject getBusinessObject(String typeName);
 
 	/**
-	 * @return The list of <code>IBusinessObject</code>s used by the application
-	 *         project
+	 * @return The list of <code>IBusinessObject</code>s used by the application project
 	 */
 	public List<IBusinessObject> getBusinessObjects();
 
 	/**
-	 * Creates a new business object with the given name. The business object
-	 * will initially have no fields defined but all file and folder resources
-	 * will be created as part of this action.
+	 * Creates a new business object with the given name. The business object will initially have no
+	 * fields defined but all file and folder resources will be created as part of this action.
 	 *
-	 * @param name
-	 *            The name of the new business object
+	 * @param name The name of the new business object
 	 * @return The created business object
-	 * @throws CoreException
-	 *             If an error occured during the creation of the required file
-	 *             and folder resources for the new business object
+	 * @throws CoreException If an error occured during the creation of the required file and folder
+	 *             resources for the new business object
 	 */
-	public IBusinessObject createBusinessObject(String name)
-			throws CoreException;
+	public IBusinessObject createBusinessObject(String name) throws CoreException;
 
 	/**
-	 * Removes the given business object from the application project. All
-	 * business object related file and folder resources will automatically be
-	 * removed as part of this action.
+	 * Removes the given business object from the application project. All business object related
+	 * file and folder resources will automatically be removed as part of this action.
 	 *
-	 * @param businessObject
-	 *            The business object to remove
+	 * @param businessObject The business object to remove
 	 */
-	public void deleteBusinessObject(IBusinessObject businessObject)
-			throws CoreException;
+	public void deleteBusinessObject(IBusinessObject businessObject) throws CoreException;
 
 }

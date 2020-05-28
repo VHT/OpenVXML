@@ -20,8 +20,7 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElementConn
  * @version 1.0
  */
 @SuppressWarnings("rawtypes")
-public class ConnectorRecord implements Comparable,
-		IDesignElementConnectionPoint {
+public class ConnectorRecord implements Comparable, IDesignElementConnectionPoint {
 	private DesignElement origin;
 	private String name;
 	private ConnectionPointType type;
@@ -32,8 +31,7 @@ public class ConnectorRecord implements Comparable,
 	 * @param name
 	 * @param type
 	 */
-	public ConnectorRecord(DesignElement origin, String name,
-			ConnectionPointType type) {
+	public ConnectorRecord(DesignElement origin, String name, ConnectionPointType type) {
 		super();
 		this.origin = origin;
 		this.name = name;
@@ -87,8 +85,7 @@ public class ConnectorRecord implements Comparable,
 	}
 
 	/**
-	 * @param connector
-	 *            The connector to set.
+	 * @param connector The connector to set.
 	 */
 	public void setConnector(DesignConnector connector) {
 		this.connector = connector;
@@ -96,14 +93,11 @@ public class ConnectorRecord implements Comparable,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	@Override
 	public int compareTo(Object obj) {
-		if (!(obj instanceof ConnectorRecord)) {
-			throw new IllegalArgumentException();
-		}
+		if (!(obj instanceof ConnectorRecord)) { throw new IllegalArgumentException(); }
 
 		return name.compareTo(((ConnectorRecord) obj).getName());
 	}

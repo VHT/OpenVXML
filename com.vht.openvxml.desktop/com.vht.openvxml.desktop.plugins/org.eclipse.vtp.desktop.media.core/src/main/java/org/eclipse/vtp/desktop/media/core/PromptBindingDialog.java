@@ -43,8 +43,7 @@ public class PromptBindingDialog extends ContentTreeDialog {
 	 * @param promptBinding
 	 * @param mediaProvider
 	 */
-	public void setPromptBinding(PromptBindingItem promptBinding,
-			IMediaProvider mediaProvider) {
+	public void setPromptBinding(PromptBindingItem promptBinding, IMediaProvider mediaProvider) {
 		this.promptBinding = promptBinding;
 		setTreeContent((PromptBindingItem) promptBinding.clone());
 		setMediaProvider(mediaProvider);
@@ -59,7 +58,6 @@ public class PromptBindingDialog extends ContentTreeDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.media.core.ContentDialog#getVariables()
 	 */
 	@Override
@@ -76,7 +74,6 @@ public class PromptBindingDialog extends ContentTreeDialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
 	@Override

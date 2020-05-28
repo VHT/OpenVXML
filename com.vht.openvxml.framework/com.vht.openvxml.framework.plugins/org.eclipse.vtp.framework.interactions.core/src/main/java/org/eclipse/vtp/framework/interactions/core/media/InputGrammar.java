@@ -17,18 +17,15 @@ import org.w3c.dom.Element;
 public abstract class InputGrammar {
 	public static final String ELEMENT_NAMESPACE = "http://www.eclipse.org/vtp/media/input";//$NON-NLS-1$
 
-	public InputGrammar() {
-	}
+	public InputGrammar() {}
 
-	public InputGrammar(Element element) {
-	}
+	public InputGrammar(Element element) {}
 
 	public boolean isDataAware() {
 		return false;
 	}
 
-	public InputGrammar captureData(IScriptingService scriptingService,
-			IDataSet dataSet) {
+	public InputGrammar captureData(IScriptingService scriptingService, IDataSet dataSet) {
 		return this;
 	}
 

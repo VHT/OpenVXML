@@ -9,8 +9,7 @@ public class DesignElementAction extends Action {
 	IDesignElement element = null;
 	CommandListener commandListener = null;
 
-	public DesignElementAction(IDesignElement element,
-			CommandListener commandListener) {
+	public DesignElementAction(IDesignElement element, CommandListener commandListener) {
 		super();
 		this.element = element;
 		this.commandListener = commandListener;

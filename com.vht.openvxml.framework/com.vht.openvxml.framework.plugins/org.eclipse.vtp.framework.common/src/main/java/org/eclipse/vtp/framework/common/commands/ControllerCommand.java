@@ -22,27 +22,21 @@ import org.eclipse.vtp.framework.spi.ICommandVisitor;
 public abstract class ControllerCommand implements ICommand {
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.ICommand#accept(
 	 * org.eclipse.vtp.framework.spi.ICommandVisitor)
 	 */
 	@Override
-	public final Object accept(ICommandVisitor visitor)
-			throws NullPointerException {
-		if (visitor == null) {
-			throw new NullPointerException("visitor"); //$NON-NLS-1$
+	public final Object accept(ICommandVisitor visitor) throws NullPointerException {
+		if (visitor == null) { throw new NullPointerException("visitor"); //$NON-NLS-1$
 		}
-		if (visitor instanceof IControllerCommandVisitor) {
-			return accept((IControllerCommandVisitor) visitor);
-		}
+		if (visitor instanceof IControllerCommandVisitor) { return accept((IControllerCommandVisitor) visitor); }
 		return visitor.visitUnknown(this);
 	}
 
 	/**
 	 * Invokes the implementation-specific method on the specified visitor.
 	 * 
-	 * @param visitor
-	 *            The visitor to invoke.
+	 * @param visitor The visitor to invoke.
 	 * @return The value returned by the implementation-specific method.
 	 */
 	abstract Object accept(IControllerCommandVisitor visitor);

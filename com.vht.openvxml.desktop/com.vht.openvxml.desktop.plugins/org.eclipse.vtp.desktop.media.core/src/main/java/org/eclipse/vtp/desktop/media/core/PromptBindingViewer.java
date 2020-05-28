@@ -63,9 +63,8 @@ public class PromptBindingViewer implements MouseListener {
 	 * @param interactionType
 	 * @param variables
 	 */
-	public PromptBindingViewer(IDesignElement designElement,
-			NamedBinding namedBinding, String interactionType,
-			List<Variable> variables) {
+	public PromptBindingViewer(IDesignElement designElement, NamedBinding namedBinding,
+			String interactionType, List<Variable> variables) {
 		super();
 		this.namedBinding = namedBinding;
 		this.interactionType = interactionType;
@@ -116,11 +115,9 @@ public class PromptBindingViewer implements MouseListener {
 
 	private void setContents() {
 		StringBuffer buf = new StringBuffer();
-		LanguageBinding languageBinding = namedBinding
-				.getLanguageBinding(currentLanguage);
+		LanguageBinding languageBinding = namedBinding.getLanguageBinding(currentLanguage);
 		brandBinding = languageBinding.getBrandBinding(currentBrand);
-		PromptBindingItem pbi = (PromptBindingItem) brandBinding
-				.getBindingItem();
+		PromptBindingItem pbi = (PromptBindingItem) brandBinding.getBindingItem();
 		if (pbi != null) {
 			List<PromptBindingNode> entries = pbi.getEntries();
 			for (PromptBindingNode pbie : entries) {
@@ -174,8 +171,8 @@ public class PromptBindingViewer implements MouseListener {
 			Content content = pbie.getContent();
 			if (content instanceof FormattableContent) {
 				FormattableContent fc = (FormattableContent) content;
-				buf.append(fc.getContentTypeName() + "(" + fc.getFormatName()
-						+ ", " + fc.getValue() + ")");
+				buf.append(fc.getContentTypeName() + "(" + fc.getFormatName() + ", "
+						+ fc.getValue() + ")");
 			} else if (content instanceof TextContent) {
 				String tc = ((TextContent) content).getText();
 				boolean allWhite = true;
@@ -187,9 +184,7 @@ public class PromptBindingViewer implements MouseListener {
 				}
 				buf.append(allWhite ? "TEXT(" + tc + ")" : tc);
 			} else if (content instanceof ReferencedContent) {
-				buf.append("REFERENCE("
-						+ ((ReferencedContent) content).getReferencedName()
-						+ ")");
+				buf.append("REFERENCE(" + ((ReferencedContent) content).getReferencedName() + ")");
 			} else if (content instanceof FileContent) {
 				FileContent fc = (FileContent) content;
 				buf.append(fc.getFileTypeName() + "(" + fc.getPath() + ")");
@@ -204,21 +199,17 @@ public class PromptBindingViewer implements MouseListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.swt.events.MouseListener#mouseDoubleClick(org.eclipse.swt
+	 * @see org.eclipse.swt.events.MouseListener#mouseDoubleClick(org.eclipse.swt
 	 * .events.MouseEvent)
 	 */
 	@Override
 	public void mouseDoubleClick(MouseEvent e) {
 		try {
 			IMediaProviderManager mediaProviderManager = ((ILanguageSupportProjectAspect) designElement
-					.getDesign().getDocument().getProject()
-					.getProjectAspect(ILanguageSupportProjectAspect.ASPECT_ID))
-					.getMediaProviderManager();
-			IMediaProvider mediaProvider = mediaProviderManager
-					.getMediaProvider(interactionType, currentBrand,
-							currentLanguage);
+					.getDesign().getDocument().getProject().getProjectAspect(
+							ILanguageSupportProjectAspect.ASPECT_ID)).getMediaProviderManager();
+			IMediaProvider mediaProvider = mediaProviderManager.getMediaProvider(interactionType,
+					currentBrand, currentLanguage);
 			if (mediaProvider == null) // incomplete configuration
 			{
 				fireInvalidAttempt();
@@ -227,22 +218,20 @@ public class PromptBindingViewer implements MouseListener {
 			Shell workbenchShell = Display.getCurrent().getActiveShell();
 			PromptBindingDialog pbd = new PromptBindingDialog(workbenchShell);
 			pbd.setPlaceholders(placeholders);
-			PromptBindingItem pbi = (PromptBindingItem) brandBinding
-					.getBindingItem();
+			PromptBindingItem pbi = (PromptBindingItem) brandBinding.getBindingItem();
 			if (pbi == null) {
 				pbi = new PromptBindingItem();
 			} else {
 				pbi = (PromptBindingItem) pbi.clone();
 			}
-			pbd.setPromptBinding(pbi, mediaProviderManager.getMediaProvider(
-					interactionType, currentBrand, currentLanguage));
+			pbd.setPromptBinding(pbi, mediaProviderManager.getMediaProvider(interactionType,
+					currentBrand, currentLanguage));
 			pbd.setMediaProvider(mediaProvider);
 			pbd.setVariables(variables);
 			int result = pbd.open();
 			if (result == Window.OK) {
 				pbi = pbd.getPromptBindingItem();
-				brandBinding.setBindingItem(pbi.getEntries().size() < 1 ? null
-						: pbi);
+				brandBinding.setBindingItem(pbi.getEntries().size() < 1 ? null : pbi);
 				setContents();
 				fireChange();
 			}
@@ -253,24 +242,17 @@ public class PromptBindingViewer implements MouseListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.swt.events.MouseListener#mouseDown(org.eclipse.swt.events
-	 * .MouseEvent)
+	 * @see org.eclipse.swt.events.MouseListener#mouseDown(org.eclipse.swt.events .MouseEvent)
 	 */
 	@Override
-	public void mouseDown(MouseEvent e) {
-	}
+	public void mouseDown(MouseEvent e) {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.MouseListener#mouseUp(org.eclipse.swt.events.
-	 * MouseEvent)
+	 * @see org.eclipse.swt.events.MouseListener#mouseUp(org.eclipse.swt.events. MouseEvent)
 	 */
 	@Override
-	public void mouseUp(MouseEvent e) {
-	}
+	public void mouseUp(MouseEvent e) {}
 
 	/**
 	 * @param listener

@@ -28,8 +28,10 @@ import org.eclipse.vtp.desktop.export.internal.Exporter;
  * 
  * @author Lonnie Pryor
  */
-public final class ArchiveSelectionPage extends WizardPage implements
-		ModifyListener, SelectionListener {
+public final class ArchiveSelectionPage extends WizardPage
+	implements
+	ModifyListener,
+	SelectionListener {
 
 	private static String getLastArchivePath() {
 		return ExportCore.getPreference("lastArchivePath");
@@ -37,9 +39,7 @@ public final class ArchiveSelectionPage extends WizardPage implements
 
 	private static String[] getAllArchivePaths() {
 		String names = ExportCore.getPreference("allArchivePaths");
-		if (names == null || names.length() == 0) {
-			return new String[0];
-		}
+		if (names == null || names.length() == 0) { return new String[0]; }
 		return names.split(File.pathSeparator);
 	}
 
@@ -57,8 +57,8 @@ public final class ArchiveSelectionPage extends WizardPage implements
 	private boolean hasMediaError = false;
 
 	public ArchiveSelectionPage(Exporter exporter) {
-		super(ArchiveSelectionPage.class.getSimpleName(),
-				"Select an Archive File or a Directory", null);
+		super(ArchiveSelectionPage.class.getSimpleName(), "Select an Archive File or a Directory",
+				null);
 		this.exporter = exporter;
 	}
 
@@ -67,8 +67,7 @@ public final class ArchiveSelectionPage extends WizardPage implements
 		if (!exporter.isUsingArchiveFile() && !path.endsWith(File.separator)) {
 			path = path + File.separator;
 		}
-		Set<String> paths = new TreeSet<String>(
-				Arrays.asList(getAllArchivePaths()));
+		Set<String> paths = new TreeSet<String>(Arrays.asList(getAllArchivePaths()));
 		paths.add(path);
 		StringBuilder joined = new StringBuilder();
 		Iterator<String> iter = paths.iterator();
@@ -85,40 +84,32 @@ public final class ArchiveSelectionPage extends WizardPage implements
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayout(new GridLayout(2, false));
 		archiveRadio = new Button(composite, SWT.RADIO);
-		archiveRadio.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-				false, 2, 1));
+		archiveRadio.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 		archiveRadio.setText("Archive file:");
 		archiveRadio.addSelectionListener(this);
 		archiveCombo = new Combo(composite, SWT.DROP_DOWN);
-		archiveCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-				false));
+		archiveCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		archiveCombo.addModifyListener(this);
 		archiveCombo.addSelectionListener(this);
 		archiveBrowse = new Button(composite, SWT.PUSH);
-		archiveBrowse.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
-				false));
+		archiveBrowse.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		archiveBrowse.setText("Browse...");
 		archiveBrowse.addSelectionListener(this);
 		directoryRadio = new Button(composite, SWT.RADIO);
-		directoryRadio.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-				false, 2, 1));
+		directoryRadio.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 		directoryRadio.setText("Directory:");
 		directoryRadio.addSelectionListener(this);
 		directoryCombo = new Combo(composite, SWT.DROP_DOWN);
-		directoryCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-				false));
+		directoryCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		directoryCombo.addModifyListener(this);
 		directoryCombo.addSelectionListener(this);
 		directoryBrowse = new Button(composite, SWT.PUSH);
-		directoryBrowse.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false,
-				false));
+		directoryBrowse.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		directoryBrowse.setText("Browse...");
 		directoryBrowse.addSelectionListener(this);
 		mediaCheckbox = new Button(composite, SWT.CHECK);
-		mediaCheckbox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-				false, 2, 1));
-		mediaCheckbox
-				.setText("Don't include voice libraries in exported package");
+		mediaCheckbox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+		mediaCheckbox.setText("Don't include voice libraries in exported package");
 		mediaCheckbox.addSelectionListener(this);
 		// mediaCombo = new Combo(composite, SWT.DROP_DOWN);
 		// mediaCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
@@ -176,9 +167,7 @@ public final class ArchiveSelectionPage extends WizardPage implements
 				evaluate(directoryCombo.getText(), true);
 			} else if (button == archiveBrowse) {
 				String path = new FileDialog(getShell()).open();
-				if (path == null) {
-					return;
-				}
+				if (path == null) { return; }
 				archiveCombo.setText(path);
 				evaluate(path, true);
 			} else if (button == mediaCheckbox) {
@@ -194,9 +183,7 @@ public final class ArchiveSelectionPage extends WizardPage implements
 			// }
 			else {
 				String path = new DirectoryDialog(getShell()).open();
-				if (path == null) {
-					return;
-				}
+				if (path == null) { return; }
 				directoryCombo.setText(path);
 				evaluate(path, true);
 			}
@@ -209,8 +196,7 @@ public final class ArchiveSelectionPage extends WizardPage implements
 	}
 
 	@Override
-	public void widgetDefaultSelected(SelectionEvent e) {
-	}
+	public void widgetDefaultSelected(SelectionEvent e) {}
 
 	private boolean isArchive() {
 		return archiveRadio.getSelection();
@@ -231,8 +217,7 @@ public final class ArchiveSelectionPage extends WizardPage implements
 				if (isArchive()) {
 					if (file.isDirectory()) {
 						msg = "Select a file, not a directory.";
-					} else if (!(file.getName().endsWith(".war") || file
-							.getName().endsWith(".zip"))) {
+					} else if (!(file.getName().endsWith(".war") || file.getName().endsWith(".zip"))) {
 						msg = "Archive file name must end with \".war\" or \".zip\".";
 					}
 				} else {

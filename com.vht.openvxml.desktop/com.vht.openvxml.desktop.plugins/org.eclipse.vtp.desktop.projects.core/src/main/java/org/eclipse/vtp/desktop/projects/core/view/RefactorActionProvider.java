@@ -22,7 +22,6 @@ import org.eclipse.ui.navigator.ICommonActionExtensionSite;
 
 /**
  * @since 3.2
- * 
  */
 public class RefactorActionProvider extends CommonActionProvider {
 
@@ -30,16 +29,13 @@ public class RefactorActionProvider extends CommonActionProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.navigator.CommonActionProvider#init(org.eclipse.ui.navigator
+	 * @see org.eclipse.ui.navigator.CommonActionProvider#init(org.eclipse.ui.navigator
 	 * .ICommonActionExtensionSite)
 	 */
 	@Override
 	public void init(ICommonActionExtensionSite anActionSite) {
-		refactorGroup = new RefactorActionGroup(anActionSite.getViewSite()
-				.getShell(), (Tree) anActionSite.getStructuredViewer()
-				.getControl());
+		refactorGroup = new RefactorActionGroup(anActionSite.getViewSite().getShell(),
+				(Tree) anActionSite.getStructuredViewer().getControl());
 	}
 
 	@Override

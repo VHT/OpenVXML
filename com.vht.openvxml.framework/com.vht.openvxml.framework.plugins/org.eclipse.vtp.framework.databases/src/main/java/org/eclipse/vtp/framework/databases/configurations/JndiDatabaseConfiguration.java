@@ -25,8 +25,7 @@ public class JndiDatabaseConfiguration extends DatabaseConfiguration {
 	/**
 	 * Creates a new JdbcDatabaseConfiguration.
 	 */
-	public JndiDatabaseConfiguration() {
-	}
+	public JndiDatabaseConfiguration() {}
 
 	/**
 	 * Returns the URI to connect with.
@@ -40,8 +39,7 @@ public class JndiDatabaseConfiguration extends DatabaseConfiguration {
 	/**
 	 * Sets the URI to connect with.
 	 * 
-	 * @param uri
-	 *            The URI to connect with.
+	 * @param uri The URI to connect with.
 	 */
 	public void setUri(String uri) {
 		this.uri = uri == null ? "" : uri; //$NON-NLS-1$
@@ -49,7 +47,6 @@ public class JndiDatabaseConfiguration extends DatabaseConfiguration {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.databases.configurations.
 	 * DatabaseConfiguration#load(org.w3c.dom.Element)
 	 */
@@ -61,7 +58,6 @@ public class JndiDatabaseConfiguration extends DatabaseConfiguration {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.databases.configurations.
 	 * DatabaseConfiguration#save(org.w3c.dom.Element)
 	 */

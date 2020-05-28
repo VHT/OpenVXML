@@ -27,8 +27,7 @@ import com.openmethods.openvxml.desktop.model.workflow.design.Variable;
 import com.openmethods.openvxml.desktop.model.workflow.internal.VariableHelper;
 import com.openmethods.openvxml.desktop.model.workflow.internal.design.ConnectorRecord;
 
-public class DatabaseQueryInformationProvider extends
-		PrimitiveInformationProvider {
+public class DatabaseQueryInformationProvider extends PrimitiveInformationProvider {
 	IBusinessObjectProjectAspect businessObjectAspect = null;
 	List<ConnectorRecord> connectorRecords = new ArrayList<ConnectorRecord>();
 	DatabaseQuerySettingsStructure settings = null;;
@@ -37,8 +36,7 @@ public class DatabaseQueryInformationProvider extends
 		super(element);
 		connectorRecords.add(new ConnectorRecord(element, "Continue",
 				IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
-		connectorRecords.add(new ConnectorRecord(element,
-				"error.database.connection",
+		connectorRecords.add(new ConnectorRecord(element, "error.database.connection",
 				IDesignElementConnectionPoint.ConnectionPointType.ERROR_POINT));
 	}
 
@@ -51,9 +49,7 @@ public class DatabaseQueryInformationProvider extends
 	public ConnectorRecord getConnectorRecord(String recordName) {
 		for (int i = 0; i < connectorRecords.size(); i++) {
 			ConnectorRecord cr = connectorRecords.get(i);
-			if (cr.getName().equals(recordName)) {
-				return cr;
-			}
+			if (cr.getName().equals(recordName)) { return cr; }
 		}
 		return null;
 	}
@@ -70,8 +66,7 @@ public class DatabaseQueryInformationProvider extends
 		for (int i = 0; i < connectorRecords.size(); i++) {
 			ConnectorRecord cr = connectorRecords.get(i);
 			if (cr.getType().isSet(
-					IDesignElementConnectionPoint.ConnectionPointType
-							.getFlagSet(types))) {
+					IDesignElementConnectionPoint.ConnectionPointType.getFlagSet(types))) {
 				ret.add(cr);
 			}
 		}
@@ -80,8 +75,7 @@ public class DatabaseQueryInformationProvider extends
 
 	@Override
 	public void readConfiguration(org.w3c.dom.Element configuration) {
-		IOpenVXMLProject project = getElement().getDesign().getDocument()
-				.getProject();
+		IOpenVXMLProject project = getElement().getDesign().getDocument().getProject();
 		businessObjectAspect = (IBusinessObjectProjectAspect) project
 				.getProjectAspect(IBusinessObjectProjectAspect.ASPECT_ID);
 		NodeList nl = configuration.getElementsByTagName("settings");
@@ -93,16 +87,16 @@ public class DatabaseQueryInformationProvider extends
 
 	@Override
 	public void writeConfiguration(org.w3c.dom.Element configuration) {
-		org.w3c.dom.Element settingsElement = configuration.getOwnerDocument()
-				.createElement("settings");
+		org.w3c.dom.Element settingsElement = configuration.getOwnerDocument().createElement(
+				"settings");
 		configuration.appendChild(settingsElement);
 		getSettings().write(settingsElement);
 	}
 
 	public DatabaseQuerySettingsStructure getSettings() {
 		if (settings == null) {
-			settings = new DatabaseQuerySettingsStructure(
-					businessObjectAspect.getBusinessObjectSet());
+			settings = new DatabaseQuerySettingsStructure(businessObjectAspect
+					.getBusinessObjectSet());
 		}
 		return settings;
 	}
@@ -112,15 +106,13 @@ public class DatabaseQueryInformationProvider extends
 	}
 
 	@Override
-	public List<Variable> getOutgoingVariables(String exitPoint,
-			boolean localOnly) {
+	public List<Variable> getOutgoingVariables(String exitPoint, boolean localOnly) {
 		List<Variable> ret = new ArrayList<Variable>();
 		if (exitPoint.equals("Continue") && !settings.isTargetVariableExists()
 				&& !settings.getTargetVariableName().equals("")) {
-			Variable v = new Variable(settings.getTargetVariableName(),
-					settings.getTargetVariableType());
-			VariableHelper.buildObjectFields(v,
-					businessObjectAspect.getBusinessObjectSet());
+			Variable v = new Variable(settings.getTargetVariableName(), settings
+					.getTargetVariableType());
+			VariableHelper.buildObjectFields(v, businessObjectAspect.getBusinessObjectSet());
 			ret.add(v);
 		}
 		return ret;

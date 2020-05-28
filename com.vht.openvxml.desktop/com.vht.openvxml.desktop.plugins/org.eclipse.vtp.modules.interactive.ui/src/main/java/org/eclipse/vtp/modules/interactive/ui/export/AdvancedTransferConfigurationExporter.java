@@ -8,22 +8,17 @@ import org.eclipse.vtp.framework.interactions.core.configurations.BridgeMessageC
 import org.eclipse.vtp.framework.interactions.core.configurations.MediaConfiguration;
 import org.w3c.dom.Element;
 
-public class AdvancedTransferConfigurationExporter implements
-		IConfigurationExporter {
-	public AdvancedTransferConfigurationExporter() {
-	}
+public class AdvancedTransferConfigurationExporter implements IConfigurationExporter {
+	public AdvancedTransferConfigurationExporter() {}
 
 	@Override
-	public void exportConfiguration(IFlowElement flowElement,
-			Element actionElement) {
-		BridgeMessageConfiguration config = new BridgeMessageConfiguration(
-				ContentLoadingManager.getInstance());
+	public void exportConfiguration(IFlowElement flowElement, Element actionElement) {
+		BridgeMessageConfiguration config = new BridgeMessageConfiguration(ContentLoadingManager
+				.getInstance());
 		MediaConfiguration mediaBindings = flowElement.loadMediaBindings("");
 		config.setMediaConfiguration(mediaBindings);
-		Element configElement = actionElement.getOwnerDocument()
-				.createElementNS(
-						IDefinitionBuilder.NAMESPACE_URI_INTERACTIONS_CORE,
-						"interactions:bridge-message"); //$NON-NLS-1$
+		Element configElement = actionElement.getOwnerDocument().createElementNS(
+				IDefinitionBuilder.NAMESPACE_URI_INTERACTIONS_CORE, "interactions:bridge-message"); //$NON-NLS-1$
 		config.save(configElement);
 		actionElement.appendChild(configElement);
 	}
@@ -44,8 +39,7 @@ public class AdvancedTransferConfigurationExporter implements
 	}
 
 	@Override
-	public String getTargetId(IFlowElement flowElement,
-			Element afterTransitionElement) {
+	public String getTargetId(IFlowElement flowElement, Element afterTransitionElement) {
 		return flowElement.getDefaultTargetId(afterTransitionElement);
 	}
 

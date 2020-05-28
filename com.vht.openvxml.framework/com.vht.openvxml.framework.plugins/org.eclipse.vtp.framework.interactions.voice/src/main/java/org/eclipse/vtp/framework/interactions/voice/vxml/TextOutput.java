@@ -17,9 +17,8 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
 /**
- * The <code>TextOutput</code> class wraps raw text that is meant to be rendered
- * to the caller with TTS. A text output can be used anywhere output to the
- * caller can be specified.
+ * The <code>TextOutput</code> class wraps raw text that is meant to be rendered to the caller with
+ * TTS. A text output can be used anywhere output to the caller can be specified.
  * 
  * @author Trip Gilman
  * @author Lonnie Pryor
@@ -35,17 +34,13 @@ public class TextOutput extends BasicOutput {
 	/**
 	 * Creates a new instance of <code>TextOutput</code> with no text to render.
 	 */
-	public TextOutput() {
-	}
+	public TextOutput() {}
 
 	/**
-	 * Creates a new instance of <code>TextOutput</code> with the specified text
-	 * to render with TTS.
+	 * Creates a new instance of <code>TextOutput</code> with the specified text to render with TTS.
 	 * 
-	 * @param text
-	 *            The text to render with TTS.
-	 * @throws NullPointerException
-	 *             If the supplied text is <code>null</code>.
+	 * @param text The text to render with TTS.
+	 * @throws NullPointerException If the supplied text is <code>null</code>.
 	 */
 	public TextOutput(String text) throws NullPointerException {
 		setText(text);
@@ -63,47 +58,37 @@ public class TextOutput extends BasicOutput {
 	/**
 	 * Sets the text of this TextOutput to render with TTS.
 	 * 
-	 * @param text
-	 *            The new text to render with TTS.
-	 * @throws NullPointerException
-	 *             If the supplied text is <code>null</code>.
+	 * @param text The new text to render with TTS.
+	 * @throws NullPointerException If the supplied text is <code>null</code>.
 	 */
 	public void setText(String text) throws NullPointerException {
-		if (text == null) {
-			throw new NullPointerException("text"); //$NON-NLS-1$
+		if (text == null) { throw new NullPointerException("text"); //$NON-NLS-1$
 		}
 		this.text = text;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.core.output.Widget#writeWidget(
 	 * org.xml.sax.ContentHandler)
 	 */
 	@Override
-	public void writeWidget(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
+	public void writeWidget(ContentHandler outputHandler) throws NullPointerException, SAXException {
 		writeText(outputHandler);
 	}
 
 	/**
 	 * Write the text of this output to the supplied content handler.
 	 * 
-	 * @param outputHandler
-	 *            The content handler to write to.
-	 * @throws NullPointerException
-	 *             If the supplied content handler is <code>null</code>.
-	 * @throws SAXException
-	 *             If the writing of the script text fails.
+	 * @param outputHandler The content handler to write to.
+	 * @throws NullPointerException If the supplied content handler is <code>null</code>.
+	 * @throws SAXException If the writing of the script text fails.
 	 */
-	protected void writeText(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
-		if (outputHandler == null) {
-			throw new NullPointerException("outputHandler"); //$NON-NLS-1$
+	protected void writeText(ContentHandler outputHandler) throws NullPointerException,
+			SAXException {
+		if (outputHandler == null) { throw new NullPointerException("outputHandler"); //$NON-NLS-1$
 		}
-		outputHandler.characters(text.toString().toCharArray(), 0,
-				text.length());
+		outputHandler.characters(text.toString().toCharArray(), 0, text.length());
 		outputHandler.characters(SINGLE_SPACE, 0, SINGLE_SPACE.length);
 	}
 }

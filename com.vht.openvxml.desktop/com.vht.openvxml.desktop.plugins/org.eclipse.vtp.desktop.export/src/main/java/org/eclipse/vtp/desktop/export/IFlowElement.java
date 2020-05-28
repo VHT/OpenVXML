@@ -19,8 +19,7 @@ public interface IFlowElement {
 
 	IFlowElement getResultPath(String path);
 
-	MediaConfiguration loadMediaBindings(String elementTypeId,
-			Element genericConfigElement);
+	MediaConfiguration loadMediaBindings(String elementTypeId, Element genericConfigElement);
 
 	String getTargetID(Element afterTransitionElement);
 

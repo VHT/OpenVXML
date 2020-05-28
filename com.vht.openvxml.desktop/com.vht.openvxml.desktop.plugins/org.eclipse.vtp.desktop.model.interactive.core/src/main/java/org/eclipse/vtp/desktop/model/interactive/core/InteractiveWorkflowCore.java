@@ -44,17 +44,16 @@ public class InteractiveWorkflowCore extends AbstractUIPlugin {
 	@Override
 	protected void initializeDefaultPreferences(IPreferenceStore store) {
 		System.err.println("initializing default preferences...");
-		List<DefaultSettingGroupRecord> records = DefaultSettingsRegistry
-				.getInstance().getDefaultRecords();
+		List<DefaultSettingGroupRecord> records = DefaultSettingsRegistry.getInstance()
+				.getDefaultRecords();
 		for (DefaultSettingGroupRecord record : records) {
-			for (Map.Entry<String, String> entry : record.defaultSettings
-					.entrySet()) {
-				System.err.println("set default [" + record.interactionType
-						+ ":" + record.elementType + ":" + entry.getKey()
-						+ ", " + entry.getValue() + "]");
-				store.setDefault(record.interactionType + ":"
-						+ record.elementType + ":" + entry.getKey(),
-						entry.getValue());
+			for (Map.Entry<String, String> entry : record.defaultSettings.entrySet()) {
+				System.err
+						.println("set default [" + record.interactionType + ":"
+								+ record.elementType + ":" + entry.getKey() + ", "
+								+ entry.getValue() + "]");
+				store.setDefault(record.interactionType + ":" + record.elementType + ":"
+						+ entry.getKey(), entry.getValue());
 			}
 		}
 		System.err

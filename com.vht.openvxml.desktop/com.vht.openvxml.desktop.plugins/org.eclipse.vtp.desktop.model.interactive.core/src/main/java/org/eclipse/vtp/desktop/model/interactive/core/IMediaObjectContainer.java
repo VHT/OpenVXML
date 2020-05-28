@@ -7,7 +7,6 @@ import java.util.List;
 
 /**
  * @author trip
- *
  */
 public interface IMediaObjectContainer extends IMediaObject {
 	/**

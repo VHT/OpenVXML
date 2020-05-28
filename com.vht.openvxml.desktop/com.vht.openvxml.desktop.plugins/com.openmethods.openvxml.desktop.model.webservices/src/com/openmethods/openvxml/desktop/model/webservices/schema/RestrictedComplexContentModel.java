@@ -10,10 +10,8 @@ public class RestrictedComplexContentModel extends DerivedComplexContentModel {
 	public void setLocalMixedContent(boolean mixedContent) {
 		if (!mixedContent) {
 			super.setLocalMixedContent(mixedContent);
-		} else if (!getSuperTypeContentModel().isMixedContent()) {
-			throw new IllegalArgumentException(
-					"Cannot add mixed content using restriction");
-		}
+		} else if (!getSuperTypeContentModel().isMixedContent()) { throw new IllegalArgumentException(
+				"Cannot add mixed content using restriction"); }
 	}
 
 }

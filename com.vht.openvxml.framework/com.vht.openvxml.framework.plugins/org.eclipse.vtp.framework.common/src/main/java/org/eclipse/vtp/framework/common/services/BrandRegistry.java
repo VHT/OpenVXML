@@ -39,8 +39,7 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 	/**
 	 * Creates a new BrandRegistry.
 	 * 
-	 * @param configuration
-	 *            The configuration of the root brand.
+	 * @param configuration The configuration of the root brand.
 	 */
 	public BrandRegistry(BrandConfiguration configuration) {
 		this.defaultBrand = new Brand(configuration, null);
@@ -56,15 +55,12 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 				toIndex.addLast(element);
 			}
 		}
-		this.brandsByName = Collections
-				.unmodifiableMap(new HashMap<String, Brand>(brandsByName));
-		this.brandsById = Collections
-				.unmodifiableMap(new HashMap<String, Brand>(brandsById));
+		this.brandsByName = Collections.unmodifiableMap(new HashMap<String, Brand>(brandsByName));
+		this.brandsById = Collections.unmodifiableMap(new HashMap<String, Brand>(brandsById));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.core.IBrandRegistry#getDefaultBrand()
 	 */
 	@Override
@@ -74,9 +70,7 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IBrandRegistry#getBrand(
-	 * java.lang.String)
+	 * @see org.eclipse.vtp.framework.core.IBrandRegistry#getBrand( java.lang.String)
 	 */
 	@Override
 	public IBrand getBrand(String name) {
@@ -85,18 +79,14 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 
 	@Override
 	public IBrand getBrandByPath(String path) {
-		if (path == null || path.equals("")) {
-			return null;
-		}
+		if (path == null || path.equals("")) { return null; }
 		String[] parts = path.split("/");
 		int s = 0;
 		if (path.startsWith("/")) {
 			s = 1;
 		}
 		IBrand brand = defaultBrand;
-		if (!brand.getName().equals(parts[s])) {
-			return null;
-		}
+		if (!brand.getName().equals(parts[s])) { return null; }
 		++s;
 		for (int i = s; i < parts.length; i++) {
 			boolean found = false;
@@ -107,9 +97,7 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 					break;
 				}
 			}
-			if (!found) {
-				return null;
-			}
+			if (!found) { return null; }
 		}
 		return brand;
 	}
@@ -121,7 +109,6 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getName()
 	 */
 	@Override
@@ -131,7 +118,6 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasValue()
 	 */
 	@Override
@@ -141,7 +127,6 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#toValue()
 	 */
 	@Override
@@ -160,9 +145,7 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.spi.scripting.IScriptable#getFunctionNames()
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getFunctionNames()
 	 */
 	@Override
 	public final String[] getFunctionNames() {
@@ -171,14 +154,13 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#invokeFunction(
-	 * java.lang.String, java.lang.Object[])
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#invokeFunction( java.lang.String,
+	 * java.lang.Object[])
 	 */
 	@Override
 	public final Object invokeFunction(String name, Object[] arguments) {
-		if ("getBrand".equals(name) && arguments != null
-				&& arguments.length > 0 && arguments[0] != null) {
+		if ("getBrand".equals(name) && arguments != null && arguments.length > 0
+				&& arguments[0] != null) {
 			Brand brand = defaultBrand;
 			String nameString = arguments[0].toString();
 			if (nameString.startsWith("/")) {
@@ -204,7 +186,6 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasItem(int)
 	 */
 	@Override
@@ -214,9 +195,7 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasProperty(
-	 * java.lang.String)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasProperty( java.lang.String)
 	 */
 	@Override
 	public final boolean hasEntry(String name) {
@@ -225,7 +204,6 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getItem(int)
 	 */
 	@Override
@@ -235,9 +213,7 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getProperty(
-	 * java.lang.String)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getProperty( java.lang.String)
 	 */
 	@Override
 	public final Object getEntry(String name) {
@@ -246,9 +222,7 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setItem(int,
-	 * java.lang.Object)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setItem(int, java.lang.Object)
 	 */
 	@Override
 	public final boolean setItem(int index, Object value) {
@@ -257,9 +231,8 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setProperty(
-	 * java.lang.String, java.lang.Object)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setProperty( java.lang.String,
+	 * java.lang.Object)
 	 */
 	@Override
 	public final boolean setEntry(String name, Object value) {
@@ -268,7 +241,6 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearItem(int)
 	 */
 	@Override
@@ -278,9 +250,7 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearProperty(
-	 * java.lang.String)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearProperty( java.lang.String)
 	 */
 	@Override
 	public final boolean clearEntry(String name) {
@@ -306,10 +276,8 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 		/**
 		 * Creates a new Brand.
 		 * 
-		 * @param configuration
-		 *            The configuration of this brand.
-		 * @param parent
-		 *            The parent of this brand.
+		 * @param configuration The configuration of this brand.
+		 * @param parent The parent of this brand.
 		 */
 		Brand(BrandConfiguration configuration, Brand parent) {
 			this.id = configuration.getId();
@@ -329,7 +297,6 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.core.IBrand#isDefault()
 		 */
 		@Override
@@ -344,7 +311,6 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.core.IBrand#getName()
 		 */
 		@Override
@@ -367,7 +333,6 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.core.IBrand#getParentBrand()
 		 */
 		@Override
@@ -377,7 +342,6 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.core.IBrand#getChildBrands()
 		 */
 		@Override
@@ -389,7 +353,6 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasValue()
 		 */
 		@Override
@@ -399,7 +362,6 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#toValue()
 		 */
 		@Override
@@ -409,10 +371,7 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.vtp.framework.spi.scripting.IScriptable#getFunctionNames
-		 * ()
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getFunctionNames ()
 		 */
 		@Override
 		public String[] getFunctionNames() {
@@ -421,9 +380,7 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.vtp.framework.spi.scripting.IScriptable#invokeFunction(
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#invokeFunction(
 		 * java.lang.String, java.lang.Object[])
 		 */
 		@Override
@@ -433,7 +390,6 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasItem(int)
 		 */
 		@Override
@@ -448,9 +404,7 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasProperty(
-		 * java.lang.String)
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasProperty( java.lang.String)
 		 */
 		@Override
 		public boolean hasEntry(String name) {
@@ -461,7 +415,6 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getItem(int)
 		 */
 		@Override
@@ -471,32 +424,20 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getProperty(
-		 * java.lang.String)
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getProperty( java.lang.String)
 		 */
 		@Override
 		public Object getEntry(String name) {
-			if ("name".equals(name)) {
-				return this.name;
-			}
-			if ("id".equals(name)) {
-				return id;
-			}
-			if ("parent".equals(name)) {
-				return parent;
-			}
-			if ("children".equals(name)) {
-				return childArray;
-			}
+			if ("name".equals(name)) { return this.name; }
+			if ("id".equals(name)) { return id; }
+			if ("parent".equals(name)) { return parent; }
+			if ("children".equals(name)) { return childArray; }
 			return null;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setItem(int,
-		 * java.lang.Object)
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setItem(int, java.lang.Object)
 		 */
 		@Override
 		public boolean setItem(int index, Object value) {
@@ -505,9 +446,8 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setProperty(
-		 * java.lang.String, java.lang.Object)
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setProperty( java.lang.String,
+		 * java.lang.Object)
 		 */
 		@Override
 		public boolean setEntry(String name, Object value) {
@@ -516,9 +456,7 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.vtp.framework.spi.scripting.IScriptable#clearItem(int)
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearItem(int)
 		 */
 		@Override
 		public boolean clearItem(int index) {
@@ -527,10 +465,7 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.vtp.framework.spi.scripting.IScriptable#clearProperty(
-		 * java.lang.String)
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearProperty( java.lang.String)
 		 */
 		@Override
 		public boolean clearEntry(String name) {
@@ -539,7 +474,6 @@ public class BrandRegistry implements IBrandRegistry, IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see java.lang.Object#toString()
 		 */
 		@Override

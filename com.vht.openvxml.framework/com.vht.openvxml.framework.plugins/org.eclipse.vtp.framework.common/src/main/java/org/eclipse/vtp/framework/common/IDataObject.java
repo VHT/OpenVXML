@@ -20,10 +20,9 @@ public interface IDataObject extends IScriptable {
 	/**
 	 * Returns the value of the specified field.
 	 * 
-	 * @param fieldName
-	 *            The name of the field to return the value of.
-	 * @return The value of the specified field or <code>null</code> if this
-	 *         object does not have a field with the specified name.
+	 * @param fieldName The name of the field to return the value of.
+	 * @return The value of the specified field or <code>null</code> if this object does not have a
+	 *         field with the specified name.
 	 */
 	IDataObject getField(String fieldName);
 
@@ -38,75 +37,61 @@ public interface IDataObject extends IScriptable {
 
 	/**
 	 * Returns true if the specified value is equal to this object's value.
-	 * 
 	 * <p>
-	 * This method will attempt to coerce the supplied value into a type
-	 * compatible with the type of this data object.
+	 * This method will attempt to coerce the supplied value into a type compatible with the type of
+	 * this data object.
 	 * </p>
 	 * 
-	 * @param object
-	 *            The value to test against.
+	 * @param object The value to test against.
 	 * @return True if the specified value is equal to this object's value.
 	 */
 	boolean isEqualTo(Object object);
 
 	/**
 	 * Returns true if the specified value is greater than this object's value.
-	 * 
 	 * <p>
-	 * This method will attempt to coerce the supplied value into a type
-	 * compatible with the type of this data object.
+	 * This method will attempt to coerce the supplied value into a type compatible with the type of
+	 * this data object.
 	 * </p>
 	 * 
-	 * @param object
-	 *            The value to test against.
+	 * @param object The value to test against.
 	 * @return True if the specified value is greater than this object's value.
 	 */
 	boolean isGreaterThan(Object object);
 
 	/**
-	 * Returns true if the specified value is greater than or equal to this
-	 * object's value.
-	 * 
+	 * Returns true if the specified value is greater than or equal to this object's value.
 	 * <p>
-	 * This method will attempt to coerce the supplied value into a type
-	 * compatible with the type of this data object.
+	 * This method will attempt to coerce the supplied value into a type compatible with the type of
+	 * this data object.
 	 * </p>
 	 * 
-	 * @param object
-	 *            The value to test against.
-	 * @return True if the specified value is greater than or equal to this
-	 *         object's value.
+	 * @param object The value to test against.
+	 * @return True if the specified value is greater than or equal to this object's value.
 	 */
 	boolean isGreaterThanOrEqualTo(Object object);
 
 	/**
 	 * Returns true if the specified value is less than this object's value.
-	 * 
 	 * <p>
-	 * This method will attempt to coerce the supplied value into a type
-	 * compatible with the type of this data object.
+	 * This method will attempt to coerce the supplied value into a type compatible with the type of
+	 * this data object.
 	 * </p>
 	 * 
-	 * @param object
-	 *            The value to test against.
+	 * @param object The value to test against.
 	 * @return True if the specified value is less than this object's value.
 	 */
 	boolean isLessThan(Object object);
 
 	/**
-	 * Returns true if the specified value is less than or equal to this
-	 * object's value.
-	 * 
+	 * Returns true if the specified value is less than or equal to this object's value.
 	 * <p>
-	 * This method will attempt to coerce the supplied value into a type
-	 * compatible with the type of this data object.
+	 * This method will attempt to coerce the supplied value into a type compatible with the type of
+	 * this data object.
 	 * </p>
 	 * 
-	 * @param object
-	 *            The value to test against.
-	 * @return True if the specified value is less than or equal to this
-	 *         object's value.
+	 * @param object The value to test against.
+	 * @return True if the specified value is less than or equal to this object's value.
 	 */
 	boolean isLessThanOrEqualTo(Object object);
 
@@ -122,10 +107,8 @@ public interface IDataObject extends IScriptable {
 	/**
 	 * Sets the value of the specified field.
 	 * 
-	 * @param fieldName
-	 *            The name of the field to set the value of.
-	 * @param variable
-	 *            The value to set the field to.
+	 * @param fieldName The name of the field to set the value of.
+	 * @param variable The value to set the field to.
 	 * @return True if the specified field exists and its value was changed.
 	 */
 	boolean setField(String fieldName, IDataObject variable);

@@ -13,8 +13,7 @@ import com.openmethods.openvxml.desktop.model.workflow.IDesignRootFolder;
 
 public class WorkflowViewerSorter extends ViewerSorter {
 
-	public WorkflowViewerSorter() {
-	}
+	public WorkflowViewerSorter() {}
 
 	public WorkflowViewerSorter(Collator collator) {
 		super(collator);
@@ -32,9 +31,7 @@ public class WorkflowViewerSorter extends ViewerSorter {
 			return 4;
 		} else if (element instanceof IDesignFolder) {
 			return 5;
-		} else if (element instanceof IDesignDocument) {
-			return 6;
-		}
+		} else if (element instanceof IDesignDocument) { return 6; }
 		return Integer.MAX_VALUE;
 	}
 

@@ -18,15 +18,13 @@ package org.eclipse.vtp.framework.common;
  */
 public interface IDataTypeRegistry {
 	/**
-	 * Returns a type definition for the type with the specified name or
-	 * <code>null</code> if no type with that name exists.
+	 * Returns a type definition for the type with the specified name or <code>null</code> if no
+	 * type with that name exists.
 	 * 
-	 * @param typeName
-	 *            The name of the type definition to return.
-	 * @return A type definition for the type with the specified name or
-	 *         <code>null</code> if no type with that name exists.
-	 * @throws NullPointerException
-	 *             If the supplied type name is <code>null</code>.
+	 * @param typeName The name of the type definition to return.
+	 * @return A type definition for the type with the specified name or <code>null</code> if no
+	 *         type with that name exists.
+	 * @throws NullPointerException If the supplied type name is <code>null</code>.
 	 */
 	IDataType getDataType(String typeName) throws NullPointerException;
 }

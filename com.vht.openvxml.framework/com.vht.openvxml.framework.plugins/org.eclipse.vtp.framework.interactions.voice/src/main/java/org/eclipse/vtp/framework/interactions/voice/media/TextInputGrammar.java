@@ -17,7 +17,6 @@ import org.w3c.dom.Element;
 
 /**
  * @author lonnie
- * 
  */
 public class TextInputGrammar extends InlineInputGrammar {
 	public static final String ELEMENT_NAME = "text-input-grammar"; //$NON-NLS-1$

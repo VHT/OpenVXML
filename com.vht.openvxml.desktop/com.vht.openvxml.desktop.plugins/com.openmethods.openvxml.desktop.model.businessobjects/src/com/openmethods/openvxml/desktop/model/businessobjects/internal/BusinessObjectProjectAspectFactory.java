@@ -13,11 +13,9 @@ import org.w3c.dom.Element;
 
 import com.openmethods.openvxml.desktop.model.businessobjects.IBusinessObjectProjectAspect;
 
-public class BusinessObjectProjectAspectFactory implements
-		IOpenVXMLProjectAspectFactory {
+public class BusinessObjectProjectAspectFactory implements IOpenVXMLProjectAspectFactory {
 
-	public BusinessObjectProjectAspectFactory() {
-	}
+	public BusinessObjectProjectAspectFactory() {}
 
 	@Override
 	public String getAspectId() {
@@ -30,14 +28,13 @@ public class BusinessObjectProjectAspectFactory implements
 	}
 
 	@Override
-	public boolean configureProject(IOpenVXMLProject project,
-			IProjectDescription description, Element aspectConfiguration) {
+	public boolean configureProject(IOpenVXMLProject project, IProjectDescription description,
+			Element aspectConfiguration) {
 		return false;
 	}
 
 	@Override
-	public void createProjectLayout(IOpenVXMLProject project,
-			Element aspectConfiguration) {
+	public void createProjectLayout(IOpenVXMLProject project, Element aspectConfiguration) {
 		IFolder businessObjectsFolder = project.getUnderlyingProject()
 				.getFolder("Business Objects");
 		if (!businessObjectsFolder.exists()) {

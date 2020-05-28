@@ -35,14 +35,13 @@ import org.eclipse.vtp.desktop.core.custom.LinkViewerSelectionListener;
 import org.eclipse.vtp.desktop.core.custom.TextLinkViewer;
 
 /**
- * This subclass of FramedDialog provides a paged style display with navigation
- * in the side bar and OK/Cancel buttons in the button bar. The navigation is
- * populated with the names of the pages registered with this dialog.
+ * This subclass of FramedDialog provides a paged style display with navigation in the side bar and
+ * OK/Cancel buttons in the button bar. The navigation is populated with the names of the pages
+ * registered with this dialog.
  * 
  * @author Trip
  */
-public class MultiPageFramedDialog extends FramedDialog implements
-		LinkViewerSelectionListener {
+public class MultiPageFramedDialog extends FramedDialog implements LinkViewerSelectionListener {
 	/** The widget used for page navigation */
 	private TextLinkViewer linkViewer;
 	/** The list of pages hosted by this dialog */
@@ -57,11 +56,9 @@ public class MultiPageFramedDialog extends FramedDialog implements
 	private ContentPage currentPage = null;
 
 	/**
-	 * Constructs a new MultiPageFramedDialog with the given shell as its parent
-	 * window.
+	 * Constructs a new MultiPageFramedDialog with the given shell as its parent window.
 	 * 
-	 * @param parentShell
-	 *            The parent window of this dialog
+	 * @param parentShell The parent window of this dialog
 	 */
 	public MultiPageFramedDialog(Shell parentShell) {
 		super(parentShell);
@@ -69,11 +66,10 @@ public class MultiPageFramedDialog extends FramedDialog implements
 	}
 
 	/**
-	 * Constructs a new MultiPageFramedDialog with the information provided from
-	 * the given shell provider.
+	 * Constructs a new MultiPageFramedDialog with the information provided from the given shell
+	 * provider.
 	 * 
-	 * @param shellProvider
-	 *            The shell provider
+	 * @param shellProvider The shell provider
 	 */
 	public MultiPageFramedDialog(IShellProvider shellProvider) {
 		super(shellProvider);
@@ -89,9 +85,7 @@ public class MultiPageFramedDialog extends FramedDialog implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.dialogs.FramedDialog#createButtonBar(org
+	 * @see org.eclipse.vtp.desktop.core.dialogs.FramedDialog#createButtonBar(org
 	 * .eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -119,8 +113,7 @@ public class MultiPageFramedDialog extends FramedDialog implements
 			}
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
 		final Button cancelButton = new Button(buttons, SWT.NONE);
 		cancelButton.setText("Cancel");
@@ -131,8 +124,7 @@ public class MultiPageFramedDialog extends FramedDialog implements
 			}
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
 
 		if (Display.getCurrent().getDismissalAlignment() == SWT.RIGHT) {
@@ -143,9 +135,7 @@ public class MultiPageFramedDialog extends FramedDialog implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.dialogs.FramedDialog#createDialogContents
+	 * @see org.eclipse.vtp.desktop.core.dialogs.FramedDialog#createDialogContents
 	 * (org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -167,9 +157,7 @@ public class MultiPageFramedDialog extends FramedDialog implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.dialogs.FramedDialog#createSideBar(org.eclipse
+	 * @see org.eclipse.vtp.desktop.core.dialogs.FramedDialog#createSideBar(org.eclipse
 	 * .swt.widgets.Composite)
 	 */
 	@Override
@@ -185,11 +173,10 @@ public class MultiPageFramedDialog extends FramedDialog implements
 	}
 
 	/**
-	 * Adds the given page to the set of pages hosted by this dialog. The page
-	 * is added to the end of the list.
+	 * Adds the given page to the set of pages hosted by this dialog. The page is added to the end
+	 * of the list.
 	 * 
-	 * @param page
-	 *            The content page to add
+	 * @param page The content page to add
 	 */
 	public void addPage(ContentPage page) {
 		pages.add(page);
@@ -197,8 +184,8 @@ public class MultiPageFramedDialog extends FramedDialog implements
 	}
 
 	/**
-	 * Called when the cancel button is pressed. Sets this dialog's return code
-	 * and closes the dialog.
+	 * Called when the cancel button is pressed. Sets this dialog's return code and closes the
+	 * dialog.
 	 */
 	protected void cancelPressed() {
 		this.setReturnCode(SWT.CANCEL);
@@ -206,10 +193,9 @@ public class MultiPageFramedDialog extends FramedDialog implements
 	}
 
 	/**
-	 * Performs any actions required in response to the OK button being pressed.
-	 * Subclasses should provide any appropriate behavior here. The return value
-	 * acts as a veto over the closing of the dialog and setting of the dialog's
-	 * return value, effectively cancelling the OK press.
+	 * Performs any actions required in response to the OK button being pressed. Subclasses should
+	 * provide any appropriate behavior here. The return value acts as a veto over the closing of
+	 * the dialog and setting of the dialog's return value, effectively cancelling the OK press.
 	 * 
 	 * @return true if the dialog can close, false otherwise
 	 */
@@ -218,8 +204,8 @@ public class MultiPageFramedDialog extends FramedDialog implements
 	}
 
 	/**
-	 * Called when the OK button is pressed. Subclasses should override
-	 * processOK() to perform save actions.
+	 * Called when the OK button is pressed. Subclasses should override processOK() to perform save
+	 * actions.
 	 */
 	protected void okPressed() {
 		if (processOk()) {
@@ -237,9 +223,7 @@ public class MultiPageFramedDialog extends FramedDialog implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.ui.shared.custom.LinkViewerSelectionListener#
+	 * @see org.eclipse.vtp.desktop.ui.shared.custom.LinkViewerSelectionListener#
 	 * selectionChanged(java.lang.String)
 	 */
 	@Override
@@ -262,11 +246,10 @@ public class MultiPageFramedDialog extends FramedDialog implements
 	}
 
 	/**
-	 * Indicates that this dialog can or cannot finish. This effectively manages
-	 * the enablement of the OK button.
+	 * Indicates that this dialog can or cannot finish. This effectively manages the enablement of
+	 * the OK button.
 	 * 
-	 * @param canFinish
-	 *            true if OK should be enabled, false otherwise
+	 * @param canFinish true if OK should be enabled, false otherwise
 	 */
 	public void setCanFinish(boolean canFinish) {
 		if (okButton != null) {

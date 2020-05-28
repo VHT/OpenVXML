@@ -18,21 +18,18 @@ import org.eclipse.vtp.desktop.model.interactive.voice.IAudioFile;
 import org.eclipse.vtp.desktop.model.interactive.voice.internal.helpers.AlternateTextManager;
 
 /**
- * This is a concrete implementation of <code>IAudioFile</code> and provides the
- * default behavior of that interface.
+ * This is a concrete implementation of <code>IAudioFile</code> and provides the default behavior of
+ * that interface.
  *
  * @author Trip Gilman
- *
  */
 public class AudioFile extends MediaFile implements IAudioFile {
 	/**
-	 * Creates a new <code>AudioFile</code> with the given parent container and
-	 * eclipse file resource.
+	 * Creates a new <code>AudioFile</code> with the given parent container and eclipse file
+	 * resource.
 	 *
-	 * @param container
-	 *            The parent container
-	 * @param file
-	 *            The eclipse resource represented by this audio file
+	 * @param container The parent container
+	 * @param file The eclipse resource represented by this audio file
 	 */
 	public AudioFile(IMediaContainer container, IFile file) {
 		super(container, file);
@@ -40,7 +37,6 @@ public class AudioFile extends MediaFile implements IAudioFile {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IAudioFile#getAlternateText()
 	 */
 	@Override
@@ -50,14 +46,10 @@ public class AudioFile extends MediaFile implements IAudioFile {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IAudioFile#setAlternateText(java
-	 * .lang.String)
+	 * @see org.eclipse.vtp.desktop.core.project.IAudioFile#setAlternateText(java .lang.String)
 	 */
 	@Override
 	public void setAlternateText(String alternateText) {
-		AlternateTextManager.getInstance()
-				.setAlternateText(this, alternateText);
+		AlternateTextManager.getInstance().setAlternateText(this, alternateText);
 	}
 }

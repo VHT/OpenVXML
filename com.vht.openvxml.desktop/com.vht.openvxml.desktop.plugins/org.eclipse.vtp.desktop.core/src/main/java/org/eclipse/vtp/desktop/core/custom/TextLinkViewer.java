@@ -23,13 +23,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
 /**
- * The <code>TextLinkViewer</code> is a complex UI widget designed to manage a
- * set of text links.
+ * The <code>TextLinkViewer</code> is a complex UI widget designed to manage a set of text links.
  * 
  * @author Trip
  */
-public class TextLinkViewer extends Composite implements PaintListener,
-		LinkSelectionListener {
+public class TextLinkViewer extends Composite implements PaintListener, LinkSelectionListener {
 	/** The current set of links managed by this viewer */
 	private List<TextLink> links = new ArrayList<TextLink>();
 	/** The currently selected link */
@@ -38,14 +36,11 @@ public class TextLinkViewer extends Composite implements PaintListener,
 	private List<LinkViewerSelectionListener> listeners = new ArrayList<LinkViewerSelectionListener>();
 
 	/**
-	 * Creates a new <code>TextLinkViewer</code> with the given parent composite
-	 * and SWT style bits. The style bits are passed directly to the superclass
-	 * constructor.
+	 * Creates a new <code>TextLinkViewer</code> with the given parent composite and SWT style bits.
+	 * The style bits are passed directly to the superclass constructor.
 	 * 
-	 * @param parent
-	 *            The parent composite for this viewer
-	 * @param style
-	 *            The SWT style bits for this viewer
+	 * @param parent The parent composite for this viewer
+	 * @param style The SWT style bits for this viewer
 	 */
 	public TextLinkViewer(Composite parent, int style) {
 		super(parent, style);
@@ -61,11 +56,10 @@ public class TextLinkViewer extends Composite implements PaintListener,
 	}
 
 	/**
-	 * Creates a new <code>TextLink</code> with the given text. The link is
-	 * added to the end of the set of links managed by this viewer.
+	 * Creates a new <code>TextLink</code> with the given text. The link is added to the end of the
+	 * set of links managed by this viewer.
 	 * 
-	 * @param link
-	 *            The text to display as a link
+	 * @param link The text to display as a link
 	 */
 	public void addLink(String link) {
 		TextLink linkControl = new TextLink(link, this, SWT.NONE);
@@ -83,10 +77,7 @@ public class TextLinkViewer extends Composite implements PaintListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events
-	 * .PaintEvent)
+	 * @see org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events .PaintEvent)
 	 */
 	@Override
 	public void paintControl(PaintEvent e) {
@@ -98,16 +89,14 @@ public class TextLinkViewer extends Composite implements PaintListener,
 
 		for (int i = 0; i < links.size(); i++) {
 			Control c = links.get(i);
-			e.gc.drawLine(0, c.getLocation().y + c.getSize().y, getSize().x,
-					c.getLocation().y + c.getSize().y);
+			e.gc.drawLine(0, c.getLocation().y + c.getSize().y, getSize().x, c.getLocation().y
+					+ c.getSize().y);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.ui.shared.custom.LinkSelectionListener#linkSelected
+	 * @see org.eclipse.vtp.desktop.ui.shared.custom.LinkSelectionListener#linkSelected
 	 * (org.eclipse.vtp.desktop.ui.shared.custom.TextLink)
 	 */
 	@Override
@@ -122,12 +111,11 @@ public class TextLinkViewer extends Composite implements PaintListener,
 	}
 
 	/**
-	 * Adds the given selection listener to the set of listeners registered with
-	 * this viewer. If the listener was already registered, it is removed from
-	 * the list of listeners and added to the end.
+	 * Adds the given selection listener to the set of listeners registered with this viewer. If the
+	 * listener was already registered, it is removed from the list of listeners and added to the
+	 * end.
 	 * 
-	 * @param l
-	 *            The listener to register.
+	 * @param l The listener to register.
 	 */
 	public void addSelectionListener(LinkViewerSelectionListener l) {
 		listeners.remove(l);
@@ -135,19 +123,18 @@ public class TextLinkViewer extends Composite implements PaintListener,
 	}
 
 	/**
-	 * Removes the given selection listener from this viewer. No action is taken
-	 * if the given listener was not already registered.
+	 * Removes the given selection listener from this viewer. No action is taken if the given
+	 * listener was not already registered.
 	 * 
-	 * @param l
-	 *            The listener to remove
+	 * @param l The listener to remove
 	 */
 	public void removeSelectionListener(LinkViewerSelectionListener l) {
 		listeners.remove(l);
 	}
 
 	/**
-	 * Initiates a selection changed event for this viewer that is delivered to
-	 * all registered selection listeners.
+	 * Initiates a selection changed event for this viewer that is delivered to all registered
+	 * selection listeners.
 	 */
 	private void fireSelectionChanged() {
 		for (LinkViewerSelectionListener listener : listeners) {

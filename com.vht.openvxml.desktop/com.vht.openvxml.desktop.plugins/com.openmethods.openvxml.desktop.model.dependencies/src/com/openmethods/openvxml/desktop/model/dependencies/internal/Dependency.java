@@ -43,9 +43,7 @@ public class Dependency extends WorkflowResource implements IDependency {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.core.project.internals.VoiceResource#
-	 * getObjectId()
+	 * @see org.eclipse.vtp.desktop.core.project.internals.VoiceResource# getObjectId()
 	 */
 	@Override
 	protected String getObjectId() {
@@ -54,7 +52,6 @@ public class Dependency extends WorkflowResource implements IDependency {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IVoiceResource#getName()
 	 */
 	@Override
@@ -64,7 +61,6 @@ public class Dependency extends WorkflowResource implements IDependency {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IVoiceResource#getParent()
 	 */
 	@Override
@@ -74,7 +70,6 @@ public class Dependency extends WorkflowResource implements IDependency {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.projects.core.IDependency#delete()
 	 */
 	@Override
@@ -84,7 +79,6 @@ public class Dependency extends WorkflowResource implements IDependency {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.projects.core.IDependency#exists()
 	 */
 	@Override
@@ -94,29 +88,21 @@ public class Dependency extends WorkflowResource implements IDependency {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.internal.WorkflowResource#getAdapter
+	 * @see org.eclipse.vtp.desktop.model.core.internal.WorkflowResource#getAdapter
 	 * (java.lang.Class)
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapterClass) {
 		if (IResource.class.isAssignableFrom(adapterClass)
-				&& adapterClass.isAssignableFrom(file.getClass())) {
-			return file;
-		}
-		if (Dependency.class.isAssignableFrom(adapterClass)) {
-			return this;
-		}
+				&& adapterClass.isAssignableFrom(file.getClass())) { return file; }
+		if (Dependency.class.isAssignableFrom(adapterClass)) { return this; }
 		return super.getAdapter(adapterClass);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof Dependency) {
-			return file.equals(((Dependency) obj).file);
-		}
+		if (obj instanceof Dependency) { return file.equals(((Dependency) obj).file); }
 		return false;
 	}
 

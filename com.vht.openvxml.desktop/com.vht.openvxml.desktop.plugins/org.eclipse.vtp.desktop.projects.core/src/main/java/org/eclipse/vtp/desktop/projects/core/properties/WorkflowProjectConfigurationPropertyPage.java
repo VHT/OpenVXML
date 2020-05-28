@@ -55,10 +55,7 @@ public class WorkflowProjectConfigurationPropertyPage extends PropertyPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.dialogs.PropertyPage#setElement(org.eclipse.core.runtime
-	 * .IAdaptable)
+	 * @see org.eclipse.ui.dialogs.PropertyPage#setElement(org.eclipse.core.runtime .IAdaptable)
 	 */
 	@Override
 	public void setElement(IAdaptable element) {
@@ -68,11 +65,9 @@ public class WorkflowProjectConfigurationPropertyPage extends PropertyPage {
 				applicationProject = (OpenVXMLProject) element;
 			} else if (element instanceof IProject) {
 				IProject project = (IProject) element;
-				if (WorkflowCore.getDefault().getWorkflowModel()
-						.isWorkflowProject(project)) {
-					applicationProject = (OpenVXMLProject) WorkflowCore
-							.getDefault().getWorkflowModel()
-							.convertToWorkflowProject(project);
+				if (WorkflowCore.getDefault().getWorkflowModel().isWorkflowProject(project)) {
+					applicationProject = (OpenVXMLProject) WorkflowCore.getDefault()
+							.getWorkflowModel().convertToWorkflowProject(project);
 				} else {
 					throw new RuntimeException("Unsupported element type");
 				}
@@ -83,8 +78,7 @@ public class WorkflowProjectConfigurationPropertyPage extends PropertyPage {
 			if (parentProject == null) {
 				brandingAspect = (IBrandingProjectAspect) applicationProject
 						.getProjectAspect(IBrandingProjectAspect.ASPECT_ID);
-				brandManager = new ConfigurationBrandManager(
-						brandingAspect.getBrandManager());
+				brandManager = new ConfigurationBrandManager(brandingAspect.getBrandManager());
 				screen.init(brandManager);
 			}
 		} catch (Exception e) {
@@ -94,9 +88,7 @@ public class WorkflowProjectConfigurationPropertyPage extends PropertyPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse
+	 * @see org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse
 	 * .swt.widgets.Composite)
 	 */
 	@Override
@@ -110,16 +102,14 @@ public class WorkflowProjectConfigurationPropertyPage extends PropertyPage {
 			connectLink.addSelectionListener(new SelectionListener() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					WizardDialog wizard = new WizardDialog(PlatformUI
-							.getWorkbench().getActiveWorkbenchWindow()
-							.getShell(), new ConnectWorkflowToUmbrellaWizard(
-							applicationProject));
+					WizardDialog wizard = new WizardDialog(PlatformUI.getWorkbench()
+							.getActiveWorkbenchWindow().getShell(),
+							new ConnectWorkflowToUmbrellaWizard(applicationProject));
 					wizard.open();
 				}
 
 				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-				}
+				public void widgetDefaultSelected(SelectionEvent e) {}
 			});
 			Composite screenComp = new Composite(comp, SWT.NONE);
 			screenComp.setLayout(new FillLayout());
@@ -128,27 +118,22 @@ public class WorkflowProjectConfigurationPropertyPage extends PropertyPage {
 		} else {
 			Label inheritLabel = new Label(comp, SWT.NONE);
 			inheritLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-			inheritLabel
-					.setText("This project is currently inheriting its configuration from the "
-							+ applicationProject.getParentProject().getName()
-							+ " Umbrella project.");
+			inheritLabel.setText("This project is currently inheriting its configuration from the "
+					+ applicationProject.getParentProject().getName() + " Umbrella project.");
 			Link disconnectLink = new Link(comp, SWT.NONE);
-			disconnectLink
-					.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+			disconnectLink.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			disconnectLink.setText("<A>Disconnect project from umbrella</A>");
 			disconnectLink.addSelectionListener(new SelectionListener() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					WizardDialog wizard = new WizardDialog(PlatformUI
-							.getWorkbench().getActiveWorkbenchWindow()
-							.getShell(), new DisconnectWorkflowWizard(
+					WizardDialog wizard = new WizardDialog(PlatformUI.getWorkbench()
+							.getActiveWorkbenchWindow().getShell(), new DisconnectWorkflowWizard(
 							applicationProject));
 					wizard.open();
 				}
 
 				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-				}
+				public void widgetDefaultSelected(SelectionEvent e) {}
 			});
 		}
 		return comp;
@@ -156,19 +141,16 @@ public class WorkflowProjectConfigurationPropertyPage extends PropertyPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.preference.PreferencePage#performDefaults()
 	 */
 	@Override
 	protected void performDefaults() {
 		if (parentProject == null) {
 			if (applicationProject != null) {
-				brandManager = new ConfigurationBrandManager(
-						brandingAspect.getBrandManager());
+				brandManager = new ConfigurationBrandManager(brandingAspect.getBrandManager());
 			} else {
 				DefaultBrandManager defaultManager = new DefaultBrandManager();
-				defaultManager.setDefaultBrand(new Brand(Guid.createGUID(),
-						"Default"));
+				defaultManager.setDefaultBrand(new Brand(Guid.createGUID(), "Default"));
 				brandManager = new ConfigurationBrandManager(defaultManager);
 			}
 			screen.init(brandManager);
@@ -178,7 +160,6 @@ public class WorkflowProjectConfigurationPropertyPage extends PropertyPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.preference.PreferencePage#performOk()
 	 */
 	@Override

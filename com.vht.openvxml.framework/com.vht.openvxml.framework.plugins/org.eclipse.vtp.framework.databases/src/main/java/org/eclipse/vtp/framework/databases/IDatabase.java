@@ -34,8 +34,7 @@ public interface IDatabase {
 	 * Returns a connection to this database.
 	 * 
 	 * @return A connection to this database.
-	 * @throws SQLException
-	 *             If the connection cannot be created.
+	 * @throws SQLException If the connection cannot be created.
 	 */
 	Connection getConnection() throws SQLException;
 }

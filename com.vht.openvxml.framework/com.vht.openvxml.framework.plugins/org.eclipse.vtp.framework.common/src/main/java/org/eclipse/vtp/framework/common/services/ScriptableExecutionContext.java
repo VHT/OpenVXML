@@ -18,25 +18,22 @@ import org.eclipse.vtp.framework.common.IScriptable;
 import org.eclipse.vtp.framework.core.IExecutionContext;
 
 /**
- * An {@link IScriptable} implementation that makes the
- * {@link IExecutionContext} instance available as a scripting object.
- * 
+ * An {@link IScriptable} implementation that makes the {@link IExecutionContext} instance available
+ * as a scripting object.
  * <p>
- * This service will make available a "Execution" object to all scripts in its
- * scope. The variable supports the following properties:
+ * This service will make available a "Execution" object to all scripts in its scope. The variable
+ * supports the following properties:
  * <ul>
  * <li><code>id</code>: a string containing the execution ID</li>
  * <li><code>parameters</code>: an object containing the execution parameters</li>
  * </ul>
- * The parameters object listed above will have a property for each execution
- * parameter defined in the execution context. New parameters may be added by
- * assigning to non-existent properties of the object. The parameters object
- * will not have an implicit value.
+ * The parameters object listed above will have a property for each execution parameter defined in
+ * the execution context. New parameters may be added by assigning to non-existent properties of the
+ * object. The parameters object will not have an implicit value.
  * </p>
- * 
  * <p>
- * The "Execution" scripting object uses the execution ID as the implicit value,
- * thus it can be compared to other string objects.
+ * The "Execution" scripting object uses the execution ID as the implicit value, thus it can be
+ * compared to other string objects.
  * </p>
  * 
  * @author Lonnie Pryor
@@ -51,9 +48,7 @@ public class ScriptableExecutionContext implements IScriptable {
 	private final class ScriptableParameters implements IScriptable {
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearEntry(
-		 * java.lang.String)
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearEntry( java.lang.String)
 		 */
 		@Override
 		public boolean clearEntry(String name) {
@@ -63,9 +58,7 @@ public class ScriptableExecutionContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.vtp.framework.spi.scripting.IScriptable#clearItem(int)
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearItem(int)
 		 */
 		@Override
 		public boolean clearItem(int index) {
@@ -74,9 +67,7 @@ public class ScriptableExecutionContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getEntry(
-		 * java.lang.String)
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getEntry( java.lang.String)
 		 */
 		@Override
 		public Object getEntry(String name) {
@@ -85,9 +76,7 @@ public class ScriptableExecutionContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#
-		 * getFunctionNames()
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable# getFunctionNames()
 		 */
 		@Override
 		public String[] getFunctionNames() {
@@ -96,7 +85,6 @@ public class ScriptableExecutionContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getItem(int)
 		 */
 		@Override
@@ -106,7 +94,6 @@ public class ScriptableExecutionContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getName()
 		 */
 		@Override
@@ -121,9 +108,7 @@ public class ScriptableExecutionContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasEntry(
-		 * java.lang.String)
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasEntry( java.lang.String)
 		 */
 		@Override
 		public boolean hasEntry(String name) {
@@ -132,7 +117,6 @@ public class ScriptableExecutionContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasItem(int)
 		 */
 		@Override
@@ -142,7 +126,6 @@ public class ScriptableExecutionContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasValue()
 		 */
 		@Override
@@ -152,9 +135,7 @@ public class ScriptableExecutionContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.vtp.framework.spi.scripting.IScriptable#invokeFunction(
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#invokeFunction(
 		 * java.lang.String, java.lang.Object[])
 		 */
 		@Override
@@ -170,9 +151,8 @@ public class ScriptableExecutionContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setEntry(
-		 * java.lang.String, java.lang.Object)
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setEntry( java.lang.String,
+		 * java.lang.Object)
 		 */
 		@Override
 		public boolean setEntry(String name, Object value) {
@@ -180,22 +160,18 @@ public class ScriptableExecutionContext implements IScriptable {
 				final Object[] values = (Object[]) value;
 				final String[] strings = new String[values.length];
 				for (int i = 0; i < values.length; ++i) {
-					strings[i] = values[i] == null ? null : values[i]
-							.toString();
+					strings[i] = values[i] == null ? null : values[i].toString();
 				}
 				context.setParameters(name, strings);
 			} else {
-				context.setParameter(name,
-						value == null ? null : value.toString());
+				context.setParameter(name, value == null ? null : value.toString());
 			}
 			return true;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setItem(int,
-		 * java.lang.Object)
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setItem(int, java.lang.Object)
 		 */
 		@Override
 		public boolean setItem(int index, Object value) {
@@ -204,7 +180,6 @@ public class ScriptableExecutionContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#toValue()
 		 */
 		@Override
@@ -222,8 +197,7 @@ public class ScriptableExecutionContext implements IScriptable {
 	/**
 	 * Creates a new ScriptableExecutionContext.
 	 * 
-	 * @param context
-	 *            The context to provide scripting services for.
+	 * @param context The context to provide scripting services for.
 	 */
 	public ScriptableExecutionContext(IExecutionContext context) {
 		this.context = context;
@@ -231,9 +205,7 @@ public class ScriptableExecutionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearEntry(
-	 * java.lang.String)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearEntry( java.lang.String)
 	 */
 	@Override
 	public final boolean clearEntry(String name) {
@@ -242,7 +214,6 @@ public class ScriptableExecutionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearItem(int)
 	 */
 	@Override
@@ -252,26 +223,18 @@ public class ScriptableExecutionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getEntry(
-	 * java.lang.String)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getEntry( java.lang.String)
 	 */
 	@Override
 	public final Object getEntry(String name) {
-		if ("id".equals(name)) {
-			return context.getExecutionID();
-		}
-		if (parameters.getName().equals(name)) {
-			return parameters;
-		}
+		if ("id".equals(name)) { return context.getExecutionID(); }
+		if (parameters.getName().equals(name)) { return parameters; }
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.spi.scripting.IScriptable#getFunctionNames()
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getFunctionNames()
 	 */
 	@Override
 	public final String[] getFunctionNames() {
@@ -280,7 +243,6 @@ public class ScriptableExecutionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getItem(int)
 	 */
 	@Override
@@ -290,7 +252,6 @@ public class ScriptableExecutionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getName()
 	 */
 	@Override
@@ -310,9 +271,7 @@ public class ScriptableExecutionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasEntry(
-	 * java.lang.String)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasEntry( java.lang.String)
 	 */
 	@Override
 	public final boolean hasEntry(String name) {
@@ -321,7 +280,6 @@ public class ScriptableExecutionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasItem(int)
 	 */
 	@Override
@@ -331,7 +289,6 @@ public class ScriptableExecutionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasValue()
 	 */
 	@Override
@@ -341,9 +298,8 @@ public class ScriptableExecutionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#invokeFunction(
-	 * java.lang.String, java.lang.Object[])
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#invokeFunction( java.lang.String,
+	 * java.lang.Object[])
 	 */
 	@Override
 	public final Object invokeFunction(String name, Object[] arguments) {
@@ -358,9 +314,8 @@ public class ScriptableExecutionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setEntry(
-	 * java.lang.String, java.lang.Object)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setEntry( java.lang.String,
+	 * java.lang.Object)
 	 */
 	@Override
 	public final boolean setEntry(String name, Object value) {
@@ -369,9 +324,7 @@ public class ScriptableExecutionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setItem(int,
-	 * java.lang.Object)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setItem(int, java.lang.Object)
 	 */
 	@Override
 	public final boolean setItem(int index, Object value) {
@@ -380,7 +333,6 @@ public class ScriptableExecutionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#toValue()
 	 */
 	@Override

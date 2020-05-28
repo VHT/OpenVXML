@@ -30,8 +30,7 @@ import org.eclipse.ui.actions.SelectionListenerAction;
 import org.eclipse.ui.part.ResourceTransfer;
 
 /**
- * Standard action for copying the currently selected resources to the
- * clipboard.
+ * Standard action for copying the currently selected resources to the clipboard.
  * <p>
  * This class may be instantiated; it is not intended to be subclassed.
  * </p>
@@ -63,10 +62,8 @@ public class CopyAction extends SelectionListenerAction {
 	/**
 	 * Creates a new action.
 	 *
-	 * @param shell
-	 *            the shell for any dialogs
-	 * @param clipboard
-	 *            a platform clipboard
+	 * @param shell the shell for any dialogs
+	 * @param clipboard a platform clipboard
 	 */
 	public CopyAction(Shell shell, Clipboard clipboard) {
 		super("Copy");
@@ -83,13 +80,9 @@ public class CopyAction extends SelectionListenerAction {
 	/**
 	 * Creates a new action.
 	 *
-	 * @param shell
-	 *            the shell for any dialogs
-	 * @param clipboard
-	 *            a platform clipboard
-	 * @param pasteAction
-	 *            a paste action
-	 * 
+	 * @param shell the shell for any dialogs
+	 * @param clipboard a platform clipboard
+	 * @param pasteAction a paste action
 	 * @since 2.0
 	 */
 	public CopyAction(Shell shell, Clipboard clipboard, PasteAction pasteAction) {
@@ -98,15 +91,14 @@ public class CopyAction extends SelectionListenerAction {
 	}
 
 	/**
-	 * The <code>CopyAction</code> implementation of this method defined on
-	 * <code>IAction</code> copies the selected resources to the clipboard.
+	 * The <code>CopyAction</code> implementation of this method defined on <code>IAction</code>
+	 * copies the selected resources to the clipboard.
 	 */
 	@Override
 	public void run() {
 		@SuppressWarnings("unchecked")
 		List<IResource> selectedResources = getSelectedResources();
-		IResource[] resources = selectedResources
-				.toArray(new IResource[selectedResources.size()]);
+		IResource[] resources = selectedResources.toArray(new IResource[selectedResources.size()]);
 
 		// Get the file names and a string representation
 		final int length = resources.length;
@@ -144,32 +136,23 @@ public class CopyAction extends SelectionListenerAction {
 	/**
 	 * Set the clipboard contents. Prompt to retry if clipboard is busy.
 	 * 
-	 * @param resources
-	 *            the resources to copy to the clipboard
-	 * @param fileNames
-	 *            file names of the resources to copy to the clipboard
-	 * @param names
-	 *            string representation of all names
+	 * @param resources the resources to copy to the clipboard
+	 * @param fileNames file names of the resources to copy to the clipboard
+	 * @param names string representation of all names
 	 */
-	private void setClipboard(IResource[] resources, String[] fileNames,
-			String names) {
+	private void setClipboard(IResource[] resources, String[] fileNames, String names) {
 		try {
 			// set the clipboard contents
 			if (fileNames.length > 0) {
-				clipboard.setContents(
-						new Object[] { resources, fileNames, names },
-						new Transfer[] { ResourceTransfer.getInstance(),
-								FileTransfer.getInstance(),
-								TextTransfer.getInstance() });
+				clipboard.setContents(new Object[] { resources, fileNames, names }, new Transfer[] {
+						ResourceTransfer.getInstance(), FileTransfer.getInstance(),
+						TextTransfer.getInstance() });
 			} else {
-				clipboard.setContents(new Object[] { resources, names },
-						new Transfer[] { ResourceTransfer.getInstance(),
-								TextTransfer.getInstance() });
+				clipboard.setContents(new Object[] { resources, names }, new Transfer[] {
+						ResourceTransfer.getInstance(), TextTransfer.getInstance() });
 			}
 		} catch (SWTError e) {
-			if (e.code != DND.ERROR_CANNOT_SET_CLIPBOARD) {
-				throw e;
-			}
+			if (e.code != DND.ERROR_CANNOT_SET_CLIPBOARD) { throw e; }
 			if (MessageDialog.openQuestion(shell, "Problem with copy title", // TODO ResourceNavigatorMessages.CopyToClipboardProblemDialog_title,  //$NON-NLS-1$
 					"Problem with copy.")) { //$NON-NLS-1$
 				setClipboard(resources, fileNames, names);
@@ -178,52 +161,34 @@ public class CopyAction extends SelectionListenerAction {
 	}
 
 	/**
-	 * The <code>CopyAction</code> implementation of this
-	 * <code>SelectionListenerAction</code> method enables this action if one or
-	 * more resources of compatible types are selected.
+	 * The <code>CopyAction</code> implementation of this <code>SelectionListenerAction</code>
+	 * method enables this action if one or more resources of compatible types are selected.
 	 */
 	@Override
 	protected boolean updateSelection(IStructuredSelection selection) {
-		if (!super.updateSelection(selection)) {
-			return false;
-		}
+		if (!super.updateSelection(selection)) { return false; }
 
-		if (getSelectedNonResources().size() > 0) {
-			return false;
-		}
+		if (getSelectedNonResources().size() > 0) { return false; }
 
 		@SuppressWarnings("unchecked")
 		List<IResource> selectedResources = getSelectedResources();
-		if (selectedResources.size() == 0) {
-			return false;
-		}
+		if (selectedResources.size() == 0) { return false; }
 
 		boolean projSelected = selectionIsOfType(IResource.PROJECT);
-		boolean fileFoldersSelected = selectionIsOfType(IResource.FILE
-				| IResource.FOLDER);
-		if (!projSelected && !fileFoldersSelected) {
-			return false;
-		}
+		boolean fileFoldersSelected = selectionIsOfType(IResource.FILE | IResource.FOLDER);
+		if (!projSelected && !fileFoldersSelected) { return false; }
 
 		// selection must be homogeneous
-		if (projSelected && fileFoldersSelected) {
-			return false;
-		}
+		if (projSelected && fileFoldersSelected) { return false; }
 
 		// must have a common parent
 		IContainer firstParent = selectedResources.get(0).getParent();
-		if (firstParent == null) {
-			return false;
-		}
+		if (firstParent == null) { return false; }
 
 		for (IResource currentResource : selectedResources) {
-			if (!currentResource.getParent().equals(firstParent)) {
-				return false;
-			}
+			if (!currentResource.getParent().equals(firstParent)) { return false; }
 			// resource location must exist
-			if (currentResource.getLocationURI() == null) {
-				return false;
-			}
+			if (currentResource.getLocationURI() == null) { return false; }
 		}
 
 		return true;

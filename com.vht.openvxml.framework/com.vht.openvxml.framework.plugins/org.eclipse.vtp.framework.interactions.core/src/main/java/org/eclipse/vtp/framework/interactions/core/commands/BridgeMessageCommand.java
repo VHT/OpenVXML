@@ -51,8 +51,7 @@ public final class BridgeMessageCommand extends ConversationCommand {
 	/**
 	 * Creates a new BridgeMessageCommand.
 	 */
-	public BridgeMessageCommand() {
-	}
+	public BridgeMessageCommand() {}
 
 	/**
 	 * @return
@@ -80,8 +79,7 @@ public final class BridgeMessageCommand extends ConversationCommand {
 	/**
 	 * Sets the destination to transfer to.
 	 * 
-	 * @param destination
-	 *            The destination to transfer to.
+	 * @param destination The destination to transfer to.
 	 */
 	public void setDestination(String destination) {
 		this.destination = destination;
@@ -99,8 +97,7 @@ public final class BridgeMessageCommand extends ConversationCommand {
 	/**
 	 * Sets the resultName.
 	 * 
-	 * @param resultName
-	 *            The resultName to set.
+	 * @param resultName The resultName to set.
 	 */
 	public void setResultName(String resultName) {
 		this.resultName = resultName;
@@ -118,8 +115,7 @@ public final class BridgeMessageCommand extends ConversationCommand {
 	/**
 	 * Sets the transferredResultValue.
 	 * 
-	 * @param transferredResultValue
-	 *            The transferredResultValue to set.
+	 * @param transferredResultValue The transferredResultValue to set.
 	 */
 	public void setTransferredResultValue(String transferredResultValue) {
 		this.transferredResultValue = transferredResultValue;
@@ -137,8 +133,7 @@ public final class BridgeMessageCommand extends ConversationCommand {
 	/**
 	 * Sets the busyResultValue.
 	 * 
-	 * @param busyResultValue
-	 *            The busyResultValue to set.
+	 * @param busyResultValue The busyResultValue to set.
 	 */
 	public void setBusyResultValue(String busyResultValue) {
 		this.busyResultValue = busyResultValue;
@@ -156,8 +151,7 @@ public final class BridgeMessageCommand extends ConversationCommand {
 	/**
 	 * Sets the unavailableResultValue.
 	 * 
-	 * @param unavailableResultValue
-	 *            The unavailableResultValue to set.
+	 * @param unavailableResultValue The unavailableResultValue to set.
 	 */
 	public void setUnavailableResultValue(String unavailableResultValue) {
 		this.unavailableResultValue = unavailableResultValue;
@@ -175,8 +169,7 @@ public final class BridgeMessageCommand extends ConversationCommand {
 	/**
 	 * Sets the noAuthResultValue.
 	 * 
-	 * @param noAuthResultValue
-	 *            The noAuthResultValue to set.
+	 * @param noAuthResultValue The noAuthResultValue to set.
 	 */
 	public void setNoAuthResultValue(String noAuthResultValue) {
 		this.noAuthResultValue = noAuthResultValue;
@@ -194,8 +187,7 @@ public final class BridgeMessageCommand extends ConversationCommand {
 	/**
 	 * Sets the badDestResultValue.
 	 * 
-	 * @param badDestResultValue
-	 *            The badDestResultValue to set.
+	 * @param badDestResultValue The badDestResultValue to set.
 	 */
 	public void setBadDestResultValue(String badDestResultValue) {
 		this.badDestResultValue = badDestResultValue;
@@ -213,8 +205,7 @@ public final class BridgeMessageCommand extends ConversationCommand {
 	/**
 	 * Sets the noRouteResultValue.
 	 * 
-	 * @param noRouteResultValue
-	 *            The noRouteResultValue to set.
+	 * @param noRouteResultValue The noRouteResultValue to set.
 	 */
 	public void setNoRouteResultValue(String noRouteResultValue) {
 		this.noRouteResultValue = noRouteResultValue;
@@ -232,8 +223,7 @@ public final class BridgeMessageCommand extends ConversationCommand {
 	/**
 	 * Sets the noResourceResultValue.
 	 * 
-	 * @param noResourceResultValue
-	 *            The noResourceResultValue to set.
+	 * @param noResourceResultValue The noResourceResultValue to set.
 	 */
 	public void setNoResourceResultValue(String noResourceResultValue) {
 		this.noResourceResultValue = noResourceResultValue;
@@ -251,8 +241,7 @@ public final class BridgeMessageCommand extends ConversationCommand {
 	/**
 	 * Sets the protocolResultValue.
 	 * 
-	 * @param protocolResultValue
-	 *            The protocolResultValue to set.
+	 * @param protocolResultValue The protocolResultValue to set.
 	 */
 	public void setProtocolResultValue(String protocolResultValue) {
 		this.protocolResultValue = protocolResultValue;
@@ -270,8 +259,7 @@ public final class BridgeMessageCommand extends ConversationCommand {
 	/**
 	 * Sets the badBridgeResultValue.
 	 * 
-	 * @param badBridgeResultValue
-	 *            The badBridgeResultValue to set.
+	 * @param badBridgeResultValue The badBridgeResultValue to set.
 	 */
 	public void setBadBridgeResultValue(String badBridgeResultValue) {
 		this.badBridgeResultValue = badBridgeResultValue;
@@ -289,8 +277,7 @@ public final class BridgeMessageCommand extends ConversationCommand {
 	/**
 	 * Sets the badUriResultValue.
 	 * 
-	 * @param badUriResultValue
-	 *            The badUriResultValue to set.
+	 * @param badUriResultValue The badUriResultValue to set.
 	 */
 	public void setBadUriResultValue(String badUriResultValue) {
 		this.badUriResultValue = badUriResultValue;
@@ -308,9 +295,7 @@ public final class BridgeMessageCommand extends ConversationCommand {
 	/**
 	 * Sets the value of the result parameter to pass if the caller hungup.
 	 * 
-	 * @param hangupResultValue
-	 *            The value of the result parameter to pass if the caller
-	 *            hungup.
+	 * @param hangupResultValue The value of the result parameter to pass if the caller hungup.
 	 */
 	public void setHangupResultValue(String hangupResultValue) {
 		this.hangupResultValue = hangupResultValue;
@@ -318,11 +303,8 @@ public final class BridgeMessageCommand extends ConversationCommand {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.interactions.core.commands.
-	 * ConversationCommand#accept(
-	 * org.eclipse.vtp.framework.interactions.core.commands.
-	 * IConversationCommandVisitor)
+	 * @see org.eclipse.vtp.framework.interactions.core.commands. ConversationCommand#accept(
+	 * org.eclipse.vtp.framework.interactions.core.commands. IConversationCommandVisitor)
 	 */
 	@Override
 	Object accept(IConversationCommandVisitor visitor) {
@@ -331,23 +313,19 @@ public final class BridgeMessageCommand extends ConversationCommand {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.ICommand#exportContents()
 	 */
 	@Override
 	public Object exportContents() {
-		return new String[] { transferType, destination, resultName,
-				transferredResultValue, busyResultValue,
-				unavailableResultValue, noAuthResultValue, badDestResultValue,
+		return new String[] { transferType, destination, resultName, transferredResultValue,
+				busyResultValue, unavailableResultValue, noAuthResultValue, badDestResultValue,
 				noRouteResultValue, noResourceResultValue, protocolResultValue,
 				badBridgeResultValue, badUriResultValue };
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.ICommand#importContents(
-	 * java.lang.Object)
+	 * @see org.eclipse.vtp.framework.spi.ICommand#importContents( java.lang.Object)
 	 */
 	@Override
 	public void importContents(Object contents) {

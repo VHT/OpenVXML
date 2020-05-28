@@ -14,8 +14,7 @@ package org.eclipse.vtp.framework.interactions.core.platforms;
 import javax.xml.transform.Source;
 
 /**
- * This interface represents an abstract document that can be represented in an
- * XML structure.
+ * This interface represents an abstract document that can be represented in an XML structure.
  * 
  * @author Lonnie Pryor
  * @version 1.0
@@ -25,20 +24,16 @@ public interface IDocument {
 	String DEFAULT_CONTENT_TYPE = "text/xml"; //$NON-NLS-1$
 
 	/**
-	 * Returns a string representing the dialect of XML document this instance
-	 * produces.
+	 * Returns a string representing the dialect of XML document this instance produces.
 	 * 
-	 * @return A string representing the dialect of XML document this instance
-	 *         produces.
+	 * @return A string representing the dialect of XML document this instance produces.
 	 */
 	String getDocumentType();
 
 	/**
-	 * Returns a string representing the MIME type of XML document this instance
-	 * produces.
+	 * Returns a string representing the MIME type of XML document this instance produces.
 	 * 
-	 * @return A string representing the MIME type of XML document this instance
-	 *         produces.
+	 * @return A string representing the MIME type of XML document this instance produces.
 	 */
 	String getContentType();
 
@@ -47,8 +42,7 @@ public interface IDocument {
 	 * 
 	 * @return An XML transformation source object that can be used with the
 	 *         {@link javax.xml.transform} API.
-	 * @throws IllegalStateException
-	 *             If any aspect of this document's state prevents it from being
+	 * @throws IllegalStateException If any aspect of this document's state prevents it from being
 	 *             transformed into XML.
 	 */
 	Source toXMLSource() throws IllegalStateException;

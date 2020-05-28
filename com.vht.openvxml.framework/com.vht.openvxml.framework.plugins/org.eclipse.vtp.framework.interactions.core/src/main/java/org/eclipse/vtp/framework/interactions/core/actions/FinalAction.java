@@ -36,8 +36,7 @@ public class FinalAction extends ExitAction {
 	 */
 	public FinalAction(IActionContext context, IController controller,
 			ExitConfiguration configuration, IConversation conversation,
-			IVariableRegistry variableRegistry,
-			AssignmentConfiguration[] configurations) {
+			IVariableRegistry variableRegistry, AssignmentConfiguration[] configurations) {
 		super(context, controller, configuration, configurations);
 		this.conversation = conversation;
 		this.variableRegistry = variableRegistry;
@@ -46,7 +45,6 @@ public class FinalAction extends ExitAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.common.actions.ExitAction#execute()
 	 */
 	@Override
@@ -63,13 +61,12 @@ public class FinalAction extends ExitAction {
 			if (context.isReportingEnabled()) {
 				Dictionary props = new Hashtable();
 				props.put("event", "final");
-				context.report(IReporter.SEVERITY_INFO,
-						"Ending subdialog execution.", props);
+				context.report(IReporter.SEVERITY_INFO, "Ending subdialog execution.", props);
 			}
 			IFinal f = conversation.createFinal();
 			for (AssignmentConfiguration configuration2 : configurations) {
-				f.setVariableValue(configuration2.getName(), variableRegistry
-						.getVariable(configuration2.getName()).toString());
+				f.setVariableValue(configuration2.getName(), variableRegistry.getVariable(
+						configuration2.getName()).toString());
 			}
 			f.setVariableValue("DialogReturnValue", configuration.getValue());
 			f.enqueue();

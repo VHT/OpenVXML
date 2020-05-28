@@ -1,10 +1,8 @@
 package org.eclipse.vtp.modules.webservice.ui.automata;
 
-public class InitialNode extends Node
-{
+public class InitialNode extends Node {
 
-	public InitialNode()
-	{
+	public InitialNode() {
 		super(null);
 	}
 

@@ -19,7 +19,6 @@ import org.eclipse.ui.navigator.ICommonActionExtensionSite;
 
 /**
  * @since 3.2
- *
  */
 public class ConvertActionProvider extends CommonActionProvider {
 
@@ -27,9 +26,7 @@ public class ConvertActionProvider extends CommonActionProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.navigator.CommonActionProvider#init(org.eclipse.ui.navigator
+	 * @see org.eclipse.ui.navigator.CommonActionProvider#init(org.eclipse.ui.navigator
 	 * .ICommonActionExtensionSite)
 	 */
 	@Override

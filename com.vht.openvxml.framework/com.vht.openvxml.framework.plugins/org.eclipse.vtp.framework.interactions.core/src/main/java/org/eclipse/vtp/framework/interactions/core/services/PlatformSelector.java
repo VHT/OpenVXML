@@ -30,8 +30,7 @@ public class PlatformSelector implements IPlatformSelector {
 	/** Generate the qualifier prefixes. */
 	static {
 		String[] prefixes = new String[PARAMETERS.length];
-		StringBuffer buffer = new StringBuffer(IPlatform.class.getName())
-				.append(':');
+		StringBuffer buffer = new StringBuffer(IPlatform.class.getName()).append(':');
 		int resetLength = buffer.length();
 		for (int i = 0; i < prefixes.length; ++i) {
 			if (i > 0) {
@@ -49,8 +48,7 @@ public class PlatformSelector implements IPlatformSelector {
 	/**
 	 * Creates a new PlatformSelector.
 	 * 
-	 * @param context
-	 *            The context to search in.
+	 * @param context The context to search in.
 	 */
 	public PlatformSelector(IExecutionContext context) {
 		this.context = context;
@@ -59,7 +57,6 @@ public class PlatformSelector implements IPlatformSelector {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.platforms.
 	 * IPlatformSelector#selectPlatform()
 	 */
@@ -73,19 +70,14 @@ public class PlatformSelector implements IPlatformSelector {
 				if (value == null) {
 					continue;
 				}
-				System.out.println("Looking up platform: " + PREFIXES[i]
-						+ value);
+				System.out.println("Looking up platform: " + PREFIXES[i] + value);
 				Object platform = context.lookup(PREFIXES[i] + value);
 				System.out.println(platform);
-				if (platform instanceof IPlatform) {
-					return (IPlatform) platform;
-				}
+				if (platform instanceof IPlatform) { return (IPlatform) platform; }
 			}
 		}
 		Object platform = context.lookup(IPlatform.class.getName());
-		if (platform instanceof IPlatform) {
-			return (IPlatform) platform;
-		}
+		if (platform instanceof IPlatform) { return (IPlatform) platform; }
 		return null;
 	}
 

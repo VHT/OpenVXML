@@ -14,9 +14,8 @@ package org.eclipse.vtp.framework.interactions.voice.vxml;
 import org.eclipse.vtp.framework.interactions.core.support.Widget;
 
 /**
- * The <code>Output</code> class is the base class for the family of VXML
- * elements that can be audibly rendered to the caller. This includes TTS and
- * audio files.
+ * The <code>Output</code> class is the base class for the family of VXML elements that can be
+ * audibly rendered to the caller. This includes TTS and audio files.
  *
  * @author Trip Gilman
  * @author Lonnie Pryor
@@ -26,6 +25,5 @@ public abstract class Output extends Widget implements VXMLConstants {
 	/**
 	 * Creates a new instance of <code>Output</code>.
 	 */
-	protected Output() {
-	}
+	protected Output() {}
 }

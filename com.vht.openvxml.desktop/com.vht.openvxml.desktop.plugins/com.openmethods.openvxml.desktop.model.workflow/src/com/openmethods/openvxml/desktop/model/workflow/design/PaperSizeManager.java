@@ -32,22 +32,20 @@ public class PaperSizeManager {
 	public PaperSizeManager() {
 		super();
 		paperSizes = new ArrayList<PaperSize>();
-		IConfigurationElement[] primitiveExtensions = Platform
-				.getExtensionRegistry().getConfigurationElementsFor(
-						paperSizeExtensionPointId);
+		IConfigurationElement[] primitiveExtensions = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(paperSizeExtensionPointId);
 		for (IConfigurationElement primitiveExtension : primitiveExtensions) {
 			String id = primitiveExtension.getAttribute("id");
 			String name = primitiveExtension.getAttribute("name");
-			int portraitWidth = Integer.parseInt(primitiveExtension
-					.getAttribute("portraitWidth"));
-			int portraitHeight = Integer.parseInt(primitiveExtension
-					.getAttribute("portraitHeight"));
-			int landscapeWidth = Integer.parseInt(primitiveExtension
-					.getAttribute("landscapeWidth"));
+			int portraitWidth = Integer.parseInt(primitiveExtension.getAttribute("portraitWidth"));
+			int portraitHeight = Integer
+					.parseInt(primitiveExtension.getAttribute("portraitHeight"));
+			int landscapeWidth = Integer
+					.parseInt(primitiveExtension.getAttribute("landscapeWidth"));
 			int landscapeHeight = Integer.parseInt(primitiveExtension
 					.getAttribute("landscapeHeight"));
-			PaperSize paperSize = new PaperSize(id, name, portraitWidth,
-					portraitHeight, landscapeWidth, landscapeHeight);
+			PaperSize paperSize = new PaperSize(id, name, portraitWidth, portraitHeight,
+					landscapeWidth, landscapeHeight);
 			paperSizes.add(paperSize);
 		}
 	}
@@ -64,15 +62,12 @@ public class PaperSizeManager {
 	/**
 	 * Returns the PaperSize with the specified id
 	 * 
-	 * @param id
-	 *            - the id of the PaperSize to return
+	 * @param id - the id of the PaperSize to return
 	 * @return - the PaperSize with the specified id
 	 */
 	public PaperSize getPaperSize(String id) {
 		for (PaperSize paperSize : paperSizes) {
-			if (paperSize.getId().equals(id)) {
-				return paperSize;
-			}
+			if (paperSize.getId().equals(id)) { return paperSize; }
 		}
 		return null;
 	}

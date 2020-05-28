@@ -14,8 +14,7 @@ package org.eclipse.vtp.desktop.model.interactive.voice;
 import org.eclipse.vtp.desktop.model.interactive.core.IMediaFile;
 
 /**
- * This interface represents an audio file resource of either an application or
- * persona project.
+ * This interface represents an audio file resource of either an application or persona project.
  *
  * @author Trip Gilman
  * @version 2.0
@@ -27,11 +26,9 @@ public interface IAudioFile extends IMediaFile {
 	public String getAlternateText();
 
 	/**
-	 * Sets the alternate text associated with this audio file to the given
-	 * value.
+	 * Sets the alternate text associated with this audio file to the given value.
 	 *
-	 * @param alternateText
-	 *            The new alternate text
+	 * @param alternateText The new alternate text
 	 */
 	public void setAlternateText(String alternateText);
 }

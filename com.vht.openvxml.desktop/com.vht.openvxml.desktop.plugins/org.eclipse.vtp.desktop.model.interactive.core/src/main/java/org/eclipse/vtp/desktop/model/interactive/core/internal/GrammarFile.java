@@ -16,21 +16,19 @@ import org.eclipse.vtp.desktop.model.interactive.core.IGrammarFile;
 import org.eclipse.vtp.desktop.model.interactive.core.IMediaContainer;
 
 /**
- * This is a concrete implementation of <code>IGrammarFile</code> and provides
- * the default behavior of that interface.
+ * This is a concrete implementation of <code>IGrammarFile</code> and provides the default behavior
+ * of that interface.
  *
  * @author Trip Gilman
  * @version 2.0
  */
 public class GrammarFile extends MediaFile implements IGrammarFile {
 	/**
-	 * Creates a new <code>GrammarFile</code> in the given media container with
-	 * the provided eclipse file resource.
+	 * Creates a new <code>GrammarFile</code> in the given media container with the provided eclipse
+	 * file resource.
 	 *
-	 * @param container
-	 *            The parent media container
-	 * @param file
-	 *            The eclipse file resource this grammar file represents
+	 * @param container The parent media container
+	 * @param file The eclipse file resource this grammar file represents
 	 */
 	public GrammarFile(IMediaContainer container, IFile file) {
 		super(container, file);

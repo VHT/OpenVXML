@@ -19,7 +19,6 @@ import org.eclipse.ui.navigator.ICommonActionExtensionSite;
 
 /**
  * @since 3.2
- *
  */
 public class ReplicateActionProvider extends CommonActionProvider {
 
@@ -29,16 +28,13 @@ public class ReplicateActionProvider extends CommonActionProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.navigator.CommonActionProvider#init(org.eclipse.ui.navigator
+	 * @see org.eclipse.ui.navigator.CommonActionProvider#init(org.eclipse.ui.navigator
 	 * .ICommonActionExtensionSite)
 	 */
 	@Override
 	public void init(ICommonActionExtensionSite anActionSite) {
 		site = anActionSite;
-		replicationGroup = new ReplicationActionGroup(site.getViewSite()
-				.getShell());
+		replicationGroup = new ReplicationActionGroup(site.getViewSite().getShell());
 
 	}
 

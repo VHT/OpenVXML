@@ -25,8 +25,8 @@ import org.eclipse.vtp.framework.core.IActionResult;
 import org.eclipse.vtp.framework.core.IReporter;
 
 /**
- * An action that suspends the current process, forwards control to another
- * process, and resumes when that process completes.
+ * An action that suspends the current process, forwards control to another process, and resumes
+ * when that process completes.
  * 
  * @author Lonnie Pryor
  */
@@ -41,12 +41,9 @@ public class IncludeAction implements IAction {
 	/**
 	 * Creates a new ForwardAction.
 	 * 
-	 * @param context
-	 *            The context that contains this action.
-	 * @param controller
-	 *            The controller to enqueue with.
-	 * @param configuration
-	 *            The configuration for this forward action.
+	 * @param context The context that contains this action.
+	 * @param controller The controller to enqueue with.
+	 * @param configuration The configuration for this forward action.
 	 */
 	public IncludeAction(IActionContext context, IController controller,
 			DispatchConfiguration configuration) {
@@ -57,7 +54,6 @@ public class IncludeAction implements IAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.core.IAction#execute()
 	 */
 	@Override
@@ -67,15 +63,11 @@ public class IncludeAction implements IAction {
 		{
 			if (context.isReportingEnabled()) {
 				final Dictionary<String, Object> props = new Hashtable<String, Object>();
-				props.put("include.target",
-						String.valueOf(configuration.getTargetProcessURI()));
+				props.put("include.target", String.valueOf(configuration.getTargetProcessURI()));
 				props.put("event", "include.after");
-				props.put("include.result",
-						String.valueOf(context.getParameter("exit")));
-				context.report(
-						IReporter.SEVERITY_INFO,
-						"Include returned with \""
-								+ context.getParameter("exit") + "\".", props);
+				props.put("include.result", String.valueOf(context.getParameter("exit")));
+				context.report(IReporter.SEVERITY_INFO, "Include returned with \""
+						+ context.getParameter("exit") + "\".", props);
 			}
 			String result = context.getParameter("exit"); //$NON-NLS-1$
 			if (result == null) {
@@ -86,8 +78,7 @@ public class IncludeAction implements IAction {
 		try {
 			if (context.isReportingEnabled()) {
 				final Dictionary<String, Object> props = new Hashtable<String, Object>();
-				props.put("include.target",
-						String.valueOf(configuration.getTargetProcessURI()));
+				props.put("include.target", String.valueOf(configuration.getTargetProcessURI()));
 				props.put("event", "include.before");
 				context.report(IReporter.SEVERITY_INFO, "Including \""
 						+ configuration.getTargetProcessURI() + "\".", props);
@@ -97,18 +88,13 @@ public class IncludeAction implements IAction {
 			configuration.setVariableMapping("Platform", platformMapping);
 			final VariableMappingConfiguration initialParameterMapping = new VariableMappingConfiguration();
 			initialParameterMapping.setVariableValue("InitialParameters");
-			configuration.setVariableMapping("InitialParameters",
-					initialParameterMapping);
+			configuration.setVariableMapping("InitialParameters", initialParameterMapping);
 			final VariableMappingConfiguration platformVarMapping = new VariableMappingConfiguration();
 			platformVarMapping.setVariableValue("PlatformVariables");
-			configuration.setVariableMapping("PlatformVariables",
-					platformVarMapping);
-			final IIncludeDispatcher include = controller
-					.createInclude(configuration);
+			configuration.setVariableMapping("PlatformVariables", platformVarMapping);
+			final IIncludeDispatcher include = controller.createInclude(configuration);
 			include.setParameterValue(context.getActionID(), "complete"); //$NON-NLS-1$
-			if (include.enqueue()) {
-				return context.createResult(IActionResult.RESULT_NAME_REPEAT);
-			}
+			if (include.enqueue()) { return context.createResult(IActionResult.RESULT_NAME_REPEAT); }
 		} catch (final Exception e) {
 			return context.createResult("error.include", e); //$NON-NLS-1$
 		}

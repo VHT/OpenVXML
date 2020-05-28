@@ -20,16 +20,13 @@ import com.openmethods.openvxml.desktop.model.workflow.IWorkflowProjectAspect;
 
 /**
  * @author trip
- *
  */
-public class InteractiveProjectAspectFactory implements
-		IOpenVXMLProjectAspectFactory {
+public class InteractiveProjectAspectFactory implements IOpenVXMLProjectAspectFactory {
 
 	/**
 	 * 
 	 */
-	public InteractiveProjectAspectFactory() {
-	}
+	public InteractiveProjectAspectFactory() {}
 
 	@Override
 	public String getAspectId() {
@@ -47,15 +44,13 @@ public class InteractiveProjectAspectFactory implements
 	}
 
 	@Override
-	public boolean configureProject(IOpenVXMLProject project,
-			IProjectDescription description, Element aspectConfiguration) {
+	public boolean configureProject(IOpenVXMLProject project, IProjectDescription description,
+			Element aspectConfiguration) {
 		return false;
 	}
 
 	@Override
-	public void createProjectLayout(IOpenVXMLProject project,
-			Element aspectConfiguration) {
-	}
+	public void createProjectLayout(IOpenVXMLProject project, Element aspectConfiguration) {}
 
 	@Override
 	public OpenVXMLProjectAspect createProjectAspect(IOpenVXMLProject project,

@@ -35,9 +35,8 @@ public class PrimitiveElementManager {
 	public PrimitiveElementManager() {
 		super();
 		primitiveTypes = new HashMap<String, PrimitiveElementTemplate>();
-		IConfigurationElement[] primitiveExtensions = Platform
-				.getExtensionRegistry().getConfigurationElementsFor(
-						primitiveExtensionPointId);
+		IConfigurationElement[] primitiveExtensions = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(primitiveExtensionPointId);
 		for (IConfigurationElement primitiveExtension : primitiveExtensions) {
 			PrimitiveElementTemplate template = null;
 			String id = primitiveExtension.getAttribute("id");
@@ -47,14 +46,12 @@ public class PrimitiveElementManager {
 			// TODO Review this unique name section
 			@SuppressWarnings("unused")
 			boolean uniqueName = false;
-			String uniqueNameString = primitiveExtension
-					.getAttribute("unique-name");
+			String uniqueNameString = primitiveExtension.getAttribute("unique-name");
 			if (uniqueNameString != null) {
 				uniqueName = Boolean.parseBoolean(uniqueNameString);
 			}
 
-			Bundle contributor = Platform.getBundle(primitiveExtension
-					.getContributor().getName());
+			Bundle contributor = Platform.getBundle(primitiveExtension.getContributor().getName());
 			PalletItemFilter filter = null;
 			String filterName = primitiveExtension.getAttribute("filter");
 			if (filterName != null) {
@@ -68,20 +65,15 @@ public class PrimitiveElementManager {
 				}
 			}
 			if (iconPath != null) {
-				org.eclipse.vtp.desktop.core.Activator
-						.getDefault()
-						.getImageRegistry()
-						.put(id,
-								ImageDescriptor.createFromURL(contributor
-										.getEntry(iconPath)));
+				org.eclipse.vtp.desktop.core.Activator.getDefault().getImageRegistry().put(id,
+						ImageDescriptor.createFromURL(contributor.getEntry(iconPath)));
 			}
 			IConfigurationElement[] scriptElements = primitiveExtension
 					.getChildren("information_script");
 			if (scriptElements.length < 1) // not a scripted element, check for
 											// implementing class
 			{
-				scriptElements = primitiveExtension
-						.getChildren("information_provider");
+				scriptElements = primitiveExtension.getChildren("information_provider");
 				if (scriptElements.length < 1) {
 					// declaration, skip it
 					continue;
@@ -91,16 +83,14 @@ public class PrimitiveElementManager {
 					@SuppressWarnings("unchecked")
 					Class<PrimitiveInformationProvider> providerClass = (Class<PrimitiveInformationProvider>) contributor
 							.loadClass(className);
-					template = new ImplementedClassTemplate(id, name, filter,
-							providerClass);
+					template = new ImplementedClassTemplate(id, name, filter, providerClass);
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 					continue;
 				}
 			} else // scripted element
 			{
-				template = new ScriptedTemplate(id, name, filter,
-						scriptElements[0]);
+				template = new ScriptedTemplate(id, name, filter, scriptElements[0]);
 			}
 			primitiveTypes.put(template.getId(), template);
 		}
@@ -115,8 +105,7 @@ public class PrimitiveElementManager {
 		private String name;
 		private PalletItemFilter filter = null;
 
-		public PrimitiveElementTemplate(String id, String name,
-				PalletItemFilter filter) {
+		public PrimitiveElementTemplate(String id, String name, PalletItemFilter filter) {
 			super();
 			this.id = id;
 			this.name = name;
@@ -142,19 +131,17 @@ public class PrimitiveElementManager {
 	public class ScriptedTemplate extends PrimitiveElementTemplate {
 		private IConfigurationElement scriptElement;
 
-		public ScriptedTemplate(String id, String name,
-				PalletItemFilter filter, IConfigurationElement scriptElement) {
+		public ScriptedTemplate(String id, String name, PalletItemFilter filter,
+				IConfigurationElement scriptElement) {
 			super(id, name, filter);
 			this.scriptElement = scriptElement;
 		}
 
 		@Override
-		public PrimitiveInformationProvider getInformationProviderInstance(
-				PrimitiveElement element) {
+		public PrimitiveInformationProvider getInformationProviderInstance(PrimitiveElement element) {
 			ScriptedPrimitiveInformationProvider ret = null;
 			if (scriptElement.getAttribute("securable") == null
-					|| !Boolean.parseBoolean(scriptElement
-							.getAttribute("securable"))) {
+					|| !Boolean.parseBoolean(scriptElement.getAttribute("securable"))) {
 				ret = new ScriptedPrimitiveInformationProvider(element);
 			} else {
 				ret = new SecurableScriptedPrimitiveInformationProvider(element);
@@ -168,8 +155,7 @@ public class PrimitiveElementManager {
 		Class<PrimitiveInformationProvider> informationProviderClass;
 		Constructor<PrimitiveInformationProvider> constructor;
 
-		public ImplementedClassTemplate(String id, String name,
-				PalletItemFilter filter,
+		public ImplementedClassTemplate(String id, String name, PalletItemFilter filter,
 				Class<PrimitiveInformationProvider> informationProviderClass) {
 			super(id, name, filter);
 			this.informationProviderClass = informationProviderClass;
@@ -182,8 +168,7 @@ public class PrimitiveElementManager {
 		}
 
 		@Override
-		public PrimitiveInformationProvider getInformationProviderInstance(
-				PrimitiveElement element) {
+		public PrimitiveInformationProvider getInformationProviderInstance(PrimitiveElement element) {
 			try {
 				return constructor.newInstance(new Object[] { element });
 			} catch (Exception e) {

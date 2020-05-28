@@ -28,10 +28,8 @@ import org.eclipse.vtp.desktop.views.Activator;
 import org.eclipse.vtp.desktop.views.pallet.PalletManager;
 import org.eclipse.vtp.desktop.views.pallet.PalletManager.PalletRecord;
 
-public class PalletPreferencePage extends PreferencePage implements
-		IWorkbenchPreferencePage {
-	private List<PalletRecord> pallets = PalletManager.getDefault()
-			.getInstalledPallets();
+public class PalletPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
+	private List<PalletRecord> pallets = PalletManager.getDefault().getInstalledPallets();
 	Combo palletCombo = null;
 
 	public PalletPreferencePage() {
@@ -48,9 +46,7 @@ public class PalletPreferencePage extends PreferencePage implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse
+	 * @see org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse
 	 * .swt.widgets.Composite)
 	 */
 	@Override
@@ -70,8 +66,7 @@ public class PalletPreferencePage extends PreferencePage implements
 			if (pallet.getId().equals(PalletManager.defaultPalletId)) {
 				defaultSelected = i;
 			}
-			if (pallet.getId().equals(
-					PalletManager.getDefault().getCurrentPallet())) {
+			if (pallet.getId().equals(PalletManager.getDefault().getCurrentPallet())) {
 				selected = i;
 			}
 		}
@@ -86,9 +81,7 @@ public class PalletPreferencePage extends PreferencePage implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
+	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
 	 */
 	@Override
 	public void init(IWorkbench workbench) {
@@ -97,7 +90,6 @@ public class PalletPreferencePage extends PreferencePage implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.preference.PreferencePage#performOk()
 	 */
 	@Override

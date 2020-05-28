@@ -41,25 +41,21 @@ public class PlaceholderContentCreatorPanel extends ContentCreatorPanel {
 	/**
 	 * Creates a new DynamicContentCreatorPanel.
 	 */
-	protected PlaceholderContentCreatorPanel() {
-	}
+	protected PlaceholderContentCreatorPanel() {}
 
 	/**
 	 * Sets the list of variables that are available.
 	 * 
-	 * @param variables
-	 *            The list of variables that are available.
+	 * @param variables The list of variables that are available.
 	 */
 	public void setPlaceholders(List<ContentPlaceholder> placeholders) {
 		this.placeholders = new ArrayList<ContentPlaceholder>(placeholders);
-		Collections.sort(this.placeholders,
-				new Comparator<ContentPlaceholder>() {
-					@Override
-					public int compare(ContentPlaceholder o1,
-							ContentPlaceholder o2) {
-						return o1.getName().compareTo(o2.getName());
-					}
-				});
+		Collections.sort(this.placeholders, new Comparator<ContentPlaceholder>() {
+			@Override
+			public int compare(ContentPlaceholder o1, ContentPlaceholder o2) {
+				return o1.getName().compareTo(o2.getName());
+			}
+		});
 	}
 
 	public String getFormat() {
@@ -68,9 +64,7 @@ public class PlaceholderContentCreatorPanel extends ContentCreatorPanel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.media.core.ContentCreatorPanel#createControls(
+	 * @see org.eclipse.vtp.desktop.media.core.ContentCreatorPanel#createControls(
 	 * org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -80,8 +74,7 @@ public class PlaceholderContentCreatorPanel extends ContentCreatorPanel {
 		Label formatLabel = new Label(composite, SWT.NONE);
 		formatLabel.setText("Please select a placeholder:");
 		formatLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		placeholderCombo = new Combo(composite, SWT.READ_ONLY | SWT.DROP_DOWN
-				| SWT.SINGLE);
+		placeholderCombo = new Combo(composite, SWT.READ_ONLY | SWT.DROP_DOWN | SWT.SINGLE);
 		for (ContentPlaceholder cp : placeholders) {
 			placeholderCombo.add(cp.getName());
 		}
@@ -97,34 +90,28 @@ public class PlaceholderContentCreatorPanel extends ContentCreatorPanel {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (placeholderCombo.getSelectionIndex() > -1) {
-					descText.setText(placeholders.get(
-							placeholderCombo.getSelectionIndex())
+					descText.setText(placeholders.get(placeholderCombo.getSelectionIndex())
 							.getDescription());
 				}
 			}
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
 		setControl(composite);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.media.core.ContentCreatorPanel#setInitialContent
+	 * @see org.eclipse.vtp.desktop.media.core.ContentCreatorPanel#setInitialContent
 	 * (org.eclipse.vtp.framework.interactions.core.media.Content)
 	 */
 	@Override
 	public void setInitialContent(Content content) {
 		if (content instanceof PlaceholderContent) {
 			for (int i = 0; i < placeholders.size(); i++) {
-				if (placeholders
-						.get(i)
-						.getName()
-						.equals(((PlaceholderContent) content).getPlaceholder())) {
+				if (placeholders.get(i).getName().equals(
+						((PlaceholderContent) content).getPlaceholder())) {
 					placeholderCombo.select(i);
 					break;
 				}
@@ -135,9 +122,9 @@ public class PlaceholderContentCreatorPanel extends ContentCreatorPanel {
 	@Override
 	public Content createContent() {
 		PlaceholderContent content = new PlaceholderContent();
-		content.setPlaceholder(placeholderCombo.getItem(placeholderCombo
-				.getSelectionIndex() == -1 ? 0 : placeholderCombo
-				.getSelectionIndex()));
+		content.setPlaceholder(placeholderCombo
+				.getItem(placeholderCombo.getSelectionIndex() == -1 ? 0 : placeholderCombo
+						.getSelectionIndex()));
 		return content;
 	}
 

@@ -15,7 +15,6 @@ import org.eclipse.vtp.desktop.model.interactive.core.InteractionTypeManager;
 
 /**
  * @author trip
- *
  */
 public class InteractionTypeContext implements ConfigurationContext {
 	public static final String CONTEXT_ID = "org.eclipse.vtp.desktop.model.interactive.core.interactiontypecontext";
@@ -25,15 +24,11 @@ public class InteractionTypeContext implements ConfigurationContext {
 	/**
 	 * 
 	 */
-	public InteractionTypeContext() {
-	}
+	public InteractionTypeContext() {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.configuration.ConfigurationContext
-	 * #getId()
+	 * @see org.eclipse.vtp.desktop.model.core.configuration.ConfigurationContext #getId()
 	 */
 	@Override
 	public String getId() {
@@ -52,9 +47,7 @@ public class InteractionTypeContext implements ConfigurationContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.configuration.ConfigurationContext
+	 * @see org.eclipse.vtp.desktop.model.core.configuration.ConfigurationContext
 	 * #getLabel(java.lang.Object)
 	 */
 	@Override
@@ -64,10 +57,7 @@ public class InteractionTypeContext implements ConfigurationContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.configuration.ConfigurationContext
-	 * #getValues()
+	 * @see org.eclipse.vtp.desktop.model.core.configuration.ConfigurationContext #getValues()
 	 */
 	@Override
 	public List<Object> getValues() {

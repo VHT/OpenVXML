@@ -41,15 +41,13 @@ public interface ISessionDescriptor {
 	String[] getServiceIdentifiers();
 
 	/**
-	 * Returns the service selected for the specified identifier or
-	 * <code>null</code> if no such service exists.
+	 * Returns the service selected for the specified identifier or <code>null</code> if no such
+	 * service exists.
 	 * 
-	 * @param identifier
-	 *            The identifier of the service to return.
-	 * @return The service selected for the specified identifier or
-	 *         <code>null</code> if no such service exists.
-	 * @throws NullPointerException
-	 *             If the supplied identifier is <code>null</code>.
+	 * @param identifier The identifier of the service to return.
+	 * @return The service selected for the specified identifier or <code>null</code> if no such
+	 *         service exists.
+	 * @throws NullPointerException If the supplied identifier is <code>null</code>.
 	 */
 	Object getService(String identifier) throws NullPointerException;
 
@@ -61,45 +59,36 @@ public interface ISessionDescriptor {
 	String[] getAttributeNames();
 
 	/**
-	 * Returns the value of the session attribute with the specified name or
-	 * <code>null</code> if no such attribute exists.
+	 * Returns the value of the session attribute with the specified name or <code>null</code> if no
+	 * such attribute exists.
 	 * 
-	 * @param attributeName
-	 *            The name of the session attribute to return.
-	 * @return The value of the session attribute with the specified name or
-	 *         <code>null</code> if no such attribute exists.
-	 * @throws NullPointerException
-	 *             If the specified attribute name is <code>null</code>.
+	 * @param attributeName The name of the session attribute to return.
+	 * @return The value of the session attribute with the specified name or <code>null</code> if no
+	 *         such attribute exists.
+	 * @throws NullPointerException If the specified attribute name is <code>null</code>.
 	 */
 	Object getAttribute(String attributeName) throws NullPointerException;
 
 	/**
-	 * Sets the value of the specified session attribute or clears it if the
-	 * supplied value is <code>null</code>.
+	 * Sets the value of the specified session attribute or clears it if the supplied value is
+	 * <code>null</code>.
 	 * 
-	 * @param attributeName
-	 *            The name of the session attribute to set.
-	 * @param attributeValue
-	 *            The value to set the attribute to or <code>null</code> to
-	 *            clear the attribute.
-	 * @throws NullPointerException
-	 *             If the specified attribute name is <code>null</code>.
+	 * @param attributeName The name of the session attribute to set.
+	 * @param attributeValue The value to set the attribute to or <code>null</code> to clear the
+	 *            attribute.
+	 * @throws NullPointerException If the specified attribute name is <code>null</code>.
 	 */
-	void setAttribute(String attributeName, Object attributeValue)
-			throws NullPointerException;
+	void setAttribute(String attributeName, Object attributeValue) throws NullPointerException;
 
 	/**
 	 * Clears the value of the specified session attribute.
 	 * 
-	 * @param attributeName
-	 *            The name of the session attribute to clear.
-	 * @throws NullPointerException
-	 *             If the specified attribute name is <code>null</code>.
+	 * @param attributeName The name of the session attribute to clear.
+	 * @throws NullPointerException If the specified attribute name is <code>null</code>.
 	 */
 	void clearAttribute(String attributeName) throws NullPointerException;
 
-	Object getInheritedAttribute(String attributeName)
-			throws NullPointerException;
+	Object getInheritedAttribute(String attributeName) throws NullPointerException;
 
 	/**
 	 * Returns the names of the attributes set in the session.
@@ -109,40 +98,32 @@ public interface ISessionDescriptor {
 	String[] getRootAttributeNames();
 
 	/**
-	 * Returns the value of the session attribute with the specified name or
-	 * <code>null</code> if no such attribute exists.
+	 * Returns the value of the session attribute with the specified name or <code>null</code> if no
+	 * such attribute exists.
 	 * 
-	 * @param attributeName
-	 *            The name of the session attribute to return.
-	 * @return The value of the session attribute with the specified name or
-	 *         <code>null</code> if no such attribute exists.
-	 * @throws NullPointerException
-	 *             If the specified attribute name is <code>null</code>.
+	 * @param attributeName The name of the session attribute to return.
+	 * @return The value of the session attribute with the specified name or <code>null</code> if no
+	 *         such attribute exists.
+	 * @throws NullPointerException If the specified attribute name is <code>null</code>.
 	 */
 	Object getRootAttribute(String attributeName) throws NullPointerException;
 
 	/**
-	 * Sets the value of the specified session attribute or clears it if the
-	 * supplied value is <code>null</code>.
+	 * Sets the value of the specified session attribute or clears it if the supplied value is
+	 * <code>null</code>.
 	 * 
-	 * @param attributeName
-	 *            The name of the session attribute to set.
-	 * @param attributeValue
-	 *            The value to set the attribute to or <code>null</code> to
-	 *            clear the attribute.
-	 * @throws NullPointerException
-	 *             If the specified attribute name is <code>null</code>.
+	 * @param attributeName The name of the session attribute to set.
+	 * @param attributeValue The value to set the attribute to or <code>null</code> to clear the
+	 *            attribute.
+	 * @throws NullPointerException If the specified attribute name is <code>null</code>.
 	 */
-	void setRootAttribute(String attributeName, Object attributeValue)
-			throws NullPointerException;
+	void setRootAttribute(String attributeName, Object attributeValue) throws NullPointerException;
 
 	/**
 	 * Clears the value of the specified session attribute.
 	 * 
-	 * @param attributeName
-	 *            The name of the session attribute to clear.
-	 * @throws NullPointerException
-	 *             If the specified attribute name is <code>null</code>.
+	 * @param attributeName The name of the session attribute to clear.
+	 * @throws NullPointerException If the specified attribute name is <code>null</code>.
 	 */
 	void clearRootAttribute(String attributeName) throws NullPointerException;
 }

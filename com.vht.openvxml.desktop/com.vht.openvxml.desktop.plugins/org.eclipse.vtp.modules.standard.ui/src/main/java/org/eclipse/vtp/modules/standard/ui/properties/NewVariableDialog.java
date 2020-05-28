@@ -24,12 +24,11 @@ import org.eclipse.vtp.desktop.core.dialogs.FramedDialog;
 import org.eclipse.vtp.framework.util.VariableNameValidator;
 
 import com.openmethods.openvxml.desktop.model.businessobjects.FieldType;
+import com.openmethods.openvxml.desktop.model.businessobjects.FieldType.Primitive;
 import com.openmethods.openvxml.desktop.model.businessobjects.IBusinessObject;
 import com.openmethods.openvxml.desktop.model.businessobjects.IBusinessObjectSet;
-import com.openmethods.openvxml.desktop.model.businessobjects.FieldType.Primitive;
 
-public class NewVariableDialog extends FramedDialog
-{
+public class NewVariableDialog extends FramedDialog {
 	Color darkBlue;
 	Color lightBlue;
 	/** The text field used to set variable's identifier */
@@ -48,9 +47,9 @@ public class NewVariableDialog extends FramedDialog
 	IBusinessObjectSet businessObjectSet;
 	boolean secure = false;
 	Label nameLabel;
-	
-	public NewVariableDialog(Shell shell, List<String> reservedNames, IBusinessObjectSet businessObjectSet)
-	{
+
+	public NewVariableDialog(Shell shell, List<String> reservedNames,
+			IBusinessObjectSet businessObjectSet) {
 		super(shell);
 		this.setSideBarSize(40);
 		this.setTitle("New Variable");
@@ -58,11 +57,13 @@ public class NewVariableDialog extends FramedDialog
 		this.businessObjectSet = businessObjectSet;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.vtp.desktop.core.dialogs.FramedDialog#createButtonBar(org.eclipse.swt.widgets.Composite)
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.eclipse.vtp.desktop.core.dialogs.FramedDialog#createButtonBar(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
-	protected void createButtonBar(Composite parent)
-	{
+	protected void createButtonBar(Composite parent) {
 		parent.setLayout(new GridLayout(1, true));
 
 		Composite buttons = new Composite(parent, SWT.NONE);
@@ -80,65 +81,50 @@ public class NewVariableDialog extends FramedDialog
 		okButton = new Button(buttons, SWT.PUSH);
 		okButton.setText("Ok");
 		okButton.setEnabled(false);
-		okButton.addSelectionListener(new SelectionListener()
-			{
-				public void widgetSelected(SelectionEvent e)
-				{
-					okPressed();
-				}
+		okButton.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				okPressed();
+			}
 
-				public void widgetDefaultSelected(SelectionEvent e)
-				{
-				}
-			});
+			public void widgetDefaultSelected(SelectionEvent e) {}
+		});
 
 		final Button cancelButton = new Button(buttons, SWT.PUSH);
 		cancelButton.setText("Cancel");
-		cancelButton.addSelectionListener(new SelectionListener()
-			{
-				public void widgetSelected(SelectionEvent e)
-				{
-					cancelPressed();
-				}
+		cancelButton.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				cancelPressed();
+			}
 
-				public void widgetDefaultSelected(SelectionEvent e)
-				{
-				}
-			});
-		
-		if(Display.getCurrent().getDismissalAlignment() == SWT.RIGHT)
-		{
+			public void widgetDefaultSelected(SelectionEvent e) {}
+		});
+
+		if (Display.getCurrent().getDismissalAlignment() == SWT.RIGHT) {
 			cancelButton.moveAbove(okButton);
 		}
 		this.getShell().setDefaultButton(okButton);
-		
+
 	}
 
 	/**
 	 * Closes the dialog, saving all changes and setting the return code to ok
 	 */
-	public void okPressed()
-	{
+	public void okPressed() {
 		this.name = nameField.getText();
 		Primitive prim = Primitive.find(typeCombo.getItem(typeCombo.getSelectionIndex()));
-		if(prim != null)
-		{
-			if(prim.hasBaseType())
-			{
-				Primitive basePrim = Primitive.find(baseTypeCombo.getItem(baseTypeCombo.getSelectionIndex()));
-				if(basePrim != null)
-				{
+		if (prim != null) {
+			if (prim.hasBaseType()) {
+				Primitive basePrim = Primitive.find(baseTypeCombo.getItem(baseTypeCombo
+						.getSelectionIndex()));
+				if (basePrim != null) {
 					this.type = new FieldType(prim, basePrim);
-				}
-				else
-					this.type = new FieldType(prim, businessObjectSet.getBusinessObject(baseTypeCombo.getItem(baseTypeCombo.getSelectionIndex())));
-			}
-			else
-				this.type = new FieldType(prim);
-		}
-		else
-		{
-			this.type = new FieldType(businessObjectSet.getBusinessObject(typeCombo.getItem(typeCombo.getSelectionIndex())));
+				} else this.type = new FieldType(prim,
+						businessObjectSet.getBusinessObject(baseTypeCombo.getItem(baseTypeCombo
+								.getSelectionIndex())));
+			} else this.type = new FieldType(prim);
+		} else {
+			this.type = new FieldType(businessObjectSet.getBusinessObject(typeCombo
+					.getItem(typeCombo.getSelectionIndex())));
 		}
 		this.secure = secureButton.getSelection();
 		this.setReturnCode(SWT.OK);
@@ -148,27 +134,26 @@ public class NewVariableDialog extends FramedDialog
 	/**
 	 * Closes the dialog, discarding all changes and setting the return code to cancel
 	 */
-	public void cancelPressed()
-	{
+	public void cancelPressed() {
 		this.setReturnCode(SWT.CANCEL);
 		close();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.vtp.desktop.core.dialogs.FramedDialog#createDialogContents(org.eclipse.swt.widgets.Composite)
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.eclipse.vtp.desktop.core.dialogs.FramedDialog#createDialogContents(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
-	protected void createDialogContents(Composite parent)
-	{
+	protected void createDialogContents(Composite parent) {
 		darkBlue = new Color(parent.getDisplay(), 77, 113, 179);
 		lightBlue = new Color(parent.getDisplay(), 240, 243, 249);
-		parent.addDisposeListener(new DisposeListener()
-			{
-				public void widgetDisposed(DisposeEvent e)
-				{
-					darkBlue.dispose();
-					lightBlue.dispose();
-				}
-			});
+		parent.addDisposeListener(new DisposeListener() {
+			public void widgetDisposed(DisposeEvent e) {
+				darkBlue.dispose();
+				lightBlue.dispose();
+			}
+		});
 		this.setFrameColor(darkBlue);
 		this.setSideBarColor(lightBlue);
 		parent.setLayout(new GridLayout(2, false));
@@ -185,33 +170,30 @@ public class NewVariableDialog extends FramedDialog
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 2;
 		nameField.setLayoutData(gd);
-		nameField.addVerifyListener(new VerifyListener()
-		{
-			public void verifyText(VerifyEvent e)
-			{
-				String currentName = nameField.getText().substring(0, e.start) + e.text + nameField.getText(e.end, (nameField.getText().length() - 1));
-				if(VariableNameValidator.followsVtpNamingRules(currentName))
-				{
+		nameField.addVerifyListener(new VerifyListener() {
+			public void verifyText(VerifyEvent e) {
+				String currentName = nameField.getText().substring(0, e.start) + e.text
+						+ nameField.getText(e.end, (nameField.getText().length() - 1));
+				if (VariableNameValidator.followsVtpNamingRules(currentName)) {
 					nameLabel.setForeground(nameLabel.getDisplay().getSystemColor(SWT.COLOR_BLACK));
 					nameField.setForeground(nameField.getDisplay().getSystemColor(SWT.COLOR_BLACK));
 					okButton.setEnabled(true);
-					for(int b = 0; b < reservedNames.size(); b++)
-					{
-						if(currentName.equals(reservedNames.get(b))) //Is this name taken?
+					for (int b = 0; b < reservedNames.size(); b++) {
+						if (currentName.equals(reservedNames.get(b))) // Is this name taken?
 						{
-							nameLabel.setForeground(nameLabel.getDisplay().getSystemColor(SWT.COLOR_RED));
-							nameField.setForeground(nameField.getDisplay().getSystemColor(SWT.COLOR_RED));
-							okButton.setEnabled(false);	                		
+							nameLabel.setForeground(nameLabel.getDisplay().getSystemColor(
+									SWT.COLOR_RED));
+							nameField.setForeground(nameField.getDisplay().getSystemColor(
+									SWT.COLOR_RED));
+							okButton.setEnabled(false);
 						}
 					}
-				}
-				else
-				{
+				} else {
 					nameLabel.setForeground(nameLabel.getDisplay().getSystemColor(SWT.COLOR_RED));
 					nameField.setForeground(nameField.getDisplay().getSystemColor(SWT.COLOR_RED));
 					okButton.setEnabled(false);
 				}
-            }
+			}
 		});
 
 		Label typeLabel = new Label(parent, SWT.NONE);
@@ -220,8 +202,7 @@ public class NewVariableDialog extends FramedDialog
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 2;
 		typeLabel.setLayoutData(gd);
-		typeCombo = new Combo(parent,
-				SWT.READ_ONLY | SWT.DROP_DOWN | SWT.BORDER);
+		typeCombo = new Combo(parent, SWT.READ_ONLY | SWT.DROP_DOWN | SWT.BORDER);
 		typeCombo.add("String");
 		typeCombo.add("Number");
 		typeCombo.add("Decimal");
@@ -232,24 +213,19 @@ public class NewVariableDialog extends FramedDialog
 
 		typeCombo.select(0);
 		typeCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		typeCombo.addSelectionListener(new SelectionListener()
-		{
+		typeCombo.addSelectionListener(new SelectionListener() {
 			@Override
-			public void widgetSelected(SelectionEvent e)
-			{
+			public void widgetSelected(SelectionEvent e) {
 				Primitive prim = Primitive.find(typeCombo.getItem(typeCombo.getSelectionIndex()));
 				baseTypeCombo.setEnabled(prim != null && prim.hasBaseType());
 				baseTypeCombo.select(0);
 			}
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e)
-			{
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
 
-		baseTypeCombo = new Combo(parent,
-			SWT.READ_ONLY | SWT.DROP_DOWN | SWT.BORDER);
+		baseTypeCombo = new Combo(parent, SWT.READ_ONLY | SWT.DROP_DOWN | SWT.BORDER);
 		baseTypeCombo.add("ANYTYPE");
 		baseTypeCombo.add("String");
 		baseTypeCombo.add("Number");
@@ -262,8 +238,7 @@ public class NewVariableDialog extends FramedDialog
 
 		List<IBusinessObject> businessObjects = this.businessObjectSet.getBusinessObjects();
 
-		for(int i = 0; i < businessObjects.size(); i++)
-		{
+		for (int i = 0; i < businessObjects.size(); i++) {
 			IBusinessObject ibo = businessObjects.get(i);
 			typeCombo.add(ibo.getName());
 			baseTypeCombo.add(ibo.getName());

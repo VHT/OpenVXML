@@ -10,20 +10,16 @@ import org.eclipse.vtp.desktop.model.interactive.voice.natures.VoiceProjectNatur
 
 public class VoiceConverter {
 
-	public VoiceConverter() {
-	}
+	public VoiceConverter() {}
 
 	public void convertVoice(IProject project) {
 		try {
 			IFolder mediaFilesFolder = project.getFolder("Media Files");
 			if (mediaFilesFolder.exists()) {
-				IFolder mediaLibrariesFolder = project
-						.getFolder("Media Libraries");
+				IFolder mediaLibrariesFolder = project.getFolder("Media Libraries");
 				mediaLibrariesFolder.create(true, true, null);
-				IFolder defaultLibraryFolder = mediaLibrariesFolder
-						.getFolder("Default");
-				mediaFilesFolder.move(defaultLibraryFolder.getFullPath(), true,
-						null);
+				IFolder defaultLibraryFolder = mediaLibrariesFolder.getFolder("Default");
+				mediaFilesFolder.move(defaultLibraryFolder.getFullPath(), true, null);
 				IFile dot = defaultLibraryFolder.getFile(".library");
 				dot.create(new ByteArrayInputStream("".getBytes()), true, null);
 				IProjectDescription desc = project.getDescription();

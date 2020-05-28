@@ -9,25 +9,19 @@ import org.eclipse.vtp.desktop.model.elements.core.internal.PrimitiveElement;
 
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesignComponent;
 
-public class IDriverInitPropertiesPanelProvider implements
-		ComponentPropertiesPanelProvider {
+public class IDriverInitPropertiesPanelProvider implements ComponentPropertiesPanelProvider {
 
-	public IDriverInitPropertiesPanelProvider() {
-	}
+	public IDriverInitPropertiesPanelProvider() {}
 
 	@Override
 	public boolean isApplicableFor(IDesignComponent designComponent) {
-		if (!(designComponent instanceof PrimitiveElement)) {
-			return false;
-		}
+		if (!(designComponent instanceof PrimitiveElement)) { return false; }
 		PrimitiveElement pe = (PrimitiveElement) designComponent;
-		return pe.getSubTypeId().equals(
-				"com.openmethods.openvxml.idriver.actions.idriverinit");
+		return pe.getSubTypeId().equals("com.openmethods.openvxml.idriver.actions.idriverinit");
 	}
 
 	@Override
-	public List<ComponentPropertiesPanel> getPropertiesPanels(
-			IDesignComponent designComponent) {
+	public List<ComponentPropertiesPanel> getPropertiesPanels(IDesignComponent designComponent) {
 		PrimitiveElement pe = (PrimitiveElement) designComponent;
 		List<ComponentPropertiesPanel> ret = new ArrayList<ComponentPropertiesPanel>();
 		ret.add(new IDriverInitPropertiesPanel("General", pe));

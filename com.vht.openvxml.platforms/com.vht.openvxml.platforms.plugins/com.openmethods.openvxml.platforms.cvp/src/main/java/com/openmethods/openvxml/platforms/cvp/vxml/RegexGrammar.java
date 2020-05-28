@@ -10,7 +10,6 @@ import org.xml.sax.helpers.AttributesImpl;
 
 /**
  * @author trip
- *
  */
 public class RegexGrammar extends Grammar {
 	private String contents;
@@ -20,8 +19,7 @@ public class RegexGrammar extends Grammar {
 	 * @throws IllegalArgumentException
 	 * @throws NullPointerException
 	 */
-	public RegexGrammar(String mode) throws IllegalArgumentException,
-			NullPointerException {
+	public RegexGrammar(String mode) throws IllegalArgumentException, NullPointerException {
 		super(mode);
 	}
 
@@ -32,13 +30,12 @@ public class RegexGrammar extends Grammar {
 	@Override
 	protected void writeAttributes(AttributesImpl attributes) {
 		super.writeAttributes(attributes);
-		writeAttribute(attributes, null, null, NAME_TYPE, TYPE_CDATA,
-				"application/grammar+regex");
+		writeAttribute(attributes, null, null, NAME_TYPE, TYPE_CDATA, "application/grammar+regex");
 	}
 
 	@Override
-	protected void writeChildren(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
+	protected void writeChildren(ContentHandler outputHandler) throws NullPointerException,
+			SAXException {
 		outputHandler.characters(contents.toCharArray(), 0, contents.length());
 	}
 

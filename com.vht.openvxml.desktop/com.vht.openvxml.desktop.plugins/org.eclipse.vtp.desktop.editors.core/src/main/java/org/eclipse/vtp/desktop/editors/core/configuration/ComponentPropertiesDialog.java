@@ -29,34 +29,30 @@ import org.eclipse.vtp.desktop.model.core.IOpenVXMLProject;
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesign;
 
 /**
- * This is the generic dialog that is used to display and edit the properties of
- * a module instance included in a call flow. This dialog is typically accessed
- * from the "Properties" option of the module's context menu or by
- * double-clicking the module itself. The properties are organized into pages.
- * The list of available pages is displayed in the navigation bar located on the
- * left side of the dialog. The selected page is presented in the main content
- * area of the dialog. The dialog offers two buttons: OK and Cancel. The Cancel
- * button is used to discard any changes made to the module properties while
- * this dialog was open. The OK button will cause all changes to be saved for
- * the module. The propagation of changes to other interested parties is left up
- * to the pages or the opener of this dialog.
+ * This is the generic dialog that is used to display and edit the properties of a module instance
+ * included in a call flow. This dialog is typically accessed from the "Properties" option of the
+ * module's context menu or by double-clicking the module itself. The properties are organized into
+ * pages. The list of available pages is displayed in the navigation bar located on the left side of
+ * the dialog. The selected page is presented in the main content area of the dialog. The dialog
+ * offers two buttons: OK and Cancel. The Cancel button is used to discard any changes made to the
+ * module properties while this dialog was open. The OK button will cause all changes to be saved
+ * for the module. The propagation of changes to other interested parties is left up to the pages or
+ * the opener of this dialog.
  *
  * @author Trip
  * @version 1.0
  */
-public class ComponentPropertiesDialog extends MultiPageFramedDialog implements
-		ConfigurationContextSelectorListener {
+public class ComponentPropertiesDialog extends MultiPageFramedDialog
+	implements
+	ConfigurationContextSelectorListener {
 	private IOpenVXMLProject project = null;
 	private ConfigurationContextSelector selector = null;
 
 	/**
 	 * Creates a new <code>ComponentPropertiesDialog</code> instance.
 	 *
-	 * @param parentShell
-	 *            The SWT shell object which will serve as the parent window of
-	 *            this dialog
-	 * @param page
-	 *            The current canvas of the selected voice application editor
+	 * @param parentShell The SWT shell object which will serve as the parent window of this dialog
+	 * @param page The current canvas of the selected voice application editor
 	 */
 	public ComponentPropertiesDialog(IDesign design, Shell parentShell) {
 		super(parentShell);
@@ -66,7 +62,6 @@ public class ComponentPropertiesDialog extends MultiPageFramedDialog implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
 	@Override
@@ -86,10 +81,7 @@ public class ComponentPropertiesDialog extends MultiPageFramedDialog implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.dialogs.MultiPageFramedDialog#cancelPressed
-	 * ()
+	 * @see org.eclipse.vtp.desktop.core.dialogs.MultiPageFramedDialog#cancelPressed ()
 	 */
 	@Override
 	protected void cancelPressed() {
@@ -112,7 +104,6 @@ public class ComponentPropertiesDialog extends MultiPageFramedDialog implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.window.Window#handleShellCloseEvent()
 	 */
 	@Override
@@ -132,7 +123,6 @@ public class ComponentPropertiesDialog extends MultiPageFramedDialog implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.dialogs.MultiPageFramedDialog#
 	 * createDialogContents(org.eclipse.swt.widgets.Composite)
 	 */
@@ -157,8 +147,8 @@ public class ComponentPropertiesDialog extends MultiPageFramedDialog implements
 			c.setBackground(bottomComp.getBackground());
 			super.createDialogContents(c);
 			selector.addListener(this);
-			selector.setContextFilter(((ComponentPropertiesPanel) this
-					.getCurrentPage()).getApplicableContexts());
+			selector.setContextFilter(((ComponentPropertiesPanel) this.getCurrentPage())
+					.getApplicableContexts());
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -169,16 +159,13 @@ public class ComponentPropertiesDialog extends MultiPageFramedDialog implements
 		List<ContentPage> pages = getPages();
 		Iterator<ContentPage> iterator = pages.iterator();
 		while (iterator.hasNext()) {
-			((ComponentPropertiesPanel) iterator.next())
-					.setConfigurationContext(values);
+			((ComponentPropertiesPanel) iterator.next()).setConfigurationContext(values);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.dialogs.MultiPageFramedDialog#addPage(org
+	 * @see org.eclipse.vtp.desktop.core.dialogs.MultiPageFramedDialog#addPage(org
 	 * .eclipse.vtp.desktop.core.dialogs.ContentPage)
 	 */
 	@Override
@@ -192,8 +179,8 @@ public class ComponentPropertiesDialog extends MultiPageFramedDialog implements
 	@Override
 	public void selectionChanged(String selection) {
 		super.selectionChanged(selection);
-		selector.setContextFilter(((ComponentPropertiesPanel) this
-				.getCurrentPage()).getApplicableContexts());
+		selector.setContextFilter(((ComponentPropertiesPanel) this.getCurrentPage())
+				.getApplicableContexts());
 	}
 
 	public List<ComponentPropertiesPanel> getPanels() {

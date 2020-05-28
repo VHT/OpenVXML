@@ -105,31 +105,25 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 			IInteractionTypeSelection interactionTypeSelection = (IInteractionTypeSelection) context
 					.lookup(IInteractionTypeSelection.class.getName());
 			System.out.println(interactionTypeSelection);
-			System.out.println(interactionTypeSelection
-					.getSelectedInteractionType());
-			String interactionTypeID = interactionTypeSelection
-					.getSelectedInteractionType().getId();
+			System.out.println(interactionTypeSelection.getSelectedInteractionType());
+			String interactionTypeID = interactionTypeSelection.getSelectedInteractionType()
+					.getId();
 			ILanguageSelection languageSelection = (ILanguageSelection) context
 					.lookup(ILanguageSelection.class.getName());
 			String languageID = languageSelection.getSelectedLanguage();
-			IBrandSelection brandSelection = (IBrandSelection) context
-					.lookup(IBrandSelection.class.getName());
+			IBrandSelection brandSelection = (IBrandSelection) context.lookup(IBrandSelection.class
+					.getName());
 			IBrand brand = brandSelection.getSelectedBrand();
 			IMediaProviderRegistry mediaProviderRegistry = (IMediaProviderRegistry) context
 					.lookup(IMediaProviderRegistry.class.getName());
-			String mediaProviderId = mediaProviderRegistry
-					.lookupMediaProviderID(brand.getId(), interactionTypeID,
-							languageID);
-			this.mediaProvider = mediaProviderRegistry
-					.getMediaProvider(mediaProviderId);
+			String mediaProviderId = mediaProviderRegistry.lookupMediaProviderID(brand.getId(),
+					interactionTypeID, languageID);
+			this.mediaProvider = mediaProviderRegistry.getMediaProvider(mediaProviderId);
 		}
 		String languageCode = mediaProvider.getFormatter().getLanguageCode();
-		Pattern p = Pattern
-				.compile("^([a-zA-Z]+)([-_]([a-zA-Z]+)([-_](.+))?)?");
+		Pattern p = Pattern.compile("^([a-zA-Z]+)([-_]([a-zA-Z]+)([-_](.+))?)?");
 		Matcher matcher = p.matcher(languageCode);
-		if (!matcher.find()) {
-			return Locale.getDefault();
-		}
+		if (!matcher.find()) { return Locale.getDefault(); }
 		String language = matcher.group(1);
 		if (language == null) {
 			language = "";
@@ -154,31 +148,21 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 	}
 
 	public TimeValue resolveTimeValue(String property, String value) {
-		if (value == null) {
-			return null;
-		}
+		if (value == null) { return null; }
 		TimeValue setting = new TimeValue(value);
 		TimeValue minimum = getMinimumTimeValue(property);
 		TimeValue maximum = getMaximumTimeValue(property);
-		if (minimum.compareTo(setting) > 0) {
-			return minimum;
-		}
-		if (setting.compareTo(maximum) > 0) {
-			return maximum;
-		}
+		if (minimum.compareTo(setting) > 0) { return minimum; }
+		if (setting.compareTo(maximum) > 0) { return maximum; }
 		return setting;
 	}
 
 	public AudioOutput generateAudioChain(ILinkFactory links, String path) {
 		context.info("Created audio chain for " + path);
-		AudioOutput output = new AudioOutput(links.createResourceLink(path)
-				.toString());
-		if (path.startsWith("http://") || path.startsWith("https://")) {
-			return output;
-		}
+		AudioOutput output = new AudioOutput(links.createResourceLink(path).toString());
+		if (path.startsWith("http://") || path.startsWith("https://")) { return output; }
 		AudioOutput current = output;
-		List<ExternalServer> servers = ExternalServerManager.getInstance()
-				.getLocations();
+		List<ExternalServer> servers = ExternalServerManager.getInstance().getLocations();
 		for (int i = 0; i < servers.size(); i++) {
 			String serverPrefix = servers.get(i).getLocation();
 			if (serverPrefix != null) {
@@ -201,10 +185,8 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 	/**
 	 * Creates a new VXML document that contains the supplied dialog.
 	 * 
-	 * @param links
-	 *            The link factory.
-	 * @param dialog
-	 *            The dialog to add to the new document.
+	 * @param links The link factory.
+	 * @param dialog The dialog to add to the new document.
 	 * @return A new VXML document that contains the supplied dialog.
 	 */
 	protected VXMLDocument createVXMLDocument(ILinkFactory links, Dialog dialog) {
@@ -219,13 +201,9 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.support.AbstractPlatform#
-	 * renderOutputMessage(
-	 * org.eclipse.vtp.framework.interactions.core.platforms.ILinkFactory,
-	 * org.eclipse.vtp.framework.interactions.core.commands.
-	 * OutputMessageCommand)
+	 * @see org.eclipse.vtp.framework.interactions.core.support.AbstractPlatform#
+	 * renderOutputMessage( org.eclipse.vtp.framework.interactions.core.platforms.ILinkFactory,
+	 * org.eclipse.vtp.framework.interactions.core.commands. OutputMessageCommand)
 	 */
 	@Override
 	protected IDocument renderOutputMessage(ILinkFactory links,
@@ -252,8 +230,7 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 				break;
 			case OutputMessageCommand.OUTPUT_TYPE_TEXT: {
 				if (outputValue.startsWith("@@mark ")) {
-					outputs.addOutput(new SSMLMarkOutput(outputValue
-							.substring(7)));
+					outputs.addOutput(new SSMLMarkOutput(outputValue.substring(7)));
 				} else {
 					outputs.addOutput(new TextOutput(outputValue));
 				}
@@ -272,30 +249,29 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 		ILink nextLink = links.createNextLink();
 		String[] parameterNames = outputMessageCommand.getParameterNames();
 		for (String parameterName : parameterNames) {
-			nextLink.setParameters(parameterName,
-					outputMessageCommand.getParameterValues(parameterName));
+			nextLink.setParameters(parameterName, outputMessageCommand
+					.getParameterValues(parameterName));
 		}
-		nextLink.setParameter(outputMessageCommand.getResultName(),
-				outputMessageCommand.getFilledResultValue());
+		nextLink.setParameter(outputMessageCommand.getResultName(), outputMessageCommand
+				.getFilledResultValue());
 		block.addAction(new Goto(nextLink.toString()));
 		ILink hangupLink = links.createNextLink();
 		for (String parameterName : parameterNames) {
-			hangupLink.setParameters(parameterName,
-					outputMessageCommand.getParameterValues(parameterName));
+			hangupLink.setParameters(parameterName, outputMessageCommand
+					.getParameterValues(parameterName));
 		}
-		hangupLink.setParameter(outputMessageCommand.getResultName(),
-				outputMessageCommand.getHangupResultValue());
+		hangupLink.setParameter(outputMessageCommand.getResultName(), outputMessageCommand
+				.getHangupResultValue());
 		Catch disconnectCatch = new Catch("connection.disconnect.hangup");
 		disconnectCatch.addAction(new Goto(hangupLink.toString()));
 		form.addEventHandler(disconnectCatch);
 		form.addFormElement(block);
 		Map<String, String[]> parameterMap = new HashMap<String, String[]>();
 		for (String parameterName : parameterNames) {
-			parameterMap.put(parameterName,
-					outputMessageCommand.getParameterValues(parameterName));
+			parameterMap.put(parameterName, outputMessageCommand.getParameterValues(parameterName));
 		}
-		form = (Form) addExtendedEvents(links,
-				outputMessageCommand.getResultName(), parameterMap, form);
+		form = (Form) addExtendedEvents(links, outputMessageCommand.getResultName(), parameterMap,
+				form);
 		// List<String> events =
 		// ExtendedActionEventManager.getDefault().getExtendedEvents();
 		// for(String event : events)
@@ -314,16 +290,12 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.support.AbstractPlatform#
-	 * renderInitialDocument(
-	 * org.eclipse.vtp.framework.interactions.core.platforms.ILinkFactory,
+	 * @see org.eclipse.vtp.framework.interactions.core.support.AbstractPlatform#
+	 * renderInitialDocument( org.eclipse.vtp.framework.interactions.core.platforms.ILinkFactory,
 	 * org.eclipse.vtp.framework.interactions.core.commands.InitialCommand)
 	 */
 	@Override
-	protected IDocument renderInitialDocument(ILinkFactory links,
-			InitialCommand initialCommand) {
+	protected IDocument renderInitialDocument(ILinkFactory links, InitialCommand initialCommand) {
 		Form form = new Form("InitialForm"); //$NON-NLS-1$
 		Map<String, String> varMap = new LinkedHashMap<String, String>();
 		generateInitialVariableRequests(varMap);
@@ -345,11 +317,9 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 		ILink nextLink = links.createNextLink();
 		String[] parameterNames = initialCommand.getParameterNames();
 		for (String parameterName : parameterNames) {
-			nextLink.setParameters(parameterName,
-					initialCommand.getParameterValues(parameterName));
+			nextLink.setParameters(parameterName, initialCommand.getParameterValues(parameterName));
 		}
-		nextLink.setParameter(initialCommand.getResultName(),
-				initialCommand.getResultValue());
+		nextLink.setParameter(initialCommand.getResultName(), initialCommand.getResultValue());
 		String[] fields = new String[varMap.size() + variables.length];
 		int j = 0;
 		for (String key : varMap.keySet()) {
@@ -363,11 +333,11 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 		form.addFormElement(block);
 		ILink hangupLink = links.createNextLink();
 		for (String parameterName : parameterNames) {
-			hangupLink.setParameters(parameterName,
-					initialCommand.getParameterValues(parameterName));
+			hangupLink.setParameters(parameterName, initialCommand
+					.getParameterValues(parameterName));
 		}
-		hangupLink.setParameter(initialCommand.getResultName(),
-				initialCommand.getHangupResultValue());
+		hangupLink.setParameter(initialCommand.getResultName(), initialCommand
+				.getHangupResultValue());
 		Catch disconnectCatch = new Catch("connection.disconnect.hangup");
 		disconnectCatch.addAction(new Goto(hangupLink.toString()));
 		form.addEventHandler(disconnectCatch);
@@ -376,11 +346,9 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 		document.setProperty("documentmaxstale", "0"); //$NON-NLS-1$ //$NON-NLS-2$
 		Map<String, String[]> parameterMap = new HashMap<String, String[]>();
 		for (String parameterName : parameterNames) {
-			parameterMap.put(parameterName,
-					initialCommand.getParameterValues(parameterName));
+			parameterMap.put(parameterName, initialCommand.getParameterValues(parameterName));
 		}
-		form = (Form) addExtendedEvents(links, initialCommand.getResultName(),
-				parameterMap, form);
+		form = (Form) addExtendedEvents(links, initialCommand.getResultName(), parameterMap, form);
 		//
 		// List<String> events =
 		// ExtendedActionEventManager.getDefault().getExtendedEvents();
@@ -415,13 +383,9 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.support.AbstractPlatform#
-	 * renderInputRequest(
-	 * org.eclipse.vtp.framework.interactions.core.platforms.ILinkFactory,
-	 * org.eclipse.vtp.framework.interactions.core.commands.
-	 * InputRequestCommand)
+	 * @see org.eclipse.vtp.framework.interactions.core.support.AbstractPlatform#
+	 * renderInputRequest( org.eclipse.vtp.framework.interactions.core.platforms.ILinkFactory,
+	 * org.eclipse.vtp.framework.interactions.core.commands. InputRequestCommand)
 	 */
 	@Override
 	protected IDocument renderInputRequest(ILinkFactory links,
@@ -435,88 +399,78 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 		} else {
 			bargeIn = null;
 		}
-		TimeValue timeout = resolveTimeValue("initial-timeout",
-				inputRequestCommand.getPropertyValue("initial-timeout")); //$NON-NLS-1$
+		TimeValue timeout = resolveTimeValue("initial-timeout", inputRequestCommand
+				.getPropertyValue("initial-timeout")); //$NON-NLS-1$
 		String inputMode = inputRequestCommand.getPropertyValue("input-mode"); //$NON-NLS-1$
 		if (inputMode == null || inputMode.length() == 0) {
 			inputMode = "dtmf only"; //$NON-NLS-1$
 		}
-		String confidenceLevel = inputRequestCommand
-				.getPropertyValue("confidence-level"); //$NON-NLS-1$
-		String sensitivity = inputRequestCommand
-				.getPropertyValue("sensitivity-level"); //$NON-NLS-1$
-		String speedVsAccuracy = inputRequestCommand
-				.getPropertyValue("speed-vs-accuracy"); //$NON-NLS-1$
-		TimeValue speechCompletionTimeout = resolveTimeValue(
-				"speech-complete-timeout",
+		String confidenceLevel = inputRequestCommand.getPropertyValue("confidence-level"); //$NON-NLS-1$
+		String sensitivity = inputRequestCommand.getPropertyValue("sensitivity-level"); //$NON-NLS-1$
+		String speedVsAccuracy = inputRequestCommand.getPropertyValue("speed-vs-accuracy"); //$NON-NLS-1$
+		TimeValue speechCompletionTimeout = resolveTimeValue("speech-complete-timeout",
 				inputRequestCommand.getPropertyValue("speech-complete-timeout")); //$NON-NLS-1$
-		TimeValue speechIncompleteTimeout = resolveTimeValue(
-				"speech-incomplete-timeout",
-				inputRequestCommand
-						.getPropertyValue("speech-incomplete-timeout")); //$NON-NLS-1$
-		TimeValue maxSpeechLength = resolveTimeValue("max-speech-timeout",
-				inputRequestCommand.getPropertyValue("max-speech-timeout")); //$NON-NLS-1$
+		TimeValue speechIncompleteTimeout = resolveTimeValue("speech-incomplete-timeout",
+				inputRequestCommand.getPropertyValue("speech-incomplete-timeout")); //$NON-NLS-1$
+		TimeValue maxSpeechLength = resolveTimeValue("max-speech-timeout", inputRequestCommand
+				.getPropertyValue("max-speech-timeout")); //$NON-NLS-1$
 		String maxNBest = inputRequestCommand.getPropertyValue("max-n-best"); //$NON-NLS-1$
-		TimeValue interDigitTimeout = resolveTimeValue("interdigit-timeout",
-				inputRequestCommand.getPropertyValue("interdigit-timeout")); //$NON-NLS-1$
-		TimeValue terminationTimeout = resolveTimeValue("termination-timeout",
-				inputRequestCommand.getPropertyValue("termination-timeout")); //$NON-NLS-1$
-		String terminationCharacter = inputRequestCommand
-				.getPropertyValue("termination-character"); //$NON-NLS-1$
+		TimeValue interDigitTimeout = resolveTimeValue("interdigit-timeout", inputRequestCommand
+				.getPropertyValue("interdigit-timeout")); //$NON-NLS-1$
+		TimeValue terminationTimeout = resolveTimeValue("termination-timeout", inputRequestCommand
+				.getPropertyValue("termination-timeout")); //$NON-NLS-1$
+		String terminationCharacter = inputRequestCommand.getPropertyValue("termination-character"); //$NON-NLS-1$
 		Field field = new Field(inputRequestCommand.getDataName());
 		if (bargeIn != null) {
 			field.setProperty(NAME_BARGEIN, bargeIn);
 		}
 		if (timeout != null) {
-			field.setProperty(NAME_TIMEOUT,
-					timeout.toTimeString(TimeValue.SECONDS));
+			field.setProperty(NAME_TIMEOUT, timeout.toTimeString(TimeValue.SECONDS));
 		}
 		if ("hybrid".equalsIgnoreCase(inputMode)) {
 			field.setProperty(NAME_INPUTMODES, "dtmf voice"); //$NON-NLS-1$
-			field.setProperty(
-					"com.telera.speechenabled", Boolean.TRUE.toString()); //$NON-NLS-1$
+			field.setProperty("com.telera.speechenabled", Boolean.TRUE.toString()); //$NON-NLS-1$
 		}
 		if ("dtmf only".equalsIgnoreCase(inputMode)) //$NON-NLS-1$
 		{
 			field.setProperty(NAME_INPUTMODES, "dtmf"); //$NON-NLS-1$
-			field.setProperty(
-					"com.telera.speechenabled", Boolean.FALSE.toString()); //$NON-NLS-1$
+			field.setProperty("com.telera.speechenabled", Boolean.FALSE.toString()); //$NON-NLS-1$
 		} else {
 			try {
 				if (confidenceLevel != null && confidenceLevel.length() > 0) {
-					field.setProperty(NAME_CONFIDENCELEVEL, new BigDecimal(
-							confidenceLevel).divide(ONE_HUNDRED).toString());
+					field.setProperty(NAME_CONFIDENCELEVEL, new BigDecimal(confidenceLevel).divide(
+							ONE_HUNDRED).toString());
 				}
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}
 			try {
 				if (sensitivity != null && sensitivity.length() > 0) {
-					field.setProperty(NAME_SENSITIVITY, new BigDecimal(
-							sensitivity).divide(ONE_HUNDRED).toString());
+					field.setProperty(NAME_SENSITIVITY, new BigDecimal(sensitivity).divide(
+							ONE_HUNDRED).toString());
 				}
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}
 			try {
 				if (speedVsAccuracy != null && speedVsAccuracy.length() > 0) {
-					field.setProperty(NAME_SPEEDVSACCURACY, new BigDecimal(
-							speedVsAccuracy).divide(ONE_HUNDRED).toString());
+					field.setProperty(NAME_SPEEDVSACCURACY, new BigDecimal(speedVsAccuracy).divide(
+							ONE_HUNDRED).toString());
 				}
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}
 			if (speechCompletionTimeout != null) {
-				field.setProperty(NAME_COMPLETETIMEOUT,
-						speechCompletionTimeout.toTimeString(TimeValue.SECONDS));
+				field.setProperty(NAME_COMPLETETIMEOUT, speechCompletionTimeout
+						.toTimeString(TimeValue.SECONDS));
 			}
 			if (speechIncompleteTimeout != null) {
-				field.setProperty(NAME_INCOMPLETETIMEOUT,
-						speechIncompleteTimeout.toTimeString(TimeValue.SECONDS));
+				field.setProperty(NAME_INCOMPLETETIMEOUT, speechIncompleteTimeout
+						.toTimeString(TimeValue.SECONDS));
 			}
 			if (maxSpeechLength != null) {
-				field.setProperty(NAME_MAXSPEECHTIMEOUT,
-						maxSpeechLength.toTimeString(TimeValue.SECONDS));
+				field.setProperty(NAME_MAXSPEECHTIMEOUT, maxSpeechLength
+						.toTimeString(TimeValue.SECONDS));
 			} else {
 				field.setProperty(NAME_MAXSPEECHTIMEOUT, "10s"); //$NON-NLS-1$
 			}
@@ -527,19 +481,17 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 		if ("voice only".equalsIgnoreCase(inputMode)) //$NON-NLS-1$
 		{
 			field.setProperty(NAME_INPUTMODES, "voice"); //$NON-NLS-1$
-			field.setProperty(
-					"com.telera.speechenabled", Boolean.TRUE.toString()); //$NON-NLS-1$
+			field.setProperty("com.telera.speechenabled", Boolean.TRUE.toString()); //$NON-NLS-1$
 		} else {
 			if (interDigitTimeout != null) {
-				field.setProperty(NAME_INTERDIGITTIMEOUT,
-						interDigitTimeout.toTimeString(TimeValue.SECONDS));
+				field.setProperty(NAME_INTERDIGITTIMEOUT, interDigitTimeout
+						.toTimeString(TimeValue.SECONDS));
 			}
 			if (terminationTimeout != null) {
-				field.setProperty(NAME_TERMTIMEOUT,
-						terminationTimeout.toTimeString(TimeValue.SECONDS));
+				field.setProperty(NAME_TERMTIMEOUT, terminationTimeout
+						.toTimeString(TimeValue.SECONDS));
 			}
-			if (terminationCharacter != null
-					&& terminationCharacter.length() > 0
+			if (terminationCharacter != null && terminationCharacter.length() > 0
 					&& !"none".equalsIgnoreCase(terminationCharacter)) {
 				field.setProperty(NAME_TERMCHAR, terminationCharacter);
 			} else {
@@ -555,8 +507,7 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 				break;
 			case InputRequestCommand.OUTPUT_TYPE_TEXT:
 				if (outputValue.startsWith("@@mark ")) {
-					outputs.addOutput(new SSMLMarkOutput(outputValue
-							.substring(7)));
+					outputs.addOutput(new SSMLMarkOutput(outputValue.substring(7)));
 				} else {
 					outputs.addOutput(new TextOutput(outputValue));
 				}
@@ -572,58 +523,48 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 		if (inputRequestCommand.getInputValue() != null) {
 			switch (inputRequestCommand.getInputType()) {
 			case InputRequestCommand.INPUT_TYPE_FILE:
-				field.addGrammar(new ExternalGrammar("dtmf",
-						links.createResourceLink(
-								inputRequestCommand.getInputValue()).toString()));
+				field.addGrammar(new ExternalGrammar("dtmf", links.createResourceLink(
+						inputRequestCommand.getInputValue()).toString()));
 				break;
 			case InputRequestCommand.INPUT_TYPE_CUSTOM:
 				String customData = inputRequestCommand.getInputValue();
-				if (customData != null
-						&& customData.startsWith(VXML_BUILTIN_PREFIX)) {
-					field.setType(customData.substring(VXML_BUILTIN_PREFIX
-							.length()));
+				if (customData != null && customData.startsWith(VXML_BUILTIN_PREFIX)) {
+					field.setType(customData.substring(VXML_BUILTIN_PREFIX.length()));
 				}
 				break;
 			case InputRequestCommand.INPUT_TYPE_INLINE:
-				field.addGrammar(new RawInlineGrammar(inputRequestCommand
-						.getInputValue()));
+				field.addGrammar(new RawInlineGrammar(inputRequestCommand.getInputValue()));
 				break;
 			}
 		}
 		if (inputRequestCommand.getInput2Value() != null) {
 			switch (inputRequestCommand.getInput2Type()) {
 			case InputRequestCommand.INPUT_TYPE_FILE:
-				field.addGrammar(new ExternalGrammar("voice", links
-						.createResourceLink(
-								inputRequestCommand.getInput2Value())
-						.toString()));
+				field.addGrammar(new ExternalGrammar("voice", links.createResourceLink(
+						inputRequestCommand.getInput2Value()).toString()));
 				break;
 			case InputRequestCommand.INPUT_TYPE_CUSTOM:
 				String customData = inputRequestCommand.getInput2Value();
-				if (customData != null
-						&& customData.startsWith(VXML_BUILTIN_PREFIX)) {
-					field.setType(customData.substring(VXML_BUILTIN_PREFIX
-							.length()));
+				if (customData != null && customData.startsWith(VXML_BUILTIN_PREFIX)) {
+					field.setType(customData.substring(VXML_BUILTIN_PREFIX.length()));
 				}
 				break;
 			case InputRequestCommand.INPUT_TYPE_INLINE:
-				field.addGrammar(new RawInlineGrammar(inputRequestCommand
-						.getInput2Value()));
+				field.addGrammar(new RawInlineGrammar(inputRequestCommand.getInput2Value()));
 				break;
 			}
 		}
 		String[] parameterNames = inputRequestCommand.getParameterNames();
 		ILink filledLink = links.createNextLink();
 		for (String parameterName : parameterNames) {
-			filledLink.setParameters(parameterName,
-					inputRequestCommand.getParameterValues(parameterName));
+			filledLink.setParameters(parameterName, inputRequestCommand
+					.getParameterValues(parameterName));
 		}
-		filledLink.setParameter(inputRequestCommand.getResultName(),
-				inputRequestCommand.getFilledResultValue());
+		filledLink.setParameter(inputRequestCommand.getResultName(), inputRequestCommand
+				.getFilledResultValue());
 		Filled filled = new Filled();
 		filled.addVariable(new Variable("lastresult", "'<lastresult>'"));
-		If ifTag2 = new If(
-				"typeof(application.lastresult$.markname) == 'string'");
+		If ifTag2 = new If("typeof(application.lastresult$.markname) == 'string'");
 		Script markScript2 = new Script();
 		markScript2
 				.setText("		lastresult = lastresult + '<mark name=\"' + application.lastresult$.markname + '\" offset=\"' + application.lastresult$.marktime + '\"/>';\r\n"
@@ -649,8 +590,7 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 						+ "			lastresult = lastresult + '<utterance><![CDATA[' + application.lastresult$[i].utterance + ']]></utterance>';\r\n"
 						+ "			lastresult = lastresult + '<inputmode><![CDATA[' + application.lastresult$[i].inputmode + ']]></inputmode>';\r\n"
 						+ "			lastresult = lastresult + '<interpretation><![CDATA[' + application.lastresult$[i].interpretation + ']]></interpretation>';\r\n"
-						+ "			lastresult = lastresult + '</result>';\r\n"
-						+ "		}\r\n"
+						+ "			lastresult = lastresult + '</result>';\r\n" + "		}\r\n"
 						+ "		lastresult = lastresult + '</lastresult>';\r\n");
 		elseTag2.addScript(noMarkScript2);
 		ifTag2.setElse(elseTag2);
@@ -662,26 +602,25 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 		field.addFilledHandler(filled);
 		ILink noInputLink = links.createNextLink();
 		for (String parameterName : parameterNames) {
-			noInputLink.setParameters(parameterName,
-					inputRequestCommand.getParameterValues(parameterName));
+			noInputLink.setParameters(parameterName, inputRequestCommand
+					.getParameterValues(parameterName));
 		}
-		noInputLink.setParameter(inputRequestCommand.getResultName(),
-				inputRequestCommand.getNoInputResultValue());
+		noInputLink.setParameter(inputRequestCommand.getResultName(), inputRequestCommand
+				.getNoInputResultValue());
 		NoInput noInput = new NoInput();
-		noInput.addAction(new Submit(noInputLink.toString(),
-				new String[] { inputRequestCommand.getDataName() }));
+		noInput.addAction(new Submit(noInputLink.toString(), new String[] { inputRequestCommand
+				.getDataName() }));
 		field.addEventHandler(noInput);
 		ILink noMatchLink = links.createNextLink();
 		for (String parameterName : parameterNames) {
-			noMatchLink.setParameters(parameterName,
-					inputRequestCommand.getParameterValues(parameterName));
+			noMatchLink.setParameters(parameterName, inputRequestCommand
+					.getParameterValues(parameterName));
 		}
-		noMatchLink.setParameter(inputRequestCommand.getResultName(),
-				inputRequestCommand.getNoMatchResultValue());
+		noMatchLink.setParameter(inputRequestCommand.getResultName(), inputRequestCommand
+				.getNoMatchResultValue());
 		NoMatch noMatch = new NoMatch();
 		noMatch.addVariable(new Variable("lastresult", "'<lastresult>'"));
-		If ifTag = new If(
-				"typeof(application.lastresult$.markname) == 'string'");
+		If ifTag = new If("typeof(application.lastresult$.markname) == 'string'");
 		Script markScript = new Script();
 		markScript
 				.setText("		lastresult = lastresult + '<mark name=\"' + application.lastresult$.markname + '\" offset=\"' + application.lastresult$.marktime + '\"/>';\r\n"
@@ -707,8 +646,7 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 						+ "			lastresult = lastresult + '<utterance><![CDATA[' + application.lastresult$[i].utterance + ']]></utterance>';\r\n"
 						+ "			lastresult = lastresult + '<inputmode><![CDATA[' + application.lastresult$[i].inputmode + ']]></inputmode>';\r\n"
 						+ "			lastresult = lastresult + '<interpretation><![CDATA[' + application.lastresult$[i].interpretation + ']]></interpretation>';\r\n"
-						+ "			lastresult = lastresult + '</result>';\r\n"
-						+ "		}\r\n"
+						+ "			lastresult = lastresult + '</result>';\r\n" + "		}\r\n"
 						+ "		lastresult = lastresult + '</lastresult>';\r\n");
 		elseTag.addScript(noMarkScript);
 		ifTag.setElse(elseTag);
@@ -738,22 +676,21 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 		field.addEventHandler(noMatch);
 		ILink hangupLink = links.createNextLink();
 		for (String parameterName : parameterNames) {
-			hangupLink.setParameters(parameterName,
-					inputRequestCommand.getParameterValues(parameterName));
+			hangupLink.setParameters(parameterName, inputRequestCommand
+					.getParameterValues(parameterName));
 		}
-		hangupLink.setParameter(inputRequestCommand.getResultName(),
-				inputRequestCommand.getHangupResultValue());
+		hangupLink.setParameter(inputRequestCommand.getResultName(), inputRequestCommand
+				.getHangupResultValue());
 		Catch disconnectCatch = new Catch("connection.disconnect.hangup");
 		disconnectCatch.addAction(new Goto(hangupLink.toString()));
 		field.addEventHandler(disconnectCatch);
 		form.addFormElement(field);
 		Map<String, String[]> parameterMap = new HashMap<String, String[]>();
 		for (String parameterName : parameterNames) {
-			parameterMap.put(parameterName,
-					inputRequestCommand.getParameterValues(parameterName));
+			parameterMap.put(parameterName, inputRequestCommand.getParameterValues(parameterName));
 		}
-		form = (Form) addExtendedEvents(links,
-				inputRequestCommand.getResultName(), parameterMap, form);
+		form = (Form) addExtendedEvents(links, inputRequestCommand.getResultName(), parameterMap,
+				form);
 		// List<String> events =
 		// ExtendedActionEventManager.getDefault().getExtendedEvents();
 		// for(String event : events)
@@ -772,44 +709,30 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.support.AbstractPlatform#
-	 * renderSelectionRequest(
-	 * org.eclipse.vtp.framework.interactions.core.platforms.ILinkFactory,
-	 * org.eclipse.vtp.framework.interactions.core.commands.
-	 * SelectionRequestCommand)
+	 * @see org.eclipse.vtp.framework.interactions.core.support.AbstractPlatform#
+	 * renderSelectionRequest( org.eclipse.vtp.framework.interactions.core.platforms.ILinkFactory,
+	 * org.eclipse.vtp.framework.interactions.core.commands. SelectionRequestCommand)
 	 */
 	@Override
 	protected IDocument renderSelectionRequest(ILinkFactory links,
 			SelectionRequestCommand selectionRequestCommand) {
-		String bargeIn = getNormalizedBoolean(selectionRequestCommand
-				.getPropertyValue("barge-in")); //$NON-NLS-1$
-		TimeValue timeout = resolveTimeValue("initial-timeout",
-				selectionRequestCommand.getPropertyValue("initial-timeout")); //$NON-NLS-1$
-		String inputMode = selectionRequestCommand
-				.getPropertyValue("input-mode"); //$NON-NLS-1$
+		String bargeIn = getNormalizedBoolean(selectionRequestCommand.getPropertyValue("barge-in")); //$NON-NLS-1$
+		TimeValue timeout = resolveTimeValue("initial-timeout", selectionRequestCommand
+				.getPropertyValue("initial-timeout")); //$NON-NLS-1$
+		String inputMode = selectionRequestCommand.getPropertyValue("input-mode"); //$NON-NLS-1$
 		if (inputMode == null || inputMode.length() == 0) {
 			inputMode = "dtmf only"; //$NON-NLS-1$
 		}
-		String confidenceLevel = selectionRequestCommand
-				.getPropertyValue("confidence-level"); //$NON-NLS-1$
-		String sensitivity = selectionRequestCommand
-				.getPropertyValue("sensitivity-level"); //$NON-NLS-1$
-		String speedVsAccuracy = selectionRequestCommand
-				.getPropertyValue("speed-vs-accuracy"); //$NON-NLS-1$
-		TimeValue speechCompletionTimeout = resolveTimeValue(
-				"speech-complete-timeout",
-				selectionRequestCommand
-						.getPropertyValue("speech-complete-timeout")); //$NON-NLS-1$
-		TimeValue speechIncompleteTimeout = resolveTimeValue(
-				"speech-incomplete-timeout",
-				selectionRequestCommand
-						.getPropertyValue("speech-incomplete-timeout")); //$NON-NLS-1$
-		TimeValue maxSpeechLength = resolveTimeValue("max-speech-timeout",
-				selectionRequestCommand.getPropertyValue("max-speech-timeout")); //$NON-NLS-1$
-		String maxNBest = selectionRequestCommand
-				.getPropertyValue("max-n-best"); //$NON-NLS-1$
+		String confidenceLevel = selectionRequestCommand.getPropertyValue("confidence-level"); //$NON-NLS-1$
+		String sensitivity = selectionRequestCommand.getPropertyValue("sensitivity-level"); //$NON-NLS-1$
+		String speedVsAccuracy = selectionRequestCommand.getPropertyValue("speed-vs-accuracy"); //$NON-NLS-1$
+		TimeValue speechCompletionTimeout = resolveTimeValue("speech-complete-timeout",
+				selectionRequestCommand.getPropertyValue("speech-complete-timeout")); //$NON-NLS-1$
+		TimeValue speechIncompleteTimeout = resolveTimeValue("speech-incomplete-timeout",
+				selectionRequestCommand.getPropertyValue("speech-incomplete-timeout")); //$NON-NLS-1$
+		TimeValue maxSpeechLength = resolveTimeValue("max-speech-timeout", selectionRequestCommand
+				.getPropertyValue("max-speech-timeout")); //$NON-NLS-1$
+		String maxNBest = selectionRequestCommand.getPropertyValue("max-n-best"); //$NON-NLS-1$
 		TimeValue interDigitTimeout = resolveTimeValue("interdigit-timeout",
 				selectionRequestCommand.getPropertyValue("interdigit-timeout")); //$NON-NLS-1$
 		TimeValue terminationTimeout = resolveTimeValue("termination-timeout",
@@ -826,8 +749,7 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 				break;
 			case InputRequestCommand.OUTPUT_TYPE_TEXT:
 				if (outputValue.startsWith("@@mark ")) {
-					outputs.addOutput(new SSMLMarkOutput(outputValue
-							.substring(7)));
+					outputs.addOutput(new SSMLMarkOutput(outputValue.substring(7)));
 				} else {
 					outputs.addOutput(new TextOutput(outputValue));
 				}
@@ -844,56 +766,53 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 			menu.setProperty(NAME_BARGEIN, bargeIn);
 		}
 		if (timeout != null) {
-			menu.setProperty(NAME_TIMEOUT,
-					timeout.toTimeString(TimeValue.SECONDS));
+			menu.setProperty(NAME_TIMEOUT, timeout.toTimeString(TimeValue.SECONDS));
 		}
 		if ("hybrid".equalsIgnoreCase(inputMode)) {
 			menu.setProperty(NAME_INPUTMODES, "dtmf voice"); //$NON-NLS-1$
-			menu.setProperty(
-					"com.telera.speechenabled", Boolean.TRUE.toString()); //$NON-NLS-1$
+			menu.setProperty("com.telera.speechenabled", Boolean.TRUE.toString()); //$NON-NLS-1$
 		}
 		if ("dtmf only".equalsIgnoreCase(inputMode)) //$NON-NLS-1$
 		{
 			grammarMode = GRAMMAR_MODE_DTMF;
 			menu.setProperty(NAME_INPUTMODES, "dtmf"); //$NON-NLS-1$
-			menu.setProperty(
-					"com.telera.speechenabled", Boolean.FALSE.toString()); //$NON-NLS-1$
+			menu.setProperty("com.telera.speechenabled", Boolean.FALSE.toString()); //$NON-NLS-1$
 		} else {
 			try {
 				if (confidenceLevel != null && confidenceLevel.length() > 0) {
-					menu.setProperty(NAME_CONFIDENCELEVEL, new BigDecimal(
-							confidenceLevel).divide(ONE_HUNDRED).toString());
+					menu.setProperty(NAME_CONFIDENCELEVEL, new BigDecimal(confidenceLevel).divide(
+							ONE_HUNDRED).toString());
 				}
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}
 			try {
 				if (sensitivity != null && sensitivity.length() > 0) {
-					menu.setProperty(NAME_SENSITIVITY, new BigDecimal(
-							sensitivity).divide(ONE_HUNDRED).toString());
+					menu.setProperty(NAME_SENSITIVITY, new BigDecimal(sensitivity).divide(
+							ONE_HUNDRED).toString());
 				}
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}
 			try {
 				if (speedVsAccuracy != null && speedVsAccuracy.length() > 0) {
-					menu.setProperty(NAME_SPEEDVSACCURACY, new BigDecimal(
-							speedVsAccuracy).divide(ONE_HUNDRED).toString());
+					menu.setProperty(NAME_SPEEDVSACCURACY, new BigDecimal(speedVsAccuracy).divide(
+							ONE_HUNDRED).toString());
 				}
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}
 			if (speechCompletionTimeout != null) {
-				menu.setProperty(NAME_COMPLETETIMEOUT,
-						speechCompletionTimeout.toTimeString(TimeValue.SECONDS));
+				menu.setProperty(NAME_COMPLETETIMEOUT, speechCompletionTimeout
+						.toTimeString(TimeValue.SECONDS));
 			}
 			if (speechIncompleteTimeout != null) {
-				menu.setProperty(NAME_INCOMPLETETIMEOUT,
-						speechIncompleteTimeout.toTimeString(TimeValue.SECONDS));
+				menu.setProperty(NAME_INCOMPLETETIMEOUT, speechIncompleteTimeout
+						.toTimeString(TimeValue.SECONDS));
 			}
 			if (maxSpeechLength != null) {
-				menu.setProperty(NAME_MAXSPEECHTIMEOUT,
-						maxSpeechLength.toTimeString(TimeValue.SECONDS));
+				menu.setProperty(NAME_MAXSPEECHTIMEOUT, maxSpeechLength
+						.toTimeString(TimeValue.SECONDS));
 			} else {
 				menu.setProperty(NAME_MAXSPEECHTIMEOUT, "10s"); //$NON-NLS-1$
 			}
@@ -905,19 +824,17 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 		{
 			grammarMode = GRAMMAR_MODE_VOICE;
 			menu.setProperty(NAME_INPUTMODES, "voice"); //$NON-NLS-1$
-			menu.setProperty(
-					"com.telera.speechenabled", Boolean.TRUE.toString()); //$NON-NLS-1$
+			menu.setProperty("com.telera.speechenabled", Boolean.TRUE.toString()); //$NON-NLS-1$
 		} else {
 			if (interDigitTimeout != null) {
-				menu.setProperty(NAME_INTERDIGITTIMEOUT,
-						interDigitTimeout.toTimeString(TimeValue.SECONDS));
+				menu.setProperty(NAME_INTERDIGITTIMEOUT, interDigitTimeout
+						.toTimeString(TimeValue.SECONDS));
 			}
 			if (terminationTimeout != null) {
-				menu.setProperty(NAME_TERMTIMEOUT,
-						terminationTimeout.toTimeString(TimeValue.SECONDS));
+				menu.setProperty(NAME_TERMTIMEOUT, terminationTimeout
+						.toTimeString(TimeValue.SECONDS));
 			}
-			if (terminationCharacter != null
-					&& terminationCharacter.length() > 0
+			if (terminationCharacter != null && terminationCharacter.length() > 0
 					&& !"none".equalsIgnoreCase(terminationCharacter)) {
 				menu.setProperty(NAME_TERMCHAR, terminationCharacter);
 			} else {
@@ -927,14 +844,13 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 		ILink nextLink = links.createNextLink();
 		String[] parameterNames = selectionRequestCommand.getParameterNames();
 		for (String parameterName : parameterNames) {
-			nextLink.setParameters(parameterName,
-					selectionRequestCommand.getParameterValues(parameterName));
+			nextLink.setParameters(parameterName, selectionRequestCommand
+					.getParameterValues(parameterName));
 		}
-		nextLink.setParameter(selectionRequestCommand.getResultName(),
-				selectionRequestCommand.getFilledResultValue());
+		nextLink.setParameter(selectionRequestCommand.getResultName(), selectionRequestCommand
+				.getFilledResultValue());
 		for (int i = 0; i < selectionRequestCommand.getOptionCount(); ++i) {
-			String silent = selectionRequestCommand.getOptionProperty(i,
-					"silent"); //$NON-NLS-1$
+			String silent = selectionRequestCommand.getOptionProperty(i, "silent"); //$NON-NLS-1$
 			if (Boolean.TRUE.toString().equalsIgnoreCase(silent)) {
 				silent = Boolean.TRUE.toString();
 			} else if (Boolean.FALSE.toString().equalsIgnoreCase(silent)) {
@@ -944,19 +860,15 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 			}
 			String dtmf = selectionRequestCommand.getOptionProperty(i, "dtmf"); //$NON-NLS-1$
 			if (!Boolean.TRUE.toString().equals(silent)) {
-				for (int j = 0; j < selectionRequestCommand
-						.getOptionOutputCount(i); ++j) {
-					String optionOutputValue = selectionRequestCommand
-							.getOptionOutputValue(i, j);
+				for (int j = 0; j < selectionRequestCommand.getOptionOutputCount(i); ++j) {
+					String optionOutputValue = selectionRequestCommand.getOptionOutputValue(i, j);
 					switch (selectionRequestCommand.getOptionOutputType(i, j)) {
 					case SelectionRequestCommand.OUTPUT_TYPE_FILE:
-						outputs.addOutput(generateAudioChain(links,
-								optionOutputValue));
+						outputs.addOutput(generateAudioChain(links, optionOutputValue));
 						break;
 					case SelectionRequestCommand.OUTPUT_TYPE_TEXT:
 						if (optionOutputValue.startsWith("@@mark ")) {
-							outputs.addOutput(new SSMLMarkOutput(
-									optionOutputValue.substring(7)));
+							outputs.addOutput(new SSMLMarkOutput(optionOutputValue.substring(7)));
 						} else {
 							outputs.addOutput(new TextOutput(optionOutputValue));
 						}
@@ -970,14 +882,13 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 			if (!GRAMMAR_MODE_DTMF.equals(grammarMode)) {
 				switch (selectionRequestCommand.getOptionInputType(i)) {
 				case SelectionRequestCommand.INPUT_TYPE_FILE:
-					choice.setGrammar(new ExternalGrammar(GRAMMAR_MODE_VOICE,
-							links.createResourceLink(
-									selectionRequestCommand
-											.getOptionInputValue(i)).toString()));
+					choice.setGrammar(new ExternalGrammar(GRAMMAR_MODE_VOICE, links
+							.createResourceLink(selectionRequestCommand.getOptionInputValue(i))
+							.toString()));
 					break;
 				case InputRequestCommand.INPUT_TYPE_INLINE:
-					choice.setGrammar(new RawInlineGrammar(
-							selectionRequestCommand.getOptionInputValue(i)));
+					choice.setGrammar(new RawInlineGrammar(selectionRequestCommand
+							.getOptionInputValue(i)));
 					break;
 				}
 			}
@@ -987,35 +898,35 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 			menu.addChoice(choice);
 		}
 		NoInput noInput = new NoInput();
-		nextLink.setParameter(selectionRequestCommand.getResultName(),
-				selectionRequestCommand.getNoInputResultValue());
+		nextLink.setParameter(selectionRequestCommand.getResultName(), selectionRequestCommand
+				.getNoInputResultValue());
 		nextLink.setParameter(selectionRequestCommand.getSelectionName(), null);
 		noInput.addAction(new Goto(nextLink.toString()));
 		menu.addEventHandler(noInput);
 		NoMatch noMatch = new NoMatch();
-		nextLink.setParameter(selectionRequestCommand.getResultName(),
-				selectionRequestCommand.getNoMatchResultValue());
+		nextLink.setParameter(selectionRequestCommand.getResultName(), selectionRequestCommand
+				.getNoMatchResultValue());
 		nextLink.setParameter(selectionRequestCommand.getSelectionName(), null);
 		noMatch.addAction(new Goto(nextLink.toString()));
 		menu.addEventHandler(noMatch);
 		ILink hangupLink = links.createNextLink();
 		for (String parameterName : parameterNames) {
-			hangupLink.setParameters(parameterName,
-					selectionRequestCommand.getParameterValues(parameterName));
+			hangupLink.setParameters(parameterName, selectionRequestCommand
+					.getParameterValues(parameterName));
 		}
-		hangupLink.setParameter(selectionRequestCommand.getResultName(),
-				selectionRequestCommand.getHangupResultValue());
+		hangupLink.setParameter(selectionRequestCommand.getResultName(), selectionRequestCommand
+				.getHangupResultValue());
 		Catch disconnectCatch = new Catch("connection.disconnect.hangup");
 		disconnectCatch.addAction(new Goto(hangupLink.toString()));
 		menu.addEventHandler(disconnectCatch);
 
 		Map<String, String[]> parameterMap = new HashMap<String, String[]>();
 		for (String parameterName : parameterNames) {
-			parameterMap.put(parameterName,
-					selectionRequestCommand.getParameterValues(parameterName));
+			parameterMap.put(parameterName, selectionRequestCommand
+					.getParameterValues(parameterName));
 		}
-		menu = (Menu) addExtendedEvents(links,
-				selectionRequestCommand.getResultName(), parameterMap, menu);
+		menu = (Menu) addExtendedEvents(links, selectionRequestCommand.getResultName(),
+				parameterMap, menu);
 		// List<String> events =
 		// ExtendedActionEventManager.getDefault().getExtendedEvents();
 		// for(String event : events)
@@ -1035,29 +946,20 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.support.AbstractPlatform#
-	 * renderDataRequest(
+	 * @see org.eclipse.vtp.framework.interactions.core.support.AbstractPlatform# renderDataRequest(
 	 * org.eclipse.vtp.framework.interactions.core.platforms.ILinkFactory,
 	 * org.eclipse.vtp.framework.interactions.core.commands. DataRequestCommand)
 	 */
 	@Override
-	protected IDocument renderDataRequest(ILinkFactory links,
-			DataRequestCommand dataRequestCommand) {
+	protected IDocument renderDataRequest(ILinkFactory links, DataRequestCommand dataRequestCommand) {
 		Form form = new Form("DataRequestForm"); //$NON-NLS-1$
-		String bargeIn = getNormalizedBoolean(dataRequestCommand
-				.getPropertyValue("barge-in")); //$NON-NLS-1$
-		String playBeep = getNormalizedBoolean(dataRequestCommand
-				.getPropertyValue("play-beep")); //$NON-NLS-1$
+		String bargeIn = getNormalizedBoolean(dataRequestCommand.getPropertyValue("barge-in")); //$NON-NLS-1$
+		String playBeep = getNormalizedBoolean(dataRequestCommand.getPropertyValue("play-beep")); //$NON-NLS-1$
 		String dtmfTerm = getNormalizedBoolean(dataRequestCommand
 				.getPropertyValue("dtmf-termination")); //$NON-NLS-1$
-		String initialTimeout = dataRequestCommand
-				.getPropertyValue("initial-timeout"); //$NON-NLS-1$
-		String finalSilence = dataRequestCommand
-				.getPropertyValue("final-silence-timeout"); //$NON-NLS-1$
-		String maxRecordTime = dataRequestCommand
-				.getPropertyValue("max-record-time"); //$NON-NLS-1$
+		String initialTimeout = dataRequestCommand.getPropertyValue("initial-timeout"); //$NON-NLS-1$
+		String finalSilence = dataRequestCommand.getPropertyValue("final-silence-timeout"); //$NON-NLS-1$
+		String maxRecordTime = dataRequestCommand.getPropertyValue("max-record-time"); //$NON-NLS-1$
 		Recording recording = new Recording(dataRequestCommand.getDataName());
 		recording.setFileType("audio/x-wav"); //$NON-NLS-1$
 		recording.setProperty(NAME_INPUTMODES, "dtmf"); //$NON-NLS-1$
@@ -1065,11 +967,13 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 			recording.setBeepEnabled(Boolean.valueOf(playBeep).booleanValue());
 		}
 		if (dtmfTerm != null) {
-			recording.setDtmfTermEnabled(Boolean.valueOf(dtmfTerm)
-					.booleanValue());
+			recording.setDtmfTermEnabled(Boolean.valueOf(dtmfTerm).booleanValue());
 		}
-		if (initialTimeout != null && initialTimeout.length() > 0) {
+		if (initialTimeout != null && initialTimeout.length() > 0 && !initialTimeout.equals("0")
+				&& initialTimeout.matches("\\d+")) {
 			recording.setTimeout(initialTimeout + "s"); //$NON-NLS-1$
+		} else {
+			recording.setTimeout("5s"); // Set 5sec default value
 		}
 		if (finalSilence != null && finalSilence.length() > 0) {
 			recording.setFinalSilence(finalSilence + "s"); //$NON-NLS-1$
@@ -1088,8 +992,7 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 				break;
 			case DataRequestCommand.OUTPUT_TYPE_TEXT:
 				if (outputValue.startsWith("@@mark ")) {
-					outputs.addOutput(new SSMLMarkOutput(outputValue
-							.substring(7)));
+					outputs.addOutput(new SSMLMarkOutput(outputValue.substring(7)));
 				} else {
 					outputs.addOutput(new TextOutput(outputValue));
 				}
@@ -1103,20 +1006,25 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 		prompt.setLanguage(getCurrentLocale());
 		recording.setPrompt(prompt);
 		String[] parameterNames = dataRequestCommand.getParameterNames();
-		String[] submitVars = new String[parameterNames.length + 4];
+		String[] submitVars = new String[parameterNames.length + 6];
 		submitVars[0] = dataRequestCommand.getDataName();
 		submitVars[1] = dataRequestCommand.getResultName();
 		submitVars[2] = dataRequestCommand.getDataName() + "_termchar";
-		submitVars[3] = "lastresult";
+		submitVars[3] = dataRequestCommand.getDataName() + "_duration";
+		submitVars[4] = dataRequestCommand.getDataName() + "_size";
+		submitVars[5] = "lastresult";
 		Filled filled = new Filled();
 		filled.addVariable(new Variable(dataRequestCommand.getResultName(), "'"
 				+ dataRequestCommand.getFilledResultValue() + "'"));
-		filled.addVariable(new Variable(dataRequestCommand.getDataName()
-				+ "_termchar", dataRequestCommand.getDataName() + "$.termchar"));
+		filled.addVariable(new Variable(dataRequestCommand.getDataName() + "_termchar",
+				dataRequestCommand.getDataName() + "$.termchar"));
+		filled.addVariable(new Variable(dataRequestCommand.getDataName() + "_duration",
+				dataRequestCommand.getDataName() + "$.duration"));
+		filled.addVariable(new Variable(dataRequestCommand.getDataName() + "_size",
+				dataRequestCommand.getDataName() + "$.size"));
 		for (int i = 0; i < parameterNames.length; ++i) {
-			submitVars[i + 4] = parameterNames[i];
-			String[] values = dataRequestCommand
-					.getParameterValues(parameterNames[i]);
+			submitVars[i + 6] = parameterNames[i];
+			String[] values = dataRequestCommand.getParameterValues(parameterNames[i]);
 			StringBuffer buf = new StringBuffer();
 			for (int v = 0; v < values.length; v++) {
 				buf.append(values[v]);
@@ -1124,17 +1032,16 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 					buf.append(',');
 				}
 			}
-			Variable paramVar = new Variable(parameterNames[i], "'"
-					+ buf.toString() + "'");
+			Variable paramVar = new Variable(parameterNames[i], "'" + buf.toString() + "'");
 			filled.addVariable(paramVar);
 		}
 		filled.addVariable(new Variable("lastresult", "''"));
 		/*
-		 * filled.addVariable(new Variable("lastresult", "'<lastresult>'"));
-		 * Script script = new Script(); script.setText(
+		 * filled.addVariable(new Variable("lastresult", "'<lastresult>'")); Script script = new
+		 * Script(); script.setText(
 		 * "		lastresult = lastresult + '<mark name=\"' + application.lastresult$.markname + '\" offset=\"' + application.lastresult$.marktime + '\"/>';\r\n"
-		 * + "		for(var i = 0; i < application.lastresult$.length; i++)\r\n" +
-		 * "		{\r\n" + "			lastresult = lastresult + '<result>';\r\n" +
+		 * + "		for(var i = 0; i < application.lastresult$.length; i++)\r\n" + "		{\r\n" +
+		 * "			lastresult = lastresult + '<result>';\r\n" +
 		 * "			lastresult = lastresult + '<confidence>' + application.lastresult$[i].confidence + '</confidence>';\r\n"
 		 * +
 		 * "			lastresult = lastresult + '<utterance><![CDATA[' + application.lastresult$[i].utterance + ']]></utterance>';\r\n"
@@ -1143,8 +1050,7 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 		 * +
 		 * "			lastresult = lastresult + '<interpretation><![CDATA[' + application.lastresult$[i].interpretation + ']]></interpretation>';\r\n"
 		 * + "			lastresult = lastresult + '</result>';\r\n" + "		}\r\n" +
-		 * "		lastresult = lastresult + '</lastresult>';\r\n");
-		 * filled.addScript(script);
+		 * "		lastresult = lastresult + '</lastresult>';\r\n"); filled.addScript(script);
 		 */ILink filledLink = links.createNextLink();
 		Submit submit = new Submit(filledLink.toString(), submitVars);
 		submit.setMethod(VXMLConstants.METHOD_POST);
@@ -1153,32 +1059,30 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 		recording.addFilledHandler(filled);
 		ILink noInputLink = links.createNextLink();
 		for (String parameterName : parameterNames) {
-			noInputLink.setParameters(parameterName,
-					dataRequestCommand.getParameterValues(parameterName));
+			noInputLink.setParameters(parameterName, dataRequestCommand
+					.getParameterValues(parameterName));
 		}
-		noInputLink.setParameter(dataRequestCommand.getResultName(),
-				dataRequestCommand.getNoInputResultValue());
+		noInputLink.setParameter(dataRequestCommand.getResultName(), dataRequestCommand
+				.getNoInputResultValue());
 		NoInput noInput = new NoInput();
-		noInput.addAction(new Submit(noInputLink.toString(),
-				new String[] { dataRequestCommand.getDataName() }));
+		noInput.addAction(new Submit(noInputLink.toString(), new String[] { dataRequestCommand
+				.getDataName() }));
 		recording.addEventHandler(noInput);
 		form.addFormElement(recording);
 		ILink hangupLink = links.createNextLink();
 		for (String parameterName : parameterNames) {
-			hangupLink.setParameters(parameterName,
-					dataRequestCommand.getParameterValues(parameterName));
+			hangupLink.setParameters(parameterName, dataRequestCommand
+					.getParameterValues(parameterName));
 		}
 		Catch disconnectCatch = new Catch("connection.disconnect.hangup");
 		String[] disconnectVars = new String[parameterNames.length + 2];
 		disconnectVars[0] = dataRequestCommand.getDataName();
 		disconnectVars[1] = dataRequestCommand.getResultName();
-		disconnectCatch.addVariable(new Variable(dataRequestCommand
-				.getResultName(), "'"
+		disconnectCatch.addVariable(new Variable(dataRequestCommand.getResultName(), "'"
 				+ dataRequestCommand.getHangupResultValue() + "'"));
 		for (int i = 0; i < parameterNames.length; ++i) {
 			disconnectVars[i + 2] = parameterNames[i];
-			String[] values = dataRequestCommand
-					.getParameterValues(parameterNames[i]);
+			String[] values = dataRequestCommand.getParameterValues(parameterNames[i]);
 			StringBuffer buf = new StringBuffer();
 			for (int v = 0; v < values.length; v++) {
 				buf.append(values[v]);
@@ -1186,23 +1090,20 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 					buf.append(',');
 				}
 			}
-			Variable paramVar = new Variable(parameterNames[i], "'"
-					+ buf.toString() + "'");
+			Variable paramVar = new Variable(parameterNames[i], "'" + buf.toString() + "'");
 			disconnectCatch.addVariable(paramVar);
 		}
-		Submit disconnectSubmit = new Submit(hangupLink.toString(),
-				disconnectVars);
+		Submit disconnectSubmit = new Submit(hangupLink.toString(), disconnectVars);
 		disconnectSubmit.setMethod(VXMLConstants.METHOD_POST);
 		disconnectSubmit.setEncodingType("multipart/form-data");
 		disconnectCatch.addAction(disconnectSubmit);
 		recording.addEventHandler(disconnectCatch);
 		Map<String, String[]> parameterMap = new HashMap<String, String[]>();
 		for (String parameterName : parameterNames) {
-			parameterMap.put(parameterName,
-					dataRequestCommand.getParameterValues(parameterName));
+			parameterMap.put(parameterName, dataRequestCommand.getParameterValues(parameterName));
 		}
-		form = (Form) addExtendedEvents(links,
-				dataRequestCommand.getResultName(), parameterMap, form);
+		form = (Form) addExtendedEvents(links, dataRequestCommand.getResultName(), parameterMap,
+				form);
 		// List<String> events =
 		// ExtendedActionEventManager.getDefault().getExtendedEvents();
 		// for(String event : events)
@@ -1221,41 +1122,34 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.support.
 	 * AbstractPlatform#renderExternalReference(
 	 * org.eclipse.vtp.framework.interactions.core.platforms.ILinkFactory,
-	 * org.eclipse.vtp.framework.interactions.core.commands.
-	 * ExternalReferenceCommand)
+	 * org.eclipse.vtp.framework.interactions.core.commands. ExternalReferenceCommand)
 	 */
 	@Override
 	protected IDocument renderExternalReference(ILinkFactory links,
 			ExternalReferenceCommand externalReferenceCommand) {
 		Form form = new Form("ExternalReferenceForm"); //$NON-NLS-1$
-		Subdialog subdialog = new Subdialog(
-				externalReferenceCommand.getReferenceName());
+		Subdialog subdialog = new Subdialog(externalReferenceCommand.getReferenceName());
 		subdialog.setSourceURI(externalReferenceCommand.getReferenceURI());
 		subdialog.setMethod(externalReferenceCommand.getMethod());
 		StringBuffer nameListBuffer = new StringBuffer();
-		String[] sourceParameters = externalReferenceCommand
-				.getURLParameterNames();
+		String[] sourceParameters = externalReferenceCommand.getURLParameterNames();
 		for (int i = 0; i < sourceParameters.length; i++) {
 			String sourceParameterValue = externalReferenceCommand
 					.getURLParameterValue(sourceParameters[i]);
-			form.addVariable(new Variable(sourceParameters[i],
-					sourceParameterValue));
+			form.addVariable(new Variable(sourceParameters[i], sourceParameterValue));
 			nameListBuffer.append(sourceParameters[i]);
 			if (i != sourceParameters.length - 1) {
 				nameListBuffer.append(' ');
 			}
 		}
 		subdialog.setNameList(nameListBuffer.toString());
-		String[] inputArgNames = externalReferenceCommand
-				.getInputArgumentNames();
+		String[] inputArgNames = externalReferenceCommand.getInputArgumentNames();
 		for (String inputArgName : inputArgNames) {
-			subdialog.addParameter(new Parameter(inputArgName,
-					externalReferenceCommand
-							.getInputArgumentValue(inputArgName)));
+			subdialog.addParameter(new Parameter(inputArgName, externalReferenceCommand
+					.getInputArgumentValue(inputArgName)));
 		}
 		ILink nextLink = links.createNextLink();
 		Filled filled = new Filled();
@@ -1263,8 +1157,7 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 		String[] parameterNames = externalReferenceCommand.getParameterNames();
 		for (String parameterName : parameterNames) {
 			submitNames.add(parameterName);
-			String[] parameterValues = externalReferenceCommand
-					.getParameterValues(parameterName);
+			String[] parameterValues = externalReferenceCommand.getParameterValues(parameterName);
 			StringBuffer paramBuffer = new StringBuffer();
 			for (int p = 0; p < parameterValues.length; p++) {
 				String val = parameterValues[p];
@@ -1273,24 +1166,21 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 					paramBuffer.append(',');
 				}
 			}
-			filled.addVariable(new Variable(parameterName, "'"
-					+ paramBuffer.toString() + "'"));
+			filled.addVariable(new Variable(parameterName, "'" + paramBuffer.toString() + "'"));
 		}
 		submitNames.add(externalReferenceCommand.getResultName());
-		filled.addVariable(new Variable(externalReferenceCommand
-				.getResultName(), "'"
+		filled.addVariable(new Variable(externalReferenceCommand.getResultName(), "'"
 				+ externalReferenceCommand.getFilledResultValue() + "'"));
-		String[] outputArgNames = externalReferenceCommand
-				.getOutputArgumentNames();
+		String[] outputArgNames = externalReferenceCommand.getOutputArgumentNames();
 		for (String outputArgName : outputArgNames) {
 			submitNames.add(outputArgName);
-			filled.addVariable(new Variable(outputArgName,
-					externalReferenceCommand.getReferenceName()
-							+ "." + externalReferenceCommand //$NON-NLS-1$
-									.getOutputArgumentValue(outputArgName)));
+			filled.addVariable(new Variable(outputArgName, externalReferenceCommand
+					.getReferenceName()
+					+ "." + externalReferenceCommand //$NON-NLS-1$
+							.getOutputArgumentValue(outputArgName)));
 		}
-		Submit submit = new Submit(nextLink.toString(),
-				submitNames.toArray(new String[submitNames.size()]));
+		Submit submit = new Submit(nextLink.toString(), submitNames.toArray(new String[submitNames
+				.size()]));
 		submit.setMethod(VXMLConstants.METHOD_POST);
 		submit.setEncodingType("multipart/form-data");
 		filled.addAction(submit);
@@ -1298,31 +1188,31 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 		form.addFormElement(subdialog);
 		ILink hangupLink = links.createNextLink();
 		for (String parameterName : parameterNames) {
-			hangupLink.setParameters(parameterName,
-					externalReferenceCommand.getParameterValues(parameterName));
+			hangupLink.setParameters(parameterName, externalReferenceCommand
+					.getParameterValues(parameterName));
 		}
-		hangupLink.setParameter(externalReferenceCommand.getResultName(),
-				externalReferenceCommand.getHangupResultValue());
+		hangupLink.setParameter(externalReferenceCommand.getResultName(), externalReferenceCommand
+				.getHangupResultValue());
 		Catch disconnectCatch = new Catch("connection.disconnect.hangup");
 		disconnectCatch.addAction(new Goto(hangupLink.toString()));
 		form.addEventHandler(disconnectCatch);
 		ILink fetchLink = links.createNextLink();
 		for (String parameterName : parameterNames) {
-			fetchLink.setParameters(parameterName,
-					externalReferenceCommand.getParameterValues(parameterName));
+			fetchLink.setParameters(parameterName, externalReferenceCommand
+					.getParameterValues(parameterName));
 		}
-		fetchLink.setParameter(externalReferenceCommand.getResultName(),
-				externalReferenceCommand.getBadFetchResultValue());
+		fetchLink.setParameter(externalReferenceCommand.getResultName(), externalReferenceCommand
+				.getBadFetchResultValue());
 		Catch badFetchCatch = new Catch("error.badfetch");
 		badFetchCatch.addAction(new Goto(fetchLink.toString()));
 		form.addEventHandler(badFetchCatch);
 		Map<String, String[]> parameterMap = new HashMap<String, String[]>();
 		for (String parameterName : parameterNames) {
-			parameterMap.put(parameterName,
-					externalReferenceCommand.getParameterValues(parameterName));
+			parameterMap.put(parameterName, externalReferenceCommand
+					.getParameterValues(parameterName));
 		}
-		form = (Form) addExtendedEvents(links,
-				externalReferenceCommand.getResultName(), parameterMap, form);
+		form = (Form) addExtendedEvents(links, externalReferenceCommand.getResultName(),
+				parameterMap, form);
 		// List<String> events =
 		// ExtendedActionEventManager.getDefault().getExtendedEvents();
 		// for(String event : events)
@@ -1342,13 +1232,9 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.support.AbstractPlatform#
-	 * renderTransferMessage(
-	 * org.eclipse.vtp.framework.interactions.core.platforms.ILinkFactory,
-	 * org.eclipse.vtp.framework.interactions.core.commands.
-	 * TransferMessageCommand)
+	 * @see org.eclipse.vtp.framework.interactions.core.support.AbstractPlatform#
+	 * renderTransferMessage( org.eclipse.vtp.framework.interactions.core.platforms.ILinkFactory,
+	 * org.eclipse.vtp.framework.interactions.core.commands. TransferMessageCommand)
 	 */
 	@Override
 	protected IDocument renderTransferMessage(ILinkFactory links,
@@ -1363,13 +1249,9 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.support.AbstractPlatform#
-	 * renderBridgeMessage(
-	 * org.eclipse.vtp.framework.interactions.core.platforms.ILinkFactory,
-	 * org.eclipse.vtp.framework.interactions.core.commands.
-	 * BridgeMessageCommand)
+	 * @see org.eclipse.vtp.framework.interactions.core.support.AbstractPlatform#
+	 * renderBridgeMessage( org.eclipse.vtp.framework.interactions.core.platforms.ILinkFactory,
+	 * org.eclipse.vtp.framework.interactions.core.commands. BridgeMessageCommand)
 	 */
 	@Override
 	protected IDocument renderBridgeMessage(ILinkFactory links,
@@ -1382,23 +1264,22 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 		Filled filled = new Filled();
 		If ifBusy = new If("BridgeMessageElement == 'busy'");
 		ILink link = links.createNextLink();
-		link.setParameter(bridgeMessageCommand.getResultName(),
-				bridgeMessageCommand.getBusyResultValue());
+		link.setParameter(bridgeMessageCommand.getResultName(), bridgeMessageCommand
+				.getBusyResultValue());
 		ifBusy.addAction(new Goto(link.toString()));
-		ElseIf ifNetworkBusy = new ElseIf(
-				"BridgeMessageElement == 'network_busy'");
-		link.setParameter(bridgeMessageCommand.getResultName(),
-				bridgeMessageCommand.getBusyResultValue());
+		ElseIf ifNetworkBusy = new ElseIf("BridgeMessageElement == 'network_busy'");
+		link.setParameter(bridgeMessageCommand.getResultName(), bridgeMessageCommand
+				.getBusyResultValue());
 		ifNetworkBusy.addAction(new Goto(link.toString()));
 		ifBusy.addElseIf(ifNetworkBusy);
 		ElseIf ifNoAnswer = new ElseIf("BridgeMessageElement == 'noanswer'");
-		link.setParameter(bridgeMessageCommand.getResultName(),
-				bridgeMessageCommand.getUnavailableResultValue());
+		link.setParameter(bridgeMessageCommand.getResultName(), bridgeMessageCommand
+				.getUnavailableResultValue());
 		ifNoAnswer.addAction(new Goto(link.toString()));
 		ifBusy.addElseIf(ifNoAnswer);
 		ElseIf ifUnknown = new ElseIf("BridgeMessageElement == 'unknown'");
-		link.setParameter(bridgeMessageCommand.getResultName(),
-				bridgeMessageCommand.getUnavailableResultValue());
+		link.setParameter(bridgeMessageCommand.getResultName(), bridgeMessageCommand
+				.getUnavailableResultValue());
 		ifUnknown.addAction(new Goto(link.toString()));
 		ifBusy.addElseIf(ifUnknown);
 		filled.addIfClause(ifBusy);
@@ -1407,73 +1288,69 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 		// catch handlers
 		Catch noAuthCatch = new Catch("error.connection.noauthorization");
 		ILink noAuthLink = links.createNextLink();
-		noAuthLink.setParameter(bridgeMessageCommand.getResultName(),
-				bridgeMessageCommand.getNoAuthResultValue());
+		noAuthLink.setParameter(bridgeMessageCommand.getResultName(), bridgeMessageCommand
+				.getNoAuthResultValue());
 		noAuthCatch.addAction(new Goto(noAuthLink.toString()));
 		tx.addEventHandler(noAuthCatch);
 
 		Catch badDestCatch = new Catch("error.connection.baddestination");
 		ILink badDestLink = links.createNextLink();
-		badDestLink.setParameter(bridgeMessageCommand.getResultName(),
-				bridgeMessageCommand.getBadDestResultValue());
+		badDestLink.setParameter(bridgeMessageCommand.getResultName(), bridgeMessageCommand
+				.getBadDestResultValue());
 		badDestCatch.addAction(new Goto(badDestLink.toString()));
 		tx.addEventHandler(badDestCatch);
 
 		Catch noRouteCatch = new Catch("error.connection.noroute");
 		ILink noRouteLink = links.createNextLink();
-		noRouteLink.setParameter(bridgeMessageCommand.getResultName(),
-				bridgeMessageCommand.getNoRouteResultValue());
+		noRouteLink.setParameter(bridgeMessageCommand.getResultName(), bridgeMessageCommand
+				.getNoRouteResultValue());
 		noRouteCatch.addAction(new Goto(noRouteLink.toString()));
 		tx.addEventHandler(noRouteCatch);
 
 		Catch noResourceCatch = new Catch("error.connection.noresource");
 		ILink noResourceLink = links.createNextLink();
-		noResourceLink.setParameter(bridgeMessageCommand.getResultName(),
-				bridgeMessageCommand.getNoResourceResultValue());
+		noResourceLink.setParameter(bridgeMessageCommand.getResultName(), bridgeMessageCommand
+				.getNoResourceResultValue());
 		noResourceCatch.addAction(new Goto(noResourceLink.toString()));
 		tx.addEventHandler(noResourceCatch);
 
 		Catch badProtocolCatch = new Catch("error.connection.protocol");
 		ILink badProtocolLink = links.createNextLink();
-		badProtocolLink.setParameter(bridgeMessageCommand.getResultName(),
-				bridgeMessageCommand.getProtocolResultValue());
+		badProtocolLink.setParameter(bridgeMessageCommand.getResultName(), bridgeMessageCommand
+				.getProtocolResultValue());
 		badProtocolCatch.addAction(new Goto(badProtocolLink.toString()));
 		tx.addEventHandler(badProtocolCatch);
 
-		Catch bridgeUnsupportedCatch = new Catch(
-				"error.unsupported.transfer.bridge");
+		Catch bridgeUnsupportedCatch = new Catch("error.unsupported.transfer.bridge");
 		ILink bridgeUnsupportedLink = links.createNextLink();
-		bridgeUnsupportedLink.setParameter(
-				bridgeMessageCommand.getResultName(),
+		bridgeUnsupportedLink.setParameter(bridgeMessageCommand.getResultName(),
 				bridgeMessageCommand.getBadBridgeResultValue());
-		bridgeUnsupportedCatch.addAction(new Goto(bridgeUnsupportedLink
-				.toString()));
+		bridgeUnsupportedCatch.addAction(new Goto(bridgeUnsupportedLink.toString()));
 		tx.addEventHandler(bridgeUnsupportedCatch);
 
 		Catch uriUnsupportedCatch = new Catch("error.unsupported.uri");
 		ILink uriUnsupportedLink = links.createNextLink();
-		uriUnsupportedLink.setParameter(bridgeMessageCommand.getResultName(),
-				bridgeMessageCommand.getBadUriResultValue());
+		uriUnsupportedLink.setParameter(bridgeMessageCommand.getResultName(), bridgeMessageCommand
+				.getBadUriResultValue());
 		uriUnsupportedCatch.addAction(new Goto(uriUnsupportedLink.toString()));
 		tx.addEventHandler(uriUnsupportedCatch);
 
 		Catch transferCatch = new Catch("connection.disconnect.transfer");
 		ILink transferLink = links.createNextLink();
-		transferLink.setParameter(bridgeMessageCommand.getResultName(),
-				bridgeMessageCommand.getTransferredResultValue());
+		transferLink.setParameter(bridgeMessageCommand.getResultName(), bridgeMessageCommand
+				.getTransferredResultValue());
 		transferCatch.addAction(new Goto(transferLink.toString()));
 		tx.addEventHandler(transferCatch);
 
 		Catch disconnectCatch = new Catch("connection.disconnect.hangup");
 		ILink hangupLink = links.createNextLink();
-		hangupLink.setParameter(bridgeMessageCommand.getResultName(),
-				bridgeMessageCommand.getHangupResultValue());
+		hangupLink.setParameter(bridgeMessageCommand.getResultName(), bridgeMessageCommand
+				.getHangupResultValue());
 		disconnectCatch.addAction(new Goto(hangupLink.toString()));
 		tx.addEventHandler(disconnectCatch);
 
 		form.addFormElement(tx);
-		form = (Form) addExtendedEvents(links,
-				bridgeMessageCommand.getResultName(), null, form);
+		form = (Form) addExtendedEvents(links, bridgeMessageCommand.getResultName(), null, form);
 		// List<String> events =
 		// ExtendedActionEventManager.getDefault().getExtendedEvents();
 		// for(String event : events)
@@ -1489,16 +1366,12 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.support.AbstractPlatform#
-	 * renderEndMessage(
+	 * @see org.eclipse.vtp.framework.interactions.core.support.AbstractPlatform# renderEndMessage(
 	 * org.eclipse.vtp.framework.interactions.core.platforms.ILinkFactory,
 	 * org.eclipse.vtp.framework.interactions.core.commands. EndMessageCommand)
 	 */
 	@Override
-	protected IDocument renderEndMessage(ILinkFactory links,
-			EndMessageCommand endMessageCommand) {
+	protected IDocument renderEndMessage(ILinkFactory links, EndMessageCommand endMessageCommand) {
 		Form form;
 		if (endMessageCommand.isSubmit()) {
 			form = new Form("SubmitForm");
@@ -1536,21 +1409,16 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.support.AbstractPlatform#
-	 * renderFinalDocument(
-	 * org.eclipse.vtp.framework.interactions.core.platforms.ILinkFactory,
+	 * @see org.eclipse.vtp.framework.interactions.core.support.AbstractPlatform#
+	 * renderFinalDocument( org.eclipse.vtp.framework.interactions.core.platforms.ILinkFactory,
 	 * org.eclipse.vtp.framework.interactions.core.commands.FinalCommand)
 	 */
 	@Override
-	protected IDocument renderFinalDocument(ILinkFactory links,
-			FinalCommand finalCommand) {
+	protected IDocument renderFinalDocument(ILinkFactory links, FinalCommand finalCommand) {
 		Form form = new Form("FinalForm"); //$NON-NLS-1$
 		String[] variables = finalCommand.getVariableNames();
 		for (String variable : variables) {
-			form.addVariable(new Variable(variable, "'"
-					+ finalCommand.getVariable(variable) + "'"));
+			form.addVariable(new Variable(variable, "'" + finalCommand.getVariable(variable) + "'"));
 		}
 		Block block = new Block("FinalBlock"); //$NON-NLS-1$
 		block.addAction(new Return(variables));
@@ -1561,9 +1429,7 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.interactions.core.platforms.IPlatform#
-	 * getInteractionTypeID()
+	 * @see org.eclipse.vtp.framework.interactions.core.platforms.IPlatform# getInteractionTypeID()
 	 */
 	@Override
 	public String getInteractionTypeID() {
@@ -1582,8 +1448,7 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 
 	private Dialog addExtendedEvents(ILinkFactory links, String resultName,
 			Map<String, String[]> parameterMap, Dialog form) {
-		List<String> events = ExtendedActionEventManager.getDefault()
-				.getExtendedEvents();
+		List<String> events = ExtendedActionEventManager.getDefault().getExtendedEvents();
 		String cpaPrefix = "externalmessage.cpa";
 		// if(events.contains(cpaPrefix))
 		if (false) {
@@ -1606,14 +1471,12 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 				if (!cpaPrefix.equals(cpaEvent)) {
 					ILink eventLink = links.createNextLink();
 					if (null != parameterMap) {
-						for (Entry<String, String[]> entry : parameterMap
-								.entrySet()) {
-							eventLink.setParameters(entry.getKey(),
-									entry.getValue());
+						for (Entry<String, String[]> entry : parameterMap.entrySet()) {
+							eventLink.setParameters(entry.getKey(), entry.getValue());
 						}
 					}
 					eventLink.setParameter(resultName, cpaEvent);
-					// If eventIf = new If("_event==Õ" + cpaEvent + "Õ");
+					// If eventIf = new If("_event==ï¿½" + cpaEvent + "ï¿½");
 					If eventIf = new If("_event=='" + cpaEvent + "'");
 					eventIf.addAction(new Goto(eventLink.toString()));
 					cpaCatch.addIfClause(eventIf);
@@ -1632,10 +1495,8 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 			for (String event : events) {
 				ILink eventLink = links.createNextLink();
 				if (null != parameterMap) {
-					for (Entry<String, String[]> entry : parameterMap
-							.entrySet()) {
-						eventLink.setParameters(entry.getKey(),
-								entry.getValue());
+					for (Entry<String, String[]> entry : parameterMap.entrySet()) {
+						eventLink.setParameters(entry.getKey(), entry.getValue());
 					}
 				}
 				eventLink.setParameter(resultName, event);

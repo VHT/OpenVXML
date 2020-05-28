@@ -50,20 +50,22 @@ import org.eclipse.vtp.framework.interactions.core.media.ReferencedContent;
 import org.eclipse.vtp.framework.interactions.core.media.TextContent;
 
 /**
- * 
  * @author lonnie
  */
-public class SharedContentPage extends LabelProvider implements
-		IStructuredContentProvider, ITableLabelProvider, IDoubleClickListener,
-		ISelectionChangedListener, SelectionListener {
+public class SharedContentPage extends LabelProvider
+	implements
+	IStructuredContentProvider,
+	ITableLabelProvider,
+	IDoubleClickListener,
+	ISelectionChangedListener,
+	SelectionListener {
 	private VoiceModel model = null;
 	private TableViewer sharedContentTable = null;
 	private Button addSharedContentButton = null;
 	private Button editSharedContentButton = null;
 	private Button removeSharedContentButton = null;
 
-	public SharedContentPage() {
-	}
+	public SharedContentPage() {}
 
 	/**
 	 * @param parent
@@ -74,8 +76,7 @@ public class SharedContentPage extends LabelProvider implements
 		this.model = model;
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayout(new GridLayout(4, false));
-		Table table = new Table(composite, SWT.H_SCROLL | SWT.V_SCROLL
-				| SWT.BORDER | SWT.MULTI);
+		Table table = new Table(composite, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.MULTI);
 		table.setHeaderVisible(true);
 		TableColumn nameColumn = new TableColumn(table, SWT.LEFT);
 		nameColumn.setText("Name");
@@ -94,8 +95,7 @@ public class SharedContentPage extends LabelProvider implements
 		sharedContentTable.setInput(model);
 		sharedContentTable.getControl().addKeyListener(new KeyListener() {
 			@Override
-			public void keyPressed(KeyEvent e) {
-			}
+			public void keyPressed(KeyEvent e) {}
 
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -105,19 +105,19 @@ public class SharedContentPage extends LabelProvider implements
 			}
 		});
 		addSharedContentButton = new Button(composite, SWT.PUSH);
-		addSharedContentButton.setLayoutData(new GridData(GridData.FILL,
-				GridData.FILL, false, false));
+		addSharedContentButton.setLayoutData(new GridData(GridData.FILL, GridData.FILL, false,
+				false));
 		addSharedContentButton.setText("Add Shared Content");
 		addSharedContentButton.addSelectionListener(this);
 		editSharedContentButton = new Button(composite, SWT.PUSH);
-		editSharedContentButton.setLayoutData(new GridData(GridData.FILL,
-				GridData.FILL, false, false));
+		editSharedContentButton.setLayoutData(new GridData(GridData.FILL, GridData.FILL, false,
+				false));
 		editSharedContentButton.setText("Edit Shared Content");
 		editSharedContentButton.setEnabled(false);
 		editSharedContentButton.addSelectionListener(this);
 		removeSharedContentButton = new Button(composite, SWT.PUSH);
-		removeSharedContentButton.setLayoutData(new GridData(GridData.FILL,
-				GridData.FILL, false, false));
+		removeSharedContentButton.setLayoutData(new GridData(GridData.FILL, GridData.FILL, false,
+				false));
 		removeSharedContentButton.setText("Remove Shared Content");
 		removeSharedContentButton.setEnabled(false);
 		removeSharedContentButton.addSelectionListener(this);
@@ -125,40 +125,27 @@ public class SharedContentPage extends LabelProvider implements
 	}
 
 	private void addSharedContent() {
-		VoiceContentDialog dialog = new VoiceContentDialog(sharedContentTable
-				.getControl().getShell());
-		dialog.initialize(
-				null,
-				model.getSharedContentNames(),
-				null,
-				InteractiveWorkflowCore.getDefault()
-						.getInteractiveWorkflowModel()
-						.convertToMediaProject(model.getProject())
-						.getMediaProvider());
-		if (dialog.open() != VoiceContentDialog.OK) {
-			return;
-		}
+		VoiceContentDialog dialog = new VoiceContentDialog(sharedContentTable.getControl()
+				.getShell());
+		dialog.initialize(null, model.getSharedContentNames(), null, InteractiveWorkflowCore
+				.getDefault().getInteractiveWorkflowModel().convertToMediaProject(
+						model.getProject()).getMediaProvider());
+		if (dialog.open() != VoiceContentDialog.OK) { return; }
 		model.putSharedContent(dialog.getItemName(), dialog.getContentItem());
 		sharedContentTable.refresh();
 	}
 
 	private void editSharedContent() {
-		IStructuredSelection selection = (IStructuredSelection) sharedContentTable
-				.getSelection();
-		if (selection.size() != 1) {
-			return;
-		}
+		IStructuredSelection selection = (IStructuredSelection) sharedContentTable.getSelection();
+		if (selection.size() != 1) { return; }
 		String itemName = (String) selection.getFirstElement();
-		VoiceContentDialog dialog = new VoiceContentDialog(sharedContentTable
-				.getControl().getShell());
+		VoiceContentDialog dialog = new VoiceContentDialog(sharedContentTable.getControl()
+				.getShell());
 		dialog.initialize(itemName, model.getSharedContentNames(),
-				model.getSharedContent(itemName), InteractiveWorkflowCore
-						.getDefault().getInteractiveWorkflowModel()
-						.convertToMediaProject(model.getProject())
+				model.getSharedContent(itemName), InteractiveWorkflowCore.getDefault()
+						.getInteractiveWorkflowModel().convertToMediaProject(model.getProject())
 						.getMediaProvider());
-		if (dialog.open() != VoiceContentDialog.OK) {
-			return;
-		}
+		if (dialog.open() != VoiceContentDialog.OK) { return; }
 		if (!itemName.equals(dialog.getItemName())) {
 			model.removeSharedContent(itemName);
 		}
@@ -167,26 +154,17 @@ public class SharedContentPage extends LabelProvider implements
 	}
 
 	private void removeSharedContent() {
-		IStructuredSelection selection = (IStructuredSelection) sharedContentTable
-				.getSelection();
+		IStructuredSelection selection = (IStructuredSelection) sharedContentTable.getSelection();
 		if (selection.isEmpty()) {
 			return;
 		} else if (selection.size() == 1) {
-			if (!MessageDialog.openConfirm(
-					sharedContentTable.getControl().getShell(),
-					"Remove Item",
-					"Are you sure you want to remove the item \""
-							+ selection.getFirstElement()
-							+ "\" and its content?")) {
-				return;
-			}
+			if (!MessageDialog.openConfirm(sharedContentTable.getControl().getShell(),
+					"Remove Item", "Are you sure you want to remove the item \""
+							+ selection.getFirstElement() + "\" and its content?")) { return; }
 		} else {
-			if (!MessageDialog.openConfirm(sharedContentTable.getControl()
-					.getShell(), "Remove Item",
-					"Are you sure you want to remove the " + selection.size()
-							+ " selected items and their content?")) {
-				return;
-			}
+			if (!MessageDialog.openConfirm(sharedContentTable.getControl().getShell(),
+					"Remove Item", "Are you sure you want to remove the " + selection.size()
+							+ " selected items and their content?")) { return; }
 		}
 		for (@SuppressWarnings("rawtypes")
 		Iterator i = selection.iterator(); i.hasNext();) {
@@ -197,21 +175,15 @@ public class SharedContentPage extends LabelProvider implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface
+	 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface
 	 * .viewers.Viewer, java.lang.Object, java.lang.Object)
 	 */
 	@Override
-	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-	}
+	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java
-	 * .lang.Object)
+	 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java .lang.Object)
 	 */
 	@Override
 	public Object[] getElements(Object inputElement) {
@@ -220,19 +192,14 @@ public class SharedContentPage extends LabelProvider implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.viewers.BaseLabelProvider#dispose()
 	 */
 	@Override
-	public void dispose() {
-	}
+	public void dispose() {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.lang
-	 * .Object, int)
+	 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.lang .Object, int)
 	 */
 	@Override
 	public String getColumnText(Object element, int columnIndex) {
@@ -244,14 +211,12 @@ public class SharedContentPage extends LabelProvider implements
 			Content content = model.getSharedContent((String) element);
 			if (content instanceof FormattableContent) {
 				FormattableContent fc = (FormattableContent) content;
-				buf.append(fc.getContentTypeName() + "(" + fc.getFormatName()
-						+ ", " + fc.getValue() + ")");
+				buf.append(fc.getContentTypeName() + "(" + fc.getFormatName() + ", "
+						+ fc.getValue() + ")");
 			} else if (content instanceof TextContent) {
 				buf.append(((TextContent) content).getText());
 			} else if (content instanceof ReferencedContent) {
-				buf.append("REFERENCE("
-						+ ((ReferencedContent) content).getReferencedName()
-						+ ")");
+				buf.append("REFERENCE(" + ((ReferencedContent) content).getReferencedName() + ")");
 			} else if (content instanceof FileContent) {
 				FileContent fc = (FileContent) content;
 				buf.append(fc.getFileTypeName() + "(" + fc.getPath() + ")");
@@ -265,10 +230,7 @@ public class SharedContentPage extends LabelProvider implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java.lang
-	 * .Object, int)
+	 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java.lang .Object, int)
 	 */
 	@Override
 	public Image getColumnImage(Object element, int columnIndex) {
@@ -277,9 +239,7 @@ public class SharedContentPage extends LabelProvider implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.IDoubleClickListener#doubleClick(org.eclipse
+	 * @see org.eclipse.jface.viewers.IDoubleClickListener#doubleClick(org.eclipse
 	 * .jface.viewers.DoubleClickEvent)
 	 */
 	@Override
@@ -289,16 +249,13 @@ public class SharedContentPage extends LabelProvider implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(
+	 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(
 	 * org.eclipse.jface.viewers.SelectionChangedEvent)
 	 */
 	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
 		int size = 0;
-		IStructuredSelection selection = (IStructuredSelection) sharedContentTable
-				.getSelection();
+		IStructuredSelection selection = (IStructuredSelection) sharedContentTable.getSelection();
 		if (selection != null) {
 			size = selection.size();
 		}
@@ -308,9 +265,7 @@ public class SharedContentPage extends LabelProvider implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
+	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
 	 * .events.SelectionEvent)
 	 */
 	@Override
@@ -327,13 +282,10 @@ public class SharedContentPage extends LabelProvider implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse
+	 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse
 	 * .swt.events.SelectionEvent)
 	 */
 	@Override
-	public void widgetDefaultSelected(SelectionEvent e) {
-	}
+	public void widgetDefaultSelected(SelectionEvent e) {}
 
 }

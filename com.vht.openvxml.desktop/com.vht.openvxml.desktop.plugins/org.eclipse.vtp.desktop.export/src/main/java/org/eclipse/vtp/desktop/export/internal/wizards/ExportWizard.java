@@ -63,8 +63,8 @@ import com.openmethods.openvxml.desktop.model.workflow.IWorkflowProjectAspect;
  * @author Lonnie Pryor
  */
 public class ExportWizard extends Wizard implements IExportWizard {
-	private final List<ExportAgent> agents = Collections
-			.unmodifiableList(ExportCore.createExportAgents());
+	private final List<ExportAgent> agents = Collections.unmodifiableList(ExportCore
+			.createExportAgents());
 	private final Exporter exporter = new Exporter(agents);
 	private List<WorkflowExporter> workflowProjects;
 	private final Map<IWizardPage, ExportAgent> pages = new LinkedHashMap<IWizardPage, ExportAgent>();
@@ -79,14 +79,13 @@ public class ExportWizard extends Wizard implements IExportWizard {
 			dbf.setNamespaceAware(true);
 			dbf.setValidating(false);
 			DocumentBuilder db = dbf.newDocumentBuilder();
-			List<IOpenVXMLProject> rawProjects = WorkflowCore.getDefault()
-					.getWorkflowModel().listWorkflowProjects();
-			ArrayList<WorkflowExporter> workflowList = new ArrayList<WorkflowExporter>(
-					rawProjects.size());
+			List<IOpenVXMLProject> rawProjects = WorkflowCore.getDefault().getWorkflowModel()
+					.listWorkflowProjects();
+			ArrayList<WorkflowExporter> workflowList = new ArrayList<WorkflowExporter>(rawProjects
+					.size());
 			for (IOpenVXMLProject project : rawProjects) {
 				if (project.getProjectAspect(IWorkflowProjectAspect.ASPECT_ID) != null) {
-					workflowList
-							.add(new WorkflowExporter(exporter, db, project));
+					workflowList.add(new WorkflowExporter(exporter, db, project));
 				}
 			}
 			Collections.sort(workflowList);
@@ -111,11 +110,9 @@ public class ExportWizard extends Wizard implements IExportWizard {
 			Map<String, MediaExporter> mediaMap = new HashMap<String, MediaExporter>();
 			for (IMediaProject project : InteractiveWorkflowCore.getDefault()
 					.getInteractiveWorkflowModel().listMediaProjects()) {
-				mediaMap.put(project.getName(), new MediaExporter(exporter,
-						project));
+				mediaMap.put(project.getName(), new MediaExporter(exporter, project));
 			}
-			ArrayList<MediaExporter> mediaList = new ArrayList<MediaExporter>(
-					mediaMap.values());
+			ArrayList<MediaExporter> mediaList = new ArrayList<MediaExporter>(mediaMap.values());
 			Collections.sort(mediaList);
 			// Resolve dependencies between projects.
 			SAXParserFactory spf = SAXParserFactory.newInstance();
@@ -126,11 +123,9 @@ public class ExportWizard extends Wizard implements IExportWizard {
 				exporter.resolveDependencies(sp, workflowMap, mediaMap);
 			}
 			// Find any projects that have open, unsaved resources.
-			IWorkbenchPage[] workbenchPages = workbench
-					.getActiveWorkbenchWindow().getPages();
+			IWorkbenchPage[] workbenchPages = workbench.getActiveWorkbenchWindow().getPages();
 			for (IWorkbenchPage workbenchPage : workbenchPages) {
-				IEditorReference[] editorReferences = workbenchPage
-						.getEditorReferences();
+				IEditorReference[] editorReferences = workbenchPage.getEditorReferences();
 				for (int j = 0; j < editorReferences.length; ++j) {
 					if (!editorReferences[j].isDirty()) {
 						continue;
@@ -142,8 +137,8 @@ public class ExportWizard extends Wizard implements IExportWizard {
 						e.printStackTrace();
 					}
 					if (editorInput instanceof IFileEditorInput) {
-						String name = ((IFileEditorInput) editorInput)
-								.getFile().getProject().getName();
+						String name = ((IFileEditorInput) editorInput).getFile().getProject()
+								.getName();
 						ProjectExporter project = workflowMap.get(name);
 						if (project == null) {
 							project = mediaMap.get(name);
@@ -160,11 +155,9 @@ public class ExportWizard extends Wizard implements IExportWizard {
 			ISelection currentSelection = workbench.getActiveWorkbenchWindow()
 					.getSelectionService().getSelection();
 			if (currentSelection instanceof IStructuredSelection) {
-				for (Object selected : ((IStructuredSelection) currentSelection)
-						.toList()) {
+				for (Object selected : ((IStructuredSelection) currentSelection).toList()) {
 					if (selected instanceof IProject) {
-						WorkflowExporter project = workflowMap
-								.get(((IProject) selected).getName());
+						WorkflowExporter project = workflowMap.get(((IProject) selected).getName());
 						if (project != null) {
 							selectedProjects.add(project);
 						}
@@ -172,10 +165,9 @@ public class ExportWizard extends Wizard implements IExportWizard {
 				}
 			}
 			// Create the default pages.
-			ArchiveSelectionPage archiveSelectionPage = new ArchiveSelectionPage(
-					exporter);
-			ProjectSelectionPage projectSelectionPage = new ProjectSelectionPage(
-					exporter, workflowProjects, selectedProjects);
+			ArchiveSelectionPage archiveSelectionPage = new ArchiveSelectionPage(exporter);
+			ProjectSelectionPage projectSelectionPage = new ProjectSelectionPage(exporter,
+					workflowProjects, selectedProjects);
 			pages.put(archiveSelectionPage, null);
 			pages.put(projectSelectionPage, null);
 			for (ExportAgent agent : agents) {
@@ -221,9 +213,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
 	@Override
 	public final boolean canFinish() {
 		for (ExportAgent agent : agents) {
-			if (!agent.getValue().canFinish()) {
-				return false;
-			}
+			if (!agent.getValue().canFinish()) { return false; }
 		}
 		return super.canFinish();
 	}
@@ -233,24 +223,18 @@ public class ExportWizard extends Wizard implements IExportWizard {
 		try {
 			getContainer().run(true, true, new IRunnableWithProgress() {
 				@Override
-				public void run(IProgressMonitor monitor)
-						throws InvocationTargetException, InterruptedException {
+				public void run(IProgressMonitor monitor) throws InvocationTargetException,
+						InterruptedException {
 					try {
 						if (!exporter.isUsingArchiveFile()
 								&& !exporter.getArchiveLocation().isDirectory()
-								&& !exporter.getArchiveLocation().mkdirs()) {
-							throw new FileNotFoundException(exporter
-									.getArchiveLocation().getAbsolutePath());
-						}
-						new WebApplicationExporter(agents).export(
-								exporter.getArchiveLocation(),
-								exporter.getWorkflowSelection(),
-								exporter.getMediaSelection(),
+								&& !exporter.getArchiveLocation().mkdirs()) { throw new FileNotFoundException(
+								exporter.getArchiveLocation().getAbsolutePath()); }
+						new WebApplicationExporter(agents).export(exporter.getArchiveLocation(),
+								exporter.getWorkflowSelection(), exporter.getMediaSelection(),
 								exporter.hasSeparateMedia(), monitor);
-						((ArchiveSelectionPage) pages.keySet().iterator()
-								.next()).saveArchivePath();
-						for (WorkflowExporter e : exporter
-								.getWorkflowSelection()) {
+						((ArchiveSelectionPage) pages.keySet().iterator().next()).saveArchivePath();
+						for (WorkflowExporter e : exporter.getWorkflowSelection()) {
 							e.saveSettings(exporter);
 						}
 						for (MediaExporter e : exporter.getMediaSelection()) {
@@ -265,11 +249,10 @@ public class ExportWizard extends Wizard implements IExportWizard {
 			});
 			return true;
 		} catch (InvocationTargetException e) {
-			ExportCore.displayError(getShell(),
-					"Error Exporting Web Application", e.getTargetException());
+			ExportCore.displayError(getShell(), "Error Exporting Web Application", e
+					.getTargetException());
 		} catch (Exception e) {
-			ExportCore.displayError(getShell(),
-					"Error Exporting Web Application", e);
+			ExportCore.displayError(getShell(), "Error Exporting Web Application", e);
 		}
 		return false;
 	}

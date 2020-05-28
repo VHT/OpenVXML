@@ -34,15 +34,12 @@ public class JavaScriptContext implements IScriptingContext {
 	/**
 	 * Creates a new JavaScriptContext.
 	 * 
-	 * @param applicationClassLoader
-	 *            The application class loader.
-	 * @param scriptingLanguage
-	 *            The scripting language that was requested.
-	 * @param scriptables
-	 *            The scriptables to initialize.
+	 * @param applicationClassLoader The application class loader.
+	 * @param scriptingLanguage The scripting language that was requested.
+	 * @param scriptables The scriptables to initialize.
 	 */
-	public JavaScriptContext(ClassLoader applicationClassLoader,
-			String scriptingLanguage, IScriptable[] scriptables) {
+	public JavaScriptContext(ClassLoader applicationClassLoader, String scriptingLanguage,
+			IScriptable[] scriptables) {
 		this.applicationClassLoader = applicationClassLoader;
 		Context ctx = Context.enter();
 		try {
@@ -55,10 +52,8 @@ public class JavaScriptContext implements IScriptingContext {
 	/**
 	 * Creates a new JavaScriptContext.
 	 * 
-	 * @param scriptables
-	 *            The scriptables to initialize.
-	 * @param owner
-	 *            The owner of this context.
+	 * @param scriptables The scriptables to initialize.
+	 * @param owner The owner of this context.
 	 */
 	public JavaScriptContext(IScriptable[] scriptables, JavaScriptContext owner) {
 		applicationClassLoader = owner.applicationClassLoader;
@@ -72,9 +67,7 @@ public class JavaScriptContext implements IScriptingContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptingContext#
-	 * createScriptingContext(
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptingContext# createScriptingContext(
 	 * org.eclipse.vtp.framework.spi.scripting.IScriptable[])
 	 */
 	@Override
@@ -84,9 +77,7 @@ public class JavaScriptContext implements IScriptingContext {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptingContext#
-	 * createScriptingEngine()
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptingContext# createScriptingEngine()
 	 */
 	@Override
 	public IScriptingEngine createScriptingEngine() {
@@ -104,10 +95,7 @@ public class JavaScriptContext implements IScriptingContext {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.vtp.framework.spi.scripting.IScriptingEngine#execute(
-		 * java.lang.String)
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptingEngine#execute( java.lang.String)
 		 */
 		@Override
 		public Object execute(String script) {
@@ -120,18 +108,15 @@ public class JavaScriptContext implements IScriptingContext {
 					instance.setPrototype(scope);
 					instance.setParentScope(null);
 				}
-				return JavaScriptObject.jsToJava(ctx.evaluateString(instance,
-						script, "<script>", 0, null)); //$NON-NLS-1$
+				return JavaScriptObject.jsToJava(ctx.evaluateString(instance, script,
+						"<script>", 0, null)); //$NON-NLS-1$
 			} catch (JavaScriptException jse) {
 				if (jse.getValue() instanceof ScriptableObject) {
 					ScriptableObject error = (ScriptableObject) jse.getValue();
-					Object titleObj = ScriptableObject.getProperty(error,
-							"name");
-					Object descriptionObj = ScriptableObject.getProperty(error,
-							"message");
-					throw new ScriptingException(JavaScriptObject.jsToJava(
-							titleObj).toString(), JavaScriptObject.jsToJava(
-							descriptionObj).toString(), jse);
+					Object titleObj = ScriptableObject.getProperty(error, "name");
+					Object descriptionObj = ScriptableObject.getProperty(error, "message");
+					throw new ScriptingException(JavaScriptObject.jsToJava(titleObj).toString(),
+							JavaScriptObject.jsToJava(descriptionObj).toString(), jse);
 				}
 				throw jse;
 			} finally {
@@ -152,25 +137,21 @@ public class JavaScriptContext implements IScriptingContext {
 		/**
 		 * Creates a new Scope.
 		 * 
-		 * @param prototype
-		 *            The prototype of this scope.
-		 * @param scriptables
-		 *            The set of scriptables within the new scope
+		 * @param prototype The prototype of this scope.
+		 * @param scriptables The set of scriptables within the new scope
 		 */
 		Scope(Scriptable prototype, IScriptable[] scriptables) {
 			setPrototype(prototype);
 			setParentScope(null);
 			for (IScriptable scriptable : scriptables) {
-				defineProperty(scriptable.getName(), new JavaScriptObject(
-						scriptable), ScriptableObject.PERMANENT
-						| ScriptableObject.READONLY);
+				defineProperty(scriptable.getName(), new JavaScriptObject(scriptable),
+						ScriptableObject.PERMANENT | ScriptableObject.READONLY);
 			}
 			sealObject();
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.mozilla.javascript.ScriptableObject#getClassName()
 		 */
 		@Override

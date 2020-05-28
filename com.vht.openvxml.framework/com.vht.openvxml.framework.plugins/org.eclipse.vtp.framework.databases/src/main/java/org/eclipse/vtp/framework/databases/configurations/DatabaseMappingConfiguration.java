@@ -19,8 +19,7 @@ import org.w3c.dom.Element;
  * 
  * @author Lonnie Pryor
  */
-public class DatabaseMappingConfiguration implements IConfiguration,
-		DatabaseConstants {
+public class DatabaseMappingConfiguration implements IConfiguration, DatabaseConstants {
 	/** No action is taken for this mapping. */
 	public static final int TYPE_NONE = 0;
 	/** Use the value of a column in the result set. */
@@ -38,8 +37,7 @@ public class DatabaseMappingConfiguration implements IConfiguration,
 	/**
 	 * Creates a new DatabaseMappingConfiguration.
 	 */
-	public DatabaseMappingConfiguration() {
-	}
+	public DatabaseMappingConfiguration() {}
 
 	/**
 	 * Returns the name of the field to map to.
@@ -53,8 +51,7 @@ public class DatabaseMappingConfiguration implements IConfiguration,
 	/**
 	 * Sets the name of the field to map to.
 	 * 
-	 * @param name
-	 *            The name of the field to map to.
+	 * @param name The name of the field to map to.
 	 */
 	public void setName(String name) {
 		this.name = name == null ? "" : name; //$NON-NLS-1$
@@ -72,8 +69,7 @@ public class DatabaseMappingConfiguration implements IConfiguration,
 	/**
 	 * Sets the type of mapping to perform.
 	 * 
-	 * @param type
-	 *            The type of mapping to perform.
+	 * @param type The type of mapping to perform.
 	 */
 	public void setType(int type) {
 		this.type = type;
@@ -91,8 +87,7 @@ public class DatabaseMappingConfiguration implements IConfiguration,
 	/**
 	 * Sets the value to use for the mapping.
 	 * 
-	 * @param value
-	 *            The value to use for the mapping.
+	 * @param value The value to use for the mapping.
 	 */
 	public void setValue(String value) {
 		this.value = value;
@@ -100,9 +95,7 @@ public class DatabaseMappingConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#load( org.w3c.dom.Element)
 	 */
 	@Override
 	public void load(Element configurationElement) {
@@ -124,9 +117,7 @@ public class DatabaseMappingConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#save( org.w3c.dom.Element)
 	 */
 	@Override
 	public void save(Element configurationElement) {

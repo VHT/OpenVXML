@@ -29,8 +29,8 @@ public class WebserviceDropAssistant extends CommonDropAdapterAssistant {
 	}
 
 	@Override
-	public IStatus handleDrop(CommonDropAdapter aDropAdapter,
-			DropTargetEvent aDropTargetEvent, Object aTarget) {
+	public IStatus handleDrop(CommonDropAdapter aDropAdapter, DropTargetEvent aDropTargetEvent,
+			Object aTarget) {
 		IWebserviceSet webserviceSet = null;
 		if (aTarget instanceof IWebserviceSet) {
 			webserviceSet = (IWebserviceSet) aTarget;
@@ -45,8 +45,7 @@ public class WebserviceDropAssistant extends CommonDropAdapterAssistant {
 		} else {
 			operation = new CopyFilesAndFoldersOperation(this.getShell());
 		}
-		Object objs = FileTransfer.getInstance().nativeToJava(
-				aDropTargetEvent.currentDataType);
+		Object objs = FileTransfer.getInstance().nativeToJava(aDropTargetEvent.currentDataType);
 		if (objs instanceof String[]) {
 			String[] files = (String[]) objs;
 			IContainer container = webserviceSet.getUnderlyingFolder();
@@ -66,15 +65,13 @@ public class WebserviceDropAssistant extends CommonDropAdapterAssistant {
 						if (obj instanceof IResource) {
 							resource = (IResource) obj;
 						} else if (obj instanceof IAdaptable) {
-							resource = (IResource) ((IAdaptable) obj)
-									.getAdapter(IResource.class);
+							resource = (IResource) ((IAdaptable) obj).getAdapter(IResource.class);
 						}
 						if (resource != null) {
 							toCopy.add(resource);
 						}
 					}
-					operation.copyResources(
-							toCopy.toArray(new IResource[toCopy.size()]),
+					operation.copyResources(toCopy.toArray(new IResource[toCopy.size()]),
 							webserviceSet.getUnderlyingFolder());
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -86,8 +83,7 @@ public class WebserviceDropAssistant extends CommonDropAdapterAssistant {
 	}
 
 	@Override
-	public IStatus validateDrop(Object aTarget, int operation,
-			TransferData transferType) {
+	public IStatus validateDrop(Object aTarget, int operation, TransferData transferType) {
 		IWebserviceSet webserviceSet = null;
 		if (aTarget instanceof IWebserviceSet) {
 			webserviceSet = (IWebserviceSet) aTarget;
@@ -96,20 +92,16 @@ public class WebserviceDropAssistant extends CommonDropAdapterAssistant {
 		} else {
 			return Status.CANCEL_STATUS;
 		}
-		if (FileTransfer.getInstance().isSupportedType(transferType)) {
-			return Status.OK_STATUS;
-		}
+		if (FileTransfer.getInstance().isSupportedType(transferType)) { return Status.OK_STATUS; }
 		if (LocalSelectionTransfer.getTransfer().isSupportedType(transferType)) {
 			IStructuredSelection selection = (IStructuredSelection) LocalSelectionTransfer
 					.getTransfer().getSelection();
 			for (Object obj : selection.toList()) {
 				System.out.println("selection object: " + obj);
 				if (obj instanceof IWebserviceDescriptor) {
-					if (((IWebserviceDescriptor) obj).getParent().equals(
-							webserviceSet)) // same parent
-					{
-						return Status.CANCEL_STATUS;
-					}
+					if (((IWebserviceDescriptor) obj).getParent().equals(webserviceSet)) // same
+																							// parent
+					{ return Status.CANCEL_STATUS; }
 				}
 			}
 			return Status.OK_STATUS;

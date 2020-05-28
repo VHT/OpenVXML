@@ -22,8 +22,7 @@ import org.w3c.dom.Element;
 public class DateContent extends FormattableContent {
 	public static final String ELEMENT_NAME = "date-content"; //$NON-NLS-1$
 
-	public DateContent() {
-	}
+	public DateContent() {}
 
 	public DateContent(Element element) {
 		super(element);
@@ -40,9 +39,9 @@ public class DateContent extends FormattableContent {
 		if (getValueType() != VARIABLE_VALUE) {
 			Calendar date = DateHelper.parseDate(getValue());
 			if (date != null) {
-				ret.addAll(formatter.formatDate(date, mediaProvider
-						.getFormatManager().getFormat(this, getFormatName()),
-						getFormatOptions(), mediaProvider.getResourceManager()));
+				ret.addAll(formatter.formatDate(date, mediaProvider.getFormatManager().getFormat(
+						this, getFormatName()), getFormatOptions(), mediaProvider
+						.getResourceManager()));
 			} else {
 				TextContent textContent = new TextContent();
 				if (this.getValueType() == FormattableContent.STATIC_VALUE) {
@@ -58,8 +57,8 @@ public class DateContent extends FormattableContent {
 
 	@Override
 	public Element store(Element element) {
-		Element thisElement = element.getOwnerDocument().createElementNS(
-				ELEMENT_NAMESPACE, ELEMENT_NAME);
+		Element thisElement = element.getOwnerDocument().createElementNS(ELEMENT_NAMESPACE,
+				ELEMENT_NAME);
 		element.appendChild(thisElement);
 		super.storeBaseInfo(thisElement);
 		return thisElement;
@@ -72,9 +71,7 @@ public class DateContent extends FormattableContent {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.media.Content#createCopy()
+	 * @see org.eclipse.vtp.framework.interactions.core.media.Content#createCopy()
 	 */
 	@Override
 	public Content createCopy() {
@@ -83,8 +80,7 @@ public class DateContent extends FormattableContent {
 
 	public static void printDate(String date) {
 		Calendar cal = DateHelper.parseDate(date);
-		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
-				DateFormat.LONG);
+		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.LONG);
 		System.out.println(cal.getTimeZone());
 		System.out.println(df.format(cal.getTime()));
 		df.setTimeZone(cal.getTimeZone());

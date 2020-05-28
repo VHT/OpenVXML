@@ -29,8 +29,7 @@ public class JavaScriptProvider implements IScriptingProvider {
 	/**
 	 * Creates a new JavaScriptProvider.
 	 * 
-	 * @param context
-	 *            The process context of this provider
+	 * @param context The process context of this provider
 	 */
 	public JavaScriptProvider(final IProcessContext context) {
 		applicatioClassLoader = new ClassLoader() {
@@ -44,15 +43,12 @@ public class JavaScriptProvider implements IScriptingProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptingProvider#
 	 * createScriptingContext(java.lang.String,
 	 * org.eclipse.vtp.framework.spi.scripting.IScriptable[])
 	 */
 	@Override
-	public IScriptingContext createScriptingContext(String scriptingLanuage,
-			IScriptable[] content) {
-		return new JavaScriptContext(applicatioClassLoader, scriptingLanuage,
-				content);
+	public IScriptingContext createScriptingContext(String scriptingLanuage, IScriptable[] content) {
+		return new JavaScriptContext(applicatioClassLoader, scriptingLanuage, content);
 	}
 }

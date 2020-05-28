@@ -34,8 +34,7 @@ public class InteractionTypeRegistry implements IInteractionTypeRegistry {
 	/**
 	 * Creates a new InteractionTypeRegistry.
 	 * 
-	 * @param registry
-	 *            The extension registry to load from.
+	 * @param registry The extension registry to load from.
 	 */
 	public InteractionTypeRegistry(IExtensionRegistry registry) {
 		IExtensionPoint point = registry.getExtensionPoint(//
@@ -43,11 +42,9 @@ public class InteractionTypeRegistry implements IInteractionTypeRegistry {
 		IExtension[] extensions = point.getExtensions();
 		Map interactionTypes = new HashMap(extensions.length);
 		for (IExtension extension : extensions) {
-			IConfigurationElement[] elements = extension
-					.getConfigurationElements();
+			IConfigurationElement[] elements = extension.getConfigurationElements();
 			for (IConfigurationElement element : elements) {
-				InteractionType contentType = new InteractionType(
-						element.getAttribute("id"), //$NON-NLS-1$
+				InteractionType contentType = new InteractionType(element.getAttribute("id"), //$NON-NLS-1$
 						element.getAttribute("name")); //$NON-NLS-1$
 				interactionTypes.put(contentType.getId(), contentType);
 			}
@@ -57,22 +54,17 @@ public class InteractionTypeRegistry implements IInteractionTypeRegistry {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.IInteractionTypeRegistry#
+	 * @see org.eclipse.vtp.framework.interactions.core.IInteractionTypeRegistry#
 	 * getInteractionTypeIDs()
 	 */
 	@Override
 	public String[] getInteractionTypeIDs() {
-		return (String[]) interactionTypes.keySet().toArray(
-				new String[interactionTypes.size()]);
+		return (String[]) interactionTypes.keySet().toArray(new String[interactionTypes.size()]);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.IInteractionTypeRegistry#
+	 * @see org.eclipse.vtp.framework.interactions.core.IInteractionTypeRegistry#
 	 * getInteractionType(java.lang.String)
 	 */
 	@Override
@@ -94,10 +86,8 @@ public class InteractionTypeRegistry implements IInteractionTypeRegistry {
 		/**
 		 * Creates a new InteractionType.
 		 * 
-		 * @param id
-		 *            The ID of this interaction type.
-		 * @param name
-		 *            The name of this interaction type.
+		 * @param id The ID of this interaction type.
+		 * @param name The name of this interaction type.
 		 */
 		InteractionType(String id, String name) {
 			this.id = id;
@@ -106,9 +96,7 @@ public class InteractionTypeRegistry implements IInteractionTypeRegistry {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.vtp.framework.interactions.core.IInteractionType#getId()
+		 * @see org.eclipse.vtp.framework.interactions.core.IInteractionType#getId()
 		 */
 		@Override
 		public String getId() {
@@ -117,9 +105,7 @@ public class InteractionTypeRegistry implements IInteractionTypeRegistry {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.vtp.framework.interactions.core.IInteractionType#
-		 * getName()
+		 * @see org.eclipse.vtp.framework.interactions.core.IInteractionType# getName()
 		 */
 		@Override
 		public String getName() {

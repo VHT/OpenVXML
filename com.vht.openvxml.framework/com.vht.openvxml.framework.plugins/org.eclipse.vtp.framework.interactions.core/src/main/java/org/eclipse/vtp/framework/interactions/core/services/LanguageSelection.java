@@ -36,20 +36,16 @@ public class LanguageSelection implements ILanguageSelection, IScriptable {
 	/**
 	 * Creates a new LanguageSelection.
 	 * 
-	 * @param context
-	 *            The session context.
-	 * @param languageRegistry
-	 *            The language registry.
+	 * @param context The session context.
+	 * @param languageRegistry The language registry.
 	 */
-	public LanguageSelection(ISessionContext context,
-			ILanguageRegistry languageRegistry, IBrandSelection brandSelection,
-			IMediaProviderRegistry mediaProviderRegistry) {
+	public LanguageSelection(ISessionContext context, ILanguageRegistry languageRegistry,
+			IBrandSelection brandSelection, IMediaProviderRegistry mediaProviderRegistry) {
 		this.context = context;
 		this.languageRegistry = languageRegistry;
 		String defaultLanguage = null;
 		if (context.isDebugEnabled()) {
-			context.debug("Selected Brand: "
-					+ brandSelection.getSelectedBrand().getId());
+			context.debug("Selected Brand: " + brandSelection.getSelectedBrand().getId());
 		}
 		String[] ids = languageRegistry
 				.getLanguageIDs("org.eclipse.vtp.framework.interactions.voice.interaction");
@@ -57,63 +53,44 @@ public class LanguageSelection implements ILanguageSelection, IScriptable {
 			if (context.isDebugEnabled()) {
 				context.debug("Language: " + id);
 			}
-			String providerId = mediaProviderRegistry.lookupMediaProviderID(
-					brandSelection.getSelectedBrand().getId(),
-					"org.eclipse.vtp.framework.interactions.voice.interaction",
-					id);
+			String providerId = mediaProviderRegistry.lookupMediaProviderID(brandSelection
+					.getSelectedBrand().getId(),
+					"org.eclipse.vtp.framework.interactions.voice.interaction", id);
 			if (context.isDebugEnabled()) {
 				context.debug("Media Provider Id: " + providerId);
-				context.debug(mediaProviderRegistry
-						.getMediaProvider(providerId).getFormatter().toString());
+				context.debug(mediaProviderRegistry.getMediaProvider(providerId).getFormatter()
+						.toString());
 			}
 		}
 		Locale locale = Locale.getDefault();
 		for (int i = 0; defaultLanguage == null && i < ids.length; ++i) {
-			if (locale
-					.equals(mediaProviderRegistry
-							.getMediaProvider(
-									mediaProviderRegistry
-											.lookupMediaProviderID(
-													brandSelection
-															.getSelectedBrand()
-															.getId(),
-													"org.eclipse.vtp.framework.interactions.voice.interaction",
-													ids[i])).getFormatter()
-							.getLanguageCode())) {
+			if (locale.equals(mediaProviderRegistry.getMediaProvider(
+					mediaProviderRegistry.lookupMediaProviderID(brandSelection.getSelectedBrand()
+							.getId(), "org.eclipse.vtp.framework.interactions.voice.interaction",
+							ids[i])).getFormatter().getLanguageCode())) {
 				defaultLanguage = ids[i];
 			}
 		}
 		if (defaultLanguage == null) {
 			locale = new Locale(locale.getLanguage(), locale.getCountry());
 			for (int i = 0; defaultLanguage == null && i < ids.length; ++i) {
-				if (locale
-						.equals(mediaProviderRegistry
-								.getMediaProvider(
-										mediaProviderRegistry
-												.lookupMediaProviderID(
-														brandSelection
-																.getSelectedBrand()
-																.getId(),
-														"org.eclipse.vtp.framework.interactions.voice.interaction",
-														ids[i])).getFormatter()
-								.getLanguageCode())) {
+				if (locale.equals(mediaProviderRegistry
+						.getMediaProvider(
+								mediaProviderRegistry.lookupMediaProviderID(brandSelection
+										.getSelectedBrand().getId(),
+										"org.eclipse.vtp.framework.interactions.voice.interaction",
+										ids[i])).getFormatter().getLanguageCode())) {
 					defaultLanguage = ids[i];
 				}
 			}
 			if (defaultLanguage == null) {
 				locale = new Locale(locale.getLanguage());
 				for (int i = 0; defaultLanguage == null && i < ids.length; ++i) {
-					if (locale
-							.equals(mediaProviderRegistry
-									.getMediaProvider(
-											mediaProviderRegistry
-													.lookupMediaProviderID(
-															brandSelection
-																	.getSelectedBrand()
-																	.getId(),
-															"org.eclipse.vtp.framework.interactions.voice.interaction",
-															ids[i]))
-									.getFormatter().getLanguageCode())) {
+					if (locale.equals(mediaProviderRegistry.getMediaProvider(
+							mediaProviderRegistry.lookupMediaProviderID(brandSelection
+									.getSelectedBrand().getId(),
+									"org.eclipse.vtp.framework.interactions.voice.interaction",
+									ids[i])).getFormatter().getLanguageCode())) {
 						defaultLanguage = ids[i];
 					}
 				}
@@ -127,16 +104,13 @@ public class LanguageSelection implements ILanguageSelection, IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.interactions.core.ILanguageSelection#
-	 * getSelectedLanguage()
+	 * @see org.eclipse.vtp.framework.interactions.core.ILanguageSelection# getSelectedLanguage()
 	 */
 	@Override
 	public String getSelectedLanguage() {
 		String id = (String) context.getAttribute("language.selection"); //$NON-NLS-1$
 		if (id == null || id.equals("")) {
-			String inherited = (String) context
-					.getInheritedAttribute("language.selection");
+			String inherited = (String) context.getInheritedAttribute("language.selection");
 			String[] ids = languageRegistry
 					.getLanguageIDs("org.eclipse.vtp.framework.interactions.voice.interaction");
 			for (String lid : ids) {
@@ -173,7 +147,6 @@ public class LanguageSelection implements ILanguageSelection, IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.ILanguageSelection#
 	 * setSelectedLanguage(java.lang.String)
 	 */
@@ -212,9 +185,7 @@ public class LanguageSelection implements ILanguageSelection, IScriptable {
 
 	@Override
 	public Object getEntry(String name) {
-		if ("value".equals(name)) {
-			return getSelectedLanguage();
-		}
+		if ("value".equals(name)) { return getSelectedLanguage(); }
 		return null;
 	}
 

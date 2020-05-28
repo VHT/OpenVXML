@@ -63,14 +63,11 @@ public class DialogElement extends DesignElement implements ModelListener {
 		dialogDesign = getDesign().getDocument().getDialogDesign(getId());
 		dialogDesign.addListener(this);
 		for (IDesignElement designElement : dialogDesign.getDesignElements()) {
-			IDialogExit exit = (IDialogExit) designElement
-					.getAdapter(IDialogExit.class);
+			IDialogExit exit = (IDialogExit) designElement.getAdapter(IDialogExit.class);
 			if (exit != null) {
-				IDesignElementConnectionPoint.ConnectionPointType type = exit
-						.getType();
+				IDesignElementConnectionPoint.ConnectionPointType type = exit.getType();
 				ConnectorRecord connectorRecord = new ConnectorRecord(
-						(DesignElement) designElement, designElement.getName(),
-						type);
+						(DesignElement) designElement, designElement.getName(), type);
 				connectorRecords.add(connectorRecord);
 				NameWatcher nameWatcher = new NameWatcher(connectorRecord);
 				designElement.addPropertyListener(nameWatcher);
@@ -84,9 +81,7 @@ public class DialogElement extends DesignElement implements ModelListener {
 	public IDesignElementConnectionPoint getConnectorRecord(String recordName) {
 		for (int i = 0; i < connectorRecords.size(); i++) {
 			ConnectorRecord cr = connectorRecords.get(i);
-			if (cr.getName().equals(recordName)) {
-				return cr;
-			}
+			if (cr.getName().equals(recordName)) { return cr; }
 		}
 		return null;
 	}
@@ -102,8 +97,7 @@ public class DialogElement extends DesignElement implements ModelListener {
 		List<IDesignElementConnectionPoint> ret = new LinkedList<IDesignElementConnectionPoint>();
 		for (ConnectorRecord cr : connectorRecords) {
 			if (cr.getType().isSet(
-					IDesignElementConnectionPoint.ConnectionPointType
-							.getFlagSet(types))) {
+					IDesignElementConnectionPoint.ConnectionPointType.getFlagSet(types))) {
 				ret.add(cr);
 			}
 		}
@@ -111,12 +105,10 @@ public class DialogElement extends DesignElement implements ModelListener {
 	}
 
 	@Override
-	public void readCustomConfiguration(org.w3c.dom.Element configuration) {
-	}
+	public void readCustomConfiguration(org.w3c.dom.Element configuration) {}
 
 	@Override
-	public void writeCustomConfiguration(org.w3c.dom.Element customElement) {
-	}
+	public void writeCustomConfiguration(org.w3c.dom.Element customElement) {}
 
 	@Override
 	public boolean acceptsConnector(IDesignElement origin) {
@@ -153,13 +145,11 @@ public class DialogElement extends DesignElement implements ModelListener {
 	public void componentAdded(IDesign model, IDesignComponent component) {
 		if (component instanceof DesignElement) {
 			DesignElement designElement = (DesignElement) component;
-			IDialogExit exit = (IDialogExit) designElement
-					.getAdapter(IDialogExit.class);
+			IDialogExit exit = (IDialogExit) designElement.getAdapter(IDialogExit.class);
 			if (exit != null) {
-				IDesignElementConnectionPoint.ConnectionPointType type = exit
-						.getType();
-				ConnectorRecord connectorRecord = new ConnectorRecord(
-						designElement, designElement.getName(), type);
+				IDesignElementConnectionPoint.ConnectionPointType type = exit.getType();
+				ConnectorRecord connectorRecord = new ConnectorRecord(designElement, designElement
+						.getName(), type);
 				connectorRecords.add(connectorRecord);
 				NameWatcher nameWatcher = new NameWatcher(connectorRecord);
 				designElement.addPropertyListener(nameWatcher);
@@ -173,16 +163,13 @@ public class DialogElement extends DesignElement implements ModelListener {
 	public void componentRemoved(IDesign model, IDesignComponent component) {
 		if (component instanceof DesignElement) {
 			DesignElement designElement = (DesignElement) component;
-			IDialogExit exit = (IDialogExit) designElement
-					.getAdapter(IDialogExit.class);
+			IDialogExit exit = (IDialogExit) designElement.getAdapter(IDialogExit.class);
 			if (exit != null) {
-				NameWatcher nameWatcher = watchers
-						.remove(designElement.getId());
+				NameWatcher nameWatcher = watchers.remove(designElement.getId());
 				designElement.removePropertyListener(nameWatcher);
 				connectorRecords.remove(nameWatcher.watched);
 				if (nameWatcher.watched.getDesignConnector() != null) {
-					IDesignConnector connector = nameWatcher.watched
-							.getDesignConnector();
+					IDesignConnector connector = nameWatcher.watched.getDesignConnector();
 					connector.removeConnectionPoint(nameWatcher.watched);
 					if (connector.getConnectionPoints().size() == 0) // removed
 																		// last
@@ -210,8 +197,7 @@ public class DialogElement extends DesignElement implements ModelListener {
 				watched.setName((String) evt.getNewValue());
 			} else if (evt.getPropertyName().equals(IDialogExit.PROP_EXIT_TYPE)) {
 				DesignElement designElement = (DesignElement) evt.getSource();
-				IDialogExit exit = (IDialogExit) designElement
-						.getAdapter(IDialogExit.class);
+				IDialogExit exit = (IDialogExit) designElement.getAdapter(IDialogExit.class);
 				if (exit != null) {
 					watched.setType(exit.getType());
 				}
@@ -220,33 +206,26 @@ public class DialogElement extends DesignElement implements ModelListener {
 	}
 
 	@Override
-	public List<Variable> getOutgoingVariables(String exitPoint,
-			boolean localOnly) {
+	public List<Variable> getOutgoingVariables(String exitPoint, boolean localOnly) {
 		System.out.println("getting dialog variables for exit: " + exitPoint);
-		IDesign dialogDesign = getDesign().getDocument().getDialogDesign(
-				getId());
+		IDesign dialogDesign = getDesign().getDocument().getDialogDesign(getId());
 		List<IDesignElement> elements = dialogDesign.getDesignElements();
 		for (IDesignElement designElement : elements) {
-			IDialogExit dialogExit = (IDialogExit) designElement
-					.getAdapter(IDialogExit.class);
+			IDialogExit dialogExit = (IDialogExit) designElement.getAdapter(IDialogExit.class);
 			if (dialogExit != null) {
-				System.out.println("found dialog exit: "
-						+ designElement.getName());
-				if (designElement.getName().equals(exitPoint)) {
-					return dialogDesign.getVariablesFor(designElement, true);
-				}
+				System.out.println("found dialog exit: " + designElement.getName());
+				if (designElement.getName().equals(exitPoint)) { return dialogDesign
+						.getVariablesFor(designElement, true); }
 			}
 		}
 		return Collections.emptyList();
 	}
 
 	@Override
-	public void orientationChanged(IDesign model) {
-	}
+	public void orientationChanged(IDesign model) {}
 
 	@Override
-	public void paperSizeChanged(IDesign model) {
-	}
+	public void paperSizeChanged(IDesign model) {}
 
 	@Override
 	public boolean canBeContainedBy(IDesign design) {
@@ -256,16 +235,13 @@ public class DialogElement extends DesignElement implements ModelListener {
 	@Override
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) {
-		if (adapter.isAssignableFrom(getClass())) {
-			return this;
-		}
+		if (adapter.isAssignableFrom(getClass())) { return this; }
 		return null;
 	}
 
 	@Override
 	public void delete() {
-		((DesignDocument) getDesign().getDocument()).removeDialogDesign(this
-				.getId());
+		((DesignDocument) getDesign().getDocument()).removeDialogDesign(this.getId());
 		super.delete();
 	}
 }

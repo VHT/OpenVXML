@@ -19,9 +19,9 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
 /**
- * The <code>Exit</code> class represents the &lt;exit&gt; VXML element. This
- * element causes the VXML interpreter to immediately stop execution of the
- * current VXML document and halt the VXML application.
+ * The <code>Exit</code> class represents the &lt;exit&gt; VXML element. This element causes the
+ * VXML interpreter to immediately stop execution of the current VXML document and halt the VXML
+ * application.
  *
  * @author Trip Gilman
  * @author Lonnie Pryor
@@ -70,8 +70,7 @@ public class Exit extends Action {
 			this.method = VXMLConstants.METHOD_GET;
 		} else {
 			this.method = VXMLConstants.METHOD_GET;
-			System.out.println("Expecting \"post\" or \"get\". Got " + method
-					+ " instead");
+			System.out.println("Expecting \"post\" or \"get\". Got " + method + " instead");
 		}
 
 	}
@@ -89,73 +88,55 @@ public class Exit extends Action {
 	}
 
 	/**
-	 * Adds the variable name to the list of variable names that will be copied
-	 * into the calling dialog's scope.
+	 * Adds the variable name to the list of variable names that will be copied into the calling
+	 * dialog's scope.
 	 * 
-	 * @param name
-	 *            The variable name to add.
-	 * @throws IllegalArgumentException
-	 *             If the supplied name is empty.
-	 * @throws NullPointerException
-	 *             If the supplied name is <code>null</code>.
+	 * @param name The variable name to add.
+	 * @throws IllegalArgumentException If the supplied name is empty.
+	 * @throws NullPointerException If the supplied name is <code>null</code>.
 	 */
-	public void addName(String name) throws IllegalArgumentException,
-			NullPointerException {
-		if (name == null) {
-			throw new NullPointerException("name"); //$NON-NLS-1$
+	public void addName(String name) throws IllegalArgumentException, NullPointerException {
+		if (name == null) { throw new NullPointerException("name"); //$NON-NLS-1$
 		}
-		if (name.length() == 0) {
-			throw new IllegalArgumentException("name"); //$NON-NLS-1$
+		if (name.length() == 0) { throw new IllegalArgumentException("name"); //$NON-NLS-1$
 		}
 		names.add(name);
 	}
 
 	/**
-	 * Removes the variable name from the list of variable names that will be
-	 * copied into the calling dialog's scope.
+	 * Removes the variable name from the list of variable names that will be copied into the
+	 * calling dialog's scope.
 	 * 
-	 * @param name
-	 *            The variable name to remove.
-	 * @throws IllegalArgumentException
-	 *             If the supplied name is empty.
-	 * @throws NullPointerException
-	 *             If the supplied name is <code>null</code>.
+	 * @param name The variable name to remove.
+	 * @throws IllegalArgumentException If the supplied name is empty.
+	 * @throws NullPointerException If the supplied name is <code>null</code>.
 	 */
-	public void removeName(String name) throws IllegalArgumentException,
-			NullPointerException {
-		if (name == null) {
-			throw new NullPointerException("name"); //$NON-NLS-1$
+	public void removeName(String name) throws IllegalArgumentException, NullPointerException {
+		if (name == null) { throw new NullPointerException("name"); //$NON-NLS-1$
 		}
-		if (name.length() == 0) {
-			throw new IllegalArgumentException("name"); //$NON-NLS-1$
+		if (name.length() == 0) { throw new IllegalArgumentException("name"); //$NON-NLS-1$
 		}
 		names.remove(name);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.voice.output.VXMLWidget#writeWidget(
 	 * org.xml.sax.ContentHandler)
 	 */
 	@Override
-	public void writeWidget(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
-		if (outputHandler == null) {
-			throw new NullPointerException("outputHandler"); //$NON-NLS-1$
+	public void writeWidget(ContentHandler outputHandler) throws NullPointerException, SAXException {
+		if (outputHandler == null) { throw new NullPointerException("outputHandler"); //$NON-NLS-1$
 		}
 		// Start and end the element.
 		AttributesImpl attributes = new AttributesImpl();
 		writeAttributes(attributes);
 
 		if (submit) {
-			outputHandler.startElement(NAMESPACE_URI_VXML, NAME_SUBMIT,
-					NAME_SUBMIT, attributes);
-			outputHandler.endElement(NAMESPACE_URI_VXML, NAME_SUBMIT,
-					NAME_SUBMIT);
+			outputHandler.startElement(NAMESPACE_URI_VXML, NAME_SUBMIT, NAME_SUBMIT, attributes);
+			outputHandler.endElement(NAMESPACE_URI_VXML, NAME_SUBMIT, NAME_SUBMIT);
 		} else {
-			outputHandler.startElement(NAMESPACE_URI_VXML, NAME_EXIT,
-					NAME_EXIT, attributes);
+			outputHandler.startElement(NAMESPACE_URI_VXML, NAME_EXIT, NAME_EXIT, attributes);
 			outputHandler.endElement(NAMESPACE_URI_VXML, NAME_EXIT, NAME_EXIT);
 		}
 	}
@@ -163,10 +144,8 @@ public class Exit extends Action {
 	/**
 	 * Write the attribute members of this action to the supplied set.
 	 * 
-	 * @param attributes
-	 *            The attribute set to write to.
-	 * @throws NullPointerException
-	 *             If the supplied attribute set is <code>null</code>.
+	 * @param attributes The attribute set to write to.
+	 * @throws NullPointerException If the supplied attribute set is <code>null</code>.
 	 */
 	protected void writeAttributes(AttributesImpl attributes) {
 		if (submit && url != null) {
@@ -181,13 +160,11 @@ public class Exit extends Action {
 					buffer.append(' ');
 				}
 			}
-			writeAttribute(attributes, null, null, NAME_NAMELIST, TYPE_CDATA,
-					buffer.toString());
+			writeAttribute(attributes, null, null, NAME_NAMELIST, TYPE_CDATA, buffer.toString());
 		}
 
 		if (submit && method != null) {
-			writeAttribute(attributes, null, null, NAME_METHOD, TYPE_CDATA,
-					method);
+			writeAttribute(attributes, null, null, NAME_METHOD, TYPE_CDATA, method);
 		}
 	}
 

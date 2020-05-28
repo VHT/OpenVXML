@@ -46,14 +46,10 @@ public class SubmitInformationProvider extends PrimitiveInformationProvider {
 		// IDesignElementConnectionPoint.ConnectionPointType.ERROR_POINT));
 		// connectorRecords.add(new ConnectorRecord(element, "error.badfetch",
 		// IDesignElementConnectionPoint.ConnectionPointType.ERROR_POINT));
-		List<String> events = ExtendedInteractiveEventManager.getDefault()
-				.getExtendedEvents();
+		List<String> events = ExtendedInteractiveEventManager.getDefault().getExtendedEvents();
 		for (String event : events) {
-			connectorRecords
-					.add(new ConnectorRecord(
-							element,
-							event,
-							IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
+			connectorRecords.add(new ConnectorRecord(element, event,
+					IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
 		}
 	}
 
@@ -61,9 +57,7 @@ public class SubmitInformationProvider extends PrimitiveInformationProvider {
 	public ConnectorRecord getConnectorRecord(String recordName) {
 		for (int i = 0; i < connectorRecords.size(); i++) {
 			ConnectorRecord cr = connectorRecords.get(i);
-			if (cr.getName().equals(recordName)) {
-				return cr;
-			}
+			if (cr.getName().equals(recordName)) { return cr; }
 		}
 		return null;
 	}
@@ -80,8 +74,7 @@ public class SubmitInformationProvider extends PrimitiveInformationProvider {
 		for (int i = 0; i < connectorRecords.size(); i++) {
 			ConnectorRecord cr = connectorRecords.get(i);
 			if (cr.getType().isSet(
-					IDesignElementConnectionPoint.ConnectionPointType
-							.getFlagSet(types))) {
+					IDesignElementConnectionPoint.ConnectionPointType.getFlagSet(types))) {
 				ret.add(cr);
 			}
 		}
@@ -107,15 +100,14 @@ public class SubmitInformationProvider extends PrimitiveInformationProvider {
 	@Override
 	public void writeConfiguration(org.w3c.dom.Element configuration) {
 		configuration.setAttribute("url", XMLUtilities.encodeAttribute(url));
-		configuration.setAttribute("method",
-				XMLUtilities.encodeAttribute(method));
+		configuration.setAttribute("method", XMLUtilities.encodeAttribute(method));
 		org.w3c.dom.Element inputsElement = configuration.getOwnerDocument()
 				.createElement("inputs");
 		configuration.appendChild(inputsElement);
 		for (int i = 0; i < inputs.size(); i++) {
 			SubmitInput si = inputs.get(i);
-			org.w3c.dom.Element inputElement = configuration.getOwnerDocument()
-					.createElement("input");
+			org.w3c.dom.Element inputElement = configuration.getOwnerDocument().createElement(
+					"input");
 			inputsElement.appendChild(inputElement);
 			inputElement.setAttribute("name", si.name);
 			inputElement.setAttribute("type", Integer.toString(si.type));
@@ -129,15 +121,12 @@ public class SubmitInformationProvider extends PrimitiveInformationProvider {
 		method = configuration.getAttribute("method");
 		NodeList nl = configuration.getElementsByTagName("inputs");
 		if (nl.getLength() > 0) {
-			org.w3c.dom.Element inputsElement = (org.w3c.dom.Element) nl
-					.item(0);
+			org.w3c.dom.Element inputsElement = (org.w3c.dom.Element) nl.item(0);
 			nl = inputsElement.getElementsByTagName("input");
 			for (int i = 0; i < nl.getLength(); i++) {
-				org.w3c.dom.Element inputElement = (org.w3c.dom.Element) nl
-						.item(i);
+				org.w3c.dom.Element inputElement = (org.w3c.dom.Element) nl.item(i);
 				String inputName = inputElement.getAttribute("name");
-				int inputType = Integer.parseInt(inputElement
-						.getAttribute("type"));
+				int inputType = Integer.parseInt(inputElement.getAttribute("type"));
 				String inputValue = inputElement.getAttribute("value");
 				inputs.add(new SubmitInput(inputName, inputType, inputValue));
 			}

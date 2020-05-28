@@ -26,8 +26,7 @@ public class ExitConfiguration implements IConfiguration, CommonConstants {
 	/**
 	 * Creates a new ScriptItemConfiguration.
 	 */
-	public ExitConfiguration() {
-	}
+	public ExitConfiguration() {}
 
 	/**
 	 * Returns the value the configured exit represents.
@@ -40,9 +39,7 @@ public class ExitConfiguration implements IConfiguration, CommonConstants {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.core.IConfiguration#load(org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(org.w3c.dom.Element)
 	 */
 	@Override
 	public void load(Element configurationElement) {
@@ -51,9 +48,7 @@ public class ExitConfiguration implements IConfiguration, CommonConstants {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.core.IConfiguration#save(org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(org.w3c.dom.Element)
 	 */
 	@Override
 	public void save(Element configurationElement) {
@@ -63,8 +58,7 @@ public class ExitConfiguration implements IConfiguration, CommonConstants {
 	/**
 	 * Sets the value the configured exit represents.
 	 * 
-	 * @param value
-	 *            The value the configured exit represents.
+	 * @param value The value the configured exit represents.
 	 */
 	public void setValue(String value) {
 		this.value = value == null ? "" //$NON-NLS-1$

@@ -42,8 +42,11 @@ import org.eclipse.vtp.desktop.export.internal.WorkflowExporter;
  * 
  * @author Lonnie Pryor
  */
-public final class ProjectSelectionPage extends WizardPage implements
-		IStructuredContentProvider, ICheckStateListener, SelectionListener {
+public final class ProjectSelectionPage extends WizardPage
+	implements
+	IStructuredContentProvider,
+	ICheckStateListener,
+	SelectionListener {
 	private final Exporter exporter;
 	private final Collection<WorkflowExporter> projects;
 	private final Set<WorkflowExporter> initialSelection;
@@ -52,11 +55,9 @@ public final class ProjectSelectionPage extends WizardPage implements
 	private Button deselectAll = null;
 	private boolean ignoreProjectSelectionChanged = false;
 
-	public ProjectSelectionPage(Exporter exporter,
-			Collection<WorkflowExporter> projects,
+	public ProjectSelectionPage(Exporter exporter, Collection<WorkflowExporter> projects,
 			Set<WorkflowExporter> initialSelection) {
-		super(ProjectSelectionPage.class.getSimpleName(),
-				"Select the Projects to Export", null);
+		super(ProjectSelectionPage.class.getSimpleName(), "Select the Projects to Export", null);
 		this.exporter = exporter;
 		this.projects = projects;
 		this.initialSelection = initialSelection;
@@ -71,16 +72,14 @@ public final class ProjectSelectionPage extends WizardPage implements
 		viewer.setSorter(new ViewerSorter());
 		viewer.setInput(projects);
 		viewer.setCheckedElements(initialSelection.toArray());
-		viewer.getTable().setLayoutData(
-				new GridData(SWT.FILL, SWT.FILL, true, true, 1, 3));
+		viewer.getTable().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 3));
 		selectAll = new Button(composite, SWT.PUSH);
 		selectAll.setText("Select All");
 		selectAll.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
 		selectAll.addSelectionListener(this);
 		deselectAll = new Button(composite, SWT.PUSH);
 		deselectAll.setText("Deselect All");
-		deselectAll
-				.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
+		deselectAll.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
 		deselectAll.addSelectionListener(this);
 		Label extra = new Label(composite, SWT.NONE);
 		extra.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
@@ -88,8 +87,7 @@ public final class ProjectSelectionPage extends WizardPage implements
 		projectSelectionChanged(false);
 	}
 
-	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-	}
+	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 
 	public Object[] getElements(Object inputElement) {
 		return projects.toArray();
@@ -100,35 +98,28 @@ public final class ProjectSelectionPage extends WizardPage implements
 	}
 
 	private void projectSelectionChanged(boolean showErrorMessage) {
-		if (viewer == null || ignoreProjectSelectionChanged)
-			return;
+		if (viewer == null || ignoreProjectSelectionChanged) return;
 		Collection<MediaExporter> mediaSelection = new HashSet<MediaExporter>();
 		HashMap<WorkflowExporter, Boolean> workflowSelection = new HashMap<WorkflowExporter, Boolean>();
 		boolean dirty = false;
 		for (WorkflowExporter exporter : projects) {
 			if (viewer.getChecked(exporter)) {
-				dirty |= workflowSelected(mediaSelection, workflowSelection,
-						exporter, true);
+				dirty |= workflowSelected(mediaSelection, workflowSelection, exporter, true);
 			}
 		}
-		if (dirty)
-			MessageDialog
-					.openInformation(viewer.getControl().getShell(),
-							"Unsaved Projects",
-							"One or more of the projects to be exported contains unsaved resources.");
+		if (dirty) MessageDialog.openInformation(viewer.getControl().getShell(),
+				"Unsaved Projects",
+				"One or more of the projects to be exported contains unsaved resources.");
 		exporter.setProjectSelection(mediaSelection, workflowSelection.keySet());
 		setPageComplete(!workflowSelection.isEmpty());
-		if (workflowSelection.isEmpty() && showErrorMessage)
-			setErrorMessage("Select at least one project to export.");
-		else
-			setErrorMessage(null);
+		if (workflowSelection.isEmpty() && showErrorMessage) setErrorMessage("Select at least one project to export.");
+		else setErrorMessage(null);
 		ignoreProjectSelectionChanged = true;
 		try {
 			for (WorkflowExporter exporter : projects) {
 				Boolean state = workflowSelection.get(exporter);
 				viewer.setChecked(exporter, state != null);
-				viewer.setGrayed(exporter,
-						state != null && !state.booleanValue());
+				viewer.setGrayed(exporter, state != null && !state.booleanValue());
 			}
 		} finally {
 			ignoreProjectSelectionChanged = false;
@@ -136,35 +127,29 @@ public final class ProjectSelectionPage extends WizardPage implements
 	}
 
 	private boolean workflowSelected(Collection<MediaExporter> mediaSelection,
-			Map<WorkflowExporter, Boolean> workflowSelection,
-			WorkflowExporter exporter, boolean enabled) {
+			Map<WorkflowExporter, Boolean> workflowSelection, WorkflowExporter exporter,
+			boolean enabled) {
 		if (workflowSelection.containsKey(exporter)) {
-			workflowSelection.put(exporter, workflowSelection.get(exporter)
-					&& enabled);
+			workflowSelection.put(exporter, workflowSelection.get(exporter) && enabled);
 			return false;
 		}
 		workflowSelection.put(exporter, enabled);
 		boolean dirty = exporter.isDirty();
 		for (MediaExporter media : exporter.getMediaDependencies())
-			if (mediaSelection.add(media))
-				dirty |= media.isDirty();
+			if (mediaSelection.add(media)) dirty |= media.isDirty();
 		for (WorkflowExporter other : exporter.getWorkflowDependencies())
-			dirty |= workflowSelected(mediaSelection, workflowSelection, other,
-					false);
+			dirty |= workflowSelected(mediaSelection, workflowSelection, other, false);
 		return dirty;
 	}
 
 	@Override
 	public void widgetSelected(SelectionEvent e) {
-		if (e.getSource() == selectAll)
-			viewer.setCheckedElements(projects.toArray());
-		else if (e.getSource() == deselectAll)
-			viewer.setCheckedElements(new Object[0]);
+		if (e.getSource() == selectAll) viewer.setCheckedElements(projects.toArray());
+		else if (e.getSource() == deselectAll) viewer.setCheckedElements(new Object[0]);
 		projectSelectionChanged(true);
 	}
 
 	@Override
-	public void widgetDefaultSelected(SelectionEvent e) {
-	}
+	public void widgetDefaultSelected(SelectionEvent e) {}
 
 }

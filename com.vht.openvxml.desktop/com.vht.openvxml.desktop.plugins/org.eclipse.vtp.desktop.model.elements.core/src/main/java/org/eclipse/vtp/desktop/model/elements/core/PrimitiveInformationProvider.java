@@ -51,8 +51,7 @@ public abstract class PrimitiveInformationProvider implements IAdaptable {
 
 	public abstract boolean acceptsConnector(IDesignElement origin);
 
-	public List<Variable> getOutgoingVariables(String exitPoint,
-			boolean localOnly) {
+	public List<Variable> getOutgoingVariables(String exitPoint, boolean localOnly) {
 		return Collections.emptyList();
 	}
 
@@ -77,9 +76,7 @@ public abstract class PrimitiveInformationProvider implements IAdaptable {
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) {
 		if (adapter.isAssignableFrom(getElement().getClass())) {
 			return getElement();
-		} else if (adapter.isAssignableFrom(getClass())) {
-			return this;
-		}
+		} else if (adapter.isAssignableFrom(getClass())) { return this; }
 		return null;
 	}
 }

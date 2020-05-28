@@ -47,33 +47,27 @@ public abstract class AbstractPlatform implements IPlatform {
 	/**
 	 * Creates a new AbstractPlatform.
 	 */
-	protected AbstractPlatform() {
-	}
+	protected AbstractPlatform() {}
 
 	/**
 	 * Renders the initial document to the user.
 	 * 
-	 * @param links
-	 *            The link factory to use.
-	 * @param initialCommand
-	 *            The command to render.
-	 * @return The document that was rendered from the command or
-	 *         <code>null</code> if no document could be rendered.
+	 * @param links The link factory to use.
+	 * @param initialCommand The command to render.
+	 * @return The document that was rendered from the command or <code>null</code> if no document
+	 *         could be rendered.
 	 */
-	protected IDocument renderInitialDocument(ILinkFactory links,
-			InitialCommand initialCommand) {
+	protected IDocument renderInitialDocument(ILinkFactory links, InitialCommand initialCommand) {
 		return null;
 	}
 
 	/**
 	 * Renders an output message to the user.
 	 * 
-	 * @param links
-	 *            The link factory to use.
-	 * @param outputMessageCommand
-	 *            The command to render.
-	 * @return The document that was rendered from the command or
-	 *         <code>null</code> if no document could be rendered.
+	 * @param links The link factory to use.
+	 * @param outputMessageCommand The command to render.
+	 * @return The document that was rendered from the command or <code>null</code> if no document
+	 *         could be rendered.
 	 */
 	protected IDocument renderOutputMessage(ILinkFactory links,
 			OutputMessageCommand outputMessageCommand) {
@@ -83,12 +77,10 @@ public abstract class AbstractPlatform implements IPlatform {
 	/**
 	 * Renders a meta-data message to the user.
 	 * 
-	 * @param links
-	 *            The link factory to use.
-	 * @param metaDataMessageCommand
-	 *            The command to render.
-	 * @return The document that was rendered from the command or
-	 *         <code>null</code> if no document could be rendered.
+	 * @param links The link factory to use.
+	 * @param metaDataMessageCommand The command to render.
+	 * @return The document that was rendered from the command or <code>null</code> if no document
+	 *         could be rendered.
 	 */
 	protected IDocument renderMetaDataMessage(ILinkFactory links,
 			MetaDataMessageCommand metaDataMessageCommand) {
@@ -102,32 +94,28 @@ public abstract class AbstractPlatform implements IPlatform {
 	/**
 	 * Renders a meta-data request to the user.
 	 * 
-	 * @param links
-	 *            The link factory to use.
-	 * @param metaDataMessageRequest
-	 *            The command to render.
-	 * @return The document that was rendered from the command or
-	 *         <code>null</code> if no document could be rendered.
+	 * @param links The link factory to use.
+	 * @param metaDataMessageRequest The command to render.
+	 * @return The document that was rendered from the command or <code>null</code> if no document
+	 *         could be rendered.
 	 */
 	protected IDocument renderMetaDataRequest(ILinkFactory links,
 			MetaDataRequestCommand metaDataMessageRequest) {
 		return null;
 	}
 
-	public Map processMetaDataResponse(
-			MetaDataRequestConfiguration configuration, IActionContext context) {
+	public Map processMetaDataResponse(MetaDataRequestConfiguration configuration,
+			IActionContext context) {
 		return Collections.EMPTY_MAP;
 	}
 
 	/**
 	 * Renders an input request to the user.
 	 * 
-	 * @param links
-	 *            The link factory to use.
-	 * @param inputRequestCommand
-	 *            The command to render.
-	 * @return The document that was rendered from the command or
-	 *         <code>null</code> if no document could be rendered.
+	 * @param links The link factory to use.
+	 * @param inputRequestCommand The command to render.
+	 * @return The document that was rendered from the command or <code>null</code> if no document
+	 *         could be rendered.
 	 */
 	protected IDocument renderInputRequest(ILinkFactory links,
 			InputRequestCommand inputRequestCommand) {
@@ -137,12 +125,10 @@ public abstract class AbstractPlatform implements IPlatform {
 	/**
 	 * Renders a selection request to the user.
 	 * 
-	 * @param links
-	 *            The link factory to use.
-	 * @param selectionRequestCommand
-	 *            The command to render.
-	 * @return The document that was rendered from the command or
-	 *         <code>null</code> if no document could be rendered.
+	 * @param links The link factory to use.
+	 * @param selectionRequestCommand The command to render.
+	 * @return The document that was rendered from the command or <code>null</code> if no document
+	 *         could be rendered.
 	 */
 	protected IDocument renderSelectionRequest(ILinkFactory links,
 			SelectionRequestCommand selectionRequestCommand) {
@@ -152,27 +138,22 @@ public abstract class AbstractPlatform implements IPlatform {
 	/**
 	 * Renders a data request to the user.
 	 * 
-	 * @param links
-	 *            The link factory to use.
-	 * @param dataRequestCommand
-	 *            The command to render.
-	 * @return The document that was rendered from the command or
-	 *         <code>null</code> if no document could be rendered.
+	 * @param links The link factory to use.
+	 * @param dataRequestCommand The command to render.
+	 * @return The document that was rendered from the command or <code>null</code> if no document
+	 *         could be rendered.
 	 */
-	protected IDocument renderDataRequest(ILinkFactory links,
-			DataRequestCommand dataRequestCommand) {
+	protected IDocument renderDataRequest(ILinkFactory links, DataRequestCommand dataRequestCommand) {
 		return null;
 	}
 
 	/**
 	 * Renders an external reference to the user.
 	 * 
-	 * @param links
-	 *            The link factory to use.
-	 * @param externalReferenceCommand
-	 *            The command to render.
-	 * @return The document that was rendered from the command or
-	 *         <code>null</code> if no document could be rendered.
+	 * @param links The link factory to use.
+	 * @param externalReferenceCommand The command to render.
+	 * @return The document that was rendered from the command or <code>null</code> if no document
+	 *         could be rendered.
 	 */
 	protected IDocument renderExternalReference(ILinkFactory links,
 			ExternalReferenceCommand externalReferenceCommand) {
@@ -182,12 +163,10 @@ public abstract class AbstractPlatform implements IPlatform {
 	/**
 	 * Renders a transfer message to the user.
 	 * 
-	 * @param links
-	 *            The link factory to use.
-	 * @param transferMessageCommand
-	 *            The command to render.
-	 * @return The document that was rendered from the command or
-	 *         <code>null</code> if no document could be rendered.
+	 * @param links The link factory to use.
+	 * @param transferMessageCommand The command to render.
+	 * @return The document that was rendered from the command or <code>null</code> if no document
+	 *         could be rendered.
 	 */
 	protected IDocument renderTransferMessage(ILinkFactory links,
 			TransferMessageCommand transferMessageCommand) {
@@ -197,12 +176,10 @@ public abstract class AbstractPlatform implements IPlatform {
 	/**
 	 * Renders a bridge message to the user.
 	 * 
-	 * @param links
-	 *            The link factory to use.
-	 * @param bridgeMessageCommand
-	 *            The command to render.
-	 * @return The document that was rendered from the command or
-	 *         <code>null</code> if no document could be rendered.
+	 * @param links The link factory to use.
+	 * @param bridgeMessageCommand The command to render.
+	 * @return The document that was rendered from the command or <code>null</code> if no document
+	 *         could be rendered.
 	 */
 	protected IDocument renderBridgeMessage(ILinkFactory links,
 			BridgeMessageCommand bridgeMessageCommand) {
@@ -212,44 +189,35 @@ public abstract class AbstractPlatform implements IPlatform {
 	/**
 	 * Renders an end message to the user.
 	 * 
-	 * @param links
-	 *            The link factory to use.
-	 * @param endMessageCommand
-	 *            The command to render.
-	 * @return The document that was rendered from the command or
-	 *         <code>null</code> if no document could be rendered.
+	 * @param links The link factory to use.
+	 * @param endMessageCommand The command to render.
+	 * @return The document that was rendered from the command or <code>null</code> if no document
+	 *         could be rendered.
 	 */
-	protected IDocument renderEndMessage(ILinkFactory links,
-			EndMessageCommand endMessageCommand) {
+	protected IDocument renderEndMessage(ILinkFactory links, EndMessageCommand endMessageCommand) {
 		return null;
 	}
 
 	/**
 	 * Renders the final document to the user.
 	 * 
-	 * @param links
-	 *            The link factory to use.
-	 * @param finalCommand
-	 *            The command to render.
-	 * @return The document that was rendered from the command or
-	 *         <code>null</code> if no document could be rendered.
+	 * @param links The link factory to use.
+	 * @param finalCommand The command to render.
+	 * @return The document that was rendered from the command or <code>null</code> if no document
+	 *         could be rendered.
 	 */
-	protected IDocument renderFinalDocument(ILinkFactory links,
-			FinalCommand finalCommand) {
+	protected IDocument renderFinalDocument(ILinkFactory links, FinalCommand finalCommand) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.interactions.core.platforms.IPlatform#
-	 * createDocument(
+	 * @see org.eclipse.vtp.framework.interactions.core.platforms.IPlatform# createDocument(
 	 * org.eclipse.vtp.framework.interactions.core.platforms.ILinkFactory,
 	 * org.eclipse.vtp.framework.interactions.core.platforms.IRenderingQueue)
 	 */
 	@Override
-	public IDocument createDocument(ILinkFactory links,
-			IRenderingQueue renderingQueue) {
+	public IDocument createDocument(ILinkFactory links, IRenderingQueue renderingQueue) {
 		IDocument document = null;
 		Renderer renderer = new Renderer(links);
 		while (!renderingQueue.isEmpty() && document == null) {
@@ -262,8 +230,7 @@ public abstract class AbstractPlatform implements IPlatform {
 		return document;
 	}
 
-	public void generateInitialVariableRequests(Map<String, String> variables) {
-	}
+	public void generateInitialVariableRequests(Map<String, String> variables) {}
 
 	public List<String> getPlatformVariableNames() {
 		return new LinkedList<String>();
@@ -285,8 +252,7 @@ public abstract class AbstractPlatform implements IPlatform {
 		/**
 		 * Creates a new Renderer.
 		 * 
-		 * @param links
-		 *            The link factory.
+		 * @param links The link factory.
 		 */
 		Renderer(ILinkFactory links) {
 			this.links = links;
@@ -294,7 +260,6 @@ public abstract class AbstractPlatform implements IPlatform {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.commands.
 		 * IConversationCommandVisitor#visitInitial(
 		 * org.eclipse.vtp.framework.interactions.core.commands.InitialCommand)
@@ -306,53 +271,42 @@ public abstract class AbstractPlatform implements IPlatform {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.commands.
 		 * IConversationCommandVisitor#visitOutputMessage(
-		 * org.eclipse.vtp.framework.interactions.core.commands.
-		 * OutputMessageCommand)
+		 * org.eclipse.vtp.framework.interactions.core.commands. OutputMessageCommand)
 		 */
 		@Override
-		public Object visitOutputMessage(
-				OutputMessageCommand outputMessageCommand) {
+		public Object visitOutputMessage(OutputMessageCommand outputMessageCommand) {
 			return renderOutputMessage(links, outputMessageCommand);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.commands.
 		 * IConversationCommandVisitor#visitMetaDataMessage(
-		 * org.eclipse.vtp.framework.interactions.core.commands.
-		 * MetaDataMessageCommand)
+		 * org.eclipse.vtp.framework.interactions.core.commands. MetaDataMessageCommand)
 		 */
 		@Override
-		public Object visitMetaDataMessage(
-				MetaDataMessageCommand metaDataMessageCommand) {
+		public Object visitMetaDataMessage(MetaDataMessageCommand metaDataMessageCommand) {
 			return renderMetaDataMessage(links, metaDataMessageCommand);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.commands.
 		 * IConversationCommandVisitor#visitMetaDataRequest(
-		 * org.eclipse.vtp.framework.interactions.core.commands.
-		 * MetaDataRequestCommand)
+		 * org.eclipse.vtp.framework.interactions.core.commands. MetaDataRequestCommand)
 		 */
 		@Override
-		public Object visitMetaDataRequest(
-				MetaDataRequestCommand metaDataRequestCommand) {
+		public Object visitMetaDataRequest(MetaDataRequestCommand metaDataRequestCommand) {
 			return renderMetaDataRequest(links, metaDataRequestCommand);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.commands.
 		 * IConversationCommandVisitor#visitInputRequest(
-		 * org.eclipse.vtp.framework.interactions.core.commands.
-		 * InputRequestCommand)
+		 * org.eclipse.vtp.framework.interactions.core.commands. InputRequestCommand)
 		 */
 		@Override
 		public Object visitInputRequest(InputRequestCommand inputRequestCommand) {
@@ -361,25 +315,20 @@ public abstract class AbstractPlatform implements IPlatform {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.commands.
 		 * IConversationCommandVisitor#visitSelectionRequest(
-		 * org.eclipse.vtp.framework.interactions.core.commands.
-		 * SelectionRequestCommand)
+		 * org.eclipse.vtp.framework.interactions.core.commands. SelectionRequestCommand)
 		 */
 		@Override
-		public Object visitSelectionRequest(
-				SelectionRequestCommand selectionRequestCommand) {
+		public Object visitSelectionRequest(SelectionRequestCommand selectionRequestCommand) {
 			return renderSelectionRequest(links, selectionRequestCommand);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.commands.
 		 * IConversationCommandVisitor#visitDataRequest(
-		 * org.eclipse.vtp.framework.interactions.core.commands.
-		 * DataRequestCommand)
+		 * org.eclipse.vtp.framework.interactions.core.commands. DataRequestCommand)
 		 */
 		@Override
 		public Object visitDataRequest(DataRequestCommand dataRequestCommand) {
@@ -388,53 +337,42 @@ public abstract class AbstractPlatform implements IPlatform {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.commands.
 		 * IConversationCommandVisitor#visitExternalReference(
-		 * org.eclipse.vtp.framework.interactions.core.commands.
-		 * ExternalReferenceCommand)
+		 * org.eclipse.vtp.framework.interactions.core.commands. ExternalReferenceCommand)
 		 */
 		@Override
-		public Object visitExternalReference(
-				ExternalReferenceCommand externalReferenceCommand) {
+		public Object visitExternalReference(ExternalReferenceCommand externalReferenceCommand) {
 			return renderExternalReference(links, externalReferenceCommand);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.commands.
 		 * IConversationCommandVisitor#visitTransferMessage(
-		 * org.eclipse.vtp.framework.interactions.core.commands.
-		 * TransferMessageCommand)
+		 * org.eclipse.vtp.framework.interactions.core.commands. TransferMessageCommand)
 		 */
 		@Override
-		public Object visitTransferMessage(
-				TransferMessageCommand transferMessageCommand) {
+		public Object visitTransferMessage(TransferMessageCommand transferMessageCommand) {
 			return renderTransferMessage(links, transferMessageCommand);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.commands.
 		 * IConversationCommandVisitor#visitBridgeMessage(
-		 * org.eclipse.vtp.framework.interactions.core.commands.
-		 * BridgeMessageCommand)
+		 * org.eclipse.vtp.framework.interactions.core.commands. BridgeMessageCommand)
 		 */
 		@Override
-		public Object visitBridgeMessage(
-				BridgeMessageCommand bridgeMessageCommand) {
+		public Object visitBridgeMessage(BridgeMessageCommand bridgeMessageCommand) {
 			return renderBridgeMessage(links, bridgeMessageCommand);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.commands.
 		 * IConversationCommandVisitor#visitEndMessage(
-		 * org.eclipse.vtp.framework.interactions.core.commands.
-		 * EndMessageCommand)
+		 * org.eclipse.vtp.framework.interactions.core.commands. EndMessageCommand)
 		 */
 		@Override
 		public Object visitEndMessage(EndMessageCommand endMessageCommand) {
@@ -443,7 +381,6 @@ public abstract class AbstractPlatform implements IPlatform {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.interactions.core.commands.
 		 * IConversationCommandVisitor#visitFinal(
 		 * org.eclipse.vtp.framework.interactions.core.commands.FinalCommand)
@@ -455,13 +392,11 @@ public abstract class AbstractPlatform implements IPlatform {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.spi.ICommandVisitor#visitUnknown(
 		 * org.eclipse.vtp.framework.spi.ICommand)
 		 */
 		@Override
-		public Object visitUnknown(ICommand unknownCommand)
-				throws NullPointerException {
+		public Object visitUnknown(ICommand unknownCommand) throws NullPointerException {
 			return null;
 		}
 	}

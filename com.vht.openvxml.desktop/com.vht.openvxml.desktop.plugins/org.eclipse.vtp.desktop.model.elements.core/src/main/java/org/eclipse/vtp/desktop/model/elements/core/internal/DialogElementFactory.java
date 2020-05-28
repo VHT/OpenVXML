@@ -20,13 +20,10 @@ public class DialogElementFactory implements ElementFactory {
 	@Override
 	public DesignElement createElement(Design design, Object data) {
 		String specializationId = (String) data;
-		DialogElement de = new DialogElement(DialogElementManager.getDefault()
-				.getName(specializationId));
-		design.getDocument()
-				.addDialogDesign(
-						de.getId(),
-						DialogElementManager.getDefault().getTemplate(
-								specializationId));
+		DialogElement de = new DialogElement(DialogElementManager.getDefault().getName(
+				specializationId));
+		design.getDocument().addDialogDesign(de.getId(),
+				DialogElementManager.getDefault().getTemplate(specializationId));
 		return de;
 	}
 

@@ -22,21 +22,16 @@ import org.eclipse.swt.graphics.GC;
  */
 public interface ThematicFrame {
 	/**
-	 * Requests this frame render itself to the given graphics context. The
-	 * stage parameter indicates what phase of rendering is being performed. The
-	 * renderFlags parameter provides special restrictions on how the rendering
-	 * should be carried out. The resourceMap parameter is an index and cache of
-	 * graphical resources that are shared by all frames such as colors and
+	 * Requests this frame render itself to the given graphics context. The stage parameter
+	 * indicates what phase of rendering is being performed. The renderFlags parameter provides
+	 * special restrictions on how the rendering should be carried out. The resourceMap parameter is
+	 * an index and cache of graphical resources that are shared by all frames such as colors and
 	 * fonts.
 	 * 
-	 * @param graphicsContext
-	 *            The graphics context to render to
-	 * @param stage
-	 *            The phase of rendering to perform
-	 * @param renderFlags
-	 *            Restrictions on what to render
-	 * @param resourceMap
-	 *            Cache of re-usable graphical resources
+	 * @param graphicsContext The graphics context to render to
+	 * @param stage The phase of rendering to perform
+	 * @param renderFlags Restrictions on what to render
+	 * @param resourceMap Cache of re-usable graphical resources
 	 */
 	public void renderFrame(GC graphicsContext, int stage, int renderFlags,
 			Map<String, Object> resourceMap);

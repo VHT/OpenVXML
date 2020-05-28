@@ -21,8 +21,7 @@ public interface ControllerListener {
 	 * @param height
 	 * @param inProgress
 	 */
-	public void graphicUpdate(int x, int y, int width, int height,
-			boolean inProgress);
+	public void graphicUpdate(int x, int y, int width, int height, boolean inProgress);
 
 	/**
 	 * @param selection

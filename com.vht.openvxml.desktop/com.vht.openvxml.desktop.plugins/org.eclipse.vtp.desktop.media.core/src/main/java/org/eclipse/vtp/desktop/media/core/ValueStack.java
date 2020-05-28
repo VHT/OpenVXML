@@ -52,11 +52,9 @@ public class ValueStack implements ToggleButton.ToggleButtonListener {
 	 * @param ultimateDefault
 	 * @param flags
 	 */
-	public ValueStack(String settingName, String interactionType,
-			String elementType, String ultimateDefault, int flags) {
-		if (flags < 0 || flags > 3) {
-			throw new IllegalArgumentException("Invalid flags: " + flags);
-		}
+	public ValueStack(String settingName, String interactionType, String elementType,
+			String ultimateDefault, int flags) {
+		if (flags < 0 || flags > 3) { throw new IllegalArgumentException("Invalid flags: " + flags); }
 		this.settingName = settingName;
 		this.interactionType = interactionType;
 		this.elementType = elementType;
@@ -122,8 +120,7 @@ public class ValueStack implements ToggleButton.ToggleButtonListener {
 			gridLayout.marginHeight = 0;
 			gridLayout.marginWidth = 4;
 			variableComp.setLayout(gridLayout);
-			variableCombo = new Combo(variableComp, SWT.DROP_DOWN
-					| SWT.READ_ONLY);
+			variableCombo = new Combo(variableComp, SWT.DROP_DOWN | SWT.READ_ONLY);
 			variableCombo.add("variable");
 			variableCombo.select(0);
 			gd = new GridData(GridData.FILL_BOTH);
@@ -149,9 +146,8 @@ public class ValueStack implements ToggleButton.ToggleButtonListener {
 			expressionText.setLayoutData(gd);
 		}
 
-		stackLayout.topControl = staticComp != null ? staticComp
-				: valueComp != null ? valueComp
-						: variableComp != null ? variableComp : expressionComp;
+		stackLayout.topControl = staticComp != null ? staticComp : valueComp != null ? valueComp
+				: variableComp != null ? variableComp : expressionComp;
 		buttonComp = new Composite(mainComp, SWT.NONE);
 		buttonComp.setBackground(parent.getBackground());
 		gridLayout = new GridLayout(cols, true);
@@ -232,21 +228,18 @@ public class ValueStack implements ToggleButton.ToggleButtonListener {
 	 * @param settings
 	 * @param brandBinding
 	 */
-	public void setSetting(IMediaDefaultSettings settings,
-			BrandBinding brandBinding) {
+	public void setSetting(IMediaDefaultSettings settings, BrandBinding brandBinding) {
 		if (setting != null && defaultSetting != null) {
 			save();
 		}
-		this.setting = brandBinding;
+		setting = brandBinding;
 		if (setting.getBrand().getParent() == null) {
 			defaultButton.setText("D");
 		} else {
 			defaultButton.setText("I");
 		}
-		this.defaultSetting = settings.getDefaultSetting(interactionType,
-				elementType, settingName);
-		PropertyBindingItem pbi = (PropertyBindingItem) setting
-				.getBindingItem();
+		defaultSetting = settings.getDefaultSetting(interactionType, elementType, settingName);
+		PropertyBindingItem pbi = (PropertyBindingItem) setting.getBindingItem();
 		if (pbi == null && setting.isInherited()) // use default settings
 		{
 			String value = defaultSetting.getValue();
@@ -294,12 +287,12 @@ public class ValueStack implements ToggleButton.ToggleButtonListener {
 				stackLayout.topControl = variableComp;
 				staticButton.setSelected(false);
 				variableButton.setSelected(true);
-				expressionButton.setSelected(false);
-				// valueControl.setValue(pbi.getValue());
+				if ((flags & EXPRESSION) > 0) expressionButton.setSelected(false);
+				variableCombo.select(variableCombo.indexOf(pbi.getValue()));
 			} else {
 				stackLayout.topControl = expressionComp;
 				staticButton.setSelected(false);
-				variableButton.setSelected(false);
+				if ((flags & VARIABLE) > 0) variableButton.setSelected(false);
 				expressionButton.setSelected(true);
 				expressionText.setText(pbi.getValue());
 			}
@@ -312,18 +305,15 @@ public class ValueStack implements ToggleButton.ToggleButtonListener {
 		if (defaultButton.isSelected()) {
 			setting.setBindingItem(null);
 		} else if (variableButton != null && variableButton.isSelected()) {
-			PropertyBindingItem pbi = (PropertyBindingItem) setting
-					.getBindingItem();
+			PropertyBindingItem pbi = (PropertyBindingItem) setting.getBindingItem();
 			if (pbi == null || setting.isInherited()) {
 				pbi = new PropertyBindingItem();
 			}
 			pbi.setValueType(PropertyBindingItem.VARIABLE);
-			pbi.setValue(variableCombo.getItem(variableCombo
-					.getSelectionIndex()));
+			pbi.setValue(variableCombo.getItem(variableCombo.getSelectionIndex()));
 			setting.setBindingItem(pbi);
 		} else if (expressionButton != null && expressionButton.isSelected()) {
-			PropertyBindingItem pbi = (PropertyBindingItem) setting
-					.getBindingItem();
+			PropertyBindingItem pbi = (PropertyBindingItem) setting.getBindingItem();
 			if (pbi == null || setting.isInherited()) {
 				pbi = new PropertyBindingItem();
 			}
@@ -331,8 +321,7 @@ public class ValueStack implements ToggleButton.ToggleButtonListener {
 			pbi.setValue(expressionText.getText());
 			setting.setBindingItem(pbi);
 		} else {
-			PropertyBindingItem pbi = (PropertyBindingItem) setting
-					.getBindingItem();
+			PropertyBindingItem pbi = (PropertyBindingItem) setting.getBindingItem();
 			if (pbi == null || setting.isInherited()) {
 				pbi = new PropertyBindingItem();
 			}
@@ -344,21 +333,17 @@ public class ValueStack implements ToggleButton.ToggleButtonListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.custom.ToggleButton.ToggleButtonListener
+	 * @see org.eclipse.vtp.desktop.core.custom.ToggleButton.ToggleButtonListener
 	 * #toggleButtonSelected(org.eclipse.vtp.desktop.core.custom.ToggleButton)
 	 */
 	@Override
 	public void toggleButtonSelected(ToggleButton button) {
 		if (button == defaultButton) {
-			PropertyBindingItem currentItem = (PropertyBindingItem) setting
-					.getBindingItem();
+			PropertyBindingItem currentItem = (PropertyBindingItem) setting.getBindingItem();
 			setting.setBindingItem(null);
-			PropertyBindingItem inheritedItem = (PropertyBindingItem) setting
-					.getBindingItem();
-			staticValue.setText(inheritedItem == null ? defaultSetting
-					.getValue() : inheritedItem.getValue());
+			PropertyBindingItem inheritedItem = (PropertyBindingItem) setting.getBindingItem();
+			staticValue.setText(inheritedItem == null ? defaultSetting.getValue() : inheritedItem
+					.getValue());
 			setting.setBindingItem(currentItem);
 			stackLayout.topControl = staticComp;
 			staticButton.setSelected(false);
@@ -407,9 +392,8 @@ public class ValueStack implements ToggleButton.ToggleButtonListener {
 			return valueControl.getValue();
 		} else if (variableButton != null && variableButton.isSelected()) {
 			return variableCombo.getItem(variableCombo.getSelectionIndex());
-		} else if (expressionButton != null && expressionButton.isSelected()) {
-			return expressionText.getText();
-		}
+		} else if (expressionButton != null && expressionButton.isSelected()) { return expressionText
+				.getText(); }
 		return null;
 	}
 

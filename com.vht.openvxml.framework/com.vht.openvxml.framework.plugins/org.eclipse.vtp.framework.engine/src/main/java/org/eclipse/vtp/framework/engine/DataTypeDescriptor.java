@@ -28,46 +28,35 @@ public final class DataTypeDescriptor {
 	/**
 	 * Creates a new DataTypeDescriptor.
 	 * 
-	 * @param name
-	 *            The name of this type.
-	 * @param fields
-	 *            The fields declared in this type.
-	 * @throws IllegalArgumentException
-	 *             If the supplied name is empty.
-	 * @throws IllegalArgumentException
-	 *             If the same field name is listed more than once in the
+	 * @param name The name of this type.
+	 * @param fields The fields declared in this type.
+	 * @throws IllegalArgumentException If the supplied name is empty.
+	 * @throws IllegalArgumentException If the same field name is listed more than once in the
 	 *             supplied field array.
-	 * @throws NullPointerException
-	 *             If the supplied name is <code>null</code>.
-	 * @throws NullPointerException
-	 *             If the supplied field array or any of its elements are
+	 * @throws NullPointerException If the supplied name is <code>null</code>.
+	 * @throws NullPointerException If the supplied field array or any of its elements are
 	 *             <code>null</code>.
 	 */
 	public DataTypeDescriptor(String name, FieldDescriptor[] fields) {
-		if (name == null) {
-			throw new NullPointerException("name"); //$NON-NLS-1$
+		if (name == null) { throw new NullPointerException("name"); //$NON-NLS-1$
 		}
-		if (name.length() == 0) {
-			throw new IllegalArgumentException("name"); //$NON-NLS-1$
+		if (name.length() == 0) { throw new IllegalArgumentException("name"); //$NON-NLS-1$
 		}
-		if (fields == null) {
-			throw new NullPointerException("fields"); //$NON-NLS-1$
+		if (fields == null) { throw new NullPointerException("fields"); //$NON-NLS-1$
 		}
 		this.name = name;
 		Map map = new LinkedHashMap();
 		for (int i = 0; i < fields.length; ++i) {
-			if (fields[i] == null) {
-				throw new NullPointerException("fields[" //$NON-NLS-1$
-						+ i + "]"); //$NON-NLS-1$
+			if (fields[i] == null) { throw new NullPointerException("fields[" //$NON-NLS-1$
+					+ i + "]"); //$NON-NLS-1$
 			}
-			if (map.containsKey(fields[i].getName())) {
-				throw new IllegalArgumentException("fields[" //$NON-NLS-1$
-						+ i + "]"); //$NON-NLS-1$
+			if (map.containsKey(fields[i].getName())) { throw new IllegalArgumentException(
+					"fields[" //$NON-NLS-1$
+							+ i + "]"); //$NON-NLS-1$
 			}
 			map.put(fields[i].getName(), fields[i]);
 		}
-		this.fields = (FieldDescriptor[]) map.values().toArray(
-				new FieldDescriptor[map.size()]);
+		this.fields = (FieldDescriptor[]) map.values().toArray(new FieldDescriptor[map.size()]);
 	}
 
 	/**
@@ -92,27 +81,23 @@ public final class DataTypeDescriptor {
 	 * Returns the field at the specified index.
 	 * 
 	 * @return The field at the specified index.
-	 * @throws IndexOutOfBoundsException
-	 *             If the supplied index is less than zero or greater than or
+	 * @throws IndexOutOfBoundsException If the supplied index is less than zero or greater than or
 	 *             equal to this type's field count.
 	 */
 	public FieldDescriptor getField(int index) throws IndexOutOfBoundsException {
-		if (index < 0 || index >= fields.length) {
-			throw new IndexOutOfBoundsException(String.valueOf(index));
-		}
+		if (index < 0 || index >= fields.length) { throw new IndexOutOfBoundsException(String
+				.valueOf(index)); }
 		return fields[index];
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer(getClass().getName().substring(
-				getClass().getName().lastIndexOf('.') + 1)).append('[')
-				.append(name).append(';');
+				getClass().getName().lastIndexOf('.') + 1)).append('[').append(name).append(';');
 		for (FieldDescriptor field : fields) {
 			buffer.append(field.getName()).append(',');
 		}

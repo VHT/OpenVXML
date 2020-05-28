@@ -16,11 +16,10 @@ import com.openmethods.openvxml.desktop.model.workflow.configuration.Configurati
 import com.openmethods.openvxml.desktop.model.workflow.configuration.ConfigurationManager;
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesign;
 
-public class WebserviceBindingManager implements ConfigurationManager
-{
-	/**	The unique identifier for this manager type */
+public class WebserviceBindingManager implements ConfigurationManager {
+	/** The unique identifier for this manager type */
 	public static final String TYPE_ID = "org.eclipse.vtp.configuration.webservicecall";
-	/**	The current XML structure version used by this manager */
+	/** The current XML structure version used by this manager */
 	public static final String XML_VERSION = "1.0.0";
 
 	private IDesign design = null;
@@ -29,98 +28,88 @@ public class WebserviceBindingManager implements ConfigurationManager
 	private OutputBinding outputBinding = null;
 	private BrandManager brandManager = null;
 
-	public WebserviceBindingManager(IDesign design)
-	{
+	public WebserviceBindingManager(IDesign design) {
 		super();
 		this.design = design;
 		IOpenVXMLProject project = design.getDocument().getProject();
-		IBrandingProjectAspect brandingAspect = (IBrandingProjectAspect)project.getProjectAspect(IBrandingProjectAspect.ASPECT_ID);
+		IBrandingProjectAspect brandingAspect = (IBrandingProjectAspect) project
+				.getProjectAspect(IBrandingProjectAspect.ASPECT_ID);
 		brandManager = brandingAspect.getBrandManager();
 		serviceBinding = new WebserviceServiceBinding();
 		documentStructure = new InputDocumentStructure(this);
 		outputBinding = new OutputBinding();
 	}
 
-	public String getType()
-	{
+	public String getType() {
 		return TYPE_ID;
 	}
 
-	public String getXMLVersion()
-	{
+	public String getXMLVersion() {
 		return XML_VERSION;
 	}
-	
-	public BrandManager getBrandManager()
-	{
+
+	public BrandManager getBrandManager() {
 		return brandManager;
 	}
-	
-	public WebserviceServiceBinding getServiceBinding()
-	{
+
+	public WebserviceServiceBinding getServiceBinding() {
 		return serviceBinding;
 	}
-	
-	public InputDocumentStructure getInputDocumentStructure()
-	{
+
+	public InputDocumentStructure getInputDocumentStructure() {
 		return documentStructure;
 	}
-	
-	public OutputBinding getOutputBinding()
-	{
+
+	public OutputBinding getOutputBinding() {
 		return outputBinding;
 	}
 
-	public void readConfiguration(Element configuration)
-		throws ConfigurationException
-	{
-		List<Element> serviceBindingElementList = XMLUtilities.getElementsByTagName(configuration, "service-binding", true);
-		if(serviceBindingElementList.size() > 0)
-		{
+	public void readConfiguration(Element configuration) throws ConfigurationException {
+		List<Element> serviceBindingElementList = XMLUtilities.getElementsByTagName(configuration,
+				"service-binding", true);
+		if (serviceBindingElementList.size() > 0) {
 			serviceBinding.readConfiguration(serviceBindingElementList.get(0));
 		}
-		List<Element> documentStructureElementList = XMLUtilities.getElementsByTagName(configuration, "input-document-structure", true);
-		if(documentStructureElementList.size() > 0)
-		{
+		List<Element> documentStructureElementList = XMLUtilities.getElementsByTagName(
+				configuration, "input-document-structure", true);
+		if (documentStructureElementList.size() > 0) {
 			documentStructure.readConfiguration(documentStructureElementList.get(0));
 		}
-		List<Element> outputElementList = XMLUtilities.getElementsByTagName(configuration, "output-binding", true);
-		if(outputElementList.size() > 0)
-		{
+		List<Element> outputElementList = XMLUtilities.getElementsByTagName(configuration,
+				"output-binding", true);
+		if (outputElementList.size() > 0) {
 			outputBinding.readConfiguration(outputElementList.get(0));
 		}
 	}
 
-	public void writeConfiguration(Element configuration)
-	{
-		Element serviceBindingElement = configuration.getOwnerDocument().createElementNS(null, "service-binding");
+	public void writeConfiguration(Element configuration) {
+		Element serviceBindingElement = configuration.getOwnerDocument().createElementNS(null,
+				"service-binding");
 		configuration.appendChild(serviceBindingElement);
 		serviceBinding.writeConfiguration(serviceBindingElement);
-		Element documentStructureElement = documentStructure.createConfigurationElement(configuration);
+		Element documentStructureElement = documentStructure
+				.createConfigurationElement(configuration);
 		documentStructure.writeConfiguration(documentStructureElement);
-		Element outputBindingElement = configuration.getOwnerDocument().createElementNS(null, "output-binding");
+		Element outputBindingElement = configuration.getOwnerDocument().createElementNS(null,
+				"output-binding");
 		configuration.appendChild(outputBindingElement);
 		outputBinding.writeConfiguration(outputBindingElement);
 	}
 
-	public Object clone()
-	{
+	public Object clone() {
 		WebserviceBindingManager copy = new WebserviceBindingManager(design);
-		try
-		{
-			//build document contents
-			DocumentBuilderFactory factory =
-				DocumentBuilderFactory.newInstance();
+		try {
+			// build document contents
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			factory.setNamespaceAware(true);
-			Document document = builder.getDOMImplementation().createDocument(null, "temporary-document", null); //$NON-NLS-1$
+			Document document = builder.getDOMImplementation().createDocument(null,
+					"temporary-document", null); //$NON-NLS-1$
 			org.w3c.dom.Element rootElement = document.getDocumentElement();
 			rootElement.setAttribute("xml-version", XML_VERSION); //$NON-NLS-1$
 			writeConfiguration(rootElement);
 			copy.readConfiguration(rootElement);
-		}
-		catch(Exception ex)
-		{
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 		return copy;

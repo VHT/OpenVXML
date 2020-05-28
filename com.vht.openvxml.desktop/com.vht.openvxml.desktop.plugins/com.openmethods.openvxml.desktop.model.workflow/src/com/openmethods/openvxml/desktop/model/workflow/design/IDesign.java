@@ -19,8 +19,7 @@ public interface IDesign {
 
 	public void removeDesignElement(IDesignElement designElement);
 
-	public IDesignConnector createDesignConnector(IDesignElement source,
-			IDesignElement destination);
+	public IDesignConnector createDesignConnector(IDesignElement source, IDesignElement destination);
 
 	public IDesignConnector getDesignConnector(String id);
 
@@ -48,13 +47,11 @@ public interface IDesign {
 
 	public List<Variable> getVariablesFor(IDesignElement designElement);
 
-	public List<Variable> getVariablesFor(IDesignElement designElement,
+	public List<Variable> getVariablesFor(IDesignElement designElement, boolean localOnly);
+
+	public List<Variable> getVariablesFrom(IDesignElement designElement, String exit);
+
+	public List<Variable> getVariablesFrom(IDesignElement designElement, String exit,
 			boolean localOnly);
-
-	public List<Variable> getVariablesFrom(IDesignElement designElement,
-			String exit);
-
-	public List<Variable> getVariablesFrom(IDesignElement designElement,
-			String exit, boolean localOnly);
 
 }

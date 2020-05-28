@@ -103,13 +103,12 @@ public class VoiceModel {
 	}
 
 	/**
-	 * Returns the shared content value under the specified name or
-	 * <code>null</code> if no such content exists in this model.
+	 * Returns the shared content value under the specified name or <code>null</code> if no such
+	 * content exists in this model.
 	 * 
-	 * @param name
-	 *            The name of the content to return.
-	 * @return The shared content value under the specified name or
-	 *         <code>null</code> if no such content exists in this model.
+	 * @param name The name of the content to return.
+	 * @return The shared content value under the specified name or <code>null</code> if no such
+	 *         content exists in this model.
 	 */
 	public Content getSharedContent(String name) {
 		return sharedContent.get(name);
@@ -118,11 +117,9 @@ public class VoiceModel {
 	/**
 	 * Sets the shared content item registered under the specified name.
 	 * 
-	 * @param name
-	 *            The name to regster the shared content item under.
-	 * @param content
-	 *            The value of the shared content item or <code>null</code> to
-	 *            remove the specified item.
+	 * @param name The name to regster the shared content item under.
+	 * @param content The value of the shared content item or <code>null</code> to remove the
+	 *            specified item.
 	 */
 	public void putSharedContent(String name, Content content) {
 		if (content == null) {
@@ -136,8 +133,7 @@ public class VoiceModel {
 	/**
 	 * Removes the shared content item under the specified name.
 	 * 
-	 * @param name
-	 *            The name of the shared content item to remove.
+	 * @param name The name of the shared content item to remove.
 	 */
 	public void removeSharedContent(String name) {
 		if (sharedContent.remove(name) != null) {
@@ -148,8 +144,7 @@ public class VoiceModel {
 	/**
 	 * Load the descriptor represented by this model.
 	 * 
-	 * @throws IOException
-	 *             If the descriptor cannot be loaded.
+	 * @throws IOException If the descriptor cannot be loaded.
 	 */
 	public void load() throws IOException {
 		sharedContent.clear();
@@ -157,25 +152,20 @@ public class VoiceModel {
 		Document doc = null;
 		InputStream input = null;
 		try {
-			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory
-					.newInstance();
+			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 			docBuilderFactory.setNamespaceAware(true);
 			docBuilderFactory.setValidating(false);
-			doc = docBuilderFactory.newDocumentBuilder().parse(
-					input = descriptor.getContents());
+			doc = docBuilderFactory.newDocumentBuilder().parse(input = descriptor.getContents());
 		} catch (CoreException e) {
-			IOException ex = new IOException("Could not load XML document: "
-					+ e.getMessage());
+			IOException ex = new IOException("Could not load XML document: " + e.getMessage());
 			ex.initCause(e);
 			throw ex;
 		} catch (ParserConfigurationException e) {
-			IOException ex = new IOException(
-					"Could not initialize XML parser: " + e.getMessage());
+			IOException ex = new IOException("Could not initialize XML parser: " + e.getMessage());
 			ex.initCause(e);
 			throw ex;
 		} catch (SAXException e) {
-			IOException ex = new IOException("Could not parse XML document: "
-					+ e.getMessage());
+			IOException ex = new IOException("Could not parse XML document: " + e.getMessage());
 			ex.initCause(e);
 			throw ex;
 		} finally {
@@ -188,8 +178,8 @@ public class VoiceModel {
 			}
 		}
 		// Extract the shared content entries.
-		NodeList sharedContentList = doc.getDocumentElement()
-				.getElementsByTagNameNS(NS_URI_VOICE, ELEMENT_SHARED_CONTENT);
+		NodeList sharedContentList = doc.getDocumentElement().getElementsByTagNameNS(NS_URI_VOICE,
+				ELEMENT_SHARED_CONTENT);
 		if (sharedContentList.getLength() > 0) {
 			Element sharedContentElement = (Element) sharedContentList.item(0);
 			NodeList contentList = sharedContentElement.getChildNodes();
@@ -198,13 +188,11 @@ public class VoiceModel {
 					continue;
 				}
 				Element contentElement = (Element) contentList.item(i);
-				String name = contentElement.getAttributeNS(NS_URI_VOICE,
-						ATTRIBUTE_ITEM_NAME);
+				String name = contentElement.getAttributeNS(NS_URI_VOICE, ATTRIBUTE_ITEM_NAME);
 				if (name == null) {
 					continue;
 				}
-				Content content = ContentLoadingManager.getInstance()
-						.loadContent(contentElement);
+				Content content = ContentLoadingManager.getInstance().loadContent(contentElement);
 				if (content == null) {
 					continue;
 				}
@@ -216,70 +204,57 @@ public class VoiceModel {
 	/**
 	 * Saves the descriptor represented by this model.
 	 * 
-	 * @param monitor
-	 *            The progress monitor to notify or <code>null</code> if no
-	 *            monitoring is desired.
-	 * @throws IOException
-	 *             If the descriptor cannot be loaded.
+	 * @param monitor The progress monitor to notify or <code>null</code> if no monitoring is
+	 *            desired.
+	 * @throws IOException If the descriptor cannot be loaded.
 	 */
 	public void save(IProgressMonitor monitor) throws IOException {
 		// Create a new XML document.
 		Document doc = null;
 		try {
-			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory
-					.newInstance();
+			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 			docBuilderFactory.setNamespaceAware(true);
 			docBuilderFactory.setValidating(false);
 			doc = docBuilderFactory.newDocumentBuilder().newDocument();
 		} catch (ParserConfigurationException e) {
-			IOException ex = new IOException(
-					"Could not initialize XML encoder: " + e.getMessage());
+			IOException ex = new IOException("Could not initialize XML encoder: " + e.getMessage());
 			ex.initCause(e);
 			throw ex;
 		}
-		Element desriptorElement = doc.createElementNS(NS_URI_VOICE,
-				QUALIFIED_ELEMENT_DESCRIPTOR);
+		Element desriptorElement = doc.createElementNS(NS_URI_VOICE, QUALIFIED_ELEMENT_DESCRIPTOR);
 		doc.appendChild(desriptorElement);
 		// Create the shared content entries.
 		Element sharedContentElement = doc.createElementNS(NS_URI_VOICE,
 				QUALIFIED_ELEMENT_SHARED_CONTENT);
 		desriptorElement.appendChild(sharedContentElement);
 		for (Map.Entry<String, Content> entry : sharedContent.entrySet()) {
-			Element contentElement = entry.getValue().store(
-					sharedContentElement);
+			Element contentElement = entry.getValue().store(sharedContentElement);
 			if (contentElement == null) {
 				continue;
 			}
-			contentElement.setAttributeNS(NS_URI_VOICE,
-					QUALIFIED_ATTRIBUTE_ITEM_NAME,
-					String.valueOf(entry.getKey()));
+			contentElement.setAttributeNS(NS_URI_VOICE, QUALIFIED_ATTRIBUTE_ITEM_NAME, String
+					.valueOf(entry.getKey()));
 		}
 		// Write the document to disk.
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try {
-			TransformerFactory
-					.newInstance()
-					.newTransformer()
-					.transform(new DOMSource(doc),
-							new XMLWriter(baos).toXMLResult());
+			TransformerFactory.newInstance().newTransformer().transform(new DOMSource(doc),
+					new XMLWriter(baos).toXMLResult());
 		} catch (TransformerConfigurationException e) {
-			IOException ex = new IOException(
-					"Could not initialize XML transformer: " + e.getMessage());
+			IOException ex = new IOException("Could not initialize XML transformer: "
+					+ e.getMessage());
 			ex.initCause(e);
 			throw ex;
 		} catch (TransformerException e) {
-			IOException ex = new IOException(
-					"Could not transform XML document: " + e.getMessage());
+			IOException ex = new IOException("Could not transform XML document: " + e.getMessage());
 			ex.initCause(e);
 			throw ex;
 		}
 		try {
-			descriptor.setContents(
-					new ByteArrayInputStream(baos.toByteArray()), true, true,
+			descriptor.setContents(new ByteArrayInputStream(baos.toByteArray()), true, true,
 					monitor);
 		} catch (CoreException e) {
-			IOException ex = new IOException("Could not save XML document: "
-					+ e.getMessage());
+			IOException ex = new IOException("Could not save XML document: " + e.getMessage());
 			ex.initCause(e);
 			throw ex;
 		}
@@ -288,8 +263,7 @@ public class VoiceModel {
 	/**
 	 * Adds a change observer to this model.
 	 * 
-	 * @param observer
-	 *            The observer to add.
+	 * @param observer The observer to add.
 	 */
 	public void addChangeObserver(Runnable observer) {
 		changeObservers.add(observer);
@@ -298,8 +272,7 @@ public class VoiceModel {
 	/**
 	 * Removes a change observer from this model.
 	 * 
-	 * @param observer
-	 *            The observer to remove.
+	 * @param observer The observer to remove.
 	 */
 	public void removeChangeObserver(Runnable observer) {
 		changeObservers.remove(observer);

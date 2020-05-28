@@ -10,8 +10,7 @@ import org.w3c.dom.NodeList;
 public class OutputSwitch extends OutputNode implements InteractionsConstants {
 	private OutputCase[] cases = null;
 
-	public OutputSwitch() {
-	}
+	public OutputSwitch() {}
 
 	public OutputSwitch(OutputCase[] cases) {
 		this.cases = cases;
@@ -28,8 +27,7 @@ public class OutputSwitch extends OutputNode implements InteractionsConstants {
 	@Override
 	void load(Element configurationElement, IContentFactory contentFactory) {
 		NodeList childElements = configurationElement.getChildNodes();
-		List<OutputCase> cases = new ArrayList<OutputCase>(
-				childElements.getLength());
+		List<OutputCase> cases = new ArrayList<OutputCase>(childElements.getLength());
 		for (int j = 0; j < childElements.getLength(); j++) {
 			if (childElements.item(j) instanceof Element) {
 				OutputCase c = new OutputCase();
@@ -47,8 +45,8 @@ public class OutputSwitch extends OutputNode implements InteractionsConstants {
 		if (prefix != null && prefix.length() > 0) {
 			outputNodeName = prefix + ":" + outputNodeName; //$NON-NLS-1$
 		}
-		Element outputNodeElement = configurationElement.getOwnerDocument()
-				.createElementNS(NAMESPACE_URI, outputNodeName);
+		Element outputNodeElement = configurationElement.getOwnerDocument().createElementNS(
+				NAMESPACE_URI, outputNodeName);
 		if (cases != null) {
 			for (OutputCase case1 : cases) {
 				case1.save(outputNodeElement);

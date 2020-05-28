@@ -46,8 +46,7 @@ public class InteractionTypeConfigurationScreen implements ICheckStateListener {
 	/**
 	 * Creates a new InteractionTypeConfigurationScreen.
 	 */
-	public InteractionTypeConfigurationScreen() {
-	}
+	public InteractionTypeConfigurationScreen() {}
 
 	public void setSupport(InteractionSupportManager supportManager) {
 		this.supportManager = supportManager;
@@ -76,8 +75,7 @@ public class InteractionTypeConfigurationScreen implements ICheckStateListener {
 		brandSection.setLayoutData(gridData);
 		brandSection.setText("Supported Interaction Types");
 
-		Table table = new Table(comp, SWT.BORDER | SWT.FULL_SELECTION
-				| SWT.CHECK | SWT.SINGLE);
+		Table table = new Table(comp, SWT.BORDER | SWT.FULL_SELECTION | SWT.CHECK | SWT.SINGLE);
 		table.setHeaderVisible(true);
 		TableLayout layout = new TableLayout();
 		layout.addColumnData(new ColumnWeightData(1));
@@ -101,8 +99,7 @@ public class InteractionTypeConfigurationScreen implements ICheckStateListener {
 		return comp;
 	}
 
-	public class InteractionTypeContentProvider implements
-			IStructuredContentProvider {
+	public class InteractionTypeContentProvider implements IStructuredContentProvider {
 
 		@Override
 		public Object[] getElements(Object inputElement) {
@@ -110,17 +107,17 @@ public class InteractionTypeConfigurationScreen implements ICheckStateListener {
 		}
 
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 
 	}
 
 	public class InteractionTypeLabelProvider extends BaseLabelProvider
-			implements ITableLabelProvider, ICheckStateProvider {
+		implements
+		ITableLabelProvider,
+		ICheckStateProvider {
 		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			return null;

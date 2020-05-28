@@ -29,30 +29,28 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesignComponent;
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesignComponentListener;
 
 /**
- * This is the Mantis theme's implementation of the <code>ComponentFrame</code>
- * interface. It is the base class for the the connector and element frames of
- * this theme.<br>
- * 
- * This class primarily manages the set of component frame listeners registered
- * with instances, contains a reference to the ui component being represented,
- * handles default user input behavior, and provides convenience functions for
- * creating color and font objects.
+ * This is the Mantis theme's implementation of the <code>ComponentFrame</code> interface. It is the
+ * base class for the the connector and element frames of this theme.<br>
+ * This class primarily manages the set of component frame listeners registered with instances,
+ * contains a reference to the ui component being represented, handles default user input behavior,
+ * and provides convenience functions for creating color and font objects.
  * 
  * @author trip
  */
-public abstract class MantisComponentFrame implements ComponentFrame,
-		IDesignComponentListener, PropertyChangeListener {
+public abstract class MantisComponentFrame
+	implements
+	ComponentFrame,
+	IDesignComponentListener,
+	PropertyChangeListener {
 	/** A list of the component frame listeners registered with this instance */
 	private List<ComponentFrameListener> listeners = new ArrayList<ComponentFrameListener>();
 	/** The ui component represented by this instance */
 	private IDesignComponent uiComponent = null;
 
 	/**
-	 * Creates a new instance of this class that will represent the given ui
-	 * component.
+	 * Creates a new instance of this class that will represent the given ui component.
 	 * 
-	 * @param uiComponent
-	 *            The ui component being represented
+	 * @param uiComponent The ui component being represented
 	 */
 	protected MantisComponentFrame(IDesignComponent uiComponent) {
 		super();
@@ -69,9 +67,7 @@ public abstract class MantisComponentFrame implements ComponentFrame,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#addListener
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#addListener
 	 * (org.eclipse.vtp.desktop.editors.core.theme.ComponentFrameListener)
 	 */
 	@Override
@@ -82,9 +78,7 @@ public abstract class MantisComponentFrame implements ComponentFrame,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#removeListener
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#removeListener
 	 * (org.eclipse.vtp.desktop.editors.core.theme.ComponentFrameListener)
 	 */
 	@Override
@@ -93,9 +87,8 @@ public abstract class MantisComponentFrame implements ComponentFrame,
 	}
 
 	/**
-	 * Dispatches a change event to all the component frame listeners registered
-	 * with this instance. Each listener is notified of the event in the order
-	 * they were registered.
+	 * Dispatches a change event to all the component frame listeners registered with this instance.
+	 * Each listener is notified of the event in the order they were registered.
 	 */
 	protected void fireChange() {
 		for (ComponentFrameListener listener : listeners) {
@@ -104,10 +97,9 @@ public abstract class MantisComponentFrame implements ComponentFrame,
 	}
 
 	/**
-	 * Dispatches an event indicating that this component frame is being
-	 * deleted. Each listener is notified of the event in the order they were
-	 * registered. This instance is guaranteed to be valid until this function
-	 * finishes.
+	 * Dispatches an event indicating that this component frame is being deleted. Each listener is
+	 * notified of the event in the order they were registered. This instance is guaranteed to be
+	 * valid until this function finishes.
 	 */
 	protected void fireDelete() {
 		for (ComponentFrameListener listener : listeners) {
@@ -117,7 +109,6 @@ public abstract class MantisComponentFrame implements ComponentFrame,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.editors.core.model.UIComponentListener#
 	 * componentChanged(org.eclipse.vtp.desktop.editors.core.model.UIComponent)
 	 */
@@ -128,21 +119,16 @@ public abstract class MantisComponentFrame implements ComponentFrame,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#mouseDoubleClick
-	 * (org.eclipse.vtp.desktop.editors.core.commands.CommandListener, int, int,
-	 * int)
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.ComponentFrame#mouseDoubleClick
+	 * (org.eclipse.vtp.desktop.editors.core.commands.CommandListener, int, int, int)
 	 */
 	@Override
-	public void mouseDoubleClick(CommandListener commandListener, int x, int y,
-			int modifiers) {
+	public void mouseDoubleClick(CommandListener commandListener, int x, int y, int modifiers) {
 		commandListener.executeCommand(new ShowProperties());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.editors.core.model.UIComponentListener#
 	 * componentDeleted(org.eclipse.vtp.desktop.editors.core.model.UIComponent)
 	 */
@@ -152,10 +138,9 @@ public abstract class MantisComponentFrame implements ComponentFrame,
 	}
 
 	/**
-	 * Dispatches a request that this component frame be repainted within its
-	 * canvas. This is to allow internal changes to the component to trigger a
-	 * timely visual update. Each listener is notified of the event in the order
-	 * they were registered.
+	 * Dispatches a request that this component frame be repainted within its canvas. This is to
+	 * allow internal changes to the component to trigger a timely visual update. Each listener is
+	 * notified of the event in the order they were registered.
 	 */
 	protected void fireRepaintRequest() {
 		for (ComponentFrameListener listener : listeners) {
@@ -165,21 +150,16 @@ public abstract class MantisComponentFrame implements ComponentFrame,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.theme.ThematicFrame#renderFrame(
+	 * @see org.eclipse.vtp.desktop.editors.core.theme.ThematicFrame#renderFrame(
 	 * org.eclipse.swt.graphics.GC, int, int, java.util.Map)
 	 */
 	@Override
 	public void renderFrame(GC graphicsContext, int stage, int renderFlags,
-			Map<String, Object> resourceMap) {
-	}
+			Map<String, Object> resourceMap) {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.
-	 * PropertyChangeEvent)
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans. PropertyChangeEvent)
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent event) {
@@ -187,28 +167,20 @@ public abstract class MantisComponentFrame implements ComponentFrame,
 	}
 
 	/**
-	 * Attempts to retrieve a color object from the resource cache with the
-	 * given name. If a color object that matches can not be found, a new object
-	 * with the given parameters is created and placed into the cache before
-	 * being returned to the caller.
+	 * Attempts to retrieve a color object from the resource cache with the given name. If a color
+	 * object that matches can not be found, a new object with the given parameters is created and
+	 * placed into the cache before being returned to the caller.
 	 * 
-	 * @param gc
-	 *            The graphics context that owns/should own the object
-	 * @param resourceMap
-	 *            The resource cache
-	 * @param name
-	 *            The name of the resource
-	 * @param r
-	 *            The red value of the color. 0-255
-	 * @param g
-	 *            The green value of the color. 0-255
-	 * @param b
-	 *            The blue value of the color. 0-255
-	 * @return Either the cached color object or a new object with the given
-	 *         parameters
+	 * @param gc The graphics context that owns/should own the object
+	 * @param resourceMap The resource cache
+	 * @param name The name of the resource
+	 * @param r The red value of the color. 0-255
+	 * @param g The green value of the color. 0-255
+	 * @param b The blue value of the color. 0-255
+	 * @return Either the cached color object or a new object with the given parameters
 	 */
-	protected Color getColor(GC gc, Map<String, Object> resourceMap,
-			String name, int r, int g, int b) {
+	protected Color getColor(GC gc, Map<String, Object> resourceMap, String name, int r, int g,
+			int b) {
 		Object obj = resourceMap.get(name);
 		if (obj == null) {
 			obj = new Color(gc.getDevice(), r, g, b);
@@ -218,28 +190,20 @@ public abstract class MantisComponentFrame implements ComponentFrame,
 	}
 
 	/**
-	 * Attempts to retrieve a font object from the resource cache with the given
-	 * name. If a font object that matches can not be found, a new object with
-	 * the given parameters is created and placed into the cache before being
-	 * returned to the caller.
+	 * Attempts to retrieve a font object from the resource cache with the given name. If a font
+	 * object that matches can not be found, a new object with the given parameters is created and
+	 * placed into the cache before being returned to the caller.
 	 * 
-	 * @param gc
-	 *            The graphics context that owns/should own the object
-	 * @param resourceMap
-	 *            The resource cache
-	 * @param name
-	 *            The name of the resource
-	 * @param fontName
-	 *            The name of the font
-	 * @param size
-	 *            The size value of the font
-	 * @param style
-	 *            The style of the font
-	 * @return Either the cached font object or a new object with the given
-	 *         parameters
+	 * @param gc The graphics context that owns/should own the object
+	 * @param resourceMap The resource cache
+	 * @param name The name of the resource
+	 * @param fontName The name of the font
+	 * @param size The size value of the font
+	 * @param style The style of the font
+	 * @return Either the cached font object or a new object with the given parameters
 	 */
-	protected Font getFont(GC gc, Map<String, Object> resourceMap, String name,
-			String fontName, int size, int style) {
+	protected Font getFont(GC gc, Map<String, Object> resourceMap, String name, String fontName,
+			int size, int style) {
 		Object obj = resourceMap.get(name);
 		if (obj == null) {
 			obj = new Font(gc.getDevice(), fontName, size, style);

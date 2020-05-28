@@ -33,71 +33,45 @@ public final class ConfigurationDescriptor {
 	/**
 	 * Creates a new ConfigurationDescriptor.
 	 * 
-	 * @param id
-	 *            The ID of this configuration format.
-	 * @param name
-	 *            The name of this configuration format.
-	 * @param xmlNamespace
-	 *            The XML name space URI of the configuration format.
-	 * @param xmlTag
-	 *            The XML tag name of the configuration format.
-	 * @param type
-	 *            The type of this configuration format.
-	 * @throws IllegalArgumentException
-	 *             If the supplied ID is empty.
-	 * @throws IllegalArgumentException
-	 *             If the supplied name is empty.
-	 * @throws IllegalArgumentException
-	 *             If the supplied XML name space URI is empty.
-	 * @throws IllegalArgumentException
-	 *             If the supplied XML tag name is empty.
-	 * @throws IllegalArgumentException
-	 *             If the supplied type is not a public, concrete class with a
-	 *             public, no-argument constructor or is not assignable to
-	 *             {@link IConfiguration}.
-	 * @throws NullPointerException
-	 *             If the supplied ID is <code>null</code>.
-	 * @throws NullPointerException
-	 *             If the supplied name is <code>null</code>.
-	 * @throws NullPointerException
-	 *             If the supplied XML name space URI is <code>null</code>.
-	 * @throws NullPointerException
-	 *             If the supplied XML tag name is <code>null</code>.
-	 * @throws NullPointerException
-	 *             If the supplied type is <code>null</code>.
+	 * @param id The ID of this configuration format.
+	 * @param name The name of this configuration format.
+	 * @param xmlNamespace The XML name space URI of the configuration format.
+	 * @param xmlTag The XML tag name of the configuration format.
+	 * @param type The type of this configuration format.
+	 * @throws IllegalArgumentException If the supplied ID is empty.
+	 * @throws IllegalArgumentException If the supplied name is empty.
+	 * @throws IllegalArgumentException If the supplied XML name space URI is empty.
+	 * @throws IllegalArgumentException If the supplied XML tag name is empty.
+	 * @throws IllegalArgumentException If the supplied type is not a public, concrete class with a
+	 *             public, no-argument constructor or is not assignable to {@link IConfiguration}.
+	 * @throws NullPointerException If the supplied ID is <code>null</code>.
+	 * @throws NullPointerException If the supplied name is <code>null</code>.
+	 * @throws NullPointerException If the supplied XML name space URI is <code>null</code>.
+	 * @throws NullPointerException If the supplied XML tag name is <code>null</code>.
+	 * @throws NullPointerException If the supplied type is <code>null</code>.
 	 */
-	public ConfigurationDescriptor(String id, String name, String xmlNamespace,
-			String xmlTag, Class type) throws IllegalArgumentException,
-			NullPointerException {
-		if (id == null) {
-			throw new NullPointerException("id"); //$NON-NLS-1$
+	public ConfigurationDescriptor(String id, String name, String xmlNamespace, String xmlTag,
+			Class type) throws IllegalArgumentException, NullPointerException {
+		if (id == null) { throw new NullPointerException("id"); //$NON-NLS-1$
 		}
-		if (id.length() == 0) {
-			throw new IllegalArgumentException("id"); //$NON-NLS-1$
+		if (id.length() == 0) { throw new IllegalArgumentException("id"); //$NON-NLS-1$
 		}
-		if (name == null) {
-			throw new NullPointerException("name"); //$NON-NLS-1$
+		if (name == null) { throw new NullPointerException("name"); //$NON-NLS-1$
 		}
-		if (name.length() == 0) {
-			throw new IllegalArgumentException("name"); //$NON-NLS-1$
+		if (name.length() == 0) { throw new IllegalArgumentException("name"); //$NON-NLS-1$
 		}
-		if (xmlNamespace == null) {
-			throw new NullPointerException("xmlNamespace"); //$NON-NLS-1$
+		if (xmlNamespace == null) { throw new NullPointerException("xmlNamespace"); //$NON-NLS-1$
 		}
-		if (xmlNamespace.length() == 0) {
-			throw new IllegalArgumentException("xmlNamespace"); //$NON-NLS-1$
+		if (xmlNamespace.length() == 0) { throw new IllegalArgumentException("xmlNamespace"); //$NON-NLS-1$
 		}
-		if (xmlTag == null) {
-			throw new NullPointerException("xmlTag"); //$NON-NLS-1$
+		if (xmlTag == null) { throw new NullPointerException("xmlTag"); //$NON-NLS-1$
 		}
-		if (xmlTag.length() == 0) {
-			throw new IllegalArgumentException("xmlTag"); //$NON-NLS-1$
+		if (xmlTag.length() == 0) { throw new IllegalArgumentException("xmlTag"); //$NON-NLS-1$
 		}
-		if (type == null) {
-			throw new NullPointerException("type"); //$NON-NLS-1$
+		if (type == null) { throw new NullPointerException("type"); //$NON-NLS-1$
 		}
-		if (!DescriptorUtils.isValidImplementation(type, IConfiguration.class)) {
-			throw new IllegalArgumentException("type: " + type); //$NON-NLS-1$
+		if (!DescriptorUtils.isValidImplementation(type, IConfiguration.class)) { throw new IllegalArgumentException(
+				"type: " + type); //$NON-NLS-1$
 		}
 		this.id = id;
 		this.name = name;
@@ -153,15 +127,13 @@ public final class ConfigurationDescriptor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		return new StringBuffer(getClass().getName().substring(
-				getClass().getName().lastIndexOf('.') + 1)).append('[')
-				.append(id).append(';').append(name).append(';')
-				.append(xmlNamespace).append(';').append(xmlTag).append(';')
-				.append(type).append(']').toString();
+				getClass().getName().lastIndexOf('.') + 1)).append('[').append(id).append(';')
+				.append(name).append(';').append(xmlNamespace).append(';').append(xmlTag).append(
+						';').append(type).append(']').toString();
 	}
 }

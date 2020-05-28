@@ -59,14 +59,12 @@ public class XMLWriter implements ContentHandler {
 	/**
 	 * Creates a new XMLWriter.
 	 */
-	public XMLWriter() {
-	}
+	public XMLWriter() {}
 
 	/**
 	 * Creates a new XMLWriter.
 	 * 
-	 * @param output
-	 *            The output stream to write to.
+	 * @param output The output stream to write to.
 	 */
 	public XMLWriter(OutputStream output) {
 		setOutput(output);
@@ -79,8 +77,7 @@ public class XMLWriter implements ContentHandler {
 	/**
 	 * Sets the output stream to write to.
 	 * 
-	 * @param output
-	 *            The output stream to write to.
+	 * @param output The output stream to write to.
 	 */
 	public void setOutput(OutputStream output) {
 		this.output = output;
@@ -89,8 +86,7 @@ public class XMLWriter implements ContentHandler {
 	/**
 	 * Sets the character to use for indentation.
 	 * 
-	 * @param indentCharacter
-	 *            The character to use for indentation.
+	 * @param indentCharacter The character to use for indentation.
 	 */
 	public void setIndentCharacter(char indentCharacter) {
 		this.indentCharacter = indentCharacter;
@@ -99,9 +95,7 @@ public class XMLWriter implements ContentHandler {
 	/**
 	 * Sets the number of indent characters to use for normal indentations.
 	 * 
-	 * @param indentSize
-	 *            The number of indent characters to use for normal
-	 *            indentations.
+	 * @param indentSize The number of indent characters to use for normal indentations.
 	 */
 	public void setIndentSize(int indentSize) {
 		this.indentSize = indentSize < 0 ? 0 : indentSize;
@@ -110,8 +104,7 @@ public class XMLWriter implements ContentHandler {
 	/**
 	 * Sets the number of indent characters to use for deep indentations.
 	 * 
-	 * @param deepIndentSize
-	 *            The number of indent characters to use for deep indentations.
+	 * @param deepIndentSize The number of indent characters to use for deep indentations.
 	 */
 	public void setDeepIndentSize(int deepIndentSize) {
 		this.deepIndentSize = deepIndentSize < 0 ? 0 : deepIndentSize;
@@ -128,7 +121,6 @@ public class XMLWriter implements ContentHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.xml.sax.ContentHandler#setDocumentLocator(org.xml.sax.Locator)
 	 */
 	@Override
@@ -138,7 +130,6 @@ public class XMLWriter implements ContentHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.xml.sax.ContentHandler#startDocument()
 	 */
 	@Override
@@ -160,7 +151,6 @@ public class XMLWriter implements ContentHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.xml.sax.ContentHandler#endDocument()
 	 */
 	@Override
@@ -183,13 +173,10 @@ public class XMLWriter implements ContentHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.xml.sax.ContentHandler#startPrefixMapping(java.lang.String,
-	 * java.lang.String)
+	 * @see org.xml.sax.ContentHandler#startPrefixMapping(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void startPrefixMapping(String prefix, String uri)
-			throws SAXException {
+	public void startPrefixMapping(String prefix, String uri) throws SAXException {
 		stackedIndexPush(namespaceURIsByPrefix, prefix, uri);
 		stackedIndexPush(prefixesByNamespaceURI, uri, prefix);
 		newPrefixes.remove(prefix);
@@ -198,7 +185,6 @@ public class XMLWriter implements ContentHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.xml.sax.ContentHandler#endPrefixMapping(java.lang.String)
 	 */
 	@Override
@@ -209,13 +195,12 @@ public class XMLWriter implements ContentHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.xml.sax.ContentHandler#startElement(java.lang.String,
-	 * java.lang.String, java.lang.String, org.xml.sax.Attributes)
+	 * @see org.xml.sax.ContentHandler#startElement(java.lang.String, java.lang.String,
+	 * java.lang.String, org.xml.sax.Attributes)
 	 */
 	@Override
-	public void startElement(String uri, String localName, String name,
-			Attributes atts) throws SAXException {
+	public void startElement(String uri, String localName, String name, Attributes atts)
+			throws SAXException {
 		afterEndElement = false;
 		try {
 			ensureParentElementIsComplete();
@@ -248,8 +233,8 @@ public class XMLWriter implements ContentHandler {
 					output.write("\n".getBytes("UTF-8"));
 					deepIndent();
 				}
-				writeNameValuePair(atts.getURI(i), atts.getLocalName(i),
-						atts.getQName(i), atts.getValue(i));
+				writeNameValuePair(atts.getURI(i), atts.getLocalName(i), atts.getQName(i), atts
+						.getValue(i));
 			}
 			parentElementIncomplete = true;
 			afterCDATA = false;
@@ -262,13 +247,11 @@ public class XMLWriter implements ContentHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.xml.sax.ContentHandler#endElement(java.lang.String,
-	 * java.lang.String, java.lang.String)
+	 * @see org.xml.sax.ContentHandler#endElement(java.lang.String, java.lang.String,
+	 * java.lang.String)
 	 */
 	@Override
-	public void endElement(String uri, String localName, String name)
-			throws SAXException {
+	public void endElement(String uri, String localName, String name) throws SAXException {
 		try {
 			--elementDepth;
 			if (parentElementIncomplete) {
@@ -294,13 +277,10 @@ public class XMLWriter implements ContentHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.xml.sax.ContentHandler#processingInstruction(java.lang.String,
-	 * java.lang.String)
+	 * @see org.xml.sax.ContentHandler#processingInstruction(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void processingInstruction(String target, String data)
-			throws SAXException {
+	public void processingInstruction(String target, String data) throws SAXException {
 		afterEndElement = true;
 		try {
 			ensureParentElementIsComplete();
@@ -321,12 +301,10 @@ public class XMLWriter implements ContentHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.xml.sax.ContentHandler#characters(char[], int, int)
 	 */
 	@Override
-	public void characters(char[] ch, int start, int length)
-			throws SAXException {
+	public void characters(char[] ch, int start, int length) throws SAXException {
 		try {
 			if (!afterCDATA) {
 				ensureParentElementIsComplete();
@@ -385,18 +363,15 @@ public class XMLWriter implements ContentHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.xml.sax.ContentHandler#ignorableWhitespace(char[], int, int)
 	 */
 	@Override
-	public void ignorableWhitespace(char[] ch, int start, int length)
-			throws SAXException {
+	public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException {
 		// Ignore extra whitespace.
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.xml.sax.ContentHandler#skippedEntity(java.lang.String)
 	 */
 	@Override
@@ -405,8 +380,8 @@ public class XMLWriter implements ContentHandler {
 	}
 
 	/**
-	 * Ensures that the ">" character is written to close the parent element
-	 * start tag if it is still open.
+	 * Ensures that the ">" character is written to close the parent element start tag if it is
+	 * still open.
 	 */
 	private void ensureParentElementIsComplete() {
 		if (parentElementIncomplete) {
@@ -426,8 +401,7 @@ public class XMLWriter implements ContentHandler {
 		try {
 			for (int i = 0; i < elementDepth; ++i) {
 				for (int j = 0; j < indentSize; ++j) {
-					output.write(Character.toString(indentCharacter).getBytes(
-							"UTF-8"));
+					output.write(Character.toString(indentCharacter).getBytes("UTF-8"));
 				}
 			}
 		} catch (Exception e) {
@@ -443,8 +417,7 @@ public class XMLWriter implements ContentHandler {
 		try {
 			indent();
 			for (int i = 0; i < deepIndentSize; ++i) {
-				output.write(Character.toString(deepIndentCharacter).getBytes(
-						"UTF-8"));
+				output.write(Character.toString(deepIndentCharacter).getBytes("UTF-8"));
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -455,12 +428,9 @@ public class XMLWriter implements ContentHandler {
 	/**
 	 * Writes an XML node name to the output stream.
 	 * 
-	 * @param uri
-	 *            The URI of the element or an empty string.
-	 * @param localName
-	 *            The local name of the element or an empty string.
-	 * @param qualifiedName
-	 *            The qualified name of the element or an empty string.
+	 * @param uri The URI of the element or an empty string.
+	 * @param localName The local name of the element or an empty string.
+	 * @param qualifiedName The qualified name of the element or an empty string.
 	 */
 	private void writeName(String uri, String localName, String qualifiedName) {
 		try {
@@ -491,15 +461,11 @@ public class XMLWriter implements ContentHandler {
 	/**
 	 * Writes an XML name/value pair to the output stream.
 	 * 
-	 * @param uri
-	 *            The URI of the element or an empty string.
-	 * @param localName
-	 *            The local name of the element or an empty string.
-	 * @param qualifiedName
-	 *            The qualified name of the element or an empty string.
+	 * @param uri The URI of the element or an empty string.
+	 * @param localName The local name of the element or an empty string.
+	 * @param qualifiedName The qualified name of the element or an empty string.
 	 */
-	private void writeNameValuePair(String uri, String localName,
-			String qualifiedName, String value) {
+	private void writeNameValuePair(String uri, String localName, String qualifiedName, String value) {
 		try {
 			if (compactElements) {
 				output.write(" ".getBytes("UTF-8"));
@@ -523,8 +489,7 @@ public class XMLWriter implements ContentHandler {
 						output.write("&gt;".getBytes("UTF-8"));
 						break;
 					default:
-						output.write(Character.toString(value.charAt(i))
-								.getBytes("UTF-8"));
+						output.write(Character.toString(value.charAt(i)).getBytes("UTF-8"));
 					}
 				}
 			}
@@ -536,19 +501,14 @@ public class XMLWriter implements ContentHandler {
 	}
 
 	/**
-	 * Pushes <code>value</code> on to a stack stored in <code>index</code>
-	 * under <code>key</code>.
+	 * Pushes <code>value</code> on to a stack stored in <code>index</code> under <code>key</code>.
 	 * 
-	 * @param index
-	 *            The index of stacks by key.
-	 * @param key
-	 *            The key that identifies the stack.
-	 * @param value
-	 *            The value to push onto the stack.
+	 * @param index The index of stacks by key.
+	 * @param key The key that identifies the stack.
+	 * @param value The value to push onto the stack.
 	 */
 	@SuppressWarnings("unchecked")
-	private void stackedIndexPush(Map<String, Object> index, String key,
-			String value) {
+	private void stackedIndexPush(Map<String, Object> index, String key, String value) {
 		Object stack = index.get(key);
 		if (stack == null) {
 			index.put(key, value);
@@ -566,13 +526,10 @@ public class XMLWriter implements ContentHandler {
 	}
 
 	/**
-	 * Returns the top value of the stack stored in <code>index</code> under
-	 * <code>key</code>.
+	 * Returns the top value of the stack stored in <code>index</code> under <code>key</code>.
 	 * 
-	 * @param index
-	 *            The index of stacks by key.
-	 * @param key
-	 *            The key that identifies the stack.
+	 * @param index The index of stacks by key.
+	 * @param key The key that identifies the stack.
 	 * @return The top value from the specified stack.
 	 */
 	@SuppressWarnings("unchecked")
@@ -588,13 +545,10 @@ public class XMLWriter implements ContentHandler {
 	}
 
 	/**
-	 * Pops the top value off of the stack stored in <code>index</code> under
-	 * <code>key</code>.
+	 * Pops the top value off of the stack stored in <code>index</code> under <code>key</code>.
 	 * 
-	 * @param index
-	 *            The index of stacks by key.
-	 * @param key
-	 *            The key that identifies the stack.
+	 * @param index The index of stacks by key.
+	 * @param key The key that identifies the stack.
 	 * @return The value that was popped off the specified stack.
 	 */
 	private String stackedIndexPop(Map<String, Object> index, String key) {
@@ -616,17 +570,14 @@ public class XMLWriter implements ContentHandler {
 	}
 
 	/**
-	 * Removes the highest occurence of <code>value</code> from the stack stored
-	 * in <code>index</code> under <code>key</code>.
+	 * Removes the highest occurence of <code>value</code> from the stack stored in
+	 * <code>index</code> under <code>key</code>.
 	 * 
-	 * @param index
-	 *            The index of stacks by key.
-	 * @param key
-	 *            The key that identifies the stack.
+	 * @param index The index of stacks by key.
+	 * @param key The key that identifies the stack.
 	 * @return The value to remove from the specified stack.
 	 */
-	private void stackedIndexRemove(Map<String, Object> index, String key,
-			String value) {
+	private void stackedIndexRemove(Map<String, Object> index, String key, String value) {
 		Object stack = index.get(key);
 		if (stack == null) {
 			return;

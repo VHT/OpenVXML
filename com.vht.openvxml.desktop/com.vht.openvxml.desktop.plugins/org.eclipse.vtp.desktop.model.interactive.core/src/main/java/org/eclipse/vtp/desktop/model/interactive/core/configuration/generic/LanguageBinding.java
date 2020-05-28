@@ -25,9 +25,8 @@ import com.openmethods.openvxml.desktop.model.branding.BrandManagerListener;
 import com.openmethods.openvxml.desktop.model.branding.IBrand;
 
 /**
- * This class binds the brand structure to a specific language. The brand
- * structure contained by this language binding is automatically created during
- * instantiation.
+ * This class binds the brand structure to a specific language. The brand structure contained by
+ * this language binding is automatically created during instantiation.
  * 
  * @author trip
  */
@@ -40,14 +39,12 @@ public class LanguageBinding implements BrandManagerListener {
 	private Map<String, BrandBinding> brandBindings = new TreeMap<String, BrandBinding>();
 
 	/**
-	 * Constructs a new language binding instance that is contained by the
-	 * provided binding manager and is associated with the language with the
-	 * given name. The brand structure is automatically created.
+	 * Constructs a new language binding instance that is contained by the provided binding manager
+	 * and is associated with the language with the given name. The brand structure is automatically
+	 * created.
 	 * 
-	 * @param manager
-	 *            The binding manager that contains this binding
-	 * @param name
-	 *            The name of the language associated with this binding
+	 * @param manager The binding manager that contains this binding
+	 * @param name The name of the language associated with this binding
 	 */
 	public LanguageBinding(GenericBindingManager manager, String name) {
 		super();
@@ -70,7 +67,6 @@ public class LanguageBinding implements BrandManagerListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.lang.Object#finalize()
 	 */
 	@Override
@@ -86,12 +82,11 @@ public class LanguageBinding implements BrandManagerListener {
 	}
 
 	/**
-	 * Retrieves the brand binding associated with the given brand. If no
-	 * binding is associated with the brand, null is returned. This should not
-	 * happen as a binding is created for every brand during instantiation.
+	 * Retrieves the brand binding associated with the given brand. If no binding is associated with
+	 * the brand, null is returned. This should not happen as a binding is created for every brand
+	 * during instantiation.
 	 * 
-	 * @param brand
-	 *            The brand associated with the desired binding.
+	 * @param brand The brand associated with the desired binding.
 	 * @return The binding associated with the given brand
 	 */
 	public BrandBinding getBrandBinding(IBrand brand) {
@@ -99,19 +94,16 @@ public class LanguageBinding implements BrandManagerListener {
 	}
 
 	/**
-	 * Reads the configuration data stored in the given dom element into this
-	 * language binding instance. Any previous information stored in this
-	 * language binding is lost.
+	 * Reads the configuration data stored in the given dom element into this language binding
+	 * instance. Any previous information stored in this language binding is lost.
 	 * 
-	 * @param languageBindingElement
-	 *            The dom element containing the configuration
+	 * @param languageBindingElement The dom element containing the configuration
 	 */
 	public void readConfiguration(Element languageBindingElement) {
 		NodeList brandBindingElementList = languageBindingElement
 				.getElementsByTagName("brand-binding");
 		for (int i = 0; i < brandBindingElementList.getLength(); i++) {
-			Element brandBindingElement = (Element) brandBindingElementList
-					.item(i);
+			Element brandBindingElement = (Element) brandBindingElementList.item(i);
 			String brandId = brandBindingElement.getAttribute("id");
 			BrandBinding brandBinding = brandBindings.get(brandId);
 			if (brandBinding != null) {
@@ -123,32 +115,28 @@ public class LanguageBinding implements BrandManagerListener {
 	/**
 	 * Stores this language binding's information into the given dom element.
 	 * 
-	 * @param languageBindingElement
-	 *            The dom element to hold this binding's data
+	 * @param languageBindingElement The dom element to hold this binding's data
 	 */
 	public void writeConfiguration(Element languageBindingElement) {
 		Iterator<BrandBinding> iterator = brandBindings.values().iterator();
 		while (iterator.hasNext()) {
 			BrandBinding brandBinding = iterator.next();
 			if (!brandBinding.isInherited()) {
-				Element brandBindingElement = languageBindingElement
-						.getOwnerDocument().createElement("brand-binding");
+				Element brandBindingElement = languageBindingElement.getOwnerDocument()
+						.createElement("brand-binding");
 				languageBindingElement.appendChild(brandBindingElement);
-				brandBindingElement.setAttribute("id", brandBinding.getBrand()
-						.getId());
-				brandBindingElement.setAttribute("name", brandBinding
-						.getBrand().getPath());
+				brandBindingElement.setAttribute("id", brandBinding.getBrand().getId());
+				brandBindingElement.setAttribute("name", brandBinding.getBrand().getPath());
 				brandBinding.writeConfiguration(brandBindingElement);
 			}
 		}
 	}
 
 	/**
-	 * Prints this binding's information to the given print stream. This is
-	 * useful for logging and debugging.
+	 * Prints this binding's information to the given print stream. This is useful for logging and
+	 * debugging.
 	 * 
-	 * @param out
-	 *            The print stream to write the information to
+	 * @param out The print stream to write the information to
 	 */
 	public void dumpContents(PrintStream out) {
 		out.println("[Language Binding] " + name);
@@ -163,8 +151,7 @@ public class LanguageBinding implements BrandManagerListener {
 	/**
 	 * Recursively creates the brand binding structure.
 	 * 
-	 * @param brand
-	 *            The brand to bind
+	 * @param brand The brand to bind
 	 * @return The binding for the given brand
 	 */
 	private BrandBinding createBrandBinding(IBrand brand) {
@@ -180,15 +167,12 @@ public class LanguageBinding implements BrandManagerListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.configuration.BrandManagerListener#brandAdded
+	 * @see org.eclipse.vtp.desktop.core.configuration.BrandManagerListener#brandAdded
 	 * (org.eclipse.vtp.desktop.core.configuration.Brand)
 	 */
 	@Override
 	public void brandAdded(IBrand brand) {
-		BrandBinding parentBinding = brandBindings.get(brand.getParent()
-				.getId());
+		BrandBinding parentBinding = brandBindings.get(brand.getParent().getId());
 		BrandBinding brandBinding = createBrandBinding(brand);
 		brandBinding.setParent(parentBinding);
 	}
@@ -203,31 +187,24 @@ public class LanguageBinding implements BrandManagerListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.configuration.BrandManagerListener#
-	 * brandNameChanged(org.eclipse.vtp.desktop.core.configuration.Brand,
-	 * java.lang.String)
+	 * brandNameChanged(org.eclipse.vtp.desktop.core.configuration.Brand, java.lang.String)
 	 */
 	@Override
-	public void brandNameChanged(IBrand brand, String oldName) {
-	}
+	public void brandNameChanged(IBrand brand, String oldName) {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.configuration.BrandManagerListener#
 	 * brandParentChanged(org.eclipse.vtp.desktop.core.configuration.Brand,
 	 * org.eclipse.vtp.desktop.core.configuration.Brand)
 	 */
 	@Override
-	public void brandParentChanged(IBrand brand, IBrand oldParent) {
-	}
+	public void brandParentChanged(IBrand brand, IBrand oldParent) {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.configuration.BrandManagerListener#brandRemoved
+	 * @see org.eclipse.vtp.desktop.core.configuration.BrandManagerListener#brandRemoved
 	 * (org.eclipse.vtp.desktop.core.configuration.Brand)
 	 */
 	@Override

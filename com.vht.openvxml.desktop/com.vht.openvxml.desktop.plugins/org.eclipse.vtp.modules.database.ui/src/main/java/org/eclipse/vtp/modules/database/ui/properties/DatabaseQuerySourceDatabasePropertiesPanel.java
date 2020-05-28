@@ -35,10 +35,8 @@ import com.openmethods.openvxml.desktop.model.databases.IDatabaseTable;
 
 /**
  * @author Trip
- *
  */
-public class DatabaseQuerySourceDatabasePropertiesPanel extends
-		DesignElementPropertiesPanel {
+public class DatabaseQuerySourceDatabasePropertiesPanel extends DesignElementPropertiesPanel {
 	DatabaseQueryInformationProvider queryElement;
 	DatabaseQuerySettingsStructure settings;
 	Combo sourceDatabaseCombo;
@@ -52,8 +50,7 @@ public class DatabaseQuerySourceDatabasePropertiesPanel extends
 	public DatabaseQuerySourceDatabasePropertiesPanel(PrimitiveElement dqe,
 			DatabaseQuerySettingsStructure settings) {
 		super("Source Database", dqe);
-		this.queryElement = (DatabaseQueryInformationProvider) dqe
-				.getInformationProvider();
+		this.queryElement = (DatabaseQueryInformationProvider) dqe.getInformationProvider();
 		this.settings = settings;
 		IOpenVXMLProject project = dqe.getDesign().getDocument().getProject();
 		IDatabaseProjectAspect databaseAspect = (IDatabaseProjectAspect) project
@@ -63,9 +60,7 @@ public class DatabaseQuerySourceDatabasePropertiesPanel extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel#
+	 * @see org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel#
 	 * createControls(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -93,16 +88,13 @@ public class DatabaseQuerySourceDatabasePropertiesPanel extends
 			sourceDatabaseLabel.setText("Source Database:");
 			sourceDatabaseLabel.setBackground(sdbComp.getBackground());
 			sourceDatabaseLabel.setLayoutData(new GridData());
-			sourceDatabaseCombo = new Combo(sdbComp, SWT.DROP_DOWN
-					| SWT.READ_ONLY);
-			sourceDatabaseCombo.setLayoutData(new GridData(
-					GridData.FILL_HORIZONTAL));
+			sourceDatabaseCombo = new Combo(sdbComp, SWT.DROP_DOWN | SWT.READ_ONLY);
+			sourceDatabaseCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 			int sel = -1;
 
 			for (int i = 0; i < databases.size(); i++) {
-				databaseTables.put(databases.get(i).getName(), databases.get(i)
-						.getTables());
+				databaseTables.put(databases.get(i).getName(), databases.get(i).getTables());
 				sourceDatabaseCombo.add(databases.get(i).getName());
 
 				if (databases.get(i).getName().equals(settings.sourceDatabase)) {
@@ -113,15 +105,12 @@ public class DatabaseQuerySourceDatabasePropertiesPanel extends
 			sourceDatabaseCombo.addSelectionListener(new SelectionListener() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					if (!sourceDatabaseCombo.getItem(
-							sourceDatabaseCombo.getSelectionIndex()).equals(
-							settings.sourceDatabase)) {
+					if (!sourceDatabaseCombo.getItem(sourceDatabaseCombo.getSelectionIndex())
+							.equals(settings.sourceDatabase)) {
 						sourceTableCombo.removeAll();
 
-						List<IDatabaseTable> tables = databaseTables
-								.get(sourceDatabaseCombo
-										.getItem(sourceDatabaseCombo
-												.getSelectionIndex()));
+						List<IDatabaseTable> tables = databaseTables.get(sourceDatabaseCombo
+								.getItem(sourceDatabaseCombo.getSelectionIndex()));
 
 						for (int i = 0; i < tables.size(); i++) {
 							sourceTableCombo.add(tables.get(i).getName());
@@ -133,32 +122,27 @@ public class DatabaseQuerySourceDatabasePropertiesPanel extends
 				}
 
 				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-				}
+				public void widgetDefaultSelected(SelectionEvent e) {}
 			});
 
 			Label sourceTableLabel = new Label(stabComp, SWT.NONE);
 			sourceTableLabel.setText("Source Table:");
 			sourceTableLabel.setBackground(stabComp.getBackground());
-			sourceTableLabel
-					.setLayoutData(new GridData(GridData.FILL_VERTICAL));
-			sourceTableCombo = new Combo(stabComp, SWT.DROP_DOWN
-					| SWT.READ_ONLY);
+			sourceTableLabel.setLayoutData(new GridData(GridData.FILL_VERTICAL));
+			sourceTableCombo = new Combo(stabComp, SWT.DROP_DOWN | SWT.READ_ONLY);
 			sourceTableCombo.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 			if (sel != -1) {
 				sourceDatabaseCombo.select(sel);
 
-				List<IDatabaseTable> tables = databaseTables
-						.get(sourceDatabaseCombo.getItem(sourceDatabaseCombo
-								.getSelectionIndex()));
+				List<IDatabaseTable> tables = databaseTables.get(sourceDatabaseCombo
+						.getItem(sourceDatabaseCombo.getSelectionIndex()));
 				sel = -1;
 
 				for (int i = 0; i < tables.size(); i++) {
 					sourceTableCombo.add(tables.get(i).getName());
 
-					if (tables.get(i).getName()
-							.equals(settings.sourceDatabaseTable)) {
+					if (tables.get(i).getName().equals(settings.sourceDatabaseTable)) {
 						sel = i;
 					}
 				}
@@ -175,16 +159,14 @@ public class DatabaseQuerySourceDatabasePropertiesPanel extends
 				}
 
 				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-				}
+				public void widgetDefaultSelected(SelectionEvent e) {}
 			});
 		} else {
 			parent.setLayout(new GridLayout());
 
 			Label noDatabasesLabel = new Label(parent, SWT.NONE);
 			noDatabasesLabel.setBackground(parent.getBackground());
-			noDatabasesLabel
-					.setText("You must first create a database to query.");
+			noDatabasesLabel.setText("You must first create a database to query.");
 
 			GridData gd = new GridData(GridData.FILL_BOTH);
 			gd.horizontalAlignment = SWT.CENTER;
@@ -194,23 +176,19 @@ public class DatabaseQuerySourceDatabasePropertiesPanel extends
 	}
 
 	private void fireSourceChanged() {
-		settings.sourceDatabase = sourceDatabaseCombo
-				.getItem(sourceDatabaseCombo.getSelectionIndex());
-		settings.sourceDatabaseTable = sourceTableCombo
-				.getItem(sourceTableCombo.getSelectionIndex());
+		settings.sourceDatabase = sourceDatabaseCombo.getItem(sourceDatabaseCombo
+				.getSelectionIndex());
+		settings.sourceDatabaseTable = sourceTableCombo.getItem(sourceTableCombo
+				.getSelectionIndex());
 		settings.fireSourceChanged();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel#
-	 * save()
+	 * @see org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel# save()
 	 */
 	@Override
-	public void save() {
-	}
+	public void save() {}
 
 	@Override
 	public void cancel() {
@@ -218,8 +196,7 @@ public class DatabaseQuerySourceDatabasePropertiesPanel extends
 	}
 
 	@Override
-	public void setConfigurationContext(Map<String, Object> values) {
-	}
+	public void setConfigurationContext(Map<String, Object> values) {}
 
 	@Override
 	public List<String> getApplicableContexts() {

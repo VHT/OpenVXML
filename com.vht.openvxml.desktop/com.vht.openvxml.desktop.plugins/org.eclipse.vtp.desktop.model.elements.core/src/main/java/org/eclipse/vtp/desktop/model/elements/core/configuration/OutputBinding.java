@@ -14,9 +14,8 @@ import com.openmethods.openvxml.desktop.model.branding.BrandManagerListener;
 import com.openmethods.openvxml.desktop.model.branding.IBrand;
 
 /**
- * This class binds the brand structure to a specific output. The brand
- * structure contained by this output binding is automatically created during
- * instantiation.
+ * This class binds the brand structure to a specific output. The brand structure contained by this
+ * output binding is automatically created during instantiation.
  * 
  * @author trip
  */
@@ -29,14 +28,12 @@ public class OutputBinding implements BrandManagerListener {
 	private Map<String, OutputBrandBinding> brandBindings = new TreeMap<String, OutputBrandBinding>();
 
 	/**
-	 * Constructs a new output binding instance that is contained by the
-	 * provided binding manager and is associated with the output with the given
-	 * name. The brand structure is automatically created.
+	 * Constructs a new output binding instance that is contained by the provided binding manager
+	 * and is associated with the output with the given name. The brand structure is automatically
+	 * created.
 	 * 
-	 * @param manager
-	 *            The binding manager that contains this binding
-	 * @param name
-	 *            The name of the output associated with this binding
+	 * @param manager The binding manager that contains this binding
+	 * @param name The name of the output associated with this binding
 	 */
 	public OutputBinding(FragmentConfigurationManager manager, String name) {
 		super();
@@ -56,12 +53,11 @@ public class OutputBinding implements BrandManagerListener {
 	}
 
 	/**
-	 * Retrieves the brand binding associated with the given brand. If no
-	 * binding is associated with the brand, null is returned. This should not
-	 * happen as a binding is created for every brand during instantiation.
+	 * Retrieves the brand binding associated with the given brand. If no binding is associated with
+	 * the brand, null is returned. This should not happen as a binding is created for every brand
+	 * during instantiation.
 	 * 
-	 * @param brand
-	 *            The brand associated with the desired binding.
+	 * @param brand The brand associated with the desired binding.
 	 * @return The binding associated with the given brand
 	 */
 	public OutputBrandBinding getBrandBinding(IBrand brand) {
@@ -69,19 +65,16 @@ public class OutputBinding implements BrandManagerListener {
 	}
 
 	/**
-	 * Reads the configuration data stored in the given DOM element into this
-	 * output binding instance. Any previous information stored in this output
-	 * binding is lost.
+	 * Reads the configuration data stored in the given DOM element into this output binding
+	 * instance. Any previous information stored in this output binding is lost.
 	 * 
-	 * @param inputBindingElement
-	 *            The DOM element containing the configuration
+	 * @param inputBindingElement The DOM element containing the configuration
 	 */
 	public void readConfiguration(Element inputBindingElement) {
 		NodeList brandBindingElementList = inputBindingElement
 				.getElementsByTagName("brand-binding");
 		for (int i = 0; i < brandBindingElementList.getLength(); i++) {
-			Element brandBindingElement = (Element) brandBindingElementList
-					.item(i);
+			Element brandBindingElement = (Element) brandBindingElementList.item(i);
 			String brandId = brandBindingElement.getAttribute("id");
 			OutputBrandBinding brandBinding = brandBindings.get(brandId);
 			if (brandBinding != null) {
@@ -93,39 +86,33 @@ public class OutputBinding implements BrandManagerListener {
 	/**
 	 * Stores this input binding's information into the given DOM element.
 	 * 
-	 * @param inputBindingElement
-	 *            The DOM element to hold this binding's data
+	 * @param inputBindingElement The DOM element to hold this binding's data
 	 */
 	public void writeConfiguration(Element inputBindingElement) {
-		Iterator<OutputBrandBinding> iterator = brandBindings.values()
-				.iterator();
+		Iterator<OutputBrandBinding> iterator = brandBindings.values().iterator();
 		while (iterator.hasNext()) {
 			OutputBrandBinding brandBinding = iterator.next();
 			if (!brandBinding.isInherited()) {
-				Element brandBindingElement = inputBindingElement
-						.getOwnerDocument().createElement("brand-binding");
+				Element brandBindingElement = inputBindingElement.getOwnerDocument().createElement(
+						"brand-binding");
 				inputBindingElement.appendChild(brandBindingElement);
-				brandBindingElement.setAttribute("id", brandBinding.getBrand()
-						.getId());
-				brandBindingElement.setAttribute("name", brandBinding
-						.getBrand().getPath());
+				brandBindingElement.setAttribute("id", brandBinding.getBrand().getId());
+				brandBindingElement.setAttribute("name", brandBinding.getBrand().getPath());
 				brandBinding.writeConfiguration(brandBindingElement);
 			}
 		}
 	}
 
 	/**
-	 * Prints this binding's information to the given print stream. This is
-	 * useful for logging and debugging.
+	 * Prints this binding's information to the given print stream. This is useful for logging and
+	 * debugging.
 	 * 
-	 * @param out
-	 *            The print stream to write the information to
+	 * @param out The print stream to write the information to
 	 */
 	public void dumpContents(PrintStream out) {
 		out.println("[Output Binding] " + name);
 		out.println("IBrand Bindings");
-		Iterator<OutputBrandBinding> iterator = brandBindings.values()
-				.iterator();
+		Iterator<OutputBrandBinding> iterator = brandBindings.values().iterator();
 		while (iterator.hasNext()) {
 			OutputBrandBinding brandBinding = iterator.next();
 			brandBinding.dumpContents(out);
@@ -135,8 +122,7 @@ public class OutputBinding implements BrandManagerListener {
 	/**
 	 * Recursively creates the brand binding structure.
 	 * 
-	 * @param brand
-	 *            The brand to bind
+	 * @param brand The brand to bind
 	 * @return The binding for the given brand
 	 */
 	private OutputBrandBinding createBrandBinding(IBrand brand) {
@@ -152,15 +138,12 @@ public class OutputBinding implements BrandManagerListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.configuration.BrandManagerListener#brandAdded
+	 * @see org.eclipse.vtp.desktop.core.configuration.BrandManagerListener#brandAdded
 	 * (org.eclipse.vtp.desktop.core.configuration.Brand)
 	 */
 	@Override
 	public void brandAdded(IBrand brand) {
-		OutputBrandBinding parentBinding = brandBindings.get(brand.getParent()
-				.getId());
+		OutputBrandBinding parentBinding = brandBindings.get(brand.getParent().getId());
 		OutputBrandBinding brandBinding = createBrandBinding(brand);
 		brandBinding.setParent(parentBinding);
 	}
@@ -175,31 +158,24 @@ public class OutputBinding implements BrandManagerListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.configuration.BrandManagerListener#
-	 * brandNameChanged(org.eclipse.vtp.desktop.core.configuration.Brand,
-	 * java.lang.String)
+	 * brandNameChanged(org.eclipse.vtp.desktop.core.configuration.Brand, java.lang.String)
 	 */
 	@Override
-	public void brandNameChanged(IBrand brand, String oldName) {
-	}
+	public void brandNameChanged(IBrand brand, String oldName) {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.configuration.BrandManagerListener#
 	 * brandParentChanged(org.eclipse.vtp.desktop.core.configuration.Brand,
 	 * org.eclipse.vtp.desktop.core.configuration.Brand)
 	 */
 	@Override
-	public void brandParentChanged(IBrand brand, IBrand oldParent) {
-	}
+	public void brandParentChanged(IBrand brand, IBrand oldParent) {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.configuration.BrandManagerListener#brandRemoved
+	 * @see org.eclipse.vtp.desktop.core.configuration.BrandManagerListener#brandRemoved
 	 * (org.eclipse.vtp.desktop.core.configuration.Brand)
 	 */
 	@Override

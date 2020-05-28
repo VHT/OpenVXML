@@ -22,8 +22,7 @@ public interface IControllerCommandVisitor extends ICommandVisitor {
 	/**
 	 * Called when this visitor is passed to an exit command instance.
 	 * 
-	 * @param exitCommand
-	 *            The exit command this visitor was passed to.
+	 * @param exitCommand The exit command this visitor was passed to.
 	 * @return An implementation-specific result.
 	 */
 	Object visitExit(ExitCommand exitCommand);
@@ -31,8 +30,7 @@ public interface IControllerCommandVisitor extends ICommandVisitor {
 	/**
 	 * Called when this visitor is passed to a forward command instance.
 	 * 
-	 * @param forwardCommand
-	 *            The forward command this visitor was passed to.
+	 * @param forwardCommand The forward command this visitor was passed to.
 	 * @return An implementation-specific result.
 	 */
 	Object visitForward(ForwardCommand forwardCommand);
@@ -40,8 +38,7 @@ public interface IControllerCommandVisitor extends ICommandVisitor {
 	/**
 	 * Called when this visitor is passed to an include command instance.
 	 * 
-	 * @param includeCommand
-	 *            The include command this visitor was passed to.
+	 * @param includeCommand The include command this visitor was passed to.
 	 * @return An implementation-specific result.
 	 */
 	Object visitInclude(IncludeCommand includeCommand);

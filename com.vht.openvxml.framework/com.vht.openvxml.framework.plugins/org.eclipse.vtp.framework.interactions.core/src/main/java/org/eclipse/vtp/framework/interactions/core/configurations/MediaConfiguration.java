@@ -26,8 +26,7 @@ import org.w3c.dom.NodeList;
  * 
  * @author Lonnie Pryor
  */
-public class MediaConfiguration implements IConfiguration,
-		InteractionsConstants {
+public class MediaConfiguration implements IConfiguration, InteractionsConstants {
 	/** The content factory to use. */
 	private final IContentFactory contentFactory;
 	/** The input factory to use. */
@@ -42,13 +41,10 @@ public class MediaConfiguration implements IConfiguration,
 	/**
 	 * Creates a new MediaConfiguration.
 	 * 
-	 * @param contentFactory
-	 *            The content factory to use.
-	 * @param inputFactory
-	 *            The input factory to use.
+	 * @param contentFactory The content factory to use.
+	 * @param inputFactory The input factory to use.
 	 */
-	public MediaConfiguration(IContentFactory contentFactory,
-			IInputGrammarFactory inputFactory) {
+	public MediaConfiguration(IContentFactory contentFactory, IInputGrammarFactory inputFactory) {
 		this.contentFactory = contentFactory;
 		this.inputFactory = inputFactory;
 	}
@@ -64,13 +60,12 @@ public class MediaConfiguration implements IConfiguration,
 	}
 
 	/**
-	 * Returns the output configuration registered under the specified name or
-	 * <code>null</code> if no such configuration is registered.
+	 * Returns the output configuration registered under the specified name or <code>null</code> if
+	 * no such configuration is registered.
 	 * 
-	 * @param name
-	 *            The name of the configuration to find.
-	 * @return The output configuration registered under the specified name or
-	 *         <code>null</code> if no such configuration is registered.
+	 * @param name The name of the configuration to find.
+	 * @return The output configuration registered under the specified name or <code>null</code> if
+	 *         no such configuration is registered.
 	 */
 	public OutputConfiguration getOutputConfiguration(String name) {
 		return (OutputConfiguration) outputConfigurations.get(name);
@@ -79,14 +74,11 @@ public class MediaConfiguration implements IConfiguration,
 	/**
 	 * Sets the output configuration registered under the specified name.
 	 * 
-	 * @param name
-	 *            The name to register the configuration under.
-	 * @param configuration
-	 *            The configuration to register or <code>null</code> to remove
-	 *            the specified configuration.
+	 * @param name The name to register the configuration under.
+	 * @param configuration The configuration to register or <code>null</code> to remove the
+	 *            specified configuration.
 	 */
-	public void setOutputConfiguration(String name,
-			OutputConfiguration configuration) {
+	public void setOutputConfiguration(String name, OutputConfiguration configuration) {
 		if (configuration == null) {
 			outputConfigurations.remove(name);
 		} else {
@@ -105,13 +97,12 @@ public class MediaConfiguration implements IConfiguration,
 	}
 
 	/**
-	 * Returns the input configuration registered under the specified name or
-	 * <code>null</code> if no such configuration is registered.
+	 * Returns the input configuration registered under the specified name or <code>null</code> if
+	 * no such configuration is registered.
 	 * 
-	 * @param name
-	 *            The name of the configuration to find.
-	 * @return The input configuration registered under the specified name or
-	 *         <code>null</code> if no such configuration is registered.
+	 * @param name The name of the configuration to find.
+	 * @return The input configuration registered under the specified name or <code>null</code> if
+	 *         no such configuration is registered.
 	 */
 	public InputConfiguration getInputConfiguration(String name) {
 		return (InputConfiguration) inputConfigurations.get(name);
@@ -120,14 +111,11 @@ public class MediaConfiguration implements IConfiguration,
 	/**
 	 * Sets the input configuration registered under the specified name.
 	 * 
-	 * @param name
-	 *            The name to register the configuration under.
-	 * @param configuration
-	 *            The configuration to register or <code>null</code> to remove
-	 *            the specified configuration.
+	 * @param name The name to register the configuration under.
+	 * @param configuration The configuration to register or <code>null</code> to remove the
+	 *            specified configuration.
 	 */
-	public void setInputConfiguration(String name,
-			InputConfiguration configuration) {
+	public void setInputConfiguration(String name, InputConfiguration configuration) {
 		if (configuration == null) {
 			inputConfigurations.remove(name);
 		} else {
@@ -146,13 +134,12 @@ public class MediaConfiguration implements IConfiguration,
 	}
 
 	/**
-	 * Returns the property configuration registered under the specified name or
-	 * <code>null</code> if no such configuration is registered.
+	 * Returns the property configuration registered under the specified name or <code>null</code>
+	 * if no such configuration is registered.
 	 * 
-	 * @param name
-	 *            The name of the configuration to find.
-	 * @return The property configuration registered under the specified name or
-	 *         <code>null</code> if no such configuration is registered.
+	 * @param name The name of the configuration to find.
+	 * @return The property configuration registered under the specified name or <code>null</code>
+	 *         if no such configuration is registered.
 	 */
 	public PropertyConfiguration getPropertyConfiguration(String name) {
 		return (PropertyConfiguration) propertyConfigurations.get(name);
@@ -161,14 +148,11 @@ public class MediaConfiguration implements IConfiguration,
 	/**
 	 * Sets the property configuration registered under the specified name.
 	 * 
-	 * @param name
-	 *            The name to register the configuration under.
-	 * @param configuration
-	 *            The configuration to register or <code>null</code> to remove
-	 *            the specified configuration.
+	 * @param name The name to register the configuration under.
+	 * @param configuration The configuration to register or <code>null</code> to remove the
+	 *            specified configuration.
 	 */
-	public void setPropertyConfiguration(String name,
-			PropertyConfiguration configuration) {
+	public void setPropertyConfiguration(String name, PropertyConfiguration configuration) {
 		if (configuration == null) {
 			propertyConfigurations.remove(name);
 		} else {
@@ -178,37 +162,30 @@ public class MediaConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.core.IConfiguration#load(org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(org.w3c.dom.Element)
 	 */
 	@Override
 	public void load(Element configurationElement) {
 		outputConfigurations.clear();
 		inputConfigurations.clear();
 		propertyConfigurations.clear();
-		NodeList elements = configurationElement.getElementsByTagNameNS(
-				NAMESPACE_URI, NAME_OUTPUT);
+		NodeList elements = configurationElement.getElementsByTagNameNS(NAMESPACE_URI, NAME_OUTPUT);
 		for (int i = 0; i < elements.getLength(); ++i) {
 			Element element = (Element) elements.item(i);
 			String name = element.getAttribute(NAME_NAME);
-			OutputConfiguration configuration = new OutputConfiguration(
-					contentFactory);
+			OutputConfiguration configuration = new OutputConfiguration(contentFactory);
 			configuration.load(element);
 			outputConfigurations.put(name, configuration);
 		}
-		elements = configurationElement.getElementsByTagNameNS(NAMESPACE_URI,
-				NAME_INPUT);
+		elements = configurationElement.getElementsByTagNameNS(NAMESPACE_URI, NAME_INPUT);
 		for (int i = 0; i < elements.getLength(); ++i) {
 			Element element = (Element) elements.item(i);
 			String name = element.getAttribute(NAME_NAME);
-			InputConfiguration configuration = new InputConfiguration(
-					inputFactory);
+			InputConfiguration configuration = new InputConfiguration(inputFactory);
 			configuration.load(element);
 			inputConfigurations.put(name, configuration);
 		}
-		elements = configurationElement.getElementsByTagNameNS(NAMESPACE_URI,
-				NAME_PROPERTY);
+		elements = configurationElement.getElementsByTagNameNS(NAMESPACE_URI, NAME_PROPERTY);
 		for (int i = 0; i < elements.getLength(); ++i) {
 			Element element = (Element) elements.item(i);
 			String name = element.getAttribute(NAME_NAME);
@@ -220,9 +197,7 @@ public class MediaConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.core.IConfiguration#save(org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(org.w3c.dom.Element)
 	 */
 	@Override
 	public void save(Element configurationElement) {
@@ -235,29 +210,26 @@ public class MediaConfiguration implements IConfiguration,
 			inputName = prefix + ":" + inputName; //$NON-NLS-1$
 			propertyName = prefix + ":" + propertyName; //$NON-NLS-1$
 		}
-		for (Iterator i = outputConfigurations.entrySet().iterator(); i
-				.hasNext();) {
+		for (Iterator i = outputConfigurations.entrySet().iterator(); i.hasNext();) {
 			Map.Entry entry = (Map.Entry) i.next();
-			Element element = configurationElement.getOwnerDocument()
-					.createElementNS(NAMESPACE_URI, outputName);
+			Element element = configurationElement.getOwnerDocument().createElementNS(
+					NAMESPACE_URI, outputName);
 			((IConfiguration) entry.getValue()).save(element);
 			element.setAttribute(NAME_NAME, (String) entry.getKey());
 			configurationElement.appendChild(element);
 		}
-		for (Iterator i = inputConfigurations.entrySet().iterator(); i
-				.hasNext();) {
+		for (Iterator i = inputConfigurations.entrySet().iterator(); i.hasNext();) {
 			Map.Entry entry = (Map.Entry) i.next();
-			Element element = configurationElement.getOwnerDocument()
-					.createElementNS(NAMESPACE_URI, inputName);
+			Element element = configurationElement.getOwnerDocument().createElementNS(
+					NAMESPACE_URI, inputName);
 			((IConfiguration) entry.getValue()).save(element);
 			element.setAttribute(NAME_NAME, (String) entry.getKey());
 			configurationElement.appendChild(element);
 		}
-		for (Iterator i = propertyConfigurations.entrySet().iterator(); i
-				.hasNext();) {
+		for (Iterator i = propertyConfigurations.entrySet().iterator(); i.hasNext();) {
 			Map.Entry entry = (Map.Entry) i.next();
-			Element element = configurationElement.getOwnerDocument()
-					.createElementNS(NAMESPACE_URI, propertyName);
+			Element element = configurationElement.getOwnerDocument().createElementNS(
+					NAMESPACE_URI, propertyName);
 			((IConfiguration) entry.getValue()).save(element);
 			element.setAttribute(NAME_NAME, (String) entry.getKey());
 			configurationElement.appendChild(element);

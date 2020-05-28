@@ -15,12 +15,11 @@ public class TextDocumentItem extends DocumentItem {
 	}
 
 	/**
-	 * Retrieves the brand binding associated with the given brand. If no
-	 * binding is associated with the brand, null is returned. This should not
-	 * happen as a binding is created for every brand during instantiation.
+	 * Retrieves the brand binding associated with the given brand. If no binding is associated with
+	 * the brand, null is returned. This should not happen as a binding is created for every brand
+	 * during instantiation.
 	 * 
-	 * @param brand
-	 *            The brand associated with the desired binding.
+	 * @param brand The brand associated with the desired binding.
 	 * @return The binding associated with the given brand
 	 */
 	public BindingValue getBrandBinding(IBrand brand) {
@@ -28,20 +27,16 @@ public class TextDocumentItem extends DocumentItem {
 	}
 
 	/**
-	 * Reads the configuration data stored in the given dom element into this
-	 * language binding instance. Any previous information stored in this
-	 * language binding is lost.
+	 * Reads the configuration data stored in the given dom element into this language binding
+	 * instance. Any previous information stored in this language binding is lost.
 	 * 
-	 * @param textItemElement
-	 *            The dom element containing the configuration
+	 * @param textItemElement The dom element containing the configuration
 	 */
 	@Override
 	public void readConfiguration(Element textItemElement) {
-		NodeList brandBindingElementList = textItemElement
-				.getElementsByTagName("brand-binding");
+		NodeList brandBindingElementList = textItemElement.getElementsByTagName("brand-binding");
 		for (int i = 0; i < brandBindingElementList.getLength(); i++) {
-			Element brandBindingElement = (Element) brandBindingElementList
-					.item(i);
+			Element brandBindingElement = (Element) brandBindingElementList.item(i);
 			String brandId = brandBindingElement.getAttribute("id");
 			BindingValue value = new BindingValue();
 			value.readConfiguration(brandBindingElement);
@@ -52,16 +47,15 @@ public class TextDocumentItem extends DocumentItem {
 	/**
 	 * Stores this language binding's information into the given dom element.
 	 * 
-	 * @param textItemElement
-	 *            The dom element to hold this binding's data
+	 * @param textItemElement The dom element to hold this binding's data
 	 */
 	@Override
 	public void writeConfiguration(Element textItemElement) {
 		for (Map.Entry<String, BindingValue> entry : brandBindings.entrySet()) {
 			String brandId = entry.getKey();
 			BindingValue brandBinding = entry.getValue();
-			Element brandBindingElement = textItemElement.getOwnerDocument()
-					.createElementNS(null, "brand-binding");
+			Element brandBindingElement = textItemElement.getOwnerDocument().createElementNS(null,
+					"brand-binding");
 			textItemElement.appendChild(brandBindingElement);
 			brandBindingElement.setAttribute("id", brandId);
 			brandBinding.writeConfiguration(brandBindingElement);
@@ -70,8 +64,7 @@ public class TextDocumentItem extends DocumentItem {
 
 	@Override
 	public Element createConfigurationElement(Element parentElement) {
-		Element textElement = parentElement.getOwnerDocument().createElementNS(
-				null, "text-item");
+		Element textElement = parentElement.getOwnerDocument().createElementNS(null, "text-item");
 		parentElement.appendChild(textElement);
 		return textElement;
 	}

@@ -28,17 +28,18 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 
 /**
- * This class provides a simple UI widget that presents a round button with a
- * text character inside. It operates as a toggle button changing color based on
- * its current state. It can be placed into a mode that only allows it to be
- * toggled on/down by the user, requiring programmatic intervention to turn it
- * off. This allows a group of these buttons to operate as a set of radio
- * buttons.
+ * This class provides a simple UI widget that presents a round button with a text character inside.
+ * It operates as a toggle button changing color based on its current state. It can be placed into a
+ * mode that only allows it to be toggled on/down by the user, requiring programmatic intervention
+ * to turn it off. This allows a group of these buttons to operate as a set of radio buttons.
  * 
  * @author trip
  */
-public class ToggleButton extends Canvas implements PaintListener,
-		MouseListener, MouseTrackListener {
+public class ToggleButton extends Canvas
+	implements
+	PaintListener,
+	MouseListener,
+	MouseTrackListener {
 	/** Indicates whether this button is toggled on or off */
 	private boolean selected = false;
 	/** Indicates whether this button can only be toggled on by the user */
@@ -51,11 +52,9 @@ public class ToggleButton extends Canvas implements PaintListener,
 	private List<ToggleButtonListener> listeners = new LinkedList<ToggleButtonListener>();
 
 	/**
-	 * Constructs a new <code>ToggleButton</code> with the given composite as
-	 * it's parent.
+	 * Constructs a new <code>ToggleButton</code> with the given composite as it's parent.
 	 * 
-	 * @param parent
-	 *            The parent of this widget
+	 * @param parent The parent of this widget
 	 */
 	public ToggleButton(Composite parent) {
 		super(parent, SWT.NONE);
@@ -67,10 +66,7 @@ public class ToggleButton extends Canvas implements PaintListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events
-	 * .PaintEvent)
+	 * @see org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt.events .PaintEvent)
 	 */
 	@Override
 	public void paintControl(PaintEvent arg0) {
@@ -106,7 +102,6 @@ public class ToggleButton extends Canvas implements PaintListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.swt.widgets.Control#computeSize(int, int)
 	 */
 	@Override
@@ -115,12 +110,10 @@ public class ToggleButton extends Canvas implements PaintListener,
 	}
 
 	/**
-	 * Sets the text to use as the label for this button. As the button does not
-	 * change size based on it's text, this value should contain a single
-	 * character.
+	 * Sets the text to use as the label for this button. As the button does not change size based
+	 * on it's text, this value should contain a single character.
 	 * 
-	 * @param text
-	 *            The text to use as a label
+	 * @param text The text to use as a label
 	 */
 	public void setText(String text) {
 		this.text = text;
@@ -130,11 +123,10 @@ public class ToggleButton extends Canvas implements PaintListener,
 	}
 
 	/**
-	 * Sets the selection state of this toggle button to the given value. This
-	 * does not generate a selection event.
+	 * Sets the selection state of this toggle button to the given value. This does not generate a
+	 * selection event.
 	 * 
-	 * @param selected
-	 *            The new selected state
+	 * @param selected The new selected state
 	 */
 	public void setSelected(boolean selected) {
 		this.selected = selected;
@@ -149,61 +141,46 @@ public class ToggleButton extends Canvas implements PaintListener,
 	}
 
 	/**
-	 * Determines whether this toggle button will allow the user to toggle the
-	 * button state off/up once it has been toggled on/down.
+	 * Determines whether this toggle button will allow the user to toggle the button state off/up
+	 * once it has been toggled on/down.
 	 * 
-	 * @param toggleDownOnly
-	 *            true to disallow the user, false otherwise
+	 * @param toggleDownOnly true to disallow the user, false otherwise
 	 */
 	public void setToggleDownOnly(boolean toggleDownOnly) {
 		this.toggleDownOnly = toggleDownOnly;
 		if (this.selected && toggleDownOnly) {
-			this.setCursor(Display.getCurrent().getSystemCursor(
-					SWT.CURSOR_ARROW));
+			this.setCursor(Display.getCurrent().getSystemCursor(SWT.CURSOR_ARROW));
 		} else {
-			this.setCursor(Display.getCurrent()
-					.getSystemCursor(SWT.CURSOR_HAND));
+			this.setCursor(Display.getCurrent().getSystemCursor(SWT.CURSOR_HAND));
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.swt.events.MouseListener#mouseDoubleClick(org.eclipse.swt
+	 * @see org.eclipse.swt.events.MouseListener#mouseDoubleClick(org.eclipse.swt
 	 * .events.MouseEvent)
 	 */
 	@Override
-	public void mouseDoubleClick(MouseEvent arg0) {
-	}
+	public void mouseDoubleClick(MouseEvent arg0) {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.swt.events.MouseListener#mouseDown(org.eclipse.swt.events
-	 * .MouseEvent)
+	 * @see org.eclipse.swt.events.MouseListener#mouseDown(org.eclipse.swt.events .MouseEvent)
 	 */
 	@Override
-	public void mouseDown(MouseEvent arg0) {
-	}
+	public void mouseDown(MouseEvent arg0) {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.swt.events.MouseListener#mouseUp(org.eclipse.swt.events.
-	 * MouseEvent)
+	 * @see org.eclipse.swt.events.MouseListener#mouseUp(org.eclipse.swt.events. MouseEvent)
 	 */
 	@Override
 	public void mouseUp(MouseEvent arg0) {
-		if (this.selected && toggleDownOnly) {
-			return;
-		}
+		if (this.selected && toggleDownOnly) { return; }
 		this.selected = !selected;
 		this.redraw();
 		if (this.selected && toggleDownOnly) {
-			this.setCursor(Display.getCurrent().getSystemCursor(
-					SWT.CURSOR_ARROW));
+			this.setCursor(Display.getCurrent().getSystemCursor(SWT.CURSOR_ARROW));
 		}
 		for (ToggleButtonListener listener : listeners) {
 			listener.toggleButtonSelected(this);
@@ -211,11 +188,10 @@ public class ToggleButton extends Canvas implements PaintListener,
 	}
 
 	/**
-	 * Registers the given listener with this toggle button. If the listener is
-	 * already registered, it is removed from the list and added to the end.
+	 * Registers the given listener with this toggle button. If the listener is already registered,
+	 * it is removed from the list and added to the end.
 	 * 
-	 * @param listener
-	 *            The listener to register
+	 * @param listener The listener to register
 	 */
 	public void addSelectionListener(ToggleButtonListener listener) {
 		listeners.remove(listener);
@@ -223,12 +199,10 @@ public class ToggleButton extends Canvas implements PaintListener,
 	}
 
 	/**
-	 * Removes the given listener from the set of registered listeners for this
-	 * toggle button. If the listener was not registered with this button, no
-	 * action is taken.
+	 * Removes the given listener from the set of registered listeners for this toggle button. If
+	 * the listener was not registered with this button, no action is taken.
 	 * 
-	 * @param listener
-	 *            The listener to remove
+	 * @param listener The listener to remove
 	 */
 	public void removeSelectionListener(ToggleButtonListener listener) {
 		listeners.remove(listener);
@@ -241,38 +215,29 @@ public class ToggleButton extends Canvas implements PaintListener,
 	 */
 	public interface ToggleButtonListener {
 		/**
-		 * Called when a toggle button's selection changes due to user
-		 * interaction.
+		 * Called when a toggle button's selection changes due to user interaction.
 		 * 
-		 * @param button
-		 *            The button whose state changed
+		 * @param button The button whose state changed
 		 */
 		public void toggleButtonSelected(ToggleButton button);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.swt.events.MouseTrackListener#mouseEnter(org.eclipse.swt.
-	 * events.MouseEvent)
+	 * @see org.eclipse.swt.events.MouseTrackListener#mouseEnter(org.eclipse.swt. events.MouseEvent)
 	 */
 	@Override
 	public void mouseEnter(MouseEvent arg0) {
 		over = true;
 		this.redraw();
 		if ((toggleDownOnly && !selected) || !toggleDownOnly) {
-			this.setCursor(Display.getCurrent()
-					.getSystemCursor(SWT.CURSOR_HAND));
+			this.setCursor(Display.getCurrent().getSystemCursor(SWT.CURSOR_HAND));
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.swt.events.MouseTrackListener#mouseExit(org.eclipse.swt.events
-	 * .MouseEvent)
+	 * @see org.eclipse.swt.events.MouseTrackListener#mouseExit(org.eclipse.swt.events .MouseEvent)
 	 */
 	@Override
 	public void mouseExit(MouseEvent arg0) {
@@ -282,13 +247,9 @@ public class ToggleButton extends Canvas implements PaintListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.swt.events.MouseTrackListener#mouseHover(org.eclipse.swt.
-	 * events.MouseEvent)
+	 * @see org.eclipse.swt.events.MouseTrackListener#mouseHover(org.eclipse.swt. events.MouseEvent)
 	 */
 	@Override
-	public void mouseHover(MouseEvent arg0) {
-	}
+	public void mouseHover(MouseEvent arg0) {}
 
 }

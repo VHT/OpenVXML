@@ -31,8 +31,7 @@ public class DefaultValueStack implements ToggleButton.ToggleButtonListener {
 	 * @param elementType
 	 * @param settingName
 	 */
-	public DefaultValueStack(String interactionType, String elementType,
-			String settingName) {
+	public DefaultValueStack(String interactionType, String elementType, String settingName) {
 		this.interactionType = interactionType;
 		this.elementType = elementType;
 		this.settingName = settingName;
@@ -133,10 +132,8 @@ public class DefaultValueStack implements ToggleButton.ToggleButtonListener {
 	 * @param settings
 	 */
 	public void setSetting(IMediaDefaultSettings settings) {
-		this.setting = settings.getDefaultSetting(interactionType, elementType,
-				settingName);
-		staticValue.setText(setting.isValueInherited() ? setting.getValue()
-				: "");
+		this.setting = settings.getDefaultSetting(interactionType, elementType, settingName);
+		staticValue.setText(setting.isValueInherited() ? setting.getValue() : "");
 		if (setting.isValueInherited()) {
 			stackLayout.topControl = staticComp;
 			defaultButton.setSelected(true);
@@ -161,9 +158,7 @@ public class DefaultValueStack implements ToggleButton.ToggleButtonListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.custom.ToggleButton.ToggleButtonListener
+	 * @see org.eclipse.vtp.desktop.core.custom.ToggleButton.ToggleButtonListener
 	 * #toggleButtonSelected(org.eclipse.vtp.desktop.core.custom.ToggleButton)
 	 */
 	@Override

@@ -12,8 +12,8 @@
 package org.eclipse.vtp.desktop.editors.themes.core.commands;
 
 /**
- * Indicates that a particular design canvas should be revealed in an editor or
- * a new editor should be created to display the contained design canvas.
+ * Indicates that a particular design canvas should be revealed in an editor or a new editor should
+ * be created to display the contained design canvas.
  * 
  * @author trip
  */
@@ -22,11 +22,10 @@ public class DisplayDesign extends Command {
 	private String designId;
 
 	/**
-	 * Creates a new <code>DisplayDesign</code> instance for the design canvas
-	 * with the given identifier.
+	 * Creates a new <code>DisplayDesign</code> instance for the design canvas with the given
+	 * identifier.
 	 * 
-	 * @param designId
-	 *            The identifier for the design to display
+	 * @param designId The identifier for the design to display
 	 */
 	public DisplayDesign(String designId) {
 		super();

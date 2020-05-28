@@ -24,8 +24,7 @@ import com.openmethods.openvxml.desktop.model.branding.BrandManagerListener;
 import com.openmethods.openvxml.desktop.model.branding.IBrand;
 
 /**
- * This is the base class for all bindings contained by this configuration
- * manager.
+ * This is the base class for all bindings contained by this configuration manager.
  * 
  * @author trip
  */
@@ -38,13 +37,11 @@ public abstract class GenericBinding implements BrandManagerListener {
 	private Map<String, GenericBindingItem> bindingItems = new HashMap<String, GenericBindingItem>();
 
 	/**
-	 * Creates a new instance to be contained by the provided manager and has
-	 * the given name. The binding initially has no binding items when created.
+	 * Creates a new instance to be contained by the provided manager and has the given name. The
+	 * binding initially has no binding items when created.
 	 * 
-	 * @param manager
-	 *            The manager that contains this binding
-	 * @param name
-	 *            The name of this binding
+	 * @param manager The manager that contains this binding
+	 * @param name The name of this binding
 	 */
 	public GenericBinding(AttachedDataManager manager, String name) {
 		super();
@@ -68,34 +65,28 @@ public abstract class GenericBinding implements BrandManagerListener {
 	}
 
 	/**
-	 * Retrieves the binding item associated with the given brand, interaction
-	 * type, and language. The binding items are simply indexed in a map using
-	 * the hash of the string that results from concatenating all three
-	 * parameters. The given values should not be null.
+	 * Retrieves the binding item associated with the given brand, interaction type, and language.
+	 * The binding items are simply indexed in a map using the hash of the string that results from
+	 * concatenating all three parameters. The given values should not be null.
 	 * 
-	 * @param brandId
-	 *            The name of the brand associated with the item
-	 * @param interactionType
-	 *            The interaction type associated with the item
-	 * @param language
-	 *            The name of the language associated with the item
+	 * @param brandId The name of the brand associated with the item
+	 * @param interactionType The interaction type associated with the item
+	 * @param language The name of the language associated with the item
 	 * @return The binding item associated with the given parameters
 	 */
-	protected GenericBindingItem getItem(String brandId,
-			String interactionType, String language) {
+	protected GenericBindingItem getItem(String brandId, String interactionType, String language) {
 		IBrand brandObject = manager.getBrandManager().getBrandById(brandId);
-		GenericBindingItem bindingItemObject = bindingItems.get(brandId + ":"
-				+ interactionType + ":" + language);
+		GenericBindingItem bindingItemObject = bindingItems.get(brandId + ":" + interactionType
+				+ ":" + language);
 		while (bindingItemObject == null && brandObject.getParent() != null)
 		// no binding for the requested brand, search for item within parent
 		// brand
 		{
 			brandObject = brandObject.getParent();
-			bindingItemObject = bindingItems.get(brandObject.getId() + ":"
-					+ interactionType + ":" + language);
+			bindingItemObject = bindingItems.get(brandObject.getId() + ":" + interactionType + ":"
+					+ language);
 			if (bindingItemObject != null) {
-				bindingItemObject = (GenericBindingItem) bindingItemObject
-						.clone();
+				bindingItemObject = (GenericBindingItem) bindingItemObject.clone();
 			}
 		}
 		return bindingItemObject;
@@ -108,33 +99,26 @@ public abstract class GenericBinding implements BrandManagerListener {
 	}
 
 	/**
-	 * Adds the provided binding item to this binding and associates it with the
-	 * given brand name, interaction type, and language name. If there was
-	 * already a binding item associated with the information, the item is
-	 * removed from this binding and replaced with the new item.
+	 * Adds the provided binding item to this binding and associates it with the given brand name,
+	 * interaction type, and language name. If there was already a binding item associated with the
+	 * information, the item is removed from this binding and replaced with the new item.
 	 * 
-	 * @param brandId
-	 *            The id of the brand associated with the item
-	 * @param interactionType
-	 *            The interaction type associated with the item
-	 * @param language
-	 *            The name of the language associated with the item
-	 * @param item
-	 *            The item being added to this binding
+	 * @param brandId The id of the brand associated with the item
+	 * @param interactionType The interaction type associated with the item
+	 * @param language The name of the language associated with the item
+	 * @param item The item being added to this binding
 	 */
-	protected void putItem(String brandId, String interactionType,
-			String language, GenericBindingItem item) {
-		bindingItems
-				.put(brandId + ":" + interactionType + ":" + language, item);
+	protected void putItem(String brandId, String interactionType, String language,
+			GenericBindingItem item) {
+		bindingItems.put(brandId + ":" + interactionType + ":" + language, item);
 		IBrand brandObject = manager.getBrandManager().getBrandById(brandId);
 		while (brandObject.getParent() != null)
 		// no binding for the requested brand parent, copy config down the stack
 		{
 			brandObject = brandObject.getParent();
-			if (bindingItems.get(brandObject.getId() + ":" + interactionType
-					+ ":" + language) == null) {
-				bindingItems.put(brandObject.getId() + ":" + interactionType
-						+ ":" + language, item);
+			if (bindingItems.get(brandObject.getId() + ":" + interactionType + ":" + language) == null) {
+				bindingItems
+						.put(brandObject.getId() + ":" + interactionType + ":" + language, item);
 			} else {
 				break;
 			}
@@ -144,29 +128,26 @@ public abstract class GenericBinding implements BrandManagerListener {
 	/**
 	 * Loads this binding's data from the provided xml dom element.
 	 * 
-	 * @param bindingConfiguration
-	 *            xml element containing configuration
+	 * @param bindingConfiguration xml element containing configuration
 	 */
 	public void readBindingItems(Element bindingConfiguration) {
 		NodeList itemList = bindingConfiguration.getElementsByTagNameNS(
 				AttachedDataManager.NAMESPACE_URI, "item");
 		for (int i = 0; i < itemList.getLength(); i++) {
 			Element itemElement = (Element) itemList.item(i);
-			bindingItems.put(itemElement.getAttribute("key"),
-					readBindingItem(itemElement));
+			bindingItems.put(itemElement.getAttribute("key"), readBindingItem(itemElement));
 		}
 	}
 
 	/**
 	 * Stores this binding's data into the given xml dom element.
 	 * 
-	 * @param bindingConfiguration
-	 *            xml element to receive configuration
+	 * @param bindingConfiguration xml element to receive configuration
 	 */
 	public void writeBindingItems(Element bindingConfiguration) {
 		for (Entry<String, GenericBindingItem> entry : bindingItems.entrySet()) {
-			Element itemElement = bindingConfiguration.getOwnerDocument()
-					.createElementNS(AttachedDataManager.NAMESPACE_URI, "item");
+			Element itemElement = bindingConfiguration.getOwnerDocument().createElementNS(
+					AttachedDataManager.NAMESPACE_URI, "item");
 			bindingConfiguration.appendChild(itemElement);
 			itemElement.setAttribute("key", entry.getKey());
 			writeBindingItem(entry.getValue(), itemElement);
@@ -174,31 +155,25 @@ public abstract class GenericBinding implements BrandManagerListener {
 	}
 
 	/**
-	 * Subclasses should provide an implementation for this abstract method that
-	 * properly reads the individual binding items this binding will contain.
+	 * Subclasses should provide an implementation for this abstract method that properly reads the
+	 * individual binding items this binding will contain.
 	 * 
-	 * @param itemConfiguration
-	 *            xml element containing the item's data
+	 * @param itemConfiguration xml element containing the item's data
 	 * @return the retrieved binding item
 	 */
-	protected abstract GenericBindingItem readBindingItem(
-			Element itemConfiguration);
+	protected abstract GenericBindingItem readBindingItem(Element itemConfiguration);
 
 	/**
-	 * Subclasses should provide an implementation for this abstract method that
-	 * propertly stores the individual binding items this binding will contain.
+	 * Subclasses should provide an implementation for this abstract method that propertly stores
+	 * the individual binding items this binding will contain.
 	 * 
-	 * @param item
-	 *            The binding item to be stored
-	 * @param itemConfiguration
-	 *            The xml element to store the item into
+	 * @param item The binding item to be stored
+	 * @param itemConfiguration The xml element to store the item into
 	 */
-	protected abstract void writeBindingItem(GenericBindingItem item,
-			Element itemConfiguration);
+	protected abstract void writeBindingItem(GenericBindingItem item, Element itemConfiguration);
 
 	@Override
-	public void brandAdded(IBrand brand) {
-	}
+	public void brandAdded(IBrand brand) {}
 
 	@Override
 	public void brandIdChanged(IBrand brand, String oldId) {
@@ -211,18 +186,15 @@ public abstract class GenericBinding implements BrandManagerListener {
 		for (String key : toChange) {
 			GenericBindingItem item = bindingItems.remove(key);
 			String[] parts = key.split(":");
-			bindingItems.put(brand.getId() + ":" + parts[1] + ":" + parts[2],
-					item);
+			bindingItems.put(brand.getId() + ":" + parts[1] + ":" + parts[2], item);
 		}
 	}
 
 	@Override
-	public void brandNameChanged(IBrand brand, String oldName) {
-	}
+	public void brandNameChanged(IBrand brand, String oldName) {}
 
 	@Override
-	public void brandParentChanged(IBrand brand, IBrand oldParent) {
-	}
+	public void brandParentChanged(IBrand brand, IBrand oldParent) {}
 
 	@Override
 	public void brandRemoved(IBrand brand) {

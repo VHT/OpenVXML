@@ -32,14 +32,11 @@ public class PlayPromptMediaDefaultsPanel implements IMediaDefaultPanel {
 	Combo barginCombo = null;
 	List<DefaultValueStack> valueStacks = new LinkedList<DefaultValueStack>();
 
-	public PlayPromptMediaDefaultsPanel() {
-	}
+	public PlayPromptMediaDefaultsPanel() {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.configuration.IMediaDefaultPanel#createControls
+	 * @see org.eclipse.vtp.desktop.core.configuration.IMediaDefaultPanel#createControls
 	 * (org.eclipse.swt.widgets.Composite, boolean)
 	 */
 	@Override
@@ -56,16 +53,14 @@ public class PlayPromptMediaDefaultsPanel implements IMediaDefaultPanel {
 		gridData.horizontalSpan = 2;
 		panelLabel.setLayoutData(gridData);
 
-		Label bargeLabel = createPropertyLabel(settingsComposite,
-				"Barge-in Enabled");
+		Label bargeLabel = createPropertyLabel(settingsComposite, "Barge-in Enabled");
 		bargeLabel.setBackground(settingsComposite.getBackground());
 		bargeLabel
 				.setToolTipText("Determines whether the caller can\r\ninterrupt the prompt to begin entry");
 		Composite containerComp = createWrapperComposite(settingsComposite);
 		containerComp.setBackground(settingsComposite.getBackground());
 		if (supportDefaults) {
-			lastStack = new DefaultValueStack(interactionType, elementType,
-					"barge-in");
+			lastStack = new DefaultValueStack(interactionType, elementType, "barge-in");
 			lastStack.createControls(containerComp);
 			containerComp = lastStack.getValueComposite();
 			valueStacks.add(lastStack);
@@ -101,9 +96,7 @@ public class PlayPromptMediaDefaultsPanel implements IMediaDefaultPanel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.configuration.IMediaDefaultPanel#getTitle()
+	 * @see org.eclipse.vtp.desktop.core.configuration.IMediaDefaultPanel#getTitle()
 	 */
 	@Override
 	public String getTitle() {
@@ -112,7 +105,6 @@ public class PlayPromptMediaDefaultsPanel implements IMediaDefaultPanel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.configuration.IMediaDefaultPanel#save()
 	 */
 	@Override
@@ -122,17 +114,14 @@ public class PlayPromptMediaDefaultsPanel implements IMediaDefaultPanel {
 				dvs.save();
 			}
 		} else {
-			settings.getDefaultSetting(interactionType, elementType, "barge-in")
-					.setValue(
-							barginCombo.getItem(barginCombo.getSelectionIndex()));
+			settings.getDefaultSetting(interactionType, elementType, "barge-in").setValue(
+					barginCombo.getItem(barginCombo.getSelectionIndex()));
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.core.configuration.IMediaDefaultPanel#
-	 * setDefaultSettings
+	 * @see org.eclipse.vtp.desktop.core.configuration.IMediaDefaultPanel# setDefaultSettings
 	 * (org.eclipse.vtp.desktop.core.configuration.IMediaDefaultSettings)
 	 */
 	@Override
@@ -144,8 +133,8 @@ public class PlayPromptMediaDefaultsPanel implements IMediaDefaultPanel {
 			}
 		} else {
 			if (barginCombo != null) {
-				String bargein = settings.getDefaultSetting(interactionType,
-						elementType, "barge-in").getValue();
+				String bargein = settings.getDefaultSetting(interactionType, elementType,
+						"barge-in").getValue();
 				if (bargein == null) {
 					barginCombo.select(0);
 				} else if ("true".equals(bargein)) {
@@ -176,8 +165,7 @@ public class PlayPromptMediaDefaultsPanel implements IMediaDefaultPanel {
 		Composite containerComp = new Composite(parent, SWT.NONE);
 		containerComp.setBackground(parent.getBackground());
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL
-				| GridData.HORIZONTAL_ALIGN_BEGINNING
-				| GridData.VERTICAL_ALIGN_BEGINNING);
+				| GridData.HORIZONTAL_ALIGN_BEGINNING | GridData.VERTICAL_ALIGN_BEGINNING);
 		gridData.horizontalIndent = indent;
 		gridData.widthHint = 150;
 		// gridData.grabExcessVerticalSpace = true;
@@ -229,8 +217,7 @@ public class PlayPromptMediaDefaultsPanel implements IMediaDefaultPanel {
 	 * @return
 	 */
 	private Combo createValueDropDown(Composite parent) {
-		Combo ret = new Combo(parent, SWT.BORDER | SWT.READ_ONLY
-				| SWT.DROP_DOWN);
+		Combo ret = new Combo(parent, SWT.BORDER | SWT.READ_ONLY | SWT.DROP_DOWN);
 		GridData gd = new GridData();
 		gd.verticalIndent = 2;
 		gd.horizontalAlignment = SWT.RIGHT;
@@ -248,8 +235,7 @@ public class PlayPromptMediaDefaultsPanel implements IMediaDefaultPanel {
 	 * @param value
 	 * @return
 	 */
-	public Spinner createValueSpinner(Composite parent, int min, int max,
-			int digits, int value) {
+	public Spinner createValueSpinner(Composite parent, int min, int max, int digits, int value) {
 		Spinner ret = new Spinner(parent, SWT.BORDER);
 		ret.setMinimum(min);
 		ret.setMaximum(max);
@@ -273,8 +259,8 @@ public class PlayPromptMediaDefaultsPanel implements IMediaDefaultPanel {
 	 * @param rightName
 	 * @return
 	 */
-	public Slider createValueSlider(Composite parent, int min, int max,
-			String leftName, String rightName) {
+	public Slider createValueSlider(Composite parent, int min, int max, String leftName,
+			String rightName) {
 		Composite sliderComp = new Composite(parent, SWT.NONE);
 		sliderComp.setBackground(parent.getBackground());
 		GridData gd = new GridData();
@@ -305,8 +291,8 @@ public class PlayPromptMediaDefaultsPanel implements IMediaDefaultPanel {
 		ret.setMaximum(max);
 		fd = new FormData();
 		fd.left = new FormAttachment(leftLabel, /*
-												 * leftLabel.computeSize(SWT.DEFAULT
-												 * , SWT.DEFAULT).x / 2
+												 * leftLabel.computeSize(SWT.DEFAULT ,
+												 * SWT.DEFAULT).x / 2
 												 */0, SWT.LEFT);
 		fd.right = new FormAttachment(rightLabel, /*-1 * (rightLabel.computeSize(SWT.DEFAULT, SWT.DEFAULT).x / 2)*/
 		0, SWT.RIGHT);
@@ -330,9 +316,7 @@ public class PlayPromptMediaDefaultsPanel implements IMediaDefaultPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt
+		 * @see org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt
 		 * .events.PaintEvent)
 		 */
 		@Override

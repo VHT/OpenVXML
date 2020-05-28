@@ -50,11 +50,12 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElement;
 import com.openmethods.openvxml.desktop.model.workflow.design.Variable;
 import com.openmethods.openvxml.desktop.model.workflow.internal.WorkflowTraversalHelper;
 
-public class FragmentOutputMappingPanel extends DesignElementPropertiesPanel implements FragmentConfigurationListener
-{
+public class FragmentOutputMappingPanel extends DesignElementPropertiesPanel
+	implements
+	FragmentConfigurationListener {
 	private static final String NOT_USED = "Not Used";
 	private static final String INHERIT = "Inherit From Parent";
-	
+
 	private List<IWorkflowExit> returnElements = Collections.emptyList();
 	private TableViewer mappingViewer = null;
 	private ComboViewer exitCombo = null;
@@ -63,21 +64,18 @@ public class FragmentOutputMappingPanel extends DesignElementPropertiesPanel imp
 	private IBrand currentBrand = null;
 	private ComboBoxViewerCellEditor comboEditor = null;
 
-	public FragmentOutputMappingPanel(String name, IDesignElement element)
-	{
+	public FragmentOutputMappingPanel(String name, IDesignElement element) {
 		super(name, element);
-		manager = (FragmentConfigurationManager)element.getConfigurationManager(FragmentConfigurationManager.TYPE_ID);
+		manager = (FragmentConfigurationManager) element
+				.getConfigurationManager(FragmentConfigurationManager.TYPE_ID);
 		manager.addListener(this);
 		List<Variable> inc = element.getDesign().getVariablesFor(element);
 		vars = new ArrayList<Variable>();
-outer:	for(Variable var : inc)
-		{
-			if(!(var.getType().isObject() || (var.getType().hasBaseType() && var.getType().isObjectBaseType())))
-			{
-				for(int i = 0; i < vars.size(); i++)
-				{
-					if(vars.get(i).getName().compareToIgnoreCase(var.getName()) > 0)
-					{
+		outer: for (Variable var : inc) {
+			if (!(var.getType().isObject() || (var.getType().hasBaseType() && var.getType()
+					.isObjectBaseType()))) {
+				for (int i = 0; i < vars.size(); i++) {
+					if (vars.get(i).getName().compareToIgnoreCase(var.getName()) > 0) {
 						vars.add(i, var);
 						continue outer;
 					}
@@ -89,8 +87,7 @@ outer:	for(Variable var : inc)
 	}
 
 	@Override
-	public void createControls(Composite parent)
-	{
+	public void createControls(Composite parent) {
 		Composite comp = new Composite(parent, SWT.NONE);
 		this.setControl(comp);
 		comp.setLayout(new GridLayout(2, false));
@@ -101,8 +98,8 @@ outer:	for(Variable var : inc)
 		exitCombo.setContentProvider(new ExitContentProvider());
 		exitCombo.setLabelProvider(new ExitLabelProvider());
 		exitCombo.setInput(this);
-		if(returnElements.size() > 0)
-			exitCombo.setSelection(new StructuredSelection(returnElements.get(0)));
+		if (returnElements.size() > 0) exitCombo.setSelection(new StructuredSelection(
+				returnElements.get(0)));
 		exitCombo.getControl().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		Table mappingTable = new Table(comp, SWT.SINGLE | SWT.BORDER);
 		TableColumn outputColumn = new TableColumn(mappingTable, SWT.NONE);
@@ -113,159 +110,119 @@ outer:	for(Variable var : inc)
 		targetColumn.setWidth(200);
 		mappingTable.setHeaderVisible(true);
 		mappingViewer = new TableViewer(mappingTable);
-		mappingViewer.setColumnProperties(new String[] {"Field", "Value"});
+		mappingViewer.setColumnProperties(new String[] { "Field", "Value" });
 		mappingViewer.setCellModifier(new MappingCellModifier());
 		comboEditor = new ComboBoxViewerCellEditor(mappingTable);
 		comboEditor.setContentProvider(new VariableContentProvider());
 		comboEditor.setLabelProvider(new VariableLabelProvider());
 		comboEditor.setInput(this);
-		mappingViewer.setCellEditors(new CellEditor[] {null, comboEditor});
+		mappingViewer.setCellEditors(new CellEditor[] { null, comboEditor });
 		mappingViewer.setContentProvider(new MappingContentProvider());
 		mappingViewer.setLabelProvider(new MappingLabelProvider());
 		mappingViewer.setInput(this);
-		GridData gd = new GridData(GridData.FILL_BOTH); 
+		GridData gd = new GridData(GridData.FILL_BOTH);
 		gd.horizontalSpan = 2;
 		mappingViewer.getTable().setLayoutData(gd);
-		exitCombo.addSelectionChangedListener(new ISelectionChangedListener()
-		{
-			public void selectionChanged(SelectionChangedEvent e)
-            {
+		exitCombo.addSelectionChangedListener(new ISelectionChangedListener() {
+			public void selectionChanged(SelectionChangedEvent e) {
 				mappingViewer.refresh();
-            }
+			}
 		});
 	}
 
 	@Override
-	public void cancel()
-	{
+	public void cancel() {
 		getElement().rollbackConfigurationChanges(manager);
 	}
 
 	@Override
-	public void save()
-	{
+	public void save() {
 		getElement().commitConfigurationChanges(manager);
 	}
 
-	public void setConfigurationContext(Map<String, Object> values)
-	{
+	public void setConfigurationContext(Map<String, Object> values) {
 		Object obj = values.get(BrandContext.CONTEXT_ID);
-		if(obj != null)
-		{
-			currentBrand = (IBrand)obj;
+		if (obj != null) {
+			currentBrand = (IBrand) obj;
 			comboEditor.getViewer().refresh();
 			mappingViewer.refresh();
 		}
 	}
-	
-	public class ExitContentProvider implements IStructuredContentProvider
-	{
-		public Object[] getElements(Object inputElement)
-		{
+
+	public class ExitContentProvider implements IStructuredContentProvider {
+		public Object[] getElements(Object inputElement) {
 			return returnElements.toArray();
 		}
 
-		public void dispose()
-		{
-		}
+		public void dispose() {}
 
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput)
-		{
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 	}
-	
-	public class ExitLabelProvider extends BaseLabelProvider implements ILabelProvider
-	{
-		public Image getImage(Object element)
-		{
+
+	public class ExitLabelProvider extends BaseLabelProvider implements ILabelProvider {
+		public Image getImage(Object element) {
 			return null;
 		}
 
-		public String getText(Object element)
-		{
-			return ((IWorkflowExit)element).getName();
+		public String getText(Object element) {
+			return ((IWorkflowExit) element).getName();
 		}
 	}
 
-	public class MappingContentProvider implements IStructuredContentProvider
-	{
-		public Object[] getElements(Object inputElement)
-		{
-			if(returnElements.isEmpty() || exitCombo.getSelection().isEmpty())
-				return new Object[0];
-			IWorkflowExit retElement = (IWorkflowExit)((IStructuredSelection)exitCombo.getSelection()).getFirstElement();
+	public class MappingContentProvider implements IStructuredContentProvider {
+		public Object[] getElements(Object inputElement) {
+			if (returnElements.isEmpty() || exitCombo.getSelection().isEmpty()) return new Object[0];
+			IWorkflowExit retElement = (IWorkflowExit) ((IStructuredSelection) exitCombo
+					.getSelection()).getFirstElement();
 			ExitBinding exitBinding = manager.getExitBinding(retElement.getName());
 			List<OutputBinding> outputBindings = exitBinding.getOutputBindings();
 			return outputBindings.toArray();
 		}
 
-		public void dispose()
-		{
-		}
+		public void dispose() {}
 
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput)
-		{
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 	}
 
-	public class MappingLabelProvider implements ITableLabelProvider
-	{
-		public Image getColumnImage(Object element, int columnIndex)
-		{
+	public class MappingLabelProvider implements ITableLabelProvider {
+		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
 		}
 
-		public String getColumnText(Object element, int columnIndex)
-		{
-			OutputBinding outputBinding = (OutputBinding)element;
-			if(columnIndex == 0)
-			{
+		public String getColumnText(Object element, int columnIndex) {
+			OutputBinding outputBinding = (OutputBinding) element;
+			if (columnIndex == 0) {
 				return outputBinding.getOutput();
-			}
-			else if(columnIndex == 1)
-			{
-				if(currentBrand == null)
-					return "Unknown";
+			} else if (columnIndex == 1) {
+				if (currentBrand == null) return "Unknown";
 				OutputBrandBinding brandBinding = outputBinding.getBrandBinding(currentBrand);
-				if(brandBinding.isInherited() && brandBinding.getBrand().getParent() != null)
-					return INHERIT;
-				else if(brandBinding.getValue() == null || brandBinding.getValue().getValue() == null)
-					return NOT_USED;
+				if (brandBinding.isInherited() && brandBinding.getBrand().getParent() != null) return INHERIT;
+				else if (brandBinding.getValue() == null
+						|| brandBinding.getValue().getValue() == null) return NOT_USED;
 				return brandBinding.getValue().getValue();
 			}
 			return "Unknown";
 		}
 
-		public void addListener(ILabelProviderListener listener)
-        {
-        }
+		public void addListener(ILabelProviderListener listener) {}
 
-		public void dispose()
-        {
-        }
+		public void dispose() {}
 
-		public boolean isLabelProperty(Object element, String property)
-        {
-	        return false;
-        }
+		public boolean isLabelProperty(Object element, String property) {
+			return false;
+		}
 
-		public void removeListener(ILabelProviderListener listener)
-        {
-        }
+		public void removeListener(ILabelProviderListener listener) {}
 	}
-	
-	public class VariableContentProvider implements IStructuredContentProvider
-	{
-		public Object[] getElements(Object inputElement)
-		{
-			if(currentBrand == null)
-				return new Object[0];
-			if(currentBrand.getParent() == null) //default brand
+
+	public class VariableContentProvider implements IStructuredContentProvider {
+		public Object[] getElements(Object inputElement) {
+			if (currentBrand == null) return new Object[0];
+			if (currentBrand.getParent() == null) // default brand
 			{
 				Object[] ret = new Object[vars.size() + 1];
 				ret[0] = NOT_USED;
-				for(int i = 0; i < vars.size(); i++)
-				{
+				for (int i = 0; i < vars.size(); i++) {
 					ret[i + 1] = vars.get(i);
 				}
 				return ret;
@@ -273,143 +230,108 @@ outer:	for(Variable var : inc)
 			Object[] ret = new Object[vars.size() + 2];
 			ret[0] = INHERIT;
 			ret[1] = NOT_USED;
-			for(int i = 0; i < vars.size(); i++)
-			{
+			for (int i = 0; i < vars.size(); i++) {
 				ret[i + 2] = vars.get(i);
 			}
 			return ret;
 		}
 
-		public void dispose()
-		{
-		}
+		public void dispose() {}
 
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput)
-		{
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 	}
-	
-	public class VariableLabelProvider extends BaseLabelProvider implements ILabelProvider
-	{
-		public Image getImage(Object element)
-		{
+
+	public class VariableLabelProvider extends BaseLabelProvider implements ILabelProvider {
+		public Image getImage(Object element) {
 			return null;
 		}
 
-		public String getText(Object element)
-		{
-			if(element instanceof Variable)
-				return ((Variable)element).getName();
+		public String getText(Object element) {
+			if (element instanceof Variable) return ((Variable) element).getName();
 			return element.toString();
 		}
 	}
-	
-	public class MappingCellModifier implements ICellModifier
-	{
 
-		public boolean canModify(Object element, String property)
-        {
-	        return true;
-        }
+	public class MappingCellModifier implements ICellModifier {
 
-		public Object getValue(Object element, String property)
-        {
-			OutputBinding outputBinding = (OutputBinding)element;
+		public boolean canModify(Object element, String property) {
+			return true;
+		}
+
+		public Object getValue(Object element, String property) {
+			OutputBinding outputBinding = (OutputBinding) element;
 			OutputBrandBinding brandBinding = outputBinding.getBrandBinding(currentBrand);
-			if(brandBinding.isInherited())
-				if(brandBinding.getBrand().getParent() != null)
-					return INHERIT;
-				else
-					return NOT_USED;
-			if(brandBinding.getValue().getValue() == null)
-				return NOT_USED;
-			for(int i = 0; i < vars.size(); i++)
-			{
-				if(vars.get(i).getName().equals(brandBinding.getValue().getValue()))
-					return vars.get(i);
+			if (brandBinding.isInherited()) if (brandBinding.getBrand().getParent() != null) return INHERIT;
+			else return NOT_USED;
+			if (brandBinding.getValue().getValue() == null) return NOT_USED;
+			for (int i = 0; i < vars.size(); i++) {
+				if (vars.get(i).getName().equals(brandBinding.getValue().getValue())) return vars
+						.get(i);
 			}
 			return 0;
-        }
+		}
 
-		public void modify(Object element, String property, Object value)
-        {
-			OutputBinding outputBinding = (OutputBinding)((TableItem)element).getData();
+		public void modify(Object element, String property, Object value) {
+			OutputBinding outputBinding = (OutputBinding) ((TableItem) element).getData();
 			OutputBrandBinding brandBinding = outputBinding.getBrandBinding(currentBrand);
 			OutputItem outputItem = brandBinding.getValue();
-			if(outputItem == null)
-				outputItem = new OutputItem(null);
-			if(value instanceof String)
-			{
-				if(value.equals(NOT_USED))
-				{
+			if (outputItem == null) outputItem = new OutputItem(null);
+			if (value instanceof String) {
+				if (value.equals(NOT_USED)) {
 					outputItem.setValue(null);
-				}
-				else if(value.equals(INHERIT))
-				{
+				} else if (value.equals(INHERIT)) {
 					outputItem = null;
 				}
-			}
-			else
-				outputItem.setValue(((Variable)value).getName());
+			} else outputItem.setValue(((Variable) value).getName());
 			brandBinding.setValue(outputItem);
 			mappingViewer.refresh();
-        }
-		
+		}
+
 	}
 
-	public void entryChanged(FragmentConfigurationManager manager)
-	{
-		ApplicationFragmentElement applicationFragmentElement = (ApplicationFragmentElement)getElement();
-		if(applicationFragmentElement.isModelPresent())
-		{
+	public void entryChanged(FragmentConfigurationManager manager) {
+		ApplicationFragmentElement applicationFragmentElement = (ApplicationFragmentElement) getElement();
+		if (applicationFragmentElement.isModelPresent()) {
 			String entryId = manager.getEntryId();
-			if(entryId != null && !entryId.equals(""))
-			{
+			if (entryId != null && !entryId.equals("")) {
 				IOpenVXMLProject referencedModel = applicationFragmentElement.getReferencedModel();
-				IWorkflowProjectAspect workflowAspect = (IWorkflowProjectAspect)referencedModel.getProjectAspect(IWorkflowProjectAspect.ASPECT_ID);
+				IWorkflowProjectAspect workflowAspect = (IWorkflowProjectAspect) referencedModel
+						.getProjectAspect(IWorkflowProjectAspect.ASPECT_ID);
 				IWorkflowEntry entry = workflowAspect.getWorkflowEntry(entryId);
-				if(entry != null)
-				{
+				if (entry != null) {
 					List<IDesignDocument> workingCopies = new ArrayList<IDesignDocument>();
-					WorkflowTraversalHelper wth = new WorkflowTraversalHelper(workflowAspect, workingCopies);
+					WorkflowTraversalHelper wth = new WorkflowTraversalHelper(workflowAspect,
+							workingCopies);
 					returnElements = wth.getDownStreamWorkflowExits(entry);
 				}
 			}
 		}
 		List<ExitBinding> oldBindings = new LinkedList<ExitBinding>(manager.getExitBindings());
-		for(IWorkflowExit exit : returnElements)
-		{
+		for (IWorkflowExit exit : returnElements) {
 			ExitBinding binding = manager.addExitBinding(exit.getName());
 			List<OutputBinding> oldOutputBindings = binding.getOutputBindings();
 			List<Variable> evs = exit.getExportedVariables();
-			for(Variable v : evs)
-			{
+			for (Variable v : evs) {
 				binding.addOutputBinding(v.getName());
 			}
-outputouter:for(OutputBinding outputBinding : oldOutputBindings)
-			{
-				for(Variable v : evs)
-				{
-					if(v.getName().equals(outputBinding.getOutput()))
-						continue outputouter;
+			outputouter: for (OutputBinding outputBinding : oldOutputBindings) {
+				for (Variable v : evs) {
+					if (v.getName().equals(outputBinding.getOutput())) continue outputouter;
 				}
 				binding.removeOutputBinding(outputBinding);
 			}
 		}
-outer:	for(ExitBinding binding : oldBindings)
-		{
-			for(IWorkflowExit exit : returnElements)
-			{
-				if(exit.getName().equals(binding.getName()))
-					continue outer;
+		outer: for (ExitBinding binding : oldBindings) {
+			for (IWorkflowExit exit : returnElements) {
+				if (exit.getName().equals(binding.getName())) continue outer;
 			}
 			manager.removeExitBinding(binding.getName());
 		}
-		if(exitCombo != null)
-		{
+		if (exitCombo != null) {
 			exitCombo.refresh();
-			exitCombo.setSelection(returnElements.isEmpty() ? null : new StructuredSelection(returnElements.get(0)));
-//			mappingViewer.refresh();
+			exitCombo.setSelection(returnElements.isEmpty() ? null : new StructuredSelection(
+					returnElements.get(0)));
+			// mappingViewer.refresh();
 		}
 	}
 }

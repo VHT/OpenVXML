@@ -16,8 +16,7 @@ import org.osgi.framework.ServiceReference;
 import org.osgi.service.log.LogService;
 
 /**
- * A class that forwards to the most desirable log service when one is
- * available.
+ * A class that forwards to the most desirable log service when one is available.
  * 
  * @author Lonnie Pryor
  */
@@ -25,8 +24,7 @@ public class LogTracker extends SingletonTracker implements LogService {
 	/**
 	 * Creates a new Log.
 	 * 
-	 * @param context
-	 *            The context to operate under.
+	 * @param context The context to operate under.
 	 */
 	public LogTracker(BundleContext context) {
 		super(context, LogService.class.getName(), null);
@@ -34,7 +32,6 @@ public class LogTracker extends SingletonTracker implements LogService {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.osgi.service.log.LogService#log(int, java.lang.String)
 	 */
 	@Override
@@ -47,9 +44,7 @@ public class LogTracker extends SingletonTracker implements LogService {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.osgi.service.log.LogService#log(int, java.lang.String,
-	 * java.lang.Throwable)
+	 * @see org.osgi.service.log.LogService#log(int, java.lang.String, java.lang.Throwable)
 	 */
 	@Override
 	public void log(int level, String message, Throwable thrown) {
@@ -61,9 +56,8 @@ public class LogTracker extends SingletonTracker implements LogService {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.osgi.service.log.LogService#log(
-	 * org.osgi.framework.ServiceReference, int, java.lang.String)
+	 * @see org.osgi.service.log.LogService#log( org.osgi.framework.ServiceReference, int,
+	 * java.lang.String)
 	 */
 	@Override
 	@SuppressWarnings("rawtypes")
@@ -76,15 +70,12 @@ public class LogTracker extends SingletonTracker implements LogService {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.osgi.service.log.LogService#log(
-	 * org.osgi.framework.ServiceReference, int, java.lang.String,
-	 * java.lang.Throwable)
+	 * @see org.osgi.service.log.LogService#log( org.osgi.framework.ServiceReference, int,
+	 * java.lang.String, java.lang.Throwable)
 	 */
 	@Override
 	@SuppressWarnings("rawtypes")
-	public void log(ServiceReference reference, int level, String message,
-			Throwable thrown) {
+	public void log(ServiceReference reference, int level, String message, Throwable thrown) {
 		LogService log = (LogService) getService();
 		if (log != null) {
 			log.log(reference, level, message, thrown);

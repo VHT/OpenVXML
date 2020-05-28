@@ -32,8 +32,7 @@ import com.openmethods.openvxml.desktop.model.workflow.IDesignFolder;
 import com.openmethods.openvxml.desktop.model.workflow.IDesignItemContainer;
 import com.openmethods.openvxml.desktop.model.workflow.IWorkflowProjectAspect;
 
-public final class WorkflowExporter extends ProjectExporter implements
-		IWorkflowExporter {
+public final class WorkflowExporter extends ProjectExporter implements IWorkflowExporter {
 
 	private final String id;
 	private final IOpenVXMLProject project;
@@ -43,13 +42,11 @@ public final class WorkflowExporter extends ProjectExporter implements
 	private final IBrandingProjectAspect brandingAspect;
 	private final IWorkflowProjectAspect workflowAspect;
 
-	public WorkflowExporter(Exporter exporter, DocumentBuilder db,
-			IOpenVXMLProject project) {
+	public WorkflowExporter(Exporter exporter, DocumentBuilder db, IOpenVXMLProject project) {
 		this.project = project;
 		String id = "";
 		try {
-			InputStream input = project.getUnderlyingProject()
-					.getFile(".buildPath").getContents();
+			InputStream input = project.getUnderlyingProject().getFile(".buildPath").getContents();
 			try {
 				id = db.parse(input).getDocumentElement().getAttribute("id");
 			} finally {
@@ -81,18 +78,14 @@ public final class WorkflowExporter extends ProjectExporter implements
 	}
 
 	@Override
-	public Collection<ConfigurationDictionary> getConfigurationDictionaries(
-			String uniqueToken) {
+	public Collection<ConfigurationDictionary> getConfigurationDictionaries(String uniqueToken) {
 		ConfigurationDictionary config = new ConfigurationDictionary(
-				"org.eclipse.vtp.framework.engine.http.deployments."
-						+ getProject().getName() + "." + uniqueToken,
-				"org.eclipse.vtp.framework.engine.http.deployments");
+				"org.eclipse.vtp.framework.engine.http.deployments." + getProject().getName() + "."
+						+ uniqueToken, "org.eclipse.vtp.framework.engine.http.deployments");
 		config.put("deployment.id", project.getName());
 		config.put("definition.id", project.getName() + "." + uniqueToken);
-		config.put(
-				"resources",
-				mediaDependencies.keySet().toArray(
-						new String[mediaDependencies.size()]));
+		config.put("resources", mediaDependencies.keySet().toArray(
+				new String[mediaDependencies.size()]));
 		config.put("path", "/" + project.getName());
 		config.put("fragment", "false");
 		return Collections.singleton(config);
@@ -114,20 +107,19 @@ public final class WorkflowExporter extends ProjectExporter implements
 		return new ArrayList<WorkflowExporter>(workflowDependencies);
 	}
 
-	public void resolveDependencies(SAXParser sp,
-			Map<String, WorkflowExporter> workflowExporters,
+	public void resolveDependencies(SAXParser sp, Map<String, WorkflowExporter> workflowExporters,
 			Map<String, MediaExporter> mediaExporters) {
 		final Set<String> linkedIds = new HashSet<String>();
 		DefaultHandler handler = new DefaultHandler() {
 			boolean active = false;
 
 			@Override
-			public void startElement(String uri, String localName,
-					String qName, Attributes attributes) throws SAXException {
+			public void startElement(String uri, String localName, String qName,
+					Attributes attributes) throws SAXException {
 				super.startElement(uri, localName, qName, attributes);
 				if ("element".equals(qName)
-						&& "org.eclipse.vtp.desktop.model.elements.core.include"
-								.equals(attributes.getValue("type"))) {
+						&& "org.eclipse.vtp.desktop.model.elements.core.include".equals(attributes
+								.getValue("type"))) {
 					active = true;
 				} else if (active && "property".equals(qName)
 						&& "instanceId".equals(attributes.getValue("name"))) {
@@ -136,8 +128,7 @@ public final class WorkflowExporter extends ProjectExporter implements
 			}
 
 			@Override
-			public void endElement(String uri, String localName, String qName)
-					throws SAXException {
+			public void endElement(String uri, String localName, String qName) throws SAXException {
 				super.endElement(uri, localName, qName);
 				if (active && "element".equals(qName)) {
 					active = false;
@@ -166,36 +157,29 @@ public final class WorkflowExporter extends ProjectExporter implements
 		if (interactiveAspect != null) {
 			IMediaProviderManager mediaProviderManager = interactiveAspect
 					.getMediaProviderManager();
-			for (String interactionType : mediaProviderManager
-					.getSupportedInteractionTypes()) {
+			for (String interactionType : mediaProviderManager.getSupportedInteractionTypes()) {
 				languageMapping.put(interactionType, mediaProviderManager
 						.getSupportedLanguages(interactionType));
-				for (String language : mediaProviderManager
-						.getSupportedLanguages(interactionType)) {
-					resolveMediaDependencies(mediaExporters,
-							mediaProviderManager, interactionType, language,
-							brandingAspect.getBrandManager().getDefaultBrand());
+				for (String language : mediaProviderManager.getSupportedLanguages(interactionType)) {
+					resolveMediaDependencies(mediaExporters, mediaProviderManager, interactionType,
+							language, brandingAspect.getBrandManager().getDefaultBrand());
 				}
 			}
 		}
 	}
 
-	private void resolveMediaDependencies(
-			Map<String, MediaExporter> mediaExporters,
-			IMediaProviderManager iProject, String interactionType,
-			String language, IBrand brand) {
-		IMediaProject mediaProject = iProject.getMediaProject(interactionType,
-				brand, language);
+	private void resolveMediaDependencies(Map<String, MediaExporter> mediaExporters,
+			IMediaProviderManager iProject, String interactionType, String language, IBrand brand) {
+		IMediaProject mediaProject = iProject.getMediaProject(interactionType, brand, language);
 		if (mediaProject != null) {
 			MediaExporter exporter = mediaExporters.get(mediaProject.getName());
 			if (exporter != null) {
-				mediaDependencies.put(brand.getId() + ":" + interactionType
-						+ ":" + language, exporter);
+				mediaDependencies.put(brand.getId() + ":" + interactionType + ":" + language,
+						exporter);
 			}
 		}
 		for (IBrand child : brand.getChildBrands()) {
-			resolveMediaDependencies(mediaExporters, iProject, interactionType,
-					language, child);
+			resolveMediaDependencies(mediaExporters, iProject, interactionType, language, child);
 		}
 	}
 

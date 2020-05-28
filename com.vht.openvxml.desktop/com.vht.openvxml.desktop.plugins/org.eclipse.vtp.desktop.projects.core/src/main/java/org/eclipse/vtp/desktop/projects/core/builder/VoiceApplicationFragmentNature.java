@@ -18,15 +18,12 @@ import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.runtime.CoreException;
 
 /**
- * This eclipse project nature identifies a project as an OpenVXML voice
- * application project. Only projects with this nature or the
- * <code>VoicePersonaNature</code> are visible in the OpenVXML application
- * designer projects view.
- * 
- * Note: This project nature and it's associated builder have been deprecated.
- * They remain in this plug-in for now to support triggering conversion actions
- * in the navigator context menu. They will be removed in the next major update
- * to the system or earlier if another trigger mechanism is constructed.
+ * This eclipse project nature identifies a project as an OpenVXML voice application project. Only
+ * projects with this nature or the <code>VoicePersonaNature</code> are visible in the OpenVXML
+ * application designer projects view. Note: This project nature and it's associated builder have
+ * been deprecated. They remain in this plug-in for now to support triggering conversion actions in
+ * the navigator context menu. They will be removed in the next major update to the system or
+ * earlier if another trigger mechanism is constructed.
  *
  * @author Trip Gilman
  * @deprecated
@@ -45,7 +42,6 @@ public class VoiceApplicationFragmentNature implements IProjectNature {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.core.resources.IProjectNature#configure()
 	 */
 	@Override
@@ -54,10 +50,7 @@ public class VoiceApplicationFragmentNature implements IProjectNature {
 		ICommand[] commands = desc.getBuildSpec();
 
 		for (ICommand command : commands) {
-			if (command.getBuilderName().equals(
-					VoiceApplicationFragmentBuilder.BUILDER_ID)) {
-				return;
-			}
+			if (command.getBuilderName().equals(VoiceApplicationFragmentBuilder.BUILDER_ID)) { return; }
 		}
 
 		ICommand[] newCommands = new ICommand[commands.length + 1];
@@ -72,7 +65,6 @@ public class VoiceApplicationFragmentNature implements IProjectNature {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.core.resources.IProjectNature#deconfigure()
 	 */
 	@Override
@@ -81,12 +73,10 @@ public class VoiceApplicationFragmentNature implements IProjectNature {
 		ICommand[] commands = description.getBuildSpec();
 
 		for (int i = 0; i < commands.length; ++i) {
-			if (commands[i].getBuilderName().equals(
-					VoiceApplicationFragmentBuilder.BUILDER_ID)) {
+			if (commands[i].getBuilderName().equals(VoiceApplicationFragmentBuilder.BUILDER_ID)) {
 				ICommand[] newCommands = new ICommand[commands.length - 1];
 				System.arraycopy(commands, 0, newCommands, 0, i);
-				System.arraycopy(commands, i + 1, newCommands, i,
-						commands.length - i - 1);
+				System.arraycopy(commands, i + 1, newCommands, i, commands.length - i - 1);
 				description.setBuildSpec(newCommands);
 
 				return;
@@ -96,7 +86,6 @@ public class VoiceApplicationFragmentNature implements IProjectNature {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.core.resources.IProjectNature#getProject()
 	 */
 	@Override
@@ -106,9 +95,7 @@ public class VoiceApplicationFragmentNature implements IProjectNature {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.core.resources.IProjectNature#setProject(org.eclipse.core
+	 * @see org.eclipse.core.resources.IProjectNature#setProject(org.eclipse.core
 	 * .resources.IProject)
 	 */
 	@Override

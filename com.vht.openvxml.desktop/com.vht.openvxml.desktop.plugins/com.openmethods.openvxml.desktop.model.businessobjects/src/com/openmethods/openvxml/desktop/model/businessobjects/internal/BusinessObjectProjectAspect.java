@@ -11,14 +11,14 @@ import com.openmethods.openvxml.desktop.model.businessobjects.IBusinessObjectPro
 import com.openmethods.openvxml.desktop.model.businessobjects.IBusinessObjectSet;
 
 public class BusinessObjectProjectAspect extends OpenVXMLProjectAspect
-		implements IBusinessObjectProjectAspect {
+	implements
+	IBusinessObjectProjectAspect {
 	private BusinessObjectSet businessObjectSet = null;
 
-	public BusinessObjectProjectAspect(IOpenVXMLProject hostProject,
-			Element aspectConfiguration) {
+	public BusinessObjectProjectAspect(IOpenVXMLProject hostProject, Element aspectConfiguration) {
 		super(hostProject);
-		IFolder dependenciesFolder = hostProject.getUnderlyingProject()
-				.getFolder("Business Objects");
+		IFolder dependenciesFolder = hostProject.getUnderlyingProject().getFolder(
+				"Business Objects");
 		businessObjectSet = new BusinessObjectSet(this, dependenciesFolder);
 	}
 
@@ -39,8 +39,8 @@ public class BusinessObjectProjectAspect extends OpenVXMLProjectAspect
 
 	@Override
 	public void removeProjectLayout() {
-		IFolder businessObjectsFolder = getHostProject().getUnderlyingProject()
-				.getFolder("Business Objects");
+		IFolder businessObjectsFolder = getHostProject().getUnderlyingProject().getFolder(
+				"Business Objects");
 		try {
 			businessObjectsFolder.delete(true, null);
 		} catch (CoreException e) {
@@ -49,7 +49,6 @@ public class BusinessObjectProjectAspect extends OpenVXMLProjectAspect
 	}
 
 	@Override
-	public void writeConfiguration(Element aspectElement) {
-	}
+	public void writeConfiguration(Element aspectElement) {}
 
 }

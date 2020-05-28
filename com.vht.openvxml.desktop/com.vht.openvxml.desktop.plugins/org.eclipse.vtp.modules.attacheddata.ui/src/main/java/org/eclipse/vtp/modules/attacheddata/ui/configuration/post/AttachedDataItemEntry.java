@@ -12,9 +12,8 @@
 package org.eclipse.vtp.modules.attacheddata.ui.configuration.post;
 
 /**
- * This class records the details of which attached data point is being
- * submitted. It contains the name of the data point as well as the location the
- * value submitted should be retrieved from.
+ * This class records the details of which attached data point is being submitted. It contains the
+ * name of the data point as well as the location the value submitted should be retrieved from.
  * 
  * @author trip
  */
@@ -35,20 +34,18 @@ public class AttachedDataItemEntry {
 	private String value = null;
 
 	/**
-	 * Constructs a new <code>AttachedDataItemEntry</code>. The name and value
-	 * fields are initially null and need to be assigned using the available
-	 * setters.
+	 * Constructs a new <code>AttachedDataItemEntry</code>. The name and value fields are initially
+	 * null and need to be assigned using the available setters.
 	 */
 	public AttachedDataItemEntry() {
 		super();
 	}
 
 	/**
-	 * Sets the static value, expression text, or variable name the value of
-	 * this data entry is stored in.
+	 * Sets the static value, expression text, or variable name the value of this data entry is
+	 * stored in.
 	 * 
-	 * @param value
-	 *            The value used to derive the data being submitted
+	 * @param value The value used to derive the data being submitted
 	 */
 	public void setValue(String value) {
 		this.value = value;
@@ -73,8 +70,7 @@ public class AttachedDataItemEntry {
 	/**
 	 * Set the name of the attached data entry being submitted.
 	 * 
-	 * @param name
-	 *            The name of the attached data entry
+	 * @param name The name of the attached data entry
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -90,8 +86,7 @@ public class AttachedDataItemEntry {
 	/**
 	 * Sets the data type of the value being submitted.
 	 * 
-	 * @param dataType
-	 *            The data type of the value
+	 * @param dataType The data type of the value
 	 */
 	public void setDataType(int dataType) {
 		this.dataType = dataType;

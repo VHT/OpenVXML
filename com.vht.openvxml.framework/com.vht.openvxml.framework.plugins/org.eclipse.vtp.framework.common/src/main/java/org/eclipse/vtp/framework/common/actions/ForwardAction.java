@@ -23,8 +23,7 @@ import org.eclipse.vtp.framework.core.IActionResult;
 import org.eclipse.vtp.framework.core.IReporter;
 
 /**
- * An action that terminates the current process and forwards control to another
- * process.
+ * An action that terminates the current process and forwards control to another process.
  * 
  * @author Lonnie Pryor
  */
@@ -39,12 +38,9 @@ public class ForwardAction implements IAction {
 	/**
 	 * Creates a new ForwardAction.
 	 * 
-	 * @param context
-	 *            The context that contains this action.
-	 * @param controller
-	 *            The controller to enqueue with.
-	 * @param configuration
-	 *            The configuration for this forward action.
+	 * @param context The context that contains this action.
+	 * @param controller The controller to enqueue with.
+	 * @param configuration The configuration for this forward action.
 	 */
 	public ForwardAction(IActionContext context, IController controller,
 			DispatchConfiguration configuration) {
@@ -55,7 +51,6 @@ public class ForwardAction implements IAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.core.IAction#execute()
 	 */
 	@Override
@@ -64,14 +59,12 @@ public class ForwardAction implements IAction {
 			if (context.isReportingEnabled()) {
 				final Dictionary<String, Object> props = new Hashtable<String, Object>();
 				props.put("event", "forward");
-				props.put("forward.target",
-						String.valueOf(configuration.getTargetProcessURI()));
+				props.put("forward.target", String.valueOf(configuration.getTargetProcessURI()));
 				context.report(IReporter.SEVERITY_INFO, "Forwarding to \""
 						+ configuration.getTargetProcessURI() + "\".", props);
 			}
-			if (controller.createForward(configuration).enqueue()) {
-				return context.createResult(IActionResult.RESULT_NAME_ABORT);
-			}
+			if (controller.createForward(configuration).enqueue()) { return context
+					.createResult(IActionResult.RESULT_NAME_ABORT); }
 		} catch (final Exception e) {
 			return context.createResult("error.forward", e); //$NON-NLS-1$
 		}

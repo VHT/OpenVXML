@@ -95,8 +95,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 	GenericBindingManager bindingManager;
 	IBrand currentBrand;
 	/**
-	 * A list of all SubdialogParameter objects configured in this Subdialog
-	 * module
+	 * A list of all SubdialogParameter objects configured in this Subdialog module
 	 */
 	List<SubdialogParameter> urlParameters = new ArrayList<SubdialogParameter>();
 	/** A list of all SubdialogInput objects configured in this Subdialog module */
@@ -106,8 +105,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 	 */
 	List<SubdialogOutput> outputs = new ArrayList<SubdialogOutput>();
 	/**
-	 * A text field used to display/change the name of this particular Subdialog
-	 * module
+	 * A text field used to display/change the name of this particular Subdialog module
 	 */
 	Text nameField = null;
 	/** A Label used to label the Text field for the name of the subdialog */
@@ -137,18 +135,15 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 	TreeViewer methodTree = null;
 
 	/**
-	 * A UI table of all SubdialogInput objects configured in this Subdialog
-	 * module
+	 * A UI table of all SubdialogInput objects configured in this Subdialog module
 	 */
 	TableViewer inputTable = null;
 	/**
-	 * A UI table of all SubdialogOutput objects configured in this Subdialog
-	 * module
+	 * A UI table of all SubdialogOutput objects configured in this Subdialog module
 	 */
 	TableViewer outputTable = null;
 	/**
-	 * A UI table of all SubdialogParameter objects configured in this Subdialog
-	 * module
+	 * A UI table of all SubdialogParameter objects configured in this Subdialog module
 	 */
 	TableViewer urlParamTable = null;
 	List<Variable> variables = new ArrayList<Variable>();
@@ -183,9 +178,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel#
+	 * @see org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel#
 	 * createControls(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -203,36 +196,26 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 		nameField.addVerifyListener(new VerifyListener() {
 			@Override
 			public void verifyText(VerifyEvent e) {
-				String currentName = nameField.getText().substring(0, e.start)
-						+ e.text
-						+ nameField.getText(e.end, (nameField.getText()
-								.length() - 1));
+				String currentName = nameField.getText().substring(0, e.start) + e.text
+						+ nameField.getText(e.end, (nameField.getText().length() - 1));
 				if (VariableNameValidator.followsVtpNamingRules(currentName)) {
-					nameLabel.setForeground(nameLabel.getDisplay()
-							.getSystemColor(SWT.COLOR_BLACK));
-					nameField.setForeground(nameField.getDisplay()
-							.getSystemColor(SWT.COLOR_BLACK));
+					nameLabel.setForeground(nameLabel.getDisplay().getSystemColor(SWT.COLOR_BLACK));
+					nameField.setForeground(nameField.getDisplay().getSystemColor(SWT.COLOR_BLACK));
 					getContainer().setCanFinish(true);
 				} else {
-					nameLabel.setForeground(nameLabel.getDisplay()
-							.getSystemColor(SWT.COLOR_RED));
-					nameField.setForeground(nameField.getDisplay()
-							.getSystemColor(SWT.COLOR_RED));
+					nameLabel.setForeground(nameLabel.getDisplay().getSystemColor(SWT.COLOR_RED));
+					nameField.setForeground(nameField.getDisplay().getSystemColor(SWT.COLOR_RED));
 					getContainer().setCanFinish(false);
 				}
 			}
 		});
 		if (VariableNameValidator.followsVtpNamingRules(nameField.getText())) {
-			nameLabel.setForeground(nameLabel.getDisplay().getSystemColor(
-					SWT.COLOR_BLACK));
-			nameField.setForeground(nameField.getDisplay().getSystemColor(
-					SWT.COLOR_BLACK));
+			nameLabel.setForeground(nameLabel.getDisplay().getSystemColor(SWT.COLOR_BLACK));
+			nameField.setForeground(nameField.getDisplay().getSystemColor(SWT.COLOR_BLACK));
 			getContainer().setCanFinish(true);
 		} else {
-			nameLabel.setForeground(nameLabel.getDisplay().getSystemColor(
-					SWT.COLOR_RED));
-			nameField.setForeground(nameField.getDisplay().getSystemColor(
-					SWT.COLOR_RED));
+			nameLabel.setForeground(nameLabel.getDisplay().getSystemColor(SWT.COLOR_RED));
+			nameField.setForeground(nameField.getDisplay().getSystemColor(SWT.COLOR_RED));
 			getContainer().setCanFinish(false);
 		}
 
@@ -253,8 +236,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 		GridData gd2 = new GridData(SWT.FILL, SWT.FILL, true, true);
 		destinationContainer.setLayoutData(gd2);
 
-		destinationType = new Combo(destinationContainer, SWT.DROP_DOWN
-				| SWT.READ_ONLY);
+		destinationType = new Combo(destinationContainer, SWT.DROP_DOWN | SWT.READ_ONLY);
 		GridData gd4 = new GridData();
 		gd4.verticalAlignment = SWT.TOP;
 		destinationType.setLayoutData(gd4);
@@ -269,8 +251,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 			}
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
 		destinationComp = new Composite(destinationContainer, SWT.NONE);
 		destinationComp.setBackground(container.getBackground());
@@ -281,8 +262,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 		GridLayout layout = new GridLayout(1, false);
 		layout.marginWidth = layout.marginHeight = 0;
 		destinationValueComp.setLayout(layout);
-		destinationValue = new Text(destinationValueComp, SWT.SINGLE
-				| SWT.BORDER);
+		destinationValue = new Text(destinationValueComp, SWT.SINGLE | SWT.BORDER);
 		destinationValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		destinationExprComp = new Composite(destinationComp, SWT.NONE);
 		destinationExprComp.setBackground(destinationComp.getBackground());
@@ -295,8 +275,8 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 		destinationTreeComp.setBackground(destinationComp.getBackground());
 		FormLayout fl = new FormLayout();
 		destinationTreeComp.setLayout(fl);
-		destinationTree = new TreeViewer(destinationTreeComp, SWT.H_SCROLL
-				| SWT.V_SCROLL | SWT.BORDER | SWT.SINGLE);
+		destinationTree = new TreeViewer(destinationTreeComp, SWT.H_SCROLL | SWT.V_SCROLL
+				| SWT.BORDER | SWT.SINGLE);
 		FormData fd = new FormData();
 		fd.left = new FormAttachment(0);
 		fd.top = new FormAttachment(0);
@@ -327,8 +307,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 		gd2 = new GridData(SWT.FILL, SWT.FILL, true, true);
 		methodContainer.setLayoutData(gd2);
 
-		methodSelectionType = new Combo(methodContainer, SWT.DROP_DOWN
-				| SWT.READ_ONLY);
+		methodSelectionType = new Combo(methodContainer, SWT.DROP_DOWN | SWT.READ_ONLY);
 		gd4 = new GridData();
 		gd4.verticalAlignment = SWT.TOP;
 		methodSelectionType.setLayoutData(gd4);
@@ -343,8 +322,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 			}
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
 		methodComp = new Composite(methodContainer, SWT.NONE);
 		methodComp.setBackground(container.getBackground());
@@ -371,8 +349,8 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 		methodTreeComp.setBackground(methodComp.getBackground());
 		fl = new FormLayout();
 		methodTreeComp.setLayout(fl);
-		methodTree = new TreeViewer(methodTreeComp, SWT.H_SCROLL | SWT.V_SCROLL
-				| SWT.BORDER | SWT.SINGLE);
+		methodTree = new TreeViewer(methodTreeComp, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER
+				| SWT.SINGLE);
 		fd = new FormData();
 		fd.left = new FormAttachment(0);
 		fd.top = new FormAttachment(0);
@@ -393,16 +371,14 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 		gd.horizontalSpan = 2;
 		paramsGroup.setLayoutData(gd);
 		paramsGroup.setLayout(new GridLayout(2, true));
-		urlParamTable = new TableViewer(paramsGroup, SWT.FULL_SELECTION
-				| SWT.SINGLE | SWT.V_SCROLL | SWT.BORDER);
+		urlParamTable = new TableViewer(paramsGroup, SWT.FULL_SELECTION | SWT.SINGLE | SWT.V_SCROLL
+				| SWT.BORDER);
 		urlParamTable.getTable().setHeaderVisible(true);
 		urlParamTable.getTable().setLinesVisible(true);
-		TableColumn paramNameColumn = new TableColumn(urlParamTable.getTable(),
-				SWT.NONE);
+		TableColumn paramNameColumn = new TableColumn(urlParamTable.getTable(), SWT.NONE);
 		paramNameColumn.setText("Name");
 		paramNameColumn.setWidth(150);
-		TableColumn paramValueColumn = new TableColumn(
-				urlParamTable.getTable(), SWT.NONE);
+		TableColumn paramValueColumn = new TableColumn(urlParamTable.getTable(), SWT.NONE);
 		paramValueColumn.setText("Value");
 		paramValueColumn.setWidth(150);
 		urlParamTable.setContentProvider(new ParamTableContentProvider());
@@ -418,8 +394,8 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				if (!urlParamTable.getSelection().isEmpty()) {
-					ParameterValueDialog vd = new ParameterValueDialog(Display
-							.getCurrent().getActiveShell());
+					ParameterValueDialog vd = new ParameterValueDialog(Display.getCurrent()
+							.getActiveShell());
 					SubdialogParameter si = (SubdialogParameter) ((IStructuredSelection) urlParamTable
 							.getSelection()).getFirstElement();
 					vd.setValue(si);
@@ -434,8 +410,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if (e.character == SWT.DEL
-						&& !urlParamTable.getSelection().isEmpty()) {
+				if (e.character == SWT.DEL && !urlParamTable.getSelection().isEmpty()) {
 					SubdialogParameter si = (SubdialogParameter) ((IStructuredSelection) urlParamTable
 							.getSelection()).getFirstElement();
 					urlParameters.remove(si);
@@ -444,8 +419,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 			}
 
 			@Override
-			public void keyReleased(KeyEvent e) {
-			}
+			public void keyReleased(KeyEvent e) {}
 		});
 		Button addButton = new Button(paramsGroup, SWT.PUSH);
 		addButton.setText("Add Parameter");
@@ -455,13 +429,12 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 		addButton.addSelectionListener(new SelectionListener() {
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				ParameterValueDialog vd = new ParameterValueDialog(Display
-						.getCurrent().getActiveShell());
+				ParameterValueDialog vd = new ParameterValueDialog(Display.getCurrent()
+						.getActiveShell());
 				SubdialogParameter si = info.new SubdialogParameter("", 0, "");
 				vd.setValue(si);
 				if (vd.open() == SWT.OK) {
@@ -476,8 +449,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 		deleteButton.addSelectionListener(new SelectionListener() {
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -500,16 +472,14 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 		gd.horizontalSpan = 2;
 		inputsGroup.setLayoutData(gd);
 		inputsGroup.setLayout(new GridLayout(2, true));
-		inputTable = new TableViewer(inputsGroup, SWT.FULL_SELECTION
-				| SWT.SINGLE | SWT.V_SCROLL | SWT.BORDER);
+		inputTable = new TableViewer(inputsGroup, SWT.FULL_SELECTION | SWT.SINGLE | SWT.V_SCROLL
+				| SWT.BORDER);
 		inputTable.getTable().setHeaderVisible(true);
 		inputTable.getTable().setLinesVisible(true);
-		TableColumn inputNameColumn = new TableColumn(inputTable.getTable(),
-				SWT.NONE);
+		TableColumn inputNameColumn = new TableColumn(inputTable.getTable(), SWT.NONE);
 		inputNameColumn.setText("Name");
 		inputNameColumn.setWidth(150);
-		TableColumn inputValueColumn = new TableColumn(inputTable.getTable(),
-				SWT.NONE);
+		TableColumn inputValueColumn = new TableColumn(inputTable.getTable(), SWT.NONE);
 		inputValueColumn.setText("Value");
 		inputValueColumn.setWidth(150);
 		inputTable.setContentProvider(new InputTableContentProvider());
@@ -525,8 +495,8 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				if (!inputTable.getSelection().isEmpty()) {
-					InputValueDialog vd = new InputValueDialog(Display
-							.getCurrent().getActiveShell());
+					InputValueDialog vd = new InputValueDialog(Display.getCurrent()
+							.getActiveShell());
 					SubdialogInput si = (SubdialogInput) ((IStructuredSelection) inputTable
 							.getSelection()).getFirstElement();
 					vd.setValue(si);
@@ -541,8 +511,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if (e.character == SWT.DEL
-						&& !inputTable.getSelection().isEmpty()) {
+				if (e.character == SWT.DEL && !inputTable.getSelection().isEmpty()) {
 					SubdialogInput si = (SubdialogInput) ((IStructuredSelection) inputTable
 							.getSelection()).getFirstElement();
 					inputs.remove(si);
@@ -551,8 +520,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 			}
 
 			@Override
-			public void keyReleased(KeyEvent e) {
-			}
+			public void keyReleased(KeyEvent e) {}
 		});
 
 		addButton = new Button(inputsGroup, SWT.PUSH);
@@ -563,13 +531,11 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 		addButton.addSelectionListener(new SelectionListener() {
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				InputValueDialog vd = new InputValueDialog(Display.getCurrent()
-						.getActiveShell());
+				InputValueDialog vd = new InputValueDialog(Display.getCurrent().getActiveShell());
 				SubdialogInput si = info.new SubdialogInput("", 0, "");
 				vd.setValue(si);
 				if (vd.open() == SWT.OK) {
@@ -584,8 +550,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 		deleteButton.addSelectionListener(new SelectionListener() {
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -608,16 +573,14 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 		gd.horizontalSpan = 2;
 		outputsGroup.setLayoutData(gd);
 		outputsGroup.setLayout(new GridLayout(2, true));
-		outputTable = new TableViewer(outputsGroup, SWT.FULL_SELECTION
-				| SWT.SINGLE | SWT.V_SCROLL | SWT.BORDER);
+		outputTable = new TableViewer(outputsGroup, SWT.FULL_SELECTION | SWT.SINGLE | SWT.V_SCROLL
+				| SWT.BORDER);
 		outputTable.getTable().setHeaderVisible(true);
 		outputTable.getTable().setLinesVisible(true);
-		TableColumn outputNameColumn = new TableColumn(outputTable.getTable(),
-				SWT.NONE);
+		TableColumn outputNameColumn = new TableColumn(outputTable.getTable(), SWT.NONE);
 		outputNameColumn.setText("Name");
 		outputNameColumn.setWidth(150);
-		TableColumn outputValueColumn = new TableColumn(outputTable.getTable(),
-				SWT.NONE);
+		TableColumn outputValueColumn = new TableColumn(outputTable.getTable(), SWT.NONE);
 		outputValueColumn.setText("Value");
 		outputValueColumn.setWidth(150);
 		outputTable.setContentProvider(new OutputTableContentProvider());
@@ -633,8 +596,8 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				if (!outputTable.getSelection().isEmpty()) {
-					OutputValueDialog vd = new OutputValueDialog(Display
-							.getCurrent().getActiveShell());
+					OutputValueDialog vd = new OutputValueDialog(Display.getCurrent()
+							.getActiveShell());
 					SubdialogOutput so = (SubdialogOutput) ((IStructuredSelection) outputTable
 							.getSelection()).getFirstElement();
 					vd.setValue(so);
@@ -649,8 +612,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if (e.character == SWT.DEL
-						&& !outputTable.getSelection().isEmpty()) {
+				if (e.character == SWT.DEL && !outputTable.getSelection().isEmpty()) {
 					SubdialogOutput so = (SubdialogOutput) ((IStructuredSelection) outputTable
 							.getSelection()).getFirstElement();
 					outputs.remove(so);
@@ -659,8 +621,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 			}
 
 			@Override
-			public void keyReleased(KeyEvent e) {
-			}
+			public void keyReleased(KeyEvent e) {}
 		});
 		addButton = new Button(outputsGroup, SWT.PUSH);
 		addButton.setText("Add Output");
@@ -670,13 +631,11 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 		addButton.addSelectionListener(new SelectionListener() {
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				OutputValueDialog vd = new OutputValueDialog(Display
-						.getCurrent().getActiveShell());
+				OutputValueDialog vd = new OutputValueDialog(Display.getCurrent().getActiveShell());
 				SubdialogOutput so = info.new SubdialogOutput("", "");
 				vd.setValue(so);
 				if (vd.open() == SWT.OK) {
@@ -693,8 +652,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 		deleteButton.addSelectionListener(new SelectionListener() {
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -755,10 +713,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel#
-	 * save()
+	 * @see org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel# save()
 	 */
 	@Override
 	public void save() {
@@ -772,25 +727,18 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.configuration.ComponentPropertiesPanel
-	 * #cancel()
+	 * @see org.eclipse.vtp.desktop.model.core.configuration.ComponentPropertiesPanel #cancel()
 	 */
 	@Override
 	public void cancel() {
 		getElement().rollbackConfigurationChanges(bindingManager);
 	}
 
-	public class ParamTableContentProvider implements
-			IStructuredContentProvider {
+	public class ParamTableContentProvider implements IStructuredContentProvider {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
-		 * java.lang.Object)
+		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements( java.lang.Object)
 		 */
 		@Override
 		public Object[] getElements(Object inputElement) {
@@ -799,33 +747,25 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 		 */
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
+		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
 		 * .jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
 		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 	}
 
 	public class ParamTableLabelProvider implements ITableLabelProvider {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java
-		 * .lang.Object, int)
+		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java .lang.Object, int)
 		 */
 		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
@@ -834,46 +774,34 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.
-		 * lang.Object, int)
+		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java. lang.Object, int)
 		 */
 		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			SubdialogParameter si = (SubdialogParameter) element;
-			if (columnIndex == 0) {
-				return si.name;
-			}
+			if (columnIndex == 0) { return si.name; }
 			return si.value;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse
 		 * .jface.viewers.ILabelProviderListener)
 		 */
 		@Override
-		public void addListener(ILabelProviderListener listener) {
-		}
+		public void addListener(ILabelProviderListener listener) {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#dispose()
 		 */
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java
-		 * .lang.Object, java.lang.String)
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java .lang.Object,
+		 * java.lang.String)
 		 */
 		@Override
 		public boolean isLabelProperty(Object element, String property) {
@@ -882,26 +810,19 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
 		 * .jface.viewers.ILabelProviderListener)
 		 */
 		@Override
-		public void removeListener(ILabelProviderListener listener) {
-		}
+		public void removeListener(ILabelProviderListener listener) {}
 
 	}
 
-	public class InputTableContentProvider implements
-			IStructuredContentProvider {
+	public class InputTableContentProvider implements IStructuredContentProvider {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
-		 * java.lang.Object)
+		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements( java.lang.Object)
 		 */
 		@Override
 		public Object[] getElements(Object inputElement) {
@@ -910,33 +831,25 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 		 */
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
+		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
 		 * .jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
 		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 	}
 
 	public class InputTableLabelProvider implements ITableLabelProvider {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java
-		 * .lang.Object, int)
+		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java .lang.Object, int)
 		 */
 		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
@@ -945,46 +858,34 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.
-		 * lang.Object, int)
+		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java. lang.Object, int)
 		 */
 		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			SubdialogInput si = (SubdialogInput) element;
-			if (columnIndex == 0) {
-				return si.name;
-			}
+			if (columnIndex == 0) { return si.name; }
 			return si.value;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse
 		 * .jface.viewers.ILabelProviderListener)
 		 */
 		@Override
-		public void addListener(ILabelProviderListener listener) {
-		}
+		public void addListener(ILabelProviderListener listener) {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#dispose()
 		 */
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java
-		 * .lang.Object, java.lang.String)
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java .lang.Object,
+		 * java.lang.String)
 		 */
 		@Override
 		public boolean isLabelProperty(Object element, String property) {
@@ -993,26 +894,19 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
 		 * .jface.viewers.ILabelProviderListener)
 		 */
 		@Override
-		public void removeListener(ILabelProviderListener listener) {
-		}
+		public void removeListener(ILabelProviderListener listener) {}
 
 	}
 
-	public class OutputTableContentProvider implements
-			IStructuredContentProvider {
+	public class OutputTableContentProvider implements IStructuredContentProvider {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
-		 * java.lang.Object)
+		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements( java.lang.Object)
 		 */
 		@Override
 		public Object[] getElements(Object inputElement) {
@@ -1021,33 +915,25 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 		 */
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
+		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
 		 * .jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
 		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 	}
 
 	public class OutputTableLabelProvider implements ITableLabelProvider {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java
-		 * .lang.Object, int)
+		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java .lang.Object, int)
 		 */
 		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
@@ -1056,46 +942,34 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.
-		 * lang.Object, int)
+		 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java. lang.Object, int)
 		 */
 		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			SubdialogOutput so = (SubdialogOutput) element;
-			if (columnIndex == 0) {
-				return so.varName;
-			}
+			if (columnIndex == 0) { return so.varName; }
 			return so.valueName;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse
 		 * .jface.viewers.ILabelProviderListener)
 		 */
 		@Override
-		public void addListener(ILabelProviderListener listener) {
-		}
+		public void addListener(ILabelProviderListener listener) {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#dispose()
 		 */
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java
-		 * .lang.Object, java.lang.String)
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java .lang.Object,
+		 * java.lang.String)
 		 */
 		@Override
 		public boolean isLabelProperty(Object element, String property) {
@@ -1104,14 +978,11 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
 		 * .jface.viewers.ILabelProviderListener)
 		 */
 		@Override
-		public void removeListener(ILabelProviderListener listener) {
-		}
+		public void removeListener(ILabelProviderListener listener) {}
 
 	}
 
@@ -1149,13 +1020,11 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 			this.setSideBarSize(40);
 			this.setTitle("Select a value");
 
-			List<Variable> unsortedVars = getElement().getDesign()
-					.getVariablesFor(getElement());
+			List<Variable> unsortedVars = getElement().getDesign().getVariablesFor(getElement());
 			if (unsortedVars == null) {
 				this.vars = null;
 			} else {
-				Comparable<Comparer>[] comp = new Comparable[unsortedVars
-						.size()];
+				Comparable<Comparer>[] comp = new Comparable[unsortedVars.size()];
 				for (int b = 0; b < unsortedVars.size(); b++) {
 					Object obj = unsortedVars.get(b);
 					Comparer compr = new Comparer((ObjectDefinition) obj);
@@ -1172,8 +1041,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 		/**
 		 * Specifies which SubdialogInput object to modify
 		 * 
-		 * @param value
-		 *            - the SubdialogInput object to modify
+		 * @param value - the SubdialogInput object to modify
 		 */
 		public void setValue(SubdialogInformationProvider.SubdialogInput value) {
 			this.value = value;
@@ -1181,9 +1049,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.vtp.desktop.core.dialogs.FramedDialog#createButtonBar
+		 * @see org.eclipse.vtp.desktop.core.dialogs.FramedDialog#createButtonBar
 		 * (org.eclipse.swt.widgets.Composite)
 		 */
 		@Override
@@ -1211,8 +1077,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 				}
 
 				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-				}
+				public void widgetDefaultSelected(SelectionEvent e) {}
 			});
 
 			final Button cancelButton = new Button(buttons, SWT.PUSH);
@@ -1224,8 +1089,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 				}
 
 				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-				}
+				public void widgetDefaultSelected(SelectionEvent e) {}
 			});
 
 			if (Display.getCurrent().getDismissalAlignment() == SWT.RIGHT) {
@@ -1235,8 +1099,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 		}
 
 		/**
-		 * Saves any changes made to this object and exits with a return code of
-		 * SWT.OK
+		 * Saves any changes made to this object and exits with a return code of SWT.OK
 		 */
 		public void okPressed() {
 			value.name = variableNameField.getText();
@@ -1257,8 +1120,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 		}
 
 		/**
-		 * Cancels any changes made to this object and exits with a return code
-		 * of SWT.CANCEL
+		 * Cancels any changes made to this object and exits with a return code of SWT.CANCEL
 		 */
 		public void cancelPressed() {
 			this.setReturnCode(SWT.CANCEL);
@@ -1267,9 +1129,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.vtp.desktop.core.dialogs.FramedDialog#createDialogContents
+		 * @see org.eclipse.vtp.desktop.core.dialogs.FramedDialog#createDialogContents
 		 * (org.eclipse.swt.widgets.Composite)
 		 */
 		@Override
@@ -1301,17 +1161,15 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 			variableNameField.addVerifyListener(new VerifyListener() {
 				@Override
 				public void verifyText(VerifyEvent e) {
-					String currentName = variableNameField.getText().substring(
-							0, e.start)
+					String currentName = variableNameField.getText().substring(0, e.start)
 							+ e.text
-							+ variableNameField.getText(e.end,
-									(variableNameField.getText().length() - 1));
-					if (VariableNameValidator
-							.followsEcmaNamingRules(currentName)) {
-						nameLabel.setForeground(nameLabel.getDisplay()
+							+ variableNameField.getText(e.end, (variableNameField.getText()
+									.length() - 1));
+					if (VariableNameValidator.followsEcmaNamingRules(currentName)) {
+						nameLabel.setForeground(nameLabel.getDisplay().getSystemColor(
+								SWT.COLOR_BLACK));
+						variableNameField.setForeground(variableNameField.getDisplay()
 								.getSystemColor(SWT.COLOR_BLACK));
-						variableNameField.setForeground(variableNameField
-								.getDisplay().getSystemColor(SWT.COLOR_BLACK));
 						okButton.setEnabled(true);
 						// TODO check for name collisions
 						// for(int b = 0; b < reservedNames.size(); b++)
@@ -1327,14 +1185,14 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 					} else {
 						nameLabel.setForeground(nameLabel.getDisplay()
 								.getSystemColor(SWT.COLOR_RED));
-						variableNameField.setForeground(variableNameField
-								.getDisplay().getSystemColor(SWT.COLOR_RED));
+						variableNameField.setForeground(variableNameField.getDisplay()
+								.getSystemColor(SWT.COLOR_RED));
 						okButton.setEnabled(false);
 					}
 				}
 			});
-			okButton.setEnabled(VariableNameValidator
-					.followsEcmaNamingRules(variableNameField.getText()));
+			okButton.setEnabled(VariableNameValidator.followsEcmaNamingRules(variableNameField
+					.getText()));
 
 			valueType = new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY);
 			GridData valueTypeGridData = new GridData();
@@ -1350,8 +1208,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 				}
 
 				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-				}
+				public void widgetDefaultSelected(SelectionEvent e) {}
 			});
 
 			valueComp = new Composite(parent, SWT.None);
@@ -1371,8 +1228,8 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 			layout.marginWidth = layout.marginHeight = 0;
 			variableTreeComp.setLayout(layout);
 
-			Tree variableTree = new Tree(variableTreeComp, SWT.BORDER
-					| SWT.SINGLE | SWT.FULL_SELECTION);
+			Tree variableTree = new Tree(variableTreeComp, SWT.BORDER | SWT.SINGLE
+					| SWT.FULL_SELECTION);
 			gd = new GridData(GridData.FILL_BOTH);
 			gd.horizontalIndent = 10;
 			gd.horizontalSpan = 2;
@@ -1382,8 +1239,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 			variableViewer.setLabelProvider(new VariableLabelProvider());
 			variableViewer.setInput(this);
 
-			staticValueField = new Text(staticValueComp, SWT.BORDER
-					| SWT.SINGLE);
+			staticValueField = new Text(staticValueComp, SWT.BORDER | SWT.SINGLE);
 			gd = new GridData(GridData.FILL_HORIZONTAL);
 			gd.horizontalSpan = 2;
 			if (value.type == 1) {
@@ -1392,17 +1248,14 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 
 					if (v.getName().equals(value.value)) {
 						variableViewer.setSelection(new StructuredSelection(v));
-					} else if ((value.value != null)
-							&& value.value.startsWith(v.getName())) {
+					} else if ((value.value != null) && value.value.startsWith(v.getName())) {
 						List<ObjectField> objectFields = v.getFields();
 
 						for (int f = 0; f < objectFields.size(); f++) {
 							ObjectField of = objectFields.get(f);
 
 							if (of.getPath().equals(value.value)) {
-								variableViewer
-										.setSelection(new StructuredSelection(
-												of));
+								variableViewer.setSelection(new StructuredSelection(of));
 							}
 						}
 					}
@@ -1413,8 +1266,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 			if (value.type == 1) {
 				valueLayout.topControl = variableTreeComp;
 			} else {
-				staticValueField.setText((value.value == null) ? ""
-						: value.value);
+				staticValueField.setText((value.value == null) ? "" : value.value);
 				valueLayout.topControl = staticValueComp;
 			}
 		}
@@ -1440,13 +1292,10 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 			}
 
 			@Override
-			public void dispose() {
-			}
+			public void dispose() {}
 
 			@Override
-			public void inputChanged(Viewer viewer, Object oldInput,
-					Object newInput) {
-			}
+			public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 
 			@Override
 			public Object[] getChildren(Object parentElement) {
@@ -1471,8 +1320,8 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 		public class VariableLabelProvider extends LabelProvider {
 			@Override
 			public Image getImage(Object element) {
-				return org.eclipse.vtp.desktop.core.Activator.getDefault()
-						.getImageRegistry().get("ICON_TINY_SQUARE");
+				return org.eclipse.vtp.desktop.core.Activator.getDefault().getImageRegistry().get(
+						"ICON_TINY_SQUARE");
 			}
 
 			@Override
@@ -1512,8 +1361,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 		/**
 		 * Specifies which SubdialogOutput object to modify
 		 * 
-		 * @param value
-		 *            - the SubdialogOutput object to modify
+		 * @param value - the SubdialogOutput object to modify
 		 */
 		public void setValue(SubdialogInformationProvider.SubdialogOutput value) {
 			this.value = value;
@@ -1521,9 +1369,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.vtp.desktop.core.dialogs.FramedDialog#createButtonBar
+		 * @see org.eclipse.vtp.desktop.core.dialogs.FramedDialog#createButtonBar
 		 * (org.eclipse.swt.widgets.Composite)
 		 */
 		@Override
@@ -1551,8 +1397,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 				}
 
 				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-				}
+				public void widgetDefaultSelected(SelectionEvent e) {}
 			});
 
 			final Button cancelButton = new Button(buttons, SWT.PUSH);
@@ -1564,8 +1409,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 				}
 
 				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-				}
+				public void widgetDefaultSelected(SelectionEvent e) {}
 			});
 
 			if (Display.getCurrent().getDismissalAlignment() == SWT.RIGHT) {
@@ -1575,8 +1419,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 		}
 
 		/**
-		 * Saves any changes made to this object and exits with a return code of
-		 * SWT.OK
+		 * Saves any changes made to this object and exits with a return code of SWT.OK
 		 */
 		public void okPressed() {
 			value.varName = variableNameField.getText();
@@ -1586,8 +1429,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 		}
 
 		/**
-		 * Cancels any changes made to this object and exits with a return code
-		 * of SWT.CANCEL
+		 * Cancels any changes made to this object and exits with a return code of SWT.CANCEL
 		 */
 		public void cancelPressed() {
 			this.setReturnCode(SWT.CANCEL);
@@ -1596,9 +1438,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.vtp.desktop.core.dialogs.FramedDialog#createDialogContents
+		 * @see org.eclipse.vtp.desktop.core.dialogs.FramedDialog#createDialogContents
 		 * (org.eclipse.swt.widgets.Composite)
 		 */
 		@Override
@@ -1630,20 +1470,17 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 			variableNameField.addVerifyListener(new VerifyListener() {
 				@Override
 				public void verifyText(VerifyEvent e) {
-					String currentName = variableNameField.getText().substring(
-							0, e.start)
+					String currentName = variableNameField.getText().substring(0, e.start)
 							+ e.text
-							+ variableNameField.getText(e.end,
-									(variableNameField.getText().length() - 1));
-					if (VariableNameValidator
-							.followsEcmaNamingRules(currentName)) {
-						nameLabel.setForeground(nameLabel.getDisplay()
+							+ variableNameField.getText(e.end, (variableNameField.getText()
+									.length() - 1));
+					if (VariableNameValidator.followsEcmaNamingRules(currentName)) {
+						nameLabel.setForeground(nameLabel.getDisplay().getSystemColor(
+								SWT.COLOR_BLACK));
+						variableNameField.setForeground(variableNameField.getDisplay()
 								.getSystemColor(SWT.COLOR_BLACK));
-						variableNameField.setForeground(variableNameField
-								.getDisplay().getSystemColor(SWT.COLOR_BLACK));
 						if (VariableNameValidator
-								.followsEcmaNamingRules(staticValueField
-										.getText())) {
+								.followsEcmaNamingRules(staticValueField.getText())) {
 							okButton.setEnabled(true);
 							// TODO check for name collisions
 							// for(int b = 0; b < reservedNames.size(); b++)
@@ -1660,8 +1497,8 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 					} else {
 						nameLabel.setForeground(nameLabel.getDisplay()
 								.getSystemColor(SWT.COLOR_RED));
-						variableNameField.setForeground(variableNameField
-								.getDisplay().getSystemColor(SWT.COLOR_RED));
+						variableNameField.setForeground(variableNameField.getDisplay()
+								.getSystemColor(SWT.COLOR_RED));
 						okButton.setEnabled(false);
 					}
 				}
@@ -1677,40 +1514,35 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 			gd = new GridData(GridData.FILL_HORIZONTAL);
 			gd.horizontalSpan = 2;
 			staticValueField.setLayoutData(gd);
-			staticValueField.setText((value.valueName == null) ? ""
-					: value.valueName);
+			staticValueField.setText((value.valueName == null) ? "" : value.valueName);
 			staticValueField.addVerifyListener(new VerifyListener() {
 				@Override
 				public void verifyText(VerifyEvent e) {
-					String currentName = staticValueField.getText().substring(
-							0, e.start)
+					String currentName = staticValueField.getText().substring(0, e.start)
 							+ e.text
-							+ staticValueField.getText(e.end, (staticValueField
-									.getText().length() - 1));
-					if (VariableNameValidator
-							.followsEcmaNamingRules(currentName)) {
-						valueLabel.setForeground(valueLabel.getDisplay()
+							+ staticValueField.getText(e.end,
+									(staticValueField.getText().length() - 1));
+					if (VariableNameValidator.followsEcmaNamingRules(currentName)) {
+						valueLabel.setForeground(valueLabel.getDisplay().getSystemColor(
+								SWT.COLOR_BLACK));
+						staticValueField.setForeground(staticValueField.getDisplay()
 								.getSystemColor(SWT.COLOR_BLACK));
-						staticValueField.setForeground(staticValueField
-								.getDisplay().getSystemColor(SWT.COLOR_BLACK));
-						if (VariableNameValidator
-								.followsEcmaNamingRules(variableNameField
-										.getText())) {
+						if (VariableNameValidator.followsEcmaNamingRules(variableNameField
+								.getText())) {
 							okButton.setEnabled(true);
 						}
 					} else {
-						valueLabel.setForeground(valueLabel.getDisplay()
+						valueLabel.setForeground(valueLabel.getDisplay().getSystemColor(
+								SWT.COLOR_RED));
+						staticValueField.setForeground(staticValueField.getDisplay()
 								.getSystemColor(SWT.COLOR_RED));
-						staticValueField.setForeground(staticValueField
-								.getDisplay().getSystemColor(SWT.COLOR_RED));
 						okButton.setEnabled(false);
 					}
 				}
 			});
-			okButton.setEnabled(VariableNameValidator
-					.followsEcmaNamingRules(variableNameField.getText())
-					&& VariableNameValidator
-							.followsEcmaNamingRules(staticValueField.getText()));
+			okButton.setEnabled(VariableNameValidator.followsEcmaNamingRules(variableNameField
+					.getText())
+					&& VariableNameValidator.followsEcmaNamingRules(staticValueField.getText()));
 
 		}
 
@@ -1750,13 +1582,11 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 			this.setSideBarSize(40);
 			this.setTitle("Select a value");
 
-			List<Variable> unsortedVars = getElement().getDesign()
-					.getVariablesFor(getElement());
+			List<Variable> unsortedVars = getElement().getDesign().getVariablesFor(getElement());
 			if (unsortedVars == null) {
 				this.vars = null;
 			} else {
-				Comparable<Comparer>[] comp = new Comparable[unsortedVars
-						.size()];
+				Comparable<Comparer>[] comp = new Comparable[unsortedVars.size()];
 				for (int b = 0; b < unsortedVars.size(); b++) {
 					Comparer compr = new Comparer(unsortedVars.get(b));
 					comp[b] = compr;
@@ -1772,19 +1602,15 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 		/**
 		 * Specifies which SubdialogParameter object to modify
 		 * 
-		 * @param value
-		 *            - the SubdialogParameter object to modify
+		 * @param value - the SubdialogParameter object to modify
 		 */
-		public void setValue(
-				SubdialogInformationProvider.SubdialogParameter value) {
+		public void setValue(SubdialogInformationProvider.SubdialogParameter value) {
 			this.value = value;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.vtp.desktop.core.dialogs.FramedDialog#createButtonBar
+		 * @see org.eclipse.vtp.desktop.core.dialogs.FramedDialog#createButtonBar
 		 * (org.eclipse.swt.widgets.Composite)
 		 */
 		@Override
@@ -1812,8 +1638,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 				}
 
 				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-				}
+				public void widgetDefaultSelected(SelectionEvent e) {}
 			});
 
 			final Button cancelButton = new Button(buttons, SWT.PUSH);
@@ -1825,8 +1650,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 				}
 
 				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-				}
+				public void widgetDefaultSelected(SelectionEvent e) {}
 			});
 
 			if (Display.getCurrent().getDismissalAlignment() == SWT.RIGHT) {
@@ -1836,8 +1660,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 		}
 
 		/**
-		 * Saves any changes made to this object and exits with a return code of
-		 * SWT.OK
+		 * Saves any changes made to this object and exits with a return code of SWT.OK
 		 */
 		public void okPressed() {
 			value.name = variableNameField.getText();
@@ -1858,8 +1681,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 		}
 
 		/**
-		 * Cancels any changes made to this object and exits with a return code
-		 * of SWT.CANCEL
+		 * Cancels any changes made to this object and exits with a return code of SWT.CANCEL
 		 */
 		public void cancelPressed() {
 			this.setReturnCode(SWT.CANCEL);
@@ -1868,9 +1690,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.vtp.desktop.core.dialogs.FramedDialog#createDialogContents
+		 * @see org.eclipse.vtp.desktop.core.dialogs.FramedDialog#createDialogContents
 		 * (org.eclipse.swt.widgets.Composite)
 		 */
 		@Override
@@ -1902,17 +1722,15 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 			variableNameField.addVerifyListener(new VerifyListener() {
 				@Override
 				public void verifyText(VerifyEvent e) {
-					String currentName = variableNameField.getText().substring(
-							0, e.start)
+					String currentName = variableNameField.getText().substring(0, e.start)
 							+ e.text
-							+ variableNameField.getText(e.end,
-									(variableNameField.getText().length() - 1));
-					if (VariableNameValidator
-							.followsEcmaNamingRules(currentName)) {
-						nameLabel.setForeground(nameLabel.getDisplay()
+							+ variableNameField.getText(e.end, (variableNameField.getText()
+									.length() - 1));
+					if (VariableNameValidator.followsEcmaNamingRules(currentName)) {
+						nameLabel.setForeground(nameLabel.getDisplay().getSystemColor(
+								SWT.COLOR_BLACK));
+						variableNameField.setForeground(variableNameField.getDisplay()
 								.getSystemColor(SWT.COLOR_BLACK));
-						variableNameField.setForeground(variableNameField
-								.getDisplay().getSystemColor(SWT.COLOR_BLACK));
 						okButton.setEnabled(true);
 						// TODO check for name collisions
 						// for(int b = 0; b < reservedNames.size(); b++)
@@ -1928,14 +1746,14 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 					} else {
 						nameLabel.setForeground(nameLabel.getDisplay()
 								.getSystemColor(SWT.COLOR_RED));
-						variableNameField.setForeground(variableNameField
-								.getDisplay().getSystemColor(SWT.COLOR_RED));
+						variableNameField.setForeground(variableNameField.getDisplay()
+								.getSystemColor(SWT.COLOR_RED));
 						okButton.setEnabled(false);
 					}
 				}
 			});
-			okButton.setEnabled(VariableNameValidator
-					.followsEcmaNamingRules(variableNameField.getText()));
+			okButton.setEnabled(VariableNameValidator.followsEcmaNamingRules(variableNameField
+					.getText()));
 
 			valueType = new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY);
 			GridData valueTypeGridData = new GridData();
@@ -1951,8 +1769,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 				}
 
 				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-				}
+				public void widgetDefaultSelected(SelectionEvent e) {}
 			});
 
 			valueComp = new Composite(parent, SWT.None);
@@ -1972,8 +1789,8 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 			layout.marginWidth = layout.marginHeight = 0;
 			variableTreeComp.setLayout(layout);
 
-			Tree variableTree = new Tree(variableTreeComp, SWT.BORDER
-					| SWT.SINGLE | SWT.FULL_SELECTION);
+			Tree variableTree = new Tree(variableTreeComp, SWT.BORDER | SWT.SINGLE
+					| SWT.FULL_SELECTION);
 			gd = new GridData(GridData.FILL_BOTH);
 			gd.horizontalIndent = 10;
 			gd.horizontalSpan = 2;
@@ -1983,8 +1800,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 			variableViewer.setLabelProvider(new VariableLabelProvider());
 			variableViewer.setInput(this);
 
-			staticValueField = new Text(staticValueComp, SWT.BORDER
-					| SWT.SINGLE);
+			staticValueField = new Text(staticValueComp, SWT.BORDER | SWT.SINGLE);
 			gd = new GridData(GridData.FILL_HORIZONTAL);
 			gd.horizontalSpan = 2;
 
@@ -1994,17 +1810,14 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 
 					if (v.getName().equals(value.value)) {
 						variableViewer.setSelection(new StructuredSelection(v));
-					} else if ((value.value != null)
-							&& value.value.startsWith(v.getName())) {
+					} else if ((value.value != null) && value.value.startsWith(v.getName())) {
 						List<ObjectField> objectFields = v.getFields();
 
 						for (int f = 0; f < objectFields.size(); f++) {
 							ObjectField of = objectFields.get(f);
 
 							if (of.getPath().equals(value.value)) {
-								variableViewer
-										.setSelection(new StructuredSelection(
-												of));
+								variableViewer.setSelection(new StructuredSelection(of));
 							}
 						}
 					}
@@ -2016,8 +1829,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 			if (value.type == 1) {
 				valueLayout.topControl = variableTreeComp;
 			} else {
-				staticValueField.setText((value.value == null) ? ""
-						: value.value);
+				staticValueField.setText((value.value == null) ? "" : value.value);
 				valueLayout.topControl = staticValueComp;
 			}
 		}
@@ -2043,13 +1855,10 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 			}
 
 			@Override
-			public void dispose() {
-			}
+			public void dispose() {}
 
 			@Override
-			public void inputChanged(Viewer viewer, Object oldInput,
-					Object newInput) {
-			}
+			public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 
 			@Override
 			public Object[] getChildren(Object parentElement) {
@@ -2074,8 +1883,8 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 		public class VariableLabelProvider extends LabelProvider {
 			@Override
 			public Image getImage(Object element) {
-				return org.eclipse.vtp.desktop.core.Activator.getDefault()
-						.getImageRegistry().get("ICON_TINY_SQUARE");
+				return org.eclipse.vtp.desktop.core.Activator.getDefault().getImageRegistry().get(
+						"ICON_TINY_SQUARE");
 			}
 
 			@Override
@@ -2097,7 +1906,6 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see java.lang.Comparable#compareTo(java.lang.Object)
 		 */
 		@Override
@@ -2115,29 +1923,23 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 
 		currentBrand = (IBrand) values.get(BrandContext.CONTEXT_ID);
 		if (currentBrand == null) {
-			final IOpenVXMLProject project = getElement().getDesign()
-					.getDocument().getProject();
+			final IOpenVXMLProject project = getElement().getDesign().getDocument().getProject();
 			final IProject uproject = project.getUnderlyingProject();
 			final Shell shell = this.getContainer().getParentShell();
 			Display.getCurrent().asyncExec(new Runnable() {
 				@Override
 				public void run() {
-					MessageBox mb = new MessageBox(shell, SWT.OK | SWT.CANCEL
-							| SWT.ICON_ERROR);
+					MessageBox mb = new MessageBox(shell, SWT.OK | SWT.CANCEL | SWT.ICON_ERROR);
 					mb.setText("Configuration Problems");
 					mb.setMessage("The interaction and language configuration for this project is incomplete.  You will not be able edit the applications effectively until this is resolved.  Would you like to configure this now?");
 					if (mb.open() == SWT.OK) {
 						Display.getCurrent().asyncExec(new Runnable() {
 							@Override
 							public void run() {
-								PropertyDialog pd = PropertyDialog
-										.createDialogOn(
-												PlatformUI
-														.getWorkbench()
-														.getActiveWorkbenchWindow()
-														.getShell(),
-												"org.eclipse.vtp.desktop.projects.core.appproperties",
-												uproject);
+								PropertyDialog pd = PropertyDialog.createDialogOn(PlatformUI
+										.getWorkbench().getActiveWorkbenchWindow().getShell(),
+										"org.eclipse.vtp.desktop.projects.core.appproperties",
+										uproject);
 								pd.open();
 							}
 						});
@@ -2147,35 +1949,28 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 			});
 			return;
 		}
-		InteractionBinding interactionBinding = bindingManager
-				.getInteractionBinding("");
-		NamedBinding namedBinding = interactionBinding
-				.getNamedBinding("destination");
+		InteractionBinding interactionBinding = bindingManager.getInteractionBinding("");
+		NamedBinding namedBinding = interactionBinding.getNamedBinding("destination");
 		LanguageBinding languageBinding = namedBinding.getLanguageBinding("");
-		BrandBinding brandBinding = languageBinding
-				.getBrandBinding(currentBrand);
+		BrandBinding brandBinding = languageBinding.getBrandBinding(currentBrand);
 		System.out.println(currentBrand.getId());
-		PropertyBindingItem valuePropertyItem = (PropertyBindingItem) brandBinding
-				.getBindingItem();
+		PropertyBindingItem valuePropertyItem = (PropertyBindingItem) brandBinding.getBindingItem();
 		if (valuePropertyItem == null) {
 			System.out.println("Value item is null");
 			valuePropertyItem = new PropertyBindingItem();
 		}
 		System.out.println("VALUE TYPE: " + valuePropertyItem.getValueType());
 		if (valuePropertyItem.getValue() != null) {
-			if (valuePropertyItem.getValueType().equals(
-					PropertyBindingItem.STATIC)) {
+			if (valuePropertyItem.getValueType().equals(PropertyBindingItem.STATIC)) {
 				destinationType.select(0);
 				destinationValue.setText(valuePropertyItem.getValue());
-			} else if (valuePropertyItem.getValueType().equals(
-					PropertyBindingItem.EXPRESSION)) {
+			} else if (valuePropertyItem.getValueType().equals(PropertyBindingItem.EXPRESSION)) {
 				destinationType.select(1);
 				destinationExpr.setText(valuePropertyItem.getValue());
 			} else {
 				destinationType.select(2);
-				ObjectDefinition od = VariableHelper
-						.getObjectDefinitionFromVariables(variables,
-								valuePropertyItem.getValue());
+				ObjectDefinition od = VariableHelper.getObjectDefinitionFromVariables(variables,
+						valuePropertyItem.getValue());
 				StructuredSelection ss = (od == null) ? StructuredSelection.EMPTY
 						: new StructuredSelection(od);
 				destinationTree.setSelection(ss);
@@ -2196,20 +1991,16 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 		}
 		System.out.println("VALUE TYPE: " + valuePropertyItem.getValueType());
 		if (valuePropertyItem.getValue() != null) {
-			if (valuePropertyItem.getValueType().equals(
-					PropertyBindingItem.STATIC)) {
+			if (valuePropertyItem.getValueType().equals(PropertyBindingItem.STATIC)) {
 				methodSelectionType.select(0);
-				methodCombo.select("POST".equalsIgnoreCase(valuePropertyItem
-						.getValue()) ? 1 : 0);
-			} else if (valuePropertyItem.getValueType().equals(
-					PropertyBindingItem.EXPRESSION)) {
+				methodCombo.select("POST".equalsIgnoreCase(valuePropertyItem.getValue()) ? 1 : 0);
+			} else if (valuePropertyItem.getValueType().equals(PropertyBindingItem.EXPRESSION)) {
 				methodSelectionType.select(1);
 				methodExpr.setText(valuePropertyItem.getValue());
 			} else {
 				methodSelectionType.select(2);
-				ObjectDefinition od = VariableHelper
-						.getObjectDefinitionFromVariables(variables,
-								valuePropertyItem.getValue());
+				ObjectDefinition od = VariableHelper.getObjectDefinitionFromVariables(variables,
+						valuePropertyItem.getValue());
 				StructuredSelection ss = (od == null) ? StructuredSelection.EMPTY
 						: new StructuredSelection(od);
 				methodTree.setSelection(ss);
@@ -2220,33 +2011,25 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 
 	private void storeBindings() {
 		try {
-			InteractionBinding interactionBinding = bindingManager
-					.getInteractionBinding("");
-			NamedBinding namedBinding = interactionBinding
-					.getNamedBinding("destination");
-			LanguageBinding languageBinding = namedBinding
-					.getLanguageBinding("");
-			BrandBinding brandBinding = languageBinding
-					.getBrandBinding(currentBrand);
+			InteractionBinding interactionBinding = bindingManager.getInteractionBinding("");
+			NamedBinding namedBinding = interactionBinding.getNamedBinding("destination");
+			LanguageBinding languageBinding = namedBinding.getLanguageBinding("");
+			BrandBinding brandBinding = languageBinding.getBrandBinding(currentBrand);
 			PropertyBindingItem valuePropertyItem = (PropertyBindingItem) brandBinding
 					.getBindingItem();
 			if (valuePropertyItem == null) {
 				valuePropertyItem = new PropertyBindingItem();
 			} else {
-				valuePropertyItem = (PropertyBindingItem) valuePropertyItem
-						.clone();
+				valuePropertyItem = (PropertyBindingItem) valuePropertyItem.clone();
 			}
 			switch (destinationType.getSelectionIndex()) {
 			case 2:
 				ISelection selection = destinationTree.getSelection();
 				if ((selection != null) && !selection.isEmpty()
 						&& selection instanceof IStructuredSelection) {
-					Object selObj = ((IStructuredSelection) selection)
-							.getFirstElement();
+					Object selObj = ((IStructuredSelection) selection).getFirstElement();
 					if (selObj instanceof ObjectDefinition) {
-						valuePropertyItem
-								.setVariable(((ObjectDefinition) selObj)
-										.getPath());
+						valuePropertyItem.setVariable(((ObjectDefinition) selObj).getPath());
 						break;
 					}
 				}
@@ -2263,25 +2046,20 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 			namedBinding = interactionBinding.getNamedBinding("method");
 			languageBinding = namedBinding.getLanguageBinding("");
 			brandBinding = languageBinding.getBrandBinding(currentBrand);
-			valuePropertyItem = (PropertyBindingItem) brandBinding
-					.getBindingItem();
+			valuePropertyItem = (PropertyBindingItem) brandBinding.getBindingItem();
 			if (valuePropertyItem == null) {
 				valuePropertyItem = new PropertyBindingItem();
 			} else {
-				valuePropertyItem = (PropertyBindingItem) valuePropertyItem
-						.clone();
+				valuePropertyItem = (PropertyBindingItem) valuePropertyItem.clone();
 			}
 			switch (methodSelectionType.getSelectionIndex()) {
 			case 2:
 				ISelection selection = methodTree.getSelection();
 				if ((selection != null) && !selection.isEmpty()
 						&& selection instanceof IStructuredSelection) {
-					Object selObj = ((IStructuredSelection) selection)
-							.getFirstElement();
+					Object selObj = ((IStructuredSelection) selection).getFirstElement();
 					if (selObj instanceof ObjectDefinition) {
-						valuePropertyItem
-								.setVariable(((ObjectDefinition) selObj)
-										.getPath());
+						valuePropertyItem.setVariable(((ObjectDefinition) selObj).getPath());
 						break;
 					}
 				}
@@ -2291,8 +2069,8 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 				valuePropertyItem.setExpression(methodExpr.getText());
 				break;
 			default:
-				valuePropertyItem.setStaticValue(methodCombo
-						.getSelectionIndex() == 1 ? "POST" : "GET");
+				valuePropertyItem.setStaticValue(methodCombo.getSelectionIndex() == 1 ? "POST"
+						: "GET");
 			}
 			brandBinding.setBindingItem(valuePropertyItem);
 
@@ -2304,10 +2082,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 	public class VariableContentProvider implements ITreeContentProvider {
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang
-		 * .Object)
+		 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang .Object)
 		 */
 		@Override
 		public Object[] getChildren(Object parentElement) {
@@ -2322,10 +2097,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang
-		 * .Object)
+		 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang .Object)
 		 */
 		@Override
 		public Object getParent(Object element) {
@@ -2338,10 +2110,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang
-		 * .Object)
+		 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang .Object)
 		 */
 		@Override
 		public boolean hasChildren(Object element) {
@@ -2350,10 +2119,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(
-		 * java.lang.Object)
+		 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements( java.lang.Object)
 		 */
 		@Override
 		public Object[] getElements(Object inputElement) {
@@ -2362,23 +2128,18 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 		 */
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
+		 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse
 		 * .jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 		 */
 		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 	}
 
 	/**
@@ -2389,9 +2150,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 	public class VariableLabelProvider implements ILabelProvider {
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
+		 * @see org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
 		 */
 		@Override
 		public Image getImage(Object element) {
@@ -2400,9 +2159,7 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
+		 * @see org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
 		 */
 		@Override
 		public String getText(Object element) {
@@ -2411,30 +2168,23 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse
 		 * .jface.viewers.ILabelProviderListener)
 		 */
 		@Override
-		public void addListener(ILabelProviderListener listener) {
-		}
+		public void addListener(ILabelProviderListener listener) {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#dispose()
 		 */
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java
-		 * .lang.Object, java.lang.String)
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java .lang.Object,
+		 * java.lang.String)
 		 */
 		@Override
 		public boolean isLabelProperty(Object element, String property) {
@@ -2443,13 +2193,10 @@ public class SubdialogPropertiesPanel extends DesignElementPropertiesPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
+		 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
 		 * .jface.viewers.ILabelProviderListener)
 		 */
 		@Override
-		public void removeListener(ILabelProviderListener listener) {
-		}
+		public void removeListener(ILabelProviderListener listener) {}
 	}
 }

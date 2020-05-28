@@ -30,8 +30,8 @@ import org.eclipse.ui.ide.ResourceSelectionUtil;
 import org.eclipse.ui.navigator.ICommonMenuConstants;
 
 /**
- * This is the action group for refactor actions, including global action
- * handlers for copy, paste and delete.
+ * This is the action group for refactor actions, including global action handlers for copy, paste
+ * and delete.
  * 
  * @since 2.0
  */
@@ -46,7 +46,6 @@ public class RefactorActionGroup extends ActionGroup {
 	private Tree tree;
 
 	/**
-	 * 
 	 * @param aShell
 	 * @param aTree
 	 */
@@ -58,20 +57,17 @@ public class RefactorActionGroup extends ActionGroup {
 
 	@Override
 	public void fillContextMenu(IMenuManager menu) {
-		IStructuredSelection selection = (IStructuredSelection) getContext()
-				.getSelection();
-		selection = new StructuredSelection(
-				((IAdaptable) selection.getFirstElement())
-						.getAdapter(IResource.class));
+		IStructuredSelection selection = (IStructuredSelection) getContext().getSelection();
+		selection = new StructuredSelection(((IAdaptable) selection.getFirstElement())
+				.getAdapter(IResource.class));
 		boolean anyResourceSelected = !selection.isEmpty()
-				&& ResourceSelectionUtil.allResourcesAreOfType(selection,
-						IResource.PROJECT | IResource.FOLDER | IResource.FILE);
+				&& ResourceSelectionUtil.allResourcesAreOfType(selection, IResource.PROJECT
+						| IResource.FOLDER | IResource.FILE);
 
 		if (anyResourceSelected) {
 			// moveAction.selectionChanged(selection);
 			renameAction.selectionChanged(selection);
-			menu.appendToGroup(ICommonMenuConstants.GROUP_REORGANIZE,
-					renameAction);
+			menu.appendToGroup(ICommonMenuConstants.GROUP_REORGANIZE, renameAction);
 			// menu.insertAfter(moveAction.getId(), renameAction);
 		}
 	}
@@ -84,15 +80,13 @@ public class RefactorActionGroup extends ActionGroup {
 
 		// actionBars.setGlobalActionHandler(ActionFactory.MOVE.getId(),
 		// moveAction);
-		actionBars.setGlobalActionHandler(ActionFactory.RENAME.getId(),
-				renameAction);
+		actionBars.setGlobalActionHandler(ActionFactory.RENAME.getId(), renameAction);
 	}
 
 	/**
 	 * Handles a key pressed event by invoking the appropriate action.
 	 * 
-	 * @param event
-	 *            The Key Event
+	 * @param event The Key Event
 	 */
 	public void handleKeyPressed(KeyEvent event) {
 
@@ -118,17 +112,14 @@ public class RefactorActionGroup extends ActionGroup {
 		// moveAction.setActionDefinitionId(IWorkbenchCommandConstants.FILE_MOVE);
 
 		renameAction = new RenameResourceAction(sp, tree);
-		renameAction
-				.setActionDefinitionId(IWorkbenchCommandConstants.FILE_RENAME);
+		renameAction.setActionDefinitionId(IWorkbenchCommandConstants.FILE_RENAME);
 	}
 
 	@Override
 	public void updateActionBars() {
-		IStructuredSelection selection = (IStructuredSelection) getContext()
-				.getSelection();
-		selection = new StructuredSelection(
-				((IAdaptable) selection.getFirstElement())
-						.getAdapter(IResource.class));
+		IStructuredSelection selection = (IStructuredSelection) getContext().getSelection();
+		selection = new StructuredSelection(((IAdaptable) selection.getFirstElement())
+				.getAdapter(IResource.class));
 
 		// moveAction.selectionChanged(selection);
 		renameAction.selectionChanged(selection);

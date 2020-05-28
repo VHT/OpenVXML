@@ -32,16 +32,12 @@ public class IDriverConfiguration implements IConfiguration {
 
 	/**
 	 * Creates a new MetaDataMessageConfiguration.
-	 * 
 	 */
-	public IDriverConfiguration() {
-	}
+	public IDriverConfiguration() {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.core.IConfiguration#load(org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(org.w3c.dom.Element)
 	 */
 	@Override
 	public void load(Element configurationElement) {
@@ -52,9 +48,7 @@ public class IDriverConfiguration implements IConfiguration {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.core.IConfiguration#save(org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(org.w3c.dom.Element)
 	 */
 	@Override
 	public void save(Element configurationElement) {

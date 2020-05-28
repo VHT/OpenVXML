@@ -15,22 +15,20 @@ import org.eclipse.vtp.framework.common.IScriptable;
 import org.eclipse.vtp.framework.core.IActionContext;
 
 /**
- * An {@link IScriptable} implementation that makes the {@link IActionContext}
- * instance available as a scripting object.
- * 
+ * An {@link IScriptable} implementation that makes the {@link IActionContext} instance available as
+ * a scripting object.
  * <p>
- * This service will make available a "Action" object to all scripts in its
- * scope. The variable supports the following properties:
+ * This service will make available a "Action" object to all scripts in its scope. The variable
+ * supports the following properties:
  * <ul>
  * <li><code>id</code>: a string containing the action ID</li>
  * <li><code>state</code>: current state of the action</li>
  * </ul>
  * The state will always be one of "before", "during", or "after".
  * </p>
- * 
  * <p>
- * The "Action" scripting object uses the action ID as the implicit value, thus
- * it can be compared to other string objects.
+ * The "Action" scripting object uses the action ID as the implicit value, thus it can be compared
+ * to other string objects.
  * </p>
  * 
  * @author Lonnie Pryor
@@ -43,8 +41,7 @@ public class ScriptableActionContext implements IScriptable {
 	/**
 	 * Creates a new ScriptableActionContext.
 	 * 
-	 * @param context
-	 *            The context to provide scripting services for.
+	 * @param context The context to provide scripting services for.
 	 */
 	public ScriptableActionContext(IActionContext context) {
 		this.context = context;
@@ -52,7 +49,6 @@ public class ScriptableActionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getName()
 	 */
 	@Override
@@ -62,7 +58,6 @@ public class ScriptableActionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasValue()
 	 */
 	@Override
@@ -72,7 +67,6 @@ public class ScriptableActionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#toValue()
 	 */
 	@Override
@@ -82,9 +76,7 @@ public class ScriptableActionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.spi.scripting.IScriptable#getFunctionNames()
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getFunctionNames()
 	 */
 	@Override
 	public final String[] getFunctionNames() {
@@ -93,9 +85,8 @@ public class ScriptableActionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#invokeFunction(
-	 * java.lang.String, java.lang.Object[])
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#invokeFunction( java.lang.String,
+	 * java.lang.Object[])
 	 */
 	@Override
 	public final Object invokeFunction(String name, Object[] arguments) {
@@ -104,7 +95,6 @@ public class ScriptableActionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasItem(int)
 	 */
 	@Override
@@ -119,9 +109,7 @@ public class ScriptableActionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasEntry(
-	 * java.lang.String)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasEntry( java.lang.String)
 	 */
 	@Override
 	public final boolean hasEntry(String name) {
@@ -131,7 +119,6 @@ public class ScriptableActionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getItem(int)
 	 */
 	@Override
@@ -141,15 +128,11 @@ public class ScriptableActionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getEntry(
-	 * java.lang.String)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getEntry( java.lang.String)
 	 */
 	@Override
 	public final Object getEntry(String name) {
-		if ("id".equals(name)) {
-			return context.getActionID();
-		}
+		if ("id".equals(name)) { return context.getActionID(); }
 		if ("state".equals(name)) //$NON-NLS-1$
 		{
 			switch (context.getActionState()) {
@@ -166,9 +149,7 @@ public class ScriptableActionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setItem(int,
-	 * java.lang.Object)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setItem(int, java.lang.Object)
 	 */
 	@Override
 	public final boolean setItem(int index, Object value) {
@@ -177,9 +158,8 @@ public class ScriptableActionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setEntry(
-	 * java.lang.String, java.lang.Object)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setEntry( java.lang.String,
+	 * java.lang.Object)
 	 */
 	@Override
 	public final boolean setEntry(String name, Object value) {
@@ -188,7 +168,6 @@ public class ScriptableActionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearItem(int)
 	 */
 	@Override
@@ -198,9 +177,7 @@ public class ScriptableActionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearEntry(
-	 * java.lang.String)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearEntry( java.lang.String)
 	 */
 	@Override
 	public final boolean clearEntry(String name) {

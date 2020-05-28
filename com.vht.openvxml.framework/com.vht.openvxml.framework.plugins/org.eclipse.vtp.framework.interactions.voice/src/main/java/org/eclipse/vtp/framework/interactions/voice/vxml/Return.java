@@ -19,11 +19,10 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
 /**
- * The <code>Return</code> class represents the &lt;return&gt; VXML element. The
- * return element ends execution of a subdialog and returns control and data to
- * a calling dialog. The data can either be in the form of an event that is
- * thrown upon returning or a list of variables in the scope of the subdialog to
- * add to the scope of the calling dialog.
+ * The <code>Return</code> class represents the &lt;return&gt; VXML element. The return element ends
+ * execution of a subdialog and returns control and data to a calling dialog. The data can either be
+ * in the form of an event that is thrown upon returning or a list of variables in the scope of the
+ * subdialog to add to the scope of the calling dialog.
  * 
  * @author Trip Gilman
  * @author Lonnie Pryor
@@ -36,31 +35,25 @@ public class Return extends Action {
 	private final LinkedList<String> names = new LinkedList<String>();
 
 	/**
-	 * Creates a new Return object that throws the specified event upon
-	 * returning to the caller dialog.
+	 * Creates a new Return object that throws the specified event upon returning to the caller
+	 * dialog.
 	 * 
-	 * @param eventName
-	 *            Name of the event to throw.
-	 * @throws IllegalArgumentException
-	 *             If the supplied event name is empty.
+	 * @param eventName Name of the event to throw.
+	 * @throws IllegalArgumentException If the supplied event name is empty.
 	 */
 	public Return(String eventName) {
 		setEventName(eventName);
 	}
 
 	/**
-	 * Creates a new Return object that copies the named variables from the
-	 * subdialog's scope into the scope of the calling dialog.
+	 * Creates a new Return object that copies the named variables from the subdialog's scope into
+	 * the scope of the calling dialog.
 	 * 
-	 * @param names
-	 *            List of variables to copy.
-	 * @throws IllegalArgumentException
-	 *             If any of the supplied names are empty.
-	 * @throws NullPointerException
-	 *             If any of the supplied names are <code>null</code>.
+	 * @param names List of variables to copy.
+	 * @throws IllegalArgumentException If any of the supplied names are empty.
+	 * @throws NullPointerException If any of the supplied names are <code>null</code>.
 	 */
-	public Return(String[] names) throws IllegalArgumentException,
-			NullPointerException {
+	public Return(String[] names) throws IllegalArgumentException, NullPointerException {
 		if (names != null) {
 			for (String name : names) {
 				addName(name);
@@ -78,8 +71,7 @@ public class Return extends Action {
 	}
 
 	/**
-	 * Returns the list of variable names that will be copied into the calling
-	 * dialog's scope.
+	 * Returns the list of variable names that will be copied into the calling dialog's scope.
 	 * 
 	 * @return the list of variable names.
 	 */
@@ -90,89 +82,69 @@ public class Return extends Action {
 	/**
 	 * Sets the name of the event this return object will throw.
 	 * 
-	 * @param eventName
-	 *            The name of the event this return object will throw.
-	 * @throws IllegalArgumentException
-	 *             If the supplied event name is empty.
+	 * @param eventName The name of the event this return object will throw.
+	 * @throws IllegalArgumentException If the supplied event name is empty.
 	 */
 	public void setEventName(String eventName) throws IllegalArgumentException {
-		if (eventName != null && eventName.length() == 0) {
-			throw new IllegalArgumentException("eventName"); //$NON-NLS-1$
+		if (eventName != null && eventName.length() == 0) { throw new IllegalArgumentException(
+				"eventName"); //$NON-NLS-1$
 		}
 		this.eventName = eventName;
 	}
 
 	/**
-	 * Adds the variable name to the list of variable names that will be copied
-	 * into the calling dialog's scope.
+	 * Adds the variable name to the list of variable names that will be copied into the calling
+	 * dialog's scope.
 	 * 
-	 * @param name
-	 *            The variable name to add.
-	 * @throws IllegalArgumentException
-	 *             If the supplied name is empty.
-	 * @throws NullPointerException
-	 *             If the supplied name is <code>null</code>.
+	 * @param name The variable name to add.
+	 * @throws IllegalArgumentException If the supplied name is empty.
+	 * @throws NullPointerException If the supplied name is <code>null</code>.
 	 */
-	public void addName(String name) throws IllegalArgumentException,
-			NullPointerException {
-		if (name == null) {
-			throw new NullPointerException("name"); //$NON-NLS-1$
+	public void addName(String name) throws IllegalArgumentException, NullPointerException {
+		if (name == null) { throw new NullPointerException("name"); //$NON-NLS-1$
 		}
-		if (name.length() == 0) {
-			throw new IllegalArgumentException("name"); //$NON-NLS-1$
+		if (name.length() == 0) { throw new IllegalArgumentException("name"); //$NON-NLS-1$
 		}
 		names.add(name);
 	}
 
 	/**
-	 * Removes the variable name from the list of variable names that will be
-	 * copied into the calling dialog's scope.
+	 * Removes the variable name from the list of variable names that will be copied into the
+	 * calling dialog's scope.
 	 * 
-	 * @param name
-	 *            The variable name to remove.
-	 * @throws IllegalArgumentException
-	 *             If the supplied name is empty.
-	 * @throws NullPointerException
-	 *             If the supplied name is <code>null</code>.
+	 * @param name The variable name to remove.
+	 * @throws IllegalArgumentException If the supplied name is empty.
+	 * @throws NullPointerException If the supplied name is <code>null</code>.
 	 */
-	public void removeName(String name) throws IllegalArgumentException,
-			NullPointerException {
-		if (name == null) {
-			throw new NullPointerException("name"); //$NON-NLS-1$
+	public void removeName(String name) throws IllegalArgumentException, NullPointerException {
+		if (name == null) { throw new NullPointerException("name"); //$NON-NLS-1$
 		}
-		if (name.length() == 0) {
-			throw new IllegalArgumentException("name"); //$NON-NLS-1$
+		if (name.length() == 0) { throw new IllegalArgumentException("name"); //$NON-NLS-1$
 		}
 		names.remove(name);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.core.output.Widget#writeWidget(
 	 * org.xml.sax.ContentHandler)
 	 */
 	@Override
-	public void writeWidget(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
-		if (outputHandler == null) {
-			throw new NullPointerException("outputHandler"); //$NON-NLS-1$
+	public void writeWidget(ContentHandler outputHandler) throws NullPointerException, SAXException {
+		if (outputHandler == null) { throw new NullPointerException("outputHandler"); //$NON-NLS-1$
 		}
 		// Start and end the element.
 		AttributesImpl attributes = new AttributesImpl();
 		writeAttributes(attributes);
-		outputHandler.startElement(NAMESPACE_URI_VXML, NAME_RETURN,
-				NAME_RETURN, attributes);
+		outputHandler.startElement(NAMESPACE_URI_VXML, NAME_RETURN, NAME_RETURN, attributes);
 		outputHandler.endElement(NAMESPACE_URI_VXML, NAME_RETURN, NAME_RETURN);
 	}
 
 	/**
 	 * Write the attribute members of this action to the supplied set.
 	 * 
-	 * @param attributes
-	 *            The attribute set to write to.
-	 * @throws NullPointerException
-	 *             If the supplied attribute set is <code>null</code>.
+	 * @param attributes The attribute set to write to.
+	 * @throws NullPointerException If the supplied attribute set is <code>null</code>.
 	 */
 	protected void writeAttributes(AttributesImpl attributes) {
 		if (names.size() > 0) {
@@ -183,11 +155,9 @@ public class Return extends Action {
 					buffer.append(' ');
 				}
 			}
-			writeAttribute(attributes, null, null, NAME_NAMELIST, TYPE_CDATA,
-					buffer.toString());
+			writeAttribute(attributes, null, null, NAME_NAMELIST, TYPE_CDATA, buffer.toString());
 		} else if (eventName != null) {
-			writeAttribute(attributes, null, null, NAME_EVENTEXPR, TYPE_CDATA,
-					eventName);
+			writeAttribute(attributes, null, null, NAME_EVENTEXPR, TYPE_CDATA, eventName);
 		}
 	}
 }

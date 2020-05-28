@@ -27,8 +27,7 @@ import org.eclipse.vtp.modules.interactive.ui.QuestionInformationProvider;
 
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElement;
 
-public class QuestionGeneralPropertiesPanel extends
-		DesignElementPropertiesPanel {
+public class QuestionGeneralPropertiesPanel extends DesignElementPropertiesPanel {
 	Label nameLabel;
 	Text nameField;
 	Text variableField;
@@ -42,9 +41,7 @@ public class QuestionGeneralPropertiesPanel extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel#
+	 * @see org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel#
 	 * createControls(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -86,8 +83,7 @@ public class QuestionGeneralPropertiesPanel extends
 	}
 
 	@Override
-	public void setConfigurationContext(Map<String, Object> values) {
-	}
+	public void setConfigurationContext(Map<String, Object> values) {}
 
 	@Override
 	public List<String> getApplicableContexts() {

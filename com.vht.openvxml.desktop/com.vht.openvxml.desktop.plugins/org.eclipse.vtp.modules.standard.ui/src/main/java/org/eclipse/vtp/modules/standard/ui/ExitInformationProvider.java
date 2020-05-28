@@ -12,73 +12,62 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElementConn
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElementConnectionPoint.ConnectionPointType;
 import com.openmethods.openvxml.desktop.model.workflow.internal.design.ConnectorRecord;
 
-public class ExitInformationProvider extends PrimitiveInformationProvider implements IDialogExit
-{
+public class ExitInformationProvider extends PrimitiveInformationProvider implements IDialogExit {
 	String exitType = "Normal";
-	
-	public ExitInformationProvider(PrimitiveElement element)
-	{
+
+	public ExitInformationProvider(PrimitiveElement element) {
 		super(element);
 	}
 
-	public boolean acceptsConnector(IDesignElement origin)
-	{
+	public boolean acceptsConnector(IDesignElement origin) {
 		return true;
 	}
 
-	public ConnectorRecord getConnectorRecord(String recordName)
-	{
+	public ConnectorRecord getConnectorRecord(String recordName) {
 		return null;
 	}
 
-	public List<ConnectorRecord> getConnectorRecords()
-	{
+	public List<ConnectorRecord> getConnectorRecords() {
 		return Collections.emptyList();
 	}
 
-	public List<ConnectorRecord> getConnectorRecords(IDesignElementConnectionPoint.ConnectionPointType... types)
-	{
+	public List<ConnectorRecord> getConnectorRecords(
+			IDesignElementConnectionPoint.ConnectionPointType... types) {
 		return Collections.emptyList();
 	}
 
-	public void readConfiguration(org.w3c.dom.Element configuration)
-	{
+	public void readConfiguration(org.w3c.dom.Element configuration) {
 		exitType = configuration.getAttribute("exit-type");
-		if(!exitType.equals("Normal") && !exitType.equals("Error"))
-			exitType = "Normal";
+		if (!exitType.equals("Normal") && !exitType.equals("Error")) exitType = "Normal";
 	}
 
-	public void writeConfiguration(org.w3c.dom.Element configuration)
-	{
+	public void writeConfiguration(org.w3c.dom.Element configuration) {
 		configuration.setAttribute("exit-type", exitType);
 	}
 
-//	public List getPropertiesPanels()
-//	{
-//		List ret = new ArrayList();
-//		ret.add(new ExitGeneralPropertiesPanel(getElement()));
-//		return ret;
-//	}
-	
-	public String getExitType()
-	{
+	// public List getPropertiesPanels()
+	// {
+	// List ret = new ArrayList();
+	// ret.add(new ExitGeneralPropertiesPanel(getElement()));
+	// return ret;
+	// }
+
+	public String getExitType() {
 		return exitType;
 	}
 
-	public void setExitType(String text)
-	{
+	public void setExitType(String text) {
 		String oldType = exitType;
 		this.exitType = text;
 		getElement().firePropertyChange(PROP_EXIT_TYPE, oldType, text);
 	}
 
-	public boolean hasConnectors()
-    {
-	    return false;
-    }
+	public boolean hasConnectors() {
+		return false;
+	}
 
-	public ConnectionPointType getType()
-	{
-		return exitType.equals("Error") ? IDesignElementConnectionPoint.ConnectionPointType.ERROR_POINT : IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT;
+	public ConnectionPointType getType() {
+		return exitType.equals("Error") ? IDesignElementConnectionPoint.ConnectionPointType.ERROR_POINT
+				: IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT;
 	}
 }

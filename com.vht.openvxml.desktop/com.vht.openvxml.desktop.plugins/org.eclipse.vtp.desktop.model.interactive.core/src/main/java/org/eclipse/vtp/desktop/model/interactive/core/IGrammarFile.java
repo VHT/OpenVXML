@@ -17,5 +17,4 @@ package org.eclipse.vtp.desktop.model.interactive.core;
  * @author Trip Gilman
  * @version 2.0
  */
-public interface IGrammarFile extends IMediaFile {
-}
+public interface IGrammarFile extends IMediaFile {}

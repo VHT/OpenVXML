@@ -34,19 +34,15 @@ public class DataTypeConfiguration implements IConfiguration, CommonConstants {
 	/**
 	 * Creates a new DataTypeConfiguration.
 	 */
-	public DataTypeConfiguration() {
-	}
+	public DataTypeConfiguration() {}
 
 	/**
 	 * Adds a field to this type.
 	 * 
-	 * @param field
-	 *            The field to add.
+	 * @param field The field to add.
 	 */
 	public void addField(FieldConfiguration field) {
-		if (field == null) {
-			return;
-		}
+		if (field == null) { return; }
 		fields.add(field);
 	}
 
@@ -79,22 +75,19 @@ public class DataTypeConfiguration implements IConfiguration, CommonConstants {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#load( org.w3c.dom.Element)
 	 */
 	@Override
 	public void load(Element configurationElement) {
 		name = configurationElement.getAttribute(NAME_NAME);
 		if (configurationElement.hasAttribute(NAME_PRIMARY_FIELD)) {
-			primaryField = configurationElement
-					.getAttribute(NAME_PRIMARY_FIELD);
+			primaryField = configurationElement.getAttribute(NAME_PRIMARY_FIELD);
 		} else {
 			primaryField = null;
 		}
 		fields.clear();
-		final NodeList list = configurationElement.getElementsByTagNameNS(
-				NAMESPACE_URI, NAME_FIELD);
+		final NodeList list = configurationElement
+				.getElementsByTagNameNS(NAMESPACE_URI, NAME_FIELD);
 		for (int i = 0; i < list.getLength(); ++i) {
 			final FieldConfiguration field = new FieldConfiguration();
 			field.load((Element) list.item(i));
@@ -105,8 +98,7 @@ public class DataTypeConfiguration implements IConfiguration, CommonConstants {
 	/**
 	 * Removes a field from this type.
 	 * 
-	 * @param field
-	 *            The field to remove.
+	 * @param field The field to remove.
 	 */
 	public void removeField(FieldConfiguration field) {
 		fields.remove(field);
@@ -114,9 +106,7 @@ public class DataTypeConfiguration implements IConfiguration, CommonConstants {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#save( org.w3c.dom.Element)
 	 */
 	@Override
 	public void save(Element configurationElement) {
@@ -131,9 +121,8 @@ public class DataTypeConfiguration implements IConfiguration, CommonConstants {
 				fieldName = prefix + ":" + fieldName; //$NON-NLS-1$
 			}
 			for (final FieldConfiguration field : fields) {
-				final Element fieldElement = configurationElement
-						.getOwnerDocument().createElementNS(NAMESPACE_URI,
-								fieldName);
+				final Element fieldElement = configurationElement.getOwnerDocument()
+						.createElementNS(NAMESPACE_URI, fieldName);
 				field.save(fieldElement);
 				configurationElement.appendChild(fieldElement);
 			}
@@ -143,8 +132,7 @@ public class DataTypeConfiguration implements IConfiguration, CommonConstants {
 	/**
 	 * Sets the name of this type.
 	 * 
-	 * @param name
-	 *            The name of this type.
+	 * @param name The name of this type.
 	 */
 	public void setName(String name) {
 		this.name = name == null ? "" : name; //$NON-NLS-1$
@@ -153,8 +141,7 @@ public class DataTypeConfiguration implements IConfiguration, CommonConstants {
 	/**
 	 * Sets the name of the primary field of this type.
 	 * 
-	 * @param primaryField
-	 *            The name of the primary field of this type.
+	 * @param primaryField The name of the primary field of this type.
 	 */
 	public void setPrimaryField(String primaryField) {
 		this.primaryField = primaryField;

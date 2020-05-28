@@ -17,16 +17,13 @@ import com.openmethods.openvxml.desktop.model.branding.IBrandingProjectAspect;
 
 /**
  * @author trip
- *
  */
-public class LanguageSupportProjectAspectFactory implements
-		IOpenVXMLProjectAspectFactory {
+public class LanguageSupportProjectAspectFactory implements IOpenVXMLProjectAspectFactory {
 
 	/**
 	 * 
 	 */
-	public LanguageSupportProjectAspectFactory() {
-	}
+	public LanguageSupportProjectAspectFactory() {}
 
 	@Override
 	public String getAspectId() {
@@ -41,15 +38,13 @@ public class LanguageSupportProjectAspectFactory implements
 	}
 
 	@Override
-	public boolean configureProject(IOpenVXMLProject project,
-			IProjectDescription description, Element aspectConfiguration) {
+	public boolean configureProject(IOpenVXMLProject project, IProjectDescription description,
+			Element aspectConfiguration) {
 		return false;
 	}
 
 	@Override
-	public void createProjectLayout(IOpenVXMLProject project,
-			Element aspectConfiguration) {
-	}
+	public void createProjectLayout(IOpenVXMLProject project, Element aspectConfiguration) {}
 
 	@Override
 	public OpenVXMLProjectAspect createProjectAspect(IOpenVXMLProject project,

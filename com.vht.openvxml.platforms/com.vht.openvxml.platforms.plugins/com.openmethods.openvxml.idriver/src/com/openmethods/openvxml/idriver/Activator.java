@@ -13,7 +13,6 @@ import org.osgi.framework.BundleContext;
 
 /**
  * @author trip
- *
  */
 public class Activator implements BundleActivator {
 	public static Activator getInstance() {
@@ -32,10 +31,7 @@ public class Activator implements BundleActivator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext
-	 * )
+	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext )
 	 */
 	@Override
 	public void start(BundleContext context) throws Exception {
@@ -44,9 +40,7 @@ public class Activator implements BundleActivator {
 		if (!dllLocation.exists()) {
 			URL sourceDll = context.getBundle().getEntry("ilib_SDK_MD.dll");
 			if (sourceDll == null) // don't have the original dll
-			{
-				throw new Exception("Could not locate dll to copy");
-			}
+			{ throw new Exception("Could not locate dll to copy"); }
 			FileOutputStream fos = new FileOutputStream(dllLocation);
 			InputStream in = sourceDll.openStream();
 			byte[] buf = new byte[10240];
@@ -62,12 +56,9 @@ public class Activator implements BundleActivator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
+	 * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
 	 */
 	@Override
-	public void stop(BundleContext context) throws Exception {
-	}
+	public void stop(BundleContext context) throws Exception {}
 
 }

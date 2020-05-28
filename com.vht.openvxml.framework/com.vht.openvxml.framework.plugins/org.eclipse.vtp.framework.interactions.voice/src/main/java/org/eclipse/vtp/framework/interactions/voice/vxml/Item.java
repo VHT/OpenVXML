@@ -37,10 +37,8 @@ public class Item extends Iota {
 	/**
 	 * Creates a new Item.
 	 * 
-	 * @param content
-	 *            The single value that is acceptable for this item.
-	 * @throws NullPointerException
-	 *             If the specified value is <code>null</code>.
+	 * @param content The single value that is acceptable for this item.
+	 * @throws NullPointerException If the specified value is <code>null</code>.
 	 */
 	public Item(String content) throws NullPointerException {
 		setContent(content);
@@ -49,10 +47,8 @@ public class Item extends Iota {
 	/**
 	 * Creates a new Item.
 	 * 
-	 * @param content
-	 *            The set of values that are acceptable for this item.
-	 * @throws NullPointerException
-	 *             If the specified set of values is <code>null</code>.
+	 * @param content The set of values that are acceptable for this item.
+	 * @throws NullPointerException If the specified set of values is <code>null</code>.
 	 */
 	public Item(OneOf content) throws NullPointerException {
 		setContent(content);
@@ -88,14 +84,11 @@ public class Item extends Iota {
 	/**
 	 * Sets the single value that is acceptable for this item.
 	 * 
-	 * @param content
-	 *            The single value that is acceptable for this item.
-	 * @throws NullPointerException
-	 *             If the specified value is <code>null</code>.
+	 * @param content The single value that is acceptable for this item.
+	 * @throws NullPointerException If the specified value is <code>null</code>.
 	 */
 	public void setContent(String content) throws NullPointerException {
-		if (content == null) {
-			throw new IllegalArgumentException("content"); //$NON-NLS-1$
+		if (content == null) { throw new IllegalArgumentException("content"); //$NON-NLS-1$
 		}
 		this.content = content;
 	}
@@ -103,14 +96,11 @@ public class Item extends Iota {
 	/**
 	 * Sets the set of values that are acceptable for this item.
 	 * 
-	 * @param content
-	 *            The set of values that are acceptable for this item.
-	 * @throws NullPointerException
-	 *             If the specified set of values is <code>null</code>.
+	 * @param content The set of values that are acceptable for this item.
+	 * @throws NullPointerException If the specified set of values is <code>null</code>.
 	 */
 	public void setContent(OneOf content) throws NullPointerException {
-		if (content == null) {
-			throw new IllegalArgumentException("content"); //$NON-NLS-1$
+		if (content == null) { throw new IllegalArgumentException("content"); //$NON-NLS-1$
 		}
 		this.content = content;
 	}
@@ -118,15 +108,11 @@ public class Item extends Iota {
 	/**
 	 * Sets the minimum number of times this item must be repeated.
 	 * 
-	 * @param minimumRepeat
-	 *            The minimum number of times this item must be repeated.
-	 * @throws IllegalArgumentException
-	 *             If the specified value is less than zero.
+	 * @param minimumRepeat The minimum number of times this item must be repeated.
+	 * @throws IllegalArgumentException If the specified value is less than zero.
 	 */
-	public void setMinimumRepeat(int minimumRepeat)
-			throws IllegalArgumentException {
-		if (minimumRepeat < 0) {
-			throw new IllegalArgumentException("minimumRepeat"); //$NON-NLS-1$
+	public void setMinimumRepeat(int minimumRepeat) throws IllegalArgumentException {
+		if (minimumRepeat < 0) { throw new IllegalArgumentException("minimumRepeat"); //$NON-NLS-1$
 		}
 		this.minimumRepeat = minimumRepeat;
 	}
@@ -134,30 +120,23 @@ public class Item extends Iota {
 	/**
 	 * Sets the maximum number of times this item may be repeated.
 	 * 
-	 * @param maximumRepeat
-	 *            The maximum number of times this item may be repeated.
-	 * @throws IllegalArgumentException
-	 *             If the specified value is less than zero.
+	 * @param maximumRepeat The maximum number of times this item may be repeated.
+	 * @throws IllegalArgumentException If the specified value is less than zero.
 	 */
-	public void setMaximumRepeat(int maximumRepeat)
-			throws IllegalArgumentException {
-		if (maximumRepeat < 0) {
-			throw new IllegalArgumentException("maximumRepeat"); //$NON-NLS-1$
+	public void setMaximumRepeat(int maximumRepeat) throws IllegalArgumentException {
+		if (maximumRepeat < 0) { throw new IllegalArgumentException("maximumRepeat"); //$NON-NLS-1$
 		}
 		this.maximumRepeat = maximumRepeat;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.core.output.Widget#writeWidget(
 	 * org.xml.sax.ContentHandler)
 	 */
 	@Override
-	public void writeWidget(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
-		if (outputHandler == null) {
-			throw new NullPointerException("outputHandler"); //$NON-NLS-1$
+	public void writeWidget(ContentHandler outputHandler) throws NullPointerException, SAXException {
+		if (outputHandler == null) { throw new NullPointerException("outputHandler"); //$NON-NLS-1$
 		}
 		if (outputHandler instanceof XMLWriter) {
 			((XMLWriter) outputHandler).setCompactElements(true);
@@ -165,8 +144,7 @@ public class Item extends Iota {
 		// Start the element.
 		AttributesImpl attributes = new AttributesImpl();
 		writeAttributes(attributes);
-		outputHandler.startElement(NAMESPACE_URI_VXML, NAME_ITEM, NAME_ITEM,
-				attributes);
+		outputHandler.startElement(NAMESPACE_URI_VXML, NAME_ITEM, NAME_ITEM, attributes);
 		// Write any children.
 		writeContent(outputHandler);
 		// End the element.
@@ -179,28 +157,23 @@ public class Item extends Iota {
 	/**
 	 * Write the attribute members of this grammar to the supplied set.
 	 * 
-	 * @param attributes
-	 *            The attribute set to write to.
-	 * @throws NullPointerException
-	 *             If the supplied attribute set is <code>null</code>.
+	 * @param attributes The attribute set to write to.
+	 * @throws NullPointerException If the supplied attribute set is <code>null</code>.
 	 */
 	protected void writeAttributes(AttributesImpl attributes) {
-		writeAttribute(attributes, null, null, NAME_REPEAT, TYPE_CDATA,
-				minimumRepeat + "-" + maximumRepeat); //$NON-NLS-1$
+		writeAttribute(attributes, null, null, NAME_REPEAT, TYPE_CDATA, minimumRepeat
+				+ "-" + maximumRepeat); //$NON-NLS-1$
 	}
 
 	/**
 	 * Write the content of this item to the specified content handler.
 	 * 
-	 * @param outputHandler
-	 *            The content handler to write to.
-	 * @throws NullPointerException
-	 *             If the supplied content handler is <code>null</code>.
-	 * @throws SAXException
-	 *             If the writing of the content fails.
+	 * @param outputHandler The content handler to write to.
+	 * @throws NullPointerException If the supplied content handler is <code>null</code>.
+	 * @throws SAXException If the writing of the content fails.
 	 */
-	protected void writeContent(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
+	protected void writeContent(ContentHandler outputHandler) throws NullPointerException,
+			SAXException {
 		if (content instanceof OneOf) {
 			((OneOf) content).writeWidget(outputHandler);
 		} else {

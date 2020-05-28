@@ -21,8 +21,7 @@ import org.w3c.dom.Element;
 public class MoneyContent extends FormattableContent {
 	public static final String ELEMENT_NAME = "money-content"; //$NON-NLS-1$
 
-	public MoneyContent() {
-	}
+	public MoneyContent() {}
 
 	public MoneyContent(Element element) {
 		super(element);
@@ -38,12 +37,9 @@ public class MoneyContent extends FormattableContent {
 		List ret = new LinkedList();
 		try {
 			if (getValueType() != VARIABLE_VALUE) {
-				ret.addAll(formatter.formatMoney(
-						new BigDecimal(getValue()),
-						Currency.getInstance("USD"),
-						mediaProvider.getFormatManager().getFormat(this,
-								getFormatName()), getFormatOptions(),
-						mediaProvider.getResourceManager()));
+				ret.addAll(formatter.formatMoney(new BigDecimal(getValue()), Currency
+						.getInstance("USD"), mediaProvider.getFormatManager().getFormat(this,
+						getFormatName()), getFormatOptions(), mediaProvider.getResourceManager()));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -53,8 +49,8 @@ public class MoneyContent extends FormattableContent {
 
 	@Override
 	public Element store(Element element) {
-		Element thisElement = element.getOwnerDocument().createElementNS(
-				ELEMENT_NAMESPACE, ELEMENT_NAME);
+		Element thisElement = element.getOwnerDocument().createElementNS(ELEMENT_NAMESPACE,
+				ELEMENT_NAME);
 		element.appendChild(thisElement);
 		super.storeBaseInfo(thisElement);
 		return thisElement;
@@ -67,9 +63,7 @@ public class MoneyContent extends FormattableContent {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.media.Content#createCopy()
+	 * @see org.eclipse.vtp.framework.interactions.core.media.Content#createCopy()
 	 */
 	@Override
 	public Content createCopy() {

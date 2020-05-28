@@ -81,16 +81,11 @@ public class DatabaseQueryAction implements IAction {
 	/**
 	 * Creates a new DatabaseQueryAction.
 	 * 
-	 * @param context
-	 *            The context to use.
-	 * @param types
-	 *            The data type registry to use.
-	 * @param variables
-	 *            The variable registry to use.
-	 * @param databases
-	 *            The database registry to use.
-	 * @param configuration
-	 *            The configuration of the query to execute.
+	 * @param context The context to use.
+	 * @param types The data type registry to use.
+	 * @param variables The variable registry to use.
+	 * @param databases The database registry to use.
+	 * @param configuration The configuration of the query to execute.
 	 */
 	public DatabaseQueryAction(IActionContext context, IDataTypeRegistry types,
 			IVariableRegistry variables, IDatabaseRegistry databases,
@@ -109,24 +104,19 @@ public class DatabaseQueryAction implements IAction {
 			this.resultLength = 0;
 		}
 		String[] columnNames = database.getColumnNames(table);
-		Map<String, IDataType> columns = new LinkedHashMap<String, IDataType>(
-				columnNames.length);
+		Map<String, IDataType> columns = new LinkedHashMap<String, IDataType>(columnNames.length);
 		for (String columnName : columnNames) {
 			columns.put(columnName, database.getColumnType(table, columnName));
 		}
 		this.columns = Collections.unmodifiableMap(columns);
-		DatabaseCriteriaConfiguration[] criteriaConfigurations = configuration
-				.getCriteria();
-		Set<Criteria> criteria = new LinkedHashSet<Criteria>(
-				criteriaConfigurations.length);
+		DatabaseCriteriaConfiguration[] criteriaConfigurations = configuration.getCriteria();
+		Set<Criteria> criteria = new LinkedHashSet<Criteria>(criteriaConfigurations.length);
 		for (DatabaseCriteriaConfiguration criteriaConfiguration : criteriaConfigurations) {
 			criteria.add(new Criteria(criteriaConfiguration));
 		}
 		this.criteria = Collections.unmodifiableSet(criteria);
-		DatabaseMappingConfiguration[] mappingConfigurations = configuration
-				.getMappings();
-		Set<Mapping> mappings = new LinkedHashSet<Mapping>(
-				mappingConfigurations.length);
+		DatabaseMappingConfiguration[] mappingConfigurations = configuration.getMappings();
+		Set<Mapping> mappings = new LinkedHashSet<Mapping>(mappingConfigurations.length);
 		for (DatabaseMappingConfiguration mappingConfiguration : mappingConfigurations) {
 			mappings.add(new Mapping(mappingConfiguration));
 		}
@@ -136,7 +126,6 @@ public class DatabaseQueryAction implements IAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.core.IAction#execute()
 	 */
 	@Override
@@ -147,8 +136,7 @@ public class DatabaseQueryAction implements IAction {
 		props.put("dbquery.databse", database);
 		props.put("dbquery.table", table);
 		props.put("dbquery.target", resultName);
-		context.report(IReporter.SEVERITY_INFO, "Preparing SQL statement.",
-				props);
+		context.report(IReporter.SEVERITY_INFO, "Preparing SQL statement.", props);
 		IActionResult result = null;
 		try {
 			Connection connection = database.getConnection();
@@ -175,8 +163,7 @@ public class DatabaseQueryAction implements IAction {
 			}
 			props = new Hashtable((Hashtable) props);
 			props.put("event", "dbquery.complete");
-			context.report(IReporter.SEVERITY_INFO, "SQL query complete.",
-					props);
+			context.report(IReporter.SEVERITY_INFO, "SQL query complete.", props);
 		} catch (SQLException e) {
 			if (result == null) {
 				result = context.createResult("error.database.connection", e); //$NON-NLS-1$
@@ -191,14 +178,11 @@ public class DatabaseQueryAction implements IAction {
 	/**
 	 * Builds the query on the supplied connection.
 	 * 
-	 * @param connection
-	 *            The connection to build the query on.
-	 * @throws SQLException
-	 *             If the statement cannot be created.
+	 * @param connection The connection to build the query on.
+	 * @throws SQLException If the statement cannot be created.
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private PreparedStatement buildStatement(Connection connection)
-			throws SQLException {
+	private PreparedStatement buildStatement(Connection connection) throws SQLException {
 		StringBuffer buffer = new StringBuffer("select"); //$NON-NLS-1$
 		int length = buffer.length();
 		for (Mapping mapping : mappings) {
@@ -229,13 +213,10 @@ public class DatabaseQueryAction implements IAction {
 		props.put("dbquery.databse", database);
 		props.put("dbquery.table", table);
 		props.put("dbquery.target", resultName);
-		props.put("dbquery.sql",
-				criteriaIsSecured ? "**Secured**" : buffer.toString());
+		props.put("dbquery.sql", criteriaIsSecured ? "**Secured**" : buffer.toString());
 		context.report(IReporter.SEVERITY_INFO, "Executing SQL statement: "
-				+ (criteriaIsSecured ? "**Secured**" : buffer.toString()),
-				props);
-		PreparedStatement statement = connection.prepareStatement(buffer
-				.toString());
+				+ (criteriaIsSecured ? "**Secured**" : buffer.toString()), props);
+		PreparedStatement statement = connection.prepareStatement(buffer.toString());
 		int index = 1;
 		for (Criteria criteriaElement : criteria) {
 			index = criteriaElement.setValue(statement, index);
@@ -247,35 +228,28 @@ public class DatabaseQueryAction implements IAction {
 	/**
 	 * Process the results of a query.
 	 * 
-	 * @param resultSet
-	 *            The results to process.
+	 * @param resultSet The results to process.
 	 * @return The result of the action.
-	 * @throws SQLException
-	 *             If the results cannot be processed.
+	 * @throws SQLException If the results cannot be processed.
 	 */
-	private IActionResult processResults(ResultSet resultSet)
-			throws SQLException {
+	private IActionResult processResults(ResultSet resultSet) throws SQLException {
 		IArrayObject array = null;
 		IDataObject variable = variables.getVariable(resultName);
 		if (resultLength == 0) {
 			if (variable == null || !resultType.equals(variable.getType())) {
-				variables.setVariable(resultName,
-						variable = variables.createVariable(resultType));
+				variables.setVariable(resultName, variable = variables.createVariable(resultType));
 			}
 		} else {
 			if (variable == null || !arrayType.equals(variable.getType())) {
-				variables.setVariable(
-						resultName,
-						array = (IArrayObject) variables
-								.createVariable(arrayType));
+				variables.setVariable(resultName, array = (IArrayObject) variables
+						.createVariable(arrayType));
 			} else {
 				array = (IArrayObject) variable;
 			}
 			variable = null;
 		}
 		int resultCount = 0;
-		for (int i = 0; (resultLength == 0 || i < resultLength)
-				&& resultSet.next(); ++i) {
+		for (int i = 0; (resultLength == 0 || i < resultLength) && resultSet.next(); ++i) {
 			resultCount++;
 			if (variable == null) {
 				variable = variables.createVariable(resultType);
@@ -314,8 +288,7 @@ public class DatabaseQueryAction implements IAction {
 		/**
 		 * Creates a new Criteria.
 		 * 
-		 * @param configuration
-		 *            The configuration for this criteria.
+		 * @param configuration The configuration for this criteria.
 		 */
 		Criteria(DatabaseCriteriaConfiguration configuration) {
 			name = configuration.getName();
@@ -377,13 +350,10 @@ public class DatabaseQueryAction implements IAction {
 		/**
 		 * Appends the SQL this criteria represents.
 		 * 
-		 * @param sql
-		 *            The buffer to append SQL to.
+		 * @param sql The buffer to append SQL to.
 		 */
 		void appendSql(StringBuffer sql, boolean and) {
-			if (comparison == null || value == null) {
-				return;
-			}
+			if (comparison == null || value == null) { return; }
 			if (and) {
 				sql.append(" and "); //$NON-NLS-1$
 			}
@@ -393,31 +363,22 @@ public class DatabaseQueryAction implements IAction {
 		/**
 		 * Sets the value sent to the database for a query.
 		 * 
-		 * @param statement
-		 *            The statement to configure.
-		 * @param index
-		 *            The index to configure at.
+		 * @param statement The statement to configure.
+		 * @param index The index to configure at.
 		 * @return The next index to configure at.
-		 * @throws SQLException
-		 *             If the statement cannot be configured.
+		 * @throws SQLException If the statement cannot be configured.
 		 */
-		int setValue(PreparedStatement statement, int index)
-				throws SQLException {
-			if (comparison == null || value == null) {
-				return index;
-			}
+		int setValue(PreparedStatement statement, int index) throws SQLException {
+			if (comparison == null || value == null) { return index; }
 			if (value instanceof IBooleanObject) {
-				statement.setBoolean(index, ((IBooleanObject) value).getValue()
-						.booleanValue());
+				statement.setBoolean(index, ((IBooleanObject) value).getValue().booleanValue());
 			} else if (value instanceof IDateObject) {
-				statement.setTimestamp(index, new Timestamp(
-						((IDateObject) value).getValue().getTime().getTime()));
+				statement.setTimestamp(index, new Timestamp(((IDateObject) value).getValue()
+						.getTime().getTime()));
 			} else if (value instanceof IDecimalObject) {
-				statement.setBigDecimal(index,
-						((IDecimalObject) value).getValue());
+				statement.setBigDecimal(index, ((IDecimalObject) value).getValue());
 			} else if (value instanceof INumberObject) {
-				statement.setInt(index, ((INumberObject) value).getValue()
-						.intValue());
+				statement.setInt(index, ((INumberObject) value).getValue().intValue());
 			} else if (value instanceof IStringObject) {
 				statement.setString(index, ((IStringObject) value).getValue());
 			} else {
@@ -446,8 +407,7 @@ public class DatabaseQueryAction implements IAction {
 		/**
 		 * Creates a new Mapping.
 		 * 
-		 * @param configuration
-		 *            The configuration for this mapping.
+		 * @param configuration The configuration for this mapping.
 		 */
 		Mapping(DatabaseMappingConfiguration configuration) {
 			name = configuration.getName();
@@ -462,26 +422,20 @@ public class DatabaseQueryAction implements IAction {
 		/**
 		 * Appends the SQL this criteria represents.
 		 * 
-		 * @param sql
-		 *            The buffer to append SQL to.
+		 * @param sql The buffer to append SQL to.
 		 */
 		void appendSql(StringBuffer sql) {
-			if (type == null) {
-				return;
-			}
+			if (type == null) { return; }
 			sql.append(' ').append(value);
 		}
 
 		/**
 		 * Sets the value returned from the database on a variable.
 		 * 
-		 * @param statement
-		 *            The statement to configure.
-		 * @throws SQLException
-		 *             If the results cannot be read.
+		 * @param statement The statement to configure.
+		 * @throws SQLException If the results cannot be read.
 		 */
-		void setValue(IDataObject object, ResultSet resultSet)
-				throws SQLException {
+		void setValue(IDataObject object, ResultSet resultSet) throws SQLException {
 			IDataObject target = object;
 			if (target.getType().isComplexType()) {
 				target = target.getField(name);
@@ -494,14 +448,11 @@ public class DatabaseQueryAction implements IAction {
 				((IBooleanObject) target).setValue(data);
 			} else if (target instanceof IDateObject) {
 				if (data instanceof java.sql.Date) {
-					((IDateObject) target).setValue(new Date(
-							((java.sql.Date) data).getTime()));
+					((IDateObject) target).setValue(new Date(((java.sql.Date) data).getTime()));
 				} else if (data instanceof Time) {
-					((IDateObject) target).setValue(new Date(((Time) data)
-							.getTime()));
+					((IDateObject) target).setValue(new Date(((Time) data).getTime()));
 				} else if (data instanceof Timestamp) {
-					((IDateObject) target).setValue(new Date(((Timestamp) data)
-							.getTime()));
+					((IDateObject) target).setValue(new Date(((Timestamp) data).getTime()));
 				} else {
 					((IDateObject) target).setValue(data);
 				}

@@ -32,8 +32,10 @@ import org.eclipse.vtp.desktop.views.pallet.PalletItemProvider;
 
 import com.openmethods.openvxml.desktop.model.workflow.internal.design.Design;
 
-public class ApplicationFragmentPalletProvider implements PalletItemProvider,
-		IResourceChangeListener {
+public class ApplicationFragmentPalletProvider
+	implements
+	PalletItemProvider,
+	IResourceChangeListener {
 	List<PalletItem> primitiveItems = new ArrayList<PalletItem>();
 	List<PalletItemObserver> observers = new ArrayList<PalletItemObserver>();
 
@@ -45,8 +47,8 @@ public class ApplicationFragmentPalletProvider implements PalletItemProvider,
 
 	private void loadProjects() {
 		primitiveItems.clear();
-		List<IOpenVXMLProject> projects = WorkflowCore.getDefault()
-				.getWorkflowModel().listWorkflowProjects();
+		List<IOpenVXMLProject> projects = WorkflowCore.getDefault().getWorkflowModel()
+				.listWorkflowProjects();
 		for (IOpenVXMLProject project : projects) {
 			PalletItem item = new PalletItem(project.getName(), null,
 					new ApplicationFragmentElementFactory(), project.getId()) {
@@ -72,7 +74,6 @@ public class ApplicationFragmentPalletProvider implements PalletItemProvider,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.views.pallet.PalletItemProvider#getRanking()
 	 */
 	@Override
@@ -82,21 +83,17 @@ public class ApplicationFragmentPalletProvider implements PalletItemProvider,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.views.pallet.PalletItemProvider#createMenu(
-	 * org.eclipse.jface.action.IMenuManager,
-	 * org.eclipse.vtp.desktop.views.pallet.PalletItem[])
+	 * org.eclipse.jface.action.IMenuManager, org.eclipse.vtp.desktop.views.pallet.PalletItem[])
 	 */
 	@Override
 	public void createMenu(final IAdaptable container, IMenuManager manager,
 			PalletItem[] selectedItems) {
 		/*
-		 * manager.add(new Action("Create Application Fragment...") { public
-		 * void run() { CreateApplicationFragmentWizard wizard = new
-		 * CreateApplicationFragmentWizard(); wizard.init(null, new
-		 * StructuredSelection(container)); WizardDialog dialog = new
-		 * WizardDialog(Display.getCurrent() .getActiveShell(), wizard);
-		 * dialog.open(); } });
+		 * manager.add(new Action("Create Application Fragment...") { public void run() {
+		 * CreateApplicationFragmentWizard wizard = new CreateApplicationFragmentWizard();
+		 * wizard.init(null, new StructuredSelection(container)); WizardDialog dialog = new
+		 * WizardDialog(Display.getCurrent() .getActiveShell(), wizard); dialog.open(); } });
 		 */}
 
 	public void fireUpdate() {
@@ -107,9 +104,7 @@ public class ApplicationFragmentPalletProvider implements PalletItemProvider,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.views.pallet.PalletItemProvider#
-	 * addPalletItemObserver(
+	 * @see org.eclipse.vtp.desktop.views.pallet.PalletItemProvider# addPalletItemObserver(
 	 * org.eclipse.vtp.desktop.views.pallet.PalletItemObserver)
 	 */
 	@Override
@@ -120,9 +115,7 @@ public class ApplicationFragmentPalletProvider implements PalletItemProvider,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.views.pallet.PalletItemProvider#
-	 * removePalletItemObserver(
+	 * @see org.eclipse.vtp.desktop.views.pallet.PalletItemProvider# removePalletItemObserver(
 	 * org.eclipse.vtp.desktop.views.pallet.PalletItemObserver)
 	 */
 	@Override
@@ -138,23 +131,16 @@ public class ApplicationFragmentPalletProvider implements PalletItemProvider,
 			if (event.getDelta() != null) {
 				event.getDelta().accept(new IResourceDeltaVisitor() {
 					@Override
-					public boolean visit(IResourceDelta delta)
-							throws CoreException {
+					public boolean visit(IResourceDelta delta) throws CoreException {
 						if ((delta.getKind() == IResourceDelta.ADDED)
 								&& delta.getResource() instanceof IProject
-								&& WorkflowCore
-										.getDefault()
-										.getWorkflowModel()
-										.isWorkflowProject(
-												(IProject) delta.getResource())) {
+								&& WorkflowCore.getDefault().getWorkflowModel().isWorkflowProject(
+										(IProject) delta.getResource())) {
 							bs[0] = true;
 						} else if ((delta.getKind() == IResourceDelta.REMOVED)
 								&& delta.getResource() instanceof IProject
-								&& WorkflowCore
-										.getDefault()
-										.getWorkflowModel()
-										.isWorkflowProject(
-												(IProject) delta.getResource())) {
+								&& WorkflowCore.getDefault().getWorkflowModel().isWorkflowProject(
+										(IProject) delta.getResource())) {
 							bs[0] = true;
 						}
 

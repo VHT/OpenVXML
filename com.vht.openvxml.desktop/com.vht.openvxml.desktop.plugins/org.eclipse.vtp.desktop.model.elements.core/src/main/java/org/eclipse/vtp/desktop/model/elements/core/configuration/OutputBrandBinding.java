@@ -21,11 +21,10 @@ import com.openmethods.openvxml.desktop.model.branding.IBrand;
 import com.openmethods.openvxml.desktop.model.workflow.configuration.ConfigurationManager;
 
 /**
- * This class represents the binding of a binding item to a specific brand. The
- * inheritance model of brands is also implemented here. If this binding does
- * not have an explicit value, the value contained by this binding's parent will
- * be returned. The data contained by this binding is stored and loaded by this
- * class.
+ * This class represents the binding of a binding item to a specific brand. The inheritance model of
+ * brands is also implemented here. If this binding does not have an explicit value, the value
+ * contained by this binding's parent will be returned. The data contained by this binding is stored
+ * and loaded by this class.
  * 
  * @author trip
  */
@@ -41,13 +40,11 @@ public class OutputBrandBinding {
 	private OutputBrandBinding parentBinding = null;
 
 	/**
-	 * Creates a new brand binding instance contained by the given manager and
-	 * associated with the provided brand. Initially the binding item is null.
+	 * Creates a new brand binding instance contained by the given manager and associated with the
+	 * provided brand. Initially the binding item is null.
 	 * 
-	 * @param manager
-	 *            The manager that will contain this brand binding
-	 * @param brand
-	 *            The brand this binding is associated with
+	 * @param manager The manager that will contain this brand binding
+	 * @param brand The brand this binding is associated with
 	 */
 	public OutputBrandBinding(ConfigurationManager manager, IBrand brand) {
 		super();
@@ -63,12 +60,10 @@ public class OutputBrandBinding {
 	}
 
 	/**
-	 * Sets the parent binding of this brand binding. The parent binding is used
-	 * to implement brand inheritance. The parent binding item is used if this
-	 * binding's item is empty.
+	 * Sets the parent binding of this brand binding. The parent binding is used to implement brand
+	 * inheritance. The parent binding item is used if this binding's item is empty.
 	 * 
-	 * @param parentBinding
-	 *            The parent binding of this brand binding
+	 * @param parentBinding The parent binding of this brand binding
 	 */
 	public void setParent(OutputBrandBinding parentBinding) {
 		this.parentBinding = parentBinding;
@@ -83,88 +78,75 @@ public class OutputBrandBinding {
 
 	/**
 	 * Returns a boolean indicating if the value returned from
-	 * {@link OutputBrandBinding#getBindingItem()} was local to this brand
-	 * binding or was retrieved from this binding's parent.
+	 * {@link OutputBrandBinding#getBindingItem()} was local to this brand binding or was retrieved
+	 * from this binding's parent.
 	 * 
-	 * @return true if the value was retrieved from the parent binding. false
-	 *         otherwise
+	 * @return true if the value was retrieved from the parent binding. false otherwise
 	 */
 	public boolean isInherited() {
 		return value == null;
 	}
 
 	/**
-	 * Returns the binding item associated with this brand binding, or the item
-	 * associated with this binding's parent if this binding's item is null.
-	 * Returns null if this binding's item is null and all of this binding's
-	 * parents' items are null.
+	 * Returns the binding item associated with this brand binding, or the item associated with this
+	 * binding's parent if this binding's item is null. Returns null if this binding's item is null
+	 * and all of this binding's parents' items are null.
 	 * 
-	 * @return The item associated with this brand binding or one of its
-	 *         parents.
+	 * @return The item associated with this brand binding or one of its parents.
 	 */
 	public OutputItem getValue() {
 		if (value == null) {
-			if (parentBinding != null) {
-				return parentBinding.getValue();
-			}
+			if (parentBinding != null) { return parentBinding.getValue(); }
 		}
 		return value;
 	}
 
 	/**
-	 * Associates this given binding item with this brand binding. Any previous
-	 * association is forgotten.
+	 * Associates this given binding item with this brand binding. Any previous association is
+	 * forgotten.
 	 * 
-	 * @param bindingItem
-	 *            The item associated with this brand binding
+	 * @param bindingItem The item associated with this brand binding
 	 */
 	public void setValue(OutputItem value) {
 		this.value = value;
 	}
 
 	/**
-	 * Reads the configuration data stored in the given dom element into this
-	 * brand binding instance. Any previous information stored in this brand
-	 * binding is lost.
+	 * Reads the configuration data stored in the given dom element into this brand binding
+	 * instance. Any previous information stored in this brand binding is lost.
 	 * 
-	 * @param brandBindingElement
-	 *            The dom element containing the configuration
+	 * @param brandBindingElement The dom element containing the configuration
 	 */
 	public void readConfiguration(Element brandBindingElement) {
-		NodeList itemList = brandBindingElement
-				.getElementsByTagName("output-item");
+		NodeList itemList = brandBindingElement.getElementsByTagName("output-item");
 		if (itemList.getLength() > 0) {
 			Element itemElement = (Element) itemList.item(0);
-			value = new OutputItem(XMLUtilities.getElementTextDataNoEx(
-					itemElement, true));
+			value = new OutputItem(XMLUtilities.getElementTextDataNoEx(itemElement, true));
 		}
 	}
 
 	/**
 	 * Stores this brand binding's information into the given dom element.
 	 * 
-	 * @param brandBindingElement
-	 *            The dom element to hold this binding's data
+	 * @param brandBindingElement The dom element to hold this binding's data
 	 */
 	public void writeConfiguration(Element brandBindingElement) {
 		if (value != null) {
-			Element itemElement = brandBindingElement.getOwnerDocument()
-					.createElement("output-item");
+			Element itemElement = brandBindingElement.getOwnerDocument().createElement(
+					"output-item");
 			brandBindingElement.appendChild(itemElement);
 			itemElement.setTextContent(value.getValue());
 		}
 	}
 
 	/**
-	 * Prints this brand binding's information to the given print stream. This
-	 * is useful for logging and debugging.
+	 * Prints this brand binding's information to the given print stream. This is useful for logging
+	 * and debugging.
 	 * 
-	 * @param out
-	 *            The print stream to write the information to
+	 * @param out The print stream to write the information to
 	 */
 	public void dumpContents(PrintStream out) {
-		out.println("[IBrand Binding] " + brand.getPath() + "(" + brand.getId()
-				+ ")");
+		out.println("[IBrand Binding] " + brand.getPath() + "(" + brand.getId() + ")");
 		out.println("Value " + (value == null ? "NULL" : value.getValue()));
 	}
 }

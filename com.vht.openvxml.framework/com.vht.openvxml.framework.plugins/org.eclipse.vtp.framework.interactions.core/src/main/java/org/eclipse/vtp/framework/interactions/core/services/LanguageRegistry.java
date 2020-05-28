@@ -33,14 +33,12 @@ public class LanguageRegistry implements ILanguageRegistry, IScriptable {
 	/**
 	 * Creates a new LanguageRegistry.
 	 * 
-	 * @param configurations
-	 *            The configurations to use.
+	 * @param configurations The configurations to use.
 	 */
 	public LanguageRegistry(LanguageConfiguration[] configurations) {
 		Map<String, List<String>> mapping = new HashMap<String, List<String>>();
 		for (LanguageConfiguration configuration : configurations) {
-			List<String> languages = mapping.get(configuration
-					.getInteractionType());
+			List<String> languages = mapping.get(configuration.getInteractionType());
 			if (languages == null) {
 				languages = new ArrayList<String>();
 				mapping.put(configuration.getInteractionType(), languages);
@@ -52,16 +50,12 @@ public class LanguageRegistry implements ILanguageRegistry, IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.interactions.core.ILanguageRegistry#
-	 * getLanguageIDs()
+	 * @see org.eclipse.vtp.framework.interactions.core.ILanguageRegistry# getLanguageIDs()
 	 */
 	@Override
 	public String[] getLanguageIDs(String interactionType) {
 		List<String> languages = languageMapping.get(interactionType);
-		if (languages == null) {
-			return new String[0];
-		}
+		if (languages == null) { return new String[0]; }
 		return languages.toArray(new String[languages.size()]);
 	}
 
@@ -87,9 +81,7 @@ public class LanguageRegistry implements ILanguageRegistry, IScriptable {
 
 	@Override
 	public Object getItem(int index) {
-		if (index > -1 && index < languageMapping.size()) {
-			return languageMapping.get(index);
-		}
+		if (index > -1 && index < languageMapping.size()) { return languageMapping.get(index); }
 		return null;
 	}
 
@@ -121,9 +113,7 @@ public class LanguageRegistry implements ILanguageRegistry, IScriptable {
 	@Override
 	public Object invokeFunction(String name, Object[] arguments) {
 		if ("getLanguage".equals(name)) {
-			if (arguments.length > 0) {
-				return arguments[0];
-			}
+			if (arguments.length > 0) { return arguments[0]; }
 		}
 		return null;
 	}

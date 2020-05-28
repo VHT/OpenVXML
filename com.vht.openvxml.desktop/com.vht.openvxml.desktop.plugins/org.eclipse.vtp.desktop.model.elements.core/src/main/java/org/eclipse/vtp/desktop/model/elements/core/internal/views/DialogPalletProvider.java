@@ -28,8 +28,7 @@ import org.eclipse.vtp.desktop.views.pallet.PalletItemProvider;
 
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesign;
 
-public class DialogPalletProvider implements PalletItemProvider,
-		Activator.LocalDialogListener {
+public class DialogPalletProvider implements PalletItemProvider, Activator.LocalDialogListener {
 	List<PalletItem> primitiveItems = new ArrayList<PalletItem>();
 	List<PalletItemObserver> observers = new ArrayList<PalletItemObserver>();
 
@@ -40,25 +39,22 @@ public class DialogPalletProvider implements PalletItemProvider,
 	}
 
 	private void loadItems() {
-		IConfigurationElement[] primitiveExtensions = Platform
-				.getExtensionRegistry().getConfigurationElementsFor(
-						DialogElementManager.dialogExtensionPointId);
+		IConfigurationElement[] primitiveExtensions = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(DialogElementManager.dialogExtensionPointId);
 		for (IConfigurationElement primitiveExtension : primitiveExtensions) {
 			String id = primitiveExtension.getAttribute("id");
 			String name = primitiveExtension.getAttribute("name");
-			primitiveItems.add(new PalletItem(name, null,
-					new DialogElementFactory(), id) {
+			primitiveItems.add(new PalletItem(name, null, new DialogElementFactory(), id) {
 				@Override
 				public boolean canBeContainedBy(IDesign design) {
 					return design.equals(design.getDocument().getMainDesign());
 				}
 			});
 		}
-		List<Activator.LocalDialogRecord> localDialogs = Activator.getDefault()
-				.listLocalDialogs();
+		List<Activator.LocalDialogRecord> localDialogs = Activator.getDefault().listLocalDialogs();
 		for (Activator.LocalDialogRecord record : localDialogs) {
-			primitiveItems.add(new PalletItem(record.getName(), null,
-					new DialogElementFactory(), record.getId()) {
+			primitiveItems.add(new PalletItem(record.getName(), null, new DialogElementFactory(),
+					record.getId()) {
 				@Override
 				public boolean canBeContainedBy(IDesign design) {
 					return design.equals(design.getDocument().getMainDesign());
@@ -79,7 +75,6 @@ public class DialogPalletProvider implements PalletItemProvider,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.views.pallet.PalletItemProvider#getRanking()
 	 */
 	@Override
@@ -89,22 +84,18 @@ public class DialogPalletProvider implements PalletItemProvider,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.views.pallet.PalletItemProvider#createMenu(
-	 * org.eclipse.jface.action.IMenuManager,
-	 * org.eclipse.vtp.desktop.views.pallet.PalletItem[])
+	 * org.eclipse.jface.action.IMenuManager, org.eclipse.vtp.desktop.views.pallet.PalletItem[])
 	 */
 	@Override
 	public void createMenu(final IAdaptable container, IMenuManager manager,
 			final PalletItem[] selectedItems) {
 		if (selectedItems.length == 1
-				&& Activator.getDefault().getLocalDialog(
-						(String) selectedItems[0].getData()) != null) {
+				&& Activator.getDefault().getLocalDialog((String) selectedItems[0].getData()) != null) {
 			manager.add(new Action("Delete Dialog...") {
 				@Override
 				public void run() {
-					Activator.getDefault().removeLocalDialog(
-							(String) selectedItems[0].getData());
+					Activator.getDefault().removeLocalDialog((String) selectedItems[0].getData());
 				}
 			});
 		}
@@ -112,9 +103,7 @@ public class DialogPalletProvider implements PalletItemProvider,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.views.pallet.PalletItemProvider#
-	 * addPalletItemObserver(
+	 * @see org.eclipse.vtp.desktop.views.pallet.PalletItemProvider# addPalletItemObserver(
 	 * org.eclipse.vtp.desktop.views.pallet.PalletItemObserver)
 	 */
 	@Override
@@ -126,9 +115,7 @@ public class DialogPalletProvider implements PalletItemProvider,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.views.pallet.PalletItemProvider#
-	 * removePalletItemObserver(
+	 * @see org.eclipse.vtp.desktop.views.pallet.PalletItemProvider# removePalletItemObserver(
 	 * org.eclipse.vtp.desktop.views.pallet.PalletItemObserver)
 	 */
 	@Override

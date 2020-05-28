@@ -29,26 +29,20 @@ public class ReferenceContentCreatorPanel extends DynamicContentCreatorPanel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.media.core.ContentCreatorPanel#createContent()
+	 * @see org.eclipse.vtp.desktop.media.core.ContentCreatorPanel#createContent()
 	 */
 	@Override
 	public Content createContent() {
 		ReferencedContent content = new ReferencedContent();
 		if (isDynamicSelected()) {
 			content.setVariableReferencedName(getDynamicSelection());
-		} else if (options == null || options.getSelectionIndex() == -1) {
-			return content;
-		}
-		content.setStaticReferencedName(options.getItem(options
-				.getSelectionIndex()));
+		} else if (options == null || options.getSelectionIndex() == -1) { return content; }
+		content.setStaticReferencedName(options.getItem(options.getSelectionIndex()));
 		return content;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.media.core.DynamicContentCreatorPanel#
 	 * createStaticControls(org.eclipse.swt.widgets.Composite)
 	 */
@@ -58,8 +52,8 @@ public class ReferenceContentCreatorPanel extends DynamicContentCreatorPanel {
 		comp.setLayout(new GridLayout(2, false));
 		options = new Combo(comp, SWT.DROP_DOWN | SWT.READ_ONLY);
 		options.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		for (String sharedContent : getMediaProvider()
-				.getSharedContentProvider().listSharedContent()) {
+		for (String sharedContent : getMediaProvider().getSharedContentProvider()
+				.listSharedContent()) {
 			options.add(sharedContent);
 		}
 		return comp;
@@ -67,9 +61,7 @@ public class ReferenceContentCreatorPanel extends DynamicContentCreatorPanel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.media.core.DynamicContentCreatorPanel#
-	 * setInitialContent
+	 * @see org.eclipse.vtp.desktop.media.core.DynamicContentCreatorPanel# setInitialContent
 	 * (org.eclipse.vtp.framework.interactions.core.media.Content)
 	 */
 	@Override

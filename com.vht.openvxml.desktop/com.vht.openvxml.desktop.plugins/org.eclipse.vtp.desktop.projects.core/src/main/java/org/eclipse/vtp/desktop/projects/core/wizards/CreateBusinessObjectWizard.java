@@ -37,16 +37,14 @@ import com.openmethods.openvxml.desktop.model.businessobjects.IBusinessObject;
 import com.openmethods.openvxml.desktop.model.businessobjects.IBusinessObjectSet;
 
 /**
- * This wizard walks the user through the steps required to create a new
- * business object for an application. The user is prompted to enter a name for
- * the new business object. This name must be unique among the current business
- * objects in the application. The business object is automatically created by
- * this wizard and so requires no actions from the caller of the wizard.
+ * This wizard walks the user through the steps required to create a new business object for an
+ * application. The user is prompted to enter a name for the new business object. This name must be
+ * unique among the current business objects in the application. The business object is
+ * automatically created by this wizard and so requires no actions from the caller of the wizard.
  *
  * @author Trip
  */
-public class CreateBusinessObjectWizard extends Wizard implements INewWizard,
-		IExecutableExtension {
+public class CreateBusinessObjectWizard extends Wizard implements INewWizard, IExecutableExtension {
 	/**
 	 * The business object set that will contain the new business object.
 	 */
@@ -60,12 +58,10 @@ public class CreateBusinessObjectWizard extends Wizard implements INewWizard,
 	IConfigurationElement configElement = null;
 
 	/**
-	 * Creates a new <code>CreateBusinessObjectWizard</code> instance for the
-	 * given business object set.
+	 * Creates a new <code>CreateBusinessObjectWizard</code> instance for the given business object
+	 * set.
 	 *
-	 * @param objectSet
-	 *            The business object set that will contain the new business
-	 *            object.
+	 * @param objectSet The business object set that will contain the new business object.
 	 */
 	public CreateBusinessObjectWizard() {
 		super();
@@ -75,21 +71,16 @@ public class CreateBusinessObjectWizard extends Wizard implements INewWizard,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org
-	 * .eclipse.core.runtime.IConfigurationElement, java.lang.String,
-	 * java.lang.Object)
+	 * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org
+	 * .eclipse.core.runtime.IConfigurationElement, java.lang.String, java.lang.Object)
 	 */
 	@Override
-	public void setInitializationData(IConfigurationElement cfig,
-			String propertyName, Object data) {
+	public void setInitializationData(IConfigurationElement cfig, String propertyName, Object data) {
 		configElement = cfig;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench,
 	 * org.eclipse.jface.viewers.IStructuredSelection)
 	 */
@@ -97,9 +88,8 @@ public class CreateBusinessObjectWizard extends Wizard implements INewWizard,
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		Object obj = selection.getFirstElement();
 		if (obj == null) {
-			obj = ((IStructuredSelection) PlatformUI.getWorkbench()
-					.getActiveWorkbenchWindow().getSelectionService()
-					.getSelection()).getFirstElement();
+			obj = ((IStructuredSelection) PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+					.getSelectionService().getSelection()).getFirstElement();
 		}
 		System.out.println(obj);
 		if (obj instanceof IBusinessObjectSet) {
@@ -111,17 +101,15 @@ public class CreateBusinessObjectWizard extends Wizard implements INewWizard,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.wizard.IWizard#performFinish()
 	 */
 	@Override
 	public boolean performFinish() {
 		try {
-			IBusinessObject bo = objectSet
-					.createBusinessObject(bwp.brandNameField.getText());
+			IBusinessObject bo = objectSet.createBusinessObject(bwp.brandNameField.getText());
 			objectSet.refresh();
-			IDE.openEditor(PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-					.getActivePage(), bo.getUnderlyingFile());
+			IDE.openEditor(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage(), bo
+					.getUnderlyingFile());
 
 			return true;
 		} catch (CoreException e) {
@@ -135,15 +123,12 @@ public class CreateBusinessObjectWizard extends Wizard implements INewWizard,
 		Text brandNameField = null;
 
 		public BusinessObjectWizardPage() {
-			super("BusinessObjectPage",
-					"Enter a name for the new business object", null);
+			super("BusinessObjectPage", "Enter a name for the new business object", null);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt
+		 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt
 		 * .widgets.Composite)
 		 */
 		@Override
@@ -153,8 +138,7 @@ public class CreateBusinessObjectWizard extends Wizard implements INewWizard,
 			Composite comp = new Composite(parent, SWT.NONE);
 			Label brandNameLabel = new Label(comp, SWT.NONE);
 			brandNameLabel.setText("Business Object Name:");
-			brandNameLabel.setSize(brandNameLabel.computeSize(SWT.DEFAULT,
-					SWT.DEFAULT));
+			brandNameLabel.setSize(brandNameLabel.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 			brandNameField = new Text(comp, SWT.SINGLE | SWT.BORDER);
 			brandNameField.addVerifyListener(new VerifyListener() {
 
@@ -162,11 +146,10 @@ public class CreateBusinessObjectWizard extends Wizard implements INewWizard,
 				public void verifyText(VerifyEvent e) {
 					String text = e.text;
 					char[] chars = text.toCharArray();
-					String currentName = brandNameField.getText().substring(0,
-							e.start)
+					String currentName = brandNameField.getText().substring(0, e.start)
 							+ e.text
-							+ brandNameField.getText(e.end, (brandNameField
-									.getText().length() - 1));
+							+ brandNameField
+									.getText(e.end, (brandNameField.getText().length() - 1));
 					if (currentName.length() > 255) {
 						e.doit = false;
 						return;
@@ -213,10 +196,8 @@ public class CreateBusinessObjectWizard extends Wizard implements INewWizard,
 			FormData brandNameLabelData = new FormData();
 			brandNameLabelData.left = new FormAttachment(0, 10);
 			brandNameLabelData.top = new FormAttachment(0, 30);
-			brandNameLabelData.right = new FormAttachment(0,
-					10 + brandNameLabel.getSize().x);
-			brandNameLabelData.bottom = new FormAttachment(0,
-					30 + brandNameLabel.getSize().y);
+			brandNameLabelData.right = new FormAttachment(0, 10 + brandNameLabel.getSize().x);
+			brandNameLabelData.bottom = new FormAttachment(0, 30 + brandNameLabel.getSize().y);
 			brandNameLabel.setLayoutData(brandNameLabelData);
 
 			FormData brandNameFieldData = new FormData();

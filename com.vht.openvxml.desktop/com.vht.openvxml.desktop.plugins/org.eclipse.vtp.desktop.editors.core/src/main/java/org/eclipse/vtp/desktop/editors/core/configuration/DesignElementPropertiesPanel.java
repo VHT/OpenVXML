@@ -13,8 +13,7 @@ package org.eclipse.vtp.desktop.editors.core.configuration;
 
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElement;
 
-public abstract class DesignElementPropertiesPanel extends
-		ComponentPropertiesPanel {
+public abstract class DesignElementPropertiesPanel extends ComponentPropertiesPanel {
 	IDesignElement pe = null;
 
 	public DesignElementPropertiesPanel(String name, IDesignElement element) {

@@ -9,13 +9,11 @@
 package org.eclipse.vtp.modules.webservice.ui.widgets;
 
 /**
- * Listener interface for detecting when the value type of a value stack is
- * changed.
+ * Listener interface for detecting when the value type of a value stack is changed.
  * 
  * @author trip
  */
-public interface ValueStackListener
-{
+public interface ValueStackListener {
 	/**
 	 * Executed when the value type of a value stack is changed.
 	 * 

@@ -37,15 +37,11 @@ public class Rule extends Widget implements VXMLConstants {
 	/**
 	 * Creates a new Rule.
 	 * 
-	 * @param id
-	 *            The ID of this rule.
-	 * @throws IllegalArgumentException
-	 *             If the specified ID is empty.
-	 * @throws NullPointerException
-	 *             If the specified ID is <code>null</code>.
+	 * @param id The ID of this rule.
+	 * @throws IllegalArgumentException If the specified ID is empty.
+	 * @throws NullPointerException If the specified ID is <code>null</code>.
 	 */
-	public Rule(String id) throws IllegalArgumentException,
-			NullPointerException {
+	public Rule(String id) throws IllegalArgumentException, NullPointerException {
 		setId(id);
 	}
 
@@ -70,20 +66,14 @@ public class Rule extends Widget implements VXMLConstants {
 	/**
 	 * Sets the ID of this rule.
 	 * 
-	 * @param id
-	 *            The ID of this rule.
-	 * @throws IllegalArgumentException
-	 *             If the specified ID is empty.
-	 * @throws NullPointerException
-	 *             If the specified ID is <code>null</code>.
+	 * @param id The ID of this rule.
+	 * @throws IllegalArgumentException If the specified ID is empty.
+	 * @throws NullPointerException If the specified ID is <code>null</code>.
 	 */
-	public void setId(String id) throws IllegalArgumentException,
-			NullPointerException {
-		if (id == null) {
-			throw new NullPointerException("id"); //$NON-NLS-1$
+	public void setId(String id) throws IllegalArgumentException, NullPointerException {
+		if (id == null) { throw new NullPointerException("id"); //$NON-NLS-1$
 		}
-		if (id.length() == 0) {
-			throw new IllegalArgumentException("id"); //$NON-NLS-1$
+		if (id.length() == 0) { throw new IllegalArgumentException("id"); //$NON-NLS-1$
 		}
 		this.id = id;
 	}
@@ -91,14 +81,11 @@ public class Rule extends Widget implements VXMLConstants {
 	/**
 	 * Adds an item to this rule's list.
 	 * 
-	 * @param item
-	 *            The item to add.
-	 * @throws NullPointerException
-	 *             If the specified item is <code>null</code>.
+	 * @param item The item to add.
+	 * @throws NullPointerException If the specified item is <code>null</code>.
 	 */
 	public void addItem(Iota item) throws NullPointerException {
-		if (item == null) {
-			throw new NullPointerException("item"); //$NON-NLS-1$
+		if (item == null) { throw new NullPointerException("item"); //$NON-NLS-1$
 		}
 		iotas.add(item);
 	}
@@ -106,35 +93,28 @@ public class Rule extends Widget implements VXMLConstants {
 	/**
 	 * Removes an item from this rule's list.
 	 * 
-	 * @param item
-	 *            The item to remove.
-	 * @throws NullPointerException
-	 *             If the specified item is <code>null</code>.
+	 * @param item The item to remove.
+	 * @throws NullPointerException If the specified item is <code>null</code>.
 	 */
 	public void removeItem(Iota item) throws NullPointerException {
-		if (item == null) {
-			throw new NullPointerException("item"); //$NON-NLS-1$
+		if (item == null) { throw new NullPointerException("item"); //$NON-NLS-1$
 		}
 		iotas.remove(item);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.core.output.Widget#writeWidget(
 	 * org.xml.sax.ContentHandler)
 	 */
 	@Override
-	public void writeWidget(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
-		if (outputHandler == null) {
-			throw new NullPointerException("outputHandler"); //$NON-NLS-1$
+	public void writeWidget(ContentHandler outputHandler) throws NullPointerException, SAXException {
+		if (outputHandler == null) { throw new NullPointerException("outputHandler"); //$NON-NLS-1$
 		}
 		// Start the element.
 		AttributesImpl attributes = new AttributesImpl();
 		writeAttributes(attributes);
-		outputHandler.startElement(NAMESPACE_URI_VXML, NAME_RULE, NAME_RULE,
-				attributes);
+		outputHandler.startElement(NAMESPACE_URI_VXML, NAME_RULE, NAME_RULE, attributes);
 		// Write any children.
 		writeItems(outputHandler);
 		// End the element.
@@ -144,10 +124,8 @@ public class Rule extends Widget implements VXMLConstants {
 	/**
 	 * Write the attribute members of this set to the supplied set.
 	 * 
-	 * @param attributes
-	 *            The attribute set to write to.
-	 * @throws NullPointerException
-	 *             If the supplied attribute set is <code>null</code>.
+	 * @param attributes The attribute set to write to.
+	 * @throws NullPointerException If the supplied attribute set is <code>null</code>.
 	 */
 	protected void writeAttributes(AttributesImpl attributes) {
 		writeAttribute(attributes, null, null, NAME_ID, TYPE_CDATA, id);
@@ -156,15 +134,12 @@ public class Rule extends Widget implements VXMLConstants {
 	/**
 	 * Write the content of this set to the specified content handler.
 	 * 
-	 * @param outputHandler
-	 *            The content handler to write to.
-	 * @throws NullPointerException
-	 *             If the supplied content handler is <code>null</code>.
-	 * @throws SAXException
-	 *             If the writing of any of the items fails.
+	 * @param outputHandler The content handler to write to.
+	 * @throws NullPointerException If the supplied content handler is <code>null</code>.
+	 * @throws SAXException If the writing of any of the items fails.
 	 */
-	protected void writeItems(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
+	protected void writeItems(ContentHandler outputHandler) throws NullPointerException,
+			SAXException {
 		writeChildren(outputHandler, iotas);
 	}
 }

@@ -31,8 +31,7 @@ public class FieldConfiguration implements IConfiguration, CommonConstants {
 	/**
 	 * Creates a new DataTypeConfiguration.
 	 */
-	public FieldConfiguration() {
-	}
+	public FieldConfiguration() {}
 
 	/**
 	 * Returns the initial value of this field when an object is created.
@@ -67,29 +66,23 @@ public class FieldConfiguration implements IConfiguration, CommonConstants {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#load( org.w3c.dom.Element)
 	 */
 	@Override
 	public void load(Element configurationElement) {
 		name = configurationElement.getAttribute(NAME_NAME);
 		type = configurationElement.getAttribute(NAME_TYPE);
 		if (configurationElement.hasAttribute(NAME_INITIAL_VALUE)) {
-			initialValue = configurationElement
-					.getAttribute(NAME_INITIAL_VALUE);
+			initialValue = configurationElement.getAttribute(NAME_INITIAL_VALUE);
 		} else {
 			initialValue = null;
 		}
-		secured = Boolean.parseBoolean(configurationElement
-				.getAttribute(NAME_SECURED));
+		secured = Boolean.parseBoolean(configurationElement.getAttribute(NAME_SECURED));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#save( org.w3c.dom.Element)
 	 */
 	@Override
 	public void save(Element configurationElement) {
@@ -98,15 +91,13 @@ public class FieldConfiguration implements IConfiguration, CommonConstants {
 		if (initialValue != null) {
 			configurationElement.setAttribute(NAME_INITIAL_VALUE, initialValue);
 		}
-		configurationElement.setAttribute(NAME_SECURED,
-				Boolean.toString(secured));
+		configurationElement.setAttribute(NAME_SECURED, Boolean.toString(secured));
 	}
 
 	/**
 	 * Sets the initial value of this field when an object is created.
 	 * 
-	 * @param initialValue
-	 *            The initial value of this field when an object is created.
+	 * @param initialValue The initial value of this field when an object is created.
 	 */
 	public void setInitialValue(String initialValue) {
 		this.initialValue = initialValue;
@@ -115,8 +106,7 @@ public class FieldConfiguration implements IConfiguration, CommonConstants {
 	/**
 	 * Sets the name of this field.
 	 * 
-	 * @param name
-	 *            The name of this field.
+	 * @param name The name of this field.
 	 */
 	public void setName(String name) {
 		this.name = name == null ? "" : name; //$NON-NLS-1$
@@ -129,8 +119,7 @@ public class FieldConfiguration implements IConfiguration, CommonConstants {
 	/**
 	 * Sets the type of this field.
 	 * 
-	 * @param type
-	 *            The type of this field.
+	 * @param type The type of this field.
 	 */
 	public void setType(String type) {
 		this.type = type == null ? "" : type; //$NON-NLS-1$

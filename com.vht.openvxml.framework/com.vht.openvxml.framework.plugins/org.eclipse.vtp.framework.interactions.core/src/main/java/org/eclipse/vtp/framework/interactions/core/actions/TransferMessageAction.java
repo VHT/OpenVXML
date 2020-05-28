@@ -38,15 +38,11 @@ public class TransferMessageAction implements IAction {
 	/**
 	 * Creates a new TransferMessageAction.
 	 * 
-	 * @param context
-	 *            The context to use.
-	 * @param conversation
-	 *            The conversation to use.
-	 * @param configuration
-	 *            The configuration to use.
+	 * @param context The context to use.
+	 * @param conversation The conversation to use.
+	 * @param configuration The configuration to use.
 	 */
-	public TransferMessageAction(IActionContext context,
-			IConversation conversation,
+	public TransferMessageAction(IActionContext context, IConversation conversation,
 			TransferMessageConfiguration configuration) {
 		this.context = context;
 		this.conversation = conversation;
@@ -55,7 +51,6 @@ public class TransferMessageAction implements IAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.core.IAction#execute()
 	 */
 	@Override
@@ -68,8 +63,7 @@ public class TransferMessageAction implements IAction {
 			if (context.isReportingEnabled()) {
 				Dictionary props = new Hashtable();
 				props.put("event", "transfer");
-				context.report(IReporter.SEVERITY_INFO, "Transfering session.",
-						props);
+				context.report(IReporter.SEVERITY_INFO, "Transfering session.", props);
 			}
 			conversation.createTransferMessage(configuration).enqueue();
 			return context.createResult(IActionResult.RESULT_NAME_ABORT);

@@ -42,8 +42,7 @@ public class ContentManager implements IContentTypeRegistry, IContentFactory {
 	/**
 	 * Creates a new ContentManager.
 	 * 
-	 * @param registry
-	 *            The extension registry to load from.
+	 * @param registry The extension registry to load from.
 	 */
 	public ContentManager(IExtensionRegistry registry) {
 		IExtensionPoint point = registry.getExtensionPoint(//
@@ -52,14 +51,11 @@ public class ContentManager implements IContentTypeRegistry, IContentFactory {
 		Map contentTypes = new HashMap(extensions.length);
 		Map contentTypeIndex = new HashMap(extensions.length);
 		for (IExtension extension : extensions) {
-			Bundle bundle = Platform.getBundle(extension.getContributor()
-					.getName());
-			IConfigurationElement[] elements = extension
-					.getConfigurationElements();
+			Bundle bundle = Platform.getBundle(extension.getContributor().getName());
+			IConfigurationElement[] elements = extension.getConfigurationElements();
 			for (IConfigurationElement element : elements) {
 				try {
-					ContentType contentType = new ContentType(
-							element.getAttribute("id"), //$NON-NLS-1$
+					ContentType contentType = new ContentType(element.getAttribute("id"), //$NON-NLS-1$
 							element.getAttribute("class"), //$NON-NLS-1$
 							bundle.loadClass(element.getAttribute("class"))); //$NON-NLS-1$
 					contentTypes.put(contentType.getId(), contentType);
@@ -77,19 +73,16 @@ public class ContentManager implements IContentTypeRegistry, IContentFactory {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.media.
 	 * IContentTypeRegistry#getContentTypeIDs()
 	 */
 	@Override
 	public String[] getContentTypeIDs() {
-		return (String[]) contentTypes.keySet().toArray(
-				new String[contentTypes.size()]);
+		return (String[]) contentTypes.keySet().toArray(new String[contentTypes.size()]);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.media.
 	 * IContentTypeRegistry#getContentType(java.lang.String)
 	 */
@@ -100,21 +93,15 @@ public class ContentManager implements IContentTypeRegistry, IContentFactory {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.media.IContentFactory#
 	 * loadContent(org.w3c.dom.Element)
 	 */
 	@Override
 	public Content loadContent(Element configuration) {
-		if (configuration == null) {
-			return null;
-		}
-		ContentType contentType = (ContentType) contentTypeIndex
-				.get(configuration.getLocalName()
-						+ configuration.getNamespaceURI());
-		if (contentType == null) {
-			return null;
-		}
+		if (configuration == null) { return null; }
+		ContentType contentType = (ContentType) contentTypeIndex.get(configuration.getLocalName()
+				+ configuration.getNamespaceURI());
+		if (contentType == null) { return null; }
 		return contentType.newInstance(configuration);
 	}
 
@@ -134,24 +121,20 @@ public class ContentManager implements IContentTypeRegistry, IContentFactory {
 		/**
 		 * Creates a new ContentType.
 		 * 
-		 * @param id
-		 *            The ID of this content type.
-		 * @param name
-		 *            The name of this content type.
-		 * @param contentClass
-		 *            The implementation type.
+		 * @param id The ID of this content type.
+		 * @param name The name of this content type.
+		 * @param contentClass The implementation type.
 		 */
 		ContentType(String id, String name, Class contentClass) {
 			this.id = id;
 			Constructor constructor = null;
 			this.name = name;
 			try {
-				constructor = contentClass.getConstructor(new Class[] {
-						IContentFactory.class, Element.class });
+				constructor = contentClass.getConstructor(new Class[] { IContentFactory.class,
+						Element.class });
 			} catch (NoSuchMethodException e) {
 				try {
-					constructor = contentClass
-							.getConstructor(new Class[] { Element.class });
+					constructor = contentClass.getConstructor(new Class[] { Element.class });
 				} catch (NoSuchMethodException ex) {
 					throw new IllegalStateException(ex);
 				}
@@ -162,18 +145,16 @@ public class ContentManager implements IContentTypeRegistry, IContentFactory {
 		/**
 		 * Creates a new instance of this content type.
 		 * 
-		 * @param configuration
-		 *            The configuration to read.
+		 * @param configuration The configuration to read.
 		 * @return A new instance of this content type.
 		 */
 		Content newInstance(Element configuration) {
 			try {
 				if (constructor.getParameterTypes().length == 1) {
-					return (Content) constructor
-							.newInstance(new Object[] { configuration });
+					return (Content) constructor.newInstance(new Object[] { configuration });
 				} else {
-					return (Content) constructor.newInstance(new Object[] {
-							ContentManager.this, configuration });
+					return (Content) constructor.newInstance(new Object[] { ContentManager.this,
+							configuration });
 				}
 			} catch (Exception e) {
 				throw new IllegalStateException(e);
@@ -182,9 +163,7 @@ public class ContentManager implements IContentTypeRegistry, IContentFactory {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.vtp.framework.interactions.core.media.IContentType#
-		 * getId()
+		 * @see org.eclipse.vtp.framework.interactions.core.media.IContentType# getId()
 		 */
 		@Override
 		public String getId() {
@@ -193,9 +172,7 @@ public class ContentManager implements IContentTypeRegistry, IContentFactory {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.vtp.framework.interactions.core.media.IContentType#
-		 * getName()
+		 * @see org.eclipse.vtp.framework.interactions.core.media.IContentType# getName()
 		 */
 		@Override
 		public String getName() {

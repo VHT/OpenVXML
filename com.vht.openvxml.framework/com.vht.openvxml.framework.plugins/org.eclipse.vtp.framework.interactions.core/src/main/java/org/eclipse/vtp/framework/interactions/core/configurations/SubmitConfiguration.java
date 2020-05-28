@@ -20,8 +20,7 @@ import org.eclipse.vtp.framework.interactions.core.media.IContentFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class SubmitConfiguration implements IConfiguration,
-		InteractionsConstants {
+public class SubmitConfiguration implements IConfiguration, InteractionsConstants {
 	private String name = ""; //$NON-NLS-1$
 	private MediaConfiguration mediaConfiguration = null;
 	private final Map inputs = new HashMap();
@@ -35,11 +34,11 @@ public class SubmitConfiguration implements IConfiguration,
 	}
 
 	/**
-	 * Returns the media configuration for this message or <code>null</code> if
-	 * no such configuration is registered.
+	 * Returns the media configuration for this message or <code>null</code> if no such
+	 * configuration is registered.
 	 * 
-	 * @return The media configuration for this message or <code>null</code> if
-	 *         no such configuration is registered.
+	 * @return The media configuration for this message or <code>null</code> if no such
+	 *         configuration is registered.
 	 */
 	public MediaConfiguration getMediaConfiguration() {
 		return mediaConfiguration;
@@ -48,9 +47,8 @@ public class SubmitConfiguration implements IConfiguration,
 	/**
 	 * Sets the media configuration for this message.
 	 * 
-	 * @param mediaConfiguration
-	 *            The media configuration for this message or <code>null</code>
-	 *            to remove the configuration.
+	 * @param mediaConfiguration The media configuration for this message or <code>null</code> to
+	 *            remove the configuration.
 	 */
 	public void setMediaConfiguration(MediaConfiguration mediaConfiguration) {
 		this.mediaConfiguration = mediaConfiguration;
@@ -68,8 +66,7 @@ public class SubmitConfiguration implements IConfiguration,
 	/**
 	 * Sets the name.
 	 * 
-	 * @param name
-	 *            The name to set.
+	 * @param name The name to set.
 	 */
 	public void setName(String name) {
 		this.name = name == null ? "" : name;
@@ -128,14 +125,11 @@ public class SubmitConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.core.IConfiguration#load(org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(org.w3c.dom.Element)
 	 */
 	@Override
 	public void load(Element configurationElement) {
-		NodeList elements = configurationElement.getElementsByTagNameNS(
-				NAMESPACE_URI, NAME_MEDIA);
+		NodeList elements = configurationElement.getElementsByTagNameNS(NAMESPACE_URI, NAME_MEDIA);
 		mediaConfiguration = null;
 		if (elements.getLength() == 0) {
 			mediaConfiguration = null;
@@ -145,8 +139,8 @@ public class SubmitConfiguration implements IConfiguration,
 		}
 		name = configurationElement.getAttribute(NAME_NAME);
 		inputs.clear();
-		NodeList itemElements = configurationElement.getElementsByTagNameNS(
-				NAMESPACE_URI, NAME_INPUT_ITEM);
+		NodeList itemElements = configurationElement.getElementsByTagNameNS(NAMESPACE_URI,
+				NAME_INPUT_ITEM);
 		for (int i = 0; i < itemElements.getLength(); ++i) {
 			Element itemElement = (Element) itemElements.item(i);
 			String key = itemElement.getAttribute(NAME_KEY);
@@ -158,23 +152,19 @@ public class SubmitConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.core.IConfiguration#save(org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(org.w3c.dom.Element)
 	 */
 	@Override
 	public void save(Element configurationElement) {
 		configurationElement.setAttribute(NAME_NAME, name);
-		if (mediaConfiguration == null) {
-			return;
-		}
+		if (mediaConfiguration == null) { return; }
 		String mediaName = NAME_MEDIA;
 		String prefix = configurationElement.getPrefix();
 		if (prefix != null && prefix.length() > 0) {
 			mediaName = prefix + ":" + mediaName; //$NON-NLS-1$
 		}
-		Element mediaElement = configurationElement.getOwnerDocument()
-				.createElementNS(NAMESPACE_URI, mediaName);
+		Element mediaElement = configurationElement.getOwnerDocument().createElementNS(
+				NAMESPACE_URI, mediaName);
 		mediaConfiguration.save(mediaElement);
 		configurationElement.appendChild(mediaElement);
 		String inputItemName = NAME_INPUT_ITEM;
@@ -185,12 +175,11 @@ public class SubmitConfiguration implements IConfiguration,
 		}
 		for (Iterator i = inputs.entrySet().iterator(); i.hasNext();) {
 			Map.Entry entry = (Map.Entry) i.next();
-			Element element = configurationElement.getOwnerDocument()
-					.createElementNS(NAMESPACE_URI, inputItemName);
+			Element element = configurationElement.getOwnerDocument().createElementNS(
+					NAMESPACE_URI, inputItemName);
 			element.setAttribute(NAME_KEY, (String) entry.getKey());
 			Input input = (Input) entry.getValue();
-			element.setAttribute(NAME_TYPE,
-					input.variable ? "variable" : "static"); //$NON-NLS-1$ //$NON-NLS-2$
+			element.setAttribute(NAME_TYPE, input.variable ? "variable" : "static"); //$NON-NLS-1$ //$NON-NLS-2$
 			element.setAttribute(NAME_VALUE, input.value);
 			configurationElement.appendChild(element);
 		}

@@ -23,10 +23,10 @@ public class ApplicationFragmentElementFactory implements ElementFactory {
 	@Override
 	public DesignElement createElement(Design design, Object data) {
 		String specializationId = (String) data;
-		IOpenVXMLProject workflowProject = WorkflowCore.getDefault()
-				.getWorkflowModel().getWorkflowProject(specializationId);
-		ApplicationFragmentElement afe = new ApplicationFragmentElement(
-				specializationId, workflowProject.getName());
+		IOpenVXMLProject workflowProject = WorkflowCore.getDefault().getWorkflowModel()
+				.getWorkflowProject(specializationId);
+		ApplicationFragmentElement afe = new ApplicationFragmentElement(specializationId,
+				workflowProject.getName());
 		return afe;
 	}
 

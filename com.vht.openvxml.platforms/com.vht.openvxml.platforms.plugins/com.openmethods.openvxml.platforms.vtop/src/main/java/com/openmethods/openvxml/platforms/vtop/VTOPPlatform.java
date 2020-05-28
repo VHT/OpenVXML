@@ -83,23 +83,22 @@ public class VTOPPlatform extends VoicePlatform {
 		Filled filled = new Filled();
 		If ifBusy = new If("BridgeMessageElement == 'busy'");
 		ILink link = links.createNextLink();
-		link.setParameter(bridgeMessageCommand.getResultName(),
-				bridgeMessageCommand.getBusyResultValue());
+		link.setParameter(bridgeMessageCommand.getResultName(), bridgeMessageCommand
+				.getBusyResultValue());
 		ifBusy.addAction(new Goto(link.toString()));
-		ElseIf ifNetworkBusy = new ElseIf(
-				"BridgeMessageElement == 'network_busy'");
-		link.setParameter(bridgeMessageCommand.getResultName(),
-				bridgeMessageCommand.getBusyResultValue());
+		ElseIf ifNetworkBusy = new ElseIf("BridgeMessageElement == 'network_busy'");
+		link.setParameter(bridgeMessageCommand.getResultName(), bridgeMessageCommand
+				.getBusyResultValue());
 		ifNetworkBusy.addAction(new Goto(link.toString()));
 		ifBusy.addElseIf(ifNetworkBusy);
 		ElseIf ifNoAnswer = new ElseIf("BridgeMessageElement == 'noanswer'");
-		link.setParameter(bridgeMessageCommand.getResultName(),
-				bridgeMessageCommand.getUnavailableResultValue());
+		link.setParameter(bridgeMessageCommand.getResultName(), bridgeMessageCommand
+				.getUnavailableResultValue());
 		ifNoAnswer.addAction(new Goto(link.toString()));
 		ifBusy.addElseIf(ifNoAnswer);
 		ElseIf ifUnknown = new ElseIf("BridgeMessageElement == 'unknown'");
-		link.setParameter(bridgeMessageCommand.getResultName(),
-				bridgeMessageCommand.getUnavailableResultValue());
+		link.setParameter(bridgeMessageCommand.getResultName(), bridgeMessageCommand
+				.getUnavailableResultValue());
 		ifUnknown.addAction(new Goto(link.toString()));
 		ifBusy.addElseIf(ifUnknown);
 		filled.addIfClause(ifBusy);
@@ -108,74 +107,71 @@ public class VTOPPlatform extends VoicePlatform {
 		// catch handlers
 		Catch noAuthCatch = new Catch("error.connection.noauthorization");
 		ILink noAuthLink = links.createNextLink();
-		noAuthLink.setParameter(bridgeMessageCommand.getResultName(),
-				bridgeMessageCommand.getNoAuthResultValue());
+		noAuthLink.setParameter(bridgeMessageCommand.getResultName(), bridgeMessageCommand
+				.getNoAuthResultValue());
 		noAuthCatch.addAction(new Goto(noAuthLink.toString()));
 		tx.addEventHandler(noAuthCatch);
 
 		Catch badDestCatch = new Catch("error.connection.baddestination");
 		ILink badDestLink = links.createNextLink();
-		badDestLink.setParameter(bridgeMessageCommand.getResultName(),
-				bridgeMessageCommand.getBadDestResultValue());
+		badDestLink.setParameter(bridgeMessageCommand.getResultName(), bridgeMessageCommand
+				.getBadDestResultValue());
 		badDestCatch.addAction(new Goto(badDestLink.toString()));
 		tx.addEventHandler(badDestCatch);
 
 		Catch noRouteCatch = new Catch("error.connection.noroute");
 		ILink noRouteLink = links.createNextLink();
-		noRouteLink.setParameter(bridgeMessageCommand.getResultName(),
-				bridgeMessageCommand.getNoRouteResultValue());
+		noRouteLink.setParameter(bridgeMessageCommand.getResultName(), bridgeMessageCommand
+				.getNoRouteResultValue());
 		noRouteCatch.addAction(new Goto(noRouteLink.toString()));
 		tx.addEventHandler(noRouteCatch);
 
 		Catch noRoute2Catch = new Catch("error.telephone.noroute");
 		ILink noRoute2Link = links.createNextLink();
-		noRoute2Link.setParameter(bridgeMessageCommand.getResultName(),
-				bridgeMessageCommand.getNoRouteResultValue());
+		noRoute2Link.setParameter(bridgeMessageCommand.getResultName(), bridgeMessageCommand
+				.getNoRouteResultValue());
 		noRoute2Catch.addAction(new Goto(noRoute2Link.toString()));
 		tx.addEventHandler(noRoute2Catch);
 
 		Catch noResourceCatch = new Catch("error.connection.noresource");
 		ILink noResourceLink = links.createNextLink();
-		noResourceLink.setParameter(bridgeMessageCommand.getResultName(),
-				bridgeMessageCommand.getNoResourceResultValue());
+		noResourceLink.setParameter(bridgeMessageCommand.getResultName(), bridgeMessageCommand
+				.getNoResourceResultValue());
 		noResourceCatch.addAction(new Goto(noResourceLink.toString()));
 		tx.addEventHandler(noResourceCatch);
 
 		Catch badProtocolCatch = new Catch("error.connection.protocol");
 		ILink badProtocolLink = links.createNextLink();
-		badProtocolLink.setParameter(bridgeMessageCommand.getResultName(),
-				bridgeMessageCommand.getProtocolResultValue());
+		badProtocolLink.setParameter(bridgeMessageCommand.getResultName(), bridgeMessageCommand
+				.getProtocolResultValue());
 		badProtocolCatch.addAction(new Goto(badProtocolLink.toString()));
 		tx.addEventHandler(badProtocolCatch);
 
-		Catch bridgeUnsupportedCatch = new Catch(
-				"error.unsupported.transfer.bridge");
+		Catch bridgeUnsupportedCatch = new Catch("error.unsupported.transfer.bridge");
 		ILink bridgeUnsupportedLink = links.createNextLink();
-		bridgeUnsupportedLink.setParameter(
-				bridgeMessageCommand.getResultName(),
+		bridgeUnsupportedLink.setParameter(bridgeMessageCommand.getResultName(),
 				bridgeMessageCommand.getBadBridgeResultValue());
-		bridgeUnsupportedCatch.addAction(new Goto(bridgeUnsupportedLink
-				.toString()));
+		bridgeUnsupportedCatch.addAction(new Goto(bridgeUnsupportedLink.toString()));
 		tx.addEventHandler(bridgeUnsupportedCatch);
 
 		Catch uriUnsupportedCatch = new Catch("error.unsupported.uri");
 		ILink uriUnsupportedLink = links.createNextLink();
-		uriUnsupportedLink.setParameter(bridgeMessageCommand.getResultName(),
-				bridgeMessageCommand.getBadUriResultValue());
+		uriUnsupportedLink.setParameter(bridgeMessageCommand.getResultName(), bridgeMessageCommand
+				.getBadUriResultValue());
 		uriUnsupportedCatch.addAction(new Goto(uriUnsupportedLink.toString()));
 		tx.addEventHandler(uriUnsupportedCatch);
 
 		Catch transferCatch = new Catch("connection.disconnect.transfer");
 		ILink transferLink = links.createNextLink();
-		transferLink.setParameter(bridgeMessageCommand.getResultName(),
-				bridgeMessageCommand.getTransferredResultValue());
+		transferLink.setParameter(bridgeMessageCommand.getResultName(), bridgeMessageCommand
+				.getTransferredResultValue());
 		transferCatch.addAction(new Goto(transferLink.toString()));
 		tx.addEventHandler(transferCatch);
 
 		Catch disconnectCatch = new Catch("connection.disconnect.hangup");
 		ILink hangupLink = links.createNextLink();
-		hangupLink.setParameter(bridgeMessageCommand.getResultName(),
-				bridgeMessageCommand.getHangupResultValue());
+		hangupLink.setParameter(bridgeMessageCommand.getResultName(), bridgeMessageCommand
+				.getHangupResultValue());
 		disconnectCatch.addAction(new Goto(hangupLink.toString()));
 		tx.addEventHandler(disconnectCatch);
 

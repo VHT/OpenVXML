@@ -18,28 +18,22 @@ package org.eclipse.vtp.framework.core;
  */
 public interface IContext extends ILogger {
 	/**
-	 * Looks up the service selected for the specified identifier or
-	 * <code>null</code> if no such service exists.
+	 * Looks up the service selected for the specified identifier or <code>null</code> if no such
+	 * service exists.
 	 * 
-	 * @param identifier
-	 *            The identifier of the service to look up.
-	 * @return The service selected for the specified identifier or
-	 *         <code>null</code> if no such service exists.
-	 * @throws NullPointerException
-	 *             If the supplied identifier is <code>null</code>.
+	 * @param identifier The identifier of the service to look up.
+	 * @return The service selected for the specified identifier or <code>null</code> if no such
+	 *         service exists.
+	 * @throws NullPointerException If the supplied identifier is <code>null</code>.
 	 */
 	Object lookup(String identifier) throws NullPointerException;
 
 	/**
-	 * Returns an array containing all the services registered under the
-	 * specified identifier.
+	 * Returns an array containing all the services registered under the specified identifier.
 	 * 
-	 * @param identifier
-	 *            The identifier of the services to look up.
-	 * @return An array containing all the services registered under the
-	 *         specified identifier.
-	 * @throws NullPointerException
-	 *             If the supplied identifier is <code>null</code>.
+	 * @param identifier The identifier of the services to look up.
+	 * @return An array containing all the services registered under the specified identifier.
+	 * @throws NullPointerException If the supplied identifier is <code>null</code>.
 	 */
 	Object[] lookupAll(String identifier) throws NullPointerException;
 }

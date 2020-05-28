@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A command that tells the process engine to terminate the current process and
- * pass control to another process.
+ * A command that tells the process engine to terminate the current process and pass control to
+ * another process.
  * 
  * @author Lonnie Pryor
  */
@@ -31,12 +31,10 @@ public final class ForwardCommand extends ControllerCommand {
 	/**
 	 * Creates a new ForwardCommand.
 	 */
-	public ForwardCommand() {
-	}
+	public ForwardCommand() {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.commands.ControllerCommand#accept(
 	 * org.eclipse.vtp.framework.spi.commands.IControllerCommandVisitor)
 	 */
@@ -47,15 +45,13 @@ public final class ForwardCommand extends ControllerCommand {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.ICommand#exportContents()
 	 */
 	@Override
 	public Object exportContents() {
 		final List<String> variableMappings = new ArrayList<String>(
 				this.variableMappings.size() * 2);
-		for (final Map.Entry<String, String> entry : this.variableMappings
-				.entrySet()) {
+		for (final Map.Entry<String, String> entry : this.variableMappings.entrySet()) {
 			variableMappings.add(entry.getKey());
 			variableMappings.add(entry.getValue());
 		}
@@ -73,38 +69,30 @@ public final class ForwardCommand extends ControllerCommand {
 	}
 
 	/**
-	 * Returns the names of the variables that will be passed to the target
-	 * process.
+	 * Returns the names of the variables that will be passed to the target process.
 	 * 
-	 * @return The names of the variables that will be passed to the target
-	 *         process.
+	 * @return The names of the variables that will be passed to the target process.
 	 */
 	public String[] getVariableNames() {
-		return variableMappings.keySet().toArray(
-				new String[variableMappings.size()]);
+		return variableMappings.keySet().toArray(new String[variableMappings.size()]);
 	}
 
 	/**
-	 * Returns the name of the variable in the current process that will be set
-	 * as the specified variable in the target process.
+	 * Returns the name of the variable in the current process that will be set as the specified
+	 * variable in the target process.
 	 * 
-	 * @param targetVariableName
-	 *            The name of the variable in the target process.
-	 * @return The name of the variable in the current process that will be set
-	 *         as the specified variable in the target process.
+	 * @param targetVariableName The name of the variable in the target process.
+	 * @return The name of the variable in the current process that will be set as the specified
+	 *         variable in the target process.
 	 */
 	public String getVariableValue(String targetVariableName) {
-		if (targetVariableName == null) {
-			return null;
-		}
+		if (targetVariableName == null) { return null; }
 		return variableMappings.get(targetVariableName);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.ICommand#importContents(
-	 * java.lang.Object)
+	 * @see org.eclipse.vtp.framework.spi.ICommand#importContents( java.lang.Object)
 	 */
 	@Override
 	public void importContents(Object contents) {
@@ -113,36 +101,29 @@ public final class ForwardCommand extends ControllerCommand {
 		this.variableMappings.clear();
 		final String[] variableMappings = (String[]) array[1];
 		for (int i = 0; i < variableMappings.length; i += 2) {
-			this.variableMappings.put(variableMappings[i],
-					variableMappings[i + 1]);
+			this.variableMappings.put(variableMappings[i], variableMappings[i + 1]);
 		}
 	}
 
 	/**
 	 * Sets the URI identifying the process to transfer control to.
 	 * 
-	 * @param targetProcessURI
-	 *            The URI identifying the process to transfer control to.
+	 * @param targetProcessURI The URI identifying the process to transfer control to.
 	 */
 	public void setTargetProcessURI(String targetProcessURI) {
 		this.targetProcessURI = targetProcessURI;
 	}
 
 	/**
-	 * Sets the name of the variable in the current process that will be set as
-	 * the specified variable in the target process.
+	 * Sets the name of the variable in the current process that will be set as the specified
+	 * variable in the target process.
 	 * 
-	 * @param targetVariableName
-	 *            The name of the variable in the target process.
-	 * @param localVariableName
-	 *            The name of the variable in the current process to pass to the
+	 * @param targetVariableName The name of the variable in the target process.
+	 * @param localVariableName The name of the variable in the current process to pass to the
 	 *            target process.
 	 */
-	public void setVariableValue(String targetVariableName,
-			String localVariableName) {
-		if (targetVariableName == null) {
-			return;
-		}
+	public void setVariableValue(String targetVariableName, String localVariableName) {
+		if (targetVariableName == null) { return; }
 		if (localVariableName == null) {
 			variableMappings.remove(targetVariableName);
 		} else {

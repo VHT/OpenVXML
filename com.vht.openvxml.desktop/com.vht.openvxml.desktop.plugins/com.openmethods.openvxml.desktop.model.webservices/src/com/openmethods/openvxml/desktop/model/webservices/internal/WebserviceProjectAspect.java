@@ -15,15 +15,14 @@ import com.openmethods.openvxml.desktop.model.webservices.IWebserviceProjectAspe
 import com.openmethods.openvxml.desktop.model.webservices.IWebserviceSet;
 import com.openmethods.openvxml.desktop.model.webservices.builders.WebserviceModelBuilder;
 
-public class WebserviceProjectAspect extends OpenVXMLProjectAspect implements
-		IWebserviceProjectAspect {
+public class WebserviceProjectAspect extends OpenVXMLProjectAspect
+	implements
+	IWebserviceProjectAspect {
 	private WebserviceSet webserviceSet = null;
 
-	public WebserviceProjectAspect(IOpenVXMLProject project,
-			Element aspectConfiguration) {
+	public WebserviceProjectAspect(IOpenVXMLProject project, Element aspectConfiguration) {
 		super(project);
-		IFolder webservicesFolder = project.getUnderlyingProject().getFolder(
-				"Webservices");
+		IFolder webservicesFolder = project.getUnderlyingProject().getFolder("Webservices");
 		webserviceSet = new WebserviceSet(this, webservicesFolder);
 	}
 
@@ -47,12 +46,10 @@ public class WebserviceProjectAspect extends OpenVXMLProjectAspect implements
 		ICommand[] commands = description.getBuildSpec();
 
 		for (int i = 0; i < commands.length; ++i) {
-			if (commands[i].getBuilderName().equals(
-					WebserviceModelBuilder.BUILDER_ID)) {
+			if (commands[i].getBuilderName().equals(WebserviceModelBuilder.BUILDER_ID)) {
 				ICommand[] newCommands = new ICommand[commands.length - 1];
 				System.arraycopy(commands, 0, newCommands, 0, i);
-				System.arraycopy(commands, i + 1, newCommands, i,
-						commands.length - i - 1);
+				System.arraycopy(commands, i + 1, newCommands, i, commands.length - i - 1);
 				description.setBuildSpec(newCommands);
 
 				return true;
@@ -73,7 +70,6 @@ public class WebserviceProjectAspect extends OpenVXMLProjectAspect implements
 	}
 
 	@Override
-	public void writeConfiguration(Element aspectElement) {
-	}
+	public void writeConfiguration(Element aspectElement) {}
 
 }

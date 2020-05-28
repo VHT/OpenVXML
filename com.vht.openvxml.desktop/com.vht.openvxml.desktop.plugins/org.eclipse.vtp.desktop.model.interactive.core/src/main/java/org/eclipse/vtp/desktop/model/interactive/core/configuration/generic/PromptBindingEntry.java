@@ -16,9 +16,9 @@ import org.eclipse.vtp.framework.interactions.core.media.Content;
 import org.w3c.dom.Element;
 
 /**
- * This class represents a single line item within a prompt binding. Each entry
- * can be one of several different types of content from an audio file to a
- * piece of dynamic data to be read from a variable.
+ * This class represents a single line item within a prompt binding. Each entry can be one of
+ * several different types of content from an audio file to a piece of dynamic data to be read from
+ * a variable.
  * 
  * @author trip
  */
@@ -26,8 +26,7 @@ public class PromptBindingEntry extends PromptBindingNode {
 	/** The content of this entry */
 	private Content content = null;
 
-	public PromptBindingEntry() {
-	}
+	public PromptBindingEntry() {}
 
 	public PromptBindingEntry(Content content) {
 		this.content = content;
@@ -41,11 +40,9 @@ public class PromptBindingEntry extends PromptBindingNode {
 	}
 
 	/**
-	 * Sets the content of this entry to the given object. Any previous content
-	 * is forgotten.
+	 * Sets the content of this entry to the given object. Any previous content is forgotten.
 	 * 
-	 * @param content
-	 *            The new content of this entry
+	 * @param content The new content of this entry
 	 */
 	public void setContent(Content content) {
 		this.content = content;
@@ -54,8 +51,7 @@ public class PromptBindingEntry extends PromptBindingNode {
 	/* Read the configuration for this node. */
 	@Override
 	void readConfiguration(Element configuration) {
-		content = ContentLoadingManager.getInstance()
-				.loadContent(configuration);
+		content = ContentLoadingManager.getInstance().loadContent(configuration);
 	}
 
 	/* Write the configuration for this node. */
@@ -66,7 +62,6 @@ public class PromptBindingEntry extends PromptBindingNode {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.lang.Object#clone()
 	 */
 	@Override

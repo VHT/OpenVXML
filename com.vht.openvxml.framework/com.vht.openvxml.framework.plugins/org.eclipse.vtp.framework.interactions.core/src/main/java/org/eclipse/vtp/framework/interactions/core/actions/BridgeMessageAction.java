@@ -51,21 +51,14 @@ public class BridgeMessageAction implements IAction {
 	/**
 	 * Creates a new BranchMessageAction.
 	 * 
-	 * @param context
-	 *            The context to use.
-	 * @param conversation
-	 *            The conversation to use.
-	 * @param configuration
-	 *            The configuration to use.
+	 * @param context The context to use.
+	 * @param conversation The conversation to use.
+	 * @param configuration The configuration to use.
 	 */
-	public BridgeMessageAction(IActionContext context,
-			IConversation conversation,
-			BridgeMessageConfiguration configuration,
-			IBrandSelection brandSelection,
-			ILanguageSelection languageSelection,
-			IInteractionTypeSelection interactionSelection,
-			IVariableRegistry variableRegistry,
-			IScriptingService scriptingService) {
+	public BridgeMessageAction(IActionContext context, IConversation conversation,
+			BridgeMessageConfiguration configuration, IBrandSelection brandSelection,
+			ILanguageSelection languageSelection, IInteractionTypeSelection interactionSelection,
+			IVariableRegistry variableRegistry, IScriptingService scriptingService) {
 		this.context = context;
 		this.conversation = conversation;
 		this.configuration = configuration;
@@ -78,16 +71,13 @@ public class BridgeMessageAction implements IAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.core.IAction#execute()
 	 */
 	@Override
 	public IActionResult execute() {
-		String resultParameterName = ACTION_PREFIX
-				+ context.getActionID().replace(':', '_');
+		String resultParameterName = ACTION_PREFIX + context.getActionID().replace(':', '_');
 		try {
-			MediaConfiguration mediaConfiguration = configuration
-					.getMediaConfiguration();
+			MediaConfiguration mediaConfiguration = configuration.getMediaConfiguration();
 			if (context.isDebugEnabled()) {
 				context.debug(getClass().getName().substring(
 						getClass().getName().lastIndexOf('.') + 1));
@@ -102,34 +92,28 @@ public class BridgeMessageAction implements IAction {
 			PropertyConfiguration destinationPropertyConfig = mediaConfiguration
 					.getPropertyConfiguration("destination");
 
-			String value = conversation.resolveProperty(
-					destinationPropertyConfig, true, true);
+			String value = conversation.resolveProperty(destinationPropertyConfig, true, true);
 			if (value == null) {
-				value = conversation.resolveProperty(destinationPropertyConfig,
-						true, false);
+				value = conversation.resolveProperty(destinationPropertyConfig, true, false);
 			}
-			if (value == null) {
-				return null;
-			}
+			if (value == null) { return null; }
 
-			String type = conversation.resolveProperty(typePropertyConfig,
-					true, true);
+			String type = conversation.resolveProperty(typePropertyConfig, true, true);
 			if (type == null) {
-				type = conversation.resolveProperty(typePropertyConfig, true,
-						false);
+				type = conversation.resolveProperty(typePropertyConfig, true, false);
 			}
 			if ("variable".equalsIgnoreCase(type)) {
 				value = String.valueOf(variableRegistry.getVariable(value));
 			} else if ("expression".equalsIgnoreCase(type)) {
-				value = String.valueOf(scriptingService.createScriptingEngine(
-						"JavaScript").execute(value));
+				value = String.valueOf(scriptingService.createScriptingEngine("JavaScript")
+						.execute(value));
 			}
 
-			String transferType = conversation.resolveProperty(
-					transferTypePropertyConfig, true, true);
+			String transferType = conversation.resolveProperty(transferTypePropertyConfig, true,
+					true);
 			if (transferType == null) {
-				transferType = conversation.resolveProperty(
-						transferTypePropertyConfig, true, false);
+				transferType = conversation
+						.resolveProperty(transferTypePropertyConfig, true, false);
 			}
 
 			if (result != null) {
@@ -139,9 +123,8 @@ public class BridgeMessageAction implements IAction {
 					props.put("transfer.destination", value);
 					props.put("transfer.type", transferType);
 					props.put("transfer.result", result);
-					context.report(IReporter.SEVERITY_INFO,
-							"Ended transfer to destination \"" + value + "\"",
-							props);
+					context.report(IReporter.SEVERITY_INFO, "Ended transfer to destination \""
+							+ value + "\"", props);
 				}
 				if (IBridgeMessage.TRANSFERRED.equals(result)) {
 					return context.createResult("Call Transfered");
@@ -150,11 +133,9 @@ public class BridgeMessageAction implements IAction {
 				} else if (IBridgeMessage.UNAVAILABLE.equals(result)) {
 					return context.createResult("No Answer");
 				} else if (IBridgeMessage.NOAUTH.equals(result)) {
-					return context
-							.createResult("error.connection.noauthorization");
+					return context.createResult("error.connection.noauthorization");
 				} else if (IBridgeMessage.BADDEST.equals(result)) {
-					return context
-							.createResult("error.connection.baddestination");
+					return context.createResult("error.connection.baddestination");
 				} else if (IBridgeMessage.NOROUTE.equals(result)) {
 					return context.createResult("error.connection.noroute");
 				} else if (IBridgeMessage.NORESOURCE.equals(result)) {
@@ -162,13 +143,11 @@ public class BridgeMessageAction implements IAction {
 				} else if (IBridgeMessage.PROTOCOL.equals(result)) {
 					return context.createResult("error.connection.protocol");
 				} else if (IBridgeMessage.BADBRIDGE.equals(result)) {
-					return context
-							.createResult("error.unsupported.transfer.bridge");
+					return context.createResult("error.unsupported.transfer.bridge");
 				} else if (IBridgeMessage.BADURI.equals(result)) {
 					return context.createResult("error.unsupported.uri");
 				} else if (IConversation.RESULT_NAME_HANGUP.equals(result)) {
-					return context
-							.createResult(IConversation.RESULT_NAME_HANGUP);
+					return context.createResult(IConversation.RESULT_NAME_HANGUP);
 				} else {
 					return context.createResult(result);
 				}
@@ -178,12 +157,10 @@ public class BridgeMessageAction implements IAction {
 				props.put("event", "transfer.before");
 				props.put("transfer.destination", value);
 				props.put("transfer.type", transferType);
-				context.report(IReporter.SEVERITY_INFO,
-						"Transfering to destination \"" + value + "\"", props);
+				context.report(IReporter.SEVERITY_INFO, "Transfering to destination \"" + value
+						+ "\"", props);
 			}
-			conversation
-					.createBridgeMessage(configuration, resultParameterName)
-					.enqueue();
+			conversation.createBridgeMessage(configuration, resultParameterName).enqueue();
 			return context.createResult(IActionResult.RESULT_NAME_REPEAT);
 		} catch (RuntimeException e) {
 			return context.createResult("error.bridge.message", e); //$NON-NLS-1$

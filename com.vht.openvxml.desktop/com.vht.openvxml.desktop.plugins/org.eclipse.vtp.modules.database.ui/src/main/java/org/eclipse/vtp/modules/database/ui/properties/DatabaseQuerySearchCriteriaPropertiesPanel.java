@@ -76,18 +76,17 @@ import com.openmethods.openvxml.desktop.model.workflow.design.Variable;
 
 /**
  * @author Trip
- *
  */
-public class DatabaseQuerySearchCriteriaPropertiesPanel extends
-		DesignElementPropertiesPanel implements DatabaseQuerySettingsListener {
+public class DatabaseQuerySearchCriteriaPropertiesPanel extends DesignElementPropertiesPanel
+	implements
+	DatabaseQuerySettingsListener {
 	DatabaseQueryInformationProvider queryElement;
 	DatabaseQuerySettingsStructure settings;
 	TableViewer criteriaViewer;
 	Button resultLimitButton;
 	Text resultLimitField;
-	String[] comparisonNames = new String[] { "Equals", "Not Equals",
-			"Less Than", "Less Than or Equal", "Greater Than",
-			"Greater Than or Equal" };
+	String[] comparisonNames = new String[] { "Equals", "Not Equals", "Less Than",
+			"Less Than or Equal", "Greater Than", "Greater Than or Equal" };
 	ComboBoxCellEditor comparisonEditor;
 	ValueCellEditor valueEditor;
 	IBusinessObjectSet businessObjectSet = null;
@@ -96,8 +95,7 @@ public class DatabaseQuerySearchCriteriaPropertiesPanel extends
 	public DatabaseQuerySearchCriteriaPropertiesPanel(PrimitiveElement dqe,
 			DatabaseQuerySettingsStructure settings) {
 		super("Search Criteria", dqe);
-		this.queryElement = (DatabaseQueryInformationProvider) dqe
-				.getInformationProvider();
+		this.queryElement = (DatabaseQueryInformationProvider) dqe.getInformationProvider();
 		this.settings = settings;
 		IOpenVXMLProject project = dqe.getDesign().getDocument().getProject();
 		IBusinessObjectProjectAspect businessObjectAspect = (IBusinessObjectProjectAspect) project
@@ -115,8 +113,8 @@ public class DatabaseQuerySearchCriteriaPropertiesPanel extends
 		GridLayout gl = new GridLayout(2, false);
 		parent.setLayout(gl);
 
-		Table criteriaTable = new Table(parent, SWT.FULL_SELECTION | SWT.BORDER
-				| SWT.SINGLE | SWT.CHECK);
+		Table criteriaTable = new Table(parent, SWT.FULL_SELECTION | SWT.BORDER | SWT.SINGLE
+				| SWT.CHECK);
 		criteriaTable.setHeaderVisible(true);
 
 		TableColumn columnNameColumn = new TableColumn(criteriaTable, SWT.NONE);
@@ -127,50 +125,45 @@ public class DatabaseQuerySearchCriteriaPropertiesPanel extends
 		comparisonColumn.setText("Comparison");
 		comparisonColumn.setWidth(80);
 
-		TableColumn matchingValueColumn = new TableColumn(criteriaTable,
-				SWT.NONE);
+		TableColumn matchingValueColumn = new TableColumn(criteriaTable, SWT.NONE);
 		matchingValueColumn.setText("Matching Value");
 		matchingValueColumn.setWidth(200);
 
 		GridData gd = new GridData(GridData.FILL_BOTH);
 		gd.horizontalSpan = 2;
 		criteriaTable.setLayoutData(gd);
-		comparisonEditor = new ComboBoxCellEditor(criteriaTable,
-				comparisonNames, SWT.READ_ONLY | SWT.DROP_DOWN);
+		comparisonEditor = new ComboBoxCellEditor(criteriaTable, comparisonNames, SWT.READ_ONLY
+				| SWT.DROP_DOWN);
 		valueEditor = new ValueCellEditor(criteriaTable);
 		criteriaViewer = new TableViewer(criteriaTable);
-		criteriaViewer.setColumnProperties(new String[] { "Name", "Comparison",
-				"Value" });
+		criteriaViewer.setColumnProperties(new String[] { "Name", "Comparison", "Value" });
 		criteriaViewer.setCellModifier(new ValueCellModifier());
-		criteriaViewer.setCellEditors(new CellEditor[] { null,
-				comparisonEditor, valueEditor });
+		criteriaViewer.setCellEditors(new CellEditor[] { null, comparisonEditor, valueEditor });
 		criteriaViewer.setContentProvider(new CriteriaContentProvider());
 		criteriaViewer.setLabelProvider(new CriteriaLabelProvider());
 		criteriaViewer.setInput(this);
 		resultLimitButton = new Button(parent, SWT.CHECK);
 		resultLimitButton.setText("Limit results to this many records");
 		resultLimitButton.setSelection(settings.resultLimit != -1);
-		resultLimitButton
-				.setEnabled(!settings.targetVariableType.isObject()
-						&& settings.targetVariableType.getPrimitiveType() == Primitive.ARRAY);
+		resultLimitButton.setEnabled(!settings.targetVariableType.isObject()
+				&& settings.targetVariableType.getPrimitiveType() == Primitive.ARRAY);
 		resultLimitButton.setBackground(parent.getBackground());
 		resultLimitButton.setLayoutData(new GridData());
 		resultLimitButton.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (resultLimitButton.getSelection()) {
-					settings.resultLimit = Integer.parseInt((resultLimitField
-							.getText() == null) ? "0" : (resultLimitField
-							.getText().equals("") ? "0" : resultLimitField
-							.getText()));
+					settings.resultLimit = Integer
+							.parseInt((resultLimitField.getText() == null) ? "0"
+									: (resultLimitField.getText().equals("") ? "0"
+											: resultLimitField.getText()));
 				} else {
 					settings.resultLimit = -1;
 				}
 			}
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
 		resultLimitField = new Text(parent, SWT.BORDER);
 
@@ -180,16 +173,15 @@ public class DatabaseQuerySearchCriteriaPropertiesPanel extends
 
 		resultLimitField.addKeyListener(new KeyListener() {
 			@Override
-			public void keyPressed(KeyEvent e) {
-			}
+			public void keyPressed(KeyEvent e) {}
 
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (resultLimitButton.getSelection()) {
-					settings.resultLimit = Integer.parseInt((resultLimitField
-							.getText() == null) ? "0" : (resultLimitField
-							.getText().equals("") ? "0" : resultLimitField
-							.getText()));
+					settings.resultLimit = Integer
+							.parseInt((resultLimitField.getText() == null) ? "0"
+									: (resultLimitField.getText().equals("") ? "0"
+											: resultLimitField.getText()));
 				} else {
 					settings.resultLimit = -1;
 				}
@@ -214,8 +206,7 @@ public class DatabaseQuerySearchCriteriaPropertiesPanel extends
 		resultLimitField.setLayoutData(rlfdata);
 
 		for (int i = 0; i < settings.criteria.size(); i++) {
-			DatabaseQuerySettingsStructure.SelectionCriteria criteria = settings.criteria
-					.get(i);
+			DatabaseQuerySettingsStructure.SelectionCriteria criteria = settings.criteria.get(i);
 			criteriaTable.getItem(i).setChecked(criteria.comparison != -1);
 		}
 
@@ -237,14 +228,12 @@ public class DatabaseQuerySearchCriteriaPropertiesPanel extends
 			}
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
 	}
 
 	@Override
-	public void save() {
-	}
+	public void save() {}
 
 	@Override
 	public void cancel() {
@@ -253,9 +242,8 @@ public class DatabaseQuerySearchCriteriaPropertiesPanel extends
 
 	@Override
 	public void targetVariableChanged() {
-		resultLimitButton
-				.setEnabled(!settings.targetVariableType.isObject()
-						&& settings.targetVariableType.getPrimitiveType() == Primitive.ARRAY);
+		resultLimitButton.setEnabled(!settings.targetVariableType.isObject()
+				&& settings.targetVariableType.getPrimitiveType() == Primitive.ARRAY);
 		resultLimitButton.setSelection(false);
 		resultLimitField.setText("");
 	}
@@ -264,10 +252,8 @@ public class DatabaseQuerySearchCriteriaPropertiesPanel extends
 	public void sourceDatabaseChanged() {
 		settings.criteria.clear();
 
-		if ((settings.sourceDatabase != null)
-				&& (settings.sourceDatabaseTable != null)
-				&& !settings.sourceDatabase.equals("")
-				&& !settings.sourceDatabaseTable.equals("")) {
+		if ((settings.sourceDatabase != null) && (settings.sourceDatabaseTable != null)
+				&& !settings.sourceDatabase.equals("") && !settings.sourceDatabaseTable.equals("")) {
 			List<IDatabase> databases = databaseSet.getDatabases();
 
 			for (int i = 0; i < databases.size(); i++) {
@@ -279,16 +265,13 @@ public class DatabaseQuerySearchCriteriaPropertiesPanel extends
 					for (int t = 0; t < tables.size(); t++) {
 						IDatabaseTable table = tables.get(t);
 
-						if (table.getName()
-								.equals(settings.sourceDatabaseTable)) {
-							List<IDatabaseTableColumn> columns = table
-									.getColumns();
+						if (table.getName().equals(settings.sourceDatabaseTable)) {
+							List<IDatabaseTableColumn> columns = table.getColumns();
 
 							for (int c = 0; c < columns.size(); c++) {
 								IDatabaseTableColumn column = columns.get(c);
-								settings.criteria
-										.add(settings.new SelectionCriteria(
-												column.getName()));
+								settings.criteria.add(settings.new SelectionCriteria(column
+										.getName()));
 							}
 						}
 					}
@@ -300,12 +283,10 @@ public class DatabaseQuerySearchCriteriaPropertiesPanel extends
 	}
 
 	@Override
-	public void dataMappingChanged() {
-	}
+	public void dataMappingChanged() {}
 
 	@Override
-	public void searchCriteriaChanged() {
-	}
+	public void searchCriteriaChanged() {}
 
 	public class CriteriaContentProvider implements IStructuredContentProvider {
 		@Override
@@ -314,12 +295,10 @@ public class DatabaseQuerySearchCriteriaPropertiesPanel extends
 		}
 
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 	}
 
 	public class CriteriaLabelProvider implements ITableLabelProvider {
@@ -335,23 +314,17 @@ public class DatabaseQuerySearchCriteriaPropertiesPanel extends
 			if (columnIndex == 0) {
 				return criteria.columnName;
 			} else if (columnIndex == 1) {
-				if (criteria.comparison != -1) {
-					return comparisonNames[criteria.comparison];
-				}
-			} else if (columnIndex == 2) {
-				return criteria.value;
-			}
+				if (criteria.comparison != -1) { return comparisonNames[criteria.comparison]; }
+			} else if (columnIndex == 2) { return criteria.value; }
 
 			return null;
 		}
 
 		@Override
-		public void addListener(ILabelProviderListener listener) {
-		}
+		public void addListener(ILabelProviderListener listener) {}
 
 		@Override
-		public void dispose() {
-		}
+		public void dispose() {}
 
 		@Override
 		public boolean isLabelProperty(Object element, String property) {
@@ -359,8 +332,7 @@ public class DatabaseQuerySearchCriteriaPropertiesPanel extends
 		}
 
 		@Override
-		public void removeListener(ILabelProviderListener listener) {
-		}
+		public void removeListener(ILabelProviderListener listener) {}
 	}
 
 	public class ValueCellModifier implements ICellModifier {
@@ -369,9 +341,7 @@ public class DatabaseQuerySearchCriteriaPropertiesPanel extends
 			DatabaseQuerySettingsStructure.SelectionCriteria criteria = (DatabaseQuerySettingsStructure.SelectionCriteria) element;
 
 			if (property.equals("Value") || property.equals("Comparison")) {
-				if (criteria.comparison != -1) {
-					return true;
-				}
+				if (criteria.comparison != -1) { return true; }
 			}
 
 			return false;
@@ -381,9 +351,7 @@ public class DatabaseQuerySearchCriteriaPropertiesPanel extends
 		public Object getValue(Object element, String property) {
 			DatabaseQuerySettingsStructure.SelectionCriteria criteria = (DatabaseQuerySettingsStructure.SelectionCriteria) element;
 
-			if (property.equals("Comparison")) {
-				return new Integer(criteria.comparison);
-			}
+			if (property.equals("Comparison")) { return new Integer(criteria.comparison); }
 
 			return element;
 		}
@@ -429,8 +397,7 @@ public class DatabaseQuerySearchCriteriaPropertiesPanel extends
 		@Override
 		protected Object openDialogBox(Control cellEditorWindow) {
 			ValueDialog vd = new ValueDialog(cellEditorWindow.getShell());
-			vd.setValue((DatabaseQuerySettingsStructure.SelectionCriteria) this
-					.getValue());
+			vd.setValue((DatabaseQuerySettingsStructure.SelectionCriteria) this.getValue());
 			vd.open();
 
 			return this.getValue();
@@ -459,8 +426,7 @@ public class DatabaseQuerySearchCriteriaPropertiesPanel extends
 			vars = getElement().getDesign().getVariablesFor(getElement());
 		}
 
-		public void setValue(
-				DatabaseQuerySettingsStructure.SelectionCriteria value) {
+		public void setValue(DatabaseQuerySettingsStructure.SelectionCriteria value) {
 			this.value = value;
 			originalType = value.type;
 			originalValue = value.value;
@@ -507,8 +473,7 @@ public class DatabaseQuerySearchCriteriaPropertiesPanel extends
 				}
 
 				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-				}
+				public void widgetDefaultSelected(SelectionEvent e) {}
 			});
 
 			final Button cancelButton = new Button(buttons, SWT.PUSH);
@@ -520,8 +485,7 @@ public class DatabaseQuerySearchCriteriaPropertiesPanel extends
 				}
 
 				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-				}
+				public void widgetDefaultSelected(SelectionEvent e) {}
 			});
 			if (Display.getCurrent().getDismissalAlignment() == SWT.RIGHT) {
 				cancelButton.moveAbove(okButton);
@@ -571,8 +535,7 @@ public class DatabaseQuerySearchCriteriaPropertiesPanel extends
 			gd.horizontalSpan = 2;
 			variableButton.setLayoutData(gd);
 
-			Tree variableTree = new Tree(parent, SWT.BORDER | SWT.SINGLE
-					| SWT.FULL_SELECTION);
+			Tree variableTree = new Tree(parent, SWT.BORDER | SWT.SINGLE | SWT.FULL_SELECTION);
 			gd = new GridData(GridData.FILL_BOTH);
 			gd.horizontalIndent = 10;
 			gd.horizontalSpan = 2;
@@ -596,17 +559,14 @@ public class DatabaseQuerySearchCriteriaPropertiesPanel extends
 
 					if (v.getName().equals(value.value)) {
 						variableViewer.setSelection(new StructuredSelection(v));
-					} else if ((value.value != null)
-							&& value.value.startsWith(v.getName())) {
+					} else if ((value.value != null) && value.value.startsWith(v.getName())) {
 						List<ObjectField> objectFields = v.getFields();
 
 						for (int f = 0; f < objectFields.size(); f++) {
 							ObjectField of = objectFields.get(f);
 
 							if (of.getPath().equals(value.value)) {
-								variableViewer
-										.setSelection(new StructuredSelection(
-												of));
+								variableViewer.setSelection(new StructuredSelection(of));
 							}
 						}
 					}
@@ -616,14 +576,12 @@ public class DatabaseQuerySearchCriteriaPropertiesPanel extends
 			staticValueField.setLayoutData(gd);
 
 			if (value.type == 0) {
-				staticValueField.setText((value.value == null) ? ""
-						: value.value);
+				staticValueField.setText((value.value == null) ? "" : value.value);
 			}
 
 			staticValueField.addKeyListener(new KeyListener() {
 				@Override
-				public void keyPressed(KeyEvent e) {
-				}
+				public void keyPressed(KeyEvent e) {}
 
 				@Override
 				public void keyReleased(KeyEvent e) {
@@ -639,8 +597,7 @@ public class DatabaseQuerySearchCriteriaPropertiesPanel extends
 				}
 
 				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-				}
+				public void widgetDefaultSelected(SelectionEvent e) {}
 			});
 			variableButton.addSelectionListener(new SelectionListener() {
 				@Override
@@ -651,16 +608,14 @@ public class DatabaseQuerySearchCriteriaPropertiesPanel extends
 				}
 
 				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
+				public void widgetDefaultSelected(SelectionEvent e) {}
+			});
+			variableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+				@Override
+				public void selectionChanged(SelectionChangedEvent event) {
+					updateValue();
 				}
 			});
-			variableViewer
-					.addSelectionChangedListener(new ISelectionChangedListener() {
-						@Override
-						public void selectionChanged(SelectionChangedEvent event) {
-							updateValue();
-						}
-					});
 		}
 
 		public class VariableContentProvider implements ITreeContentProvider {
@@ -670,13 +625,10 @@ public class DatabaseQuerySearchCriteriaPropertiesPanel extends
 			}
 
 			@Override
-			public void dispose() {
-			}
+			public void dispose() {}
 
 			@Override
-			public void inputChanged(Viewer viewer, Object oldInput,
-					Object newInput) {
-			}
+			public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 
 			@Override
 			public Object[] getChildren(Object parentElement) {
@@ -701,8 +653,8 @@ public class DatabaseQuerySearchCriteriaPropertiesPanel extends
 		public class VariableLabelProvider extends LabelProvider {
 			@Override
 			public Image getImage(Object element) {
-				return org.eclipse.vtp.desktop.core.Activator.getDefault()
-						.getImageRegistry().get("ICON_TINY_SQUARE");
+				return org.eclipse.vtp.desktop.core.Activator.getDefault().getImageRegistry().get(
+						"ICON_TINY_SQUARE");
 			}
 
 			@Override
@@ -713,8 +665,7 @@ public class DatabaseQuerySearchCriteriaPropertiesPanel extends
 	}
 
 	@Override
-	public void setConfigurationContext(Map<String, Object> values) {
-	}
+	public void setConfigurationContext(Map<String, Object> values) {}
 
 	@Override
 	public List<String> getApplicableContexts() {

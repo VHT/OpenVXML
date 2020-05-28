@@ -42,14 +42,11 @@ public class OptionSetMediaDefaultsPanel implements IMediaDefaultPanel {
 	Spinner speedVsAccuracySpinner = null;
 	List<DefaultValueStack> valueStacks = new LinkedList<DefaultValueStack>();
 
-	public OptionSetMediaDefaultsPanel() {
-	}
+	public OptionSetMediaDefaultsPanel() {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.configuration.IMediaDefaultPanel#createControls
+	 * @see org.eclipse.vtp.desktop.core.configuration.IMediaDefaultPanel#createControls
 	 * (org.eclipse.swt.widgets.Composite, boolean)
 	 */
 	@Override
@@ -65,20 +62,17 @@ public class OptionSetMediaDefaultsPanel implements IMediaDefaultPanel {
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.horizontalSpan = 2;
 		panelLabel.setLayoutData(gridData);
-		Label inputModeLabel = createPropertyLabel(settingsComposite,
-				"User Input Style");
+		Label inputModeLabel = createPropertyLabel(settingsComposite, "User Input Style");
 		inputModeLabel.setBackground(settingsComposite.getBackground());
 		inputModeLabel
 				.setToolTipText("This property selects the valid ways\r\n"
-						+ "a caller can provide input:\r\n"
-						+ "\t*DTMF - Touchtone keypad only"
+						+ "a caller can provide input:\r\n" + "\t*DTMF - Touchtone keypad only"
 						+ "\t*Voice - Speech recognition only"
 						+ "\t*Hybrid - Touchtone or speech accepted");
 		Composite containerComp = createWrapperComposite(settingsComposite);
 		containerComp.setBackground(settingsComposite.getBackground());
 		if (supportDefaults) {
-			lastStack = new DefaultValueStack(interactionType, elementType,
-					"input-mode");
+			lastStack = new DefaultValueStack(interactionType, elementType, "input-mode");
 			lastStack.createControls(containerComp);
 			containerComp = lastStack.getValueComposite();
 			valueStacks.add(lastStack);
@@ -92,8 +86,7 @@ public class OptionSetMediaDefaultsPanel implements IMediaDefaultPanel {
 			lastStack.setValueControl(new ValueControl() {
 				@Override
 				public String getValue() {
-					return inputModeCombo.getItem(inputModeCombo
-							.getSelectionIndex());
+					return inputModeCombo.getItem(inputModeCombo.getSelectionIndex());
 				}
 
 				@Override
@@ -113,16 +106,14 @@ public class OptionSetMediaDefaultsPanel implements IMediaDefaultPanel {
 			});
 		}
 
-		Label bargeLabel = createPropertyLabel(settingsComposite,
-				"Barge-in Enabled");
+		Label bargeLabel = createPropertyLabel(settingsComposite, "Barge-in Enabled");
 		bargeLabel.setBackground(settingsComposite.getBackground());
 		bargeLabel
 				.setToolTipText("Determines whether the caller can\r\ninterrupt the prompt to begin entry");
 		containerComp = createWrapperComposite(settingsComposite);
 		containerComp.setBackground(settingsComposite.getBackground());
 		if (supportDefaults) {
-			lastStack = new DefaultValueStack(interactionType, elementType,
-					"barge-in");
+			lastStack = new DefaultValueStack(interactionType, elementType, "barge-in");
 			lastStack.createControls(containerComp);
 			containerComp = lastStack.getValueComposite();
 			valueStacks.add(lastStack);
@@ -156,15 +147,12 @@ public class OptionSetMediaDefaultsPanel implements IMediaDefaultPanel {
 		Label initialTimeoutLabel = createPropertyLabel(settingsComposite,
 				"Initial Input Timeout (Seconds)");
 		initialTimeoutLabel.setBackground(settingsComposite.getBackground());
-		initialTimeoutLabel
-				.setToolTipText("The amount of time in seconds to wait\r\n"
-						+ "for the caller to begin input before\r\n"
-						+ "a NoInput event.");
+		initialTimeoutLabel.setToolTipText("The amount of time in seconds to wait\r\n"
+				+ "for the caller to begin input before\r\n" + "a NoInput event.");
 		containerComp = createWrapperComposite(settingsComposite);
 		containerComp.setBackground(settingsComposite.getBackground());
 		if (supportDefaults) {
-			lastStack = new DefaultValueStack(interactionType, elementType,
-					"initial-timeout");
+			lastStack = new DefaultValueStack(interactionType, elementType, "initial-timeout");
 			lastStack.createControls(containerComp);
 			containerComp = lastStack.getValueComposite();
 			valueStacks.add(lastStack);
@@ -174,14 +162,13 @@ public class OptionSetMediaDefaultsPanel implements IMediaDefaultPanel {
 			lastStack.setValueControl(new ValueControl() {
 				@Override
 				public String getValue() {
-					return Integer.toString(initialTimeoutSpinner
-							.getSelection());
+					return Integer.toString(initialTimeoutSpinner.getSelection());
 				}
 
 				@Override
 				public void setValue(String value) {
-					initialTimeoutSpinner.setSelection((value == null || value
-							.equals("")) ? 3 : Integer.parseInt(value));
+					initialTimeoutSpinner.setSelection((value == null || value.equals("")) ? 3
+							: Integer.parseInt(value));
 				}
 			});
 		}
@@ -189,81 +176,68 @@ public class OptionSetMediaDefaultsPanel implements IMediaDefaultPanel {
 		Label interdigitTimeoutLabel = createPropertyLabel(settingsComposite,
 				"Interdigit Timeout (Seconds)");
 		interdigitTimeoutLabel.setBackground(settingsComposite.getBackground());
-		interdigitTimeoutLabel
-				.setToolTipText("The amount of time in seconds to wait\r\n"
-						+ "for additional touchtone if the current\r\n"
-						+ "input does not match the grammar before\r\n"
-						+ "a NoMatch event.");
+		interdigitTimeoutLabel.setToolTipText("The amount of time in seconds to wait\r\n"
+				+ "for additional touchtone if the current\r\n"
+				+ "input does not match the grammar before\r\n" + "a NoMatch event.");
 		containerComp = createWrapperComposite(settingsComposite);
 		containerComp.setBackground(settingsComposite.getBackground());
 		if (supportDefaults) {
-			lastStack = new DefaultValueStack(interactionType, elementType,
-					"interdigit-timeout");
+			lastStack = new DefaultValueStack(interactionType, elementType, "interdigit-timeout");
 			lastStack.createControls(containerComp);
 			containerComp = lastStack.getValueComposite();
 			valueStacks.add(lastStack);
 		}
-		interdigitTimeoutSpinner = createValueSpinner(containerComp, 0, 100, 0,
-				0);
+		interdigitTimeoutSpinner = createValueSpinner(containerComp, 0, 100, 0, 0);
 		if (supportDefaults) {
 			lastStack.setValueControl(new ValueControl() {
 				@Override
 				public String getValue() {
-					return Integer.toString(interdigitTimeoutSpinner
-							.getSelection());
+					return Integer.toString(interdigitTimeoutSpinner.getSelection());
 				}
 
 				@Override
 				public void setValue(String value) {
-					interdigitTimeoutSpinner.setSelection((value == null || value
-							.equals("")) ? 2 : Integer.parseInt(value));
+					interdigitTimeoutSpinner.setSelection((value == null || value.equals("")) ? 2
+							: Integer.parseInt(value));
 				}
 			});
 		}
 
 		Label terminationTimeoutLabel = createPropertyLabel(settingsComposite,
 				"Termination Timeout (Seconds)");
-		terminationTimeoutLabel
-				.setBackground(settingsComposite.getBackground());
-		terminationTimeoutLabel
-				.setToolTipText("The amount of time in seconds to wait\r\n"
-						+ "for additional input after a selection\r\n"
-						+ "has been matched.");
+		terminationTimeoutLabel.setBackground(settingsComposite.getBackground());
+		terminationTimeoutLabel.setToolTipText("The amount of time in seconds to wait\r\n"
+				+ "for additional input after a selection\r\n" + "has been matched.");
 		containerComp = createWrapperComposite(settingsComposite);
 		containerComp.setBackground(settingsComposite.getBackground());
 		if (supportDefaults) {
-			lastStack = new DefaultValueStack(interactionType, elementType,
-					"termination-timeout");
+			lastStack = new DefaultValueStack(interactionType, elementType, "termination-timeout");
 			lastStack.createControls(containerComp);
 			containerComp = lastStack.getValueComposite();
 			valueStacks.add(lastStack);
 		}
-		terminationTimeoutSpinner = createValueSpinner(containerComp, 0, 100,
-				0, 0);
+		terminationTimeoutSpinner = createValueSpinner(containerComp, 0, 100, 0, 0);
 		if (supportDefaults) {
 			lastStack.setValueControl(new ValueControl() {
 				@Override
 				public String getValue() {
-					return Integer.toString(terminationTimeoutSpinner
-							.getSelection());
+					return Integer.toString(terminationTimeoutSpinner.getSelection());
 				}
 
 				@Override
 				public void setValue(String value) {
-					terminationTimeoutSpinner.setSelection((value == null || value
-							.equals("")) ? 3 : Integer.parseInt(value));
+					terminationTimeoutSpinner.setSelection((value == null || value.equals("")) ? 3
+							: Integer.parseInt(value));
 				}
 			});
 		}
 
-		Label speechIncompleteTimeoutLabel = createPropertyLabel(
-				settingsComposite, "Speech Incomplete Timeout (Seconds)");
-		speechIncompleteTimeoutLabel.setBackground(settingsComposite
-				.getBackground());
-		speechIncompleteTimeoutLabel
-				.setToolTipText("The amount of time in seconds to wait\r\n"
-						+ "for additional input if the current entry\r\n"
-						+ "does not match the provided grammar.");
+		Label speechIncompleteTimeoutLabel = createPropertyLabel(settingsComposite,
+				"Speech Incomplete Timeout (Seconds)");
+		speechIncompleteTimeoutLabel.setBackground(settingsComposite.getBackground());
+		speechIncompleteTimeoutLabel.setToolTipText("The amount of time in seconds to wait\r\n"
+				+ "for additional input if the current entry\r\n"
+				+ "does not match the provided grammar.");
 		containerComp = createWrapperComposite(settingsComposite);
 		containerComp.setBackground(settingsComposite.getBackground());
 		if (supportDefaults) {
@@ -273,32 +247,29 @@ public class OptionSetMediaDefaultsPanel implements IMediaDefaultPanel {
 			containerComp = lastStack.getValueComposite();
 			valueStacks.add(lastStack);
 		}
-		speechIncompleteTimeoutSpinner = createValueSpinner(containerComp, 0,
-				100, 0, 0);
+		speechIncompleteTimeoutSpinner = createValueSpinner(containerComp, 0, 100, 0, 0);
 		if (supportDefaults) {
 			lastStack.setValueControl(new ValueControl() {
 				@Override
 				public String getValue() {
-					return Integer.toString(speechIncompleteTimeoutSpinner
-							.getSelection());
+					return Integer.toString(speechIncompleteTimeoutSpinner.getSelection());
 				}
 
 				@Override
 				public void setValue(String value) {
-					speechIncompleteTimeoutSpinner.setSelection((value == null || value
-							.equals("")) ? 3 : Integer.parseInt(value));
+					speechIncompleteTimeoutSpinner
+							.setSelection((value == null || value.equals("")) ? 3 : Integer
+									.parseInt(value));
 				}
 			});
 		}
 
-		Label speechCompleteTimeoutLabel = createPropertyLabel(
-				settingsComposite, "Speech Completion Timeout (Seconds)");
-		speechCompleteTimeoutLabel.setBackground(settingsComposite
-				.getBackground());
-		speechCompleteTimeoutLabel
-				.setToolTipText("The amount of time in seconds to wait\r\n"
-						+ "for additional input if the current entry\r\n"
-						+ "already matches the provided grammar.");
+		Label speechCompleteTimeoutLabel = createPropertyLabel(settingsComposite,
+				"Speech Completion Timeout (Seconds)");
+		speechCompleteTimeoutLabel.setBackground(settingsComposite.getBackground());
+		speechCompleteTimeoutLabel.setToolTipText("The amount of time in seconds to wait\r\n"
+				+ "for additional input if the current entry\r\n"
+				+ "already matches the provided grammar.");
 		containerComp = createWrapperComposite(settingsComposite);
 		containerComp.setBackground(settingsComposite.getBackground());
 		if (supportDefaults) {
@@ -308,20 +279,19 @@ public class OptionSetMediaDefaultsPanel implements IMediaDefaultPanel {
 			containerComp = lastStack.getValueComposite();
 			valueStacks.add(lastStack);
 		}
-		speechCompleteTimeoutSpinner = createValueSpinner(containerComp, 0,
-				100, 0, 0);
+		speechCompleteTimeoutSpinner = createValueSpinner(containerComp, 0, 100, 0, 0);
 		if (supportDefaults) {
 			lastStack.setValueControl(new ValueControl() {
 				@Override
 				public String getValue() {
-					return Integer.toString(speechCompleteTimeoutSpinner
-							.getSelection());
+					return Integer.toString(speechCompleteTimeoutSpinner.getSelection());
 				}
 
 				@Override
 				public void setValue(String value) {
-					speechCompleteTimeoutSpinner.setSelection((value == null || value
-							.equals("")) ? 3 : Integer.parseInt(value));
+					speechCompleteTimeoutSpinner
+							.setSelection((value == null || value.equals("")) ? 3 : Integer
+									.parseInt(value));
 				}
 			});
 		}
@@ -329,32 +299,28 @@ public class OptionSetMediaDefaultsPanel implements IMediaDefaultPanel {
 		Label maxSpeechTimeoutLabel = createPropertyLabel(settingsComposite,
 				"Maximum Speech Length (Seconds)");
 		maxSpeechTimeoutLabel.setBackground(settingsComposite.getBackground());
-		maxSpeechTimeoutLabel
-				.setToolTipText("The maximum length of speech input\r\n"
-						+ "in seconds that will be accepted.");
+		maxSpeechTimeoutLabel.setToolTipText("The maximum length of speech input\r\n"
+				+ "in seconds that will be accepted.");
 		containerComp = createWrapperComposite(settingsComposite);
 		containerComp.setBackground(settingsComposite.getBackground());
 		if (supportDefaults) {
-			lastStack = new DefaultValueStack(interactionType, elementType,
-					"max-speech-timeout");
+			lastStack = new DefaultValueStack(interactionType, elementType, "max-speech-timeout");
 			lastStack.createControls(containerComp);
 			containerComp = lastStack.getValueComposite();
 			valueStacks.add(lastStack);
 		}
-		maxSpeechTimeoutSpinner = createValueSpinner(containerComp, 1, 300, 0,
-				0);
+		maxSpeechTimeoutSpinner = createValueSpinner(containerComp, 1, 300, 0, 0);
 		if (supportDefaults) {
 			lastStack.setValueControl(new ValueControl() {
 				@Override
 				public String getValue() {
-					return Integer.toString(maxSpeechTimeoutSpinner
-							.getSelection());
+					return Integer.toString(maxSpeechTimeoutSpinner.getSelection());
 				}
 
 				@Override
 				public void setValue(String value) {
-					maxSpeechTimeoutSpinner.setSelection((value == null || value
-							.equals("")) ? 10 : Integer.parseInt(value));
+					maxSpeechTimeoutSpinner.setSelection((value == null || value.equals("")) ? 10
+							: Integer.parseInt(value));
 				}
 			});
 		}
@@ -362,14 +328,12 @@ public class OptionSetMediaDefaultsPanel implements IMediaDefaultPanel {
 		Label confidenceLevelLabel = createPropertyLabel(settingsComposite,
 				"Minimum Confidence Level Accepted");
 		confidenceLevelLabel.setBackground(settingsComposite.getBackground());
-		confidenceLevelLabel
-				.setToolTipText("The minimum level of confidence accepted\r\n"
-						+ "by the speech recognition provider.");
+		confidenceLevelLabel.setToolTipText("The minimum level of confidence accepted\r\n"
+				+ "by the speech recognition provider.");
 		containerComp = createWrapperComposite(settingsComposite);
 		containerComp.setBackground(settingsComposite.getBackground());
 		if (supportDefaults) {
-			lastStack = new DefaultValueStack(interactionType, elementType,
-					"confidence-level");
+			lastStack = new DefaultValueStack(interactionType, elementType, "confidence-level");
 			lastStack.createControls(containerComp);
 			containerComp = lastStack.getValueComposite();
 			valueStacks.add(lastStack);
@@ -379,14 +343,13 @@ public class OptionSetMediaDefaultsPanel implements IMediaDefaultPanel {
 			lastStack.setValueControl(new ValueControl() {
 				@Override
 				public String getValue() {
-					return Integer.toString(confidenceLevelSpinner
-							.getSelection());
+					return Integer.toString(confidenceLevelSpinner.getSelection());
 				}
 
 				@Override
 				public void setValue(String value) {
-					confidenceLevelSpinner.setSelection((value == null || value
-							.equals("")) ? 50 : Integer.parseInt(value));
+					confidenceLevelSpinner.setSelection((value == null || value.equals("")) ? 50
+							: Integer.parseInt(value));
 				}
 			});
 		}
@@ -394,15 +357,13 @@ public class OptionSetMediaDefaultsPanel implements IMediaDefaultPanel {
 		Label sensitivityLabel = createPropertyLabel(settingsComposite,
 				"Typical Caller Environment");
 		sensitivityLabel.setBackground(settingsComposite.getBackground());
-		sensitivityLabel
-				.setToolTipText("Determines how sensitive the speech recognition\r\n"
-						+ "will be to background noise.  The lower the number,\r\n"
-						+ "the less senitive the system will be");
+		sensitivityLabel.setToolTipText("Determines how sensitive the speech recognition\r\n"
+				+ "will be to background noise.  The lower the number,\r\n"
+				+ "the less senitive the system will be");
 		containerComp = createWrapperComposite(settingsComposite);
 		containerComp.setBackground(settingsComposite.getBackground());
 		if (supportDefaults) {
-			lastStack = new DefaultValueStack(interactionType, elementType,
-					"sensitivity-level");
+			lastStack = new DefaultValueStack(interactionType, elementType, "sensitivity-level");
 			lastStack.createControls(containerComp);
 			containerComp = lastStack.getValueComposite();
 			valueStacks.add(lastStack);
@@ -417,14 +378,13 @@ public class OptionSetMediaDefaultsPanel implements IMediaDefaultPanel {
 
 				@Override
 				public void setValue(String value) {
-					sensitivitySpinner.setSelection((value == null || value
-							.equals("")) ? 50 : Integer.parseInt(value));
+					sensitivitySpinner.setSelection((value == null || value.equals("")) ? 50
+							: Integer.parseInt(value));
 				}
 			});
 		}
 
-		Label speedVsAccuracyLabel = createPropertyLabel(settingsComposite,
-				"Speed Vs Accuracy");
+		Label speedVsAccuracyLabel = createPropertyLabel(settingsComposite, "Speed Vs Accuracy");
 		speedVsAccuracyLabel.setBackground(settingsComposite.getBackground());
 		speedVsAccuracyLabel
 				.setToolTipText("A hint to the speech recognition platform indicating\r\n"
@@ -435,8 +395,7 @@ public class OptionSetMediaDefaultsPanel implements IMediaDefaultPanel {
 		containerComp = createWrapperComposite(settingsComposite);
 		containerComp.setBackground(settingsComposite.getBackground());
 		if (supportDefaults) {
-			lastStack = new DefaultValueStack(interactionType, elementType,
-					"speed-vs-accuracy");
+			lastStack = new DefaultValueStack(interactionType, elementType, "speed-vs-accuracy");
 			lastStack.createControls(containerComp);
 			containerComp = lastStack.getValueComposite();
 			valueStacks.add(lastStack);
@@ -446,14 +405,13 @@ public class OptionSetMediaDefaultsPanel implements IMediaDefaultPanel {
 			lastStack.setValueControl(new ValueControl() {
 				@Override
 				public String getValue() {
-					return Integer.toString(speedVsAccuracySpinner
-							.getSelection());
+					return Integer.toString(speedVsAccuracySpinner.getSelection());
 				}
 
 				@Override
 				public void setValue(String value) {
-					speedVsAccuracySpinner.setSelection((value == null || value
-							.equals("")) ? 50 : Integer.parseInt(value));
+					speedVsAccuracySpinner.setSelection((value == null || value.equals("")) ? 50
+							: Integer.parseInt(value));
 				}
 			});
 		}
@@ -463,9 +421,7 @@ public class OptionSetMediaDefaultsPanel implements IMediaDefaultPanel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.configuration.IMediaDefaultPanel#getTitle()
+	 * @see org.eclipse.vtp.desktop.core.configuration.IMediaDefaultPanel#getTitle()
 	 */
 	@Override
 	public String getTitle() {
@@ -474,7 +430,6 @@ public class OptionSetMediaDefaultsPanel implements IMediaDefaultPanel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.configuration.IMediaDefaultPanel#save()
 	 */
 	@Override
@@ -484,49 +439,34 @@ public class OptionSetMediaDefaultsPanel implements IMediaDefaultPanel {
 				dvs.save();
 			}
 		} else {
-			settings.getDefaultSetting(interactionType, elementType,
-					"input-mode").setValue(
+			settings.getDefaultSetting(interactionType, elementType, "input-mode").setValue(
 					inputModeCombo.getItem(inputModeCombo.getSelectionIndex()));
-			settings.getDefaultSetting(interactionType, elementType, "barge-in")
-					.setValue(
-							barginCombo.getItem(barginCombo.getSelectionIndex()));
-			settings.getDefaultSetting(interactionType, elementType,
-					"initial-timeout").setValue(
+			settings.getDefaultSetting(interactionType, elementType, "barge-in").setValue(
+					barginCombo.getItem(barginCombo.getSelectionIndex()));
+			settings.getDefaultSetting(interactionType, elementType, "initial-timeout").setValue(
 					Integer.toString(initialTimeoutSpinner.getSelection()));
-			settings.getDefaultSetting(interactionType, elementType,
-					"interdigit-timeout").setValue(
-					Integer.toString(interdigitTimeoutSpinner.getSelection()));
-			settings.getDefaultSetting(interactionType, elementType,
-					"termination-timeout").setValue(
-					Integer.toString(terminationTimeoutSpinner.getSelection()));
-			settings.getDefaultSetting(interactionType, elementType,
-					"speech-incomplete-timeout").setValue(
-					Integer.toString(speechIncompleteTimeoutSpinner
-							.getSelection()));
-			settings.getDefaultSetting(interactionType, elementType,
-					"speech-complete-timeout").setValue(
-					Integer.toString(speechCompleteTimeoutSpinner
-							.getSelection()));
-			settings.getDefaultSetting(interactionType, elementType,
-					"max-speech-timeout").setValue(
-					Integer.toString(maxSpeechTimeoutSpinner.getSelection()));
-			settings.getDefaultSetting(interactionType, elementType,
-					"confidence-level").setValue(
+			settings.getDefaultSetting(interactionType, elementType, "interdigit-timeout")
+					.setValue(Integer.toString(interdigitTimeoutSpinner.getSelection()));
+			settings.getDefaultSetting(interactionType, elementType, "termination-timeout")
+					.setValue(Integer.toString(terminationTimeoutSpinner.getSelection()));
+			settings.getDefaultSetting(interactionType, elementType, "speech-incomplete-timeout")
+					.setValue(Integer.toString(speechIncompleteTimeoutSpinner.getSelection()));
+			settings.getDefaultSetting(interactionType, elementType, "speech-complete-timeout")
+					.setValue(Integer.toString(speechCompleteTimeoutSpinner.getSelection()));
+			settings.getDefaultSetting(interactionType, elementType, "max-speech-timeout")
+					.setValue(Integer.toString(maxSpeechTimeoutSpinner.getSelection()));
+			settings.getDefaultSetting(interactionType, elementType, "confidence-level").setValue(
 					Integer.toString(confidenceLevelSpinner.getSelection()));
-			settings.getDefaultSetting(interactionType, elementType,
-					"sensitivity-level").setValue(
+			settings.getDefaultSetting(interactionType, elementType, "sensitivity-level").setValue(
 					Integer.toString(sensitivitySpinner.getSelection()));
-			settings.getDefaultSetting(interactionType, elementType,
-					"speed-vs-accuracy").setValue(
+			settings.getDefaultSetting(interactionType, elementType, "speed-vs-accuracy").setValue(
 					Integer.toString(speedVsAccuracySpinner.getSelection()));
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.core.configuration.IMediaDefaultPanel#
-	 * setDefaultSettings
+	 * @see org.eclipse.vtp.desktop.core.configuration.IMediaDefaultPanel# setDefaultSettings
 	 * (org.eclipse.vtp.desktop.core.configuration.IMediaDefaultSettings)
 	 */
 	@Override
@@ -538,8 +478,8 @@ public class OptionSetMediaDefaultsPanel implements IMediaDefaultPanel {
 			}
 		} else {
 			if (inputModeCombo != null) {
-				String inputMode = settings.getDefaultSetting(interactionType,
-						elementType, "input-mode").getValue();
+				String inputMode = settings.getDefaultSetting(interactionType, elementType,
+						"input-mode").getValue();
 				if (inputMode == null) {
 					inputModeCombo.select(0);
 				} else if ("Dtmf Only".equals(inputMode)) {
@@ -553,8 +493,8 @@ public class OptionSetMediaDefaultsPanel implements IMediaDefaultPanel {
 				}
 			}
 			if (barginCombo != null) {
-				String bargein = settings.getDefaultSetting(interactionType,
-						elementType, "barge-in").getValue();
+				String bargein = settings.getDefaultSetting(interactionType, elementType,
+						"barge-in").getValue();
 				if (bargein == null) {
 					barginCombo.select(0);
 				} else if ("true".equals(bargein)) {
@@ -566,79 +506,61 @@ public class OptionSetMediaDefaultsPanel implements IMediaDefaultPanel {
 				}
 			}
 			if (initialTimeoutSpinner != null) {
-				String initialTimeout = settings.getDefaultSetting(
-						interactionType, elementType, "initial-timeout")
-						.getValue();
+				String initialTimeout = settings.getDefaultSetting(interactionType, elementType,
+						"initial-timeout").getValue();
 				initialTimeoutSpinner.setSelection(initialTimeout == null
-						|| initialTimeout.equals("") ? 3 : Integer
-						.parseInt(initialTimeout));
+						|| initialTimeout.equals("") ? 3 : Integer.parseInt(initialTimeout));
 			}
 			if (interdigitTimeoutSpinner != null) {
-				String interdigitTimeout = settings.getDefaultSetting(
-						interactionType, elementType, "interdigit-timeout")
-						.getValue();
+				String interdigitTimeout = settings.getDefaultSetting(interactionType, elementType,
+						"interdigit-timeout").getValue();
 				interdigitTimeoutSpinner.setSelection(interdigitTimeout == null
-						|| interdigitTimeout.equals("") ? 2 : Integer
-						.parseInt(interdigitTimeout));
+						|| interdigitTimeout.equals("") ? 2 : Integer.parseInt(interdigitTimeout));
 			}
 			if (terminationTimeoutSpinner != null) {
-				String terminationTimeout = settings.getDefaultSetting(
-						interactionType, elementType, "termination-timeout")
-						.getValue();
+				String terminationTimeout = settings.getDefaultSetting(interactionType,
+						elementType, "termination-timeout").getValue();
 				terminationTimeoutSpinner
-						.setSelection(terminationTimeout == null
-								|| terminationTimeout.equals("") ? 3 : Integer
-								.parseInt(terminationTimeout));
+						.setSelection(terminationTimeout == null || terminationTimeout.equals("") ? 3
+								: Integer.parseInt(terminationTimeout));
 			}
 			if (speechIncompleteTimeoutSpinner != null) {
-				String speechIncompleteTimeout = settings.getDefaultSetting(
-						interactionType, elementType,
-						"speech-incomplete-timeout").getValue();
-				speechIncompleteTimeoutSpinner
-						.setSelection(speechIncompleteTimeout == null
-								|| speechIncompleteTimeout.equals("") ? 3
-								: Integer.parseInt(speechIncompleteTimeout));
+				String speechIncompleteTimeout = settings.getDefaultSetting(interactionType,
+						elementType, "speech-incomplete-timeout").getValue();
+				speechIncompleteTimeoutSpinner.setSelection(speechIncompleteTimeout == null
+						|| speechIncompleteTimeout.equals("") ? 3 : Integer
+						.parseInt(speechIncompleteTimeout));
 			}
 			if (speechCompleteTimeoutSpinner != null) {
-				String speechCompleteTimeout = settings
-						.getDefaultSetting(interactionType, elementType,
-								"speech-complete-timeout").getValue();
-				speechCompleteTimeoutSpinner
-						.setSelection(speechCompleteTimeout == null
-								|| speechCompleteTimeout.equals("") ? 3
-								: Integer.parseInt(speechCompleteTimeout));
+				String speechCompleteTimeout = settings.getDefaultSetting(interactionType,
+						elementType, "speech-complete-timeout").getValue();
+				speechCompleteTimeoutSpinner.setSelection(speechCompleteTimeout == null
+						|| speechCompleteTimeout.equals("") ? 3 : Integer
+						.parseInt(speechCompleteTimeout));
 			}
 			if (maxSpeechTimeoutSpinner != null) {
-				String maxSpeechTimeout = settings.getDefaultSetting(
-						interactionType, elementType, "max-speech-timeout")
-						.getValue();
+				String maxSpeechTimeout = settings.getDefaultSetting(interactionType, elementType,
+						"max-speech-timeout").getValue();
 				maxSpeechTimeoutSpinner.setSelection(maxSpeechTimeout == null
-						|| maxSpeechTimeout.equals("") ? 10 : Integer
-						.parseInt(maxSpeechTimeout));
+						|| maxSpeechTimeout.equals("") ? 10 : Integer.parseInt(maxSpeechTimeout));
 			}
 			if (confidenceLevelSpinner != null) {
-				String confidenceLevel = settings.getDefaultSetting(
-						interactionType, elementType, "confidence-level")
-						.getValue();
+				String confidenceLevel = settings.getDefaultSetting(interactionType, elementType,
+						"confidence-level").getValue();
 				confidenceLevelSpinner.setSelection(confidenceLevel == null
-						|| confidenceLevel.equals("") ? 50 : Integer
-						.parseInt(confidenceLevel));
+						|| confidenceLevel.equals("") ? 50 : Integer.parseInt(confidenceLevel));
 			}
 			if (sensitivitySpinner != null) {
-				String sensitivity = settings.getDefaultSetting(
-						interactionType, elementType, "sensitivity-level")
-						.getValue();
-				sensitivitySpinner.setSelection(sensitivity == null
-						|| sensitivity.equals("") ? 50 : Integer
-						.parseInt(sensitivity));
+				String sensitivity = settings.getDefaultSetting(interactionType, elementType,
+						"sensitivity-level").getValue();
+				sensitivitySpinner.setSelection(sensitivity == null || sensitivity.equals("") ? 50
+						: Integer.parseInt(sensitivity));
 			}
 			if (speedVsAccuracySpinner != null) {
-				String speedVsAccuracy = settings.getDefaultSetting(
-						interactionType, elementType, "speed-vs-accuracy")
-						.getValue();
+				String speedVsAccuracy = settings.getDefaultSetting(interactionType, elementType,
+						"speed-vs-accuracy").getValue();
 				speedVsAccuracySpinner.setSelection(speedVsAccuracy == null
-						|| speedVsAccuracy.equals("") ? 50 : Integer
-						.parseInt(speedVsAccuracy));
+						|| speedVsAccuracy.equals("") ? 50 : Integer.parseInt(speedVsAccuracy));
 			}
 		}
 	}
@@ -660,8 +582,7 @@ public class OptionSetMediaDefaultsPanel implements IMediaDefaultPanel {
 		Composite containerComp = new Composite(parent, SWT.NONE);
 		containerComp.setBackground(parent.getBackground());
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL
-				| GridData.HORIZONTAL_ALIGN_BEGINNING
-				| GridData.VERTICAL_ALIGN_BEGINNING);
+				| GridData.HORIZONTAL_ALIGN_BEGINNING | GridData.VERTICAL_ALIGN_BEGINNING);
 		gridData.horizontalIndent = indent;
 		gridData.widthHint = 150;
 		// gridData.grabExcessVerticalSpace = true;
@@ -718,8 +639,7 @@ public class OptionSetMediaDefaultsPanel implements IMediaDefaultPanel {
 	 * @return
 	 */
 	private Combo createValueDropDown(Composite parent) {
-		Combo ret = new Combo(parent, SWT.BORDER | SWT.READ_ONLY
-				| SWT.DROP_DOWN);
+		Combo ret = new Combo(parent, SWT.BORDER | SWT.READ_ONLY | SWT.DROP_DOWN);
 		GridData gd = new GridData();
 		gd.verticalIndent = 2;
 		gd.horizontalAlignment = SWT.RIGHT;
@@ -737,8 +657,7 @@ public class OptionSetMediaDefaultsPanel implements IMediaDefaultPanel {
 	 * @param value
 	 * @return
 	 */
-	public Spinner createValueSpinner(Composite parent, int min, int max,
-			int digits, int value) {
+	public Spinner createValueSpinner(Composite parent, int min, int max, int digits, int value) {
 		Spinner ret = new Spinner(parent, SWT.BORDER);
 		ret.setMinimum(min);
 		ret.setMaximum(max);
@@ -762,8 +681,8 @@ public class OptionSetMediaDefaultsPanel implements IMediaDefaultPanel {
 	 * @param rightName
 	 * @return
 	 */
-	public Slider createValueSlider(Composite parent, int min, int max,
-			String leftName, String rightName) {
+	public Slider createValueSlider(Composite parent, int min, int max, String leftName,
+			String rightName) {
 		Composite sliderComp = new Composite(parent, SWT.NONE);
 		sliderComp.setBackground(parent.getBackground());
 		GridData gd = new GridData();
@@ -794,8 +713,8 @@ public class OptionSetMediaDefaultsPanel implements IMediaDefaultPanel {
 		ret.setMaximum(max);
 		fd = new FormData();
 		fd.left = new FormAttachment(leftLabel, /*
-												 * leftLabel.computeSize(SWT.DEFAULT
-												 * , SWT.DEFAULT).x / 2
+												 * leftLabel.computeSize(SWT.DEFAULT ,
+												 * SWT.DEFAULT).x / 2
 												 */0, SWT.LEFT);
 		fd.right = new FormAttachment(rightLabel, /*-1 * (rightLabel.computeSize(SWT.DEFAULT, SWT.DEFAULT).x / 2)*/
 		0, SWT.RIGHT);
@@ -819,9 +738,7 @@ public class OptionSetMediaDefaultsPanel implements IMediaDefaultPanel {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt
+		 * @see org.eclipse.swt.events.PaintListener#paintControl(org.eclipse.swt
 		 * .events.PaintEvent)
 		 */
 		@Override

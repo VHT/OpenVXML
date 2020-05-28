@@ -16,13 +16,11 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.vtp.framework.interactions.core.media.IMediaProvider;
 
 /**
- * This interface represents the top level project folder resource for persona
- * language support projects. The project layout for persona projects is highly
- * structured to facilitate easy enumeration of the artifacts used in its
- * creation and definition.
- *
- * This interface also provides access to information stored in auxillary "."
- * files that are hidden from general view and modification.
+ * This interface represents the top level project folder resource for persona language support
+ * projects. The project layout for persona projects is highly structured to facilitate easy
+ * enumeration of the artifacts used in its creation and definition. This interface also provides
+ * access to information stored in auxillary "." files that are hidden from general view and
+ * modification.
  *
  * @author Trip Gilman
  * @version 2.0
@@ -30,8 +28,7 @@ import org.eclipse.vtp.framework.interactions.core.media.IMediaProvider;
 public interface IMediaProject extends IMediaObjectContainer {
 	/**
 	 * @return The unique identifier for this persona project
-	 * @throws CoreException
-	 *             If an error occured during retrieval of the id
+	 * @throws CoreException If an error occured during retrieval of the id
 	 */
 	public String getId();
 

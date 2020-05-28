@@ -32,8 +32,8 @@ import org.eclipse.vtp.framework.core.IContext;
  */
 public final class ScriptingService implements IScriptingService {
 	/** The prefix to use when searching the service registry. */
-	private static final String LOOKUP_PREFIX = IScriptingProvider.class
-			.getName() + ":SCRIPTING_LANGUAGE="; //$NON-NLS-1$
+	private static final String LOOKUP_PREFIX = IScriptingProvider.class.getName()
+			+ ":SCRIPTING_LANGUAGE="; //$NON-NLS-1$
 
 	/** The registry to search for scripting providers in. */
 	private final IContext serviceRegistry;
@@ -47,10 +47,8 @@ public final class ScriptingService implements IScriptingService {
 	/**
 	 * Creates a new SrciptingService.
 	 * 
-	 * @param serviceRegistry
-	 *            The registry to search for scripting providers in.
-	 * @param scriptables
-	 *            The scriptable objects in this context and above.
+	 * @param serviceRegistry The registry to search for scripting providers in.
+	 * @param scriptables The scriptable objects in this context and above.
 	 */
 	public ScriptingService(IContext serviceRegistry, IScriptable[] scriptables) {
 		this(serviceRegistry, scriptables, null);
@@ -59,16 +57,13 @@ public final class ScriptingService implements IScriptingService {
 	/**
 	 * Creates a new SrciptingService.
 	 * 
-	 * @param serviceRegistry
-	 *            The registry to search for scripting providers in.
-	 * @param scriptables
-	 *            The scriptable objects in this context and above.
-	 * @param parent
-	 *            The scripting service in the next highest scope or
-	 *            <code>null</code> if no such parent service exists.
+	 * @param serviceRegistry The registry to search for scripting providers in.
+	 * @param scriptables The scriptable objects in this context and above.
+	 * @param parent The scripting service in the next highest scope or <code>null</code> if no such
+	 *            parent service exists.
 	 */
-	public ScriptingService(IContext serviceRegistry,
-			IScriptable[] scriptables, ScriptingService parent) {
+	public ScriptingService(IContext serviceRegistry, IScriptable[] scriptables,
+			ScriptingService parent) {
 		this.serviceRegistry = serviceRegistry;
 		final Map<String, IScriptable> map = new LinkedHashMap<String, IScriptable>();
 		for (int i = 0; i < scriptables.length; ++i) {
@@ -83,65 +78,50 @@ public final class ScriptingService implements IScriptingService {
 	}
 
 	/**
-	 * Returns true if this service or its parent has the specified scriptable
-	 * registered.
+	 * Returns true if this service or its parent has the specified scriptable registered.
 	 * 
-	 * @param scriptable
-	 *            The scriptable to check for.
-	 * @return True if this service or its parent has the specified scriptable
-	 *         registered.
+	 * @param scriptable The scriptable to check for.
+	 * @return True if this service or its parent has the specified scriptable registered.
 	 */
 	private boolean contains(IScriptable scriptable) {
-		return scriptables.contains(scriptable) || parent != null
-				&& parent.contains(scriptable);
+		return scriptables.contains(scriptable) || parent != null && parent.contains(scriptable);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptingService#
 	 * createScriptingEngine(java.lang.String)
 	 */
 	@Override
 	public IScriptingEngine createScriptingEngine(String scriptingLanuage) {
-		if (scriptingLanuage == null) {
-			return null;
-		}
+		if (scriptingLanuage == null) { return null; }
 		final IScriptingContext context = getScriptingContext(scriptingLanuage);
-		if (context == null) {
-			return null;
-		}
+		if (context == null) { return null; }
 		return context.createScriptingEngine();
 	}
 
 	/**
 	 * Returns the scripting context for the specified language.
 	 * 
-	 * @param scriptingLanuage
-	 *            The language to find the context for.
+	 * @param scriptingLanuage The language to find the context for.
 	 * @return The scripting context for the specified language.
 	 */
 	private IScriptingContext getScriptingContext(String scriptingLanuage) {
 		synchronized (contexts) {
-			if (contexts.containsKey(scriptingLanuage)) {
-				return contexts.get(scriptingLanuage);
-			}
+			if (contexts.containsKey(scriptingLanuage)) { return contexts.get(scriptingLanuage); }
 		}
 		IScriptingContext context = null;
 		if (parent != null) {
-			final IScriptingContext parentContext = parent
-					.getScriptingContext(scriptingLanuage);
+			final IScriptingContext parentContext = parent.getScriptingContext(scriptingLanuage);
 			if (parentContext != null) {
 				context = parentContext.createScriptingContext(scriptables
 						.toArray(new IScriptable[scriptables.size()]));
 			}
 		} else {
-			final Object obj = serviceRegistry.lookup(LOOKUP_PREFIX
-					+ scriptingLanuage);
+			final Object obj = serviceRegistry.lookup(LOOKUP_PREFIX + scriptingLanuage);
 			if (obj instanceof IScriptingProvider) {
-				context = ((IScriptingProvider) obj).createScriptingContext(
-						scriptingLanuage, scriptables
-								.toArray(new IScriptable[scriptables.size()]));
+				context = ((IScriptingProvider) obj).createScriptingContext(scriptingLanuage,
+						scriptables.toArray(new IScriptable[scriptables.size()]));
 			}
 		}
 		synchronized (contexts) {

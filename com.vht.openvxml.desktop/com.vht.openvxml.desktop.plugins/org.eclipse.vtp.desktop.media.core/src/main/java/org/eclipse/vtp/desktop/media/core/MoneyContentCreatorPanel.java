@@ -29,9 +29,7 @@ public class MoneyContentCreatorPanel extends DynamicContentCreatorPanel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.media.core.ContentCreatorPanel#createContent()
+	 * @see org.eclipse.vtp.desktop.media.core.ContentCreatorPanel#createContent()
 	 */
 	@Override
 	public Content createContent() {
@@ -46,7 +44,6 @@ public class MoneyContentCreatorPanel extends DynamicContentCreatorPanel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.media.core.DynamicContentCreatorPanel#
 	 * createStaticControls(org.eclipse.swt.widgets.Composite)
 	 */
@@ -61,9 +58,7 @@ public class MoneyContentCreatorPanel extends DynamicContentCreatorPanel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.media.core.DynamicContentCreatorPanel#
-	 * setInitialContent
+	 * @see org.eclipse.vtp.desktop.media.core.DynamicContentCreatorPanel# setInitialContent
 	 * (org.eclipse.vtp.framework.interactions.core.media.Content)
 	 */
 	@Override

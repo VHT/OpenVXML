@@ -12,12 +12,11 @@
 package org.eclipse.vtp.desktop.model.interactive.core;
 
 /**
- * This interface represents a user created folder below the media files folder
- * of persona projects and brands in application projects. These type of folders
- * are used to help organize the media resources within a project.
+ * This interface represents a user created folder below the media files folder of persona projects
+ * and brands in application projects. These type of folders are used to help organize the media
+ * resources within a project.
  *
  * @author Trip Gilman
  * @version 2.0
  */
-public interface IMediaFolder extends IMediaResource, IMediaContainer {
-}
+public interface IMediaFolder extends IMediaResource, IMediaContainer {}

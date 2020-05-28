@@ -16,6 +16,5 @@ import java.util.List;
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElementConnectionPoint;
 
 public interface ConnectorPropertiesListener {
-	public void exitPointSelectionChanged(
-			List<IDesignElementConnectionPoint> selection);
+	public void exitPointSelectionChanged(List<IDesignElementConnectionPoint> selection);
 }

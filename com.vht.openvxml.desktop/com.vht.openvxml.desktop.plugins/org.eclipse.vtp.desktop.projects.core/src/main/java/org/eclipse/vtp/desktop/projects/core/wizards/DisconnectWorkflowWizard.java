@@ -23,8 +23,7 @@ public class DisconnectWorkflowWizard extends Wizard {
 		this.umbrellaProject = vxmlProject.getParentProject();
 		IBrandingProjectAspect brandingAspect = (IBrandingProjectAspect) umbrellaProject
 				.getProjectAspect(IBrandingProjectAspect.ASPECT_ID);
-		parentBrandManager = new ConfigurationBrandManager(
-				brandingAspect.getBrandManager());
+		parentBrandManager = new ConfigurationBrandManager(brandingAspect.getBrandManager());
 		this.addPage(new ConfirmPage());
 	}
 

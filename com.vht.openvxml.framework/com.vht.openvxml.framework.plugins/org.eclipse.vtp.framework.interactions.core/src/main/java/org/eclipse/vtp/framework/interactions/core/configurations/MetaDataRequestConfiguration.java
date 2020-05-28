@@ -19,8 +19,7 @@ import org.eclipse.vtp.framework.core.IConfiguration;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class MetaDataRequestConfiguration implements IConfiguration,
-		InteractionsConstants {
+public class MetaDataRequestConfiguration implements IConfiguration, InteractionsConstants {
 	private static final String inputTagName = "input";
 	private static final String outputTagName = "output";
 	/** The value to use for the left-hand side of the operation. */
@@ -28,13 +27,12 @@ public class MetaDataRequestConfiguration implements IConfiguration,
 	/** The value to use for the right-hand side of the operation. */
 	private String output = "";
 	/**
-	 * A map of the key names and, after the request completes, their associated
-	 * value as IDataObjects.
+	 * A map of the key names and, after the request completes, their associated value as
+	 * IDataObjects.
 	 */
 	private Map<String, IDataObject> kvpMap = new HashMap<String, IDataObject>();
 
-	public MetaDataRequestConfiguration() {
-	}
+	public MetaDataRequestConfiguration() {}
 
 	public String getInput() {
 		return input;
@@ -62,23 +60,21 @@ public class MetaDataRequestConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#load( org.w3c.dom.Element)
 	 */
 	@Override
 	public void load(Element configurationElement) {
 		input = "";
-		NodeList inputList = configurationElement.getElementsByTagNameNS(
-				NAMESPACE_URI, inputTagName);
+		NodeList inputList = configurationElement.getElementsByTagNameNS(NAMESPACE_URI,
+				inputTagName);
 		if (inputList.getLength() > 0) {
 			Element inputElement = (Element) inputList.item(0);
 			input = inputElement.getAttribute(NAME_VALUE);
 		}
 
 		output = "";
-		NodeList outputList = configurationElement.getElementsByTagNameNS(
-				NAMESPACE_URI, outputTagName);
+		NodeList outputList = configurationElement.getElementsByTagNameNS(NAMESPACE_URI,
+				outputTagName);
 		if (outputList.getLength() > 0) {
 			Element outputElement = (Element) outputList.item(0);
 			output = outputElement.getAttribute(NAME_VALUE);
@@ -87,9 +83,7 @@ public class MetaDataRequestConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#save( org.w3c.dom.Element)
 	 */
 	@Override
 	public void save(Element configurationElement) {
@@ -101,13 +95,13 @@ public class MetaDataRequestConfiguration implements IConfiguration,
 			outName = prefix + ":" + outName;
 		}
 
-		Element inputElement = configurationElement.getOwnerDocument()
-				.createElementNS(NAMESPACE_URI, inName);
+		Element inputElement = configurationElement.getOwnerDocument().createElementNS(
+				NAMESPACE_URI, inName);
 		inputElement.setAttribute(NAME_VALUE, input);
 		configurationElement.appendChild(inputElement);
 
-		Element outputElement = configurationElement.getOwnerDocument()
-				.createElementNS(NAMESPACE_URI, outName);
+		Element outputElement = configurationElement.getOwnerDocument().createElementNS(
+				NAMESPACE_URI, outName);
 		outputElement.setAttribute(NAME_VALUE, output);
 		configurationElement.appendChild(outputElement);
 	}

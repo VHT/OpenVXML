@@ -19,8 +19,7 @@ import org.w3c.dom.Element;
 public class OrdinalContent extends FormattableContent {
 	public static final String ELEMENT_NAME = "ordinal-content"; //$NON-NLS-1$
 
-	public OrdinalContent() {
-	}
+	public OrdinalContent() {}
 
 	public OrdinalContent(Element element) {
 		super(element);
@@ -36,10 +35,8 @@ public class OrdinalContent extends FormattableContent {
 		List ret = new LinkedList();
 		try {
 			if (getValueType() != VARIABLE_VALUE) {
-				ret.addAll(formatter.formatOrdinal(
-						Integer.parseInt(getValue()),
-						mediaProvider.getFormatManager().getFormat(this,
-								getFormatName()), getFormatOptions(),
+				ret.addAll(formatter.formatOrdinal(Integer.parseInt(getValue()), mediaProvider
+						.getFormatManager().getFormat(this, getFormatName()), getFormatOptions(),
 						mediaProvider.getResourceManager()));
 			}
 		} catch (Exception e) {
@@ -50,8 +47,8 @@ public class OrdinalContent extends FormattableContent {
 
 	@Override
 	public Element store(Element element) {
-		Element thisElement = element.getOwnerDocument().createElementNS(
-				ELEMENT_NAMESPACE, ELEMENT_NAME);
+		Element thisElement = element.getOwnerDocument().createElementNS(ELEMENT_NAMESPACE,
+				ELEMENT_NAME);
 		element.appendChild(thisElement);
 		super.storeBaseInfo(thisElement);
 		return thisElement;
@@ -64,9 +61,7 @@ public class OrdinalContent extends FormattableContent {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.media.Content#createCopy()
+	 * @see org.eclipse.vtp.framework.interactions.core.media.Content#createCopy()
 	 */
 	@Override
 	public Content createCopy() {

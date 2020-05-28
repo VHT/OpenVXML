@@ -12,10 +12,8 @@
 package org.eclipse.vtp.framework.spi;
 
 /**
- * A command returned by the process engine when an action or observer is to be
- * executed.
+ * A command returned by the process engine when an action or observer is to be executed.
  * 
  * @author Lonnie Pryor
  */
-public interface IRunnableCommand extends ICommand, Runnable {
-}
+public interface IRunnableCommand extends ICommand, Runnable {}

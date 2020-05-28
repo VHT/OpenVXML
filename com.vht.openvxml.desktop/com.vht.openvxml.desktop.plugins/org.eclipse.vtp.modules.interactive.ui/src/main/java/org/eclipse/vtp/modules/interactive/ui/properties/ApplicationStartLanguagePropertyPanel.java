@@ -36,19 +36,16 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElement;
  * 
  * @author Trip Gilman
  */
-public class ApplicationStartLanguagePropertyPanel extends
-		DesignElementPropertiesPanel {
+public class ApplicationStartLanguagePropertyPanel extends DesignElementPropertiesPanel {
 	private Combo defaultLanguageCombo = null;
 	private List<String> languages = null;
 
 	/**
 	 * @param name
 	 */
-	public ApplicationStartLanguagePropertyPanel(String name,
-			IDesignElement element) {
+	public ApplicationStartLanguagePropertyPanel(String name, IDesignElement element) {
 		super(name, element);
-		IOpenVXMLProject project = getElement().getDesign().getDocument()
-				.getProject();
+		IOpenVXMLProject project = getElement().getDesign().getDocument().getProject();
 		ILanguageSupportProjectAspect iwp = (ILanguageSupportProjectAspect) project
 				.getProjectAspect(ILanguageSupportProjectAspect.ASPECT_ID);
 		languages = iwp.getMediaProviderManager().getSupportedLanguages(
@@ -57,9 +54,7 @@ public class ApplicationStartLanguagePropertyPanel extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel
+	 * @see org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel
 	 * #createControls(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -77,10 +72,8 @@ public class ApplicationStartLanguagePropertyPanel extends
 		Label defaultLanguageLabel = new Label(nameComp, SWT.NONE);
 		defaultLanguageLabel.setText("Default Language");
 		defaultLanguageLabel.setLayoutData(new GridData());
-		defaultLanguageCombo = new Combo(nameComp, SWT.READ_ONLY
-				| SWT.DROP_DOWN);
-		defaultLanguageCombo.setLayoutData(new GridData(
-				GridData.FILL_HORIZONTAL));
+		defaultLanguageCombo = new Combo(nameComp, SWT.READ_ONLY | SWT.DROP_DOWN);
+		defaultLanguageCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		for (String lang : languages) {
 			defaultLanguageCombo.add(lang);
 		}
@@ -99,35 +92,26 @@ public class ApplicationStartLanguagePropertyPanel extends
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel
-	 * #save()
+	 * @see org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel #save()
 	 */
 	@Override
 	public void save() {
-		((BeginInformationProvider) ((PrimitiveElement) getElement())
-				.getInformationProvider()).setDefaultLanguage(languages
-				.get(defaultLanguageCombo.getSelectionIndex()));
+		((BeginInformationProvider) ((PrimitiveElement) getElement()).getInformationProvider())
+				.setDefaultLanguage(languages.get(defaultLanguageCombo.getSelectionIndex()));
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.configuration.ComponentPropertiesPanel
-	 * #cancel()
+	 * @see org.eclipse.vtp.desktop.model.core.configuration.ComponentPropertiesPanel #cancel()
 	 */
 	@Override
-	public void cancel() {
-	}
+	public void cancel() {}
 
 	@Override
 	public void setConfigurationContext(Map<String, Object> values) {
 		Object object = values.get(InteractionTypeContext.CONTEXT_ID);
-		defaultLanguageCombo
-				.setEnabled("org.eclipse.vtp.framework.interactions.voice.interaction"
-						.equals(((InteractionType) object).getId()));
+		defaultLanguageCombo.setEnabled("org.eclipse.vtp.framework.interactions.voice.interaction"
+				.equals(((InteractionType) object).getId()));
 	}
 
 	@Override

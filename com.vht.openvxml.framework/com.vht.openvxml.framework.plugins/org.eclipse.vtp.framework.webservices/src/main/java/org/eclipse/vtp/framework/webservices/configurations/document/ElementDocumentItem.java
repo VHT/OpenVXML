@@ -50,8 +50,8 @@ public class ElementDocumentItem extends DocumentItemContainer {
 
 	@Override
 	public Element createConfigurationElement(Element parentElement) {
-		Element elementItemElement = parentElement.getOwnerDocument()
-				.createElementNS(null, "element-item");
+		Element elementItemElement = parentElement.getOwnerDocument().createElementNS(null,
+				"element-item");
 		parentElement.appendChild(elementItemElement);
 		return elementItemElement;
 	}
@@ -60,14 +60,12 @@ public class ElementDocumentItem extends DocumentItemContainer {
 	public void readConfiguration(Element elementItemElement) {
 		this.name = elementItemElement.getAttribute("name");
 		this.namespace = elementItemElement.getAttribute("namespace");
-		List<Element> attributeContainerElementList = XMLUtilities
-				.getElementsByTagName(elementItemElement, "attributes", true);
+		List<Element> attributeContainerElementList = XMLUtilities.getElementsByTagName(
+				elementItemElement, "attributes", true);
 		if (attributeContainerElementList.size() > 0) {
-			Element attributeContainerElement = attributeContainerElementList
-					.get(0);
-			List<Element> attributeElementList = XMLUtilities
-					.getElementsByTagName(attributeContainerElement,
-							"attribute", true);
+			Element attributeContainerElement = attributeContainerElementList.get(0);
+			List<Element> attributeElementList = XMLUtilities.getElementsByTagName(
+					attributeContainerElement, "attribute", true);
 			for (Element attributeElement : attributeElementList) {
 				ElementAttributeDocumentItem attribute = new ElementAttributeDocumentItem();
 				attribute.readConfiguration(attributeElement);
@@ -81,12 +79,12 @@ public class ElementDocumentItem extends DocumentItemContainer {
 	public void writeConfiguration(Element elementItemElement) {
 		elementItemElement.setAttribute("name", name);
 		elementItemElement.setAttribute("namespace", namespace);
-		Element attributesElement = elementItemElement.getOwnerDocument()
-				.createElementNS(null, "attributes");
+		Element attributesElement = elementItemElement.getOwnerDocument().createElementNS(null,
+				"attributes");
 		elementItemElement.appendChild(attributesElement);
 		for (ElementAttributeDocumentItem attribute : attributes) {
-			Element attributeElement = attributesElement.getOwnerDocument()
-					.createElementNS(null, "attribute");
+			Element attributeElement = attributesElement.getOwnerDocument().createElementNS(null,
+					"attribute");
 			attributesElement.appendChild(attributeElement);
 			attribute.writeConfiguration(attributeElement);
 		}

@@ -22,10 +22,7 @@ public class DesignFolder extends DesignItemContainer implements IDesignFolder {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.IDesignFolder#getParentDesignContainer
-	 * ()
+	 * @see org.eclipse.vtp.desktop.model.core.IDesignFolder#getParentDesignContainer ()
 	 */
 	@Override
 	public IDesignItemContainer getParentDesignContainer() {
@@ -34,7 +31,6 @@ public class DesignFolder extends DesignItemContainer implements IDesignFolder {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.model.core.IWorkflowResource#getParent()
 	 */
 	@Override
@@ -44,16 +40,12 @@ public class DesignFolder extends DesignItemContainer implements IDesignFolder {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.internal.WorkflowResource#getAdapter
+	 * @see org.eclipse.vtp.desktop.model.core.internal.WorkflowResource#getAdapter
 	 * (java.lang.Class)
 	 */
 	@Override
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapterClass) {
-		if (IDesignFolder.class.isAssignableFrom(adapterClass)) {
-			return this;
-		}
+		if (IDesignFolder.class.isAssignableFrom(adapterClass)) { return this; }
 		return super.getAdapter(adapterClass);
 	}
 }

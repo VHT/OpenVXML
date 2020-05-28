@@ -30,8 +30,7 @@ import org.eclipse.vtp.modules.standard.ui.ExitInformationProvider;
 
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElement;
 
-public class ExitGeneralPropertiesPanel extends DesignElementPropertiesPanel
-{
+public class ExitGeneralPropertiesPanel extends DesignElementPropertiesPanel {
 	Label errorField;
 	Label nameLabel;
 	Text nameField;
@@ -39,26 +38,22 @@ public class ExitGeneralPropertiesPanel extends DesignElementPropertiesPanel
 
 	/**
 	 * Creates a new LanguageSelectionGeneralPropertiesPanel.
-	 *
-	 *
 	 */
-	public ExitGeneralPropertiesPanel(IDesignElement ppe)
-	{
+	public ExitGeneralPropertiesPanel(IDesignElement ppe) {
 		super("General", ppe);
 	}
-	
-	public ExitGeneralPropertiesPanel(String name, IDesignElement ppe)
-	{
+
+	public ExitGeneralPropertiesPanel(String name, IDesignElement ppe) {
 		super(name, ppe);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
-	 * @see org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel#createControls(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel#createControls(org.eclipse
+	 * .swt.widgets.Composite)
 	 */
-	public void createControls(Composite parent)
-	{
+	public void createControls(Composite parent) {
 		Composite comp = new Composite(parent, SWT.NONE);
 		comp.setBackground(parent.getBackground());
 		comp.setLayout(new GridLayout(2, false));
@@ -75,25 +70,20 @@ public class ExitGeneralPropertiesPanel extends DesignElementPropertiesPanel
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL | GridData.HORIZONTAL_ALIGN_CENTER);
 		gd.horizontalSpan = 2;
 		errorField.setLayoutData(gd);
-		nameField.addModifyListener(new ModifyListener()
-		{
-			
-			public void modifyText(ModifyEvent e)
-			{
+		nameField.addModifyListener(new ModifyListener() {
+
+			public void modifyText(ModifyEvent e) {
 				List<IDesignElement> elements = getElement().getDesign().getDesignElements();
-				for(IDesignElement el : elements)
-				{
-					if(el != getElement())
-					{
-						if(el instanceof PrimitiveElement)
-						{
-							PrimitiveElement pe = (PrimitiveElement)el;
-							if(pe.getSubTypeId().equals(((PrimitiveElement)getElement()).getSubTypeId()))
-							{
-								if(pe.getName().equals(nameField.getText()))
-								{
+				for (IDesignElement el : elements) {
+					if (el != getElement()) {
+						if (el instanceof PrimitiveElement) {
+							PrimitiveElement pe = (PrimitiveElement) el;
+							if (pe.getSubTypeId().equals(
+									((PrimitiveElement) getElement()).getSubTypeId())) {
+								if (pe.getName().equals(nameField.getText())) {
 									errorField.setText("There is already a Portal with that name.");
-									ExitGeneralPropertiesPanel.this.getContainer().setCanFinish(false);
+									ExitGeneralPropertiesPanel.this.getContainer().setCanFinish(
+											false);
 									return;
 								}
 							}
@@ -103,7 +93,7 @@ public class ExitGeneralPropertiesPanel extends DesignElementPropertiesPanel
 				errorField.setText("");
 				ExitGeneralPropertiesPanel.this.getContainer().setCanFinish(true);
 			}
-			
+
 		});
 		nameField.setText(getElement().getName());
 		Label exitTypeLabel = new Label(comp, SWT.NONE);
@@ -113,40 +103,35 @@ public class ExitGeneralPropertiesPanel extends DesignElementPropertiesPanel
 		exitTypeCombo = new Combo(comp, SWT.SINGLE | SWT.READ_ONLY | SWT.DROP_DOWN);
 		exitTypeCombo.add("Normal");
 		exitTypeCombo.add("Error");
-		if(((ExitInformationProvider)((PrimitiveElement)getElement()).getInformationProvider()).getExitType() != null && ((ExitInformationProvider)((PrimitiveElement)getElement()).getInformationProvider()).getExitType().equals("Error"))
-			exitTypeCombo.select(1);
-		else
-			exitTypeCombo.select(0);
+		if (((ExitInformationProvider) ((PrimitiveElement) getElement()).getInformationProvider())
+				.getExitType() != null
+				&& ((ExitInformationProvider) ((PrimitiveElement) getElement())
+						.getInformationProvider()).getExitType().equals("Error")) exitTypeCombo
+				.select(1);
+		else exitTypeCombo.select(0);
 
 		setControl(comp);
 	}
 
-	public void save()
-	{
-		try
-		{
+	public void save() {
+		try {
 			getElement().setName(nameField.getText());
-			((ExitInformationProvider)((PrimitiveElement)getElement()).getInformationProvider()).setExitType(exitTypeCombo.getItem(exitTypeCombo.getSelectionIndex()));
-		}
-		catch(Exception ex)
-		{
+			((ExitInformationProvider) ((PrimitiveElement) getElement()).getInformationProvider())
+					.setExitType(exitTypeCombo.getItem(exitTypeCombo.getSelectionIndex()));
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
-	
-	public void cancel()
-	{
-		
+
+	public void cancel() {
+
 	}
 
 	@Override
-	public void setConfigurationContext(Map<String, Object> values)
-	{
-	}
+	public void setConfigurationContext(Map<String, Object> values) {}
 
 	@Override
-	public List<String> getApplicableContexts()
-	{
+	public List<String> getApplicableContexts() {
 		return Collections.emptyList();
 	}
 

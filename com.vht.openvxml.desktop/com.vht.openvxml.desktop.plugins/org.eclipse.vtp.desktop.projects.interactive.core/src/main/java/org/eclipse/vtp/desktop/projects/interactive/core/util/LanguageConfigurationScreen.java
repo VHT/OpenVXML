@@ -45,8 +45,7 @@ public class LanguageConfigurationScreen implements InteractionSupportListener {
 		super();
 	}
 
-	public void init(BrandManager brandManager,
-			InteractionSupportManager supportManager) {
+	public void init(BrandManager brandManager, InteractionSupportManager supportManager) {
 		this.brandManager = brandManager;
 		this.supportManager = supportManager;
 		supportManager.addListener(this);

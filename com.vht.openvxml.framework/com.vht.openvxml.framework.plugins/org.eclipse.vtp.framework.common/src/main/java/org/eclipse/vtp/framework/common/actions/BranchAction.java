@@ -35,8 +35,7 @@ import org.eclipse.vtp.framework.core.IReporter;
  * @author Lonnie Pryor
  */
 public class BranchAction implements IAction {
-	private static final String[] COMPARISONS = { "=", "<", "<=", ">", ">=",
-			"!=" };
+	private static final String[] COMPARISONS = { "=", "<", "<=", ">", ">=", "!=" };
 
 	/** The context to use. */
 	private final IActionContext context;
@@ -51,19 +50,14 @@ public class BranchAction implements IAction {
 	/**
 	 * Creates a new BranchAction.
 	 * 
-	 * @param context
-	 *            The context to use.
-	 * @param variableRegistry
-	 *            The variable registry to use.
-	 * @param scriptingService
-	 *            The scripting service to use.
-	 * @param configurations
-	 *            The configurations to use.
+	 * @param context The context to use.
+	 * @param variableRegistry The variable registry to use.
+	 * @param scriptingService The scripting service to use.
+	 * @param configurations The configurations to use.
 	 */
-	public BranchAction(IActionContext context,
-			IVariableRegistry variableRegistry,
-			IScriptingService scriptingService,
-			BranchConfiguration[] configurations, ILastResult lastResult) {
+	public BranchAction(IActionContext context, IVariableRegistry variableRegistry,
+			IScriptingService scriptingService, BranchConfiguration[] configurations,
+			ILastResult lastResult) {
 		this.context = context;
 		this.variableRegistry = variableRegistry;
 		this.scriptingService = scriptingService;
@@ -74,28 +68,24 @@ public class BranchAction implements IAction {
 	/**
 	 * Compares two objects using the specified comparison.
 	 * 
-	 * @param left
-	 *            The left-hand side of the comparison.
-	 * @param right
-	 *            The right-hand side of the comparison.
-	 * @param comparison
-	 *            The operation to perform.
+	 * @param left The left-hand side of the comparison.
+	 * @param right The right-hand side of the comparison.
+	 * @param comparison The operation to perform.
 	 * @return The result of the operation.
 	 */
-	private boolean compare(Object left, Object right,
-			BranchConfiguration configuration) {
+	private boolean compare(Object left, Object right, BranchConfiguration configuration) {
 		final int comparison = configuration.getType();
 		if (context.isInfoEnabled()) {
 			context.info("Left object: "
 					+ (left == null ? "null" : left.getClass().getName())
 					+ " ("
-					+ (isSecured(left, configuration.isLeftSecured()) ? "**Secured**"
-							: String.valueOf(left))
+					+ (isSecured(left, configuration.isLeftSecured()) ? "**Secured**" : String
+							.valueOf(left))
 					+ ") Right object: "
 					+ (right == null ? "null" : right.getClass().getName())
 					+ " ("
-					+ (isSecured(right, configuration.isRightSecured()) ? "**Secured**"
-							: String.valueOf(right)) + ")");
+					+ (isSecured(right, configuration.isRightSecured()) ? "**Secured**" : String
+							.valueOf(right)) + ")");
 		}
 		if (left instanceof IDataObject) {
 			final IDataObject data = (IDataObject) left;
@@ -135,9 +125,7 @@ public class BranchAction implements IAction {
 			return comparison == BranchConfiguration.COMPARISON_TYPE_EQUAL
 					|| comparison == BranchConfiguration.COMPARISON_TYPE_LESS_THAN_OR_EQUAL
 					|| comparison == BranchConfiguration.COMPARISON_TYPE_GREATER_THAN_OR_EQUAL;
-		} else if (left == null || right == null) {
-			return comparison == BranchConfiguration.COMPARISON_TYPE_NOT_EQUAL;
-		}
+		} else if (left == null || right == null) { return comparison == BranchConfiguration.COMPARISON_TYPE_NOT_EQUAL; }
 		if (!(left instanceof String) && left instanceof Comparable
 				&& left.getClass().equals(right.getClass())) {
 			return performCastComparison(left, right, comparison);
@@ -148,8 +136,7 @@ public class BranchAction implements IAction {
 				final BigDecimal leftBD = new BigDecimal(leftString);
 				final BigDecimal rightBD = new BigDecimal(rightString);
 				return performComparison(leftBD, rightBD, comparison);
-			} catch (final Exception nfe) {
-			}
+			} catch (final Exception nfe) {}
 			return performComparison(leftString, rightString, comparison);
 		}
 	}
@@ -157,51 +144,33 @@ public class BranchAction implements IAction {
 	/**
 	 * Evaluates an operand of a branch.
 	 * 
-	 * @param operandType
-	 *            The type of the operand.
-	 * @param operandValue
-	 *            The value of the operand.
-	 * @param scriptingLanguage
-	 *            The scripting language to use if the operand is an expression.
+	 * @param operandType The type of the operand.
+	 * @param operandValue The value of the operand.
+	 * @param scriptingLanguage The scripting language to use if the operand is an expression.
 	 * @return The value of the operand.
 	 */
-	private Object evaluate(int operandType, String operandValue,
-			String scriptingLanguage) {
+	private Object evaluate(int operandType, String operandValue, String scriptingLanguage) {
 		if (operandType == BranchConfiguration.OPERAND_TYPE_VARIABLE) {
 			if (operandValue.startsWith("LastResult")) {
 				final List<ILastResultData> results = lastResult.getResults();
-				if (results.size() < 1) {
-					return null;
-				}
+				if (results.size() < 1) { return null; }
 				final ILastResultData data = results.get(0);
 				final String varName = operandValue.substring(11);
-				if ("confidence".equals(varName)) {
-					return new Integer(data.getConfidence());
-				}
-				if ("utterance".equals(varName)) {
-					return data.getUtterence();
-				}
-				if ("inputmode".equals(varName)) {
-					return data.getInputMode();
-				}
-				if ("interpretation".equals(varName)) {
-					return data.getInterpretation();
-				}
+				if ("confidence".equals(varName)) { return new Integer(data.getConfidence()); }
+				if ("utterance".equals(varName)) { return data.getUtterence(); }
+				if ("inputmode".equals(varName)) { return data.getInputMode(); }
+				if ("interpretation".equals(varName)) { return data.getInterpretation(); }
 				return null;
 			}
 			return variableRegistry.getVariable(operandValue);
 		}
-		final IScriptingEngine engine = scriptingService
-				.createScriptingEngine(scriptingLanguage);
-		if (engine == null) {
-			return null;
-		}
+		final IScriptingEngine engine = scriptingService.createScriptingEngine(scriptingLanguage);
+		if (engine == null) { return null; }
 		return engine.execute(operandValue);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.core.IAction#execute()
 	 */
 	@Override
@@ -211,36 +180,28 @@ public class BranchAction implements IAction {
 				context.info("Performing comparison(s)");
 			}
 			for (final BranchConfiguration configuration : configurations) {
-				final Object left = evaluate(configuration.getLeftType(),
-						configuration.getLeftValue(),
-						configuration.getLeftScriptingLanguage());
-				final Object right = evaluate(configuration.getRightType(),
-						configuration.getRightValue(),
-						configuration.getRightScriptingLanguage());
+				final Object left = evaluate(configuration.getLeftType(), configuration
+						.getLeftValue(), configuration.getLeftScriptingLanguage());
+				final Object right = evaluate(configuration.getRightType(), configuration
+						.getRightValue(), configuration.getRightScriptingLanguage());
 				final boolean result = compare(left, right, configuration);
 				if (context.isReportingEnabled()) {
 					final Dictionary<String, Object> props = new Hashtable<String, Object>();
 					props.put("event", "branch");
-					props.put(
-							"branch.left",
-							isSecured(left, configuration.isLeftSecured()) ? "**Secured**"
-									: String.valueOf(left));
-					props.put("branch.operator",
-							COMPARISONS[configuration.getType()]);
-					props.put(
-							"branch.right",
+					props.put("branch.left",
+							isSecured(left, configuration.isLeftSecured()) ? "**Secured**" : String
+									.valueOf(left));
+					props.put("branch.operator", COMPARISONS[configuration.getType()]);
+					props.put("branch.right",
 							isSecured(right, configuration.isRightSecured()) ? "**Secured**"
 									: String.valueOf(right));
 					props.put("branch.result", String.valueOf(result));
 					context.report(IReporter.SEVERITY_INFO, "Comparison \""
 							+ configuration.getLeftValue() + "\" "
 							+ COMPARISONS[configuration.getType()] + " \""
-							+ configuration.getRightValue()
-							+ "\" evaluated to " + result, props);
+							+ configuration.getRightValue() + "\" evaluated to " + result, props);
 				}
-				if (result) {
-					return context.createResult(configuration.getPath());
-				}
+				if (result) { return context.createResult(configuration.getPath()); }
 			}
 			return context.createResult(IActionResult.RESULT_NAME_DEFAULT);
 		} catch (final RuntimeException e) {
@@ -249,46 +210,33 @@ public class BranchAction implements IAction {
 	}
 
 	private boolean isSecured(Object value, boolean override) {
-		if (override) {
-			return true;
-		}
-		if (value instanceof IDataObject) {
-			return ((IDataObject) value).isSecured();
-		}
+		if (override) { return true; }
+		if (value instanceof IDataObject) { return ((IDataObject) value).isSecured(); }
 		return false;
 	}
 
 	/**
-	 * Suppress warnings because we know both objects are the same concrete
-	 * type.
+	 * Suppress warnings because we know both objects are the same concrete type.
 	 * 
-	 * @param left
-	 *            The left-hand comparison operand.
-	 * @param right
-	 *            The right-hand comparison operand.
-	 * @param comparison
-	 *            The type of comparison to perform.
+	 * @param left The left-hand comparison operand.
+	 * @param right The right-hand comparison operand.
+	 * @param comparison The type of comparison to perform.
 	 * @return The result of the comparison operation.
 	 */
 	@SuppressWarnings("unchecked")
-	private boolean performCastComparison(Object left, Object right,
-			int comparison) {
+	private boolean performCastComparison(Object left, Object right, int comparison) {
 		return performComparison((Comparable<Object>) left, right, comparison);
 	}
 
 	/**
 	 * Perform a type-safe comparison.
 	 * 
-	 * @param left
-	 *            The left-hand comparison operand.
-	 * @param right
-	 *            The right-hand comparison operand.
-	 * @param comparison
-	 *            The type of comparison to perform.
+	 * @param left The left-hand comparison operand.
+	 * @param right The right-hand comparison operand.
+	 * @param comparison The type of comparison to perform.
 	 * @return The result of the comparison operation.
 	 */
-	private <T> boolean performComparison(Comparable<? super T> left, T right,
-			int comparison) {
+	private <T> boolean performComparison(Comparable<? super T> left, T right, int comparison) {
 		switch (comparison) {
 		case BranchConfiguration.COMPARISON_TYPE_EQUAL:
 			return left.compareTo(right) == 0;

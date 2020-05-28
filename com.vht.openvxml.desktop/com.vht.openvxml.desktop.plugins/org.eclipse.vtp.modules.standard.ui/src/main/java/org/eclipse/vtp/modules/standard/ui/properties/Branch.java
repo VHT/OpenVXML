@@ -4,96 +4,79 @@ import org.eclipse.vtp.framework.util.Guid;
 
 import com.openmethods.openvxml.desktop.model.workflow.internal.design.ConnectorRecord;
 
+public class Branch {
 
-public class Branch
-{
-	
 	private String name = "";
 	private String expression = "";
 	private boolean secure = false;
 	private int number = -1;
 	private String guid = "";
 	private ConnectorRecord connector = null;
-	
-	public Branch(String name, String expression, boolean secure, int number)
-	{
+
+	public Branch(String name, String expression, boolean secure, int number) {
 		this.name = name;
 		this.expression = expression;
 		this.secure = secure;
 		this.number = number;
 		this.guid = Guid.createGUID();
 	}
-	
-	public String getName()
-	{
+
+	public String getName() {
 		return name;
 	}
 
-	public void setName(String name)
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	public String getExpression()
-	{
+	public String getExpression() {
 		return expression;
 	}
 
-	public void setExpression(String expression)
-	{
+	public void setExpression(String expression) {
 		this.expression = expression;
 	}
 
-	public boolean isSecure()
-	{
+	public boolean isSecure() {
 		return secure;
 	}
 
-	public void setSecure(boolean secure)
-	{
+	public void setSecure(boolean secure) {
 		this.secure = secure;
 	}
 
-	public int getNumber()
-	{
+	public int getNumber() {
 		return number;
 	}
 
-	public void setNumber(int number)
-	{
+	public void setNumber(int number) {
 		this.number = number;
 	}
-	
-	public void setGuid(String guid)
-	{
+
+	public void setGuid(String guid) {
 		this.guid = guid;
 	}
 
-	public String getGuid()
-	{
+	public String getGuid() {
 		return guid;
 	}
 
-	public void setConnector(ConnectorRecord connector)
-	{
+	public void setConnector(ConnectorRecord connector) {
 		this.connector = connector;
 	}
 
-	public ConnectorRecord getConnector()
-	{
+	public ConnectorRecord getConnector() {
 		return connector;
 	}
 
-	public Branch copy()
-	{
+	public Branch copy() {
 		Branch copy = new Branch(name, expression, secure, number);
 		copy.setGuid(guid);
 		copy.setConnector(connector);
 		return copy;
 	}
 
-	public void printBranchContents()
-	{
+	public void printBranchContents() {
 		System.out.println("*****BEGIN BRANCH PRINTOUT*****");
 		System.out.println("name is: " + name);
 		System.out.println("expression is: " + expression);
@@ -103,4 +86,3 @@ public class Branch
 
 	}
 }
-

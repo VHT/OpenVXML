@@ -30,8 +30,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * This is a concrete implementation of <code>IPersonaProject</code> and
- * provides the default behavior of that interface.
+ * This is a concrete implementation of <code>IPersonaProject</code> and provides the default
+ * behavior of that interface.
  *
  * @author Trip Gilman
  * @version 2.0
@@ -42,19 +42,16 @@ public abstract class MediaProject extends MediaObject implements IMediaProject 
 	private String id = null;
 
 	/**
-	 * Creates a new <code>Personaproject</code> with the given eclipse project
-	 * resource.
+	 * Creates a new <code>Personaproject</code> with the given eclipse project resource.
 	 *
-	 * @param project
-	 *            The eclipse project resource this persona project represents
+	 * @param project The eclipse project resource this persona project represents
 	 */
 	public MediaProject(IProject project) {
 		super();
 		this.project = project;
 		try {
 			IFile buildPath = project.getFile(".config");
-			DocumentBuilderFactory buildFactory = DocumentBuilderFactory
-					.newInstance();
+			DocumentBuilderFactory buildFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = buildFactory.newDocumentBuilder();
 
 			if (!buildPath.isSynchronized(IResource.DEPTH_INFINITE)) {
@@ -75,7 +72,6 @@ public abstract class MediaProject extends MediaObject implements IMediaProject 
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IPersonaProject#getPersonaId()
 	 */
 	@Override
@@ -85,7 +81,6 @@ public abstract class MediaProject extends MediaObject implements IMediaProject 
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IPersonaProject#getPromptSet()
 	 */
 	@Override
@@ -95,18 +90,13 @@ public abstract class MediaProject extends MediaObject implements IMediaProject 
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IPersonaProject#getMediaFilesFolder
-	 * ()
+	 * @see org.eclipse.vtp.desktop.core.project.IPersonaProject#getMediaFilesFolder ()
 	 */
 	@Override
 	public IMediaLibrariesFolder getMediaLibrariesFolder() {
 		IFolder f = project.getFolder("Media Libraries");
 
-		if (!f.exists()) {
-			throw new RuntimeException("Media Libraries filder is missing");
-		}
+		if (!f.exists()) { throw new RuntimeException("Media Libraries filder is missing"); }
 
 		return new MediaLibrariesFolder(this, f);
 	}
@@ -146,14 +136,12 @@ public abstract class MediaProject extends MediaObject implements IMediaProject 
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof IMediaProject) {
-			return project.equals(((IMediaProject) obj).getUnderlyingProject());
-		}
+		if (obj instanceof IMediaProject) { return project.equals(((IMediaProject) obj)
+				.getUnderlyingProject()); }
 		return false;
 	}
 

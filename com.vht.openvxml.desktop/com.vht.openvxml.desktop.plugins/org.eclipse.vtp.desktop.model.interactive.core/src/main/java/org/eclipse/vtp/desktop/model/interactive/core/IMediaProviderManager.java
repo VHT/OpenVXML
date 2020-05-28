@@ -14,9 +14,7 @@ public interface IMediaProviderManager {
 
 	public List<String> getSupportedLanguages(String interactionType);
 
-	public IMediaProject getMediaProject(String interactionType, IBrand brand,
-			String language);
+	public IMediaProject getMediaProject(String interactionType, IBrand brand, String language);
 
-	public IMediaProvider getMediaProvider(String interactionType,
-			IBrand brand, String language);
+	public IMediaProvider getMediaProvider(String interactionType, IBrand brand, String language);
 }

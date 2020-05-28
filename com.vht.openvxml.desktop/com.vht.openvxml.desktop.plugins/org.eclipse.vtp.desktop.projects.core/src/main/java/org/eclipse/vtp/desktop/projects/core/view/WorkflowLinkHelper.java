@@ -14,15 +14,11 @@ import org.eclipse.ui.part.FileEditorInput;
 public class WorkflowLinkHelper implements ILinkHelper {
 
 	@Override
-	public void activateEditor(IWorkbenchPage aPage,
-			IStructuredSelection aSelection) {
+	public void activateEditor(IWorkbenchPage aPage, IStructuredSelection aSelection) {
 		System.out.println("in link helper");
 		if (aSelection == null || aSelection.isEmpty()
-				|| !(aSelection.getFirstElement() instanceof IAdaptable)) {
-			return;
-		}
-		IFile file = (IFile) ((IAdaptable) aSelection.getFirstElement())
-				.getAdapter(IFile.class);
+				|| !(aSelection.getFirstElement() instanceof IAdaptable)) { return; }
+		IFile file = (IFile) ((IAdaptable) aSelection.getFirstElement()).getAdapter(IFile.class);
 		if (file != null) {
 			IEditorInput fileInput = new FileEditorInput(file);
 			IEditorPart editor = null;
@@ -35,9 +31,7 @@ public class WorkflowLinkHelper implements ILinkHelper {
 	@Override
 	public IStructuredSelection findSelection(IEditorInput anInput) {
 		IFile file = ResourceUtil.getFile(anInput);
-		if (file != null) {
-			return new StructuredSelection(file);
-		}
+		if (file != null) { return new StructuredSelection(file); }
 		return StructuredSelection.EMPTY;
 	}
 

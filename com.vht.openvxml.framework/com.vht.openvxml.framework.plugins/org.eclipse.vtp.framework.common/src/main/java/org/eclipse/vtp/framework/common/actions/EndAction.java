@@ -32,8 +32,7 @@ public class EndAction implements IAction {
 	/**
 	 * Creates a new TransferMessageAction.
 	 * 
-	 * @param context
-	 *            The context to use.
+	 * @param context The context to use.
 	 */
 	public EndAction(IActionContext context) {
 		this.context = context;
@@ -41,7 +40,6 @@ public class EndAction implements IAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.core.IAction#execute()
 	 */
 	@Override
@@ -50,8 +48,7 @@ public class EndAction implements IAction {
 			if (context.isReportingEnabled()) {
 				final Dictionary<String, Object> props = new Hashtable<String, Object>();
 				props.put("event", "end");
-				context.report(IReporter.SEVERITY_INFO, "Ending process.",
-						props);
+				context.report(IReporter.SEVERITY_INFO, "Ending process.", props);
 			}
 			context.setAttribute("vtp.ended", "true");
 			return context.createResult(IActionResult.RESULT_NAME_ABORT);

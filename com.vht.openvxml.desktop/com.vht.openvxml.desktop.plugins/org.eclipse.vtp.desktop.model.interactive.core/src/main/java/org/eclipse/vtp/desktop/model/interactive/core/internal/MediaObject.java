@@ -16,8 +16,8 @@ import org.eclipse.vtp.desktop.model.interactive.core.IMediaObject;
 import org.eclipse.vtp.desktop.model.interactive.core.IMediaProject;
 
 /**
- * This is a concrete implementation of <code>IVoiceToolsResource</code> and
- * provides the default behavior of that interface.
+ * This is a concrete implementation of <code>IVoiceToolsResource</code> and provides the default
+ * behavior of that interface.
  *
  * @author Trip Gilman
  * @version 2.0
@@ -36,9 +36,8 @@ public abstract class MediaObject implements IMediaObject {
 	}
 
 	/**
-	 * The object id is used by the event system to uniquely identify a project
-	 * resource. In this fashion, multiple references to the resource can be
-	 * created and still be notified of events.
+	 * The object id is used by the event system to uniquely identify a project resource. In this
+	 * fashion, multiple references to the resource can be created and still be notified of events.
 	 *
 	 * @return A unique identifier for this resource
 	 */
@@ -46,7 +45,6 @@ public abstract class MediaObject implements IMediaObject {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 	 */
 	@Override

@@ -14,8 +14,8 @@ public class InteractionSupportManager {
 	private List<InteractionSupportListener> listeners = new LinkedList<InteractionSupportListener>();
 	private List<InteractionTypeSupport> originalSupport = null;
 	private Map<String, SupportRecord> currentSupport = new HashMap<String, SupportRecord>();
-	private List<InteractionType> installedTypes = InteractionTypeManager
-			.getInstance().getInteractionTypes();
+	private List<InteractionType> installedTypes = InteractionTypeManager.getInstance()
+			.getInteractionTypes();
 
 	public InteractionSupportManager() {
 		super();
@@ -25,21 +25,16 @@ public class InteractionSupportManager {
 		this.originalSupport = originalSupport;
 		currentSupport.clear();
 		for (InteractionType installedType : installedTypes) {
-			currentSupport.put(installedType.getId(), new SupportRecord(
-					installedType));
+			currentSupport.put(installedType.getId(), new SupportRecord(installedType));
 		}
 		for (InteractionTypeSupport typeSupport : originalSupport) {
-			SupportRecord sr = currentSupport.get(typeSupport
-					.getInteractionType());
+			SupportRecord sr = currentSupport.get(typeSupport.getInteractionType());
 			if (sr != null) {
 				sr.setSupport(typeSupport);
 			} else {
-				currentSupport.put(
-						typeSupport.getInteractionType(),
-						sr = new SupportRecord(
-								typeSupport.getInteractionType(), typeSupport
-										.getInteractionTypeName(), false,
-								typeSupport));
+				currentSupport.put(typeSupport.getInteractionType(), sr = new SupportRecord(
+						typeSupport.getInteractionType(), typeSupport.getInteractionTypeName(),
+						false, typeSupport));
 			}
 		}
 		fireUpdate();
@@ -78,8 +73,8 @@ public class InteractionSupportManager {
 				return;
 			}
 		}
-		InteractionTypeSupport newSupport = new InteractionTypeSupport(
-				record.getId(), record.getName());
+		InteractionTypeSupport newSupport = new InteractionTypeSupport(record.getId(), record
+				.getName());
 		record.setSupport(newSupport);
 		fireUpdate();
 		return;

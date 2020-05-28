@@ -52,8 +52,8 @@ public class VoiceMediaProvider implements IMediaProvider {
 			throw new IllegalStateException(e.getMessage(), e);
 		}
 		try {
-			FormatterRegistration fr = FormatterRegistrationManager
-					.getInstance().getFormatter(project.getLanguagePackId());
+			FormatterRegistration fr = FormatterRegistrationManager.getInstance().getFormatter(
+					project.getLanguagePackId());
 			formatter = fr.getFormatter();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -85,31 +85,22 @@ public class VoiceMediaProvider implements IMediaProvider {
 	public List<IContentType> getSupportedContentTypes() {
 		List<IContentType> types = new ArrayList<IContentType>();
 		types.add(new ContentType(
-				"org.eclipse.vtp.framework.interactions.voice.media.content.audio",
-				"Audio File"));
+				"org.eclipse.vtp.framework.interactions.voice.media.content.audio", "Audio File"));
 		types.add(new ContentType(
-				"org.eclipse.vtp.framework.interactions.core.media.content.letters",
-				"Characters"));
-		types.add(new ContentType(
-				"org.eclipse.vtp.framework.interactions.core.media.content.date",
+				"org.eclipse.vtp.framework.interactions.core.media.content.letters", "Characters"));
+		types.add(new ContentType("org.eclipse.vtp.framework.interactions.core.media.content.date",
 				"Date"));
 		types.add(new ContentType(
-				"org.eclipse.vtp.framework.interactions.core.media.content.digits",
-				"Digits"));
+				"org.eclipse.vtp.framework.interactions.core.media.content.digits", "Digits"));
 		types.add(new ContentType(
-				"org.eclipse.vtp.framework.interactions.core.media.content.money",
-				"Money"));
+				"org.eclipse.vtp.framework.interactions.core.media.content.money", "Money"));
 		types.add(new ContentType(
-				"org.eclipse.vtp.framework.interactions.core.media.content.number",
-				"Number"));
+				"org.eclipse.vtp.framework.interactions.core.media.content.number", "Number"));
 		types.add(new ContentType(
-				"org.eclipse.vtp.framework.interactions.core.media.content.ordinal",
-				"Ordinal"));
+				"org.eclipse.vtp.framework.interactions.core.media.content.ordinal", "Ordinal"));
 		types.add(new ContentType(
-				"org.eclipse.vtp.framework.interactions.core.media.content.referenced",
-				"Reference"));
-		types.add(new ContentType(
-				"org.eclipse.vtp.framework.interactions.core.media.content.text",
+				"org.eclipse.vtp.framework.interactions.core.media.content.referenced", "Reference"));
+		types.add(new ContentType("org.eclipse.vtp.framework.interactions.core.media.content.text",
 				"Text"));
 		return types;
 	}
@@ -123,9 +114,7 @@ public class VoiceMediaProvider implements IMediaProvider {
 
 		@Override
 		public String getFormat(FormattableContent content, String formatName) {
-			if (formatName.equals("Default")) {
-				return "Default";
-			}
+			if (formatName.equals("Default")) { return "Default"; }
 			return formatter.getDefaultFormatDefintion(content, formatName);
 		}
 
@@ -157,8 +146,7 @@ public class VoiceMediaProvider implements IMediaProvider {
 			if (resource instanceof IMediaContainer) {
 				List<IMediaResource> resources = null;
 				try {
-					resources = ((IMediaContainer) resource)
-							.listMediaResources();
+					resources = ((IMediaContainer) resource).listMediaResources();
 				} catch (CoreException e) {
 					e.printStackTrace();
 					return null;
@@ -183,14 +171,11 @@ public class VoiceMediaProvider implements IMediaProvider {
 			IMediaLibrariesFolder libraries = project.getMediaLibrariesFolder();
 			IMediaContainer folder = libraries.getMediaLibrary("Default");
 			IMediaObject result = folder;
-			for (StringTokenizer st = new StringTokenizer(path, "/"); st
-					.hasMoreTokens();) {
+			for (StringTokenizer st = new StringTokenizer(path, "/"); st.hasMoreTokens();) {
 				String token = st.nextToken();
 				if (st.hasMoreTokens()) {
 					folder = folder.getMediaFolder(token);
-					if (folder == null) {
-						return null;
-					}
+					if (folder == null) { return null; }
 				} else {
 					result = folder.getMediaFolder(token);
 					if (result == null) {

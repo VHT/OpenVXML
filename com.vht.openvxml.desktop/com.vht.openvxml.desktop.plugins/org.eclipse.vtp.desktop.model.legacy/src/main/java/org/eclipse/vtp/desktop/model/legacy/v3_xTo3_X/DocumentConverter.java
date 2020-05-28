@@ -45,8 +45,7 @@ public class DocumentConverter {
 				NodeList dialogList = element.getElementsByTagName("dialogs");
 				for (int d = 0; d < dialogList.getLength(); d++) {
 					Element dialogElement = (Element) dialogList.item(d);
-					NodeList modelList = dialogElement
-							.getElementsByTagName("model");
+					NodeList modelList = dialogElement.getElementsByTagName("model");
 					if (modelList.getLength() > 0) {
 						Element modelElement = (Element) modelList.item(0);
 						convertModel(modelElement);
@@ -69,8 +68,7 @@ public class DocumentConverter {
 	 * @return
 	 * @throws Exception
 	 */
-	public boolean convertModel(org.w3c.dom.Element modelElement)
-			throws Exception {
+	public boolean convertModel(org.w3c.dom.Element modelElement) throws Exception {
 		boolean neededConversion = false;
 		// verify XML version and convert if necessary
 		String modelXMLVersion = modelElement.getAttribute("xml-version");
@@ -78,20 +76,18 @@ public class DocumentConverter {
 														// incorrect
 		{
 			neededConversion = true;
-			System.err.println("Model XML version mismatch: expected=\""
-					+ XML_VERSION + "\" found=\"" + modelXMLVersion + "\"");
+			System.err.println("Model XML version mismatch: expected=\"" + XML_VERSION
+					+ "\" found=\"" + modelXMLVersion + "\"");
 			if (modelXMLVersion.equals("")) // attribute missing
 			{
 				System.err.println("Defaulting XML version to \"0.0.0\"");
 				modelXMLVersion = "0.0.0";
 			}
-			XMLConverter converter = LegacySupportManager.getInstance()
-					.getModelConverter(modelXMLVersion);
+			XMLConverter converter = LegacySupportManager.getInstance().getModelConverter(
+					modelXMLVersion);
 			if (converter == null) {
-				System.err
-						.println("Could not locate model converter...throwing Exception.");
-				throw new Exception(
-						"Could not convert model xml to new format.");
+				System.err.println("Could not locate model converter...throwing Exception.");
+				throw new Exception("Could not convert model xml to new format.");
 			}
 			System.err.println("Found model converter: " + converter);
 			System.err.println("Starting conversion process...");
@@ -102,40 +98,29 @@ public class DocumentConverter {
 														// caused by bad
 														// converters
 			{
-				System.err
-						.println("Conversion process failed to update xml version.");
-				System.err
-						.println("Avoiding infinite loop by throwing exception.");
-				throw new Exception(
-						"Conversion process failed to update xml version.");
+				System.err.println("Conversion process failed to update xml version.");
+				System.err.println("Avoiding infinite loop by throwing exception.");
+				throw new Exception("Conversion process failed to update xml version.");
 			}
-			System.err.println("Model converted to version: \"" + tempVersion
-					+ "\"");
+			System.err.println("Model converted to version: \"" + tempVersion + "\"");
 			modelXMLVersion = tempVersion;
 		}
-		NodeList elementsElementList = modelElement
-				.getElementsByTagName("elements");
+		NodeList elementsElementList = modelElement.getElementsByTagName("elements");
 		if (elementsElementList.getLength() > 0) {
-			org.w3c.dom.Element elementsElement = (org.w3c.dom.Element) elementsElementList
-					.item(0);
-			NodeList elementList = elementsElement
-					.getElementsByTagName("element");
+			org.w3c.dom.Element elementsElement = (org.w3c.dom.Element) elementsElementList.item(0);
+			NodeList elementList = elementsElement.getElementsByTagName("element");
 			for (int i = 0; i < elementList.getLength(); i++) {
-				org.w3c.dom.Element elementElement = (org.w3c.dom.Element) elementList
-						.item(i);
+				org.w3c.dom.Element elementElement = (org.w3c.dom.Element) elementList.item(i);
 				Properties properties = new Properties();
-				NodeList propertiesList = elementElement
-						.getElementsByTagName("properties");
+				NodeList propertiesList = elementElement.getElementsByTagName("properties");
 				if (propertiesList.getLength() > 0) {
 					org.w3c.dom.Element propertiesElement = (org.w3c.dom.Element) propertiesList
 							.item(0);
-					NodeList propertyList = propertiesElement
-							.getElementsByTagName("property");
+					NodeList propertyList = propertiesElement.getElementsByTagName("property");
 					for (int p = 0; p < propertyList.getLength(); p++) {
 						org.w3c.dom.Element propertyElement = (org.w3c.dom.Element) propertyList
 								.item(p);
-						properties.setProperty(
-								propertyElement.getAttribute("name"),
+						properties.setProperty(propertyElement.getAttribute("name"),
 								propertyElement.getAttribute("value"));
 					}
 				}
@@ -145,11 +130,9 @@ public class DocumentConverter {
 		return neededConversion;
 	}
 
-	public final boolean convertElementConfiguration(
-			org.w3c.dom.Element elementElement) {
+	public final boolean convertElementConfiguration(org.w3c.dom.Element elementElement) {
 		boolean neededConversion = false;
-		NodeList configurationList = elementElement
-				.getElementsByTagName("configuration");
+		NodeList configurationList = elementElement.getElementsByTagName("configuration");
 		if (configurationList.getLength() > 0) {
 			org.w3c.dom.Element configurationElement = (org.w3c.dom.Element) configurationList
 					.item(0);
@@ -161,17 +144,14 @@ public class DocumentConverter {
 				for (int c = 0; c < managedConfigSectionList.getLength(); c++) {
 					org.w3c.dom.Element configSectionElement = (org.w3c.dom.Element) managedConfigSectionList
 							.item(c);
-					String managerType = configSectionElement
-							.getAttribute("type");
-					String xmlVersion = configSectionElement
-							.getAttribute("xml-version");
+					String managerType = configSectionElement.getAttribute("type");
+					String xmlVersion = configSectionElement.getAttribute("xml-version");
 					if (xmlVersion.equals("")) {
 						xmlVersion = "0.0.0";
 					}
-					XMLConverter converter = UpgradeSupportManager
-							.getInstance()
-							.getLegacyConfigurationManagerConverter(
-									managerType, xmlVersion, getDataServices());
+					XMLConverter converter = UpgradeSupportManager.getInstance()
+							.getLegacyConfigurationManagerConverter(managerType, xmlVersion,
+									getDataServices());
 					if (converter != null) {
 						neededConversion = true;
 						localNeededConversion = true;

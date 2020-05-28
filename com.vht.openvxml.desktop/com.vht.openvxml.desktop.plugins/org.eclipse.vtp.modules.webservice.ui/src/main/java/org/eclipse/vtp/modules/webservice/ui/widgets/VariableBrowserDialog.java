@@ -38,22 +38,18 @@ import com.openmethods.openvxml.desktop.model.workflow.design.ObjectDefinition;
 import com.openmethods.openvxml.desktop.model.workflow.design.ObjectField;
 import com.openmethods.openvxml.desktop.model.workflow.design.Variable;
 
-public class VariableBrowserDialog extends Dialog
-{
-	static
-	{
+public class VariableBrowserDialog extends Dialog {
+	static {
 		ColorRegistry cr = JFaceResources.getColorRegistry();
 		cr.put("VTP_BLACK", new RGB(0, 0, 0));
 		cr.put("VTP_WHITE", new RGB(255, 255, 255));
 		cr.put("VTP_GRAYED", new RGB(140, 140, 140));
 	};
-	
+
 	private Text searchText = null;
 	private TreeViewer variableViewer = null;
-	private ObjectDefinitionFilter openFilter = new ObjectDefinitionFilter()
-	{
-		public boolean isApplicable(ObjectDefinition definition)
-		{
+	private ObjectDefinitionFilter openFilter = new ObjectDefinitionFilter() {
+		public boolean isApplicable(ObjectDefinition definition) {
 			return true;
 		}
 	};
@@ -61,38 +57,30 @@ public class VariableBrowserDialog extends Dialog
 	private List<Variable> scope = null;
 	private ObjectDefinition selection = null;
 
-	public VariableBrowserDialog(Shell parentShell, List<Variable> scope)
-	{
+	public VariableBrowserDialog(Shell parentShell, List<Variable> scope) {
 		super(parentShell);
 		this.scope = scope;
 	}
-	
-	public void setFilter(ObjectDefinitionFilter filter)
-	{
-		if(filter == null)
-		{
+
+	public void setFilter(ObjectDefinitionFilter filter) {
+		if (filter == null) {
 			this.filter = openFilter;
-		}
-		else
-		{
+		} else {
 			this.filter = filter;
 		}
-		if(variableViewer != null)
-		{
+		if (variableViewer != null) {
 			variableViewer.refresh();
 		}
 	}
-	
-	public ObjectDefinition getSelectedDefinition()
-	{
+
+	public ObjectDefinition getSelectedDefinition() {
 		return selection;
 	}
 
 	@Override
-	protected Control createDialogArea(Composite parent)
-	{
-		Composite dialogComp = (Composite)super.createDialogArea(parent);
-		GridData dialogData = (GridData)dialogComp.getLayoutData();
+	protected Control createDialogArea(Composite parent) {
+		Composite dialogComp = (Composite) super.createDialogArea(parent);
+		GridData dialogData = (GridData) dialogComp.getLayoutData();
 		dialogData.widthHint = 400;
 		dialogData.heightHint = 300;
 		searchText = new Text(dialogComp, SWT.SINGLE | SWT.SEARCH);
@@ -101,7 +89,8 @@ public class VariableBrowserDialog extends Dialog
 		layoutComp.setLayoutData(new GridData(GridData.FILL_BOTH));
 		TreeColumnLayout columnLayout = new TreeColumnLayout();
 		layoutComp.setLayout(columnLayout);
-		Tree variableTree = new Tree(layoutComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.SINGLE | SWT.V_SCROLL);
+		Tree variableTree = new Tree(layoutComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.SINGLE
+				| SWT.V_SCROLL);
 		variableTree.setHeaderVisible(true);
 		variableTree.setLinesVisible(true);
 		TreeColumn nameColumn = new TreeColumn(variableTree, SWT.NONE);
@@ -115,135 +104,101 @@ public class VariableBrowserDialog extends Dialog
 		variableViewer.setContentProvider(new VariableContentProvider());
 		variableViewer.setLabelProvider(new VariableLabelProvider());
 		variableViewer.setInput(this);
-		variableViewer.addSelectionChangedListener(new ISelectionChangedListener()
-		{
-			public void selectionChanged(SelectionChangedEvent event)
-			{
-				Object sel = ((IStructuredSelection)event.getSelection()).getFirstElement();
-				if(sel == null)
-				{
+		variableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			public void selectionChanged(SelectionChangedEvent event) {
+				Object sel = ((IStructuredSelection) event.getSelection()).getFirstElement();
+				if (sel == null) {
 					selection = null;
-				}
-				else
-				{
-					if(filter.isApplicable((ObjectDefinition)sel))
-					{
-						selection = (ObjectDefinition)sel;
-					}
-					else
-						selection = null;
+				} else {
+					if (filter.isApplicable((ObjectDefinition) sel)) {
+						selection = (ObjectDefinition) sel;
+					} else selection = null;
 				}
 			}
 		});
-		searchText.addModifyListener(new ModifyListener()
-		{
-			public void modifyText(ModifyEvent e)
-			{
+		searchText.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
 				variableViewer.refresh();
 			}
 		});
-		variableViewer.addFilter(new ViewerFilter()
-		{
-			public boolean select(Viewer viewer, Object parentElement, Object element)
-			{
+		variableViewer.addFilter(new ViewerFilter() {
+			public boolean select(Viewer viewer, Object parentElement, Object element) {
 				String crit = searchText.getText();
-				if(crit.length() == 0)
-					return true;
-				ObjectDefinition od = (ObjectDefinition)element;
+				if (crit.length() == 0) return true;
+				ObjectDefinition od = (ObjectDefinition) element;
 				List<String> paths = new LinkedList<String>();
 				paths.add(od.getPath());
 				addFields(paths, od.getFields());
-				for(String path : paths)
-				{
-					if(path.toLowerCase().contains(crit.toLowerCase()))
-						return true;
+				for (String path : paths) {
+					if (path.toLowerCase().contains(crit.toLowerCase())) return true;
 				}
 				return false;
 			}
-			
-			private void addFields(List<String> paths, List<ObjectField> fields)
-			{
-				for(ObjectField field : fields)
-				{
+
+			private void addFields(List<String> paths, List<ObjectField> fields) {
+				for (ObjectField field : fields) {
 					paths.add(field.getPath());
 					addFields(paths, field.getFields());
 				}
 			}
 		});
-		
+
 		return dialogComp;
 	}
-	
-	public class VariableContentProvider implements ITreeContentProvider
-	{
-		public Object[] getElements(Object inputElement)
-		{
+
+	public class VariableContentProvider implements ITreeContentProvider {
+		public Object[] getElements(Object inputElement) {
 			return scope.toArray();
 		}
-		
-		public Object getParent(Object element)
-		{
-			if(element instanceof ObjectField)
-				return ((ObjectField)element).getParent();
+
+		public Object getParent(Object element) {
+			if (element instanceof ObjectField) return ((ObjectField) element).getParent();
 			return null;
 		}
 
-		public boolean hasChildren(Object element)
-		{
-			return ((ObjectDefinition)element).getFields().size() > 0;
+		public boolean hasChildren(Object element) {
+			return ((ObjectDefinition) element).getFields().size() > 0;
 		}
 
-		public Object[] getChildren(Object parentElement)
-		{
-			return ((ObjectDefinition)parentElement).getFields().toArray();
-		}
-		
-		public void dispose()
-		{
+		public Object[] getChildren(Object parentElement) {
+			return ((ObjectDefinition) parentElement).getFields().toArray();
 		}
 
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput)
-		{
-		}
+		public void dispose() {}
+
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 	}
-	
-	public class VariableLabelProvider extends BaseLabelProvider implements ITableLabelProvider, ITableColorProvider
-	{
-		public Image getColumnImage(Object element, int index)
-		{
+
+	public class VariableLabelProvider extends BaseLabelProvider
+		implements
+		ITableLabelProvider,
+		ITableColorProvider {
+		public Image getColumnImage(Object element, int index) {
 			return null;
 		}
-		
-		public String getColumnText(Object element, int index)
-		{
-			ObjectDefinition od = (ObjectDefinition)element;
-			if(index == 0)
-			{
+
+		public String getColumnText(Object element, int index) {
+			ObjectDefinition od = (ObjectDefinition) element;
+			if (index == 0) {
 				return od.getName();
-			}
-			else
-			{
-				if(od.getType().isObject())
-					return od.getType().getName();
-				else
-					if(od.getType().getPrimitiveType() == Primitive.ARRAY)
-						return od.getType().getBaseTypeName() + "[]";
-						
+			} else {
+				if (od.getType().isObject()) return od.getType().getName();
+				else if (od.getType().getPrimitiveType() == Primitive.ARRAY) return od.getType()
+						.getBaseTypeName()
+						+ "[]";
+
 				return od.getType().getName();
 			}
 		}
 
-		public Color getForeground(Object element, int index)
-		{
+		public Color getForeground(Object element, int index) {
 			ColorRegistry cr = JFaceResources.getColorRegistry();
-			ObjectDefinition od = (ObjectDefinition)element;
-			if(filter.isApplicable(od))
-				return cr.get("VTP_BLACK");
+			ObjectDefinition od = (ObjectDefinition) element;
+			if (filter.isApplicable(od)) return cr.get("VTP_BLACK");
 			return cr.get("VTP_GRAYED");
 		}
 
-		public Color getBackground(Object element, int index)
-		{
+		public Color getBackground(Object element, int index) {
 			return null;
 		}
 	}

@@ -24,12 +24,13 @@ import com.openmethods.openvxml.desktop.model.branding.IBrand;
 import com.openmethods.openvxml.desktop.model.branding.IBrandingProjectAspect;
 
 public class LanguageSupportProjectAspect extends OpenVXMLProjectAspect
-		implements ILanguageSupportProjectAspect, IMediaProviderManager {
+	implements
+	ILanguageSupportProjectAspect,
+	IMediaProviderManager {
 	private Map<String, InteractionTypeSupport> supportedInteractionTypes = new HashMap<String, InteractionTypeSupport>();
 	private IBrandingProjectAspect brandingAspect = null;
 
-	public LanguageSupportProjectAspect(IOpenVXMLProject project,
-			Element aspectConfiguration) {
+	public LanguageSupportProjectAspect(IOpenVXMLProject project, Element aspectConfiguration) {
 		super(project);
 		brandingAspect = (IBrandingProjectAspect) project
 				.getProjectAspect(IBrandingProjectAspect.ASPECT_ID);
@@ -43,46 +44,36 @@ public class LanguageSupportProjectAspect extends OpenVXMLProjectAspect
 				for (int s = 0; s < sections.getLength(); s++) {
 					if (sections.item(s).getNodeType() == Node.ELEMENT_NODE) {
 						Element sectionElement = (Element) sections.item(s);
-						if (sectionElement.getNodeName().equals(
-								"interaction-type-support")) {
+						if (sectionElement.getNodeName().equals("interaction-type-support")) {
 							NodeList itList = sectionElement
 									.getElementsByTagName("interaction-type");
 							for (int i = 0; i < itList.getLength(); i++) {
 								Element it = (Element) itList.item(i);
 								String interactionType = it.getAttribute("id");
-								String interactionTypeName = it
-										.getAttribute("name");
+								String interactionTypeName = it.getAttribute("name");
 								InteractionTypeSupport interactionTypeSupport = supportedInteractionTypes
 										.get(interactionType);
 								if (interactionTypeSupport == null) {
-									supportedInteractionTypes
-											.put(interactionType,
-													interactionTypeSupport = new InteractionTypeSupport(
-															interactionType,
-															interactionTypeName));
+									supportedInteractionTypes.put(interactionType,
+											interactionTypeSupport = new InteractionTypeSupport(
+													interactionType, interactionTypeName));
 								}
-								NodeList lmList = it
-										.getElementsByTagName("language-mapping");
+								NodeList lmList = it.getElementsByTagName("language-mapping");
 								for (int l = 0; l < lmList.getLength(); l++) {
 									Element lm = (Element) lmList.item(l);
-									String language = lm
-											.getAttribute("language");
+									String language = lm.getAttribute("language");
 									LanguageSupport languageSupport = interactionTypeSupport
 											.getLanguageSupport(language);
 									if (languageSupport == null) {
 										languageSupport = interactionTypeSupport
 												.addLanguageSupport(language);
 									}
-									NodeList bmList = lm
-											.getElementsByTagName("brand-mapping");
+									NodeList bmList = lm.getElementsByTagName("brand-mapping");
 									for (int b = 0; b < bmList.getLength(); b++) {
 										Element bm = (Element) bmList.item(b);
-										String brandId = bm
-												.getAttribute("brand-id");
-										String mediaProjectId = bm
-												.getAttribute("media-project-id");
-										languageSupport.assignMediaProject(
-												brandId, mediaProjectId);
+										String brandId = bm.getAttribute("brand-id");
+										String mediaProjectId = bm.getAttribute("media-project-id");
+										languageSupport.assignMediaProject(brandId, mediaProjectId);
 									}
 								}
 							}
@@ -125,15 +116,13 @@ public class LanguageSupportProjectAspect extends OpenVXMLProjectAspect
 
 	public List<InteractionTypeSupport> getInteractionTypeSupport() {
 		List<InteractionTypeSupport> ret = new ArrayList<InteractionTypeSupport>();
-		for (Map.Entry<String, InteractionTypeSupport> entry : supportedInteractionTypes
-				.entrySet()) {
+		for (Map.Entry<String, InteractionTypeSupport> entry : supportedInteractionTypes.entrySet()) {
 			ret.add((InteractionTypeSupport) entry.getValue().clone());
 		}
 		return ret;
 	}
 
-	public void setInteractionTypeSupport(
-			List<InteractionTypeSupport> newSupport) {
+	public void setInteractionTypeSupport(List<InteractionTypeSupport> newSupport) {
 		supportedInteractionTypes.clear();
 		for (InteractionTypeSupport its : newSupport) {
 			supportedInteractionTypes.put(its.getInteractionType(), its);
@@ -146,23 +135,16 @@ public class LanguageSupportProjectAspect extends OpenVXMLProjectAspect
 	}
 
 	@Override
-	public IMediaProject getMediaProject(String interactionType, IBrand brand,
-			String language) {
-		InteractionTypeSupport typeSupport = supportedInteractionTypes
-				.get(interactionType);
+	public IMediaProject getMediaProject(String interactionType, IBrand brand, String language) {
+		InteractionTypeSupport typeSupport = supportedInteractionTypes.get(interactionType);
 		if (typeSupport != null) {
-			LanguageSupport languageSupport = typeSupport
-					.getLanguageSupport(language);
+			LanguageSupport languageSupport = typeSupport.getLanguageSupport(language);
 			if (languageSupport != null) {
-				String mediaProjectId = languageSupport.getMediaProjectId(
-						brand, true);
+				String mediaProjectId = languageSupport.getMediaProjectId(brand, true);
 				if (mediaProjectId != null) {
-					IMediaProject mediaProject = InteractiveWorkflowCore
-							.getDefault().getInteractiveWorkflowModel()
-							.getMediaProject(mediaProjectId);
-					if (mediaProject != null) {
-						return mediaProject;
-					}
+					IMediaProject mediaProject = InteractiveWorkflowCore.getDefault()
+							.getInteractiveWorkflowModel().getMediaProject(mediaProjectId);
+					if (mediaProject != null) { return mediaProject; }
 				}
 			}
 		}
@@ -170,13 +152,9 @@ public class LanguageSupportProjectAspect extends OpenVXMLProjectAspect
 	}
 
 	@Override
-	public IMediaProvider getMediaProvider(String interactionType,
-			IBrand brand, String language) {
-		IMediaProject mediaProject = getMediaProject(interactionType, brand,
-				language);
-		if (mediaProject != null) {
-			return mediaProject.getMediaProvider();
-		}
+	public IMediaProvider getMediaProvider(String interactionType, IBrand brand, String language) {
+		IMediaProject mediaProject = getMediaProject(interactionType, brand, language);
+		if (mediaProject != null) { return mediaProject.getMediaProvider(); }
 		return null;
 	}
 
@@ -201,43 +179,32 @@ public class LanguageSupportProjectAspect extends OpenVXMLProjectAspect
 	}
 
 	@Override
-	public void removeProjectLayout() {
-	}
+	public void removeProjectLayout() {}
 
 	@Override
 	public void writeConfiguration(Element aspectElement) {
 		Document document = aspectElement.getOwnerDocument();
-		Element interactionTypeSupportElement = document
-				.createElement("interaction-type-support");
+		Element interactionTypeSupportElement = document.createElement("interaction-type-support");
 		aspectElement.appendChild(interactionTypeSupportElement);
-		for (InteractionTypeSupport interactionTypeSupport : supportedInteractionTypes
-				.values()) {
-			Element interactionTypeElement = document
-					.createElement("interaction-type");
+		for (InteractionTypeSupport interactionTypeSupport : supportedInteractionTypes.values()) {
+			Element interactionTypeElement = document.createElement("interaction-type");
 			interactionTypeSupportElement.appendChild(interactionTypeElement);
-			interactionTypeElement.setAttribute("id",
-					interactionTypeSupport.getInteractionType());
-			interactionTypeElement.setAttribute("name",
-					interactionTypeSupport.getInteractionTypeName());
+			interactionTypeElement.setAttribute("id", interactionTypeSupport.getInteractionType());
+			interactionTypeElement.setAttribute("name", interactionTypeSupport
+					.getInteractionTypeName());
 			List<LanguageSupport> supportedLanguages = interactionTypeSupport
 					.getSupportedLanguages();
 			for (LanguageSupport languageSupport : supportedLanguages) {
-				Element languageSupportElement = document
-						.createElement("language-mapping");
+				Element languageSupportElement = document.createElement("language-mapping");
 				interactionTypeElement.appendChild(languageSupportElement);
-				languageSupportElement.setAttribute("language",
-						languageSupport.getLanguage());
+				languageSupportElement.setAttribute("language", languageSupport.getLanguage());
 				for (IBrand brand : flattenBrands()) {
-					String mediaProjectId = languageSupport.getMediaProjectId(
-							brand, false);
+					String mediaProjectId = languageSupport.getMediaProjectId(brand, false);
 					if (mediaProjectId != null) {
-						Element brandMappingElement = document
-								.createElement("brand-mapping");
+						Element brandMappingElement = document.createElement("brand-mapping");
 						languageSupportElement.appendChild(brandMappingElement);
-						brandMappingElement.setAttribute("brand-id",
-								brand.getId());
-						brandMappingElement.setAttribute("media-project-id",
-								mediaProjectId);
+						brandMappingElement.setAttribute("brand-id", brand.getId());
+						brandMappingElement.setAttribute("media-project-id", mediaProjectId);
 					}
 				}
 			}

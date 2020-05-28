@@ -9,8 +9,7 @@ import org.eclipse.vtp.framework.interactions.voice.vxml.VXMLDocument;
 public class UCCXVoicePlatform extends CvpPlatform {
 	private IExecutionContext context = null;
 
-	public UCCXVoicePlatform(IExecutionContext context,
-			IMediaProviderRegistry mediaProviderRegistry) {
+	public UCCXVoicePlatform(IExecutionContext context, IMediaProviderRegistry mediaProviderRegistry) {
 		super(context, mediaProviderRegistry);
 		this.context = context;
 		context.info("Creating UCCX Voice Platform Extension");

@@ -70,18 +70,15 @@ public class Receive extends Action {
 	}
 
 	@Override
-	public void writeWidget(ContentHandler outputHandler)
-			throws NullPointerException, SAXException {
+	public void writeWidget(ContentHandler outputHandler) throws NullPointerException, SAXException {
 		AttributesImpl attributes = new AttributesImpl();
 		writeAttributes(attributes);
 		if (gvpPrefix) {
-			outputHandler.startElement(null, "gvp:receive", "gvp:receive",
-					attributes);
+			outputHandler.startElement(null, "gvp:receive", "gvp:receive", attributes);
 			outputHandler.endElement(null, "gvp:receive", "gvp:receive");
 
 		} else {
-			outputHandler.startElement(namespace, "receive", "receive",
-					attributes);
+			outputHandler.startElement(namespace, "receive", "receive", attributes);
 			outputHandler.endElement(namespace, "receive", "receive");
 
 		}

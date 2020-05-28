@@ -30,28 +30,24 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElement;
  *
  * @author Lonnie Pryor
  */
-public class FragmentMissingModelPanel extends DesignElementPropertiesPanel
-{
+public class FragmentMissingModelPanel extends DesignElementPropertiesPanel {
 	Label nameLabel;
 	Text nameField;
 
 	/**
 	 * Creates a new LanguageSelectionGeneralPropertiesPanel.
-	 *
-	 *
 	 */
-	public FragmentMissingModelPanel(String name, IDesignElement ppe)
-	{
+	public FragmentMissingModelPanel(String name, IDesignElement ppe) {
 		super(name, ppe);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 *
-	 * @see org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel#createControls(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel#createControls(org.eclipse
+	 * .swt.widgets.Composite)
 	 */
-	public void createControls(Composite parent)
-	{
+	public void createControls(Composite parent) {
 		Composite comp = new Composite(parent, SWT.NONE);
 		comp.setBackground(parent.getBackground());
 		comp.setLayout(new GridLayout(2, false));
@@ -64,7 +60,8 @@ public class FragmentMissingModelPanel extends DesignElementPropertiesPanel
 		nameField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
 				| GridData.VERTICAL_ALIGN_CENTER));
 		Text missingModelLabel = new Text(comp, SWT.WRAP | SWT.MULTI);
-		missingModelLabel.setText("WARINING: The application fragment project this element requires is not available in your current workspace.  Please import the project from your source control system or delete this element from this canvas.");
+		missingModelLabel
+				.setText("WARINING: The application fragment project this element requires is not available in your current workspace.  Please import the project from your source control system or delete this element from this canvas.");
 		GridData gd = new GridData(GridData.FILL_BOTH);
 		gd.horizontalSpan = 2;
 		gd.widthHint = 300;
@@ -73,24 +70,19 @@ public class FragmentMissingModelPanel extends DesignElementPropertiesPanel
 		setControl(comp);
 	}
 
-	public void save()
-	{
+	public void save() {
 		getElement().setName(nameField.getText());
 	}
-	
-	public void cancel()
-	{
-		
+
+	public void cancel() {
+
 	}
 
 	@Override
-	public void setConfigurationContext(Map<String, Object> values)
-	{
-	}
+	public void setConfigurationContext(Map<String, Object> values) {}
 
 	@Override
-	public List<String> getApplicableContexts()
-	{
+	public List<String> getApplicableContexts() {
 		return Collections.emptyList();
 	}
 

@@ -8,11 +8,9 @@ public class OutputCase implements InteractionsConstants {
 	private String scriptingLanguage = ""; //$NON-NLS-1$
 	private OutputNode[] nodes = null;
 
-	public OutputCase() {
-	}
+	public OutputCase() {}
 
-	public OutputCase(String script, String scriptingLanguage,
-			OutputNode[] nodes) {
+	public OutputCase(String script, String scriptingLanguage, OutputNode[] nodes) {
 		this.script = script;
 		this.scriptingLanguage = scriptingLanguage;
 		this.nodes = nodes;
@@ -44,8 +42,7 @@ public class OutputCase implements InteractionsConstants {
 
 	void load(Element configurationElement, IContentFactory contentFactory) {
 		script = configurationElement.getAttribute(NAME_SCRIPT);
-		scriptingLanguage = configurationElement
-				.getAttribute(NAME_SCRIPTING_LANGUGAGE);
+		scriptingLanguage = configurationElement.getAttribute(NAME_SCRIPTING_LANGUGAGE);
 		nodes = OutputNode.loadAll(configurationElement, contentFactory);
 	}
 
@@ -55,16 +52,15 @@ public class OutputCase implements InteractionsConstants {
 		if (prefix != null && prefix.length() > 0) {
 			outputNodeName = prefix + ":" + outputNodeName; //$NON-NLS-1$
 		}
-		Element outputNodeElement = configurationElement.getOwnerDocument()
-				.createElementNS(NAMESPACE_URI, outputNodeName);
+		Element outputNodeElement = configurationElement.getOwnerDocument().createElementNS(
+				NAMESPACE_URI, outputNodeName);
 		if (nodes != null) {
 			for (OutputNode node : nodes) {
 				node.save(outputNodeElement);
 			}
 		}
 		outputNodeElement.setAttribute(NAME_SCRIPT, script);
-		outputNodeElement.setAttribute(NAME_SCRIPTING_LANGUGAGE,
-				scriptingLanguage);
+		outputNodeElement.setAttribute(NAME_SCRIPTING_LANGUGAGE, scriptingLanguage);
 		configurationElement.appendChild(outputNodeElement);
 	}
 }

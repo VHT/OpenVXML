@@ -20,8 +20,7 @@ public class PlaceholderContent extends Content {
 
 	private String data = ""; //$NON-NLS-1$
 
-	public PlaceholderContent() {
-	}
+	public PlaceholderContent() {}
 
 	public PlaceholderContent(Element element) {
 		data = XMLUtilities.getElementTextDataNoEx(element, true);
@@ -40,8 +39,8 @@ public class PlaceholderContent extends Content {
 
 	@Override
 	public Element store(Element element) {
-		Element thisElement = element.getOwnerDocument().createElementNS(
-				ELEMENT_NAMESPACE, ELEMENT_NAME);
+		Element thisElement = element.getOwnerDocument().createElementNS(ELEMENT_NAMESPACE,
+				ELEMENT_NAME);
 		element.appendChild(thisElement);
 		Text dataNode = thisElement.getOwnerDocument().createTextNode(data);
 		thisElement.appendChild(dataNode);
@@ -65,9 +64,7 @@ public class PlaceholderContent extends Content {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.media.Content#createCopy()
+	 * @see org.eclipse.vtp.framework.interactions.core.media.Content#createCopy()
 	 */
 	@Override
 	public Content createCopy() {

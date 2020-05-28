@@ -22,8 +22,7 @@ import org.w3c.dom.NodeList;
  * 
  * @author Lonnie Pryor
  */
-public class SharedContentConfiguration implements IConfiguration,
-		InteractionsConstants {
+public class SharedContentConfiguration implements IConfiguration, InteractionsConstants {
 	/** The content factory to use. */
 	private final IContentFactory contentFactory;
 	/** The name of this item. */
@@ -34,8 +33,7 @@ public class SharedContentConfiguration implements IConfiguration,
 	/**
 	 * Creates a new SharedContentConfiguration.
 	 * 
-	 * @param contentFactory
-	 *            The content factory to use.
+	 * @param contentFactory The content factory to use.
 	 */
 	public SharedContentConfiguration(IContentFactory contentFactory) {
 		this.contentFactory = contentFactory;
@@ -53,8 +51,7 @@ public class SharedContentConfiguration implements IConfiguration,
 	/**
 	 * Sets the name of this item.
 	 * 
-	 * @param name
-	 *            The name of this item.
+	 * @param name The name of this item.
 	 */
 	public void setName(String name) {
 		this.name = name == null ? "" : name; //$NON-NLS-1$
@@ -72,8 +69,7 @@ public class SharedContentConfiguration implements IConfiguration,
 	/**
 	 * Sets the content in this item.
 	 * 
-	 * @param contentType
-	 *            The content in this item.
+	 * @param contentType The content in this item.
 	 */
 	public void setContent(Content content) {
 		this.content = content;
@@ -81,9 +77,7 @@ public class SharedContentConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#load( org.w3c.dom.Element)
 	 */
 	@Override
 	public void load(Element configurationElement) {
@@ -99,9 +93,7 @@ public class SharedContentConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#save( org.w3c.dom.Element)
 	 */
 	@Override
 	public void save(Element configurationElement) {

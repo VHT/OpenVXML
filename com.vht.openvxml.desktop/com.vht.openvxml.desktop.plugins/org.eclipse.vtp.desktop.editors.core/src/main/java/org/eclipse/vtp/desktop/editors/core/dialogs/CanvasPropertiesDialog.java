@@ -78,8 +78,7 @@ public class CanvasPropertiesDialog extends Dialog {
 	/**
 	 * Sets the canvas
 	 * 
-	 * @param canvas
-	 *            - the canvas the properties of which will be displayed
+	 * @param canvas - the canvas the properties of which will be displayed
 	 */
 	public void setRenderedCanvas(RenderedModel canvas) {
 		this.canvas = canvas;
@@ -87,10 +86,7 @@ public class CanvasPropertiesDialog extends Dialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
-	 * .Composite)
+	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets .Composite)
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
@@ -117,8 +113,7 @@ public class CanvasPropertiesDialog extends Dialog {
 		fd.left = new FormAttachment(0, 0);
 		fd.top = new FormAttachment(0, 0);
 		paperSizeLabel.setLayoutData(fd);
-		paperSizeCombo = new Combo(paperSizeGroup, SWT.READ_ONLY
-				| SWT.DROP_DOWN);
+		paperSizeCombo = new Combo(paperSizeGroup, SWT.READ_ONLY | SWT.DROP_DOWN);
 		for (int i = 0; i < paperSizes.size(); i++) {
 			PaperSize ps = paperSizes.get(i);
 			paperSizeCombo.add(ps.getName());
@@ -153,7 +148,6 @@ public class CanvasPropertiesDialog extends Dialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
 	@Override
@@ -163,8 +157,7 @@ public class CanvasPropertiesDialog extends Dialog {
 			canvas.getUIModel().setOrientation(
 					portraitButton.getSelection() ? IDesignConstants.PORTRAIT
 							: IDesignConstants.LANDSCAPE);
-			canvas.getUIModel().setPaperSize(
-					paperSizes.get(paperSizeCombo.getSelectionIndex()));
+			canvas.getUIModel().setPaperSize(paperSizes.get(paperSizeCombo.getSelectionIndex()));
 		} catch (RuntimeException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

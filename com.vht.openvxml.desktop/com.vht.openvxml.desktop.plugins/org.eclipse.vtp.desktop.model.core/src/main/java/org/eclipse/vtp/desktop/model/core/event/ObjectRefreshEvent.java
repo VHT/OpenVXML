@@ -14,8 +14,8 @@ package org.eclipse.vtp.desktop.model.core.event;
 import org.eclipse.vtp.desktop.model.core.internal.event.ObjectEvent;
 
 /**
- * This class represents and event that indicates that an object has changed and
- * any visual displays of its data should be updated.
+ * This class represents and event that indicates that an object has changed and any visual displays
+ * of its data should be updated.
  *
  * @author Trip Gilman
  * @version 2.0
@@ -24,8 +24,7 @@ public class ObjectRefreshEvent extends ObjectEvent {
 	/**
 	 * Creates a new object refresh event for the given object id.
 	 *
-	 * @param objectId
-	 *            An identifier of the object that has changed
+	 * @param objectId An identifier of the object that has changed
 	 */
 	public ObjectRefreshEvent(String objectId) {
 		super(objectId);

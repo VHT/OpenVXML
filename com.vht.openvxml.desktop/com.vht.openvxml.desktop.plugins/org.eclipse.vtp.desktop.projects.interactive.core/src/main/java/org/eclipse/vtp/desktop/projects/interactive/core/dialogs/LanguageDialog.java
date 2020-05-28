@@ -75,10 +75,7 @@ public class LanguageDialog extends Dialog {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
-	 * .Composite)
+	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets .Composite)
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
@@ -96,24 +93,19 @@ public class LanguageDialog extends Dialog {
 		nameText.addVerifyListener(new VerifyListener() {
 			@Override
 			public void verifyText(VerifyEvent e) {
-				String currentName = nameText.getText().substring(0, e.start)
-						+ e.text
-						+ nameText.getText(e.end,
-								(nameText.getText().length() - 1));
+				String currentName = nameText.getText().substring(0, e.start) + e.text
+						+ nameText.getText(e.end, (nameText.getText().length() - 1));
 				if (VariableNameValidator.followsVtpNamingRules(currentName)) {
-					nameText.setForeground(nameText.getDisplay()
-							.getSystemColor(SWT.COLOR_BLACK));
+					nameText.setForeground(nameText.getDisplay().getSystemColor(SWT.COLOR_BLACK));
 					okButton.setEnabled(true);
 					if (reservedNames.contains(currentName)) // Is this name
 																// taken?
 					{
-						nameText.setForeground(nameText.getDisplay()
-								.getSystemColor(SWT.COLOR_RED));
+						nameText.setForeground(nameText.getDisplay().getSystemColor(SWT.COLOR_RED));
 						okButton.setEnabled(false);
 					}
 				} else {
-					nameText.setForeground(nameText.getDisplay()
-							.getSystemColor(SWT.COLOR_RED));
+					nameText.setForeground(nameText.getDisplay().getSystemColor(SWT.COLOR_RED));
 					okButton.setEnabled(false);
 				}
 			}
@@ -121,14 +113,12 @@ public class LanguageDialog extends Dialog {
 
 		okButton = getButton(IDialogConstants.OK_ID);
 		okButton.setEnabled(!reservedNames.contains(nameText.getText())
-				&& VariableNameValidator.followsVtpNamingRules(nameText
-						.getText()));
+				&& VariableNameValidator.followsVtpNamingRules(nameText.getText()));
 		return parent;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
 	 */
 	@Override

@@ -48,9 +48,8 @@ public interface IActionContext extends IExecutionContext {
 	/**
 	 * Creates an action result with the specified name.
 	 * 
-	 * @param resultName
-	 *            The name of the result to create or <code>null</code> to
-	 *            create an undefined result.
+	 * @param resultName The name of the result to create or <code>null</code> to create an
+	 *            undefined result.
 	 * @return A new action result with the specified name.
 	 */
 	IActionResult createResult(String resultName);
@@ -58,11 +57,9 @@ public interface IActionContext extends IExecutionContext {
 	/**
 	 * Creates an action result with the specified name.
 	 * 
-	 * @param resultName
-	 *            The name of the result to create or <code>null</code> to
-	 *            create an undefined result.
-	 * @param failureCause
-	 *            The cause of the failure the action result represents or
+	 * @param resultName The name of the result to create or <code>null</code> to create an
+	 *            undefined result.
+	 * @param failureCause The cause of the failure the action result represents or
 	 *            <code>null</code> to not specify a failure cause.
 	 * @return A new action result with the specified name and failure cause.
 	 */

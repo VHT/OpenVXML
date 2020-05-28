@@ -24,16 +24,14 @@ import org.eclipse.vtp.desktop.views.Activator;
 
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesign;
 
-public class PalletPage implements IPage, IPropertyChangeListener,
-		PalletFocusListener {
+public class PalletPage implements IPage, IPropertyChangeListener, PalletFocusListener {
 	private Composite comp;
 	private Pallet pallet;
 	private IAdaptable container;
 
 	public PalletPage() {
 		super();
-		Activator.getDefault().getPreferenceStore()
-				.addPropertyChangeListener(this);
+		Activator.getDefault().getPreferenceStore().addPropertyChangeListener(this);
 		pallet = PalletManager.getDefault().createCurrentPallet();
 	}
 
@@ -59,10 +57,7 @@ public class PalletPage implements IPage, IPropertyChangeListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.part.IPage#createControl(org.eclipse.swt.widgets.Composite
-	 * )
+	 * @see org.eclipse.ui.part.IPage#createControl(org.eclipse.swt.widgets.Composite )
 	 */
 	@Override
 	public void createControl(Composite parent) {
@@ -78,20 +73,17 @@ public class PalletPage implements IPage, IPropertyChangeListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.ui.part.IPage#dispose()
 	 */
 	@Override
 	public void dispose() {
-		Activator.getDefault().getPreferenceStore()
-				.removePropertyChangeListener(this);
+		Activator.getDefault().getPreferenceStore().removePropertyChangeListener(this);
 		pallet.destroy();
 		comp.dispose();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.ui.part.IPage#getControl()
 	 */
 	@Override
@@ -101,16 +93,13 @@ public class PalletPage implements IPage, IPropertyChangeListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.ui.part.IPage#setActionBars(org.eclipse.ui.IActionBars)
 	 */
 	@Override
-	public void setActionBars(IActionBars actionBars) {
-	}
+	public void setActionBars(IActionBars actionBars) {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.ui.part.IPage#setFocus()
 	 */
 	@Override
@@ -120,9 +109,7 @@ public class PalletPage implements IPage, IPropertyChangeListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.jface.util.IPropertyChangeListener#propertyChange(org.eclipse
+	 * @see org.eclipse.jface.util.IPropertyChangeListener#propertyChange(org.eclipse
 	 * .jface.util.PropertyChangeEvent)
 	 */
 	@Override

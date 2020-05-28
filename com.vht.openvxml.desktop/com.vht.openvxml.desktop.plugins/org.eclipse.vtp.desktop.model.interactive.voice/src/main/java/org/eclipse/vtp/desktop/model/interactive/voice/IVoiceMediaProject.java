@@ -14,16 +14,13 @@ package org.eclipse.vtp.desktop.model.interactive.voice;
 import org.eclipse.vtp.desktop.model.interactive.core.IMediaProject;
 
 /**
- * This interface represents the top level project folder resource for persona
- * language support projects. The project layout for persona projects is highly
- * structured to facilitate easy enumeration of the artifacts used in its
- * creation and definition.
- *
- * This interface also provides access to information stored in auxillary "."
- * files that are hidden from general view and modification.
+ * This interface represents the top level project folder resource for persona language support
+ * projects. The project layout for persona projects is highly structured to facilitate easy
+ * enumeration of the artifacts used in its creation and definition. This interface also provides
+ * access to information stored in auxillary "." files that are hidden from general view and
+ * modification.
  *
  * @author Trip Gilman
  * @version 2.0
  */
-public interface IVoiceMediaProject extends IMediaProject {
-}
+public interface IVoiceMediaProject extends IMediaProject {}

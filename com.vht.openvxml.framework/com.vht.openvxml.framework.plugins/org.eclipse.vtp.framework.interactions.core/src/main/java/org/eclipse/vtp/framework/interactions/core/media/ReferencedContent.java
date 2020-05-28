@@ -24,8 +24,7 @@ public class ReferencedContent extends Content {
 	private int referenceType = STATIC_REF;
 	private String referencedName = ""; //$NON-NLS-1$
 
-	public ReferencedContent() {
-	}
+	public ReferencedContent() {}
 
 	public ReferencedContent(Element element) {
 		String referenceTypeString = element.getAttribute("referenceType"); //$NON-NLS-1$
@@ -61,8 +60,8 @@ public class ReferencedContent extends Content {
 
 	@Override
 	public Element store(Element element) {
-		Element thisElement = element.getOwnerDocument().createElementNS(
-				ELEMENT_NAMESPACE, ELEMENT_NAME);
+		Element thisElement = element.getOwnerDocument().createElementNS(ELEMENT_NAMESPACE,
+				ELEMENT_NAME);
 		element.appendChild(thisElement);
 		thisElement.setAttribute("referenceType", //$NON-NLS-1$
 				referenceType == STATIC_REF ? "static" : "variable"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -82,12 +81,9 @@ public class ReferencedContent extends Content {
 
 	@Override
 	public Content captureData(IDataSet dataSet) {
-		if (referenceType == STATIC_REF) {
-			return this;
-		}
+		if (referenceType == STATIC_REF) { return this; }
 		ReferencedContent clone = new ReferencedContent();
-		clone.setStaticReferencedName(dataSet.getData(referencedName)
-				.toString());
+		clone.setStaticReferencedName(dataSet.getData(referencedName).toString());
 		return clone;
 	}
 
@@ -100,8 +96,7 @@ public class ReferencedContent extends Content {
 	public List resolve(IMediaProvider mediaProvider) {
 		List ret = new LinkedList();
 		if (referenceType == STATIC_REF && mediaProvider.hasSharedContent()) {
-			ISharedContentProvider scp = mediaProvider
-					.getSharedContentProvider();
+			ISharedContentProvider scp = mediaProvider.getSharedContentProvider();
 			Content refContent = scp.getSharedContent(referencedName);
 			if (refContent != null) {
 				if (refContent.isResolvable()) {
@@ -116,9 +111,7 @@ public class ReferencedContent extends Content {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.media.Content#createCopy()
+	 * @see org.eclipse.vtp.framework.interactions.core.media.Content#createCopy()
 	 */
 	@Override
 	public Content createCopy() {

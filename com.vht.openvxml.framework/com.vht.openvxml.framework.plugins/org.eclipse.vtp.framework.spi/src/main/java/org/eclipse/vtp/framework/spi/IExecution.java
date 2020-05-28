@@ -25,28 +25,22 @@ public interface IExecution {
 	String getExecutionID();
 
 	/**
-	 * Looks up the service selected for the specified identifier or
-	 * <code>null</code> if no such service exists.
+	 * Looks up the service selected for the specified identifier or <code>null</code> if no such
+	 * service exists.
 	 * 
-	 * @param identifier
-	 *            The identifier of the service to look up.
-	 * @return The service selected for the specified identifier or
-	 *         <code>null</code> if no such service exists.
-	 * @throws NullPointerException
-	 *             If the supplied identifier is <code>null</code>.
+	 * @param identifier The identifier of the service to look up.
+	 * @return The service selected for the specified identifier or <code>null</code> if no such
+	 *         service exists.
+	 * @throws NullPointerException If the supplied identifier is <code>null</code>.
 	 */
 	Object lookupService(String identifier) throws NullPointerException;
 
 	/**
-	 * Returns an array containing all the services registered under the
-	 * specified identifier.
+	 * Returns an array containing all the services registered under the specified identifier.
 	 * 
-	 * @param identifier
-	 *            The identifier of the services to look up.
-	 * @return An array containing all the services registered under the
-	 *         specified identifier.
-	 * @throws NullPointerException
-	 *             If the supplied identifier is <code>null</code>.
+	 * @param identifier The identifier of the services to look up.
+	 * @return An array containing all the services registered under the specified identifier.
+	 * @throws NullPointerException If the supplied identifier is <code>null</code>.
 	 */
 	Object[] lookupAllServices(String identifier) throws NullPointerException;
 
@@ -58,11 +52,11 @@ public interface IExecution {
 	boolean hasNextStep();
 
 	/**
-	 * Returns true if there is at least one step to perform and the next step
-	 * may block across executions.
+	 * Returns true if there is at least one step to perform and the next step may block across
+	 * executions.
 	 * 
-	 * @return True if there is at least one step to perform and the next step
-	 *         may block across executions
+	 * @return True if there is at least one step to perform and the next step may block across
+	 *         executions
 	 */
 	boolean isNextStepBlocking();
 
@@ -70,8 +64,7 @@ public interface IExecution {
 	 * Returns the next step in the process.
 	 * 
 	 * @return The next step in the process.
-	 * @throws IllegalStateException
-	 *             If there are no more steps in this process.
+	 * @throws IllegalStateException If there are no more steps in this process.
 	 */
 	ICommand nextStep() throws IllegalStateException;
 

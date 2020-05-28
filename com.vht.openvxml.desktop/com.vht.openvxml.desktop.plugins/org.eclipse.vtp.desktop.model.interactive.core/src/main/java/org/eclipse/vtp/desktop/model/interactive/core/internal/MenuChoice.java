@@ -33,8 +33,7 @@ public class MenuChoice {
 	}
 
 	/**
-	 * @param optionName
-	 *            The optionName to set.
+	 * @param optionName The optionName to set.
 	 */
 	public void setOptionName(String optionName) {
 		this.optionName = optionName;

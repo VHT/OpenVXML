@@ -52,10 +52,7 @@ public class WorkflowCore extends AbstractUIPlugin {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext
-	 * )
+	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext )
 	 */
 	@Override
 	public void start(BundleContext context) throws Exception {
@@ -69,15 +66,13 @@ public class WorkflowCore extends AbstractUIPlugin {
 							ObjectEvent oe = eventBuffer.remove(0);
 
 							if (deferredObjects.get(oe.getObjectId()) == null) {
-								List<WeakReference<ObjectListener>> ls = objectListeners
-										.get(oe.getObjectId());
+								List<WeakReference<ObjectListener>> ls = objectListeners.get(oe
+										.getObjectId());
 
 								if (ls != null) {
-									Iterator<WeakReference<ObjectListener>> i = ls
-											.iterator();
+									Iterator<WeakReference<ObjectListener>> i = ls.iterator();
 									while (i.hasNext()) {
-										WeakReference<ObjectListener> ref = i
-												.next();
+										WeakReference<ObjectListener> ref = i.next();
 										if (ref.get() == null) {
 											i.remove();
 										} else {
@@ -89,8 +84,7 @@ public class WorkflowCore extends AbstractUIPlugin {
 						} else {
 							try {
 								eventBuffer.wait();
-							} catch (Exception e) {
-							}
+							} catch (Exception e) {}
 						}
 					}
 				}
@@ -102,10 +96,7 @@ public class WorkflowCore extends AbstractUIPlugin {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext
-	 * )
+	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext )
 	 */
 	@Override
 	public void stop(BundleContext context) throws Exception {
@@ -133,8 +124,7 @@ public class WorkflowCore extends AbstractUIPlugin {
 	 */
 	public void registerObjectListener(String objectId, ObjectListener l) {
 		synchronized (eventBuffer) {
-			List<WeakReference<ObjectListener>> ls = objectListeners
-					.get(objectId);
+			List<WeakReference<ObjectListener>> ls = objectListeners.get(objectId);
 
 			if (ls == null) {
 				ls = new ArrayList<WeakReference<ObjectListener>>();
@@ -160,8 +150,7 @@ public class WorkflowCore extends AbstractUIPlugin {
 	 */
 	public void unregisterObjectListener(String objectId, ObjectListener l) {
 		synchronized (eventBuffer) {
-			List<WeakReference<ObjectListener>> ls = objectListeners
-					.get(objectId);
+			List<WeakReference<ObjectListener>> ls = objectListeners.get(objectId);
 
 			if (ls == null) {
 				ls = new ArrayList<WeakReference<ObjectListener>>();

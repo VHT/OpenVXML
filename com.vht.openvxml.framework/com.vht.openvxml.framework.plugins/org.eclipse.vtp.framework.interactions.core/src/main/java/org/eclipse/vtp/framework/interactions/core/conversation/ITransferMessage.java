@@ -16,5 +16,4 @@ package org.eclipse.vtp.framework.interactions.core.conversation;
  * 
  * @author Lonnie Pryor
  */
-public interface ITransferMessage extends IInteraction {
-}
+public interface ITransferMessage extends IInteraction {}

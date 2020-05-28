@@ -36,30 +36,25 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElement;
 import com.openmethods.openvxml.desktop.model.workflow.design.IExitBroadcastReceiver;
 import com.openmethods.openvxml.desktop.model.workflow.internal.design.ExitBroadcastReceiver;
 
-public class BroadcastReceiverPropertiesPanel extends
-		DesignElementPropertiesPanel
-{
+public class BroadcastReceiverPropertiesPanel extends DesignElementPropertiesPanel {
 	BroadcastReceiverInformationProvider info;
 	List<IExitBroadcastReceiver> receivers;
 	/** The text field used to set name of this particular Decision module */
 	Text nameField;
 	TableViewer table;
 
-	public BroadcastReceiverPropertiesPanel(String name, IDesignElement element)
-	{
+	public BroadcastReceiverPropertiesPanel(String name, IDesignElement element) {
 		super(name, element);
-		info = (BroadcastReceiverInformationProvider)((PrimitiveElement)element).getInformationProvider();
+		info = (BroadcastReceiverInformationProvider) ((PrimitiveElement) element)
+				.getInformationProvider();
 		receivers = new ArrayList<IExitBroadcastReceiver>(info.getExitBroadcastReceivers());
 	}
 
 	@Override
-	public void setConfigurationContext(Map<String, Object> values)
-	{
-	}
+	public void setConfigurationContext(Map<String, Object> values) {}
 
 	@Override
-	public void createControls(Composite parent)
-	{
+	public void createControls(Composite parent) {
 		Composite comp = new Composite(parent, SWT.NONE);
 		comp.setBackground(comp.getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		comp.setBackgroundMode(SWT.INHERIT_DEFAULT);
@@ -73,7 +68,7 @@ public class BroadcastReceiverPropertiesPanel extends
 		nameField.setText(getElement().getName());
 		nameField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
 				| GridData.VERTICAL_ALIGN_CENTER));
-		
+
 		Composite bottomComp = new Composite(comp, SWT.NONE);
 		bottomComp.setBackgroundMode(SWT.INHERIT_DEFAULT);
 		GridLayout bottomLayout = new GridLayout(2, false);
@@ -99,25 +94,18 @@ public class BroadcastReceiverPropertiesPanel extends
 		patternColumn.setText("Events to Receive");
 		tableLayout.setColumnData(patternColumn, new ColumnWeightData(100, 100, false));
 		table = new TableViewer(t);
-		table.setContentProvider(new IStructuredContentProvider()
-		{
+		table.setContentProvider(new IStructuredContentProvider() {
 			@Override
-			public void dispose()
-			{
-			}
+			public void dispose() {}
 
 			@Override
-			public void inputChanged(Viewer viewer, Object oldInput,
-					Object newInput)
-			{
-			}
+			public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 
 			@Override
-			public Object[] getElements(Object inputElement)
-			{
+			public Object[] getElements(Object inputElement) {
 				return receivers.toArray();
 			}
-			
+
 		});
 		table.setLabelProvider(new ReceiverLabelProvider());
 		table.setInput(this);
@@ -136,44 +124,37 @@ public class BroadcastReceiverPropertiesPanel extends
 		removeButton.setText("Remove Receiver");
 		removeButton.setEnabled(false);
 		removeButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		table.addSelectionChangedListener(new ISelectionChangedListener()
-		{
+		table.addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
-			public void selectionChanged(SelectionChangedEvent event)
-			{
+			public void selectionChanged(SelectionChangedEvent event) {
 				editButton.setEnabled(!event.getSelection().isEmpty());
 				removeButton.setEnabled(!event.getSelection().isEmpty());
 			}
 		});
-		addButton.addSelectionListener(new SelectionListener()
-		{
+		addButton.addSelectionListener(new SelectionListener() {
 			@Override
-			public void widgetSelected(SelectionEvent e)
-			{
-				ReceiverNameDialog rnd = new ReceiverNameDialog(BroadcastReceiverPropertiesPanel.this.getContainer().getShell());
-				if(Dialog.OK == rnd.open())
-				{
+			public void widgetSelected(SelectionEvent e) {
+				ReceiverNameDialog rnd = new ReceiverNameDialog(
+						BroadcastReceiverPropertiesPanel.this.getContainer().getShell());
+				if (Dialog.OK == rnd.open()) {
 					receivers.add(new ExitBroadcastReceiver(rnd.getName()));
 					table.refresh();
 				}
 			}
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e)
-			{
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
-		editButton.addSelectionListener(new SelectionListener()
-		{
+		editButton.addSelectionListener(new SelectionListener() {
 			@Override
-			public void widgetSelected(SelectionEvent e)
-			{
+			public void widgetSelected(SelectionEvent e) {
 
-				IExitBroadcastReceiver receiver = (IExitBroadcastReceiver)((IStructuredSelection)table.getSelection()).getFirstElement();
-				ReceiverNameDialog rnd = new ReceiverNameDialog(BroadcastReceiverPropertiesPanel.this.getContainer().getShell());
+				IExitBroadcastReceiver receiver = (IExitBroadcastReceiver) ((IStructuredSelection) table
+						.getSelection()).getFirstElement();
+				ReceiverNameDialog rnd = new ReceiverNameDialog(
+						BroadcastReceiverPropertiesPanel.this.getContainer().getShell());
 				rnd.setName(receiver.getExitPattern());
-				if(Dialog.OK == rnd.open())
-				{
+				if (Dialog.OK == rnd.open()) {
 					receivers.remove(receiver);
 					receivers.add(new ExitBroadcastReceiver(rnd.getName()));
 					table.refresh();
@@ -181,58 +162,46 @@ public class BroadcastReceiverPropertiesPanel extends
 			}
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e)
-			{
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
-		removeButton.addSelectionListener(new SelectionListener()
-		{
+		removeButton.addSelectionListener(new SelectionListener() {
 			@Override
-			public void widgetSelected(SelectionEvent e)
-			{
+			public void widgetSelected(SelectionEvent e) {
 
-				IExitBroadcastReceiver receiver = (IExitBroadcastReceiver)((IStructuredSelection)table.getSelection()).getFirstElement();
+				IExitBroadcastReceiver receiver = (IExitBroadcastReceiver) ((IStructuredSelection) table
+						.getSelection()).getFirstElement();
 				receivers.remove(receiver);
 				table.refresh();
 			}
 
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e)
-			{
-			}
+			public void widgetDefaultSelected(SelectionEvent e) {}
 		});
 	}
 
 	@Override
-	public void save()
-	{
+	public void save() {
 		getElement().setName(nameField.getText());
 		info.setExitBroadcastReceivers(receivers);
 	}
 
 	@Override
-	public void cancel()
-	{
-	}
+	public void cancel() {}
 
 	@Override
-	public List<String> getApplicableContexts()
-	{
+	public List<String> getApplicableContexts() {
 		return Collections.emptyList();
 	}
 
-	public class ReceiverLabelProvider extends BaseLabelProvider implements ITableLabelProvider
-	{
+	public class ReceiverLabelProvider extends BaseLabelProvider implements ITableLabelProvider {
 		@Override
-		public Image getColumnImage(Object element, int columnIndex)
-		{
+		public Image getColumnImage(Object element, int columnIndex) {
 			return null;
 		}
 
 		@Override
-		public String getColumnText(Object element, int columnIndex)
-		{
-			return ((IExitBroadcastReceiver)element).getExitPattern();
+		public String getColumnText(Object element, int columnIndex) {
+			return ((IExitBroadcastReceiver) element).getExitPattern();
 		}
 	}
 }

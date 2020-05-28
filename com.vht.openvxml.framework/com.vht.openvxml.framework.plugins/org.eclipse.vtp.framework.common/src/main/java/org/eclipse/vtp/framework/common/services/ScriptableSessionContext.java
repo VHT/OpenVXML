@@ -18,25 +18,22 @@ import org.eclipse.vtp.framework.common.IScriptable;
 import org.eclipse.vtp.framework.core.ISessionContext;
 
 /**
- * An {@link IScriptable} implementation that makes the {@link ISessionContext}
- * instance available as a scripting object.
- * 
+ * An {@link IScriptable} implementation that makes the {@link ISessionContext} instance available
+ * as a scripting object.
  * <p>
- * This service will make available a "Session" object to all scripts in its
- * scope. The variable supports the following properties:
+ * This service will make available a "Session" object to all scripts in its scope. The variable
+ * supports the following properties:
  * <ul>
  * <li><code>id</code>: a string containing the session ID</li>
  * <li><code>attributes</code>: an object containing the session attributes</li>
  * </ul>
- * The attributes object listed above will have a property for each session
- * attribute defined in the session context. New attributes may be added by
- * assigning to non-existent properties of the object. The attributes object
- * will not have an implicit value.
+ * The attributes object listed above will have a property for each session attribute defined in the
+ * session context. New attributes may be added by assigning to non-existent properties of the
+ * object. The attributes object will not have an implicit value.
  * </p>
- * 
  * <p>
- * The "Session" scripting object uses the session ID as the implicit value,
- * thus it can be compared to other string objects.
+ * The "Session" scripting object uses the session ID as the implicit value, thus it can be compared
+ * to other string objects.
  * </p>
  * 
  * @author Lonnie Pryor
@@ -51,9 +48,7 @@ public class ScriptableSessionContext implements IScriptable {
 	private final class ScriptableAttributes implements IScriptable {
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearEntry(
-		 * java.lang.String)
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearEntry( java.lang.String)
 		 */
 		@Override
 		public boolean clearEntry(String name) {
@@ -63,9 +58,7 @@ public class ScriptableSessionContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.vtp.framework.spi.scripting.IScriptable#clearItem(int)
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearItem(int)
 		 */
 		@Override
 		public boolean clearItem(int index) {
@@ -74,9 +67,7 @@ public class ScriptableSessionContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getEntry(
-		 * java.lang.String)
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getEntry( java.lang.String)
 		 */
 		@Override
 		public Object getEntry(String name) {
@@ -85,9 +76,7 @@ public class ScriptableSessionContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#
-		 * getFunctionNames()
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable# getFunctionNames()
 		 */
 		@Override
 		public String[] getFunctionNames() {
@@ -96,7 +85,6 @@ public class ScriptableSessionContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getItem(int)
 		 */
 		@Override
@@ -106,7 +94,6 @@ public class ScriptableSessionContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getName()
 		 */
 		@Override
@@ -121,9 +108,7 @@ public class ScriptableSessionContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasEntry(
-		 * java.lang.String)
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasEntry( java.lang.String)
 		 */
 		@Override
 		public boolean hasEntry(String name) {
@@ -132,7 +117,6 @@ public class ScriptableSessionContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasItem(int)
 		 */
 		@Override
@@ -142,7 +126,6 @@ public class ScriptableSessionContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasValue()
 		 */
 		@Override
@@ -152,9 +135,7 @@ public class ScriptableSessionContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.vtp.framework.spi.scripting.IScriptable#invokeFunction(
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#invokeFunction(
 		 * java.lang.String, java.lang.Object[])
 		 */
 		@Override
@@ -170,9 +151,8 @@ public class ScriptableSessionContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setEntry(
-		 * java.lang.String, java.lang.Object)
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setEntry( java.lang.String,
+		 * java.lang.Object)
 		 */
 		@Override
 		public boolean setEntry(String name, Object value) {
@@ -182,9 +162,7 @@ public class ScriptableSessionContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setItem(int,
-		 * java.lang.Object)
+		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setItem(int, java.lang.Object)
 		 */
 		@Override
 		public boolean setItem(int index, Object value) {
@@ -193,7 +171,6 @@ public class ScriptableSessionContext implements IScriptable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#toValue()
 		 */
 		@Override
@@ -211,8 +188,7 @@ public class ScriptableSessionContext implements IScriptable {
 	/**
 	 * Creates a new ScriptableSessionContext.
 	 * 
-	 * @param context
-	 *            The context to provide scripting services for.
+	 * @param context The context to provide scripting services for.
 	 */
 	public ScriptableSessionContext(ISessionContext context) {
 		this.context = context;
@@ -220,9 +196,7 @@ public class ScriptableSessionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearEntry(
-	 * java.lang.String)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearEntry( java.lang.String)
 	 */
 	@Override
 	public final boolean clearEntry(String name) {
@@ -231,7 +205,6 @@ public class ScriptableSessionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearItem(int)
 	 */
 	@Override
@@ -241,29 +214,19 @@ public class ScriptableSessionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getEntry(
-	 * java.lang.String)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getEntry( java.lang.String)
 	 */
 	@Override
 	public final Object getEntry(String name) {
-		if ("id".equals(name)) {
-			return context.getSessionID();
-		}
-		if (attributes.getName().equals(name)) {
-			return attributes;
-		}
-		if ("startTime".equals(name)) {
-			return context.getSessionStartTime();
-		}
+		if ("id".equals(name)) { return context.getSessionID(); }
+		if (attributes.getName().equals(name)) { return attributes; }
+		if ("startTime".equals(name)) { return context.getSessionStartTime(); }
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.spi.scripting.IScriptable#getFunctionNames()
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getFunctionNames()
 	 */
 	@Override
 	public final String[] getFunctionNames() {
@@ -272,7 +235,6 @@ public class ScriptableSessionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getItem(int)
 	 */
 	@Override
@@ -282,7 +244,6 @@ public class ScriptableSessionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getName()
 	 */
 	@Override
@@ -303,9 +264,7 @@ public class ScriptableSessionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasEntry(
-	 * java.lang.String)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasEntry( java.lang.String)
 	 */
 	@Override
 	public final boolean hasEntry(String name) {
@@ -314,7 +273,6 @@ public class ScriptableSessionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasItem(int)
 	 */
 	@Override
@@ -324,7 +282,6 @@ public class ScriptableSessionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasValue()
 	 */
 	@Override
@@ -334,9 +291,8 @@ public class ScriptableSessionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#invokeFunction(
-	 * java.lang.String, java.lang.Object[])
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#invokeFunction( java.lang.String,
+	 * java.lang.Object[])
 	 */
 	@Override
 	public final Object invokeFunction(String name, Object[] arguments) {
@@ -351,9 +307,8 @@ public class ScriptableSessionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setEntry(
-	 * java.lang.String, java.lang.Object)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setEntry( java.lang.String,
+	 * java.lang.Object)
 	 */
 	@Override
 	public final boolean setEntry(String name, Object value) {
@@ -362,9 +317,7 @@ public class ScriptableSessionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setItem(int,
-	 * java.lang.Object)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setItem(int, java.lang.Object)
 	 */
 	@Override
 	public final boolean setItem(int index, Object value) {
@@ -373,7 +326,6 @@ public class ScriptableSessionContext implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#toValue()
 	 */
 	@Override

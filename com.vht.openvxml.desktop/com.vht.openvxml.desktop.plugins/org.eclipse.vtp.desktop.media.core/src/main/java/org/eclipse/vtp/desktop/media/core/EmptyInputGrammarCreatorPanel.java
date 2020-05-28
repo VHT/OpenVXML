@@ -17,14 +17,11 @@ import org.eclipse.vtp.framework.interactions.core.media.InputGrammar;
 
 public class EmptyInputGrammarCreatorPanel extends InputGrammarCreatorPanel {
 
-	public EmptyInputGrammarCreatorPanel() {
-	}
+	public EmptyInputGrammarCreatorPanel() {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.media.core.InputGrammarCreatorPanel#createControls
+	 * @see org.eclipse.vtp.desktop.media.core.InputGrammarCreatorPanel#createControls
 	 * (org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -35,10 +32,7 @@ public class EmptyInputGrammarCreatorPanel extends InputGrammarCreatorPanel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.media.core.InputGrammarCreatorPanel#createGrammar
-	 * ()
+	 * @see org.eclipse.vtp.desktop.media.core.InputGrammarCreatorPanel#createGrammar ()
 	 */
 	@Override
 	public InputGrammar createGrammar() {
@@ -47,13 +41,10 @@ public class EmptyInputGrammarCreatorPanel extends InputGrammarCreatorPanel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.media.core.InputGrammarCreatorPanel#setInitialInput
+	 * @see org.eclipse.vtp.desktop.media.core.InputGrammarCreatorPanel#setInitialInput
 	 * (org.eclipse.vtp.framework.interactions.core.media.InputGrammar)
 	 */
 	@Override
-	public void setInitialInput(InputGrammar content) {
-	}
+	public void setInitialInput(InputGrammar content) {}
 
 }

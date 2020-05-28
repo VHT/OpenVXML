@@ -40,8 +40,7 @@ import com.openmethods.openvxml.desktop.model.workflow.design.IDesignEntryPoint;
  *
  * @author Lonnie Pryor
  */
-public class DialogGeneralPropertiesPanel extends DesignElementPropertiesPanel
-{
+public class DialogGeneralPropertiesPanel extends DesignElementPropertiesPanel {
 	Label nameLabel;
 	/** The text field used to set name of this particular Portal Exit module */
 	Text nameField;
@@ -56,41 +55,36 @@ public class DialogGeneralPropertiesPanel extends DesignElementPropertiesPanel
 	 * @param name
 	 * @param ppe
 	 */
-	public DialogGeneralPropertiesPanel(String name, IDesignElement ppe)
-	{
+	public DialogGeneralPropertiesPanel(String name, IDesignElement ppe) {
 		super(name, ppe);
-		info = (PortalExitInformationProvider)((PrimitiveElement)ppe).getInformationProvider();
+		info = (PortalExitInformationProvider) ((PrimitiveElement) ppe).getInformationProvider();
 		entryPoints.addAll(ppe.getDesign().getDocument().getDesignEntryPoints());
 		IDesignItemContainer container = ppe.getDesign().getDocument().getParentDesignContainer();
-		while(!(container instanceof IDesignRootFolder))
-			container = (IDesignItemContainer)container.getParent();
+		while (!(container instanceof IDesignRootFolder))
+			container = (IDesignItemContainer) container.getParent();
 		traverseDesigns(container);
 	}
-	
-	private void traverseDesigns(IDesignItemContainer container)
-	{
+
+	private void traverseDesigns(IDesignItemContainer container) {
 		List<IDesignDocument> documents = container.getDesignDocuments();
-		for(IDesignDocument document : documents)
-		{
-			if(!document.equals(getElement().getDesign().getDocument()))
-			{
+		for (IDesignDocument document : documents) {
+			if (!document.equals(getElement().getDesign().getDocument())) {
 				entryPoints.addAll(document.getDesignEntryPoints());
 			}
 		}
 		List<IDesignFolder> folders = container.getDesignFolders();
-		for(IDesignFolder folder : folders)
-		{
+		for (IDesignFolder folder : folders) {
 			traverseDesigns(folder);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
-	 * @see org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel#createControls(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.vtp.desktop.ui.app.editor.model.ComponentPropertiesPanel#createControls(org.eclipse
+	 * .swt.widgets.Composite)
 	 */
-	public void createControls(Composite parent)
-	{
+	public void createControls(Composite parent) {
 		Composite comp = new Composite(parent, SWT.NONE);
 		comp.setBackground(parent.getBackground());
 		comp.setLayout(new GridLayout(2, false));
@@ -105,21 +99,19 @@ public class DialogGeneralPropertiesPanel extends DesignElementPropertiesPanel
 		errorField.setBackground(comp.getBackground());
 		errorField.setForeground(comp.getDisplay().getSystemColor(SWT.COLOR_RED));
 		referencesLabel = new Label(comp, SWT.NONE);
-		referencesLabel.setText("Entries associated with this Exit: " + info.getConnectingPoints().size());
+		referencesLabel.setText("Entries associated with this Exit: "
+				+ info.getConnectingPoints().size());
 		referencesLabel.setBackground(comp.getBackground());
 		referencesLabel.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_CENTER));
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL | GridData.HORIZONTAL_ALIGN_CENTER);
 		gd.horizontalSpan = 2;
 		errorField.setLayoutData(gd);
-		nameField.addModifyListener(new ModifyListener()
-		{
-			
-			public void modifyText(ModifyEvent e)
-			{
-				for(IDesignEntryPoint entryPoint : entryPoints)
-				{
-					if(!entryPoint.getId().equals(getElement().getId()) && entryPoint.getName().equals(nameField.getText()))
-					{
+		nameField.addModifyListener(new ModifyListener() {
+
+			public void modifyText(ModifyEvent e) {
+				for (IDesignEntryPoint entryPoint : entryPoints) {
+					if (!entryPoint.getId().equals(getElement().getId())
+							&& entryPoint.getName().equals(nameField.getText())) {
 						errorField.setText("There is already a Portal with that name.");
 						DialogGeneralPropertiesPanel.this.getContainer().setCanFinish(false);
 						return;
@@ -128,13 +120,12 @@ public class DialogGeneralPropertiesPanel extends DesignElementPropertiesPanel
 				errorField.setText("");
 				DialogGeneralPropertiesPanel.this.getContainer().setCanFinish(true);
 			}
-			
+
 		});
 		nameField.setText(getElement().getName());
-		for(IDesignEntryPoint entryPoint : entryPoints)
-		{
-			if(!entryPoint.getId().equals(getElement().getId()) && entryPoint.getName().equals(nameField.getText()))
-			{
+		for (IDesignEntryPoint entryPoint : entryPoints) {
+			if (!entryPoint.getId().equals(getElement().getId())
+					&& entryPoint.getName().equals(nameField.getText())) {
 				errorField.setText("There is already a Portal with that name.");
 				getContainer().setCanFinish(false);
 				return;
@@ -145,30 +136,27 @@ public class DialogGeneralPropertiesPanel extends DesignElementPropertiesPanel
 		setControl(comp);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel#save()
 	 */
-	public void save()
-	{
+	public void save() {
 		getElement().setName(nameField.getText());
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.vtp.desktop.model.core.configuration.ComponentPropertiesPanel#cancel()
 	 */
-	public void cancel()
-	{
-		
+	public void cancel() {
+
 	}
 
 	@Override
-	public void setConfigurationContext(Map<String, Object> values)
-	{
-	}
+	public void setConfigurationContext(Map<String, Object> values) {}
 
 	@Override
-	public List<String> getApplicableContexts()
-	{
+	public List<String> getApplicableContexts() {
 		return Collections.emptyList();
 	}
 

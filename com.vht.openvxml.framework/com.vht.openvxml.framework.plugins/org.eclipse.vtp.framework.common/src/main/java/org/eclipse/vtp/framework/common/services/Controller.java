@@ -51,17 +51,12 @@ public class Controller implements IController {
 	/**
 	 * Creates a new Controller.
 	 * 
-	 * @param commandProcessor
-	 *            The queue to add commands to.
-	 * @param brandSelection
-	 *            The currently selected brand.
-	 * @param variableRegistry
-	 *            The variable registry.
-	 * @param scriptingService
-	 *            The scripting service
+	 * @param commandProcessor The queue to add commands to.
+	 * @param brandSelection The currently selected brand.
+	 * @param variableRegistry The variable registry.
+	 * @param scriptingService The scripting service
 	 */
-	public Controller(ICommandProcessor commandProcessor,
-			IVariableRegistry variableRegistry,
+	public Controller(ICommandProcessor commandProcessor, IVariableRegistry variableRegistry,
 			IScriptingService scriptingService) {
 		this.commandProcessor = commandProcessor;
 		this.variableRegistry = variableRegistry;
@@ -69,15 +64,12 @@ public class Controller implements IController {
 	}
 
 	/**
-	 * Resolves the specified variable mapping to the name of an existing
-	 * variable.
+	 * Resolves the specified variable mapping to the name of an existing variable.
 	 * 
-	 * @param configuration
-	 *            The configuration to resolve.
+	 * @param configuration The configuration to resolve.
 	 * @return The name of the variable the configuration resolved to.
 	 */
-	private String resolveVariableMapping(
-			VariableMappingConfiguration configuration) {
+	private String resolveVariableMapping(VariableMappingConfiguration configuration) {
 		switch (configuration.getType()) {
 		case VariableMappingConfiguration.TYPE_STATIC:
 			String staticName = Guid.createGUID();
@@ -87,23 +79,18 @@ public class Controller implements IController {
 			variableRegistry.setVariable(staticName, staticVariable);
 			return staticName;
 		case VariableMappingConfiguration.TYPE_EXPRESSION:
-			IScriptingEngine engine = scriptingService
-					.createScriptingEngine(configuration
-							.getScriptingLangugage());
+			IScriptingEngine engine = scriptingService.createScriptingEngine(configuration
+					.getScriptingLangugage());
 			Object result = engine.execute(configuration.getValue());
-			if (result == null) {
-				return null;
-			}
+			if (result == null) { return null; }
 			String expressionName = Guid.createGUID();
 			if (result instanceof IDataObject) {
-				variableRegistry.setVariable(expressionName,
-						(IDataObject) result);
+				variableRegistry.setVariable(expressionName, (IDataObject) result);
 			} else {
 				IStringObject expressionVariable = (IStringObject) variableRegistry
 						.createVariable(IStringObject.TYPE_NAME);
 				expressionVariable.setValue(result.toString());
-				variableRegistry
-						.setVariable(expressionName, expressionVariable);
+				variableRegistry.setVariable(expressionName, expressionVariable);
 			}
 			return expressionName;
 		case VariableMappingConfiguration.TYPE_VARIABLE:
@@ -115,7 +102,6 @@ public class Controller implements IController {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.controller.IController#createForward(
 	 * org.eclipse.vtp.framework.spi.config.DispatchConfiguration)
 	 */
@@ -126,7 +112,6 @@ public class Controller implements IController {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.controller.IController#createExit(
 	 * org.eclipse.vtp.framework.spi.configurations.ExitConfiguration)
 	 */
@@ -138,7 +123,6 @@ public class Controller implements IController {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.controller.IController#createInclude(
 	 * org.eclipse.vtp.framework.spi.config.DispatchConfiguration)
 	 */
@@ -162,29 +146,23 @@ public class Controller implements IController {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.spi.controller.IDispatcher#enqueue()
 		 */
 		@Override
 		public final boolean enqueue() {
 			ControllerCommand command = createCommand();
-			if (command == null) {
-				return false;
-			}
+			if (command == null) { return false; }
 			return commandProcessor.enqueue(command);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.spi.controller.IDispatcher#process()
 		 */
 		@Override
 		public final boolean process() throws IllegalStateException {
 			ControllerCommand command = createCommand();
-			if (command == null) {
-				return false;
-			}
+			if (command == null) { return false; }
 			return commandProcessor.process(command);
 		}
 	}
@@ -194,16 +172,14 @@ public class Controller implements IController {
 	 * 
 	 * @author Lonnie Pryor
 	 */
-	private final class ForwardDispatcher extends AbstractDispatcher implements
-			IForwardDispatcher {
+	private final class ForwardDispatcher extends AbstractDispatcher implements IForwardDispatcher {
 		/** The configuration to use. */
 		private final DispatchConfiguration configuration;
 
 		/**
 		 * Creates a new ForwardDispatcher.
 		 * 
-		 * @param configuration
-		 *            The configuration to use.
+		 * @param configuration The configuration to use.
 		 */
 		ForwardDispatcher(DispatchConfiguration configuration) {
 			this.configuration = configuration;
@@ -211,7 +187,6 @@ public class Controller implements IController {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.spi.services.Controller.
 		 * AbstractDispatcher#createCommand()
 		 */
@@ -236,8 +211,7 @@ public class Controller implements IController {
 	 * 
 	 * @author Lonnie Pryor
 	 */
-	private final class IncludeDispatcher extends AbstractDispatcher implements
-			IIncludeDispatcher {
+	private final class IncludeDispatcher extends AbstractDispatcher implements IIncludeDispatcher {
 		/** The configuration to use. */
 		private final DispatchConfiguration configuration;
 		/** The parameters to set when the current process resumes. */
@@ -246,8 +220,7 @@ public class Controller implements IController {
 		/**
 		 * Creates a new IncludeDispatcher.
 		 * 
-		 * @param configuration
-		 *            The configuration to use.
+		 * @param configuration The configuration to use.
 		 */
 		IncludeDispatcher(DispatchConfiguration configuration) {
 			this.configuration = configuration;
@@ -255,7 +228,6 @@ public class Controller implements IController {
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.spi.services.Controller.
 		 * AbstractDispatcher#createCommand()
 		 */
@@ -275,8 +247,8 @@ public class Controller implements IController {
 			for (String element : outgoing) {
 				String[] names = configuration.getOutgoingDataNames(element);
 				for (String name : names) {
-					command.setOutgoingDataValue(element, name,
-							configuration.getOutgoingDataValue(element, name));
+					command.setOutgoingDataValue(element, name, configuration.getOutgoingDataValue(
+							element, name));
 				}
 			}
 			for (Map.Entry<String, String[]> entry : parameters.entrySet()) {
@@ -287,30 +259,23 @@ public class Controller implements IController {
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.vtp.framework.spi.controller.IInclude#setParameter(
-		 * java.lang.String, java.lang.String)
+		 * @see org.eclipse.vtp.framework.spi.controller.IInclude#setParameter( java.lang.String,
+		 * java.lang.String)
 		 */
 		@Override
 		public void setParameterValue(String name, String value) {
-			if (name == null) {
-				return;
-			}
-			setParameterValues(name, value == null ? null
-					: new String[] { value });
+			if (name == null) { return; }
+			setParameterValues(name, value == null ? null : new String[] { value });
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.vtp.framework.spi.controller.IInclude#setParameter(
-		 * java.lang.String, java.lang.String[])
+		 * @see org.eclipse.vtp.framework.spi.controller.IInclude#setParameter( java.lang.String,
+		 * java.lang.String[])
 		 */
 		@Override
 		public void setParameterValues(String name, String[] values) {
-			if (name == null) {
-				return;
-			}
+			if (name == null) { return; }
 			if (values == null) {
 				parameters.remove(name);
 			} else {
@@ -324,8 +289,7 @@ public class Controller implements IController {
 	 * 
 	 * @author Lonnie Pryor
 	 */
-	private final class ExitDispatcher extends AbstractDispatcher implements
-			IExitDispatcher {
+	private final class ExitDispatcher extends AbstractDispatcher implements IExitDispatcher {
 		/** The configuration to use. */
 		private final ExitConfiguration configuration;
 		/** The configuration to use. */
@@ -334,18 +298,15 @@ public class Controller implements IController {
 		/**
 		 * Creates a new ExitDispatcher.
 		 * 
-		 * @param configuration
-		 *            The configuration to use.
+		 * @param configuration The configuration to use.
 		 */
-		ExitDispatcher(ExitConfiguration configuration,
-				AssignmentConfiguration[] assignments) {
+		ExitDispatcher(ExitConfiguration configuration, AssignmentConfiguration[] assignments) {
 			this.configuration = configuration;
 			this.assignments = assignments;
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see org.eclipse.vtp.framework.spi.services.Controller.
 		 * AbstractDispatcher#createCommand()
 		 */

@@ -37,22 +37,18 @@ public class FormatterRegistrationManager {
 		super();
 		formattersByInteractionType = new HashMap<String, List<FormatterRegistration>>();
 		formattersById = new HashMap<String, FormatterRegistration>();
-		IConfigurationElement[] formatterExtensions = Platform
-				.getExtensionRegistry().getConfigurationElementsFor(
-						formatterTypeExtensionId);
+		IConfigurationElement[] formatterExtensions = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(formatterTypeExtensionId);
 		for (IConfigurationElement formatterExtension : formatterExtensions) {
 			FormatterRegistration ftr = new FormatterRegistration();
 			ftr.id = formatterExtension.getAttribute("id");
 			ftr.name = formatterExtension.getAttribute("name");
 			ftr.vendor = formatterExtension.getAttribute("vendor-name");
-			ftr.interactionType = formatterExtension
-					.getAttribute("interaction-type");
+			ftr.interactionType = formatterExtension.getAttribute("interaction-type");
 			String className = formatterExtension.getAttribute("class");
-			Bundle contributor = Platform.getBundle(formatterExtension
-					.getContributor().getName());
+			Bundle contributor = Platform.getBundle(formatterExtension.getContributor().getName());
 			try {
-				ftr.formatterClass = (Class<IFormatter>) contributor
-						.loadClass(className);
+				ftr.formatterClass = (Class<IFormatter>) contributor.loadClass(className);
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 				continue;
@@ -61,18 +57,15 @@ public class FormatterRegistrationManager {
 					.get(ftr.interactionType);
 			if (formatters == null) {
 				formatters = new ArrayList<FormatterRegistration>();
-				formattersByInteractionType
-						.put(ftr.interactionType, formatters);
+				formattersByInteractionType.put(ftr.interactionType, formatters);
 			}
 			formatters.add(ftr);
 			formattersById.put(ftr.id, ftr);
 		}
 	}
 
-	public List<FormatterRegistration> getFormattersForInteractionType(
-			String interactionType) {
-		List<FormatterRegistration> formatters = formattersByInteractionType
-				.get(interactionType);
+	public List<FormatterRegistration> getFormattersForInteractionType(String interactionType) {
+		List<FormatterRegistration> formatters = formattersByInteractionType.get(interactionType);
 		if (formatters == null) {
 			formatters = new ArrayList<FormatterRegistration>();
 		}

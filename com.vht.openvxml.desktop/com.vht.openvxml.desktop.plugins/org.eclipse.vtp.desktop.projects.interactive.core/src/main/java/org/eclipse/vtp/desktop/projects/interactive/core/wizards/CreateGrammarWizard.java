@@ -43,16 +43,14 @@ import org.eclipse.vtp.desktop.model.interactive.core.internal.MediaFile;
 import org.eclipse.vtp.desktop.projects.interactive.core.Activator;
 
 /**
- * This wizard walks the user through the steps required to create a new grammar
- * file for an application. The user is prompted to enter a name for the new
- * file. This name must be unique among the current files in the folder. The
- * file is automatically created by this wizard and so requires no actions from
- * the caller of the wizard.
+ * This wizard walks the user through the steps required to create a new grammar file for an
+ * application. The user is prompted to enter a name for the new file. This name must be unique
+ * among the current files in the folder. The file is automatically created by this wizard and so
+ * requires no actions from the caller of the wizard.
  *
  * @author Trip
  */
-public class CreateGrammarWizard extends Wizard implements INewWizard,
-		IExecutableExtension {
+public class CreateGrammarWizard extends Wizard implements INewWizard, IExecutableExtension {
 	/**
 	 * The media container that will contain the new grammar file
 	 */
@@ -68,11 +66,9 @@ public class CreateGrammarWizard extends Wizard implements INewWizard,
 	IConfigurationElement configElement = null;
 
 	/**
-	 * Creates a new <code>CreateDatabaseWizard</code> instance in the given
-	 * database set.
+	 * Creates a new <code>CreateDatabaseWizard</code> instance in the given database set.
 	 *
-	 * @param mediaContainer
-	 *            The database set that will contain the new database descriptor
+	 * @param mediaContainer The database set that will contain the new database descriptor
 	 */
 	public CreateGrammarWizard() {
 		super();
@@ -82,21 +78,16 @@ public class CreateGrammarWizard extends Wizard implements INewWizard,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org
-	 * .eclipse.core.runtime.IConfigurationElement, java.lang.String,
-	 * java.lang.Object)
+	 * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org
+	 * .eclipse.core.runtime.IConfigurationElement, java.lang.String, java.lang.Object)
 	 */
 	@Override
-	public void setInitializationData(IConfigurationElement cfig,
-			String propertyName, Object data) {
+	public void setInitializationData(IConfigurationElement cfig, String propertyName, Object data) {
 		configElement = cfig;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench,
 	 * org.eclipse.jface.viewers.IStructuredSelection)
 	 */
@@ -119,27 +110,22 @@ public class CreateGrammarWizard extends Wizard implements INewWizard,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.wizard.IWizard#performFinish()
 	 */
 	@Override
 	public boolean performFinish() {
 		try {
-			MediaFile mediaFile = (MediaFile) mediaContainer
-					.create(bwp.grammarNameField.getText()
-							+ (bwp.grammarNameField.getText()
-									.endsWith(".grxml") ? "" : ".grxml"));
+			MediaFile mediaFile = (MediaFile) mediaContainer.create(bwp.grammarNameField.getText()
+					+ (bwp.grammarNameField.getText().endsWith(".grxml") ? "" : ".grxml"));
 
 			if (bwp.voiceGrammarButton.getSelection()) {
 				mediaFile.getUnderlyingFile().setContents(
 						getClass().getClassLoader().getResourceAsStream(
-								"voice_grammar_template.grxml"), true, false,
-						null);
+								"voice_grammar_template.grxml"), true, false, null);
 			} else {
 				if (bwp.dtmfTemplateButton.getSelection()) {
-					InputStream tempin = Activator.class.getClassLoader()
-							.getResourceAsStream(
-									"dtmf_grammar_gen_template.grxml");
+					InputStream tempin = Activator.class.getClassLoader().getResourceAsStream(
+							"dtmf_grammar_gen_template.grxml");
 					StringBuffer text = new StringBuffer();
 					byte[] buf = new byte[10240];
 					int len = tempin.read(buf);
@@ -148,18 +134,14 @@ public class CreateGrammarWizard extends Wizard implements INewWizard,
 						len = tempin.read(buf);
 					}
 					String contents = text.toString();
-					contents = contents.replaceAll("\\[min\\]",
-							bwp.minDigitsField.getText());
-					contents = contents.replaceAll("\\[max\\]",
-							bwp.maxDigitsField.getText());
+					contents = contents.replaceAll("\\[min\\]", bwp.minDigitsField.getText());
+					contents = contents.replaceAll("\\[max\\]", bwp.maxDigitsField.getText());
 					mediaFile.getUnderlyingFile().setContents(
-							new ByteArrayInputStream(contents.getBytes()),
-							true, false, null);
+							new ByteArrayInputStream(contents.getBytes()), true, false, null);
 				} else {
 					mediaFile.getUnderlyingFile().setContents(
 							getClass().getClassLoader().getResourceAsStream(
-									"dtmf_grammar_template.grxml"), true,
-							false, null);
+									"dtmf_grammar_template.grxml"), true, false, null);
 				}
 
 			}
@@ -186,9 +168,7 @@ public class CreateGrammarWizard extends Wizard implements INewWizard,
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt
+		 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt
 		 * .widgets.Composite)
 		 */
 		@Override
@@ -200,15 +180,12 @@ public class CreateGrammarWizard extends Wizard implements INewWizard,
 
 			Label grammarNameLabel = new Label(comp, SWT.NONE);
 			grammarNameLabel.setText("Grammar File Name:");
-			grammarNameLabel.setSize(grammarNameLabel.computeSize(SWT.DEFAULT,
-					SWT.DEFAULT));
+			grammarNameLabel.setSize(grammarNameLabel.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 			FormData brandNameLabelData = new FormData();
 			brandNameLabelData.left = new FormAttachment(0, 10);
 			brandNameLabelData.top = new FormAttachment(0, 30);
-			brandNameLabelData.right = new FormAttachment(0,
-					10 + grammarNameLabel.getSize().x);
-			brandNameLabelData.bottom = new FormAttachment(0,
-					30 + grammarNameLabel.getSize().y);
+			brandNameLabelData.right = new FormAttachment(0, 10 + grammarNameLabel.getSize().x);
+			brandNameLabelData.bottom = new FormAttachment(0, 30 + grammarNameLabel.getSize().y);
 			grammarNameLabel.setLayoutData(brandNameLabelData);
 
 			grammarNameField = new Text(comp, SWT.SINGLE | SWT.BORDER);
@@ -217,8 +194,7 @@ public class CreateGrammarWizard extends Wizard implements INewWizard,
 				public void modifyText(ModifyEvent e) {
 					String n = grammarNameField.getText();
 					try {
-						for (IMediaResource mr : mediaContainer
-								.listMediaResources()) {
+						for (IMediaResource mr : mediaContainer.listMediaResources()) {
 							if (mr.getName().equals(n)) {
 								setErrorMessage("A grammar file already exists with that name.");
 								setPageComplete(false);
@@ -238,11 +214,10 @@ public class CreateGrammarWizard extends Wizard implements INewWizard,
 
 				@Override
 				public void verifyText(VerifyEvent e) {
-					String currentName = grammarNameField.getText().substring(
-							0, e.start)
+					String currentName = grammarNameField.getText().substring(0, e.start)
 							+ e.text
-							+ grammarNameField.getText(e.end, (grammarNameField
-									.getText().length() - 1));
+							+ grammarNameField.getText(e.end,
+									(grammarNameField.getText().length() - 1));
 					if (currentName.length() > 255) {
 						e.doit = false;
 						return;
@@ -292,8 +267,7 @@ public class CreateGrammarWizard extends Wizard implements INewWizard,
 			FormData minDigitsFieldData = new FormData();
 			minDigitsFieldData.left = new FormAttachment(minDigitsLabel, 20);
 			minDigitsFieldData.top = new FormAttachment(dtmfTemplateButton, 15);
-			minDigitsFieldData.right = new FormAttachment(minDigitsLabel, 50,
-					SWT.RIGHT);
+			minDigitsFieldData.right = new FormAttachment(minDigitsLabel, 50, SWT.RIGHT);
 			minDigitsField.setLayoutData(minDigitsFieldData);
 			minDigitsField.setEnabled(false);
 
@@ -308,15 +282,13 @@ public class CreateGrammarWizard extends Wizard implements INewWizard,
 			FormData maxDigitsFieldData = new FormData();
 			maxDigitsFieldData.left = new FormAttachment(maxDigitsLabel, 20);
 			maxDigitsFieldData.top = new FormAttachment(minDigitsLabel, 15);
-			maxDigitsFieldData.right = new FormAttachment(maxDigitsLabel, 50,
-					SWT.RIGHT);
+			maxDigitsFieldData.right = new FormAttachment(maxDigitsLabel, 50, SWT.RIGHT);
 			maxDigitsField.setLayoutData(maxDigitsFieldData);
 			maxDigitsField.setEnabled(false);
 
 			dtmfTemplateButton.addSelectionListener(new SelectionListener() {
 				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-				}
+				public void widgetDefaultSelected(SelectionEvent e) {}
 
 				@Override
 				public void widgetSelected(SelectionEvent e) {

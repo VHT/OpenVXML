@@ -54,9 +54,7 @@ public abstract class ComponentPropertiesPanel extends ContentPage {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.dialogs.ContentPage#createPage(org.eclipse
+	 * @see org.eclipse.vtp.desktop.core.dialogs.ContentPage#createPage(org.eclipse
 	 * .swt.widgets.Composite)
 	 */
 	@Override
@@ -101,8 +99,7 @@ public abstract class ComponentPropertiesPanel extends ContentPage {
 	 */
 	public abstract void createControls(Composite parent);
 
-	public void resolve() {
-	}
+	public void resolve() {}
 
 	public abstract void save();
 

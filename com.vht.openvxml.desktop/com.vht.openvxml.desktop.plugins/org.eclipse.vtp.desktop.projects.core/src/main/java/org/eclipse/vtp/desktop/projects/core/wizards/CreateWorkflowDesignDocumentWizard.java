@@ -38,16 +38,17 @@ import com.openmethods.openvxml.desktop.model.workflow.IDesignItemContainer;
 import com.openmethods.openvxml.desktop.model.workflow.IWorkflowProjectAspect;
 
 /**
- * This wizard walks the user through the steps required to create a new
- * business object for an application. The user is prompted to enter a name for
- * the new business object. This name must be unique among the current business
- * objects in the application. The business object is automatically created by
- * this wizard and so requires no actions from the caller of the wizard.
+ * This wizard walks the user through the steps required to create a new business object for an
+ * application. The user is prompted to enter a name for the new business object. This name must be
+ * unique among the current business objects in the application. The business object is
+ * automatically created by this wizard and so requires no actions from the caller of the wizard.
  *
  * @author Trip
  */
-public class CreateWorkflowDesignDocumentWizard extends Wizard implements
-		INewWizard, IExecutableExtension {
+public class CreateWorkflowDesignDocumentWizard extends Wizard
+	implements
+	INewWizard,
+	IExecutableExtension {
 	/**
 	 * The business object set that will contain the new business object.
 	 */
@@ -61,12 +62,10 @@ public class CreateWorkflowDesignDocumentWizard extends Wizard implements
 	IConfigurationElement configElement = null;
 
 	/**
-	 * Creates a new <code>CreateBusinessObjectWizard</code> instance for the
-	 * given business object set.
+	 * Creates a new <code>CreateBusinessObjectWizard</code> instance for the given business object
+	 * set.
 	 *
-	 * @param objectSet
-	 *            The business object set that will contain the new business
-	 *            object.
+	 * @param objectSet The business object set that will contain the new business object.
 	 */
 	public CreateWorkflowDesignDocumentWizard() {
 		super();
@@ -76,21 +75,16 @@ public class CreateWorkflowDesignDocumentWizard extends Wizard implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org
-	 * .eclipse.core.runtime.IConfigurationElement, java.lang.String,
-	 * java.lang.Object)
+	 * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org
+	 * .eclipse.core.runtime.IConfigurationElement, java.lang.String, java.lang.Object)
 	 */
 	@Override
-	public void setInitializationData(IConfigurationElement cfig,
-			String propertyName, Object data) {
+	public void setInitializationData(IConfigurationElement cfig, String propertyName, Object data) {
 		configElement = cfig;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench,
 	 * org.eclipse.jface.viewers.IStructuredSelection)
 	 */
@@ -98,15 +92,13 @@ public class CreateWorkflowDesignDocumentWizard extends Wizard implements
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		Object obj = selection.getFirstElement();
 		if (obj == null) {
-			obj = ((IStructuredSelection) PlatformUI.getWorkbench()
-					.getActiveWorkbenchWindow().getSelectionService()
-					.getSelection()).getFirstElement();
+			obj = ((IStructuredSelection) PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+					.getSelectionService().getSelection()).getFirstElement();
 		}
 		if (obj instanceof IDesignItemContainer) {
 			this.designItemContainer = (IDesignItemContainer) obj;
 		} else if (obj instanceof IDesignDocument) {
-			this.designItemContainer = ((IDesignDocument) obj)
-					.getParentDesignContainer();
+			this.designItemContainer = ((IDesignDocument) obj).getParentDesignContainer();
 		} else if (obj instanceof IOpenVXMLProject) {
 			IOpenVXMLProject project = (IOpenVXMLProject) obj;
 			IWorkflowProjectAspect workflowAspect = (IWorkflowProjectAspect) project
@@ -117,13 +109,12 @@ public class CreateWorkflowDesignDocumentWizard extends Wizard implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.wizard.IWizard#performFinish()
 	 */
 	@Override
 	public boolean performFinish() {
-		IDesignDocument bo = designItemContainer
-				.createDesignDocument(bwp.documentNameField.getText());
+		IDesignDocument bo = designItemContainer.createDesignDocument(bwp.documentNameField
+				.getText());
 		if (bo != null) {
 			designItemContainer.refresh();
 			return true;
@@ -143,9 +134,7 @@ public class CreateWorkflowDesignDocumentWizard extends Wizard implements
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt
+		 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt
 		 * .widgets.Composite)
 		 */
 		@Override
@@ -155,8 +144,7 @@ public class CreateWorkflowDesignDocumentWizard extends Wizard implements
 			Composite comp = new Composite(parent, SWT.NONE);
 			Label folderNameLabel = new Label(comp, SWT.NONE);
 			folderNameLabel.setText("Name:");
-			folderNameLabel.setSize(folderNameLabel.computeSize(SWT.DEFAULT,
-					SWT.DEFAULT));
+			folderNameLabel.setSize(folderNameLabel.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 			documentNameField = new Text(comp, SWT.SINGLE | SWT.BORDER);
 			documentNameField.addVerifyListener(new VerifyListener() {
 
@@ -164,11 +152,10 @@ public class CreateWorkflowDesignDocumentWizard extends Wizard implements
 				public void verifyText(VerifyEvent e) {
 					String text = e.text;
 					char[] chars = text.toCharArray();
-					String currentName = documentNameField.getText().substring(
-							0, e.start)
+					String currentName = documentNameField.getText().substring(0, e.start)
 							+ e.text
-							+ documentNameField.getText(e.end,
-									(documentNameField.getText().length() - 1));
+							+ documentNameField.getText(e.end, (documentNameField.getText()
+									.length() - 1));
 					if (currentName.length() > 255) {
 						e.doit = false;
 						return;
@@ -197,8 +184,7 @@ public class CreateWorkflowDesignDocumentWizard extends Wizard implements
 				@Override
 				public void modifyText(ModifyEvent e) {
 					String n = documentNameField.getText();
-					for (IWorkflowResource wr : designItemContainer
-							.getChildren()) {
+					for (IWorkflowResource wr : designItemContainer.getChildren()) {
 						if (wr.getName().equals(n)) {
 							setErrorMessage("A design document already exists with that name.");
 							setPageComplete(false);
@@ -216,10 +202,8 @@ public class CreateWorkflowDesignDocumentWizard extends Wizard implements
 			FormData folderNameLabelData = new FormData();
 			folderNameLabelData.left = new FormAttachment(0, 10);
 			folderNameLabelData.top = new FormAttachment(0, 30);
-			folderNameLabelData.right = new FormAttachment(0,
-					10 + folderNameLabel.getSize().x);
-			folderNameLabelData.bottom = new FormAttachment(0,
-					30 + folderNameLabel.getSize().y);
+			folderNameLabelData.right = new FormAttachment(0, 10 + folderNameLabel.getSize().x);
+			folderNameLabelData.bottom = new FormAttachment(0, 30 + folderNameLabel.getSize().y);
 			folderNameLabel.setLayoutData(folderNameLabelData);
 
 			FormData brandNameFieldData = new FormData();

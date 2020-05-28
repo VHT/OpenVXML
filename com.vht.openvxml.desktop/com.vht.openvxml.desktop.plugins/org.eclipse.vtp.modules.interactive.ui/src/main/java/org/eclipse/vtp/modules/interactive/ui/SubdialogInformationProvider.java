@@ -45,19 +45,14 @@ public class SubdialogInformationProvider extends PrimitiveInformationProvider {
 				IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
 		connectorRecords.add(new ConnectorRecord(element, "error.subdialog",
 				IDesignElementConnectionPoint.ConnectionPointType.ERROR_POINT));
-		connectorRecords.add(new ConnectorRecord(element,
-				"error.disconnect.hangup",
+		connectorRecords.add(new ConnectorRecord(element, "error.disconnect.hangup",
 				IDesignElementConnectionPoint.ConnectionPointType.ERROR_POINT));
 		connectorRecords.add(new ConnectorRecord(element, "error.badfetch",
 				IDesignElementConnectionPoint.ConnectionPointType.ERROR_POINT));
-		List<String> events = ExtendedInteractiveEventManager.getDefault()
-				.getExtendedEvents();
+		List<String> events = ExtendedInteractiveEventManager.getDefault().getExtendedEvents();
 		for (String event : events) {
-			connectorRecords
-					.add(new ConnectorRecord(
-							element,
-							event,
-							IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
+			connectorRecords.add(new ConnectorRecord(element, event,
+					IDesignElementConnectionPoint.ConnectionPointType.EXIT_POINT));
 		}
 	}
 
@@ -65,9 +60,7 @@ public class SubdialogInformationProvider extends PrimitiveInformationProvider {
 	public ConnectorRecord getConnectorRecord(String recordName) {
 		for (int i = 0; i < connectorRecords.size(); i++) {
 			ConnectorRecord cr = connectorRecords.get(i);
-			if (cr.getName().equals(recordName)) {
-				return cr;
-			}
+			if (cr.getName().equals(recordName)) { return cr; }
 		}
 		return null;
 	}
@@ -84,8 +77,7 @@ public class SubdialogInformationProvider extends PrimitiveInformationProvider {
 		for (int i = 0; i < connectorRecords.size(); i++) {
 			ConnectorRecord cr = connectorRecords.get(i);
 			if (cr.getType().isSet(
-					IDesignElementConnectionPoint.ConnectionPointType
-							.getFlagSet(types))) {
+					IDesignElementConnectionPoint.ConnectionPointType.getFlagSet(types))) {
 				ret.add(cr);
 			}
 		}
@@ -111,15 +103,14 @@ public class SubdialogInformationProvider extends PrimitiveInformationProvider {
 	@Override
 	public void writeConfiguration(org.w3c.dom.Element configuration) {
 		configuration.setAttribute("url", XMLUtilities.encodeAttribute(url));
-		configuration.setAttribute("method",
-				XMLUtilities.encodeAttribute(method));
+		configuration.setAttribute("method", XMLUtilities.encodeAttribute(method));
 		org.w3c.dom.Element paramsElement = configuration.getOwnerDocument()
 				.createElement("params");
 		configuration.appendChild(paramsElement);
 		for (int i = 0; i < urlParameters.size(); i++) {
 			SubdialogParameter sp = urlParameters.get(i);
-			org.w3c.dom.Element paramElement = configuration.getOwnerDocument()
-					.createElement("param");
+			org.w3c.dom.Element paramElement = configuration.getOwnerDocument().createElement(
+					"param");
 			paramsElement.appendChild(paramElement);
 			paramElement.setAttribute("name", sp.name);
 			paramElement.setAttribute("type", Integer.toString(sp.type));
@@ -130,20 +121,20 @@ public class SubdialogInformationProvider extends PrimitiveInformationProvider {
 		configuration.appendChild(inputsElement);
 		for (int i = 0; i < inputs.size(); i++) {
 			SubdialogInput si = inputs.get(i);
-			org.w3c.dom.Element inputElement = configuration.getOwnerDocument()
-					.createElement("input");
+			org.w3c.dom.Element inputElement = configuration.getOwnerDocument().createElement(
+					"input");
 			inputsElement.appendChild(inputElement);
 			inputElement.setAttribute("name", si.name);
 			inputElement.setAttribute("type", Integer.toString(si.type));
 			inputElement.setAttribute("value", si.value);
 		}
-		org.w3c.dom.Element outputsElement = configuration.getOwnerDocument()
-				.createElement("outputs");
+		org.w3c.dom.Element outputsElement = configuration.getOwnerDocument().createElement(
+				"outputs");
 		configuration.appendChild(outputsElement);
 		for (int i = 0; i < outputs.size(); i++) {
 			SubdialogOutput so = outputs.get(i);
-			org.w3c.dom.Element outputElement = configuration
-					.getOwnerDocument().createElement("output");
+			org.w3c.dom.Element outputElement = configuration.getOwnerDocument().createElement(
+					"output");
 			outputsElement.appendChild(outputElement);
 			outputElement.setAttribute("name", so.varName);
 			outputElement.setAttribute("value", so.valueName);
@@ -156,27 +147,22 @@ public class SubdialogInformationProvider extends PrimitiveInformationProvider {
 		method = configuration.getAttribute("method");
 		NodeList nl = configuration.getElementsByTagName("inputs");
 		if (nl.getLength() > 0) {
-			org.w3c.dom.Element inputsElement = (org.w3c.dom.Element) nl
-					.item(0);
+			org.w3c.dom.Element inputsElement = (org.w3c.dom.Element) nl.item(0);
 			nl = inputsElement.getElementsByTagName("input");
 			for (int i = 0; i < nl.getLength(); i++) {
-				org.w3c.dom.Element inputElement = (org.w3c.dom.Element) nl
-						.item(i);
+				org.w3c.dom.Element inputElement = (org.w3c.dom.Element) nl.item(i);
 				String inputName = inputElement.getAttribute("name");
-				int inputType = Integer.parseInt(inputElement
-						.getAttribute("type"));
+				int inputType = Integer.parseInt(inputElement.getAttribute("type"));
 				String inputValue = inputElement.getAttribute("value");
 				inputs.add(new SubdialogInput(inputName, inputType, inputValue));
 			}
 		}
 		nl = configuration.getElementsByTagName("outputs");
 		if (nl.getLength() > 0) {
-			org.w3c.dom.Element outputsElement = (org.w3c.dom.Element) nl
-					.item(0);
+			org.w3c.dom.Element outputsElement = (org.w3c.dom.Element) nl.item(0);
 			nl = outputsElement.getElementsByTagName("output");
 			for (int i = 0; i < nl.getLength(); i++) {
-				org.w3c.dom.Element outputElement = (org.w3c.dom.Element) nl
-						.item(i);
+				org.w3c.dom.Element outputElement = (org.w3c.dom.Element) nl.item(i);
 				String varName = outputElement.getAttribute("name");
 				String valueName = outputElement.getAttribute("value");
 				outputs.add(new SubdialogOutput(varName, valueName));
@@ -184,18 +170,14 @@ public class SubdialogInformationProvider extends PrimitiveInformationProvider {
 		}
 		nl = configuration.getElementsByTagName("params");
 		if (nl.getLength() > 0) {
-			org.w3c.dom.Element paramsElement = (org.w3c.dom.Element) nl
-					.item(0);
+			org.w3c.dom.Element paramsElement = (org.w3c.dom.Element) nl.item(0);
 			nl = paramsElement.getElementsByTagName("param");
 			for (int i = 0; i < nl.getLength(); i++) {
-				org.w3c.dom.Element paramElement = (org.w3c.dom.Element) nl
-						.item(i);
+				org.w3c.dom.Element paramElement = (org.w3c.dom.Element) nl.item(i);
 				String varName = paramElement.getAttribute("name");
-				int inputType = Integer.parseInt(paramElement
-						.getAttribute("type"));
+				int inputType = Integer.parseInt(paramElement.getAttribute("type"));
 				String valueName = paramElement.getAttribute("value");
-				urlParameters.add(new SubdialogParameter(varName, inputType,
-						valueName));
+				urlParameters.add(new SubdialogParameter(varName, inputType, valueName));
 			}
 		}
 	}
@@ -226,9 +208,7 @@ public class SubdialogInformationProvider extends PrimitiveInformationProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.ui.app.editor.model.EditorComponent#
-	 * getPropertiesPanel()
+	 * @see org.eclipse.vtp.desktop.ui.app.editor.model.EditorComponent# getPropertiesPanel()
 	 */
 	// public List getPropertiesPanels()
 	// {

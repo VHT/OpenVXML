@@ -9,14 +9,11 @@ import org.eclipse.vtp.desktop.model.interactive.core.IInteractiveProjectAspect;
 public class InteractiveWorkflowTest extends PropertyTester {
 
 	@Override
-	public boolean test(Object receiver, String property, Object[] args,
-			Object expectedValue) {
+	public boolean test(Object receiver, String property, Object[] args, Object expectedValue) {
 		if (receiver instanceof IProject) {
 			IOpenVXMLProject wp = WorkflowCore.getDefault().getWorkflowModel()
 					.convertToWorkflowProject((IProject) receiver);
-			if (wp == null) {
-				return false;
-			}
+			if (wp == null) { return false; }
 			IInteractiveProjectAspect interactiveAspect = (IInteractiveProjectAspect) wp
 					.getProjectAspect(IInteractiveProjectAspect.ASPECT_ID);
 			return interactiveAspect != null;

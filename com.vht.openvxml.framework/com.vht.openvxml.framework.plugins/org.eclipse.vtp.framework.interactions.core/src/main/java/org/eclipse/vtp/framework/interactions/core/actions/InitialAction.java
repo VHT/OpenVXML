@@ -53,11 +53,9 @@ import org.eclipse.vtp.framework.interactions.core.support.AbstractPlatform;
  * @author Lonnie Pryor
  */
 public class InitialAction extends AssignmentAction {
-	private static final Set INITAL_TYPES = Collections
-			.unmodifiableSet(new HashSet(Arrays.asList(new String[] {
-					IBooleanObject.TYPE_NAME, IDateObject.TYPE_NAME,
-					IDecimalObject.TYPE_NAME, INumberObject.TYPE_NAME,
-					IStringObject.TYPE_NAME })));
+	private static final Set INITAL_TYPES = Collections.unmodifiableSet(new HashSet(Arrays
+			.asList(new String[] { IBooleanObject.TYPE_NAME, IDateObject.TYPE_NAME,
+					IDecimalObject.TYPE_NAME, INumberObject.TYPE_NAME, IStringObject.TYPE_NAME })));
 
 	/** The conversation to use. */
 	private final IConversation conversation;
@@ -76,17 +74,13 @@ public class InitialAction extends AssignmentAction {
 	 * @param context
 	 * @param variableRegistry
 	 * @param assignConfigs
-	 * @param conversation
-	 *            The conversation to use.
+	 * @param conversation The conversation to use.
 	 */
-	public InitialAction(IActionContext context,
-			IVariableRegistry variableRegistry,
-			IDataTypeRegistry dataTypeRegistry,
-			AssignmentConfiguration[] assignConfigs,
+	public InitialAction(IActionContext context, IVariableRegistry variableRegistry,
+			IDataTypeRegistry dataTypeRegistry, AssignmentConfiguration[] assignConfigs,
 			IConversation conversation, IBrandSelection brandSelection,
-			IPlatformSelector platformSelector,
-			InitialConfiguration initialConfig, IBrandRegistry brandRegistry,
-			ILanguageSelection languageSelection,
+			IPlatformSelector platformSelector, InitialConfiguration initialConfig,
+			IBrandRegistry brandRegistry, ILanguageSelection languageSelection,
 			ILanguageRegistry languageRegistry) {
 		super(context, variableRegistry, assignConfigs);
 		this.conversation = conversation;
@@ -101,7 +95,6 @@ public class InitialAction extends AssignmentAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.common.actions.AssignmentAction#execute()
 	 */
 	@Override
@@ -110,18 +103,15 @@ public class InitialAction extends AssignmentAction {
 			context.info("Skipping initial action as Platform variable already exists");
 			return execute(Collections.<String, String> emptyMap(), false);
 		}
-		String resultParameterName = ACTION_PREFIX
-				+ context.getActionID().replace(':', '_');
+		String resultParameterName = ACTION_PREFIX + context.getActionID().replace(':', '_');
 		String result = context.getParameter(resultParameterName);
 		if (IConversation.RESULT_NAME_FILLED.equals(result)) {
 			if (context.isReportingEnabled()) {
 				Dictionary<String, Object> props = new Hashtable<String, Object>();
 				props.put("event", "initial.after");
-				context.report(IReporter.SEVERITY_INFO,
-						"Processing initial variables.", props);
+				context.report(IReporter.SEVERITY_INFO, "Processing initial variables.", props);
 			}
-			IDataObject platform = variableRegistry
-					.createVariable(IMapObject.TYPE_NAME);
+			IDataObject platform = variableRegistry.createVariable(IMapObject.TYPE_NAME);
 			String anivalue = context.getParameter("PLATFORM_ANI");
 			if (anivalue != null) {
 				if (context.isReportingEnabled()) {
@@ -130,8 +120,7 @@ public class InitialAction extends AssignmentAction {
 					props2.put("event.key", "Platform.ANI");
 					props2.put("event.value", String.valueOf(anivalue));
 					context.report(IReporter.SEVERITY_INFO,
-							"Assigned variable \"Platform.ANI\" to \""
-									+ anivalue + "\"", props2);
+							"Assigned variable \"Platform.ANI\" to \"" + anivalue + "\"", props2);
 				}
 				IStringObject aniVar = (IStringObject) variableRegistry
 						.createVariable(IStringObject.TYPE_NAME);
@@ -147,8 +136,7 @@ public class InitialAction extends AssignmentAction {
 					props2.put("event.key", "Platform.DNIS");
 					props2.put("event.value", String.valueOf(dnisvalue));
 					context.report(IReporter.SEVERITY_INFO,
-							"Assigned variable \"Platform.DNIS\" to \""
-									+ dnisvalue + "\"", props2);
+							"Assigned variable \"Platform.DNIS\" to \"" + dnisvalue + "\"", props2);
 				}
 				IStringObject dnisVar = (IStringObject) variableRegistry
 						.createVariable(IStringObject.TYPE_NAME);
@@ -162,8 +150,7 @@ public class InitialAction extends AssignmentAction {
 			if (b != null) {
 				brandVar.setValue(b.getPath());
 			} else {
-				b = brandRegistry.getBrandById(initialConfig
-						.getDefaultBrandId());
+				b = brandRegistry.getBrandById(initialConfig.getDefaultBrandId());
 				if (b != null) {
 					brandVar.setValue(b.getPath());
 				} else {
@@ -171,8 +158,7 @@ public class InitialAction extends AssignmentAction {
 				}
 			}
 			platform.setEntry("Brand", brandVar);
-			languageSelection.setDefaultLanguage(initialConfig
-					.getDefaultLanguageName());
+			languageSelection.setDefaultLanguage(initialConfig.getDefaultLanguageName());
 			variableRegistry.setVariable("Platform", platform);
 			Map values = new HashMap();
 			for (AssignmentConfiguration configuration : configurations) {
@@ -184,8 +170,7 @@ public class InitialAction extends AssignmentAction {
 			// platform extension variables
 			AbstractPlatform abstractPlatform = (AbstractPlatform) platformSelector
 					.getSelectedPlatform();
-			List<String> incomingParametersNames = abstractPlatform
-					.getPlatformVariableNames();
+			List<String> incomingParametersNames = abstractPlatform.getPlatformVariableNames();
 			context.info("Platform Variables");
 			for (String vname : incomingParametersNames) {
 				context.info("\t" + vname);
@@ -194,36 +179,23 @@ public class InitialAction extends AssignmentAction {
 				IMapObject initialParameters = (IMapObject) variableRegistry
 						.createVariable(IMapObject.TYPE_NAME);
 				for (int i = 0; i < incomingParametersNames.size(); i++) {
-					incomingParametersNames.set(
-							i,
-							incomingParametersNames.get(i).replaceAll(
-									Pattern.quote("."), "_"));
-					incomingParametersNames
-							.set(i,
-									incomingParametersNames.get(i).replaceAll(
-											"-", "_"));
+					incomingParametersNames.set(i, incomingParametersNames.get(i).replaceAll(
+							Pattern.quote("."), "_"));
+					incomingParametersNames.set(i, incomingParametersNames.get(i).replaceAll("-",
+							"_"));
 				}
 				for (int i = 0; i < incomingParametersNames.size(); i++) {
-					String parameter = abstractPlatform
-							.postProcessInitialVariable(incomingParametersNames
-									.get(i), context
-									.getParameter(incomingParametersNames
-											.get(i)));
-					context.info("\t"
-							+ incomingParametersNames.get(i)
-							+ " = "
-							+ parameter
-							+ " ["
-							+ context.getParameter(incomingParametersNames
-									.get(i)) + "]");
+					String parameter = abstractPlatform.postProcessInitialVariable(
+							incomingParametersNames.get(i), context
+									.getParameter(incomingParametersNames.get(i)));
+					context.info("\t" + incomingParametersNames.get(i) + " = " + parameter + " ["
+							+ context.getParameter(incomingParametersNames.get(i)) + "]");
 					IStringObject field = (IStringObject) variableRegistry
 							.createVariable(IStringObject.TYPE_NAME);
 					field.setValue(parameter == null ? "" : parameter);
-					initialParameters.setEntry(incomingParametersNames.get(i),
-							field);
+					initialParameters.setEntry(incomingParametersNames.get(i), field);
 				}
-				variableRegistry.setVariable("PlatformVariables",
-						initialParameters);
+				variableRegistry.setVariable("PlatformVariables", initialParameters);
 			} else {
 				context.info("\tNone");
 			}
@@ -232,8 +204,7 @@ public class InitialAction extends AssignmentAction {
 			if (context.isReportingEnabled()) {
 				Dictionary<String, Object> props = new Hashtable<String, Object>();
 				props.put("event", "error.disconnect.hangup");
-				context.report(IReporter.SEVERITY_INFO,
-						"Got disconnect during interaction.", props);
+				context.report(IReporter.SEVERITY_INFO, "Got disconnect during interaction.", props);
 			}
 			return context.createResult(IConversation.RESULT_NAME_HANGUP);
 		} else if (result != null) {
@@ -242,35 +213,30 @@ public class InitialAction extends AssignmentAction {
 			try {
 				String[] incomingParametersNames = context.getParameterNames();
 				for (int i = 0; i < incomingParametersNames.length; i++) {
-					incomingParametersNames[i] = incomingParametersNames[i]
-							.replaceAll(Pattern.quote("."), "_");
-					incomingParametersNames[i] = incomingParametersNames[i]
-							.replaceAll("-", "_");
+					incomingParametersNames[i] = incomingParametersNames[i].replaceAll(Pattern
+							.quote("."), "_");
+					incomingParametersNames[i] = incomingParametersNames[i].replaceAll("-", "_");
 				}
 				IMapObject initialParameters = (IMapObject) variableRegistry
 						.createVariable(IMapObject.TYPE_NAME);
 				for (String incomingParametersName : incomingParametersNames) {
-					String parameter = context
-							.getParameter(incomingParametersName);
+					String parameter = context.getParameter(incomingParametersName);
 					IStringObject field = (IStringObject) variableRegistry
 							.createVariable(IStringObject.TYPE_NAME);
 					field.setValue(parameter == null ? "" : parameter);
 					initialParameters.setEntry(incomingParametersName, field);
 				}
-				variableRegistry.setVariable("InitialParameters",
-						initialParameters);
+				variableRegistry.setVariable("InitialParameters", initialParameters);
 				if (context.isReportingEnabled()) {
 					Dictionary<String, Object> props = new Hashtable<String, Object>();
 					props.put("event", "initial.before");
-					context.report(IReporter.SEVERITY_INFO,
-							"Requesting initial variables.", props);
+					context.report(IReporter.SEVERITY_INFO, "Requesting initial variables.", props);
 				}
 				Map vars = new LinkedHashMap();
 				if ("true".equals(context.getAttribute("subdialog"))) {
 					for (AssignmentConfiguration configuration : configurations) {
 						if (INITAL_TYPES.contains(configuration.getType())) {
-							vars.put(configuration.getName(),
-									configuration.getValue());
+							vars.put(configuration.getName(), configuration.getValue());
 						}
 					}
 				}

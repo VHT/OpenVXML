@@ -33,9 +33,11 @@ import com.openmethods.openvxml.desktop.model.workflow.IWorkflowEntry;
 import com.openmethods.openvxml.desktop.model.workflow.IWorkflowProjectAspect;
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElement;
 
-public class FragmentEntrySelectionPropertiesPanel extends DesignElementPropertiesPanel
-{
-	/** A combo box used to select by name the Portal Exit module to which this Portal Entry module will link */
+public class FragmentEntrySelectionPropertiesPanel extends DesignElementPropertiesPanel {
+	/**
+	 * A combo box used to select by name the Portal Exit module to which this Portal Entry module
+	 * will link
+	 */
 	Combo exitCombo = null;
 	/** An ArrayList containing the Portal Exits to which this Portal Entry may link */
 	List<IWorkflowEntry> entryPoints = new ArrayList<IWorkflowEntry>();
@@ -47,55 +49,48 @@ public class FragmentEntrySelectionPropertiesPanel extends DesignElementProperti
 	 * @param name
 	 * @param element
 	 */
-	public FragmentEntrySelectionPropertiesPanel(String name, IDesignElement element)
-	{
+	public FragmentEntrySelectionPropertiesPanel(String name, IDesignElement element) {
 		super(name, element);
-		manager = (FragmentConfigurationManager)element.getConfigurationManager(FragmentConfigurationManager.TYPE_ID);
+		manager = (FragmentConfigurationManager) element
+				.getConfigurationManager(FragmentConfigurationManager.TYPE_ID);
 	}
-	
-	public void resolve()
-	{
-		ApplicationFragmentElement applicationFragmentElement = (ApplicationFragmentElement)getElement();
-		if(applicationFragmentElement.isModelPresent())
-		{
+
+	public void resolve() {
+		ApplicationFragmentElement applicationFragmentElement = (ApplicationFragmentElement) getElement();
+		if (applicationFragmentElement.isModelPresent()) {
 			IOpenVXMLProject referencedModel = applicationFragmentElement.getReferencedModel();
-			IWorkflowProjectAspect workflowAspect = (IWorkflowProjectAspect)referencedModel.getProjectAspect(IWorkflowProjectAspect.ASPECT_ID);
+			IWorkflowProjectAspect workflowAspect = (IWorkflowProjectAspect) referencedModel
+					.getProjectAspect(IWorkflowProjectAspect.ASPECT_ID);
 			entryPoints = workflowAspect.getWorkflowEntries();
 			IWorkflowEntry defaultEntry = null;
-			for(IWorkflowEntry entry : entryPoints)
-			{
-				if(entry.getName().equals(""))
-				{
+			for (IWorkflowEntry entry : entryPoints) {
+				if (entry.getName().equals("")) {
 					defaultEntry = entry;
 				}
-				if(defaultEntry == null)
-					defaultEntry = entry;
+				if (defaultEntry == null) defaultEntry = entry;
 			}
-			if(manager.getEntryId() != null)
-			{
-				for(IWorkflowEntry entry : entryPoints)
-				{
-					if(entry.getId().equals(manager.getEntryId()))
-					{
+			if (manager.getEntryId() != null) {
+				for (IWorkflowEntry entry : entryPoints) {
+					if (entry.getId().equals(manager.getEntryId())) {
 						currentEntry = entry;
 						break;
 					}
 				}
 			}
-			if(currentEntry == null)
-			{
+			if (currentEntry == null) {
 				currentEntry = defaultEntry;
-				if(defaultEntry != null)
-					manager.setEntryId(defaultEntry.getId());
+				if (defaultEntry != null) manager.setEntryId(defaultEntry.getId());
 			}
 		}
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel#createControls(org.eclipse.swt.widgets.Composite)
+
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel#createControls(org
+	 * .eclipse.swt.widgets.Composite)
 	 */
-	public void createControls(Composite parent)
-	{
+	public void createControls(Composite parent) {
 		Composite comp = new Composite(parent, SWT.NONE);
 		comp.setBackground(parent.getBackground());
 		GridLayout gridLayout = new GridLayout();
@@ -105,55 +100,49 @@ public class FragmentEntrySelectionPropertiesPanel extends DesignElementProperti
 		exitLabel.setBackground(comp.getBackground());
 		exitLabel.setLayoutData(new GridData());
 		exitCombo = new Combo(comp, SWT.DROP_DOWN | SWT.READ_ONLY | SWT.SINGLE);
-		for(IWorkflowEntry entryPoint : entryPoints)
-        {
-       		exitCombo.add(entryPoint.getName());
-       		if(entryPoint.equals(currentEntry))
-       			exitCombo.select(exitCombo.getItemCount() - 1);
-        }
+		for (IWorkflowEntry entryPoint : entryPoints) {
+			exitCombo.add(entryPoint.getName());
+			if (entryPoint.equals(currentEntry)) exitCombo.select(exitCombo.getItemCount() - 1);
+		}
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.widthHint = 300;
 		exitCombo.setLayoutData(gridData);
-		exitCombo.addSelectionListener(new SelectionListener()
-		{
-			public void widgetDefaultSelected(SelectionEvent e)
-			{
-			}
+		exitCombo.addSelectionListener(new SelectionListener() {
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
-			public void widgetSelected(SelectionEvent e)
-			{
+			public void widgetSelected(SelectionEvent e) {
 				IWorkflowEntry entryPoint = entryPoints.get(exitCombo.getSelectionIndex());
 				manager.setEntryId(entryPoint.getId());
 			}
 		});
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.vtp.desktop.editors.core.elements.PrimitivePropertiesPanel#save()
 	 */
-	public void save()
-	{
+	public void save() {
 		IWorkflowEntry entryPoint = entryPoints.get(exitCombo.getSelectionIndex());
-		getElement().setName(((ApplicationFragmentElement)getElement()).getReferencedModel().getProject().getName() + " (" + entryPoint.getName() + ")");
+		getElement().setName(
+				((ApplicationFragmentElement) getElement()).getReferencedModel().getProject()
+						.getName()
+						+ " (" + entryPoint.getName() + ")");
 		getElement().commitConfigurationChanges(manager);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.vtp.desktop.model.core.configuration.ComponentPropertiesPanel#cancel()
 	 */
-	public void cancel()
-	{
+	public void cancel() {
 		getElement().rollbackConfigurationChanges(manager);
 	}
 
 	@Override
-	public void setConfigurationContext(Map<String, Object> values)
-	{
-	}
+	public void setConfigurationContext(Map<String, Object> values) {}
 
 	@Override
-	public List<String> getApplicableContexts()
-	{
+	public List<String> getApplicableContexts() {
 		return Collections.emptyList();
 	}
 

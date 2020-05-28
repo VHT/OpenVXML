@@ -36,13 +36,9 @@ public interface IProcessEngineObserver {
 	/**
 	 * Called when a change has occurred to the internals of the process engine.
 	 * 
-	 * @param eventType
-	 *            The type of event that ocurred.
-	 * @param componentType
-	 *            The type of component that changed.
-	 * @param componentIdentifier
-	 *            The identifier of the component that changed.
+	 * @param eventType The type of event that ocurred.
+	 * @param componentType The type of component that changed.
+	 * @param componentIdentifier The identifier of the component that changed.
 	 */
-	void processEngineUpdated(int eventType, int componentType,
-			String componentIdentifier);
+	void processEngineUpdated(int eventType, int componentType, String componentIdentifier);
 }

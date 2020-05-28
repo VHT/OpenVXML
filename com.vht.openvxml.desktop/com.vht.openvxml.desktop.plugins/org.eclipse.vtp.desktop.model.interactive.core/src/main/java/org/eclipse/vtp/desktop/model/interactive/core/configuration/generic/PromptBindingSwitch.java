@@ -71,8 +71,7 @@ public final class PromptBindingSwitch extends PromptBindingNode {
 	/* Write the configuration for this node. */
 	@Override
 	void writeConfiguration(Element configuration) {
-		Element thisElement = configuration.getOwnerDocument().createElement(
-				"binding-branch");
+		Element thisElement = configuration.getOwnerDocument().createElement("binding-branch");
 		configuration.appendChild(thisElement);
 		for (PromptBindingCase child : children) {
 			child.writeConfiguration(thisElement);
@@ -81,7 +80,6 @@ public final class PromptBindingSwitch extends PromptBindingNode {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.lang.Object#clone()
 	 */
 	@Override

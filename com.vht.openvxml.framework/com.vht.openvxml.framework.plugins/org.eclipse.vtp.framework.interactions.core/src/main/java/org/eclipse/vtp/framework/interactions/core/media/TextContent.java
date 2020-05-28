@@ -23,8 +23,7 @@ public class TextContent extends Content {
 	private int dataType = STATIC_TEXT;
 	private String data = ""; //$NON-NLS-1$
 
-	public TextContent() {
-	}
+	public TextContent() {}
 
 	public TextContent(Element element) {
 		String dataTypeString = element.getAttribute("dataType"); //$NON-NLS-1$
@@ -63,8 +62,8 @@ public class TextContent extends Content {
 
 	@Override
 	public Element store(Element element) {
-		Element thisElement = element.getOwnerDocument().createElementNS(
-				ELEMENT_NAMESPACE, ELEMENT_NAME);
+		Element thisElement = element.getOwnerDocument().createElementNS(ELEMENT_NAMESPACE,
+				ELEMENT_NAME);
 		element.appendChild(thisElement);
 		thisElement.setAttribute("dataType", //$NON-NLS-1$
 				dataType == STATIC_TEXT ? "static" : "variable"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -85,9 +84,7 @@ public class TextContent extends Content {
 
 	@Override
 	public Content captureData(IDataSet dataSet) {
-		if (dataType == STATIC_TEXT) {
-			return this;
-		}
+		if (dataType == STATIC_TEXT) { return this; }
 		TextContent clone = new TextContent();
 		clone.setStaticText(dataSet.getData(data).toString());
 		return clone;
@@ -95,9 +92,7 @@ public class TextContent extends Content {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.media.Content#createCopy()
+	 * @see org.eclipse.vtp.framework.interactions.core.media.Content#createCopy()
 	 */
 	@Override
 	public Content createCopy() {

@@ -10,11 +10,9 @@ import org.eclipse.vtp.desktop.editors.core.configuration.ConnectorPropertiesPan
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesignComponent;
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesignConnector;
 
-public class ConnectorPropertiesPanelProvider implements
-		ComponentPropertiesPanelProvider {
+public class ConnectorPropertiesPanelProvider implements ComponentPropertiesPanelProvider {
 
-	public ConnectorPropertiesPanelProvider() {
-	}
+	public ConnectorPropertiesPanelProvider() {}
 
 	@Override
 	public boolean isApplicableFor(IDesignComponent designComponent) {
@@ -22,12 +20,10 @@ public class ConnectorPropertiesPanelProvider implements
 	}
 
 	@Override
-	public List<ComponentPropertiesPanel> getPropertiesPanels(
-			IDesignComponent designComponent) {
+	public List<ComponentPropertiesPanel> getPropertiesPanels(IDesignComponent designComponent) {
 		List<ComponentPropertiesPanel> ret = new LinkedList<ComponentPropertiesPanel>();
 		IDesignConnector connector = (IDesignConnector) designComponent;
-		ConnectorPropertiesPanel connectorPropertiesPanel = new ConnectorPropertiesPanel(
-				connector);
+		ConnectorPropertiesPanel connectorPropertiesPanel = new ConnectorPropertiesPanel(connector);
 		ret.add(connectorPropertiesPanel);
 		return ret;
 	}

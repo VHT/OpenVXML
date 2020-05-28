@@ -27,10 +27,8 @@ public interface IDispatcher {
 	/**
 	 * Enqueues this dispatcher and waits for it to be processed.
 	 * 
-	 * @return True if this dispatcher was accepted into the queue and
-	 *         processed.
-	 * @throws IllegalStateException
-	 *             If the process controller is not in the blocking state.
+	 * @return True if this dispatcher was accepted into the queue and processed.
+	 * @throws IllegalStateException If the process controller is not in the blocking state.
 	 */
 	boolean process() throws IllegalStateException;
 }

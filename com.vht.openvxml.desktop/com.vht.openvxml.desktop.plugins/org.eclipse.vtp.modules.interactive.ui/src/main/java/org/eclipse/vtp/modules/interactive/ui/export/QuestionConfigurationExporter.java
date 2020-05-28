@@ -11,31 +11,23 @@ import org.w3c.dom.Element;
 public class QuestionConfigurationExporter implements IConfigurationExporter {
 	private static final String ELEMENT_ID = "org.eclipse.vtp.modules.interactive.question";
 
-	public QuestionConfigurationExporter() {
-	}
+	public QuestionConfigurationExporter() {}
 
 	@Override
-	public void exportConfiguration(IFlowElement flowElement,
-			Element actionElement) {
-		InputRequestConfiguration config = new InputRequestConfiguration(
-				ContentLoadingManager.getInstance(),
-				InputLoadingManager.getInstance());
+	public void exportConfiguration(IFlowElement flowElement, Element actionElement) {
+		InputRequestConfiguration config = new InputRequestConfiguration(ContentLoadingManager
+				.getInstance(), InputLoadingManager.getInstance());
 		config.setOutputName("Prompt"); //$NON-NLS-1$
 		config.setInputName("Grammar"); //$NON-NLS-1$
 		config.setInputName2("Voice-Grammar"); //$NON-NLS-1$
-		Element customConfig = (Element) flowElement
-				.getConfiguration()
-				.getElementsByTagNameNS(
-						"http://www.eclipse.org/vtp/namespaces/config", //$NON-NLS-1$
-						"custom-config").item(0); //$NON-NLS-1$
-		config.setSecured(Boolean.parseBoolean(customConfig
-				.getAttribute("secured")));
+		Element customConfig = (Element) flowElement.getConfiguration().getElementsByTagNameNS(
+				"http://www.eclipse.org/vtp/namespaces/config", //$NON-NLS-1$
+				"custom-config").item(0); //$NON-NLS-1$
+		config.setSecured(Boolean.parseBoolean(customConfig.getAttribute("secured")));
 		config.setDataName(customConfig.getAttribute("variable-name")); //$NON-NLS-1$
 		config.setMediaConfiguration(flowElement.loadMediaBindings(ELEMENT_ID));
-		Element configElement = actionElement.getOwnerDocument()
-				.createElementNS(
-						IDefinitionBuilder.NAMESPACE_URI_INTERACTIONS_CORE,
-						"interactions:input-request"); //$NON-NLS-1$
+		Element configElement = actionElement.getOwnerDocument().createElementNS(
+				IDefinitionBuilder.NAMESPACE_URI_INTERACTIONS_CORE, "interactions:input-request"); //$NON-NLS-1$
 		config.save(configElement);
 		actionElement.appendChild(configElement);
 	}
@@ -56,8 +48,7 @@ public class QuestionConfigurationExporter implements IConfigurationExporter {
 	}
 
 	@Override
-	public String getTargetId(IFlowElement flowElement,
-			Element afterTransitionElement) {
+	public String getTargetId(IFlowElement flowElement, Element afterTransitionElement) {
 		return flowElement.getDefaultTargetId(afterTransitionElement);
 	}
 

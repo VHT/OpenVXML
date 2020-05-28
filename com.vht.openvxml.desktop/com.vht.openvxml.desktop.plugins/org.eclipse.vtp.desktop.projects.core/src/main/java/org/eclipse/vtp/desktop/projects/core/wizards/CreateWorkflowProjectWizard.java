@@ -57,35 +57,26 @@ import com.openmethods.openvxml.desktop.model.dependencies.IExternalDependencies
 import com.openmethods.openvxml.desktop.model.workflow.IWorkflowProjectAspect;
 
 /**
- * This wizard walks the user through the steps required to create a new
- * OpenVXML voice application project.
- *
- * <b>Step 1)</b> Enter a name for the application.<br>
- * The name must be unique among the other projects contained in the eclipse
- * workspace. The user will not be able to move to the next step until the name
- * is entered and is unique. <br>
+ * This wizard walks the user through the steps required to create a new OpenVXML voice application
+ * project. <b>Step 1)</b> Enter a name for the application.<br>
+ * The name must be unique among the other projects contained in the eclipse workspace. The user
+ * will not be able to move to the next step until the name is entered and is unique. <br>
  * <b>Step 2)</b> Determine supported languages.<br>
- * A persona project must be associated with each language the application will
- * support.<br>
- *
- * Note: Currently all applications must support both English and Spanish.
- *
- * The new project is created by this wizard automatically and requires nothing
- * of the caller of the wizard.
+ * A persona project must be associated with each language the application will support.<br>
+ * Note: Currently all applications must support both English and Spanish. The new project is
+ * created by this wizard automatically and requires nothing of the caller of the wizard.
  *
  * @author Trip
  * @version 1.0
  */
-public class CreateWorkflowProjectWizard extends Wizard implements INewWizard,
-		IExecutableExtension {
+public class CreateWorkflowProjectWizard extends Wizard implements INewWizard, IExecutableExtension {
 	/**
 	 * Wizard page that collects the name of the new application project.
 	 */
 	ApplicationPage applicationPage = null;
 
 	/**
-	 * Wizard page that configures the build path of the new application
-	 * project.
+	 * Wizard page that configures the build path of the new application project.
 	 */
 	BuildPathPage buildPathPage = null;
 
@@ -93,8 +84,7 @@ public class CreateWorkflowProjectWizard extends Wizard implements INewWizard,
 	private ConfigurationBrandManager brandManager = null;
 
 	/**
-	 * Creates a new <code>CreateApplicationWizard</code> instance with default
-	 * values.
+	 * Creates a new <code>CreateApplicationWizard</code> instance with default values.
 	 */
 	public CreateWorkflowProjectWizard() {
 		super();
@@ -107,7 +97,6 @@ public class CreateWorkflowProjectWizard extends Wizard implements INewWizard,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.wizard.Wizard#addPages()
 	 */
 	@Override
@@ -118,15 +107,12 @@ public class CreateWorkflowProjectWizard extends Wizard implements INewWizard,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.wizard.IWizard#performFinish()
 	 */
 	@Override
 	public boolean performFinish() {
-		OpenVXMLProject workflowProject = (OpenVXMLProject) WorkflowCore
-				.getDefault()
-				.getWorkflowModel()
-				.createWorkflowProject(WorkflowProjectNature5_0.NATURE_ID,
+		OpenVXMLProject workflowProject = (OpenVXMLProject) WorkflowCore.getDefault()
+				.getWorkflowModel().createWorkflowProject(WorkflowProjectNature5_0.NATURE_ID,
 						applicationPage.nameField.getText());
 		try {
 			IOpenVXMLProject parent = applicationPage.getParentProject();
@@ -155,27 +141,21 @@ public class CreateWorkflowProjectWizard extends Wizard implements INewWizard,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org
-	 * .eclipse.core.runtime.IConfigurationElement, java.lang.String,
-	 * java.lang.Object)
+	 * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org
+	 * .eclipse.core.runtime.IConfigurationElement, java.lang.String, java.lang.Object)
 	 */
 	@Override
-	public void setInitializationData(IConfigurationElement cfig,
-			String propertyName, Object data) {
+	public void setInitializationData(IConfigurationElement cfig, String propertyName, Object data) {
 		configElement = cfig;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench,
 	 * org.eclipse.jface.viewers.IStructuredSelection)
 	 */
 	@Override
-	public void init(IWorkbench workbench, IStructuredSelection selection) {
-	}
+	public void init(IWorkbench workbench, IStructuredSelection selection) {}
 
 	public class ApplicationPage extends WizardPage {
 		Text nameField = null;
@@ -186,8 +166,8 @@ public class CreateWorkflowProjectWizard extends Wizard implements INewWizard,
 
 		public ApplicationPage() {
 			super("CreateApplicationPage", "Create Application", null);
-			List<IOpenVXMLProject> projects = WorkflowCore.getDefault()
-					.getWorkflowModel().listWorkflowProjects();
+			List<IOpenVXMLProject> projects = WorkflowCore.getDefault().getWorkflowModel()
+					.listWorkflowProjects();
 			System.out.println("Number of projects: " + projects.size());
 			for (IOpenVXMLProject project : projects) {
 				if (project
@@ -200,16 +180,13 @@ public class CreateWorkflowProjectWizard extends Wizard implements INewWizard,
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt
+		 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt
 		 * .widgets.Composite)
 		 */
 		@Override
 		public void createControl(Composite parent) {
 			Composite comp = new Composite(parent, SWT.NONE);
-			comp.setBackground(parent.getDisplay().getSystemColor(
-					SWT.COLOR_WHITE));
+			comp.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
 			setControl(comp);
 
 			Label hostLabel = new Label(comp, SWT.NONE);
@@ -223,11 +200,8 @@ public class CreateWorkflowProjectWizard extends Wizard implements INewWizard,
 				public void verifyText(VerifyEvent e) {
 					String text = e.text;
 					char[] chars = text.toCharArray();
-					String currentName = nameField.getText().substring(0,
-							e.start)
-							+ e.text
-							+ nameField.getText(e.end, (nameField.getText()
-									.length() - 1));
+					String currentName = nameField.getText().substring(0, e.start) + e.text
+							+ nameField.getText(e.end, (nameField.getText().length() - 1));
 					if (currentName.length() > 255) {
 						e.doit = false;
 						return;
@@ -251,20 +225,18 @@ public class CreateWorkflowProjectWizard extends Wizard implements INewWizard,
 			});
 			nameField.addKeyListener(new KeyListener() {
 				@Override
-				public void keyPressed(KeyEvent e) {
-				}
+				public void keyPressed(KeyEvent e) {}
 
 				@Override
 				public void keyReleased(KeyEvent e) {
 					if (nameField.getText().length() == 0) {
 						setPageComplete(false);
 					} else {
-						IProject[] existingProjects = ResourcesPlugin
-								.getWorkspace().getRoot().getProjects();
+						IProject[] existingProjects = ResourcesPlugin.getWorkspace().getRoot()
+								.getProjects();
 
 						for (IProject existingProject : existingProjects) {
-							if (nameField.getText().equalsIgnoreCase(
-									existingProject.getName())) {
+							if (nameField.getText().equalsIgnoreCase(existingProject.getName())) {
 								setPageComplete(false);
 								setErrorMessage("Another project already exists with that name.");
 
@@ -280,19 +252,16 @@ public class CreateWorkflowProjectWizard extends Wizard implements INewWizard,
 
 			localConfigButton = new Button(comp, SWT.RADIO);
 			hostLabel.setBackground(comp.getBackground());
-			localConfigButton
-					.setText("Configure settings for this project locally");
+			localConfigButton.setText("Configure settings for this project locally");
 			parentConfigButton = new Button(comp, SWT.RADIO);
 			hostLabel.setBackground(comp.getBackground());
-			parentConfigButton
-					.setText("Inherit settings from an Umbrella project");
+			parentConfigButton.setText("Inherit settings from an Umbrella project");
 			localConfigButton.setSelection(true);
 			Label projectLabel = new Label(comp, SWT.NONE);
 			hostLabel.setBackground(comp.getBackground());
 			projectLabel.setText("Umbrella Project");
 			projectLabel.setLayoutData(new GridData());
-			parentCombo = new Combo(comp, SWT.READ_ONLY | SWT.DROP_DOWN
-					| SWT.BORDER);
+			parentCombo = new Combo(comp, SWT.READ_ONLY | SWT.DROP_DOWN | SWT.BORDER);
 			for (IOpenVXMLProject project : umbrellaProjects) {
 				parentCombo.add(project.getName());
 			}
@@ -306,13 +275,11 @@ public class CreateWorkflowProjectWizard extends Wizard implements INewWizard,
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					parentCombo.setEnabled(parentConfigButton.getSelection());
-					buildPathPage.enableControls(!parentConfigButton
-							.getSelection());
+					buildPathPage.enableControls(!parentConfigButton.getSelection());
 				}
 
 				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-				}
+				public void widgetDefaultSelected(SelectionEvent e) {}
 			});
 
 			FormLayout formLayout = new FormLayout();
@@ -323,10 +290,8 @@ public class CreateWorkflowProjectWizard extends Wizard implements INewWizard,
 			FormData hostLabelFormData = new FormData();
 			hostLabelFormData.left = new FormAttachment(0, 10);
 			hostLabelFormData.top = new FormAttachment(0, 10);
-			hostLabelFormData.right = new FormAttachment(0,
-					10 + hostLabel.getSize().x);
-			hostLabelFormData.bottom = new FormAttachment(0,
-					10 + hostLabel.getSize().y);
+			hostLabelFormData.right = new FormAttachment(0, 10 + hostLabel.getSize().x);
+			hostLabelFormData.bottom = new FormAttachment(0, 10 + hostLabel.getSize().y);
 			hostLabel.setLayoutData(hostLabelFormData);
 
 			FormData hostFieldFormData = new FormData();
@@ -343,21 +308,18 @@ public class CreateWorkflowProjectWizard extends Wizard implements INewWizard,
 
 			FormData parentConfigButtonData = new FormData();
 			parentConfigButtonData.left = new FormAttachment(0, 10);
-			parentConfigButtonData.top = new FormAttachment(localConfigButton,
-					10);
+			parentConfigButtonData.top = new FormAttachment(localConfigButton, 10);
 			parentConfigButtonData.right = new FormAttachment(100, -10);
 			parentConfigButton.setLayoutData(parentConfigButtonData);
 
 			FormData parentLabelButtonData = new FormData();
 			parentLabelButtonData.left = new FormAttachment(0, 30);
-			parentLabelButtonData.top = new FormAttachment(parentConfigButton,
-					10);
+			parentLabelButtonData.top = new FormAttachment(parentConfigButton, 10);
 			projectLabel.setLayoutData(parentLabelButtonData);
 
 			FormData projectComboButtonData = new FormData();
 			projectComboButtonData.left = new FormAttachment(projectLabel, 10);
-			projectComboButtonData.top = new FormAttachment(parentConfigButton,
-					8);
+			projectComboButtonData.top = new FormAttachment(parentConfigButton, 8);
 			projectComboButtonData.right = new FormAttachment(100, -10);
 			parentCombo.setLayoutData(projectComboButtonData);
 
@@ -371,9 +333,8 @@ public class CreateWorkflowProjectWizard extends Wizard implements INewWizard,
 		}
 
 		public IOpenVXMLProject getParentProject() {
-			if (parentConfigButton.getSelection()) {
-				return umbrellaProjects.get(parentCombo.getSelectionIndex());
-			}
+			if (parentConfigButton.getSelection()) { return umbrellaProjects.get(parentCombo
+					.getSelectionIndex()); }
 			return null;
 		}
 	}
@@ -389,9 +350,7 @@ public class CreateWorkflowProjectWizard extends Wizard implements INewWizard,
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt
+		 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt
 		 * .widgets.Composite)
 		 */
 		@Override

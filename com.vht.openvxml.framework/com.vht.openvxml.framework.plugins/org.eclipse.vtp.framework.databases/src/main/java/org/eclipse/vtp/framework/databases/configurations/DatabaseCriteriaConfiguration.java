@@ -19,8 +19,7 @@ import org.w3c.dom.Element;
  * 
  * @author Lonnie Pryor
  */
-public class DatabaseCriteriaConfiguration implements IConfiguration,
-		DatabaseConstants {
+public class DatabaseCriteriaConfiguration implements IConfiguration, DatabaseConstants {
 	/** Compare for equality. */
 	public static final int COMPARISON_EQUAL = 0;
 	/** Compare for lack of equality. */
@@ -52,8 +51,7 @@ public class DatabaseCriteriaConfiguration implements IConfiguration,
 	/**
 	 * Creates a new DatabaseCriteriaConfiguration.
 	 */
-	public DatabaseCriteriaConfiguration() {
-	}
+	public DatabaseCriteriaConfiguration() {}
 
 	/**
 	 * Returns the name of the field to map to.
@@ -67,8 +65,7 @@ public class DatabaseCriteriaConfiguration implements IConfiguration,
 	/**
 	 * Sets the name of the field to map to.
 	 * 
-	 * @param name
-	 *            The name of the field to map to.
+	 * @param name The name of the field to map to.
 	 */
 	public void setName(String name) {
 		this.name = name == null ? "" : name; //$NON-NLS-1$
@@ -86,8 +83,7 @@ public class DatabaseCriteriaConfiguration implements IConfiguration,
 	/**
 	 * Sets the type of comparison to perform.
 	 * 
-	 * @param comparison
-	 *            The type of comparison to perform.
+	 * @param comparison The type of comparison to perform.
 	 */
 	public void setComparison(int comparison) {
 		this.comparison = comparison;
@@ -105,8 +101,7 @@ public class DatabaseCriteriaConfiguration implements IConfiguration,
 	/**
 	 * Sets the type of mapping to perform.
 	 * 
-	 * @param type
-	 *            The type of mapping to perform.
+	 * @param type The type of mapping to perform.
 	 */
 	public void setType(int type) {
 		this.type = type;
@@ -124,8 +119,7 @@ public class DatabaseCriteriaConfiguration implements IConfiguration,
 	/**
 	 * Sets the value to use for the mapping.
 	 * 
-	 * @param value
-	 *            The value to use for the mapping.
+	 * @param value The value to use for the mapping.
 	 */
 	public void setValue(String value) {
 		this.value = value;
@@ -133,15 +127,12 @@ public class DatabaseCriteriaConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#load( org.w3c.dom.Element)
 	 */
 	@Override
 	public void load(Element configurationElement) {
 		name = configurationElement.getAttribute(NAME_NAME);
-		String comparisonStr = configurationElement
-				.getAttribute(NAME_COMPARISON);
+		String comparisonStr = configurationElement.getAttribute(NAME_COMPARISON);
 		if ("not-equal".equalsIgnoreCase(comparisonStr)) {
 			comparison = COMPARISON_NOT_EQUAL;
 		} else if ("less-than".equalsIgnoreCase(comparisonStr)) {
@@ -172,9 +163,7 @@ public class DatabaseCriteriaConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#save( org.w3c.dom.Element)
 	 */
 	@Override
 	public void save(Element configurationElement) {
@@ -187,15 +176,13 @@ public class DatabaseCriteriaConfiguration implements IConfiguration,
 			configurationElement.setAttribute(NAME_COMPARISON, "less-than"); //$NON-NLS-1$
 			break;
 		case COMPARISON_LESS_THAN_OR_EQUAL:
-			configurationElement.setAttribute(NAME_COMPARISON,
-					"less-than-or-equal"); //$NON-NLS-1$
+			configurationElement.setAttribute(NAME_COMPARISON, "less-than-or-equal"); //$NON-NLS-1$
 			break;
 		case COMPARISON_GREATER_THAN:
 			configurationElement.setAttribute(NAME_COMPARISON, "greater-than"); //$NON-NLS-1$
 			break;
 		case COMPARISON_GREATER_THAN_OR_EQUAL:
-			configurationElement.setAttribute(NAME_COMPARISON,
-					"greater-than-or-equal"); //$NON-NLS-1$
+			configurationElement.setAttribute(NAME_COMPARISON, "greater-than-or-equal"); //$NON-NLS-1$
 			break;
 		default:
 			configurationElement.setAttribute(NAME_COMPARISON, "equal"); //$NON-NLS-1$

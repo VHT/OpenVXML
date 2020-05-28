@@ -39,19 +39,16 @@ public class PalletManager {
 	public PalletManager() {
 		super();
 		primitiveTypes = new HashMap<String, PalletRecord>();
-		IConfigurationElement[] primitiveExtensions = Platform
-				.getExtensionRegistry().getConfigurationElementsFor(
-						palletExtensionPointId);
+		IConfigurationElement[] primitiveExtensions = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(palletExtensionPointId);
 		for (IConfigurationElement primitiveExtension : primitiveExtensions) {
 			String id = primitiveExtension.getAttribute("id");
 			String name = primitiveExtension.getAttribute("name");
 			String className = primitiveExtension.getAttribute("class");
-			Bundle contributor = Platform.getBundle(primitiveExtension
-					.getContributor().getName());
+			Bundle contributor = Platform.getBundle(primitiveExtension.getContributor().getName());
 			try {
 				@SuppressWarnings("unchecked")
-				Class<Pallet> providerClass = (Class<Pallet>) contributor
-						.loadClass(className);
+				Class<Pallet> providerClass = (Class<Pallet>) contributor.loadClass(className);
 				PalletRecord palletRecord = new PalletRecord();
 				palletRecord.id = id;
 				palletRecord.name = name;
@@ -78,9 +75,7 @@ public class PalletManager {
 	public String getCurrentPallet() {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 		String palletId = store.getString("CurrentPallet");
-		if (palletId == null) {
-			return defaultPalletId;
-		}
+		if (palletId == null) { return defaultPalletId; }
 		return palletId;
 	}
 
@@ -101,13 +96,10 @@ public class PalletManager {
 	 */
 	public Pallet createCurrentPallet() {
 		try {
-			IPreferenceStore store = Activator.getDefault()
-					.getPreferenceStore();
+			IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 			String palletId = store.getString("CurrentPallet");
 			PalletRecord palletRecord = primitiveTypes.get(palletId);
-			if (palletRecord == null) {
-				return createDefaultPallet();
-			}
+			if (palletRecord == null) { return createDefaultPallet(); }
 			return palletRecord.clazz.newInstance();
 		} catch (Exception e) {
 			e.printStackTrace();

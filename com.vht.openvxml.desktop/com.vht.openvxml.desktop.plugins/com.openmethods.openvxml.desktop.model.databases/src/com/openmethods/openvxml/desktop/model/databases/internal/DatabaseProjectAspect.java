@@ -13,15 +13,12 @@ import org.w3c.dom.Element;
 import com.openmethods.openvxml.desktop.model.databases.IDatabaseProjectAspect;
 import com.openmethods.openvxml.desktop.model.databases.IDatabaseSet;
 
-public class DatabaseProjectAspect extends OpenVXMLProjectAspect implements
-		IDatabaseProjectAspect {
+public class DatabaseProjectAspect extends OpenVXMLProjectAspect implements IDatabaseProjectAspect {
 	private DatabaseSet databaseSet = null;
 
-	public DatabaseProjectAspect(IOpenVXMLProject project,
-			Element aspectConfiguration) {
+	public DatabaseProjectAspect(IOpenVXMLProject project, Element aspectConfiguration) {
 		super(project);
-		IFolder databasesFolder = project.getUnderlyingProject().getFolder(
-				"Databases");
+		IFolder databasesFolder = project.getUnderlyingProject().getFolder("Databases");
 		databaseSet = new DatabaseSet(this, databasesFolder);
 	}
 
@@ -37,9 +34,7 @@ public class DatabaseProjectAspect extends OpenVXMLProjectAspect implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.model.core.spi.OpenVXMLProjectAspect#
-	 * getAspectResources()
+	 * @see org.eclipse.vtp.desktop.model.core.spi.OpenVXMLProjectAspect# getAspectResources()
 	 */
 	@Override
 	public void getAspectResources(List<IWorkflowResource> resources) {
@@ -53,8 +48,7 @@ public class DatabaseProjectAspect extends OpenVXMLProjectAspect implements
 
 	@Override
 	public void removeProjectLayout() {
-		IFolder databasesFolder = getHostProject().getUnderlyingProject()
-				.getFolder("Databases");
+		IFolder databasesFolder = getHostProject().getUnderlyingProject().getFolder("Databases");
 		try {
 			databasesFolder.delete(true, null);
 		} catch (CoreException e) {
@@ -63,7 +57,6 @@ public class DatabaseProjectAspect extends OpenVXMLProjectAspect implements
 	}
 
 	@Override
-	public void writeConfiguration(Element aspectElement) {
-	}
+	public void writeConfiguration(Element aspectElement) {}
 
 }

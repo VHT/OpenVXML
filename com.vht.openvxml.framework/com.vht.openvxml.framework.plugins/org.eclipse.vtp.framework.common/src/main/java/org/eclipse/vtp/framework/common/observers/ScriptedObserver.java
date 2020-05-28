@@ -29,21 +29,16 @@ public class ScriptedObserver implements Runnable {
 	/**
 	 * Creates a new ScriptedAction.
 	 * 
-	 * @param scriptingService
-	 *            The scripting service to create an engine with.
-	 * @param configuration
-	 *            The configuration for this scripted action.
+	 * @param scriptingService The scripting service to create an engine with.
+	 * @param configuration The configuration for this scripted action.
 	 */
-	public ScriptedObserver(IScriptingService scriptingService,
-			ScriptConfiguration configuration) {
-		this.engine = scriptingService.createScriptingEngine(configuration
-				.getScriptingLanguage());
+	public ScriptedObserver(IScriptingService scriptingService, ScriptConfiguration configuration) {
+		this.engine = scriptingService.createScriptingEngine(configuration.getScriptingLanguage());
 		this.script = configuration.getScript();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.lang.Runnable#run()
 	 */
 	@Override

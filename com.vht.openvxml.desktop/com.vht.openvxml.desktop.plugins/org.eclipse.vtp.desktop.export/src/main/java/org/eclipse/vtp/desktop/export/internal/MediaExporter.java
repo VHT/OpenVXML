@@ -4,8 +4,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.vtp.desktop.export.IMediaExporter;
 import org.eclipse.vtp.desktop.model.interactive.core.IMediaProject;
 
-public final class MediaExporter extends ProjectExporter implements
-		IMediaExporter {
+public final class MediaExporter extends ProjectExporter implements IMediaExporter {
 
 	private final IMediaProject project;
 

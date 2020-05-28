@@ -25,8 +25,7 @@ public class PalletItem {
 	private Image icon;
 	private boolean popOnDrop = false;
 
-	public PalletItem(String name, Image icon, ElementFactory factory,
-			Object data) {
+	public PalletItem(String name, Image icon, ElementFactory factory, Object data) {
 		super();
 		this.name = name;
 		this.icon = icon;

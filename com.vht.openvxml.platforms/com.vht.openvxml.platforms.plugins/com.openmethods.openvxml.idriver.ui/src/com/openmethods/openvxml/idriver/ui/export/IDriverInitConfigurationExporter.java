@@ -7,27 +7,22 @@ import org.w3c.dom.Element;
 import com.openmethods.openvxml.idriver.runtime.configuration.IDriverConfiguration;
 
 public class IDriverInitConfigurationExporter implements IConfigurationExporter {
-	public IDriverInitConfigurationExporter() {
-	}
+	public IDriverInitConfigurationExporter() {}
 
 	@Override
-	public void exportConfiguration(IFlowElement flowElement,
-			Element actionElement) {
+	public void exportConfiguration(IFlowElement flowElement, Element actionElement) {
 		String uri = "http://www.eclipse.org/vtp/namespaces/config";//$NON-NLS-1$
 		IDriverConfiguration config = new IDriverConfiguration();
-		Element customConfig = (Element) flowElement
-				.getConfiguration()
-				.getElementsByTagNameNS(
-						"http://www.eclipse.org/vtp/namespaces/config", //$NON-NLS-1$
-						"custom-config").item(0); //$NON-NLS-1$
-		Element subElement = (Element) customConfig.getElementsByTagNameNS(uri,
-				"idriver-init").item(0);
+		Element customConfig = (Element) flowElement.getConfiguration().getElementsByTagNameNS(
+				"http://www.eclipse.org/vtp/namespaces/config", //$NON-NLS-1$
+				"custom-config").item(0); //$NON-NLS-1$
+		Element subElement = (Element) customConfig.getElementsByTagNameNS(uri, "idriver-init")
+				.item(0);
 		config.setCallIdVariable(subElement.getAttribute("call-id-variable"));//$NON-NLS-1$
 		config.setConnIdVariable(subElement.getAttribute("conn-id-variable"));//$NON-NLS-1$
 		config.setPortVariable(subElement.getAttribute("port-variable"));//$NON-NLS-1$
-		Element configElement = actionElement.getOwnerDocument()
-				.createElementNS(IDriverConfiguration.NAMESPACE_URI,
-						"idriver:idriver-config"); //$NON-NLS-1$
+		Element configElement = actionElement.getOwnerDocument().createElementNS(
+				IDriverConfiguration.NAMESPACE_URI, "idriver:idriver-config"); //$NON-NLS-1$
 		config.save(configElement);
 		actionElement.appendChild(configElement);
 	}
@@ -48,8 +43,7 @@ public class IDriverInitConfigurationExporter implements IConfigurationExporter 
 	}
 
 	@Override
-	public String getTargetId(IFlowElement flowElement,
-			Element afterTransitionElement) {
+	public String getTargetId(IFlowElement flowElement, Element afterTransitionElement) {
 		return flowElement.getDefaultTargetId(afterTransitionElement);
 	}
 

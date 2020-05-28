@@ -36,8 +36,7 @@ public class Exporter {
 		return mediaLocation;
 	}
 
-	public void setArchiveLocation(File archiveLocation,
-			boolean usingArchiveFile) {
+	public void setArchiveLocation(File archiveLocation, boolean usingArchiveFile) {
 		this.archiveLocation = archiveLocation;
 		this.usingArchiveFile = usingArchiveFile;
 		reloadSettings();

@@ -12,8 +12,7 @@
 package org.eclipse.vtp.desktop.editors.themes.core.commands;
 
 /**
- * This command indicates the visual workflow for creating a connector should be
- * initiated.
+ * This command indicates the visual workflow for creating a connector should be initiated.
  * 
  * @author trip
  */

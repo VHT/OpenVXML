@@ -44,27 +44,21 @@ public abstract class ConversationCommand implements ICommand {
 	/**
 	 * Invokes the implementation-specific method on the specified visitor.
 	 * 
-	 * @param visitor
-	 *            The visitor to invoke.
+	 * @param visitor The visitor to invoke.
 	 * @return The value returned by the implementation-specific method.
 	 */
 	abstract Object accept(IConversationCommandVisitor visitor);
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.ICommand#accept(
 	 * org.eclipse.vtp.framework.spi.ICommandVisitor)
 	 */
 	@Override
-	public final Object accept(ICommandVisitor visitor)
-			throws NullPointerException {
-		if (visitor == null) {
-			throw new NullPointerException("visitor"); //$NON-NLS-1$
+	public final Object accept(ICommandVisitor visitor) throws NullPointerException {
+		if (visitor == null) { throw new NullPointerException("visitor"); //$NON-NLS-1$
 		}
-		if (visitor instanceof IConversationCommandVisitor) {
-			return accept((IConversationCommandVisitor) visitor);
-		}
+		if (visitor instanceof IConversationCommandVisitor) { return accept((IConversationCommandVisitor) visitor); }
 		return visitor.visitUnknown(this);
 	}
 

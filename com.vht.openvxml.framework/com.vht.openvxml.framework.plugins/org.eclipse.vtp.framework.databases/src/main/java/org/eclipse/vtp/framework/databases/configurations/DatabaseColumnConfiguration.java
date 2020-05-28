@@ -19,8 +19,7 @@ import org.w3c.dom.Element;
  * 
  * @author Lonnie Pryor
  */
-public class DatabaseColumnConfiguration implements IConfiguration,
-		DatabaseConstants {
+public class DatabaseColumnConfiguration implements IConfiguration, DatabaseConstants {
 	/** The database long decimal type. */
 	public static final int TYPE_BIG_DECIMAL = 1;
 	/** The database long number type. */
@@ -46,8 +45,7 @@ public class DatabaseColumnConfiguration implements IConfiguration,
 	/**
 	 * Creates a new DatabaseColumnConfiguration.
 	 */
-	public DatabaseColumnConfiguration() {
-	}
+	public DatabaseColumnConfiguration() {}
 
 	/**
 	 * Returns the name of the column.
@@ -61,8 +59,7 @@ public class DatabaseColumnConfiguration implements IConfiguration,
 	/**
 	 * Sets the name of the column.
 	 * 
-	 * @param name
-	 *            The name of the column.
+	 * @param name The name of the column.
 	 */
 	public void setName(String name) {
 		this.name = name == null ? "" : name; //$NON-NLS-1$
@@ -80,8 +77,7 @@ public class DatabaseColumnConfiguration implements IConfiguration,
 	/**
 	 * Sets the type of the column.
 	 * 
-	 * @param type
-	 *            The type of the column.
+	 * @param type The type of the column.
 	 */
 	public void setType(int type) {
 		this.type = type;
@@ -89,9 +85,7 @@ public class DatabaseColumnConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#load( org.w3c.dom.Element)
 	 */
 	@Override
 	public void load(Element configurationElement) {
@@ -120,9 +114,7 @@ public class DatabaseColumnConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#save( org.w3c.dom.Element)
 	 */
 	@Override
 	public void save(Element configurationElement) {

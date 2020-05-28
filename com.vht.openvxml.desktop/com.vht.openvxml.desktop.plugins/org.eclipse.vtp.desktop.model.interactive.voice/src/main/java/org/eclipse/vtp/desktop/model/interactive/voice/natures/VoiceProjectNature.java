@@ -12,7 +12,6 @@ import org.eclipse.vtp.desktop.model.interactive.core.builders.MediaProjectBuild
 
 /**
  * @author trip
- *
  */
 public class VoiceProjectNature implements IProjectNature {
 	public static final String NATURE_ID = "org.eclipse.vtp.desktop.model.interactive.voice.VoiceProjectNature";
@@ -24,7 +23,6 @@ public class VoiceProjectNature implements IProjectNature {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.core.resources.IProjectNature#configure()
 	 */
 	@Override
@@ -33,9 +31,7 @@ public class VoiceProjectNature implements IProjectNature {
 		ICommand[] commands = desc.getBuildSpec();
 
 		for (ICommand command : commands) {
-			if (command.getBuilderName().equals(MediaProjectBuilder.BUILDER_ID)) {
-				return;
-			}
+			if (command.getBuilderName().equals(MediaProjectBuilder.BUILDER_ID)) { return; }
 		}
 
 		ICommand[] newCommands = new ICommand[commands.length + 1];
@@ -50,7 +46,6 @@ public class VoiceProjectNature implements IProjectNature {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.core.resources.IProjectNature#deconfigure()
 	 */
 	@Override
@@ -59,12 +54,10 @@ public class VoiceProjectNature implements IProjectNature {
 		ICommand[] commands = description.getBuildSpec();
 
 		for (int i = 0; i < commands.length; ++i) {
-			if (commands[i].getBuilderName().equals(
-					MediaProjectBuilder.BUILDER_ID)) {
+			if (commands[i].getBuilderName().equals(MediaProjectBuilder.BUILDER_ID)) {
 				ICommand[] newCommands = new ICommand[commands.length - 1];
 				System.arraycopy(commands, 0, newCommands, 0, i);
-				System.arraycopy(commands, i + 1, newCommands, i,
-						commands.length - i - 1);
+				System.arraycopy(commands, i + 1, newCommands, i, commands.length - i - 1);
 				description.setBuildSpec(newCommands);
 
 				return;
@@ -74,7 +67,6 @@ public class VoiceProjectNature implements IProjectNature {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.core.resources.IProjectNature#getProject()
 	 */
 	@Override
@@ -84,9 +76,7 @@ public class VoiceProjectNature implements IProjectNature {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.core.resources.IProjectNature#setProject(org.eclipse.core
+	 * @see org.eclipse.core.resources.IProjectNature#setProject(org.eclipse.core
 	 * .resources.IProject)
 	 */
 	@Override

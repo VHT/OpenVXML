@@ -9,8 +9,8 @@ public interface IMediaObject extends IAdaptable {
 	public String getName();
 
 	/**
-	 * Returns the parent of this resource. If this is a project resource this
-	 * function returns <code>this</code>.
+	 * Returns the parent of this resource. If this is a project resource this function returns
+	 * <code>this</code>.
 	 *
 	 * @return The parent of this resource resource
 	 */

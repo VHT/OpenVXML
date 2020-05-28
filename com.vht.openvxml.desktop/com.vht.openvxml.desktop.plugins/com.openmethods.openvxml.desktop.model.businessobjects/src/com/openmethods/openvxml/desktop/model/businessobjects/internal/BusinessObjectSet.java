@@ -31,17 +31,18 @@ import com.openmethods.openvxml.desktop.model.businessobjects.IBusinessObject;
 import com.openmethods.openvxml.desktop.model.businessobjects.IBusinessObjectSet;
 
 /**
- * This is a concrete implementation of <code>IBusinessObjectSet</code> and
- * provides the default behavior of that interface.
+ * This is a concrete implementation of <code>IBusinessObjectSet</code> and provides the default
+ * behavior of that interface.
  *
  * @author Trip Gilman
  * @version 2.0
  */
-public class BusinessObjectSet extends WorkflowResource implements
-		IBusinessObjectSet, IResourceChangeListener {
+public class BusinessObjectSet extends WorkflowResource
+	implements
+	IBusinessObjectSet,
+	IResourceChangeListener {
 	/**
-	 * Constant template of the initial XML format definition of a business
-	 * object.
+	 * Constant template of the initial XML format definition of a business object.
 	 */
 	private static String businessObjectTemplate = "<business-object id=\"[id]\" name=\"[name]\">"
 			+ "\t<fields></fields>" + "</business-object>";
@@ -59,14 +60,11 @@ public class BusinessObjectSet extends WorkflowResource implements
 	private List<BusinessObject> currentObjects = new ArrayList<BusinessObject>();
 
 	/**
-	 * Creates a new <code>BusinessObjectSet</code> with the given parent
-	 * application project and eclipse folder resource.
+	 * Creates a new <code>BusinessObjectSet</code> with the given parent application project and
+	 * eclipse folder resource.
 	 *
-	 * @param aspect
-	 *            The parent application project
-	 * @param folder
-	 *            The eclipse folder resource this business object set
-	 *            represents
+	 * @param aspect The parent application project
+	 * @param folder The eclipse folder resource this business object set represents
 	 */
 	public BusinessObjectSet(BusinessObjectProjectAspect aspect, IFolder folder) {
 		super();
@@ -78,7 +76,6 @@ public class BusinessObjectSet extends WorkflowResource implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IVoiceResource#getName()
 	 */
 	@Override
@@ -88,10 +85,7 @@ public class BusinessObjectSet extends WorkflowResource implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.internals.VoiceResource#getObjectId
-	 * ()
+	 * @see org.eclipse.vtp.desktop.core.project.internals.VoiceResource#getObjectId ()
 	 */
 	@Override
 	protected String getObjectId() {
@@ -100,7 +94,6 @@ public class BusinessObjectSet extends WorkflowResource implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.project.IVoiceResource#getParent()
 	 */
 	@Override
@@ -112,19 +105,14 @@ public class BusinessObjectSet extends WorkflowResource implements
 	public IBusinessObject getBusinessObject(String typeName) {
 		List<IBusinessObject> businessObjects = getBusinessObjects();
 		for (IBusinessObject businessObject : businessObjects) {
-			if (businessObject.getName().equals(typeName)) {
-				return businessObject;
-			}
+			if (businessObject.getName().equals(typeName)) { return businessObject; }
 		}
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IBusinessObjectSet#getBusinessObjects
-	 * ()
+	 * @see org.eclipse.vtp.desktop.core.project.IBusinessObjectSet#getBusinessObjects ()
 	 */
 	@Override
 	public synchronized List<IBusinessObject> getBusinessObjects() {
@@ -154,26 +142,20 @@ public class BusinessObjectSet extends WorkflowResource implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IBusinessObjectSet#createBusinessObject
+	 * @see org.eclipse.vtp.desktop.core.project.IBusinessObjectSet#createBusinessObject
 	 * (java.lang.String)
 	 */
 	@Override
-	public IBusinessObject createBusinessObject(String name)
-			throws CoreException {
+	public IBusinessObject createBusinessObject(String name) throws CoreException {
 		IFile objectFile = folder.getFile(name + ".dod");
 
-		if (objectFile.exists()) {
-			throw new IllegalArgumentException(
-					"Business Object with that name already exists: " + name);
-		}
+		if (objectFile.exists()) { throw new IllegalArgumentException(
+				"Business Object with that name already exists: " + name); }
 
 		String template = new String(businessObjectTemplate);
 		template = template.replaceAll("\\[id\\]", Guid.createGUID());
 		template = template.replaceAll("\\[name\\]", name);
-		objectFile.create(new ByteArrayInputStream(template.getBytes()), true,
-				null);
+		objectFile.create(new ByteArrayInputStream(template.getBytes()), true, null);
 
 		BusinessObject bo = new BusinessObject(this, objectFile);
 		refresh();
@@ -183,34 +165,25 @@ public class BusinessObjectSet extends WorkflowResource implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.project.IBusinessObjectSet#deleteBusinessObject
+	 * @see org.eclipse.vtp.desktop.core.project.IBusinessObjectSet#deleteBusinessObject
 	 * (org.eclipse.vtp.desktop.core.project.IBusinessObject)
 	 */
 	@Override
-	public void deleteBusinessObject(IBusinessObject businessObject)
-			throws CoreException {
+	public void deleteBusinessObject(IBusinessObject businessObject) throws CoreException {
 		businessObject.getUnderlyingFile().delete(true, null);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.internal.WorkflowResource#getAdapter
+	 * @see org.eclipse.vtp.desktop.model.core.internal.WorkflowResource#getAdapter
 	 * (java.lang.Class)
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapterClass) {
 		if (IResource.class.isAssignableFrom(adapterClass)
-				&& adapterClass.isAssignableFrom(folder.getClass())) {
-			return folder;
-		}
-		if (BusinessObjectSet.class.isAssignableFrom(adapterClass)) {
-			return this;
-		}
+				&& adapterClass.isAssignableFrom(folder.getClass())) { return folder; }
+		if (BusinessObjectSet.class.isAssignableFrom(adapterClass)) { return this; }
 		return super.getAdapter(adapterClass);
 	}
 
@@ -221,10 +194,8 @@ public class BusinessObjectSet extends WorkflowResource implements
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof BusinessObjectSet) {
-			return folder.equals(((BusinessObjectSet) obj)
-					.getAdapter(IFolder.class));
-		}
+		if (obj instanceof BusinessObjectSet) { return folder.equals(((BusinessObjectSet) obj)
+				.getAdapter(IFolder.class)); }
 		return false;
 	}
 

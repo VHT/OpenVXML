@@ -20,8 +20,7 @@ import org.w3c.dom.NodeList;
  * 
  * @author Lonnie Pryor
  */
-public class TransferMessageConfiguration implements IConfiguration,
-		InteractionsConstants {
+public class TransferMessageConfiguration implements IConfiguration, InteractionsConstants {
 	/** The destination type. */
 	private PropertyConfiguration type = null;
 	/** The destination configuration. */
@@ -30,15 +29,14 @@ public class TransferMessageConfiguration implements IConfiguration,
 	/**
 	 * Creates a new TransferMessageConfiguration.
 	 */
-	public TransferMessageConfiguration() {
-	}
+	public TransferMessageConfiguration() {}
 
 	/**
-	 * Returns the destination type for this message or <code>null</code> if no
-	 * such configuration is registered.
+	 * Returns the destination type for this message or <code>null</code> if no such configuration
+	 * is registered.
 	 * 
-	 * @return The destination type for this message or <code>null</code> if no
-	 *         such type is registered.
+	 * @return The destination type for this message or <code>null</code> if no such type is
+	 *         registered.
 	 */
 	public PropertyConfiguration getType() {
 		return type;
@@ -47,20 +45,18 @@ public class TransferMessageConfiguration implements IConfiguration,
 	/**
 	 * Sets the destination type for this message.
 	 * 
-	 * @param type
-	 *            The type for this message or <code>null</code> to remove the
-	 *            type.
+	 * @param type The type for this message or <code>null</code> to remove the type.
 	 */
 	public void setType(PropertyConfiguration type) {
 		this.type = type;
 	}
 
 	/**
-	 * Returns the destination configuration for this message or
-	 * <code>null</code> if no such configuration is registered.
+	 * Returns the destination configuration for this message or <code>null</code> if no such
+	 * configuration is registered.
 	 * 
-	 * @return The destination configuration for this message or
-	 *         <code>null</code> if no such configuration is registered.
+	 * @return The destination configuration for this message or <code>null</code> if no such
+	 *         configuration is registered.
 	 */
 	public PropertyConfiguration getDestination() {
 		return destination;
@@ -69,9 +65,8 @@ public class TransferMessageConfiguration implements IConfiguration,
 	/**
 	 * Sets the destination configuration for this message.
 	 * 
-	 * @param destination
-	 *            The configuration for this message or <code>null</code> to
-	 *            remove the configuration.
+	 * @param destination The configuration for this message or <code>null</code> to remove the
+	 *            configuration.
 	 */
 	public void setDestination(PropertyConfiguration destination) {
 		this.destination = destination;
@@ -79,21 +74,18 @@ public class TransferMessageConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.core.IConfiguration#load(org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(org.w3c.dom.Element)
 	 */
 	@Override
 	public void load(Element configurationElement) {
 		destination = null;
-		NodeList elements = configurationElement.getElementsByTagNameNS(
-				NAMESPACE_URI, NAME_PROPERTY);
+		NodeList elements = configurationElement.getElementsByTagNameNS(NAMESPACE_URI,
+				NAME_PROPERTY);
 		for (int i = 0; i < elements.getLength(); ++i) {
 			Element e = (Element) elements.item(i);
 			if ("type".equalsIgnoreCase(e.getAttribute(NAME_NAME))) {
 				(type = new PropertyConfiguration()).load(e);
-			} else if ("destination"
-					.equalsIgnoreCase(e.getAttribute(NAME_NAME))) {
+			} else if ("destination".equalsIgnoreCase(e.getAttribute(NAME_NAME))) {
 				(destination = new PropertyConfiguration()).load(e);
 			}
 		}
@@ -101,9 +93,7 @@ public class TransferMessageConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.core.IConfiguration#save(org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(org.w3c.dom.Element)
 	 */
 	@Override
 	public void save(Element configurationElement) {
@@ -113,15 +103,15 @@ public class TransferMessageConfiguration implements IConfiguration,
 			propertyName = prefix + ":" + propertyName; //$NON-NLS-1$
 		}
 		if (type != null) {
-			Element element = configurationElement.getOwnerDocument()
-					.createElementNS(NAMESPACE_URI, propertyName);
+			Element element = configurationElement.getOwnerDocument().createElementNS(
+					NAMESPACE_URI, propertyName);
 			type.save(element);
 			element.setAttribute(NAME_NAME, "type"); //$NON-NLS-1$
 			configurationElement.appendChild(element);
 		}
 		if (destination != null) {
-			Element element = configurationElement.getOwnerDocument()
-					.createElementNS(NAMESPACE_URI, propertyName);
+			Element element = configurationElement.getOwnerDocument().createElementNS(
+					NAMESPACE_URI, propertyName);
 			destination.save(element);
 			element.setAttribute(NAME_NAME, "destination"); //$NON-NLS-1$
 			configurationElement.appendChild(element);

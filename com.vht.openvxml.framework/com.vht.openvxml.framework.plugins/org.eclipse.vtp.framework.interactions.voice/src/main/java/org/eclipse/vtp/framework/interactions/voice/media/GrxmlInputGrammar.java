@@ -16,7 +16,6 @@ import org.w3c.dom.Element;
 
 /**
  * @author lonnie
- * 
  */
 public class GrxmlInputGrammar extends FileInputGrammar {
 

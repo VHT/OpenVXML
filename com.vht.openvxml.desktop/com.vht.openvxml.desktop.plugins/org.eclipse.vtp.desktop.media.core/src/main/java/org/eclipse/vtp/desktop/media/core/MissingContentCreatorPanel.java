@@ -23,9 +23,7 @@ public class MissingContentCreatorPanel extends ContentCreatorPanel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.media.core.ContentCreatorPanel#createContent()
+	 * @see org.eclipse.vtp.desktop.media.core.ContentCreatorPanel#createContent()
 	 */
 	@Override
 	public Content createContent() {
@@ -34,9 +32,7 @@ public class MissingContentCreatorPanel extends ContentCreatorPanel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.media.core.ContentCreatorPanel#createControls
+	 * @see org.eclipse.vtp.desktop.media.core.ContentCreatorPanel#createControls
 	 * (org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
@@ -47,13 +43,10 @@ public class MissingContentCreatorPanel extends ContentCreatorPanel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.media.core.ContentCreatorPanel#setInitialContent
+	 * @see org.eclipse.vtp.desktop.media.core.ContentCreatorPanel#setInitialContent
 	 * (org.eclipse.vtp.framework.interactions.core.media.Content)
 	 */
 	@Override
-	public void setInitialContent(Content content) {
-	}
+	public void setInitialContent(Content content) {}
 
 }

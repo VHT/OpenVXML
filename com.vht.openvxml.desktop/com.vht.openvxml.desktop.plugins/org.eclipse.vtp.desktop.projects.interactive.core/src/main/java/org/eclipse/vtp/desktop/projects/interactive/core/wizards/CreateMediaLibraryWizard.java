@@ -39,16 +39,14 @@ import org.eclipse.vtp.desktop.model.interactive.core.IMediaLibrariesFolder;
 import org.eclipse.vtp.desktop.model.interactive.core.IMediaLibrary;
 
 /**
- * This wizard walks the user through the steps required to create a new folder
- * in the Media Files section of an application. The user is prompted to enter a
- * name for the new folder. This name must be unique among the current folders
- * in the current directory. The folder is automatically created by this wizard
- * and so requires no actions from the caller of the wizard.
+ * This wizard walks the user through the steps required to create a new folder in the Media Files
+ * section of an application. The user is prompted to enter a name for the new folder. This name
+ * must be unique among the current folders in the current directory. The folder is automatically
+ * created by this wizard and so requires no actions from the caller of the wizard.
  *
  * @author Trip
  */
-public class CreateMediaLibraryWizard extends Wizard implements INewWizard,
-		IExecutableExtension {
+public class CreateMediaLibraryWizard extends Wizard implements INewWizard, IExecutableExtension {
 	/**
 	 * The media container (folder) that will contain the new folder.
 	 */
@@ -62,11 +60,9 @@ public class CreateMediaLibraryWizard extends Wizard implements INewWizard,
 	IConfigurationElement configElement = null;
 
 	/**
-	 * Creates a new <code>CreateMediaFolderWizard</code> instance for the given
-	 * media container.
+	 * Creates a new <code>CreateMediaFolderWizard</code> instance for the given media container.
 	 *
-	 * @param container
-	 *            The media container that will contain the new folder.
+	 * @param container The media container that will contain the new folder.
 	 */
 	public CreateMediaLibraryWizard() {
 		super();
@@ -76,21 +72,16 @@ public class CreateMediaLibraryWizard extends Wizard implements INewWizard,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org
-	 * .eclipse.core.runtime.IConfigurationElement, java.lang.String,
-	 * java.lang.Object)
+	 * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org
+	 * .eclipse.core.runtime.IConfigurationElement, java.lang.String, java.lang.Object)
 	 */
 	@Override
-	public void setInitializationData(IConfigurationElement cfig,
-			String propertyName, Object data) {
+	public void setInitializationData(IConfigurationElement cfig, String propertyName, Object data) {
 		configElement = cfig;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench,
 	 * org.eclipse.jface.viewers.IStructuredSelection)
 	 */
@@ -105,15 +96,13 @@ public class CreateMediaLibraryWizard extends Wizard implements INewWizard,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.wizard.IWizard#performFinish()
 	 */
 	@Override
 	public boolean performFinish() {
 		try {
 			IFolder mlf = container.getUnderlyingFolder();
-			IFolder newFolder = mlf.getFolder(mfwp.mediaFolderNameField
-					.getText());
+			IFolder newFolder = mlf.getFolder(mfwp.mediaFolderNameField.getText());
 			newFolder.create(true, true, null);
 			IFile dot = newFolder.getFile(".library");
 			dot.create(new ByteArrayInputStream("".getBytes()), true, null);
@@ -130,15 +119,12 @@ public class CreateMediaLibraryWizard extends Wizard implements INewWizard,
 		Text mediaFolderNameField = null;
 
 		public MediaFolderWizardPage() {
-			super("MediaLibraryPage", "Enter a name for the Media Library",
-					null);
+			super("MediaLibraryPage", "Enter a name for the Media Library", null);
 		}
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt
+		 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt
 		 * .widgets.Composite)
 		 */
 		@Override
@@ -148,8 +134,7 @@ public class CreateMediaLibraryWizard extends Wizard implements INewWizard,
 			Composite comp = new Composite(parent, SWT.NONE);
 			Label folderNameLabel = new Label(comp, SWT.NONE);
 			folderNameLabel.setText("Library Name:");
-			folderNameLabel.setSize(folderNameLabel.computeSize(SWT.DEFAULT,
-					SWT.DEFAULT));
+			folderNameLabel.setSize(folderNameLabel.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 			mediaFolderNameField = new Text(comp, SWT.SINGLE | SWT.BORDER);
 			mediaFolderNameField.addModifyListener(new ModifyListener() {
 				@Override
@@ -182,12 +167,10 @@ public class CreateMediaLibraryWizard extends Wizard implements INewWizard,
 
 				@Override
 				public void verifyText(VerifyEvent e) {
-					String currentName = mediaFolderNameField.getText()
-							.substring(0, e.start)
+					String currentName = mediaFolderNameField.getText().substring(0, e.start)
 							+ e.text
-							+ mediaFolderNameField
-									.getText(e.end, (mediaFolderNameField
-											.getText().length() - 1));
+							+ mediaFolderNameField.getText(e.end, (mediaFolderNameField.getText()
+									.length() - 1));
 					if (currentName.length() > 255) {
 						e.doit = false;
 						return;
@@ -200,10 +183,8 @@ public class CreateMediaLibraryWizard extends Wizard implements INewWizard,
 			FormData folderNameLabelData = new FormData();
 			folderNameLabelData.left = new FormAttachment(0, 10);
 			folderNameLabelData.top = new FormAttachment(0, 30);
-			folderNameLabelData.right = new FormAttachment(0,
-					10 + folderNameLabel.getSize().x);
-			folderNameLabelData.bottom = new FormAttachment(0,
-					30 + folderNameLabel.getSize().y);
+			folderNameLabelData.right = new FormAttachment(0, 10 + folderNameLabel.getSize().x);
+			folderNameLabelData.bottom = new FormAttachment(0, 30 + folderNameLabel.getSize().y);
 			folderNameLabel.setLayoutData(folderNameLabelData);
 
 			FormData folderNameFieldData = new FormData();

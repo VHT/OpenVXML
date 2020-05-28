@@ -31,10 +31,9 @@ import com.openmethods.openvxml.desktop.model.workflow.configuration.Configurati
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesign;
 
 /**
- * This class implements the <code>ConfigurationManager</code> interface and is
- * used to manage the input and output bindings for a fragment element. The data
- * is held in two hierarchies one for inputs and one for outputs. Only the brand
- * structure supports inheritance in this tree.
+ * This class implements the <code>ConfigurationManager</code> interface and is used to manage the
+ * input and output bindings for a fragment element. The data is held in two hierarchies one for
+ * inputs and one for outputs. Only the brand structure supports inheritance in this tree.
  * 
  * @author trip
  */
@@ -73,9 +72,7 @@ public class FragmentConfigurationManager implements ConfigurationManager {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.configuration.ConfigurationManager#getType()
+	 * @see org.eclipse.vtp.desktop.core.configuration.ConfigurationManager#getType()
 	 */
 	@Override
 	public String getType() {
@@ -84,10 +81,7 @@ public class FragmentConfigurationManager implements ConfigurationManager {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.core.configuration.ConfigurationManager#getXMLVersion
-	 * ()
+	 * @see org.eclipse.vtp.desktop.core.configuration.ConfigurationManager#getXMLVersion ()
 	 */
 	@Override
 	public String getXMLVersion() {
@@ -160,20 +154,16 @@ public class FragmentConfigurationManager implements ConfigurationManager {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.configuration.ConfigurationManager
+	 * @see org.eclipse.vtp.desktop.model.core.configuration.ConfigurationManager
 	 * #readConfiguration(org.w3c.dom.Element)
 	 */
 	@Override
-	public void readConfiguration(Element configuration)
-			throws ConfigurationException {
+	public void readConfiguration(Element configuration) throws ConfigurationException {
 		long t = System.currentTimeMillis();
 		entryId = configuration.getAttribute("entry-id");
 		System.out.println(System.currentTimeMillis() - t);
 		t = System.currentTimeMillis();
-		NodeList inputElementList = configuration
-				.getElementsByTagName("input-binding");
+		NodeList inputElementList = configuration.getElementsByTagName("input-binding");
 		System.out.println(System.currentTimeMillis() - t);
 		t = System.currentTimeMillis();
 		for (int i = 0; i < inputElementList.getLength(); i++) {
@@ -192,8 +182,7 @@ public class FragmentConfigurationManager implements ConfigurationManager {
 			inputBindings.put(inputName, inputBinding);
 			System.out.println();
 		}
-		NodeList exitElementList = configuration
-				.getElementsByTagName("exit-binding");
+		NodeList exitElementList = configuration.getElementsByTagName("exit-binding");
 		System.out.println(System.currentTimeMillis() - t);
 		t = System.currentTimeMillis();
 		for (int i = 0; i < exitElementList.getLength(); i++) {
@@ -216,24 +205,20 @@ public class FragmentConfigurationManager implements ConfigurationManager {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.configuration.ConfigurationManager
+	 * @see org.eclipse.vtp.desktop.model.core.configuration.ConfigurationManager
 	 * #writeConfiguration(org.w3c.dom.Element)
 	 */
 	@Override
 	public void writeConfiguration(Element configuration) {
 		configuration.setAttribute("entry-id", entryId);
 		for (InputBinding inputBinding : inputBindings.values()) {
-			Element inputElement = configuration.getOwnerDocument()
-					.createElement("input-binding");
+			Element inputElement = configuration.getOwnerDocument().createElement("input-binding");
 			configuration.appendChild(inputElement);
 			inputElement.setAttribute("name", inputBinding.getInput());
 			inputBinding.writeConfiguration(inputElement);
 		}
 		for (ExitBinding exitBinding : exitBindings.values()) {
-			Element exitElement = configuration.getOwnerDocument()
-					.createElement("exit-binding");
+			Element exitElement = configuration.getOwnerDocument().createElement("exit-binding");
 			configuration.appendChild(exitElement);
 			exitElement.setAttribute("name", exitBinding.getName());
 			exitBinding.writeConfiguration(exitElement);
@@ -242,20 +227,17 @@ public class FragmentConfigurationManager implements ConfigurationManager {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
 	public Object clone() {
-		FragmentConfigurationManager copy = new FragmentConfigurationManager(
-				brandManager);
+		FragmentConfigurationManager copy = new FragmentConfigurationManager(brandManager);
 		try {
 			// build document contents
-			DocumentBuilderFactory factory = DocumentBuilderFactory
-					.newInstance();
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document document = builder.getDOMImplementation().createDocument(
-					null, "temporary-document", null);
+			Document document = builder.getDOMImplementation().createDocument(null,
+					"temporary-document", null);
 			org.w3c.dom.Element rootElement = document.getDocumentElement();
 			rootElement.setAttribute("xml-version", XML_VERSION);
 			writeConfiguration(rootElement);

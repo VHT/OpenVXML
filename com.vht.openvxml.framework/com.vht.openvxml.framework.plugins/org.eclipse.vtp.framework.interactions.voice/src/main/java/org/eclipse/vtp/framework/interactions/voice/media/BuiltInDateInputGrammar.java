@@ -1,5 +1,4 @@
 /*--------------------------------------------------------------------------
- * Copyright (c) 2004, 2006-2007 OpenMethods, LLC
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,7 +15,6 @@ import org.w3c.dom.Element;
 
 /**
  * @author lonnie
- * 
  */
 public class BuiltInDateInputGrammar extends BuiltInInputGrammar {
 	public static final String ELEMENT_NAME = "builtin-date-input-grammar"; //$NON-NLS-1$
@@ -45,9 +43,7 @@ public class BuiltInDateInputGrammar extends BuiltInInputGrammar {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.media.CustomInputGrammar#
+	 * @see org.eclipse.vtp.framework.interactions.core.media.CustomInputGrammar#
 	 * getCustomInputData()
 	 */
 	@Override

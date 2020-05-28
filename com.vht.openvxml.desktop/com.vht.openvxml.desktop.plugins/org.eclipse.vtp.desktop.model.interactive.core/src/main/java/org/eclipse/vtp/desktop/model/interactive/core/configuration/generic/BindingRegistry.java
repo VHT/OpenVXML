@@ -19,8 +19,8 @@ import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 
 /**
- * This class tracks the types of bindings registered. The registry is a
- * singleton accessed with the getInstance() method.
+ * This class tracks the types of bindings registered. The registry is a singleton accessed with the
+ * getInstance() method.
  * 
  * @author trip
  */
@@ -43,20 +43,18 @@ public class BindingRegistry {
 	private Map<String, BindingType> bindingTypes = new HashMap<String, BindingType>();
 
 	/**
-	 * Constructs a new registry. The registry begins by loading the registered
-	 * binding types. The binding implementation class is stored in the map,
-	 * indexed by its binding type id.
+	 * Constructs a new registry. The registry begins by loading the registered binding types. The
+	 * binding implementation class is stored in the map, indexed by its binding type id.
 	 */
 	public BindingRegistry() {
 		super();
-		IConfigurationElement[] bindingTypeExtensions = Platform
-				.getExtensionRegistry().getConfigurationElementsFor(
-						bindingTypesExtensionId);
+		IConfigurationElement[] bindingTypeExtensions = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(bindingTypesExtensionId);
 		for (IConfigurationElement bindingTypeExtension : bindingTypeExtensions) {
 			String bindingTypeId = bindingTypeExtension.getAttribute("id");
 			String className = bindingTypeExtension.getAttribute("class");
-			Bundle contributor = Platform.getBundle(bindingTypeExtension
-					.getContributor().getName());
+			Bundle contributor = Platform
+					.getBundle(bindingTypeExtension.getContributor().getName());
 			try {
 				@SuppressWarnings("unchecked")
 				Class<BindingItem> bindingClass = (Class<BindingItem>) contributor
@@ -73,8 +71,7 @@ public class BindingRegistry {
 	/**
 	 * Creates a new binding item instance using the class that was registered.
 	 * 
-	 * @param bindingType
-	 *            The id of the binding type
+	 * @param bindingType The id of the binding type
 	 * @return A new binding item instance
 	 */
 	public BindingItem getBindingItem(String bindingType) {
@@ -87,8 +84,7 @@ public class BindingRegistry {
 	}
 
 	/**
-	 * A data class that stores the binding type id and the implementation
-	 * class.
+	 * A data class that stores the binding type id and the implementation class.
 	 * 
 	 * @author trip
 	 */
@@ -100,13 +96,10 @@ public class BindingRegistry {
 		Class<BindingItem> bindingItemClass;
 
 		/**
-		 * Creates a new binding type with the given id and implementation
-		 * class.
+		 * Creates a new binding type with the given id and implementation class.
 		 * 
-		 * @param id
-		 *            The id of this binding type
-		 * @param bindingItemClass
-		 *            The implementation class of this binding type
+		 * @param id The id of this binding type
+		 * @param bindingItemClass The implementation class of this binding type
 		 */
 		public BindingType(String id, Class<BindingItem> bindingItemClass) {
 			super();

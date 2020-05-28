@@ -42,16 +42,12 @@ public class MetaDataMessageAction implements IAction {
 	/**
 	 * Creates a new MetaDataMessageAction.
 	 * 
-	 * @param context
-	 *            The context to use.
-	 * @param conversation
-	 *            The conversation to use.
-	 * @param configuration
-	 *            The configuration to use.
+	 * @param context The context to use.
+	 * @param conversation The conversation to use.
+	 * @param configuration The configuration to use.
 	 */
-	public MetaDataMessageAction(IActionContext context,
-			IConversation conversation, MetaDataConfiguration configuration,
-			IPlatformSelector platformSelector) {
+	public MetaDataMessageAction(IActionContext context, IConversation conversation,
+			MetaDataConfiguration configuration, IPlatformSelector platformSelector) {
 		this.context = context;
 		this.conversation = conversation;
 		this.configuration = configuration;
@@ -60,28 +56,23 @@ public class MetaDataMessageAction implements IAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.core.IAction#execute()
 	 */
 	@Override
 	public IActionResult execute() {
-		String resultParameterName = ACTION_PREFIX
-				+ context.getActionID().replace(':', '_');
+		String resultParameterName = ACTION_PREFIX + context.getActionID().replace(':', '_');
 		String result = context.getParameter(resultParameterName);
 		context.clearParameter(resultParameterName);
 		if (IConversation.RESULT_NAME_FILLED.equals(result)) {
-			AbstractPlatform platform = (AbstractPlatform) platformSelector
-					.getSelectedPlatform();
-			if (platform.processMetaDataMessageResults(context)) {
-				return context.createResult(IActionResult.RESULT_NAME_DEFAULT);
-			}
+			AbstractPlatform platform = (AbstractPlatform) platformSelector.getSelectedPlatform();
+			if (platform.processMetaDataMessageResults(context)) { return context
+					.createResult(IActionResult.RESULT_NAME_DEFAULT); }
 			return context.createResult("error.meta-data.message"); //$NON-NLS-1$
 		} else if (IConversation.RESULT_NAME_HANGUP.equals(result)) {
 			if (context.isReportingEnabled()) {
 				Dictionary props = new Hashtable();
 				props.put("event", "error.disconnect.hangup");
-				context.report(IReporter.SEVERITY_INFO,
-						"Got disconnect during interaction.", props);
+				context.report(IReporter.SEVERITY_INFO, "Got disconnect during interaction.", props);
 			}
 			return context.createResult(IConversation.RESULT_NAME_HANGUP);
 		} else if (result != null) {
@@ -95,16 +86,12 @@ public class MetaDataMessageAction implements IAction {
 				if (context.isReportingEnabled()) {
 					Dictionary props = new Hashtable();
 					props.put("event", "metadata.message");
-					context.report(IReporter.SEVERITY_INFO,
-							"Sending meta-data.", props);
+					context.report(IReporter.SEVERITY_INFO, "Sending meta-data.", props);
 				}
-				IMetaDataMessage createMetaDataMessage = conversation
-						.createMetaDataMessage(configuration,
-								resultParameterName);
-				if (createMetaDataMessage.enqueue()) {
-					return context
-							.createResult(IActionResult.RESULT_NAME_REPEAT);
-				}
+				IMetaDataMessage createMetaDataMessage = conversation.createMetaDataMessage(
+						configuration, resultParameterName);
+				if (createMetaDataMessage.enqueue()) { return context
+						.createResult(IActionResult.RESULT_NAME_REPEAT); }
 			} catch (RuntimeException e) {
 				return context.createResult("error.meta-data.message", e); //$NON-NLS-1$
 			}

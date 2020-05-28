@@ -16,8 +16,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 /**
- * This binding item implementation represents a property value. Many elements
- * used in applications require different property settings.
+ * This binding item implementation represents a property value. Many elements used in applications
+ * require different property settings.
  * 
  * @author trip
  */
@@ -51,8 +51,7 @@ public class BindingValue {
 	/**
 	 * Sets the type of this property's value with the given type identifier.
 	 * 
-	 * @param valueType
-	 *            The type of this property's value
+	 * @param valueType The type of this property's value
 	 */
 	public void setValueType(String valueType) {
 		this.valueType = valueType;
@@ -61,19 +60,16 @@ public class BindingValue {
 	/**
 	 * Sets the value of this property to the given value.
 	 * 
-	 * @param value
-	 *            The value of this property
+	 * @param value The value of this property
 	 */
 	public void setValue(String value) {
 		this.value = value;
 	}
 
 	/**
-	 * Convenience method to simultaneously set the value and value type of this
-	 * property.
+	 * Convenience method to simultaneously set the value and value type of this property.
 	 * 
-	 * @param value
-	 *            The static value of this property
+	 * @param value The static value of this property
 	 */
 	public void setStaticValue(String value) {
 		valueType = STATIC;
@@ -81,11 +77,9 @@ public class BindingValue {
 	}
 
 	/**
-	 * Convenience method to simultaneously set the value and value type of this
-	 * property.
+	 * Convenience method to simultaneously set the value and value type of this property.
 	 * 
-	 * @param expression
-	 *            The expression to use for this property
+	 * @param expression The expression to use for this property
 	 */
 	public void setExpression(String expression) {
 		valueType = EXPRESSION;
@@ -93,11 +87,9 @@ public class BindingValue {
 	}
 
 	/**
-	 * Convenience method to simultaneously set the value and value type of this
-	 * property.
+	 * Convenience method to simultaneously set the value and value type of this property.
 	 * 
-	 * @param variable
-	 *            The variable name to use for this property
+	 * @param variable The variable name to use for this property
 	 */
 	public void setVariable(String variable) {
 		valueType = VARIABLE;
@@ -106,37 +98,31 @@ public class BindingValue {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.configuration.generic.BindingItem#
 	 * readConfiguration(org.w3c.dom.Element)
 	 */
 	public void readConfiguration(Element configuration) {
-		NodeList propertyValueElementList = configuration
-				.getElementsByTagName("property-value");
+		NodeList propertyValueElementList = configuration.getElementsByTagName("property-value");
 		if (propertyValueElementList.getLength() > 0) {
-			Element propertyValueElement = (Element) propertyValueElementList
-					.item(0);
-			String valueTypeAtt = propertyValueElement
-					.getAttribute("value-type");
+			Element propertyValueElement = (Element) propertyValueElementList.item(0);
+			String valueTypeAtt = propertyValueElement.getAttribute("value-type");
 			if (VARIABLE.equalsIgnoreCase(valueTypeAtt)) {
 				valueType = VARIABLE;
 			} else if (EXPRESSION.equalsIgnoreCase(valueTypeAtt)) {
 				valueType = EXPRESSION;
 			}
-			value = XMLUtilities.getElementTextDataNoEx(propertyValueElement,
-					true);
+			value = XMLUtilities.getElementTextDataNoEx(propertyValueElement, true);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.core.configuration.generic.BindingItem#
 	 * writeConfiguration(org.w3c.dom.Element)
 	 */
 	public void writeConfiguration(Element configuration) {
-		Element propertyValueElement = configuration.getOwnerDocument()
-				.createElement("property-value");
+		Element propertyValueElement = configuration.getOwnerDocument().createElement(
+				"property-value");
 		configuration.appendChild(propertyValueElement);
 		propertyValueElement.setAttribute("value-type", valueType);
 		propertyValueElement.setTextContent(value);
@@ -144,7 +130,6 @@ public class BindingValue {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.lang.Object#clone()
 	 */
 	@Override

@@ -37,16 +37,14 @@ import com.openmethods.openvxml.desktop.model.databases.IDatabaseSet;
 import com.openmethods.openvxml.desktop.model.databases.IDatabaseTable;
 
 /**
- * This wizard walks the user through the steps required to create a new
- * database for an application. The user is prompted to enter a name for the new
- * database. This name must be unique among the current databases in the
- * application. The database is automatically created by this wizard and so
- * requires no actions from the caller of the wizard.
+ * This wizard walks the user through the steps required to create a new database for an
+ * application. The user is prompted to enter a name for the new database. This name must be unique
+ * among the current databases in the application. The database is automatically created by this
+ * wizard and so requires no actions from the caller of the wizard.
  *
  * @author Trip
  */
-public class CreateDatabaseWizard extends Wizard implements INewWizard,
-		IExecutableExtension {
+public class CreateDatabaseWizard extends Wizard implements INewWizard, IExecutableExtension {
 	/**
 	 * The database set that will contain the new database descriptor
 	 */
@@ -60,11 +58,9 @@ public class CreateDatabaseWizard extends Wizard implements INewWizard,
 	IConfigurationElement configElement = null;
 
 	/**
-	 * Creates a new <code>CreateDatabaseWizard</code> instance in the given
-	 * database set.
+	 * Creates a new <code>CreateDatabaseWizard</code> instance in the given database set.
 	 *
-	 * @param databaseSet
-	 *            The database set that will contain the new database descriptor
+	 * @param databaseSet The database set that will contain the new database descriptor
 	 */
 	public CreateDatabaseWizard() {
 		super();
@@ -74,22 +70,17 @@ public class CreateDatabaseWizard extends Wizard implements INewWizard,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org
-	 * .eclipse.core.runtime.IConfigurationElement, java.lang.String,
-	 * java.lang.Object)
+	 * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org
+	 * .eclipse.core.runtime.IConfigurationElement, java.lang.String, java.lang.Object)
 	 */
 	@Override
-	public void setInitializationData(IConfigurationElement cfig,
-			String propertyName, Object data) {
+	public void setInitializationData(IConfigurationElement cfig, String propertyName, Object data) {
 		configElement = cfig;
 		System.out.println(data);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench,
 	 * org.eclipse.jface.viewers.IStructuredSelection)
 	 */
@@ -98,8 +89,7 @@ public class CreateDatabaseWizard extends Wizard implements INewWizard,
 		if (selection.isEmpty()) {
 			try {
 				selection = (IStructuredSelection) PlatformUI.getWorkbench()
-						.getActiveWorkbenchWindow().getSelectionService()
-						.getSelection();
+						.getActiveWorkbenchWindow().getSelectionService().getSelection();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -111,14 +101,13 @@ public class CreateDatabaseWizard extends Wizard implements INewWizard,
 		} else if (obj instanceof IDatabase) {
 			this.databaseSet = (IDatabaseSet) ((IDatabase) obj).getParent();
 		} else if (obj instanceof IDatabaseTable) {
-			this.databaseSet = (IDatabaseSet) ((IDatabase) ((IDatabaseTable) obj)
-					.getParent()).getParent();
+			this.databaseSet = (IDatabaseSet) ((IDatabase) ((IDatabaseTable) obj).getParent())
+					.getParent();
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.jface.wizard.IWizard#performFinish()
 	 */
 	@Override
@@ -143,9 +132,7 @@ public class CreateDatabaseWizard extends Wizard implements INewWizard,
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt
+		 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt
 		 * .widgets.Composite)
 		 */
 		@Override
@@ -155,8 +142,7 @@ public class CreateDatabaseWizard extends Wizard implements INewWizard,
 			Composite comp = new Composite(parent, SWT.NONE);
 			Label brandNameLabel = new Label(comp, SWT.NONE);
 			brandNameLabel.setText("Database Name:");
-			brandNameLabel.setSize(brandNameLabel.computeSize(SWT.DEFAULT,
-					SWT.DEFAULT));
+			brandNameLabel.setSize(brandNameLabel.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 			brandNameField = new Text(comp, SWT.SINGLE | SWT.BORDER);
 			brandNameField.addVerifyListener(new VerifyListener() {
 
@@ -202,11 +188,10 @@ public class CreateDatabaseWizard extends Wizard implements INewWizard,
 
 				@Override
 				public void verifyText(VerifyEvent e) {
-					String currentName = brandNameField.getText().substring(0,
-							e.start)
+					String currentName = brandNameField.getText().substring(0, e.start)
 							+ e.text
-							+ brandNameField.getText(e.end, (brandNameField
-									.getText().length() - 1));
+							+ brandNameField
+									.getText(e.end, (brandNameField.getText().length() - 1));
 					if (currentName.length() > 255) {
 						e.doit = false;
 						return;
@@ -219,10 +204,8 @@ public class CreateDatabaseWizard extends Wizard implements INewWizard,
 			FormData brandNameLabelData = new FormData();
 			brandNameLabelData.left = new FormAttachment(0, 10);
 			brandNameLabelData.top = new FormAttachment(0, 30);
-			brandNameLabelData.right = new FormAttachment(0,
-					10 + brandNameLabel.getSize().x);
-			brandNameLabelData.bottom = new FormAttachment(0,
-					30 + brandNameLabel.getSize().y);
+			brandNameLabelData.right = new FormAttachment(0, 10 + brandNameLabel.getSize().x);
+			brandNameLabelData.bottom = new FormAttachment(0, 30 + brandNameLabel.getSize().y);
 			brandNameLabel.setLayoutData(brandNameLabelData);
 
 			FormData brandNameFieldData = new FormData();

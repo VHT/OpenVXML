@@ -38,41 +38,26 @@ public class TimeValue {
 
 	private void addGroup(String group) {
 		if (group.endsWith("ms")) {
-			millis += Double
-					.parseDouble(group.substring(0, group.length() - 2));
+			millis += Double.parseDouble(group.substring(0, group.length() - 2));
 		} else if (group.endsWith("s")) {
-			millis += Double
-					.parseDouble(group.substring(0, group.length() - 1)) * 1000;
+			millis += Double.parseDouble(group.substring(0, group.length() - 1)) * 1000;
 		} else if (group.endsWith("m")) {
-			millis += Double
-					.parseDouble(group.substring(0, group.length() - 1)) * 60000;
+			millis += Double.parseDouble(group.substring(0, group.length() - 1)) * 60000;
 		} else if (group.endsWith("h")) {
-			millis += Double
-					.parseDouble(group.substring(0, group.length() - 1)) * 3600000;
+			millis += Double.parseDouble(group.substring(0, group.length() - 1)) * 3600000;
 		} else if (group.endsWith("d")) {
-			millis += Double
-					.parseDouble(group.substring(0, group.length() - 1)) * 86400000;
+			millis += Double.parseDouble(group.substring(0, group.length() - 1)) * 86400000;
 		}
 	}
 
 	public String toTimeString(int groups) {
 		long local = millis;
 		if (local == 0) {
-			if ((groups & DAYS) == DAYS) {
-				return "0d";
-			}
-			if ((groups & HOURS) == HOURS) {
-				return "0h";
-			}
-			if ((groups & MINUTES) == MINUTES) {
-				return "0m";
-			}
-			if ((groups & SECONDS) == SECONDS) {
-				return "0s";
-			}
-			if ((groups & MILLIS) == MILLIS) {
-				return "0ms";
-			}
+			if ((groups & DAYS) == DAYS) { return "0d"; }
+			if ((groups & HOURS) == HOURS) { return "0h"; }
+			if ((groups & MINUTES) == MINUTES) { return "0m"; }
+			if ((groups & SECONDS) == SECONDS) { return "0s"; }
+			if ((groups & MILLIS) == MILLIS) { return "0ms"; }
 		}
 		StringBuilder buf = new StringBuilder();
 		if ((groups & DAYS) == DAYS) {
@@ -84,8 +69,7 @@ public class TimeValue {
 			}
 			if (local > 0 && (groups & (DAYS - 1)) == 0) {
 				double partialDays = local / 86400000d;
-				Matcher decimalMatcher = decimalPattern.matcher(Double
-						.toString(partialDays));
+				Matcher decimalMatcher = decimalPattern.matcher(Double.toString(partialDays));
 				if (decimalMatcher.find()) {
 					buf.append(decimalMatcher.group());
 				}
@@ -101,8 +85,7 @@ public class TimeValue {
 			}
 			if (local > 0 && (groups & (HOURS - 1)) == 0) {
 				double partialHours = local / 3600000d;
-				Matcher decimalMatcher = decimalPattern.matcher(Double
-						.toString(partialHours));
+				Matcher decimalMatcher = decimalPattern.matcher(Double.toString(partialHours));
 				if (decimalMatcher.find()) {
 					buf.append(decimalMatcher.group());
 				}
@@ -118,8 +101,7 @@ public class TimeValue {
 			}
 			if (local > 0 && (groups & (MINUTES - 1)) == 0) {
 				double partialMinutes = local / 60000d;
-				Matcher decimalMatcher = decimalPattern.matcher(Double
-						.toString(partialMinutes));
+				Matcher decimalMatcher = decimalPattern.matcher(Double.toString(partialMinutes));
 				if (decimalMatcher.find()) {
 					buf.append(decimalMatcher.group());
 				}
@@ -135,8 +117,7 @@ public class TimeValue {
 			}
 			if (local > 0 && (groups & (SECONDS - 1)) == 0) {
 				double partialSeconds = local / 1000d;
-				Matcher decimalMatcher = decimalPattern.matcher(Double
-						.toString(partialSeconds));
+				Matcher decimalMatcher = decimalPattern.matcher(Double.toString(partialSeconds));
 				if (decimalMatcher.find()) {
 					buf.append(decimalMatcher.group());
 				}
@@ -154,9 +135,7 @@ public class TimeValue {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (super.equals(obj)) {
-			return true;
-		}
+		if (super.equals(obj)) { return true; }
 		if (obj instanceof String) {
 			try {
 				obj = new TimeValue((String) obj);
@@ -164,35 +143,27 @@ public class TimeValue {
 				return false;
 			}
 		}
-		if (obj instanceof TimeValue) {
-			return millis == ((TimeValue) obj).millis;
-		}
+		if (obj instanceof TimeValue) { return millis == ((TimeValue) obj).millis; }
 		return false;
 	}
 
 	public int compareTo(Object obj) {
-		if (super.equals(obj)) {
-			return 0;
-		}
+		if (super.equals(obj)) { return 0; }
 		if (obj instanceof String) {
 			try {
 				obj = new TimeValue((String) obj);
 			} catch (Exception e) {
-				throw new ClassCastException("Could not compare to "
-						+ obj.getClass().getName());
+				throw new ClassCastException("Could not compare to " + obj.getClass().getName());
 			}
 		}
 		if (obj instanceof TimeValue) {
 			long dif = millis - ((TimeValue) obj).millis;
 			if (dif < 0) {
 				return -1;
-			} else if (dif > 0) {
-				return 1;
-			}
+			} else if (dif > 0) { return 1; }
 			return 0;
 		}
-		throw new ClassCastException("Could not compare to "
-				+ obj.getClass().getName());
+		throw new ClassCastException("Could not compare to " + obj.getClass().getName());
 	}
 
 	public static void main(String[] args) {

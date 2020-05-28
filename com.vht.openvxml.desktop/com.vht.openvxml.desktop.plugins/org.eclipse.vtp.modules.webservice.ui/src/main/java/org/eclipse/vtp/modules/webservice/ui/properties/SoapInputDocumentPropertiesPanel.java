@@ -88,9 +88,9 @@ import org.eclipse.vtp.modules.webservice.ui.widgets.VariableBrowserDialog;
 import com.openmethods.openvxml.desktop.model.branding.IBrand;
 import com.openmethods.openvxml.desktop.model.branding.internal.BrandContext;
 import com.openmethods.openvxml.desktop.model.businessobjects.FieldType;
+import com.openmethods.openvxml.desktop.model.businessobjects.FieldType.Primitive;
 import com.openmethods.openvxml.desktop.model.businessobjects.IBusinessObjectProjectAspect;
 import com.openmethods.openvxml.desktop.model.businessobjects.IBusinessObjectSet;
-import com.openmethods.openvxml.desktop.model.businessobjects.FieldType.Primitive;
 import com.openmethods.openvxml.desktop.model.webservices.schema.AttributeItem;
 import com.openmethods.openvxml.desktop.model.webservices.schema.ComplexContentModel;
 import com.openmethods.openvxml.desktop.model.webservices.schema.ComplexType;
@@ -109,9 +109,9 @@ import com.openmethods.openvxml.desktop.model.workflow.design.ObjectDefinition;
 import com.openmethods.openvxml.desktop.model.workflow.design.Variable;
 import com.openmethods.openvxml.desktop.model.workflow.internal.VariableHelper;
 
-public class SoapInputDocumentPropertiesPanel extends
-	DesignElementPropertiesPanel implements IOperationListener
-{
+public class SoapInputDocumentPropertiesPanel extends DesignElementPropertiesPanel
+	implements
+	IOperationListener {
 	private WebserviceBindingManager manager = null;
 	private InputDocumentStructure structure = null;
 	private SoapBindingOperation currentOperation = null;
@@ -119,42 +119,38 @@ public class SoapInputDocumentPropertiesPanel extends
 	private Composite rootComp = null;
 	boolean composing = true;
 	private SchemaEngine schemaEngine = null;
-	/**	Holds a sorted list of the variables available to this element */
+	/** Holds a sorted list of the variables available to this element */
 	private List<Variable> variables = new ArrayList<Variable>();
 	List<BrandedUIItem> valueStacks = new LinkedList<BrandedUIItem>();
 	Map<UIContentComposite, List<Variable>> variableScopes = new HashMap<UIContentComposite, List<Variable>>();
-	private Map<DocumentItem, Map<String, Boolean>> expansionStates = 
-		new HashMap<DocumentItem, Map<String, Boolean>>();
+	private Map<DocumentItem, Map<String, Boolean>> expansionStates = new HashMap<DocumentItem, Map<String, Boolean>>();
 	private IBusinessObjectSet businessObjectSet = null;
-	
 
-	public SoapInputDocumentPropertiesPanel(String name, IDesignElement element)
-	{
+	public SoapInputDocumentPropertiesPanel(String name, IDesignElement element) {
 		super(name, element);
 		IOpenVXMLProject project = element.getDesign().getDocument().getProject();
-		IBusinessObjectProjectAspect businessObjectAspect = (IBusinessObjectProjectAspect)project.getProjectAspect(IBusinessObjectProjectAspect.ASPECT_ID);
+		IBusinessObjectProjectAspect businessObjectAspect = (IBusinessObjectProjectAspect) project
+				.getProjectAspect(IBusinessObjectProjectAspect.ASPECT_ID);
 		businessObjectSet = businessObjectAspect.getBusinessObjectSet();
-		manager = (WebserviceBindingManager)element.getConfigurationManager(WebserviceBindingManager.TYPE_ID);
+		manager = (WebserviceBindingManager) element
+				.getConfigurationManager(WebserviceBindingManager.TYPE_ID);
 		structure = manager.getInputDocumentStructure();
 		variables = element.getDesign().getVariablesFor(element);
 	}
-	
+
 	@Override
-	public void createControls(Composite parent)
-	{
+	public void createControls(Composite parent) {
 		FormToolkit toolkit = new FormToolkit(parent.getDisplay());
 		Composite mainComp = new Composite(parent, SWT.NONE);
 		mainComp.setBackground(parent.getBackground());
 		mainComp.setLayout(new GridLayout(1, false));
-		
-		final Section contentSection =
-			toolkit.createSection(mainComp, Section.TITLE_BAR);
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL
-						| GridData.VERTICAL_ALIGN_BEGINNING);
+
+		final Section contentSection = toolkit.createSection(mainComp, Section.TITLE_BAR);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
 		gd.horizontalSpan = 1;
 		contentSection.setLayoutData(gd);
 		contentSection.setText("Input Document Contents");
-		
+
 		scrollComp = new ScrolledComposite(mainComp, SWT.V_SCROLL | SWT.BORDER);
 		scrollComp.setAlwaysShowScrollBars(true);
 		scrollComp.setExpandHorizontal(true);
@@ -166,29 +162,24 @@ public class SoapInputDocumentPropertiesPanel extends
 		layoutData.heightHint = 400;
 		layoutData.widthHint = 600;
 		scrollComp.setLayoutData(layoutData);
-		
+
 		buildDocumentDisplay();
 	}
-	
+
 	Point origin = null;
-	
-	public void markOrigin()
-	{
+
+	public void markOrigin() {
 		origin = scrollComp.getOrigin();
 	}
-	
-	public void restoreOrigin()
-	{
+
+	public void restoreOrigin() {
 		scrollComp.setOrigin(origin);
 	}
-	
-	public void buildDocumentDisplay()
-	{
+
+	public void buildDocumentDisplay() {
 		scrollComp.setLayoutDeferred(true);
-		if(rootComp != null)
-		{
-			for(BrandedUIItem brandedItem : valueStacks)
-			{
+		if (rootComp != null) {
+			for (BrandedUIItem brandedItem : valueStacks) {
 				brandedItem.getValueStack().save();
 			}
 			rootComp.dispose();
@@ -201,33 +192,26 @@ public class SoapInputDocumentPropertiesPanel extends
 		layout.marginWidth = 0;
 		layout.marginLeft = 5;
 		rootComp.setLayout(layout);
-		if(currentOperation == null)
-		{
+		if (currentOperation == null) {
 			Label messageText = new Label(rootComp, SWT.NONE);
 			messageText.setText("No soap operation has been selected.");
 			messageText.setSize(10, 200);
 			scrollComp.setMinSize(1, 200);
-		}
-		else
-		{
-			try
-			{
+		} else {
+			try {
 				List<Part> bodyParts = currentOperation.getInput().getBody().getParts();
-				for(Part part : bodyParts)
-				{
-					if(part instanceof TypedPart)
-					{
-						TypedPart tp = (TypedPart)part;
+				for (Part part : bodyParts) {
+					if (part instanceof TypedPart) {
+						TypedPart tp = (TypedPart) part;
 						Type type = tp.getType();
 						schemaEngine = new SchemaEngine(type);
-					}
-					else
-					{
-						ElementPart ep = (ElementPart)part;
-						ElementItem ei= ep.getElementItem();
+					} else {
+						ElementPart ep = (ElementPart) part;
+						ElementItem ei = ep.getElementItem();
 						ComplexType rootType = new ComplexType(ei.getOwnerSchema(), "roottype");
 						ComplexContentModel ccm = new ComplexContentModel(false);
-						ElementGroup eg = new ElementGroup(ei.getOwnerSchema(), ElementGroup.SEQUENCE);
+						ElementGroup eg = new ElementGroup(ei.getOwnerSchema(),
+								ElementGroup.SEQUENCE);
 						eg.addElementObject(ei);
 						ccm.setElementGroup(eg);
 						rootType.setContentModel(ccm);
@@ -235,19 +219,17 @@ public class SoapInputDocumentPropertiesPanel extends
 					}
 				}
 				processStructure();
-				if(lastContext != null)
-					setConfigurationContext(lastContext);
-			}
-			catch (Exception e)
-			{
+				if (lastContext != null) setConfigurationContext(lastContext);
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			rootComp.setSize(rootComp.computeSize(scrollComp.getClientArea().width - 1, SWT.DEFAULT));
+			rootComp.setSize(rootComp
+					.computeSize(scrollComp.getClientArea().width - 1, SWT.DEFAULT));
 		}
 		scrollComp.setLayoutDeferred(false);
-//		scrollComp.layout(true, true);
+		// scrollComp.layout(true, true);
 	}
-	
+
 	LinkedList<Composite> comps = new LinkedList<Composite>();
 	LinkedList<DocumentItemContainer> containers = new LinkedList<DocumentItemContainer>();
 	LinkedList<DocumentItem> lastItems = new LinkedList<DocumentItem>();
@@ -257,14 +239,12 @@ public class SoapInputDocumentPropertiesPanel extends
 	UISuggestionComposite suggestionComp = null;
 	List<SuggestionCommand> suggestions = new LinkedList<SuggestionCommand>();
 	LinkedList<UIContentComposite> uiScopes = new LinkedList<UIContentComposite>();
-	
-	private void postNewContainer(UIContentComposite content, DocumentItemContainer container)
-	{
+
+	private void postNewContainer(UIContentComposite content, DocumentItemContainer container) {
 		Composite comp = content;
-		if(content instanceof UIContentContainer)
-			comp = ((UIContentContainer)content).getContainerComposite();
-		if(comp != null)
-		{
+		if (content instanceof UIContentContainer) comp = ((UIContentContainer) content)
+				.getContainerComposite();
+		if (comp != null) {
 			comps.offerLast(comp);
 			depth++;
 			siblingCounters.offerLast(0);
@@ -274,9 +254,8 @@ public class SoapInputDocumentPropertiesPanel extends
 		hasIf.offerLast(false);
 		uiScopes.offerLast(content);
 	}
-	
-	private void processStructure()
-	{
+
+	private void processStructure() {
 		comps.clear();
 		containers.clear();
 		lastItems.clear();
@@ -292,17 +271,12 @@ public class SoapInputDocumentPropertiesPanel extends
 		suggestions.clear();
 		uiScopes.clear();
 		uiScopes.offerLast(null);
-		CommandListener cl = new CommandListener()
-		{
-			public void proccess(Command command)
-			{
-				try
-				{
-//					System.out.println("got command: " + command);
-					if(command instanceof ContainerBoundaryCommand)
-					{
-						if(!(containers.peekLast() instanceof ConditionalContainerSet))
-						{
+		CommandListener cl = new CommandListener() {
+			public void proccess(Command command) {
+				try {
+					// System.out.println("got command: " + command);
+					if (command instanceof ContainerBoundaryCommand) {
+						if (!(containers.peekLast() instanceof ConditionalContainerSet)) {
 							comps.removeLast();
 							depth--;
 							siblingCounters.removeLast();
@@ -313,88 +287,79 @@ public class SoapInputDocumentPropertiesPanel extends
 						suggestionComp = null;
 						suggestions.clear();
 						uiScopes.removeLast();
-					}
-					else if(command instanceof RealizeDocumentItemCommand)
-					{
-						RealizeDocumentItemCommand itemCommand = (RealizeDocumentItemCommand)command;
+					} else if (command instanceof RealizeDocumentItemCommand) {
+						RealizeDocumentItemCommand itemCommand = (RealizeDocumentItemCommand) command;
 						DocumentItem item = itemCommand.getDocumentItem();
-						if(item instanceof ForLoopDocumentItem)
-						{
-							ForLoopDocumentItem forContainer = (ForLoopDocumentItem)item;
-							UIForContent forContent = new UIForContent(uiScopes.peekLast(), comps.peekLast(), true);
+						if (item instanceof ForLoopDocumentItem) {
+							ForLoopDocumentItem forContainer = (ForLoopDocumentItem) item;
+							UIForContent forContent = new UIForContent(uiScopes.peekLast(), comps
+									.peekLast(), true);
 							forContent.setContent(forContainer);
 							forContent.setValidated(itemCommand.isValid());
-//							forContent.setDepth(depth);
+							// forContent.setDepth(depth);
 							Integer order = siblingCounters.pollLast();
-//							forContent.setOrder(order);
+							// forContent.setOrder(order);
 							siblingCounters.offerLast(++order);
 							lastItems.removeLast();
 							lastItems.offerLast(item);
-							
+
 							postNewContainer(forContent, forContainer);
-						}
-						else if(item instanceof ConditionalContainerSet)
-						{
+						} else if (item instanceof ConditionalContainerSet) {
 							lastItems.offerLast(item);
-							postNewContainer(null, (DocumentItemContainer)item);
-						}
-						else if(item instanceof ConditionalDocumentItem)
-						{
-							ConditionalDocumentItem conditionalContainer = (ConditionalDocumentItem)item;
-							UIConditionalContent conditionalContent = new UIConditionalContent(uiScopes.peekLast(), comps.peekLast(), true);
+							postNewContainer(null, (DocumentItemContainer) item);
+						} else if (item instanceof ConditionalDocumentItem) {
+							ConditionalDocumentItem conditionalContainer = (ConditionalDocumentItem) item;
+							UIConditionalContent conditionalContent = new UIConditionalContent(
+									uiScopes.peekLast(), comps.peekLast(), true);
 							conditionalContent.setContent(conditionalContainer);
 							conditionalContent.setElseIf(hasIf.pollLast());
 							conditionalContent.setValidated(itemCommand.isValid());
-//							conditionalContent.setDepth(depth);
+							// conditionalContent.setDepth(depth);
 							Integer order = siblingCounters.pollLast();
-//							conditionalContent.setOrder(order);
+							// conditionalContent.setOrder(order);
 							siblingCounters.offerLast(++order);
 							hasIf.offerLast(true);
-							
+
 							postNewContainer(conditionalContent, conditionalContainer);
-						}
-						else if(item instanceof ElseDocumentItem)
-						{
-							ElseDocumentItem elseContainer = (ElseDocumentItem)item;
-							UIElseContent elseContent = new UIElseContent(uiScopes.peekLast(), comps.peekLast(), true);
+						} else if (item instanceof ElseDocumentItem) {
+							ElseDocumentItem elseContainer = (ElseDocumentItem) item;
+							UIElseContent elseContent = new UIElseContent(uiScopes.peekLast(),
+									comps.peekLast(), true);
 							elseContent.setContent(elseContainer);
 							elseContent.setValidated(itemCommand.isValid());
-//							elseContent.setDepth(depth);
+							// elseContent.setDepth(depth);
 							Integer order = siblingCounters.pollLast();
-//							elseContent.setOrder(order);
+							// elseContent.setOrder(order);
 							siblingCounters.offerLast(++order);
 							postNewContainer(elseContent, elseContainer);
-						}
-						else if(item instanceof TextDocumentItem)
-						{
+						} else if (item instanceof TextDocumentItem) {
 							Composite comp = comps.peekLast();
-							if(comp instanceof UIElementContent && ((UIElementContent)comp).isTextOnly())
-							{
-								UIElementContent edi = (UIElementContent)comp;
-								edi.setText((TextDocumentItem)item);
-							}
-							else
-							{
-								UITextContent textContent = new UITextContent(uiScopes.peekLast(), comps.peekLast(), true);
-								textContent.setContent((TextDocumentItem)item);
+							if (comp instanceof UIElementContent
+									&& ((UIElementContent) comp).isTextOnly()) {
+								UIElementContent edi = (UIElementContent) comp;
+								edi.setText((TextDocumentItem) item);
+							} else {
+								UITextContent textContent = new UITextContent(uiScopes.peekLast(),
+										comps.peekLast(), true);
+								textContent.setContent((TextDocumentItem) item);
 								textContent.setValidated(itemCommand.isValid());
-//								textContent.setDepth(depth);
+								// textContent.setDepth(depth);
 								Integer order = siblingCounters.pollLast();
-//								textContent.setOrder(order);
+								// textContent.setOrder(order);
 								siblingCounters.offerLast(++order);
 								lastItems.removeLast();
 								lastItems.offerLast(item);
 							}
-						}
-						else if(item instanceof ElementDocumentItem)
-						{
-							ElementDocumentItem elementContainer = (ElementDocumentItem)item;
-							UIElementContent elementContent = new UIElementContent(uiScopes.peekLast(), comps.peekLast(), true, ((RealizeElementItemCommand)command).isTextOnly());
+						} else if (item instanceof ElementDocumentItem) {
+							ElementDocumentItem elementContainer = (ElementDocumentItem) item;
+							UIElementContent elementContent = new UIElementContent(uiScopes
+									.peekLast(), comps.peekLast(), true,
+									((RealizeElementItemCommand) command).isTextOnly());
 							elementContent.setContent(elementContainer);
 							elementContent.setValidated(itemCommand.isValid());
-//							elementContent.setDepth(depth);
+							// elementContent.setDepth(depth);
 							Integer order = siblingCounters.pollLast();
-//							elementContent.setOrder(order);
+							// elementContent.setOrder(order);
 							siblingCounters.offerLast(++order);
 							lastItems.removeLast();
 							lastItems.offerLast(item);
@@ -402,176 +367,149 @@ public class SoapInputDocumentPropertiesPanel extends
 						}
 						suggestions.clear();
 						suggestionComp = null;
-					}
-					else if(command instanceof SuggestionCommand)
-					{
+					} else if (command instanceof SuggestionCommand) {
 						boolean matched = false;
 						Composite currentComp = comps.peekLast();
 						DocumentItemContainer currentContainer = containers.peekLast();
 						DocumentItem lastItem = lastItems.peekLast();
-//						System.out.println("Last Item: " + lastItem);
-//						if(lastItem instanceof ElementDocumentItem)
-//						{
-//							System.out.println(((ElementDocumentItem)lastItem).getName());
-//						}
-						for(SuggestionCommand sc : suggestions)
-						{
-							if(sc.getClass().equals(command.getClass()))
-							{
-								if(!(command instanceof ElementSuggestionCommand))
-								{
+						// System.out.println("Last Item: " + lastItem);
+						// if(lastItem instanceof ElementDocumentItem)
+						// {
+						// System.out.println(((ElementDocumentItem)lastItem).getName());
+						// }
+						for (SuggestionCommand sc : suggestions) {
+							if (sc.getClass().equals(command.getClass())) {
+								if (!(command instanceof ElementSuggestionCommand)) {
 									matched = true;
 									break;
-								}
-								else
-								{
-									ElementSuggestionCommand esc = (ElementSuggestionCommand)command;
-									ElementSuggestionCommand esc2 = (ElementSuggestionCommand)sc;
-									if(esc2.getElement().getName() == esc.getElement().getName())
-									{
+								} else {
+									ElementSuggestionCommand esc = (ElementSuggestionCommand) command;
+									ElementSuggestionCommand esc2 = (ElementSuggestionCommand) sc;
+									if (esc2.getElement().getName() == esc.getElement().getName()) {
 										matched = true;
 										break;
 									}
 								}
 							}
 						}
-						if(!matched)
-						{
-							SuggestionCommand sc = (SuggestionCommand)command;
+						if (!matched) {
+							SuggestionCommand sc = (SuggestionCommand) command;
 							suggestions.add(sc);
-							if(suggestionComp == null)
-							{
+							if (suggestionComp == null) {
 								suggestionComp = new UISuggestionComposite(currentComp, SWT.NONE);
 							}
-//							System.err.println(suggestionComp + "@" + suggestionComp.hashCode());
-							if(command instanceof ForLoopSuggestionCommand)
-							{
-								ForLoopSuggestion fls = new ForLoopSuggestion(currentContainer, sc.isRequired());
+							// System.err.println(suggestionComp + "@" + suggestionComp.hashCode());
+							if (command instanceof ForLoopSuggestionCommand) {
+								ForLoopSuggestion fls = new ForLoopSuggestion(currentContainer, sc
+										.isRequired());
 								fls.setInsertionPoint(lastItem);
 								suggestionComp.addSuggestion(fls);
-							}
-							else if(command instanceof CCSSuggestionCommand)
-							{
-								IfSuggestion ifSuggestion = new IfSuggestion(currentContainer, sc.isRequired());
+							} else if (command instanceof CCSSuggestionCommand) {
+								IfSuggestion ifSuggestion = new IfSuggestion(currentContainer, sc
+										.isRequired());
 								ifSuggestion.setInsertionPoint(lastItem);
 								suggestionComp.addSuggestion(ifSuggestion);
-							}
-							else if(command instanceof ElseIfSuggestionCommand)
-							{
-								ElseIfSuggestion elseIfSuggestion = new ElseIfSuggestion(currentContainer, sc.isRequired());
+							} else if (command instanceof ElseIfSuggestionCommand) {
+								ElseIfSuggestion elseIfSuggestion = new ElseIfSuggestion(
+										currentContainer, sc.isRequired());
 								elseIfSuggestion.setInsertionPoint(lastItem);
 								suggestionComp.addSuggestion(elseIfSuggestion);
-							}
-							else if(command instanceof ElseSuggestionCommand)
-							{
-								ElseSuggestion elseSuggestion = new ElseSuggestion(currentContainer, sc.isRequired());
+							} else if (command instanceof ElseSuggestionCommand) {
+								ElseSuggestion elseSuggestion = new ElseSuggestion(
+										currentContainer, sc.isRequired());
 								elseSuggestion.setInsertionPoint(lastItem);
 								suggestionComp.addSuggestion(elseSuggestion);
-							}
-							else if(command instanceof TextSuggestionCommand)
-							{
-								TextSuggestion textSuggestion = new TextSuggestion(currentContainer, sc.isRequired());
+							} else if (command instanceof TextSuggestionCommand) {
+								TextSuggestion textSuggestion = new TextSuggestion(
+										currentContainer, sc.isRequired());
 								textSuggestion.setInsertionPoint(lastItem);
 								suggestionComp.addSuggestion(textSuggestion);
-							}
-							else if(command instanceof ElementSuggestionCommand)
-							{
-								ElementSuggestion elementSuggestion = new ElementSuggestion(((ElementSuggestionCommand)command).getElement(), currentContainer, sc.isRequired());
+							} else if (command instanceof ElementSuggestionCommand) {
+								ElementSuggestion elementSuggestion = new ElementSuggestion(
+										((ElementSuggestionCommand) command).getElement(),
+										currentContainer, sc.isRequired());
 								elementSuggestion.setInsertionPoint(lastItem);
 								suggestionComp.addSuggestion(elementSuggestion);
 							}
 						}
 					}
-				}
-				catch (Exception e)
-				{
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			}	
+			}
 		};
-		
+
 		schemaEngine.addCommandListener(cl);
-		
+
 		schemaEngine.processDocumentStructure(structure);
-		
+
 		schemaEngine.removeCommandListener(cl);
 	}
-	
+
 	@Override
-	public void save()
-	{
-		for(BrandedUIItem brandedItem : valueStacks)
-		{
+	public void save() {
+		for (BrandedUIItem brandedItem : valueStacks) {
 			brandedItem.getValueStack().save();
 		}
 		getElement().commitConfigurationChanges(manager);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.vtp.desktop.editors.core.configuration.ComponentPropertiesPanel#cancel()
 	 */
 	@Override
-	public void cancel()
-	{
+	public void cancel() {
 		getElement().rollbackConfigurationChanges(manager);
 	}
-	
+
 	private Map<String, Object> lastContext = null;
 
 	@Override
-	public void setConfigurationContext(Map<String, Object> values)
-	{
+	public void setConfigurationContext(Map<String, Object> values) {
 		lastContext = values;
-		IBrand brand = (IBrand)values.get(BrandContext.CONTEXT_ID);
-		for(BrandedUIItem brandedItem : valueStacks)
-		{
+		IBrand brand = (IBrand) values.get(BrandContext.CONTEXT_ID);
+		for (BrandedUIItem brandedItem : valueStacks) {
 			BrandBinding brandBinding = brandedItem.getBinding().getBrandBinding(brand);
 			brandedItem.getValueStack().setSetting(brandBinding);
 		}
 	}
 
-	public void resolve()
-	{
+	public void resolve() {
 		List<ComponentPropertiesPanel> panels = getContainer().getPanels();
-		for(ComponentPropertiesPanel panel : panels)
-		{
-			if(panel instanceof SoapServiceSelectionPropertiesPanel)
-			{
-				((SoapServiceSelectionPropertiesPanel)panel).addOperationListener(this);
+		for (ComponentPropertiesPanel panel : panels) {
+			if (panel instanceof SoapServiceSelectionPropertiesPanel) {
+				((SoapServiceSelectionPropertiesPanel) panel).addOperationListener(this);
 				break;
 			}
 		}
 	}
 
-	public void operationChanged(SoapBindingOperation operation)
-	{
-		if(operation != currentOperation)
-		{
+	public void operationChanged(SoapBindingOperation operation) {
+		if (operation != currentOperation) {
 			currentOperation = operation;
-			if(scrollComp != null)
-			{
+			if (scrollComp != null) {
 				valueStacks.clear();
 				buildDocumentDisplay();
 				variableScopes.clear();
 			}
 		}
 	}
-	
-	public interface BrandedUIItem
-	{
+
+	public interface BrandedUIItem {
 		public BrandedBinding getBinding();
+
 		public ValueStack getValueStack();
 	}
 
-	public class UIContentComposite extends Composite
-	{
+	public class UIContentComposite extends Composite {
 		public static final int SINGLE_DELETE = 1;
 		public static final int COMPLEX_DELETE = 2;
 		public static final int MOVE_UP = 4;
 		public static final int MOVE_DOWN = 8;
 		public static final int MOVE_OUT = 16;
 		public static final int MOVE_IN = 32;
-		
+
 		@SuppressWarnings("unused")
 		private int depth = 0;
 		@SuppressWarnings("unused")
@@ -585,7 +523,7 @@ public class SoapInputDocumentPropertiesPanel extends
 		private Image icon = null;
 		@SuppressWarnings("unused")
 		private String title = null;
-		
+
 		private Composite titleComp = null;
 		private Label iconLabel = null;
 		private Label titleLabel = null;
@@ -597,15 +535,13 @@ public class SoapInputDocumentPropertiesPanel extends
 		private ToolItem moveInItem = null;
 		private ToolItem moveOutItem = null;
 		private UIContentComposite scoping = null;
-		
-		public UIContentComposite(UIContentComposite scoping, Composite parent, int style, boolean composing)
-		{
+
+		public UIContentComposite(UIContentComposite scoping, Composite parent, int style,
+				boolean composing) {
 			super(parent, SWT.NONE);
 			this.scoping = scoping;
-			this.addPaintListener(new PaintListener()
-			{
-				public void paintControl(PaintEvent e)
-				{
+			this.addPaintListener(new PaintListener() {
+				public void paintControl(PaintEvent e) {
 					GC g = e.gc;
 					Color oldForground = g.getForeground();
 					g.setForeground(borderColor);
@@ -636,7 +572,7 @@ public class SoapInputDocumentPropertiesPanel extends
 			iconLabel = new Label(titleComp, SWT.NONE);
 			iconLabel.setText("");
 			gd = new GridData();
-//			gd.exclude = true;
+			// gd.exclude = true;
 			iconLabel.setLayoutData(gd);
 			titleLabel = new Label(titleComp, SWT.NONE);
 			titleLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -645,123 +581,99 @@ public class SoapInputDocumentPropertiesPanel extends
 			buttonBar = new ToolBar(coolBar, SWT.FLAT);
 			CoolItem buttonBarItem = new CoolItem(coolBar, SWT.NONE);
 			buttonBarItem.setControl(buttonBar);
-			if((style & MOVE_OUT) > 0)
-			{
+			if ((style & MOVE_OUT) > 0) {
 				moveOutItem = new ToolItem(buttonBar, SWT.PUSH);
-//				moveOutItem.setText("mo");
-				moveOutItem.addSelectionListener(new SelectionListener()
-				{
-					public void widgetDefaultSelected(SelectionEvent e)
-					{
-					}
-	
-					public void widgetSelected(SelectionEvent e)
-					{
+				// moveOutItem.setText("mo");
+				moveOutItem.addSelectionListener(new SelectionListener() {
+					public void widgetDefaultSelected(SelectionEvent e) {}
+
+					public void widgetSelected(SelectionEvent e) {
 						moveOut();
 					}
 				});
 				moveOutItem.setEnabled(false);
 			}
-			if((style & MOVE_IN) > 0)
-			{
+			if ((style & MOVE_IN) > 0) {
 				moveInItem = new ToolItem(buttonBar, SWT.PUSH);
-//				moveInItem.setText("mi");
-				moveInItem.addSelectionListener(new SelectionListener()
-				{
-					public void widgetDefaultSelected(SelectionEvent e)
-					{
-					}
-	
-					public void widgetSelected(SelectionEvent e)
-					{
+				// moveInItem.setText("mi");
+				moveInItem.addSelectionListener(new SelectionListener() {
+					public void widgetDefaultSelected(SelectionEvent e) {}
+
+					public void widgetSelected(SelectionEvent e) {
 						moveIn();
 					}
 				});
 				moveInItem.setEnabled(false);
 			}
-			if((style & MOVE_UP) > 0)
-			{
+			if ((style & MOVE_UP) > 0) {
 				moveUpItem = new ToolItem(buttonBar, SWT.PUSH);
-//				moveUpItem.setText("mu");
+				// moveUpItem.setText("mu");
 				moveUpItem.setImage(Activator.getDefault().getImageRegistry().get("MOVE_UP"));
-				moveUpItem.setDisabledImage(Activator.getDefault().getImageRegistry().get("MOVE_UP_DISABLED"));
-				moveUpItem.addSelectionListener(new SelectionListener()
-				{
-					public void widgetDefaultSelected(SelectionEvent e)
-					{
-					}
-	
-					public void widgetSelected(SelectionEvent e)
-					{
+				moveUpItem.setDisabledImage(Activator.getDefault().getImageRegistry().get(
+						"MOVE_UP_DISABLED"));
+				moveUpItem.addSelectionListener(new SelectionListener() {
+					public void widgetDefaultSelected(SelectionEvent e) {}
+
+					public void widgetSelected(SelectionEvent e) {
 						moveUp();
 					}
 				});
 				moveUpItem.setEnabled(false);
 			}
-			if((style & MOVE_DOWN) > 0)
-			{
+			if ((style & MOVE_DOWN) > 0) {
 				moveDownItem = new ToolItem(buttonBar, SWT.PUSH);
-//				moveDownItem.setText("md");
+				// moveDownItem.setText("md");
 				moveDownItem.setImage(Activator.getDefault().getImageRegistry().get("MOVE_DOWN"));
-				moveDownItem.setDisabledImage(Activator.getDefault().getImageRegistry().get("MOVE_DOWN_DISABLED"));
-				moveDownItem.addSelectionListener(new SelectionListener()
-				{
-					public void widgetDefaultSelected(SelectionEvent e)
-					{
-					}
-	
-					public void widgetSelected(SelectionEvent e)
-					{
+				moveDownItem.setDisabledImage(Activator.getDefault().getImageRegistry().get(
+						"MOVE_DOWN_DISABLED"));
+				moveDownItem.addSelectionListener(new SelectionListener() {
+					public void widgetDefaultSelected(SelectionEvent e) {}
+
+					public void widgetSelected(SelectionEvent e) {
 						moveDown();
 					}
 				});
 				moveDownItem.setEnabled(false);
 			}
-			if((style & SINGLE_DELETE) > 0)
-				deleteItem = new ToolItem (buttonBar, SWT.PUSH);
-			else
-			{
-				deleteItem = new ToolItem (buttonBar, SWT.DROP_DOWN);
-				deleteItem.addListener (SWT.Selection, new Listener () {
-					public void handleEvent (Event event) {
+			if ((style & SINGLE_DELETE) > 0) deleteItem = new ToolItem(buttonBar, SWT.PUSH);
+			else {
+				deleteItem = new ToolItem(buttonBar, SWT.DROP_DOWN);
+				deleteItem.addListener(SWT.Selection, new Listener() {
+					public void handleEvent(Event event) {
 						if (event.detail == SWT.ARROW) {
-							final Menu menu = new Menu (buttonBar.getShell(), SWT.POP_UP);
+							final Menu menu = new Menu(buttonBar.getShell(), SWT.POP_UP);
 							populateDeleteMenu(menu);
-							Rectangle rect = deleteItem.getBounds ();
-							Point pt = new Point (rect.x, rect.y + rect.height);
-							pt = buttonBar.toDisplay (pt);
-							menu.setLocation (pt.x, pt.y);
-							menu.setVisible (true);
-							menu.addMenuListener(new MenuListener()
-							{
-								public void menuHidden(MenuEvent e)
-								{
-									menu.getDisplay().asyncExec(new Runnable() { public void run() {menu.dispose();}});
+							Rectangle rect = deleteItem.getBounds();
+							Point pt = new Point(rect.x, rect.y + rect.height);
+							pt = buttonBar.toDisplay(pt);
+							menu.setLocation(pt.x, pt.y);
+							menu.setVisible(true);
+							menu.addMenuListener(new MenuListener() {
+								public void menuHidden(MenuEvent e) {
+									menu.getDisplay().asyncExec(new Runnable() {
+										public void run() {
+											menu.dispose();
+										}
+									});
 								}
 
-								public void menuShown(MenuEvent e)
-								{
-								}
+								public void menuShown(MenuEvent e) {}
 							});
 						}
 					}
 				});
 			}
-			deleteItem.addSelectionListener(new SelectionListener()
-			{
-				public void widgetDefaultSelected(SelectionEvent e)
-				{
-				}
+			deleteItem.addSelectionListener(new SelectionListener() {
+				public void widgetDefaultSelected(SelectionEvent e) {}
 
-				public void widgetSelected(SelectionEvent e)
-				{
-					if (e.detail != SWT.ARROW)
-					{
+				public void widgetSelected(SelectionEvent e) {
+					if (e.detail != SWT.ARROW) {
 						delete();
 					}
 				}
 			});
-			deleteItem.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_TOOL_DELETE));
+			deleteItem.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(
+					ISharedImages.IMG_TOOL_DELETE));
 			buttonBar.pack();
 			buttonBarItem.setSize(buttonBar.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 			coolBar.pack();
@@ -771,151 +683,114 @@ public class SoapInputDocumentPropertiesPanel extends
 			gd.heightHint = size.y;
 			coolBar.setLayoutData(gd);
 		}
-		
-		public List<Variable> getVariableScope()
-		{
-			if(scoping != null)
-			{
-				return scoping.getVariableScope();
-			}
+
+		public List<Variable> getVariableScope() {
+			if (scoping != null) { return scoping.getVariableScope(); }
 			return variables;
 		}
-		
-		protected void postScopeChange()
-		{
-			for(Control child : this.getChildren())
-			{
-				if(child instanceof UIContentComposite)
-				{
-					((UIContentComposite)child).scopeChanged();
+
+		protected void postScopeChange() {
+			for (Control child : this.getChildren()) {
+				if (child instanceof UIContentComposite) {
+					((UIContentComposite) child).scopeChanged();
 				}
 			}
 		}
-		
-		protected void scopeChanged()
-		{
+
+		protected void scopeChanged() {
 			postScopeChange();
 		}
-		
-		protected int getButtonFlags()
-		{
+
+		protected int getButtonFlags() {
 			return buttonFlags;
 		}
-		
-		protected void updateButtons(int buttonFlags)
-		{
+
+		protected void updateButtons(int buttonFlags) {
 			this.buttonFlags = buttonFlags;
 			boolean moveOut = (buttonFlags & MOVE_OUT) > 0;
 			boolean moveIn = (buttonFlags & MOVE_IN) > 0;
 			boolean moveUp = (buttonFlags & MOVE_UP) > 0;
 			boolean moveDown = (buttonFlags & MOVE_DOWN) > 0;
-			if(moveOutItem != null) moveOutItem.setEnabled(moveOut);
-			if(moveInItem != null) moveInItem.setEnabled(moveIn);
-			if(moveUpItem != null) moveUpItem.setEnabled(moveUp);
-			if(moveDownItem != null) moveDownItem.setEnabled(moveDown);
+			if (moveOutItem != null) moveOutItem.setEnabled(moveOut);
+			if (moveInItem != null) moveInItem.setEnabled(moveIn);
+			if (moveUpItem != null) moveUpItem.setEnabled(moveUp);
+			if (moveDownItem != null) moveDownItem.setEnabled(moveDown);
 		}
-		
-		public void dispose()
-		{
+
+		public void dispose() {
 			borderColor.dispose();
 			accentColor.dispose();
 			super.dispose();
 		}
-		
-		public boolean isValidated()
-		{
+
+		public boolean isValidated() {
 			return validated;
 		}
-		
-		public void setValidated(boolean validated)
-		{
+
+		public void setValidated(boolean validated) {
 			this.validated = validated;
-			if(!validated)
-				titleLabel.setForeground(this.getDisplay().getSystemColor(SWT.COLOR_RED));
+			if (!validated) titleLabel.setForeground(this.getDisplay()
+					.getSystemColor(SWT.COLOR_RED));
 		}
-		
-		public boolean isComposing()
-		{
+
+		public boolean isComposing() {
 			return composing;
 		}
-		
-		public void updateContext(IBrand brand)
-		{
-			for(Control c : this.getChildren())
-			{
-				if(c instanceof UIContentComposite)
-				{
-					((UIContentComposite)c).updateContext(brand);
+
+		public void updateContext(IBrand brand) {
+			for (Control c : this.getChildren()) {
+				if (c instanceof UIContentComposite) {
+					((UIContentComposite) c).updateContext(brand);
 				}
 			}
 		}
-		
-		public void setTitle(String title)
-		{
+
+		public void setTitle(String title) {
 			this.titleLabel.setText(title);
 		}
-		
-		public void setIcon(Image icon)
-		{
+
+		public void setIcon(Image icon) {
 			this.iconLabel.setImage(icon);
-			((GridData)this.iconLabel.getLayoutData()).exclude = (icon == null);
+			((GridData) this.iconLabel.getLayoutData()).exclude = (icon == null);
 			titleComp.layout(true, true);
 		}
-		
-		protected void delete()
-		{
-		}
-		
-		protected void populateDeleteMenu(Menu menu)
-		{
-		}
-		
-		protected void moveUp()
-		{
-		}
-		
-		protected void moveDown()
-		{
-		}
-		
-		protected void moveOut()
-		{
-		}
-		
-		protected void moveIn()
-		{
-		}
+
+		protected void delete() {}
+
+		protected void populateDeleteMenu(Menu menu) {}
+
+		protected void moveUp() {}
+
+		protected void moveDown() {}
+
+		protected void moveOut() {}
+
+		protected void moveIn() {}
 	}
-	
-	public abstract class UIContentContainer extends UIContentComposite
-	{
-		public UIContentContainer(UIContentComposite scoping, Composite parent, int style, boolean composing)
-		{
+
+	public abstract class UIContentContainer extends UIContentComposite {
+		public UIContentContainer(UIContentComposite scoping, Composite parent, int style,
+				boolean composing) {
 			super(scoping, parent, style, composing);
 		}
-		
-		protected void postScopeChange()
-		{
-			for(Control child : getContainerComposite().getChildren())
-			{
-				if(child instanceof UIContentComposite)
-				{
-					((UIContentComposite)child).scopeChanged();
+
+		protected void postScopeChange() {
+			for (Control child : getContainerComposite().getChildren()) {
+				if (child instanceof UIContentComposite) {
+					((UIContentComposite) child).scopeChanged();
 				}
 			}
 		}
-		
+
 		public abstract Composite getContainerComposite();
 	}
 
-	public class UITextContent extends UIContentComposite implements BrandedUIItem
-	{
+	public class UITextContent extends UIContentComposite implements BrandedUIItem {
 		private TextDocumentItem textItem = null;
 		private ValueStack valueStack = null;
 		private Text contentArea = null;
-		
-		public UITextContent(UIContentComposite scoping, final Composite parent, boolean composing)
-		{
+
+		public UITextContent(UIContentComposite scoping, final Composite parent, boolean composing) {
 			super(scoping, parent, SINGLE_DELETE, composing);
 			setTitle("Text Content");
 			Composite bodyComp = UIHelper.createWrapperComposite(this, 0);
@@ -925,33 +800,28 @@ public class SoapInputDocumentPropertiesPanel extends
 			valueStack = new ValueStack("", "", getVariableScope());
 			valueStack.createControls(bodyComp);
 			contentArea = new Text(valueStack.getValueComposite(), SWT.BORDER | SWT.H_SCROLL);
-			valueStack.setValueControl(new ValueControl()
-			{
-				public String getValue()
-	            {
+			valueStack.setValueControl(new ValueControl() {
+				public String getValue() {
 					return contentArea.getText();
-	            }
+				}
 
-				public void setValue(String value)
-	            {
+				public void setValue(String value) {
 					contentArea.setText(value == null ? "" : value);
-	            }
+				}
 			});
-			contentArea.addModifyListener(new ModifyListener()
-			{
-				public void modifyText(ModifyEvent e)
-				{
-					Point size = contentArea.computeSize(contentArea.getSize().x, SWT.DEFAULT, true);
-					GridData gd = (GridData)contentArea.getLayoutData();
+			contentArea.addModifyListener(new ModifyListener() {
+				public void modifyText(ModifyEvent e) {
+					Point size = contentArea
+							.computeSize(contentArea.getSize().x, SWT.DEFAULT, true);
+					GridData gd = (GridData) contentArea.getLayoutData();
 					gd.minimumHeight = Math.max(18, size.y);
-					rootComp.setSize(rootComp.computeSize(scrollComp.getClientArea().width - 1, SWT.DEFAULT));
+					rootComp.setSize(rootComp.computeSize(scrollComp.getClientArea().width - 1,
+							SWT.DEFAULT));
 					scrollComp.layout(true, true);
 				}
 			});
-			contentArea.addListener(SWT.MouseWheel, new Listener()
-			{
-				public void handleEvent(Event event)
-				{
+			contentArea.addListener(SWT.MouseWheel, new Listener() {
+				public void handleEvent(Event event) {
 					Point origin = scrollComp.getOrigin();
 					origin.y -= event.count;
 					event.doit = false;
@@ -964,25 +834,21 @@ public class SoapInputDocumentPropertiesPanel extends
 			contentArea.setLayoutData(gd);
 			valueStacks.add(this);
 		}
-		
-		public void setContent(TextDocumentItem textItem)
-		{
+
+		public void setContent(TextDocumentItem textItem) {
 			this.textItem = textItem;
 		}
 
-		public BrandedBinding getBinding()
-		{
+		public BrandedBinding getBinding() {
 			return textItem;
 		}
 
-		public ValueStack getValueStack()
-		{
+		public ValueStack getValueStack() {
 			return valueStack;
 		}
 	}
-	
-	public class UIConditionalContent extends UIContentContainer
-	{
+
+	public class UIConditionalContent extends UIContentContainer {
 		private ConditionalDocumentItem ifItem = null;
 		private Text conditionText = null;
 		private boolean elseif = false;
@@ -990,9 +856,8 @@ public class SoapInputDocumentPropertiesPanel extends
 		private Composite container = null;
 		private Twistie propertiesExpander = null;
 		private Twistie contentsExpander = null;
-		
-		public UIConditionalContent(UIContentComposite scoping, Composite parent, boolean composing)
-		{
+
+		public UIConditionalContent(UIContentComposite scoping, Composite parent, boolean composing) {
 			super(scoping, parent, COMPLEX_DELETE | MOVE_UP | MOVE_DOWN, composing);
 			setIcon(Activator.getDefault().getImageRegistry().get("SCRIPT"));
 			final Composite bodyComp = new Composite(this, SWT.NONE);
@@ -1003,36 +868,30 @@ public class SoapInputDocumentPropertiesPanel extends
 			GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 			gd.horizontalIndent = 15;
 			bodyComp.setLayoutData(gd);
-			
+
 			propertiesExpander = new Twistie(bodyComp, SWT.NO_FOCUS);
 			propertiesExpander.setExpanded(true);
 			Label propertiesIconLabel = new Label(bodyComp, SWT.NONE);
-			propertiesIconLabel.setImage(Activator.getDefault().getImageRegistry().get("ATTRIBUTE_GROUP"));
+			propertiesIconLabel.setImage(Activator.getDefault().getImageRegistry().get(
+					"ATTRIBUTE_GROUP"));
 			propertiesIconLabel.setLayoutData(new GridData());
 			Label propertiesLabel = new Label(bodyComp, SWT.NONE);
 			propertiesLabel.setText("Properties");
 			propertiesLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 			propertiesComp = new Composite(bodyComp, SWT.NONE);
-			propertiesExpander.addHyperlinkListener(new IHyperlinkListener()
-			{
-				public void linkExited(HyperlinkEvent e)
-				{
-				}
-				
-				public void linkEntered(HyperlinkEvent e)
-				{
-				}
-				
-				public void linkActivated(HyperlinkEvent e)
-				{
-					GridData gd = (GridData)propertiesComp.getLayoutData();
+			propertiesExpander.addHyperlinkListener(new IHyperlinkListener() {
+				public void linkExited(HyperlinkEvent e) {}
+
+				public void linkEntered(HyperlinkEvent e) {}
+
+				public void linkActivated(HyperlinkEvent e) {
+					GridData gd = (GridData) propertiesComp.getLayoutData();
 					gd.exclude = !propertiesExpander.isExpanded();
 					propertiesComp.setVisible(propertiesExpander.isExpanded());
 					rootComp.layout(true, true);
 					Map<String, Boolean> states = expansionStates.get(ifItem);
-					if(states == null)
-					{
+					if (states == null) {
 						states = new HashMap<String, Boolean>();
 						expansionStates.put(ifItem, states);
 					}
@@ -1049,42 +908,34 @@ public class SoapInputDocumentPropertiesPanel extends
 			conditionLabel.setLayoutData(new GridData());
 			conditionText = new Text(propertiesComp, SWT.BORDER | SWT.SINGLE);
 			conditionText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-			conditionText.addModifyListener(new ModifyListener()
-			{
-				public void modifyText(ModifyEvent e)
-				{
+			conditionText.addModifyListener(new ModifyListener() {
+				public void modifyText(ModifyEvent e) {
 					ifItem.setCondition(conditionText.getText());
 				}
 			});
-			
+
 			contentsExpander = new Twistie(bodyComp, SWT.NO_FOCUS);
 			contentsExpander.setExpanded(true);
 			Label contentsIconLabel = new Label(bodyComp, SWT.NONE);
-			contentsIconLabel.setImage(Activator.getDefault().getImageRegistry().get("COMPLEX_TYPE"));
+			contentsIconLabel.setImage(Activator.getDefault().getImageRegistry()
+					.get("COMPLEX_TYPE"));
 			contentsIconLabel.setLayoutData(new GridData());
 			Label contentsLabel = new Label(bodyComp, SWT.NONE);
 			contentsLabel.setText("Contents");
 			contentsLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-			
+
 			container = new Composite(bodyComp, SWT.NONE);
-			contentsExpander.addHyperlinkListener(new IHyperlinkListener()
-			{
-				public void linkExited(HyperlinkEvent e)
-				{
-				}
-				
-				public void linkEntered(HyperlinkEvent e)
-				{
-				}
-				
-				public void linkActivated(HyperlinkEvent e)
-				{
-					GridData gd = (GridData)container.getLayoutData();
+			contentsExpander.addHyperlinkListener(new IHyperlinkListener() {
+				public void linkExited(HyperlinkEvent e) {}
+
+				public void linkEntered(HyperlinkEvent e) {}
+
+				public void linkActivated(HyperlinkEvent e) {
+					GridData gd = (GridData) container.getLayoutData();
 					gd.exclude = !contentsExpander.isExpanded();
 					container.setVisible(contentsExpander.isExpanded());
 					Map<String, Boolean> states = expansionStates.get(ifItem);
-					if(states == null)
-					{
+					if (states == null) {
 						states = new HashMap<String, Boolean>();
 						expansionStates.put(ifItem, states);
 					}
@@ -1101,57 +952,46 @@ public class SoapInputDocumentPropertiesPanel extends
 			gd.horizontalIndent = 17;
 			container.setLayoutData(gd);
 		}
-		
-		public Composite getContainerComposite()
-		{
+
+		public Composite getContainerComposite() {
 			return container;
 		}
-		
-		public void setElseIf(boolean elseif)
-		{
+
+		public void setElseIf(boolean elseif) {
 			this.elseif = elseif;
 			int flags = getButtonFlags();
-			List<ConditionalDocumentItem> elseifs = ((ConditionalContainerSet)ifItem.getParent()).getElseIfs();
-			if(elseif)
-			{
+			List<ConditionalDocumentItem> elseifs = ((ConditionalContainerSet) ifItem.getParent())
+					.getElseIfs();
+			if (elseif) {
 				setTitle("ELSE IF");
 				flags |= MOVE_UP;
-				for(int i = 0; i < elseifs.size() - 1; i++)
-				{
-					if(elseifs.get(i).equals(ifItem))
-					{
+				for (int i = 0; i < elseifs.size() - 1; i++) {
+					if (elseifs.get(i).equals(ifItem)) {
 						flags |= MOVE_DOWN;
 						break;
 					}
 				}
-			}
-			else
-			{
+			} else {
 				setTitle("IF");
-				if(elseifs.size() > 0)
-					flags |= MOVE_DOWN;
+				if (elseifs.size() > 0) flags |= MOVE_DOWN;
 			}
 			updateButtons(flags);
 		}
-		
-		public void setContent(ConditionalDocumentItem ifItem)
-		{
+
+		public void setContent(ConditionalDocumentItem ifItem) {
 			this.ifItem = ifItem;
 			Map<String, Boolean> states = expansionStates.get(ifItem);
-			if(states != null)
-			{
+			if (states != null) {
 				Boolean state = states.get("properties");
-				if(state == null)
-					state = true;
+				if (state == null) state = true;
 				propertiesExpander.setExpanded(state);
-				GridData gd = (GridData)propertiesComp.getLayoutData();
+				GridData gd = (GridData) propertiesComp.getLayoutData();
 				gd.exclude = !propertiesExpander.isExpanded();
 				propertiesComp.setVisible(propertiesExpander.isExpanded());
 				state = states.get("contents");
-				if(state == null)
-					state = true;
+				if (state == null) state = true;
 				contentsExpander.setExpanded(state);
-				gd = (GridData)container.getLayoutData();
+				gd = (GridData) container.getLayoutData();
 				gd.exclude = !contentsExpander.isExpanded();
 				container.setVisible(contentsExpander.isExpanded());
 				rootComp.layout(true, true);
@@ -1160,33 +1000,24 @@ public class SoapInputDocumentPropertiesPanel extends
 		}
 
 		@Override
-		protected void delete()
-		{
-			ConditionalContainerSet parent = (ConditionalContainerSet)ifItem.getParent();
-			if(elseif)
-			{
+		protected void delete() {
+			ConditionalContainerSet parent = (ConditionalContainerSet) ifItem.getParent();
+			if (elseif) {
 				parent.removeItem(ifItem);
 				expansionStates.remove(ifItem);
-			}
-			else
-			{
+			} else {
 				List<ConditionalDocumentItem> elseIfs = parent.getElseIfs();
-				if(elseIfs.size() > 0)
-				{
+				if (elseIfs.size() > 0) {
 					ConditionalDocumentItem firstElseIf = elseIfs.get(0);
 					parent.removeItem(firstElseIf);
 					expansionStates.remove(ifItem);
 					parent.setIf(firstElseIf);
-				}
-				else
-				{
+				} else {
 					expansionStates.remove(parent.getIf());
-					for(ConditionalDocumentItem elseIf : parent.getElseIfs())
-					{
+					for (ConditionalDocumentItem elseIf : parent.getElseIfs()) {
 						expansionStates.remove(elseIf);
 					}
-					if(parent.getElse() != null)
-					{
+					if (parent.getElse() != null) {
 						expansionStates.remove(parent.getElse());
 					}
 					parent.getParent().removeItem(parent);
@@ -1196,28 +1027,22 @@ public class SoapInputDocumentPropertiesPanel extends
 			buildDocumentDisplay();
 			restoreOrigin();
 		}
-		
-		protected void moveUp()
-		{
-			ConditionalContainerSet parent = (ConditionalContainerSet)ifItem.getParent();
+
+		protected void moveUp() {
+			ConditionalContainerSet parent = (ConditionalContainerSet) ifItem.getParent();
 			List<ConditionalDocumentItem> elseIfs = parent.getElseIfs();
 			int i = 0;
-			for(;i < elseIfs.size(); i++)
-			{
-				if(elseIfs.get(i).equals(ifItem))
-				{
+			for (; i < elseIfs.size(); i++) {
+				if (elseIfs.get(i).equals(ifItem)) {
 					break;
 				}
 			}
-			if(i == 0)
-			{
+			if (i == 0) {
 				ConditionalDocumentItem oi = parent.getIf();
 				parent.removeItem(ifItem);
 				parent.setIf(ifItem);
 				parent.insertItem(oi, 0);
-			}
-			else
-			{
+			} else {
 				parent.removeItem(ifItem);
 				parent.insertItem(ifItem, i - 1);
 			}
@@ -1225,25 +1050,19 @@ public class SoapInputDocumentPropertiesPanel extends
 			buildDocumentDisplay();
 			restoreOrigin();
 		}
-		
-		protected void moveDown()
-		{
-			ConditionalContainerSet parent = (ConditionalContainerSet)ifItem.getParent();
-			if(!elseif)
-			{
+
+		protected void moveDown() {
+			ConditionalContainerSet parent = (ConditionalContainerSet) ifItem.getParent();
+			if (!elseif) {
 				ConditionalDocumentItem oi = parent.getElseIfs().get(0);
 				parent.removeItem(oi);
 				parent.setIf(oi);
 				parent.insertItem(ifItem, 0);
-			}
-			else
-			{
+			} else {
 				List<ConditionalDocumentItem> elseIfs = parent.getElseIfs();
 				int i = 0;
-				for(; i < elseIfs.size() - 1; i++)
-				{
-					if(elseIfs.get(i).equals(ifItem))
-					{
+				for (; i < elseIfs.size() - 1; i++) {
+					if (elseIfs.get(i).equals(ifItem)) {
 						break;
 					}
 				}
@@ -1256,63 +1075,48 @@ public class SoapInputDocumentPropertiesPanel extends
 		}
 
 		@Override
-		protected void populateDeleteMenu(Menu menu)
-		{
-			final ConditionalContainerSet parent = (ConditionalContainerSet)ifItem.getParent();
-			if(parent != null)
-			{
-				if(!elseif)
-				{
+		protected void populateDeleteMenu(Menu menu) {
+			final ConditionalContainerSet parent = (ConditionalContainerSet) ifItem.getParent();
+			if (parent != null) {
+				if (!elseif) {
 					MenuItem removeEntireSet = new MenuItem(menu, SWT.NONE);
 					removeEntireSet.setText("Remove Entire Conditional Set");
-					removeEntireSet.addSelectionListener(new SelectionListener()
-					{
-						public void widgetDefaultSelected(SelectionEvent e)
-						{
-						}
-	
-						public void widgetSelected(SelectionEvent e)
-						{
+					removeEntireSet.addSelectionListener(new SelectionListener() {
+						public void widgetDefaultSelected(SelectionEvent e) {}
+
+						public void widgetSelected(SelectionEvent e) {
 							parent.getParent().removeItem(parent);
 							markOrigin();
 							buildDocumentDisplay();
 							restoreOrigin();
 						}
-					}); 
+					});
 				}
-				if(parent.getElseIfs().size() > 0)
-				{
+				if (parent.getElseIfs().size() > 0) {
 					MenuItem removeConditional = new MenuItem(menu, SWT.NONE);
 					removeConditional.setText("Remove This Condition");
-					removeConditional.addSelectionListener(new SelectionListener()
-					{
-						public void widgetDefaultSelected(SelectionEvent e)
-						{
-						}
-	
-						public void widgetSelected(SelectionEvent e)
-						{
+					removeConditional.addSelectionListener(new SelectionListener() {
+						public void widgetDefaultSelected(SelectionEvent e) {}
+
+						public void widgetSelected(SelectionEvent e) {
 							delete();
 						}
-					}); 
+					});
 				}
 			}
 		}
-		
-		
+
 	}
 
-	public class UIElseContent extends UIContentContainer
-	{
+	public class UIElseContent extends UIContentContainer {
 		private ElseDocumentItem elseItem = null;
 		private Composite container = null;
 		private Twistie contentsExpander = null;
-		
-		public UIElseContent(UIContentComposite scoping, Composite parent, boolean composing)
-		{
+
+		public UIElseContent(UIContentComposite scoping, Composite parent, boolean composing) {
 			super(scoping, parent, SINGLE_DELETE, composing);
 			setTitle("Else");
-		
+
 			Composite bodyComp = new Composite(this, SWT.NONE);
 			GridLayout layout = new GridLayout(3, false);
 			layout.marginWidth = 0;
@@ -1325,31 +1129,25 @@ public class SoapInputDocumentPropertiesPanel extends
 			contentsExpander = new Twistie(bodyComp, SWT.NO_FOCUS);
 			contentsExpander.setExpanded(true);
 			Label contentsIconLabel = new Label(bodyComp, SWT.NONE);
-			contentsIconLabel.setImage(Activator.getDefault().getImageRegistry().get("COMPLEX_TYPE"));
+			contentsIconLabel.setImage(Activator.getDefault().getImageRegistry()
+					.get("COMPLEX_TYPE"));
 			contentsIconLabel.setLayoutData(new GridData());
 			Label contentsLabel = new Label(bodyComp, SWT.NONE);
 			contentsLabel.setText("Contents");
 			contentsLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-			
+
 			container = new Composite(bodyComp, SWT.NONE);
-			contentsExpander.addHyperlinkListener(new IHyperlinkListener()
-			{
-				public void linkExited(HyperlinkEvent e)
-				{
-				}
-				
-				public void linkEntered(HyperlinkEvent e)
-				{
-				}
-				
-				public void linkActivated(HyperlinkEvent e)
-				{
-					GridData gd = (GridData)container.getLayoutData();
+			contentsExpander.addHyperlinkListener(new IHyperlinkListener() {
+				public void linkExited(HyperlinkEvent e) {}
+
+				public void linkEntered(HyperlinkEvent e) {}
+
+				public void linkActivated(HyperlinkEvent e) {
+					GridData gd = (GridData) container.getLayoutData();
 					gd.exclude = !contentsExpander.isExpanded();
 					container.setVisible(contentsExpander.isExpanded());
 					Map<String, Boolean> states = expansionStates.get(elseItem);
-					if(states == null)
-					{
+					if (states == null) {
 						states = new HashMap<String, Boolean>();
 						expansionStates.put(elseItem, states);
 					}
@@ -1363,32 +1161,27 @@ public class SoapInputDocumentPropertiesPanel extends
 			gd.horizontalIndent = 17;
 			container.setLayoutData(gd);
 		}
-		
-		public Composite getContainerComposite()
-		{
+
+		public Composite getContainerComposite() {
 			return container;
 		}
-		
-		public void setContent(ElseDocumentItem elseItem)
-		{
+
+		public void setContent(ElseDocumentItem elseItem) {
 			this.elseItem = elseItem;
 			Map<String, Boolean> states = expansionStates.get(elseItem);
-			if(states != null)
-			{
+			if (states != null) {
 				Boolean state = states.get("contents");
-				if(state == null)
-					state = true;
+				if (state == null) state = true;
 				contentsExpander.setExpanded(state);
-				GridData gd = (GridData)container.getLayoutData();
+				GridData gd = (GridData) container.getLayoutData();
 				gd.exclude = !contentsExpander.isExpanded();
 				container.setVisible(contentsExpander.isExpanded());
 				rootComp.layout(true, true);
 			}
 		}
-		
-		protected void delete()
-		{
-			((ConditionalContainerSet)elseItem.getParent()).setElse(null);
+
+		protected void delete() {
+			((ConditionalContainerSet) elseItem.getParent()).setElse(null);
 			expansionStates.remove(elseItem);
 			markOrigin();
 			buildDocumentDisplay();
@@ -1396,8 +1189,7 @@ public class SoapInputDocumentPropertiesPanel extends
 		}
 	}
 
-	public class UIForContent extends UIContentContainer
-	{
+	public class UIForContent extends UIContentContainer {
 		private ForLoopDocumentItem forItem = null;
 		private Text arrayNameText = null;
 		private Button browseButton = null;
@@ -1411,9 +1203,8 @@ public class SoapInputDocumentPropertiesPanel extends
 		private Composite propertiesComp = null;
 		private Twistie contentsExpander = null;
 		private Composite container = null;
-		
-		public UIForContent(UIContentComposite scoping, Composite parent, boolean composing)
-		{
+
+		public UIForContent(UIContentComposite scoping, Composite parent, boolean composing) {
 			super(scoping, parent, SINGLE_DELETE, composing);
 			cursorVariable = new Variable("forLoopCursor", FieldType.STRING);
 			VariableHelper.buildObjectFields(cursorVariable, businessObjectSet);
@@ -1432,32 +1223,26 @@ public class SoapInputDocumentPropertiesPanel extends
 			propertiesExpander = new Twistie(bodyComp, SWT.NO_FOCUS);
 			propertiesExpander.setExpanded(true);
 			Label propertiesIconLabel = new Label(bodyComp, SWT.NONE);
-			propertiesIconLabel.setImage(Activator.getDefault().getImageRegistry().get("ATTRIBUTE_GROUP"));
+			propertiesIconLabel.setImage(Activator.getDefault().getImageRegistry().get(
+					"ATTRIBUTE_GROUP"));
 			propertiesIconLabel.setLayoutData(new GridData());
 			Label propertiesLabel = new Label(bodyComp, SWT.NONE);
 			propertiesLabel.setText("Properties");
 			propertiesLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 			propertiesComp = new Composite(bodyComp, SWT.NONE);
-			propertiesExpander.addHyperlinkListener(new IHyperlinkListener()
-			{
-				public void linkExited(HyperlinkEvent e)
-				{
-				}
-				
-				public void linkEntered(HyperlinkEvent e)
-				{
-				}
-				
-				public void linkActivated(HyperlinkEvent e)
-				{
-					GridData gd = (GridData)propertiesComp.getLayoutData();
+			propertiesExpander.addHyperlinkListener(new IHyperlinkListener() {
+				public void linkExited(HyperlinkEvent e) {}
+
+				public void linkEntered(HyperlinkEvent e) {}
+
+				public void linkActivated(HyperlinkEvent e) {
+					GridData gd = (GridData) propertiesComp.getLayoutData();
 					gd.exclude = !propertiesExpander.isExpanded();
 					propertiesComp.setVisible(propertiesExpander.isExpanded());
 					rootComp.layout(true, true);
 					Map<String, Boolean> states = expansionStates.get(forItem);
-					if(states == null)
-					{
+					if (states == null) {
 						states = new HashMap<String, Boolean>();
 						expansionStates.put(forItem, states);
 					}
@@ -1478,23 +1263,18 @@ public class SoapInputDocumentPropertiesPanel extends
 			browseComp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			arrayNameText = new Text(browseComp, SWT.SINGLE | SWT.BORDER);
 			arrayNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-			arrayNameText.addModifyListener(new ModifyListener()
-			{
-				public void modifyText(ModifyEvent e)
-				{
-					if(!updating) //avoid cascading updates
+			arrayNameText.addModifyListener(new ModifyListener() {
+				public void modifyText(ModifyEvent e) {
+					if (!updating) // avoid cascading updates
 					{
 						arraySelection = null;
 						String[] parts = arrayNameText.getText().split("\\.");
-						List<ObjectDefinition> defs = new LinkedList<ObjectDefinition>(getVariableScope());
-outer:					for(int i = 0; i < parts.length; i++)
-						{
-							for(ObjectDefinition od : defs)
-							{
-								if(od.getName().equals(parts[i]))
-								{
-									if(i == parts.length - 1)
-									{
+						List<ObjectDefinition> defs = new LinkedList<ObjectDefinition>(
+								getVariableScope());
+						outer: for (int i = 0; i < parts.length; i++) {
+							for (ObjectDefinition od : defs) {
+								if (od.getName().equals(parts[i])) {
+									if (i == parts.length - 1) {
 										arrayNameText.setBackground(null);
 										forItem.setForEach(cursorVariable.getName(), od.getPath());
 										arraySelection = od;
@@ -1503,8 +1283,7 @@ outer:					for(int i = 0; i < parts.length; i++)
 								}
 							}
 						}
-						if(arraySelection == null)
-						{
+						if (arraySelection == null) {
 							arrayNameText.setBackground(getDisplay().getSystemColor(SWT.COLOR_RED));
 							forItem.setForEach(cursorVariable.getName(), null);
 						}
@@ -1515,34 +1294,26 @@ outer:					for(int i = 0; i < parts.length; i++)
 			browseButton = new Button(browseComp, SWT.PUSH);
 			browseButton.setText("pick");
 			browseButton.setLayoutData(new GridData());
-			browseButton.addSelectionListener(new SelectionListener()
-			{
-				public void widgetDefaultSelected(SelectionEvent e)
-				{
-				}
+			browseButton.addSelectionListener(new SelectionListener() {
+				public void widgetDefaultSelected(SelectionEvent e) {}
 
-				public void widgetSelected(SelectionEvent e)
-				{
-					VariableBrowserDialog browserDialog = new VariableBrowserDialog(getDisplay().getActiveShell(), UIForContent.super.getVariableScope());
-					browserDialog.setFilter(new ObjectDefinitionFilter()
-					{
-						public boolean isApplicable(ObjectDefinition definition)
-						{
-							return !definition.getType().isObject() && definition.getType().getPrimitiveType() == Primitive.ARRAY;
+				public void widgetSelected(SelectionEvent e) {
+					VariableBrowserDialog browserDialog = new VariableBrowserDialog(getDisplay()
+							.getActiveShell(), UIForContent.super.getVariableScope());
+					browserDialog.setFilter(new ObjectDefinitionFilter() {
+						public boolean isApplicable(ObjectDefinition definition) {
+							return !definition.getType().isObject()
+									&& definition.getType().getPrimitiveType() == Primitive.ARRAY;
 						}
 					});
-					if(browserDialog.open() == Dialog.OK)
-					{
+					if (browserDialog.open() == Dialog.OK) {
 						updating = true;
 						arraySelection = browserDialog.getSelectedDefinition();
-						if(arraySelection != null)
-						{
+						if (arraySelection != null) {
 							arrayNameText.setText(arraySelection.getPath());
 							arrayNameText.setBackground(null);
 							forItem.setForEach(cursorVariable.getName(), arraySelection.getPath());
-						}
-						else
-						{
+						} else {
 							arrayNameText.setText("");
 							arrayNameText.setBackground(getDisplay().getSystemColor(SWT.COLOR_RED));
 							forItem.setForEach(cursorVariable.getName(), null);
@@ -1552,17 +1323,16 @@ outer:					for(int i = 0; i < parts.length; i++)
 					}
 				}
 			});
-			
+
 			Label varNameLabel = new Label(propertiesComp, SWT.NONE);
 			varNameLabel.setText("Called");
 			varNameLabel.setLayoutData(new GridData());
 			varNameText = new Text(propertiesComp, SWT.BORDER | SWT.SINGLE);
 			varNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-			varNameText.addModifyListener(new ModifyListener()
-			{
-				public void modifyText(ModifyEvent e)
-				{
-					forItem.setForEach(varNameText.getText(), arraySelection == null ? null : arraySelection.getPath());
+			varNameText.addModifyListener(new ModifyListener() {
+				public void modifyText(ModifyEvent e) {
+					forItem.setForEach(varNameText.getText(), arraySelection == null ? null
+							: arraySelection.getPath());
 					updateCursor();
 				}
 			});
@@ -1570,31 +1340,25 @@ outer:					for(int i = 0; i < parts.length; i++)
 			contentsExpander = new Twistie(bodyComp, SWT.NO_FOCUS);
 			contentsExpander.setExpanded(true);
 			Label contentsIconLabel = new Label(bodyComp, SWT.NONE);
-			contentsIconLabel.setImage(Activator.getDefault().getImageRegistry().get("COMPLEX_TYPE"));
+			contentsIconLabel.setImage(Activator.getDefault().getImageRegistry()
+					.get("COMPLEX_TYPE"));
 			contentsIconLabel.setLayoutData(new GridData());
 			Label contentsLabel = new Label(bodyComp, SWT.NONE);
 			contentsLabel.setText("Contents");
 			contentsLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-			
+
 			container = new Composite(bodyComp, SWT.NONE);
-			contentsExpander.addHyperlinkListener(new IHyperlinkListener()
-			{
-				public void linkExited(HyperlinkEvent e)
-				{
-				}
-				
-				public void linkEntered(HyperlinkEvent e)
-				{
-				}
-				
-				public void linkActivated(HyperlinkEvent e)
-				{
-					GridData gd = (GridData)container.getLayoutData();
+			contentsExpander.addHyperlinkListener(new IHyperlinkListener() {
+				public void linkExited(HyperlinkEvent e) {}
+
+				public void linkEntered(HyperlinkEvent e) {}
+
+				public void linkActivated(HyperlinkEvent e) {
+					GridData gd = (GridData) container.getLayoutData();
 					gd.exclude = !contentsExpander.isExpanded();
 					container.setVisible(contentsExpander.isExpanded());
 					Map<String, Boolean> states = expansionStates.get(forItem);
-					if(states == null)
-					{
+					if (states == null) {
 						states = new HashMap<String, Boolean>();
 						expansionStates.put(forItem, states);
 					}
@@ -1611,61 +1375,49 @@ outer:					for(int i = 0; i < parts.length; i++)
 			gd.horizontalIndent = 17;
 			container.setLayoutData(gd);
 		}
-		
-		public Composite getContainerComposite()
-		{
+
+		public Composite getContainerComposite() {
 			return container;
 		}
-		
-		private void updateCursor()
-		{
+
+		private void updateCursor() {
 			System.out.println("updating variable: " + cursorVariable);
 			@SuppressWarnings("unused")
 			FieldType oldType = cursorVariable.getType();
 			String oldName = cursorVariable.getName();
 			cursorVariable.setName(varNameText.getText());
-			if(arraySelection == null)
-			{
+			if (arraySelection == null) {
 				cursorVariable.setType(FieldType.STRING);
 				cursorVariable.clearFields();
 				VariableHelper.buildObjectFields(cursorVariable, businessObjectSet);
-			}
-			else
-			{
+			} else {
 				FieldType arrayType = arraySelection.getType();
-				if(arrayType.isObjectBaseType())
-					cursorVariable.setType(new FieldType(arrayType.getObjectBaseType()));
-				else
-					cursorVariable.setType(new FieldType(arrayType.getPrimitiveBaseType()));
+				if (arrayType.isObjectBaseType()) cursorVariable.setType(new FieldType(arrayType
+						.getObjectBaseType()));
+				else cursorVariable.setType(new FieldType(arrayType.getPrimitiveBaseType()));
 				cursorVariable.clearFields();
 				VariableHelper.buildObjectFields(cursorVariable, businessObjectSet);
 			}
-			if(!cursorVariable.getName().equals(oldName))
-			{
+			if (!cursorVariable.getName().equals(oldName)) {
 				variableScopes.remove(this);
 			}
 			postScopeChange();
 		}
-		
-		protected void scopeChanged()
-		{
+
+		protected void scopeChanged() {
 			variableScopes.remove(this);
 			arrayNameText.setText(arraySelection.getPath());
 			varNameText.setText(varNameText.getText());
 		}
-		
-		public synchronized List<Variable> getVariableScope()
-		{
+
+		public synchronized List<Variable> getVariableScope() {
 			List<Variable> scope = variableScopes.get(this);
-			if(scope == null)
-			{
+			if (scope == null) {
 				scope = new ArrayList<Variable>();
 				scope.add(cursorVariable);
 				List<Variable> parentScope = super.getVariableScope();
-				for(Variable var : parentScope)
-				{
-					if(!var.getName().equals(cursorVariable.getName()))
-					{
+				for (Variable var : parentScope) {
+					if (!var.getName().equals(cursorVariable.getName())) {
 						scope.add(var);
 					}
 				}
@@ -1673,25 +1425,21 @@ outer:					for(int i = 0; i < parts.length; i++)
 			}
 			return scope;
 		}
-		
-		public void setContent(ForLoopDocumentItem ifItem)
-		{
+
+		public void setContent(ForLoopDocumentItem ifItem) {
 			this.forItem = ifItem;
 			Map<String, Boolean> states = expansionStates.get(ifItem);
-			if(states != null)
-			{
+			if (states != null) {
 				Boolean state = states.get("properties");
-				if(state == null)
-					state = true;
+				if (state == null) state = true;
 				propertiesExpander.setExpanded(state);
-				GridData gd = (GridData)propertiesComp.getLayoutData();
+				GridData gd = (GridData) propertiesComp.getLayoutData();
 				gd.exclude = !propertiesExpander.isExpanded();
 				propertiesComp.setVisible(propertiesExpander.isExpanded());
 				state = states.get("contents");
-				if(state == null)
-					state = true;
+				if (state == null) state = true;
 				contentsExpander.setExpanded(state);
-				gd = (GridData)container.getLayoutData();
+				gd = (GridData) container.getLayoutData();
 				gd.exclude = !contentsExpander.isExpanded();
 				container.setVisible(contentsExpander.isExpanded());
 				rootComp.layout(true, true);
@@ -1700,19 +1448,17 @@ outer:					for(int i = 0; i < parts.length; i++)
 			varNameText.setText(forItem.getVariableName() == null ? "" : forItem.getVariableName());
 		}
 
-		protected void delete()
-		{
+		protected void delete() {
 			forItem.getParent().removeItem(forItem);
 			expansionStates.remove(forItem);
 			markOrigin();
 			buildDocumentDisplay();
 			restoreOrigin();
 		}
-		
+
 	}
 
-	public class UIElementContent extends UIContentContainer implements BrandedUIItem
-	{
+	public class UIElementContent extends UIContentContainer implements BrandedUIItem {
 		private boolean textOnly = false;
 		private ElementDocumentItem elementItem = null;
 		private TextDocumentItem textItem = null;
@@ -1723,12 +1469,12 @@ outer:					for(int i = 0; i < parts.length; i++)
 		private Composite contentsComp = null;
 		private Label attributesIconLabel = null;
 		private Label attributesLabel = null;
-		private Composite attributesComp = null;	
+		private Composite attributesComp = null;
 		private Twistie propertiesExpander = null;
 		private Twistie contentsExpander = null;
-		
-		public UIElementContent(UIContentComposite scoping, Composite parent, boolean composing, boolean textOnly)
-		{
+
+		public UIElementContent(UIContentComposite scoping, Composite parent, boolean composing,
+				boolean textOnly) {
 			super(scoping, parent, SINGLE_DELETE, composing);
 			setIcon(Activator.getDefault().getImageRegistry().get("XML_ELEMENT"));
 			this.textOnly = textOnly;
@@ -1741,40 +1487,33 @@ outer:					for(int i = 0; i < parts.length; i++)
 			GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 			gd.horizontalIndent = 15;
 			bodyComp.setLayoutData(gd);
-			
-			if(textOnly)
-			{
+
+			if (textOnly) {
 				container = this;
 				propertiesExpander = new Twistie(bodyComp, SWT.NO_FOCUS);
 				propertiesExpander.setExpanded(true);
 				propertiesExpander.setLayoutData(new GridData());
 				attributesIconLabel = new Label(bodyComp, SWT.NONE);
-				attributesIconLabel.setImage(Activator.getDefault().getImageRegistry().get("ATTRIBUTE_GROUP"));
+				attributesIconLabel.setImage(Activator.getDefault().getImageRegistry().get(
+						"ATTRIBUTE_GROUP"));
 				attributesIconLabel.setLayoutData(new GridData());
 				attributesLabel = new Label(bodyComp, SWT.NONE);
 				attributesLabel.setText("Attributes");
 				attributesLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 				attributesComp = new Composite(bodyComp, SWT.NONE);
-				propertiesExpander.addHyperlinkListener(new IHyperlinkListener()
-				{
-					public void linkExited(HyperlinkEvent e)
-					{
-					}
-					
-					public void linkEntered(HyperlinkEvent e)
-					{
-					}
-					
-					public void linkActivated(HyperlinkEvent e)
-					{
-						GridData gd = (GridData)attributesComp.getLayoutData();
+				propertiesExpander.addHyperlinkListener(new IHyperlinkListener() {
+					public void linkExited(HyperlinkEvent e) {}
+
+					public void linkEntered(HyperlinkEvent e) {}
+
+					public void linkActivated(HyperlinkEvent e) {
+						GridData gd = (GridData) attributesComp.getLayoutData();
 						gd.exclude = !propertiesExpander.isExpanded();
 						attributesComp.setVisible(propertiesExpander.isExpanded());
 						rootComp.layout(true, true);
 						Map<String, Boolean> states = expansionStates.get(elementItem);
-						if(states == null)
-						{
+						if (states == null) {
 							states = new HashMap<String, Boolean>();
 							expansionStates.put(elementItem, states);
 						}
@@ -1791,31 +1530,25 @@ outer:					for(int i = 0; i < parts.length; i++)
 				contentsExpander.setExpanded(true);
 				contentsExpander.setLayoutData(new GridData());
 				Label contentsIconLabel = new Label(bodyComp, SWT.NONE);
-				contentsIconLabel.setImage(Activator.getDefault().getImageRegistry().get("COMPLEX_TYPE"));
+				contentsIconLabel.setImage(Activator.getDefault().getImageRegistry().get(
+						"COMPLEX_TYPE"));
 				contentsIconLabel.setLayoutData(new GridData());
 				Label contentsLabel = new Label(bodyComp, SWT.NONE);
 				contentsLabel.setText("Contents");
 				contentsLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-				
+
 				contentsComp = UIHelper.createWrapperComposite(bodyComp, 17);
-				contentsExpander.addHyperlinkListener(new IHyperlinkListener()
-				{
-					public void linkExited(HyperlinkEvent e)
-					{
-					}
-					
-					public void linkEntered(HyperlinkEvent e)
-					{
-					}
-					
-					public void linkActivated(HyperlinkEvent e)
-					{
-						GridData gd = (GridData)contentsComp.getLayoutData();
+				contentsExpander.addHyperlinkListener(new IHyperlinkListener() {
+					public void linkExited(HyperlinkEvent e) {}
+
+					public void linkEntered(HyperlinkEvent e) {}
+
+					public void linkActivated(HyperlinkEvent e) {
+						GridData gd = (GridData) contentsComp.getLayoutData();
 						gd.exclude = !contentsExpander.isExpanded();
 						contentsComp.setVisible(contentsExpander.isExpanded());
 						Map<String, Boolean> states = expansionStates.get(elementItem);
-						if(states == null)
-						{
+						if (states == null) {
 							states = new HashMap<String, Boolean>();
 							expansionStates.put(elementItem, states);
 						}
@@ -1823,7 +1556,7 @@ outer:					for(int i = 0; i < parts.length; i++)
 						rootComp.layout(true, true);
 					}
 				});
-				layout = (GridLayout)contentsComp.getLayout();
+				layout = (GridLayout) contentsComp.getLayout();
 				layout.marginWidth = 5;
 				contentsComp.setBackground(null);
 				contentsComp.setBackgroundMode(SWT.INHERIT_DEFAULT);
@@ -1831,38 +1564,32 @@ outer:					for(int i = 0; i < parts.length; i++)
 				valueStack = new ValueStack("", "", getVariableScope());
 				valueStack.createControls(contentsComp);
 				contentArea = new Text(valueStack.getValueComposite(), SWT.BORDER | SWT.H_SCROLL);
-				valueStack.setValueControl(new ValueControl()
-				{
-					public String getValue()
-		            {
+				valueStack.setValueControl(new ValueControl() {
+					public String getValue() {
 						return contentArea.getText();
-		            }
-	
-					public void setValue(String value)
-		            {
+					}
+
+					public void setValue(String value) {
 						updating = true;
 						contentArea.setText(value == null ? "" : value);
 						updating = false;
-		            }
+					}
 				});
-				contentArea.addModifyListener(new ModifyListener()
-				{
-					public void modifyText(ModifyEvent e)
-					{
-						Point size = contentArea.computeSize(contentArea.getSize().x, SWT.DEFAULT, true);
-						GridData gd = (GridData)contentArea.getLayoutData();
+				contentArea.addModifyListener(new ModifyListener() {
+					public void modifyText(ModifyEvent e) {
+						Point size = contentArea.computeSize(contentArea.getSize().x, SWT.DEFAULT,
+								true);
+						GridData gd = (GridData) contentArea.getLayoutData();
 						gd.minimumHeight = Math.max(18, size.y);
-						if(!updating)
-						{
-							rootComp.setSize(rootComp.computeSize(scrollComp.getClientArea().width - 1, SWT.DEFAULT));
+						if (!updating) {
+							rootComp.setSize(rootComp.computeSize(
+									scrollComp.getClientArea().width - 1, SWT.DEFAULT));
 							scrollComp.layout(true, true);
 						}
 					}
 				});
-				contentArea.addListener(SWT.MouseWheel, new Listener()
-				{
-					public void handleEvent(Event event)
-					{
+				contentArea.addListener(SWT.MouseWheel, new Listener() {
+					public void handleEvent(Event event) {
 						Point origin = scrollComp.getOrigin();
 						origin.y -= event.count;
 						event.doit = false;
@@ -1874,40 +1601,32 @@ outer:					for(int i = 0; i < parts.length; i++)
 				gd.widthHint = 5000;
 				contentArea.setLayoutData(gd);
 				valueStacks.add(this);
-				((GridData)contentsComp.getLayoutData()).horizontalSpan = 3;
-			}
-			else
-			{
+				((GridData) contentsComp.getLayoutData()).horizontalSpan = 3;
+			} else {
 				propertiesExpander = new Twistie(bodyComp, SWT.NO_FOCUS);
 				propertiesExpander.setExpanded(true);
 				propertiesExpander.setLayoutData(new GridData());
 				Label attributesIconLabel = new Label(bodyComp, SWT.NONE);
-				attributesIconLabel.setImage(Activator.getDefault().getImageRegistry().get("ATTRIBUTE_GROUP"));
+				attributesIconLabel.setImage(Activator.getDefault().getImageRegistry().get(
+						"ATTRIBUTE_GROUP"));
 				attributesIconLabel.setLayoutData(new GridData());
 				Label attributesLabel = new Label(bodyComp, SWT.NONE);
 				attributesLabel.setText("Attributes");
 				attributesLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 				attributesComp = new Composite(bodyComp, SWT.NONE);
-				propertiesExpander.addHyperlinkListener(new IHyperlinkListener()
-				{
-					public void linkExited(HyperlinkEvent e)
-					{
-					}
-					
-					public void linkEntered(HyperlinkEvent e)
-					{
-					}
-					
-					public void linkActivated(HyperlinkEvent e)
-					{
-						GridData gd = (GridData)attributesComp.getLayoutData();
+				propertiesExpander.addHyperlinkListener(new IHyperlinkListener() {
+					public void linkExited(HyperlinkEvent e) {}
+
+					public void linkEntered(HyperlinkEvent e) {}
+
+					public void linkActivated(HyperlinkEvent e) {
+						GridData gd = (GridData) attributesComp.getLayoutData();
 						gd.exclude = !propertiesExpander.isExpanded();
 						attributesComp.setVisible(propertiesExpander.isExpanded());
 						rootComp.layout(true, true);
 						Map<String, Boolean> states = expansionStates.get(elementItem);
-						if(states == null)
-						{
+						if (states == null) {
 							states = new HashMap<String, Boolean>();
 							expansionStates.put(elementItem, states);
 						}
@@ -1924,31 +1643,25 @@ outer:					for(int i = 0; i < parts.length; i++)
 				contentsExpander.setExpanded(true);
 				contentsExpander.setLayoutData(new GridData());
 				Label contentsIconLabel = new Label(bodyComp, SWT.NONE);
-				contentsIconLabel.setImage(Activator.getDefault().getImageRegistry().get("COMPLEX_TYPE"));
+				contentsIconLabel.setImage(Activator.getDefault().getImageRegistry().get(
+						"COMPLEX_TYPE"));
 				contentsIconLabel.setLayoutData(new GridData());
 				Label contentsLabel = new Label(bodyComp, SWT.NONE);
 				contentsLabel.setText("Contents");
 				contentsLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-				
+
 				container = contentsComp = new Composite(bodyComp, SWT.NONE);
-				contentsExpander.addHyperlinkListener(new IHyperlinkListener()
-				{
-					public void linkExited(HyperlinkEvent e)
-					{
-					}
-					
-					public void linkEntered(HyperlinkEvent e)
-					{
-					}
-					
-					public void linkActivated(HyperlinkEvent e)
-					{
-						GridData gd = (GridData)contentsComp.getLayoutData();
+				contentsExpander.addHyperlinkListener(new IHyperlinkListener() {
+					public void linkExited(HyperlinkEvent e) {}
+
+					public void linkEntered(HyperlinkEvent e) {}
+
+					public void linkActivated(HyperlinkEvent e) {
+						GridData gd = (GridData) contentsComp.getLayoutData();
 						gd.exclude = !contentsExpander.isExpanded();
 						contentsComp.setVisible(contentsExpander.isExpanded());
 						Map<String, Boolean> states = expansionStates.get(elementItem);
-						if(states == null)
-						{
+						if (states == null) {
 							states = new HashMap<String, Boolean>();
 							expansionStates.put(elementItem, states);
 						}
@@ -1966,70 +1679,57 @@ outer:					for(int i = 0; i < parts.length; i++)
 				contentsComp.setLayoutData(gd);
 			}
 		}
-		
-		public Composite getContainerComposite()
-		{
+
+		public Composite getContainerComposite() {
 			return container;
 		}
-		
-		
-		public BrandedBinding getBinding()
-		{
+
+		public BrandedBinding getBinding() {
 			return textItem;
 		}
-		
-		protected void scopeChanged()
-		{
-			if(textOnly)
-				valueStack.setVariables(getVariableScope());
-			else
-				super.scopeChanged();
+
+		protected void scopeChanged() {
+			if (textOnly) valueStack.setVariables(getVariableScope());
+			else super.scopeChanged();
 		}
 
-		public ValueStack getValueStack()
-		{
+		public ValueStack getValueStack() {
 			return valueStack;
 		}
-		
-		public void setContent(ElementDocumentItem elementItem)
-		{
+
+		public void setContent(ElementDocumentItem elementItem) {
 			this.elementItem = elementItem;
 			setTitle(elementItem.getName());
 			Map<String, Boolean> states = expansionStates.get(elementItem);
-			if(states != null)
-			{
+			if (states != null) {
 				Boolean state = states.get("attributes");
-				if(state == null)
-					state = true;
+				if (state == null) state = true;
 				propertiesExpander.setExpanded(state);
-				GridData gd = (GridData)attributesComp.getLayoutData();
+				GridData gd = (GridData) attributesComp.getLayoutData();
 				gd.exclude = !propertiesExpander.isExpanded();
 				attributesComp.setVisible(propertiesExpander.isExpanded());
 				state = states.get("contents");
-				if(state == null)
-					state = true;
+				if (state == null) state = true;
 				contentsExpander.setExpanded(state);
-				gd = (GridData)contentsComp.getLayoutData();
+				gd = (GridData) contentsComp.getLayoutData();
 				gd.exclude = !contentsExpander.isExpanded();
 				contentsComp.setVisible(contentsExpander.isExpanded());
 				rootComp.layout(true, true);
 			}
-			if(elementItem.isSimple())
-			{
-				((GridData)propertiesExpander.getLayoutData()).exclude = true;
+			if (elementItem.isSimple()) {
+				((GridData) propertiesExpander.getLayoutData()).exclude = true;
 				propertiesExpander.setVisible(false);
-				((GridData)attributesIconLabel.getLayoutData()).exclude = true;
+				((GridData) attributesIconLabel.getLayoutData()).exclude = true;
 				attributesIconLabel.setVisible(false);
-				((GridData)attributesLabel.getLayoutData()).exclude = true;
+				((GridData) attributesLabel.getLayoutData()).exclude = true;
 				attributesLabel.setVisible(false);
-				((GridData)attributesComp.getLayoutData()).exclude = true;
+				((GridData) attributesComp.getLayoutData()).exclude = true;
 				attributesComp.setVisible(false);
 				layout();
 				return;
 			}
 			List<ElementAttributeDocumentItem> attributes = elementItem.getAttributes();
-			for(ElementAttributeDocumentItem attribute : attributes)
-			{
+			for (ElementAttributeDocumentItem attribute : attributes) {
 				Button attributePresent = new Button(attributesComp, SWT.CHECK);
 				attributePresent.setLayoutData(new GridData());
 				Label attributeName = new Label(attributesComp, SWT.NONE);
@@ -2038,41 +1738,34 @@ outer:					for(int i = 0; i < parts.length; i++)
 				attributePresent.setSelection(!attribute.isOptional() || attribute.isPresent());
 				final ValueStack attributeValueStack = new ValueStack("", "", getVariableScope());
 				attributeValueStack.createControls(attributesComp);
-				final Text valueText = new Text(attributeValueStack.getValueComposite(), SWT.BORDER | SWT.SINGLE);
-				attributeValueStack.setValueControl(new ValueControl()
-				{
-					public String getValue()
-		            {
+				final Text valueText = new Text(attributeValueStack.getValueComposite(), SWT.BORDER
+						| SWT.SINGLE);
+				attributeValueStack.setValueControl(new ValueControl() {
+					public String getValue() {
 						return valueText.getText();
-		            }
-	
-					public void setValue(String value)
-		            {
+					}
+
+					public void setValue(String value) {
 						valueText.setText(value == null ? "" : value);
-		            }
+					}
 				});
 				GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 				gd.minimumHeight = 18;
 				gd.widthHint = 5000;
 				valueText.setLayoutData(gd);
 				final ElementAttributeDocumentItem attributeRef = attribute;
-				valueStacks.add(new BrandedUIItem()
-				{
-					public BrandedBinding getBinding()
-					{
+				valueStacks.add(new BrandedUIItem() {
+					public BrandedBinding getBinding() {
 						return attributeRef;
 					}
 
-					public ValueStack getValueStack()
-					{
+					public ValueStack getValueStack() {
 						return attributeValueStack;
 					}
 				});
 			}
-			if(attributes.size() == 0)
-			{
-				if(states == null)
-				{
+			if (attributes.size() == 0) {
+				if (states == null) {
 					states = new HashMap<String, Boolean>();
 					expansionStates.put(elementItem, states);
 				}
@@ -2083,50 +1776,42 @@ outer:					for(int i = 0; i < parts.length; i++)
 				gd.horizontalSpan = 3;
 				noAttributesLabel.setLayoutData(gd);
 				propertiesExpander.setExpanded(false);
-				gd = (GridData)attributesComp.getLayoutData();
+				gd = (GridData) attributesComp.getLayoutData();
 				gd.exclude = !propertiesExpander.isExpanded();
 				attributesComp.setVisible(propertiesExpander.isExpanded());
 				rootComp.layout(true, true);
 			}
 		}
-		
-		public void setText(TextDocumentItem textItem)
-		{
-			if(textOnly)
-			{
+
+		public void setText(TextDocumentItem textItem) {
+			if (textOnly) {
 				this.textItem = textItem;
 			}
 		}
-		
-		protected void delete()
-		{
+
+		protected void delete() {
 			elementItem.getParent().removeItem(elementItem);
 			expansionStates.remove(elementItem);
 			markOrigin();
 			buildDocumentDisplay();
 			restoreOrigin();
 		}
-		
-		public boolean isTextOnly()
-		{
+
+		public boolean isTextOnly() {
 			return textOnly;
 		}
 	}
 
-	public class UISuggestionComposite extends Composite
-	{
+	public class UISuggestionComposite extends Composite {
 		private List<Suggestion> suggestions = new ArrayList<Suggestion>();
 		boolean hasRequired = false;
 		private Color borderColor = null;
-		
-		public UISuggestionComposite(Composite parent, int style)
-		{
+
+		public UISuggestionComposite(Composite parent, int style) {
 			super(parent, style);
 			borderColor = new Color(getDisplay(), 231, 233, 238);
-			this.addPaintListener(new PaintListener()
-			{
-				public void paintControl(PaintEvent e)
-				{
+			this.addPaintListener(new PaintListener() {
+				public void paintControl(PaintEvent e) {
 					GC g = e.gc;
 					Color oldForground = g.getForeground();
 					g.setForeground(borderColor);
@@ -2143,140 +1828,110 @@ outer:					for(int i = 0; i < parts.length; i++)
 			setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		}
 
-		public void addSuggestion(Suggestion suggestion)
-		{
+		public void addSuggestion(Suggestion suggestion) {
 			suggestions.add(suggestion);
-			if(hasRequired)
-				suggestion.setActive(false);
+			if (hasRequired) suggestion.setActive(false);
 			hasRequired |= suggestion.isRequired();
 			suggestion.createControls(this);
 			rootComp.layout(true, true);
 		}
 
-		public void dispose()
-		{
+		public void dispose() {
 			borderColor.dispose();
 			super.dispose();
 		}
-		
+
 	}
-	
-	public abstract class Suggestion
-	{
+
+	public abstract class Suggestion {
 		private DocumentItemContainer container = null;
 		private boolean active = false;
 		private boolean required = false;
 		private DocumentItem insertionPoint = null;
-		
-		
-		public Suggestion(DocumentItemContainer container, boolean required)
-		{
+
+		public Suggestion(DocumentItemContainer container, boolean required) {
 			super();
 			this.container = container;
 			this.required = required;
 		}
-		
-		public DocumentItemContainer getContainer()
-		{
+
+		public DocumentItemContainer getContainer() {
 			return container;
 		}
-		
-		public DocumentItem getInsertionPoint()
-		{
+
+		public DocumentItem getInsertionPoint() {
 			return insertionPoint;
 		}
-		
-		public void setInsertionPoint(DocumentItem insertionPoint)
-		{
+
+		public void setInsertionPoint(DocumentItem insertionPoint) {
 			this.insertionPoint = insertionPoint;
 		}
-		
-		public boolean isActive()
-		{
+
+		public boolean isActive() {
 			return active;
 		}
-		
-		public void setActive(boolean active)
-		{
+
+		public void setActive(boolean active) {
 			this.active = active;
 		}
-		
-		public boolean isRequired()
-		{
+
+		public boolean isRequired() {
 			return required;
 		}
-		
+
 		public abstract void createControls(Composite parent);
 	}
-	
-	public class TextSuggestion extends Suggestion
-	{
-		public TextSuggestion(DocumentItemContainer container, boolean required)
-		{
+
+	public class TextSuggestion extends Suggestion {
+		public TextSuggestion(DocumentItemContainer container, boolean required) {
 			super(container, required);
 		}
-		
-		public void createControls(Composite parent)
-		{
+
+		public void createControls(Composite parent) {
 			Label nameLabel = new Label(parent, SWT.NONE);
 			nameLabel.setText("Text Content (" + (isRequired() ? "Required" : "Optional") + ")");
 			nameLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-			nameLabel.addMouseListener(new MouseListener()
-			{
-				public void mouseDown(MouseEvent e)
-				{
-				}
+			nameLabel.addMouseListener(new MouseListener() {
+				public void mouseDown(MouseEvent e) {}
 
-				public void mouseUp(MouseEvent e)
-				{
+				public void mouseUp(MouseEvent e) {
 					markOrigin();
-					try
-					{
-						getContainer().insertItem(new TextDocumentItem(manager), getInsertionPoint());
+					try {
+						getContainer().insertItem(new TextDocumentItem(manager),
+								getInsertionPoint());
 						buildDocumentDisplay();
-					}
-					catch (Exception e1)
-					{
+					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
 					restoreOrigin();
 				}
-				
-				public void mouseDoubleClick(MouseEvent e)
-				{
-				}
-				
+
+				public void mouseDoubleClick(MouseEvent e) {}
+
 			});
 		}
 	}
 
-	public class IfSuggestion extends Suggestion
-	{
-		public IfSuggestion(DocumentItemContainer container, boolean required)
-		{
+	public class IfSuggestion extends Suggestion {
+		public IfSuggestion(DocumentItemContainer container, boolean required) {
 			super(container, required);
 		}
-		
-		public void createControls(Composite parent)
-		{
+
+		public void createControls(Composite parent) {
 			final Hyperlink nameLink = new Hyperlink(parent, SWT.NONE);
 			nameLink.setText("IF");
 			nameLink.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			nameLink.setForeground(parent.getDisplay().getSystemColor(SWT.COLOR_BLUE));
-			nameLink.addHyperlinkListener(new IHyperlinkListener()
-			{
-				public void linkEntered(HyperlinkEvent e)
-				{
+			nameLink.addHyperlinkListener(new IHyperlinkListener() {
+				public void linkEntered(HyperlinkEvent e) {
 					nameLink.setUnderlined(true);
 				}
 
-				public void linkExited(HyperlinkEvent e)
-				{
+				public void linkExited(HyperlinkEvent e) {
 					nameLink.setUnderlined(false);
 				}
 
-				public void linkActivated(HyperlinkEvent e)
-				{
+				public void linkActivated(HyperlinkEvent e) {
 					markOrigin();
 					ConditionalContainerSet conditionalSet = new ConditionalContainerSet(manager);
 					getContainer().insertItem(conditionalSet, getInsertionPoint());
@@ -2289,36 +1944,29 @@ outer:					for(int i = 0; i < parts.length; i++)
 		}
 	}
 
-	public class ElseIfSuggestion extends Suggestion
-	{
-		public ElseIfSuggestion(DocumentItemContainer container, boolean required)
-		{
+	public class ElseIfSuggestion extends Suggestion {
+		public ElseIfSuggestion(DocumentItemContainer container, boolean required) {
 			super(container, required);
 		}
-		
-		public void createControls(Composite parent)
-		{
+
+		public void createControls(Composite parent) {
 			final Hyperlink nameLink = new Hyperlink(parent, SWT.NONE);
 			nameLink.setText("ELSE IF");
 			nameLink.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			nameLink.setForeground(parent.getDisplay().getSystemColor(SWT.COLOR_BLUE));
-			nameLink.addHyperlinkListener(new IHyperlinkListener()
-			{
-				public void linkEntered(HyperlinkEvent e)
-				{
+			nameLink.addHyperlinkListener(new IHyperlinkListener() {
+				public void linkEntered(HyperlinkEvent e) {
 					nameLink.setUnderlined(true);
 				}
 
-				public void linkExited(HyperlinkEvent e)
-				{
+				public void linkExited(HyperlinkEvent e) {
 					nameLink.setUnderlined(false);
 				}
 
-				public void linkActivated(HyperlinkEvent e)
-				{
+				public void linkActivated(HyperlinkEvent e) {
 					markOrigin();
 					ConditionalDocumentItem conditional = new ConditionalDocumentItem(manager);
-					((ConditionalContainerSet)getContainer()).addItem(conditional);
+					((ConditionalContainerSet) getContainer()).addItem(conditional);
 					buildDocumentDisplay();
 					restoreOrigin();
 				}
@@ -2326,42 +1974,32 @@ outer:					for(int i = 0; i < parts.length; i++)
 		}
 	}
 
-	public class ElseSuggestion extends Suggestion
-	{
-		public ElseSuggestion(DocumentItemContainer container, boolean required)
-		{
+	public class ElseSuggestion extends Suggestion {
+		public ElseSuggestion(DocumentItemContainer container, boolean required) {
 			super(container, required);
 		}
-		
-		public void createControls(Composite parent)
-		{
+
+		public void createControls(Composite parent) {
 			final Hyperlink nameLink = new Hyperlink(parent, SWT.NONE);
 			nameLink.setText("ELSE" + (isRequired() ? " (Required)" : ""));
 			nameLink.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			nameLink.setForeground(parent.getDisplay().getSystemColor(SWT.COLOR_BLUE));
-			nameLink.addHyperlinkListener(new IHyperlinkListener()
-			{
-				public void linkEntered(HyperlinkEvent e)
-				{
+			nameLink.addHyperlinkListener(new IHyperlinkListener() {
+				public void linkEntered(HyperlinkEvent e) {
 					nameLink.setUnderlined(true);
 				}
 
-				public void linkExited(HyperlinkEvent e)
-				{
+				public void linkExited(HyperlinkEvent e) {
 					nameLink.setUnderlined(false);
 				}
 
-				public void linkActivated(HyperlinkEvent e)
-				{
+				public void linkActivated(HyperlinkEvent e) {
 					markOrigin();
-					try
-					{
+					try {
 						ElseDocumentItem conditional = new ElseDocumentItem(manager);
-						((ConditionalContainerSet)getContainer()).setElse(conditional);
+						((ConditionalContainerSet) getContainer()).setElse(conditional);
 						buildDocumentDisplay();
-					}
-					catch(Exception ex)
-					{
+					} catch (Exception ex) {
 						ex.printStackTrace();
 					}
 					restoreOrigin();
@@ -2369,34 +2007,27 @@ outer:					for(int i = 0; i < parts.length; i++)
 			});
 		}
 	}
-	
-	public class ForLoopSuggestion extends Suggestion
-	{
-		public ForLoopSuggestion(DocumentItemContainer container, boolean required)
-		{
+
+	public class ForLoopSuggestion extends Suggestion {
+		public ForLoopSuggestion(DocumentItemContainer container, boolean required) {
 			super(container, required);
 		}
-		
-		public void createControls(Composite parent)
-		{
+
+		public void createControls(Composite parent) {
 			final Hyperlink nameLink = new Hyperlink(parent, SWT.NONE);
 			nameLink.setText("FOR" + (isRequired() ? " (Required)" : ""));
 			nameLink.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			nameLink.setForeground(parent.getDisplay().getSystemColor(SWT.COLOR_BLUE));
-			nameLink.addHyperlinkListener(new IHyperlinkListener()
-			{
-				public void linkEntered(HyperlinkEvent e)
-				{
+			nameLink.addHyperlinkListener(new IHyperlinkListener() {
+				public void linkEntered(HyperlinkEvent e) {
 					nameLink.setUnderlined(true);
 				}
 
-				public void linkExited(HyperlinkEvent e)
-				{
+				public void linkExited(HyperlinkEvent e) {
 					nameLink.setUnderlined(false);
 				}
 
-				public void linkActivated(HyperlinkEvent e)
-				{
+				public void linkActivated(HyperlinkEvent e) {
 					markOrigin();
 					ForLoopDocumentItem forItem = new ForLoopDocumentItem(manager);
 					getContainer().insertItem(forItem, getInsertionPoint());
@@ -2407,80 +2038,65 @@ outer:					for(int i = 0; i < parts.length; i++)
 		}
 	}
 
-	public class ElementSuggestion extends Suggestion
-	{
+	public class ElementSuggestion extends Suggestion {
 		private ElementItem element = null;
-		
-		public ElementSuggestion(ElementItem element, DocumentItemContainer container, boolean required)
-		{
+
+		public ElementSuggestion(ElementItem element, DocumentItemContainer container,
+				boolean required) {
 			super(container, required);
 			this.element = element;
 		}
-		
-		public boolean isTextOnly()
-		{
+
+		public boolean isTextOnly() {
 			Type type = element.getType();
-			if(type instanceof SimpleType)
-				return true;
-			ComplexType complexType = (ComplexType)type;
+			if (type instanceof SimpleType) return true;
+			ComplexType complexType = (ComplexType) type;
 			ContentModel contentModel = complexType.getContentModel();
 			return contentModel instanceof SimpleContentModel;
 		}
-		
-		public void createControls(Composite parent)
-		{
+
+		public void createControls(Composite parent) {
 			final Hyperlink nameLink = new Hyperlink(parent, SWT.NONE);
-			nameLink.setText("Element: " + element.getName() + " " + (isRequired() ? " (Required)" : ""));
+			nameLink.setText("Element: " + element.getName() + " "
+					+ (isRequired() ? " (Required)" : ""));
 			nameLink.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			nameLink.setForeground(parent.getDisplay().getSystemColor(SWT.COLOR_BLUE));
-			nameLink.addControlListener(new ControlListener()
-			{
-				public void controlMoved(ControlEvent e)
-				{
-				}
+			nameLink.addControlListener(new ControlListener() {
+				public void controlMoved(ControlEvent e) {}
 
-				public void controlResized(ControlEvent e)
-				{
+				public void controlResized(ControlEvent e) {
 					System.out.println(nameLink.getSize());
 				}
 			});
-			nameLink.addHyperlinkListener(new IHyperlinkListener()
-			{
-				public void linkEntered(HyperlinkEvent e)
-				{
+			nameLink.addHyperlinkListener(new IHyperlinkListener() {
+				public void linkEntered(HyperlinkEvent e) {
 					nameLink.setUnderlined(true);
 				}
 
-				public void linkExited(HyperlinkEvent e)
-				{
+				public void linkExited(HyperlinkEvent e) {
 					nameLink.setUnderlined(false);
 				}
 
-				public void linkActivated(HyperlinkEvent e)
-				{
+				public void linkActivated(HyperlinkEvent e) {
 					markOrigin();
 					ElementDocumentItem elementItem = new ElementDocumentItem(manager);
 					elementItem.setName(element.getName());
 					elementItem.setNamespace(element.getOwnerSchema().getTargetNamespace());
 					Type type = element.getType();
-					if(type instanceof ComplexType)
-					{
-						ComplexType complexType = (ComplexType)type;
+					if (type instanceof ComplexType) {
+						ComplexType complexType = (ComplexType) type;
 						ContentModel contentModel = complexType.getContentModel();
 						List<AttributeItem> attributes = contentModel.getAttributes();
-						for(AttributeItem attributeItem : attributes)
-						{
-							ElementAttributeDocumentItem attributeDocumentItem = new ElementAttributeDocumentItem(manager);
+						for (AttributeItem attributeItem : attributes) {
+							ElementAttributeDocumentItem attributeDocumentItem = new ElementAttributeDocumentItem(
+									manager);
 							attributeDocumentItem.setName(attributeItem.getName());
 							attributeDocumentItem.setOptional(!attributeItem.isRequired());
 							elementItem.addAttribute(attributeDocumentItem);
 						}
-					}
-					else
-						elementItem.setSimple(true);
+					} else elementItem.setSimple(true);
 					getContainer().insertItem(elementItem, getInsertionPoint());
-					if(isTextOnly())
-						elementItem.insertItem(new TextDocumentItem(manager), null);
+					if (isTextOnly()) elementItem.insertItem(new TextDocumentItem(manager), null);
 					buildDocumentDisplay();
 					restoreOrigin();
 				}

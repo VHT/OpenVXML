@@ -27,10 +27,8 @@ public class ScriptableArray implements IScriptable {
 	/**
 	 * Creates a new ScriptableArray.
 	 * 
-	 * @param name
-	 *            The name of this array.
-	 * @param items
-	 *            The items in this array.
+	 * @param name The name of this array.
+	 * @param items The items in this array.
 	 */
 	public ScriptableArray(String name, Object[] items) {
 		this.name = name;
@@ -39,7 +37,6 @@ public class ScriptableArray implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getName()
 	 */
 	@Override
@@ -49,7 +46,6 @@ public class ScriptableArray implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasValue()
 	 */
 	@Override
@@ -59,7 +55,6 @@ public class ScriptableArray implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#toValue()
 	 */
 	@Override
@@ -69,9 +64,7 @@ public class ScriptableArray implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.spi.scripting.IScriptable#getFunctionNames()
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getFunctionNames()
 	 */
 	@Override
 	public String[] getFunctionNames() {
@@ -80,9 +73,8 @@ public class ScriptableArray implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#invokeFunction(
-	 * java.lang.String, java.lang.Object[])
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#invokeFunction( java.lang.String,
+	 * java.lang.Object[])
 	 */
 	@Override
 	public Object invokeFunction(String name, Object[] arguments) {
@@ -91,7 +83,6 @@ public class ScriptableArray implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasItem(int)
 	 */
 	@Override
@@ -106,9 +97,7 @@ public class ScriptableArray implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasEntry(
-	 * java.lang.String)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasEntry( java.lang.String)
 	 */
 	@Override
 	public boolean hasEntry(String name) {
@@ -117,7 +106,6 @@ public class ScriptableArray implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getItem(int)
 	 */
 	@Override
@@ -127,9 +115,7 @@ public class ScriptableArray implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getEntry(
-	 * java.lang.String)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getEntry( java.lang.String)
 	 */
 	@Override
 	public Object getEntry(String name) {
@@ -138,9 +124,7 @@ public class ScriptableArray implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setItem(int,
-	 * java.lang.Object)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setItem(int, java.lang.Object)
 	 */
 	@Override
 	public boolean setItem(int index, Object value) {
@@ -149,9 +133,8 @@ public class ScriptableArray implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setEntry(
-	 * java.lang.String, java.lang.Object)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setEntry( java.lang.String,
+	 * java.lang.Object)
 	 */
 	@Override
 	public boolean setEntry(String name, Object value) {
@@ -160,7 +143,6 @@ public class ScriptableArray implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearItem(int)
 	 */
 	@Override
@@ -170,9 +152,7 @@ public class ScriptableArray implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearEntry(
-	 * java.lang.String)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearEntry( java.lang.String)
 	 */
 	@Override
 	public boolean clearEntry(String name) {

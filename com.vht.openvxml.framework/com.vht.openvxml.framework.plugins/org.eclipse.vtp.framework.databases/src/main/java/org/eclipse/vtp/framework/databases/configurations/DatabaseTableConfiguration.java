@@ -23,8 +23,7 @@ import org.w3c.dom.NodeList;
  * 
  * @author Lonnie Pryor
  */
-public class DatabaseTableConfiguration implements IConfiguration,
-		DatabaseConstants {
+public class DatabaseTableConfiguration implements IConfiguration, DatabaseConstants {
 	/** The name of the table. */
 	private String name = ""; //$NON-NLS-1$
 	/** The columns defined in the table. */
@@ -33,8 +32,7 @@ public class DatabaseTableConfiguration implements IConfiguration,
 	/**
 	 * Creates a new DatabaseTableConfiguration.
 	 */
-	public DatabaseTableConfiguration() {
-	}
+	public DatabaseTableConfiguration() {}
 
 	/**
 	 * Returns the name of the table.
@@ -48,8 +46,7 @@ public class DatabaseTableConfiguration implements IConfiguration,
 	/**
 	 * Sets the name of the table.
 	 * 
-	 * @param name
-	 *            The name of the table.
+	 * @param name The name of the table.
 	 */
 	public void setName(String name) {
 		this.name = name == null ? "" : name; //$NON-NLS-1$
@@ -67,8 +64,7 @@ public class DatabaseTableConfiguration implements IConfiguration,
 	/**
 	 * Adds a column to the end of this table.
 	 * 
-	 * @param column
-	 *            The column to add.
+	 * @param column The column to add.
 	 */
 	public void addColumn(DatabaseColumnConfiguration column) {
 		if (column != null) {
@@ -79,8 +75,7 @@ public class DatabaseTableConfiguration implements IConfiguration,
 	/**
 	 * Removes a column from this table.
 	 * 
-	 * @param column
-	 *            The column to remove.
+	 * @param column The column to remove.
 	 */
 	public void removeColumn(DatabaseColumnConfiguration column) {
 		if (column != null) {
@@ -90,16 +85,13 @@ public class DatabaseTableConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#load( org.w3c.dom.Element)
 	 */
 	@Override
 	public void load(Element configurationElement) {
 		name = configurationElement.getAttribute(NAME_NAME);
 		columns.clear();
-		NodeList list = configurationElement.getElementsByTagNameNS(
-				NAMESPACE_URI, NAME_COLUMN);
+		NodeList list = configurationElement.getElementsByTagNameNS(NAMESPACE_URI, NAME_COLUMN);
 		for (int i = 0; i < list.getLength(); ++i) {
 			Element element = (Element) list.item(i);
 			DatabaseColumnConfiguration item = new DatabaseColumnConfiguration();
@@ -110,9 +102,7 @@ public class DatabaseTableConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#save( org.w3c.dom.Element)
 	 */
 	@Override
 	public void save(Element configurationElement) {
@@ -123,8 +113,8 @@ public class DatabaseTableConfiguration implements IConfiguration,
 			columnName = prefix + ":" + columnName; //$NON-NLS-1$
 		}
 		for (DatabaseColumnConfiguration item : columns) {
-			Element element = configurationElement.getOwnerDocument()
-					.createElementNS(NAMESPACE_URI, columnName);
+			Element element = configurationElement.getOwnerDocument().createElementNS(
+					NAMESPACE_URI, columnName);
 			item.save(element);
 			configurationElement.appendChild(element);
 		}

@@ -15,12 +15,11 @@ import org.eclipse.vtp.framework.common.IScriptable;
 import org.eclipse.vtp.framework.core.ILogger;
 
 /**
- * An {@link IScriptable} implementation that makes the scoped {@link ILogger}
- * instance available as a scripting object.
- * 
+ * An {@link IScriptable} implementation that makes the scoped {@link ILogger} instance available as
+ * a scripting object.
  * <p>
- * This service will make available a "Log" object to all scripts in its scope.
- * The variable supports the following methods:
+ * This service will make available a "Log" object to all scripts in its scope. The variable
+ * supports the following methods:
  * <ul>
  * <li><code>isEnabled(level)</code></li>
  * <li><code>report(level, categories*, message)</code></li>
@@ -30,16 +29,13 @@ import org.eclipse.vtp.framework.core.ILogger;
  * <li><code>info(categories*, message)</code></li>
  * <li><code>debug(categories*, message)</code></li>
  * </ul>
- * In all the above methods, the <code>level</code> argument must be one of
- * "error", "warn", "info", "debug", or an integer. The <code>categories*</code>
- * argument(s) must be zero or more category names the report or log entry
- * applies to. The <code>message</code> argument must be the message to report
- * or log.
+ * In all the above methods, the <code>level</code> argument must be one of "error", "warn", "info",
+ * "debug", or an integer. The <code>categories*</code> argument(s) must be zero or more category
+ * names the report or log entry applies to. The <code>message</code> argument must be the message
+ * to report or log.
  * </p>
- * 
  * <p>
- * The "Log" scripting object has no implicit value and cannot be compared to
- * other objects.
+ * The "Log" scripting object has no implicit value and cannot be compared to other objects.
  * </p>
  * 
  * @author Lonnie Pryor
@@ -52,8 +48,7 @@ public class ScriptableLogger implements IScriptable {
 	/**
 	 * Creates a new ScriptableLogger.
 	 * 
-	 * @param logger
-	 *            The logger to provide scripting services for.
+	 * @param logger The logger to provide scripting services for.
 	 */
 	public ScriptableLogger(ILogger logger) {
 		this.logger = logger;
@@ -61,9 +56,7 @@ public class ScriptableLogger implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearProperty(
-	 * java.lang.String)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearProperty( java.lang.String)
 	 */
 	@Override
 	public final boolean clearEntry(String name) {
@@ -72,7 +65,6 @@ public class ScriptableLogger implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#clearItem(int)
 	 */
 	@Override
@@ -82,9 +74,7 @@ public class ScriptableLogger implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getProperty(
-	 * java.lang.String)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getProperty( java.lang.String)
 	 */
 	@Override
 	public final Object getEntry(String name) {
@@ -93,9 +83,7 @@ public class ScriptableLogger implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.spi.scripting.IScriptable#getFunctionNames()
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getFunctionNames()
 	 */
 	@Override
 	public final String[] getFunctionNames() {
@@ -111,7 +99,6 @@ public class ScriptableLogger implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getItem(int)
 	 */
 	@Override
@@ -121,7 +108,6 @@ public class ScriptableLogger implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#getName()
 	 */
 	@Override
@@ -136,9 +122,7 @@ public class ScriptableLogger implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasProperty(
-	 * java.lang.String)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasProperty( java.lang.String)
 	 */
 	@Override
 	public final boolean hasEntry(String name) {
@@ -147,7 +131,6 @@ public class ScriptableLogger implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasItem(int)
 	 */
 	@Override
@@ -157,7 +140,6 @@ public class ScriptableLogger implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#hasValue()
 	 */
 	@Override
@@ -167,28 +149,21 @@ public class ScriptableLogger implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#invokeFunction(
-	 * java.lang.String, java.lang.Object[])
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#invokeFunction( java.lang.String,
+	 * java.lang.Object[])
 	 */
 	@Override
 	public final Object invokeFunction(String name, Object[] arguments) {
 		if ("isEnabled".equals(name)) //$NON-NLS-1$
 		{
-			if (arguments.length == 0) {
-				return null;
-			}
+			if (arguments.length == 0) { return null; }
 			return logger.isSeverityEnabled(toSeverityLevel(arguments[0])) ? Boolean.TRUE
 					: Boolean.FALSE;
 		} else if ("report".equals(name)) //$NON-NLS-1$
 		{
-			if (arguments.length < 2) {
-				return null;
-			}
+			if (arguments.length < 2) { return null; }
 			final int severity = toSeverityLevel(arguments[0]);
-			if (!logger.isSeverityEnabled(severity)) {
-				return null;
-			}
+			if (!logger.isSeverityEnabled(severity)) { return null; }
 			String[] categories = null;
 			if (arguments.length > 2) {
 				categories = new String[arguments.length - 2];
@@ -196,20 +171,15 @@ public class ScriptableLogger implements IScriptable {
 					categories[i] = String.valueOf(arguments[i + 1]);
 				}
 			}
-			logger.report(severity, categories,
-					String.valueOf(arguments[arguments.length - 1]));
+			logger.report(severity, categories, String.valueOf(arguments[arguments.length - 1]));
 		} else {
 			int severity = ILogger.SEVERITY_DEBUG;
 			String[] categories = null;
 			if ("log".equals(name)) //$NON-NLS-1$
 			{
-				if (arguments.length < 2) {
-					return null;
-				}
+				if (arguments.length < 2) { return null; }
 				severity = toSeverityLevel(arguments[0]);
-				if (!logger.isSeverityEnabled(severity)) {
-					return null;
-				}
+				if (!logger.isSeverityEnabled(severity)) { return null; }
 				if (arguments.length > 2) {
 					categories = new String[arguments.length - 2];
 					for (int i = 0; i < categories.length; ++i) {
@@ -217,13 +187,9 @@ public class ScriptableLogger implements IScriptable {
 					}
 				}
 			} else {
-				if (arguments.length < 1) {
-					return null;
-				}
+				if (arguments.length < 1) { return null; }
 				severity = toSeverityLevel(name);
-				if (!logger.isSeverityEnabled(severity)) {
-					return null;
-				}
+				if (!logger.isSeverityEnabled(severity)) { return null; }
 				if (arguments.length > 1) {
 					categories = new String[arguments.length - 1];
 					for (int i = 0; i < categories.length; ++i) {
@@ -231,8 +197,7 @@ public class ScriptableLogger implements IScriptable {
 					}
 				}
 			}
-			logger.log(severity, categories,
-					String.valueOf(arguments[arguments.length - 1]));
+			logger.log(severity, categories, String.valueOf(arguments[arguments.length - 1]));
 		}
 		return null;
 	}
@@ -245,9 +210,8 @@ public class ScriptableLogger implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setProperty(
-	 * java.lang.String, java.lang.Object)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setProperty( java.lang.String,
+	 * java.lang.Object)
 	 */
 	@Override
 	public final boolean setEntry(String name, Object value) {
@@ -256,9 +220,7 @@ public class ScriptableLogger implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setItem(int,
-	 * java.lang.Object)
+	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#setItem(int, java.lang.Object)
 	 */
 	@Override
 	public final boolean setItem(int index, Object value) {
@@ -268,8 +230,7 @@ public class ScriptableLogger implements IScriptable {
 	/**
 	 * Converts an object into a severity level.
 	 * 
-	 * @param value
-	 *            The value to convert.
+	 * @param value The value to convert.
 	 * @return The converted severity level.
 	 */
 	private int toSeverityLevel(Object value) {
@@ -280,9 +241,7 @@ public class ScriptableLogger implements IScriptable {
 			return ILogger.SEVERITY_WARN;
 		} else if ("info".equalsIgnoreCase(string)) {
 			return ILogger.SEVERITY_INFO;
-		} else if ("debug".equalsIgnoreCase(string)) {
-			return ILogger.SEVERITY_DEBUG;
-		}
+		} else if ("debug".equalsIgnoreCase(string)) { return ILogger.SEVERITY_DEBUG; }
 		try {
 			return Integer.parseInt(string);
 		} catch (final NumberFormatException e) {
@@ -292,7 +251,6 @@ public class ScriptableLogger implements IScriptable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.spi.scripting.IScriptable#toValue()
 	 */
 	@Override

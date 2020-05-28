@@ -41,21 +41,19 @@ public class UpgradeSupportManager {
 	public UpgradeSupportManager() {
 		super();
 		elementConverters = new HashMap<String, ElementConverter>();
-		IConfigurationElement[] elementConverterExtensions = Platform
-				.getExtensionRegistry().getConfigurationElementsFor(
-						elementConvertsExtensionId);
+		IConfigurationElement[] elementConverterExtensions = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(elementConvertsExtensionId);
 		for (IConfigurationElement elementConverterExtension : elementConverterExtensions) {
 			String typeId = elementConverterExtension.getAttribute("type");
 			String version = elementConverterExtension.getAttribute("version");
 			String className = elementConverterExtension.getAttribute("class");
-			Bundle contributor = Platform.getBundle(elementConverterExtension
-					.getContributor().getName());
+			Bundle contributor = Platform.getBundle(elementConverterExtension.getContributor()
+					.getName());
 			try {
 				@SuppressWarnings("unchecked")
 				Class<XMLConverter> converterClass = (Class<XMLConverter>) contributor
 						.loadClass(className);
-				ElementConverter lec = new ElementConverter(typeId, version,
-						converterClass);
+				ElementConverter lec = new ElementConverter(typeId, version, converterClass);
 				elementConverters.put(lec.typeId + lec.version, lec);
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
@@ -67,23 +65,18 @@ public class UpgradeSupportManager {
 				.getExtensionRegistry().getConfigurationElementsFor(
 						configurationManagerConvertersExtensionId);
 		for (IConfigurationElement configurationManagerConverterExtension : configurationManagerConverterExtensions) {
-			String typeId = configurationManagerConverterExtension
-					.getAttribute("type");
-			String version = configurationManagerConverterExtension
-					.getAttribute("version");
-			String className = configurationManagerConverterExtension
-					.getAttribute("class");
-			Bundle contributor = Platform
-					.getBundle(configurationManagerConverterExtension
-							.getContributor().getName());
+			String typeId = configurationManagerConverterExtension.getAttribute("type");
+			String version = configurationManagerConverterExtension.getAttribute("version");
+			String className = configurationManagerConverterExtension.getAttribute("class");
+			Bundle contributor = Platform.getBundle(configurationManagerConverterExtension
+					.getContributor().getName());
 			try {
 				@SuppressWarnings("unchecked")
 				Class<XMLConverter> converterClass = (Class<XMLConverter>) contributor
 						.loadClass(className);
-				ConfigurationManagerConverter lec = new ConfigurationManagerConverter(
-						typeId, version, converterClass);
-				configurationManagerConverters.put(lec.typeId + lec.version,
-						lec);
+				ConfigurationManagerConverter lec = new ConfigurationManagerConverter(typeId,
+						version, converterClass);
+				configurationManagerConverters.put(lec.typeId + lec.version, lec);
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 				continue;
@@ -101,10 +94,8 @@ public class UpgradeSupportManager {
 			List<Object> dataServices) {
 		String key = type + version;
 		ElementConverter elementConverter = elementConverters.get(key);
-		if (elementConverter != null) {
-			return getConverterInstance(elementConverter.constructors,
-					dataServices);
-		}
+		if (elementConverter != null) { return getConverterInstance(elementConverter.constructors,
+				dataServices); }
 		return null;
 	}
 
@@ -114,15 +105,13 @@ public class UpgradeSupportManager {
 	 * @param dataServices
 	 * @return
 	 */
-	public XMLConverter getLegacyConfigurationManagerConverter(String type,
-			String version, List<Object> dataServices) {
+	public XMLConverter getLegacyConfigurationManagerConverter(String type, String version,
+			List<Object> dataServices) {
 		String key = type + version;
 		ConfigurationManagerConverter configurationManagerConverter = configurationManagerConverters
 				.get(key);
-		if (configurationManagerConverter != null) {
-			return getConverterInstance(
-					configurationManagerConverter.constructors, dataServices);
-		}
+		if (configurationManagerConverter != null) { return getConverterInstance(
+				configurationManagerConverter.constructors, dataServices); }
 		return null;
 	}
 
@@ -139,24 +128,20 @@ public class UpgradeSupportManager {
 				Object[] params = new Object[paramClasses.length];
 				for (int c = 0; c < paramClasses.length; c++) {
 					if (paramClasses[c].isArray()) {
-						Class<?> arrayClass = paramClasses[c]
-								.getComponentType();
+						Class<?> arrayClass = paramClasses[c].getComponentType();
 						List<Object> paramValueList = new LinkedList<Object>();
 						for (int s = 0; s < dataServices.size(); s++) {
 							Object dataService = dataServices.get(s);
-							if (arrayClass.isAssignableFrom(dataService
-									.getClass())) {
+							if (arrayClass.isAssignableFrom(dataService.getClass())) {
 								paramValueList.add(dataService);
 							}
 						}
-						params[c] = paramValueList
-								.toArray((Object[]) Array.newInstance(
-										arrayClass, paramValueList.size()));
+						params[c] = paramValueList.toArray((Object[]) Array.newInstance(arrayClass,
+								paramValueList.size()));
 					} else {
 						for (int s = 0; s < dataServices.size(); s++) {
 							Object dataService = dataServices.get(s);
-							if (paramClasses[c].isAssignableFrom(dataService
-									.getClass())) {
+							if (paramClasses[c].isAssignableFrom(dataService.getClass())) {
 								params[c] = dataService;
 								break;
 							}
@@ -188,8 +173,7 @@ public class UpgradeSupportManager {
 		 * @param version
 		 * @param converterClass
 		 */
-		ElementConverter(String typeId, String version,
-				Class<XMLConverter> converterClass) {
+		ElementConverter(String typeId, String version, Class<XMLConverter> converterClass) {
 			super();
 			this.typeId = typeId;
 			this.version = version;

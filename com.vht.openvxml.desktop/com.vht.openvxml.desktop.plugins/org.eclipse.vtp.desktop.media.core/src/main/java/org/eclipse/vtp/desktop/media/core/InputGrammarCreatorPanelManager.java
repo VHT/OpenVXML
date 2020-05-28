@@ -37,16 +37,14 @@ public class InputGrammarCreatorPanelManager {
 
 	@SuppressWarnings("unchecked")
 	public InputGrammarCreatorPanelManager() {
-		IConfigurationElement[] creatorExtensions = Platform
-				.getExtensionRegistry().getConfigurationElementsFor(
-						inputCreatorPanelExtensionId);
+		IConfigurationElement[] creatorExtensions = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(inputCreatorPanelExtensionId);
 		for (IConfigurationElement creatorExtension : creatorExtensions) {
 			ContentCreatorRecord ccr = new ContentCreatorRecord();
 			ccr.contentType = creatorExtension.getAttribute("input-type");
 			ccr.contentName = creatorExtension.getAttribute("input-type-name");
 			String className = creatorExtension.getAttribute("class");
-			Bundle contributor = Platform.getBundle(creatorExtension
-					.getContributor().getName());
+			Bundle contributor = Platform.getBundle(creatorExtension.getContributor().getName());
 			try {
 				ccr.creatorClass = (Class<InputGrammarCreatorPanel>) contributor
 						.loadClass(className);

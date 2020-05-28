@@ -51,18 +51,14 @@ public class DataRequestAction implements IAction {
 	/**
 	 * Creates a new DataRequestAction.
 	 * 
-	 * @param context
-	 *            The context to use.
-	 * @param variableRegistry
-	 *            The variable registry to use.
-	 * @param conversation
-	 *            The conversation to use.
-	 * @param configuration
-	 *            The configuration to use.
+	 * @param context The context to use.
+	 * @param variableRegistry The variable registry to use.
+	 * @param conversation The conversation to use.
+	 * @param configuration The configuration to use.
 	 */
-	public DataRequestAction(IActionContext context,
-			IVariableRegistry variableRegistry, IConversation conversation,
-			DataRequestConfiguration configuration, ILastResult lastResult) {
+	public DataRequestAction(IActionContext context, IVariableRegistry variableRegistry,
+			IConversation conversation, DataRequestConfiguration configuration,
+			ILastResult lastResult) {
 		this.context = context;
 		this.variableRegistry = variableRegistry;
 		this.conversation = conversation;
@@ -72,13 +68,11 @@ public class DataRequestAction implements IAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.core.IAction#execute()
 	 */
 	@Override
 	public IActionResult execute() {
-		String resultParameterName = ACTION_PREFIX
-				+ context.getActionID().replace(':', '_');
+		String resultParameterName = ACTION_PREFIX + context.getActionID().replace(':', '_');
 		try {
 			if (context.isDebugEnabled()) {
 				context.debug(getClass().getName().substring(
@@ -90,33 +84,34 @@ public class DataRequestAction implements IAction {
 				if (context.isReportingEnabled()) {
 					Dictionary props = new Hashtable();
 					props.put("event", "data.request.filled");
-					context.report(
-							IReporter.SEVERITY_INFO,
-							"Got requested data \""
-									+ context.getParameter(configuration
-											.getDataName()) + "\"", props);
+					context.report(IReporter.SEVERITY_INFO, "Got requested data \""
+							+ context.getParameter(configuration.getDataName()) + "\"", props);
 				}
 				IStringObject variable = (IStringObject) variableRegistry
 						.createVariable(IStringObject.TYPE_NAME);
-				variable.setValue(context.getParameter(configuration
-						.getDataName()));
-				variableRegistry.setVariable(configuration.getDataName(),
-						variable);
+				variable.setValue(context.getParameter(configuration.getDataName()));
+				variableRegistry.setVariable(configuration.getDataName(), variable);
 				IStringObject dtmfVar = (IStringObject) variableRegistry
 						.createVariable(IStringObject.TYPE_NAME);
-				dtmfVar.setValue(context.getParameter(configuration
-						.getDataName() + "_termchar"));
+				dtmfVar.setValue(context.getParameter(configuration.getDataName() + "_termchar"));
 				variableRegistry.setVariable("RecordDTMF", dtmfVar);
+				IStringObject durationVar = (IStringObject) variableRegistry
+						.createVariable(IStringObject.TYPE_NAME);
+				durationVar.setValue(context
+						.getParameter(configuration.getDataName() + "_duration"));
+				variableRegistry.setVariable("RecordDuration", durationVar);
+				IStringObject sizeVar = (IStringObject) variableRegistry
+						.createVariable(IStringObject.TYPE_NAME);
+				sizeVar.setValue(context.getParameter(configuration.getDataName() + "_size"));
+				variableRegistry.setVariable("RecordSize", sizeVar);
 				lastResult.clear();
 				String lastResultXML = context.getParameter("lastresult");
 				if (lastResultXML != null && !lastResultXML.equals("")) {
 					Document lastResultDocument = null;
 					try {
-						lastResultDocument = DocumentBuilderFactory
-								.newInstance()
-								.newDocumentBuilder()
-								.parse(new ByteArrayInputStream(lastResultXML
-										.getBytes()));
+						lastResultDocument = DocumentBuilderFactory.newInstance()
+								.newDocumentBuilder().parse(
+										new ByteArrayInputStream(lastResultXML.getBytes()));
 					} catch (Exception ex) {
 						ex.printStackTrace();
 					}
@@ -124,29 +119,24 @@ public class DataRequestAction implements IAction {
 							.getElementsByTagName("mark");
 					if (markList.getLength() > 0) {
 						Element markElement = (Element) markList.item(0);
-						lastResult
-								.setMarkName(markElement.getAttribute("name"));
-						lastResult.setMarkTime(markElement
-								.getAttribute("offset"));
+						lastResult.setMarkName(markElement.getAttribute("name"));
+						lastResult.setMarkTime(markElement.getAttribute("offset"));
 					}
-					NodeList nl = lastResultDocument.getDocumentElement()
-							.getElementsByTagName("result");
+					NodeList nl = lastResultDocument.getDocumentElement().getElementsByTagName(
+							"result");
 					for (int i = 0; i < nl.getLength(); i++) {
 						Element resultElement = (Element) nl.item(i);
-						Element confidenceElement = (Element) resultElement
-								.getElementsByTagName("confidence").item(0);
-						Element utteranceElement = (Element) resultElement
-								.getElementsByTagName("utterance").item(0);
-						Element inputModeElement = (Element) resultElement
-								.getElementsByTagName("inputmode").item(0);
+						Element confidenceElement = (Element) resultElement.getElementsByTagName(
+								"confidence").item(0);
+						Element utteranceElement = (Element) resultElement.getElementsByTagName(
+								"utterance").item(0);
+						Element inputModeElement = (Element) resultElement.getElementsByTagName(
+								"inputmode").item(0);
 						Element interpretationElement = (Element) resultElement
 								.getElementsByTagName("interpretation").item(0);
-						lastResult.addResult(
-								new BigDecimal(confidenceElement
-										.getTextContent()).multiply(
-										new BigDecimal(100)).intValue(),
-								utteranceElement.getTextContent(),
-								inputModeElement.getTextContent(),
+						lastResult.addResult(new BigDecimal(confidenceElement.getTextContent())
+								.multiply(new BigDecimal(100)).intValue(), utteranceElement
+								.getTextContent(), inputModeElement.getTextContent(),
 								interpretationElement.getTextContent());
 					}
 				}
@@ -155,51 +145,44 @@ public class DataRequestAction implements IAction {
 				if (context.isReportingEnabled()) {
 					Dictionary props = new Hashtable();
 					props.put("event", "data.request.noinput");
-					context.report(IReporter.SEVERITY_INFO,
-							"Got no input for requested data.", props);
+					context.report(IReporter.SEVERITY_INFO, "Got no input for requested data.",
+							props);
 				}
 				return context.createResult(IConversation.RESULT_NAME_NO_INPUT);
 			} else if (IConversation.RESULT_NAME_HANGUP.equals(result)) {
 				if (context.isReportingEnabled()) {
 					Dictionary props = new Hashtable();
 					props.put("event", "data.request.filled");
-					context.report(
-							IReporter.SEVERITY_INFO,
-							"Got requested data \""
-									+ context.getParameter(configuration
-											.getDataName()) + "\"", props);
+					context.report(IReporter.SEVERITY_INFO, "Got requested data \""
+							+ context.getParameter(configuration.getDataName()) + "\"", props);
 				}
 				IStringObject variable = (IStringObject) variableRegistry
 						.createVariable(IStringObject.TYPE_NAME);
-				variable.setValue(context.getParameter(configuration
-						.getDataName()));
-				variableRegistry.setVariable(configuration.getDataName(),
-						variable);
+				variable.setValue(context.getParameter(configuration.getDataName()));
+				variableRegistry.setVariable(configuration.getDataName(), variable);
 				lastResult.clear();
 				if (context.isReportingEnabled()) {
 					Dictionary props = new Hashtable();
 					props.put("event", "error.disconnect.hangup");
-					context.report(IReporter.SEVERITY_INFO,
-							"Got disconnect during interaction.", props);
+					context.report(IReporter.SEVERITY_INFO, "Got disconnect during interaction.",
+							props);
 				}
 				return context.createResult(IConversation.RESULT_NAME_HANGUP);
 			} else if (IConversation.RESULT_NAME_NO_MATCH.equals(result)) {
 				if (context.isReportingEnabled()) {
 					Dictionary props = new Hashtable();
 					props.put("event", "data.request.nomatch");
-					context.report(IReporter.SEVERITY_INFO,
-							"Got no match for requested data.", props);
+					context.report(IReporter.SEVERITY_INFO, "Got no match for requested data.",
+							props);
 				}
 				lastResult.clear();
 				String lastResultXML = context.getParameter("lastresult");
 				if (lastResultXML != null && !lastResultXML.equals("")) {
 					Document lastResultDocument = null;
 					try {
-						lastResultDocument = DocumentBuilderFactory
-								.newInstance()
-								.newDocumentBuilder()
-								.parse(new ByteArrayInputStream(lastResultXML
-										.getBytes()));
+						lastResultDocument = DocumentBuilderFactory.newInstance()
+								.newDocumentBuilder().parse(
+										new ByteArrayInputStream(lastResultXML.getBytes()));
 					} catch (Exception ex) {
 						ex.printStackTrace();
 					}
@@ -207,49 +190,41 @@ public class DataRequestAction implements IAction {
 							.getElementsByTagName("mark");
 					if (markList.getLength() > 0) {
 						Element markElement = (Element) markList.item(0);
-						lastResult
-								.setMarkName(markElement.getAttribute("name"));
-						lastResult.setMarkTime(markElement
-								.getAttribute("offset"));
+						lastResult.setMarkName(markElement.getAttribute("name"));
+						lastResult.setMarkTime(markElement.getAttribute("offset"));
 					}
-					NodeList nl = lastResultDocument.getDocumentElement()
-							.getElementsByTagName("result");
+					NodeList nl = lastResultDocument.getDocumentElement().getElementsByTagName(
+							"result");
 					for (int i = 0; i < nl.getLength(); i++) {
 						Element resultElement = (Element) nl.item(i);
-						Element confidenceElement = (Element) resultElement
-								.getElementsByTagName("confidence").item(0);
-						Element utteranceElement = (Element) resultElement
-								.getElementsByTagName("utterance").item(0);
-						Element inputModeElement = (Element) resultElement
-								.getElementsByTagName("inputmode").item(0);
+						Element confidenceElement = (Element) resultElement.getElementsByTagName(
+								"confidence").item(0);
+						Element utteranceElement = (Element) resultElement.getElementsByTagName(
+								"utterance").item(0);
+						Element inputModeElement = (Element) resultElement.getElementsByTagName(
+								"inputmode").item(0);
 						Element interpretationElement = (Element) resultElement
 								.getElementsByTagName("interpretation").item(0);
-						lastResult.addResult(
-								new BigDecimal(confidenceElement
-										.getTextContent()).multiply(
-										new BigDecimal(100)).intValue(),
-								utteranceElement.getTextContent(),
-								inputModeElement.getTextContent(),
+						lastResult.addResult(new BigDecimal(confidenceElement.getTextContent())
+								.multiply(new BigDecimal(100)).intValue(), utteranceElement
+								.getTextContent(), inputModeElement.getTextContent(),
 								interpretationElement.getTextContent());
 					}
 				}
 				return context.createResult(IConversation.RESULT_NAME_NO_MATCH);
 			} else if ("".equals(result)) {
-				throw new IllegalArgumentException(
-						"Data Request received empty Action parameter: "
-								+ result);
+				throw new IllegalArgumentException("Data Request received empty Action parameter: "
+						+ result);
 			} else if (result != null) {
 				return context.createResult(result);
 			} else {
 				if (context.isReportingEnabled()) {
 					Dictionary props = new Hashtable();
 					props.put("event", "data.request.before");
-					context.report(IReporter.SEVERITY_INFO,
-							"Requesting data \"" + configuration.getDataName()
-									+ "\".", props);
+					context.report(IReporter.SEVERITY_INFO, "Requesting data \""
+							+ configuration.getDataName() + "\".", props);
 				}
-				conversation.createDataRequest(configuration,
-						resultParameterName).enqueue();
+				conversation.createDataRequest(configuration, resultParameterName).enqueue();
 				return context.createResult(IActionResult.RESULT_NAME_REPEAT);
 			}
 		} catch (RuntimeException e) {

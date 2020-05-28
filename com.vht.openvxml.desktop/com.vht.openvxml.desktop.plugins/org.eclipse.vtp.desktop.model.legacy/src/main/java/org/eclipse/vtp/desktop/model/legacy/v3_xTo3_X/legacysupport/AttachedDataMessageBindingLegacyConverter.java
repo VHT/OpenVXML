@@ -7,23 +7,17 @@ import org.w3c.dom.NodeList;
 
 public class AttachedDataMessageBindingLegacyConverter implements XMLConverter {
 
-	public AttachedDataMessageBindingLegacyConverter() {
-	}
+	public AttachedDataMessageBindingLegacyConverter() {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.desktop.model.core.update.XMLConverter#convert(org.w3c
-	 * .dom.Element)
+	 * @see org.eclipse.vtp.desktop.model.core.update.XMLConverter#convert(org.w3c .dom.Element)
 	 */
 	@Override
 	public void convert(Element element) throws ConversionException {
 		Element parent = (Element) element.getParentNode();
-		Element replacement = parent.getOwnerDocument().createElement(
-				"managed-config");
-		replacement.setAttribute("type",
-				"org.eclipse.vtp.configuration.attacheddata");
+		Element replacement = parent.getOwnerDocument().createElement("managed-config");
+		replacement.setAttribute("type", "org.eclipse.vtp.configuration.attacheddata");
 		NodeList children = element.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++) {
 			Node clone = children.item(i).cloneNode(true);

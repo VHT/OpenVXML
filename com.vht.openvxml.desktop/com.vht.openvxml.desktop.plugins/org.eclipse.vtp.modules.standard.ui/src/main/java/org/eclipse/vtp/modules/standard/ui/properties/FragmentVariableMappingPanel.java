@@ -55,8 +55,9 @@ import com.openmethods.openvxml.desktop.model.workflow.IWorkflowProjectAspect;
 import com.openmethods.openvxml.desktop.model.workflow.design.IDesignElement;
 import com.openmethods.openvxml.desktop.model.workflow.design.Variable;
 
-public class FragmentVariableMappingPanel extends DesignElementPropertiesPanel implements FragmentConfigurationListener
-{
+public class FragmentVariableMappingPanel extends DesignElementPropertiesPanel
+	implements
+	FragmentConfigurationListener {
 	private TableViewer expectedVariableViewer = null;
 	private Button inheritButton = null;
 	private Button noChangeButton = null;
@@ -67,26 +68,23 @@ public class FragmentVariableMappingPanel extends DesignElementPropertiesPanel i
 	private Button appVariableButton = null;
 	private TableViewer appVariableViewer = null;
 	private List<Variable> inputVariables = Collections.emptyList();
-	
+
 	private FragmentConfigurationManager manager = null;
 	private IBrand currentBrand = null;
 	List<Variable> applicationVariables = new ArrayList<Variable>();
 	private boolean updating = false;
 	private Composite mappingComposite = null;
 
-	public FragmentVariableMappingPanel(String name, IDesignElement element)
-	{
+	public FragmentVariableMappingPanel(String name, IDesignElement element) {
 		super(name, element);
-		manager = (FragmentConfigurationManager)element.getConfigurationManager(FragmentConfigurationManager.TYPE_ID);
+		manager = (FragmentConfigurationManager) element
+				.getConfigurationManager(FragmentConfigurationManager.TYPE_ID);
 		updateInputValues();
 		manager.addListener(this);
 		List<Variable> vars = element.getDesign().getVariablesFor(element);
-outer:	for(Variable v : vars)
-		{
-			for(int i = 0; i < applicationVariables.size(); i++)
-			{
-				if(applicationVariables.get(i).getName().compareToIgnoreCase(v.getName()) > 0)
-				{
+		outer: for (Variable v : vars) {
+			for (int i = 0; i < applicationVariables.size(); i++) {
+				if (applicationVariables.get(i).getName().compareToIgnoreCase(v.getName()) > 0) {
 					applicationVariables.add(i, v);
 					continue outer;
 				}
@@ -95,13 +93,13 @@ outer:	for(Variable v : vars)
 		}
 	}
 
-	public void createControls(Composite parent)
-	{
+	public void createControls(Composite parent) {
 		Composite comp = new Composite(parent, SWT.NONE);
 		comp.setBackground(parent.getBackground());
 		comp.setLayout(new GridLayout(2, true));
 
-		Table expectedVariableTable = new Table(comp, SWT.FULL_SELECTION | SWT.SINGLE | SWT.V_SCROLL | SWT.BORDER);
+		Table expectedVariableTable = new Table(comp, SWT.FULL_SELECTION | SWT.SINGLE
+				| SWT.V_SCROLL | SWT.BORDER);
 		expectedVariableTable.setHeaderVisible(true);
 		TableColumn nameColumn = new TableColumn(expectedVariableTable, SWT.NONE);
 		nameColumn.setText("Variable Name");
@@ -115,98 +113,77 @@ outer:	for(Variable v : vars)
 		expectedVariableViewer.setInput(this);
 		GridData gd = new GridData(GridData.FILL_BOTH);
 		expectedVariableTable.setLayoutData(gd);
-		expectedVariableViewer.addSelectionChangedListener(new ISelectionChangedListener()
-		{
-			public void selectionChanged(SelectionChangedEvent event)
-            {
-				if(currentBrand == null)
-					return;
-				try
-                {
-	                StructuredSelection selection = (StructuredSelection)event.getSelection();
-	                if(!selection.isEmpty())
-	                {
-	                	updating = true;
-	                	InputBinding vd = (InputBinding)selection.getFirstElement();
-	                	InputBrandBinding brandBinding = vd.getBrandBinding(currentBrand);
-	                	InputItem inputItem = brandBinding.getValue();
-	                	inheritButton.setSelection(false);
-	                	noChangeButton.setSelection(false);
-	                	staticButton.setSelection(false);
-	                	expressionButton.setSelection(false);
-	                	appVariableButton.setSelection(false);
-	                	if(brandBinding.hasParent() && brandBinding.isInherited())
-	                	{
-	                		inheritButton.setSelection(true);
-    	                	staticText.setText("");
-    	                	staticText.setEnabled(false);
-    	                	expressionText.setText("");
-    	                	expressionText.setEnabled(false);
-    	                	appVariableViewer.setSelection(null);
-    	                	appVariableViewer.getControl().setEnabled(false);
-	                	}
-	                	else
-	                	{
-	                		String type = inputItem.getType();
-	                		if(type.equals(InputItem.NONE))
-	                		{
-	                			noChangeButton.setSelection(true);
-	    	                	staticText.setText("");
-	    	                	staticText.setEnabled(false);
-	    	                	expressionText.setText("");
-	    	                	expressionText.setEnabled(false);
-	    	                	appVariableViewer.setSelection(null);
-	    	                	appVariableViewer.getControl().setEnabled(false);
-	                		}
-	                		else if(type.equals(InputItem.STATIC))
-	                		{
-	                			staticButton.setSelection(true);
-	                			staticText.setText(inputItem.getValue());
-	                			staticText.setEnabled(true);
-	                			expressionText.setText("");
-	                			expressionText.setEnabled(false);
-	                			appVariableViewer.setSelection(null);
-	                			appVariableViewer.getControl().setEnabled(false);
-	                		}
-	                		else if(type.equals(InputItem.EXPRESSION))
-	                		{
-	                			expressionButton.setSelection(true);
-	                			staticText.setText("");
-	                			staticText.setEnabled(false);
-	                			expressionText.setText(inputItem.getValue());
-	                			expressionText.setEnabled(true);
-	    	                	appVariableViewer.setSelection(null);
-	    	                	appVariableViewer.getControl().setEnabled(false);
-	                		}
-	                		else if(type.equals(InputItem.VARIABLE))
-	                		{
-	                			staticText.setText("");
-	                			staticText.setEnabled(false);
-	                			expressionText.setText("");
-	                			expressionText.setEnabled(false);
-	                			appVariableButton.setSelection(true);
-	                			for(Iterator<Variable> i = applicationVariables.iterator(); i
-	                                    .hasNext();)
-	                            {
-	                                Variable v = i.next();
-	                                if(v.getName().equals(inputItem.getValue()))
-	                                {
-	                                	appVariableViewer.setSelection(new StructuredSelection(v));
-	                                }
-	                            }
-	                			appVariableViewer.getControl().setEnabled(true);
-	                		}
-		                	else
-		                		throw new RuntimeException("Unknown mapping type found.");
-	                	}
-	                	updating = false;
-	                }
-                }
-                catch(RuntimeException e)
-                {
-	                e.printStackTrace();
-                }
-            }
+		expectedVariableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			public void selectionChanged(SelectionChangedEvent event) {
+				if (currentBrand == null) return;
+				try {
+					StructuredSelection selection = (StructuredSelection) event.getSelection();
+					if (!selection.isEmpty()) {
+						updating = true;
+						InputBinding vd = (InputBinding) selection.getFirstElement();
+						InputBrandBinding brandBinding = vd.getBrandBinding(currentBrand);
+						InputItem inputItem = brandBinding.getValue();
+						inheritButton.setSelection(false);
+						noChangeButton.setSelection(false);
+						staticButton.setSelection(false);
+						expressionButton.setSelection(false);
+						appVariableButton.setSelection(false);
+						if (brandBinding.hasParent() && brandBinding.isInherited()) {
+							inheritButton.setSelection(true);
+							staticText.setText("");
+							staticText.setEnabled(false);
+							expressionText.setText("");
+							expressionText.setEnabled(false);
+							appVariableViewer.setSelection(null);
+							appVariableViewer.getControl().setEnabled(false);
+						} else {
+							String type = inputItem.getType();
+							if (type.equals(InputItem.NONE)) {
+								noChangeButton.setSelection(true);
+								staticText.setText("");
+								staticText.setEnabled(false);
+								expressionText.setText("");
+								expressionText.setEnabled(false);
+								appVariableViewer.setSelection(null);
+								appVariableViewer.getControl().setEnabled(false);
+							} else if (type.equals(InputItem.STATIC)) {
+								staticButton.setSelection(true);
+								staticText.setText(inputItem.getValue());
+								staticText.setEnabled(true);
+								expressionText.setText("");
+								expressionText.setEnabled(false);
+								appVariableViewer.setSelection(null);
+								appVariableViewer.getControl().setEnabled(false);
+							} else if (type.equals(InputItem.EXPRESSION)) {
+								expressionButton.setSelection(true);
+								staticText.setText("");
+								staticText.setEnabled(false);
+								expressionText.setText(inputItem.getValue());
+								expressionText.setEnabled(true);
+								appVariableViewer.setSelection(null);
+								appVariableViewer.getControl().setEnabled(false);
+							} else if (type.equals(InputItem.VARIABLE)) {
+								staticText.setText("");
+								staticText.setEnabled(false);
+								expressionText.setText("");
+								expressionText.setEnabled(false);
+								appVariableButton.setSelection(true);
+								for (Iterator<Variable> i = applicationVariables.iterator(); i
+										.hasNext();) {
+									Variable v = i.next();
+									if (v.getName().equals(inputItem.getValue())) {
+										appVariableViewer.setSelection(new StructuredSelection(v));
+									}
+								}
+								appVariableViewer.getControl().setEnabled(true);
+							} else throw new RuntimeException("Unknown mapping type found.");
+						}
+						updating = false;
+					}
+				} catch (RuntimeException e) {
+					e.printStackTrace();
+				}
+			}
 		});
 
 		mappingComposite = new Composite(comp, SWT.NONE);
@@ -214,288 +191,247 @@ outer:	for(Variable v : vars)
 		mappingComposite.setLayoutData(gd);
 		mappingComposite.setBackground(comp.getBackground());
 		mappingComposite.setLayout(new GridLayout(1, false));
-		
+
 		inheritButton = new Button(mappingComposite, SWT.RADIO);
 		inheritButton.setBackground(mappingComposite.getBackground());
 		inheritButton.setText("Inherit from parent Brand");
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.exclude = true;
 		inheritButton.setLayoutData(gd);
-		inheritButton.addSelectionListener(new SelectionListener()
-		{
+		inheritButton.addSelectionListener(new SelectionListener() {
 
-			public void widgetDefaultSelected(SelectionEvent e)
-            {
-            }
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
-			public void widgetSelected(SelectionEvent e)
-            {
-				if(updating)
-					return;
+			public void widgetSelected(SelectionEvent e) {
+				if (updating) return;
 				updating = true;
-				if(inheritButton.getSelection())
-				{
-					StructuredSelection selection = (StructuredSelection)expectedVariableViewer.getSelection();
-					if(!selection.isEmpty())
-					{
+				if (inheritButton.getSelection()) {
+					StructuredSelection selection = (StructuredSelection) expectedVariableViewer
+							.getSelection();
+					if (!selection.isEmpty()) {
 						staticText.setText("");
 						staticText.setEnabled(false);
 						expressionText.setText("");
 						expressionText.setEnabled(false);
 						appVariableViewer.setSelection(null);
 						appVariableViewer.getControl().setEnabled(false);
-	                	InputBinding vd = (InputBinding)selection.getFirstElement();
-	                	InputBrandBinding brandBinding = vd.getBrandBinding(currentBrand);
-	                	brandBinding.setValue(null);
+						InputBinding vd = (InputBinding) selection.getFirstElement();
+						InputBrandBinding brandBinding = vd.getBrandBinding(currentBrand);
+						brandBinding.setValue(null);
 					}
 				}
 				updating = false;
-            }
+			}
 		});
-		
+
 		noChangeButton = new Button(mappingComposite, SWT.RADIO);
 		noChangeButton.setBackground(mappingComposite.getBackground());
 		noChangeButton.setText("Do not change this variable");
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		noChangeButton.setLayoutData(gd);
-		noChangeButton.addSelectionListener(new SelectionListener()
-		{
+		noChangeButton.addSelectionListener(new SelectionListener() {
 
-			public void widgetDefaultSelected(SelectionEvent e)
-            {
-            }
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
-			public void widgetSelected(SelectionEvent e)
-            {
-				if(updating)
-					return;
+			public void widgetSelected(SelectionEvent e) {
+				if (updating) return;
 				updating = true;
-				if(noChangeButton.getSelection())
-				{
-					StructuredSelection selection = (StructuredSelection)expectedVariableViewer.getSelection();
-					if(!selection.isEmpty())
-					{
+				if (noChangeButton.getSelection()) {
+					StructuredSelection selection = (StructuredSelection) expectedVariableViewer
+							.getSelection();
+					if (!selection.isEmpty()) {
 						staticText.setText("");
 						staticText.setEnabled(false);
 						expressionText.setText("");
 						expressionText.setEnabled(false);
 						appVariableViewer.setSelection(null);
 						appVariableViewer.getControl().setEnabled(false);
-	                	InputBinding vd = (InputBinding)selection.getFirstElement();
-	                	InputBrandBinding brandBinding = vd.getBrandBinding(currentBrand);
-	                	InputItem inputItem = brandBinding.getValue();
-	                	if(brandBinding.isInherited())
-	                	{
-	                		inputItem = new InputItem();
-	                	}
-	                	inputItem.setType(InputItem.NONE);
-	                	inputItem.setValue("");
-	                	brandBinding.setValue(inputItem);
+						InputBinding vd = (InputBinding) selection.getFirstElement();
+						InputBrandBinding brandBinding = vd.getBrandBinding(currentBrand);
+						InputItem inputItem = brandBinding.getValue();
+						if (brandBinding.isInherited()) {
+							inputItem = new InputItem();
+						}
+						inputItem.setType(InputItem.NONE);
+						inputItem.setValue("");
+						brandBinding.setValue(inputItem);
 					}
 				}
 				updating = false;
-            }
-			
+			}
+
 		});
-		
+
 		staticButton = new Button(mappingComposite, SWT.RADIO);
 		staticButton.setBackground(mappingComposite.getBackground());
 		staticButton.setText("Use this value");
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		staticButton.setLayoutData(gd);
-		staticButton.addSelectionListener(new SelectionListener()
-		{
+		staticButton.addSelectionListener(new SelectionListener() {
 
-			public void widgetDefaultSelected(SelectionEvent e)
-            {
-            }
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
-			public void widgetSelected(SelectionEvent e)
-            {
-				if(updating)
-					return;
+			public void widgetSelected(SelectionEvent e) {
+				if (updating) return;
 				updating = true;
-				if(staticButton.getSelection())
-				{
-					StructuredSelection selection = (StructuredSelection)expectedVariableViewer.getSelection();
-					if(!selection.isEmpty())
-					{
+				if (staticButton.getSelection()) {
+					StructuredSelection selection = (StructuredSelection) expectedVariableViewer
+							.getSelection();
+					if (!selection.isEmpty()) {
 						staticText.setText("");
 						staticText.setEnabled(true);
 						expressionText.setText("");
 						expressionText.setEnabled(false);
 						appVariableViewer.setSelection(null);
 						appVariableViewer.getControl().setEnabled(false);
-	                	InputBinding vd = (InputBinding)selection.getFirstElement();
-	                	InputBrandBinding brandBinding = vd.getBrandBinding(currentBrand);
-	                	InputItem inputItem = brandBinding.getValue();
-	                	if(brandBinding.isInherited())
-	                	{
-	                		inputItem = new InputItem();
-	                	}
-	                	inputItem.setType(InputItem.STATIC);
-	                	inputItem.setValue("");
-	                	brandBinding.setValue(inputItem);
+						InputBinding vd = (InputBinding) selection.getFirstElement();
+						InputBrandBinding brandBinding = vd.getBrandBinding(currentBrand);
+						InputItem inputItem = brandBinding.getValue();
+						if (brandBinding.isInherited()) {
+							inputItem = new InputItem();
+						}
+						inputItem.setType(InputItem.STATIC);
+						inputItem.setValue("");
+						brandBinding.setValue(inputItem);
 					}
 				}
 				updating = false;
-            }
-			
+			}
+
 		});
-		
+
 		staticText = new Text(mappingComposite, SWT.SINGLE | SWT.BORDER);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalIndent = 15;
 		staticText.setLayoutData(gd);
-		staticText.addModifyListener(new ModifyListener()
-		{
+		staticText.addModifyListener(new ModifyListener() {
 
-			public void modifyText(ModifyEvent e)
-            {
-				if(updating)
-					return;
-				StructuredSelection selection = (StructuredSelection)expectedVariableViewer.getSelection();
-				if(!selection.isEmpty())
-				{
-                	InputBinding vd = (InputBinding)selection.getFirstElement();
-                	InputBrandBinding brandBinding = vd.getBrandBinding(currentBrand);
-                	InputItem inputItem = brandBinding.getValue();
-                	if(brandBinding.isInherited())
-                	{
-                		inputItem = new InputItem();
-                	}
-//					if(inputItem.getType().equals(InputItem.STATIC))
-//					{
-						inputItem.setValue(staticText.getText());
-						brandBinding.setValue(inputItem);
-//					}
+			public void modifyText(ModifyEvent e) {
+				if (updating) return;
+				StructuredSelection selection = (StructuredSelection) expectedVariableViewer
+						.getSelection();
+				if (!selection.isEmpty()) {
+					InputBinding vd = (InputBinding) selection.getFirstElement();
+					InputBrandBinding brandBinding = vd.getBrandBinding(currentBrand);
+					InputItem inputItem = brandBinding.getValue();
+					if (brandBinding.isInherited()) {
+						inputItem = new InputItem();
+					}
+					// if(inputItem.getType().equals(InputItem.STATIC))
+					// {
+					inputItem.setValue(staticText.getText());
+					brandBinding.setValue(inputItem);
+					// }
 				}
-            }
-			
+			}
+
 		});
-		
+
 		expressionButton = new Button(mappingComposite, SWT.RADIO);
 		expressionButton.setBackground(mappingComposite.getBackground());
 		expressionButton.setText("Use this Javascript expression");
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		expressionButton.setLayoutData(gd);
-		expressionButton.addSelectionListener(new SelectionListener()
-		{
+		expressionButton.addSelectionListener(new SelectionListener() {
 
-			public void widgetDefaultSelected(SelectionEvent e)
-            {
-            }
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
-			public void widgetSelected(SelectionEvent e)
-            {
-				if(updating)
-					return;
+			public void widgetSelected(SelectionEvent e) {
+				if (updating) return;
 				updating = true;
-				if(expressionButton.getSelection())
-				{
-					StructuredSelection selection = (StructuredSelection)expectedVariableViewer.getSelection();
-					if(!selection.isEmpty())
-					{
+				if (expressionButton.getSelection()) {
+					StructuredSelection selection = (StructuredSelection) expectedVariableViewer
+							.getSelection();
+					if (!selection.isEmpty()) {
 						staticText.setText("");
 						staticText.setEnabled(false);
 						expressionText.setText("");
 						expressionText.setEnabled(true);
 						appVariableViewer.setSelection(null);
 						appVariableViewer.getControl().setEnabled(false);
-	                	InputBinding vd = (InputBinding)selection.getFirstElement();
-	                	InputBrandBinding brandBinding = vd.getBrandBinding(currentBrand);
-	                	InputItem inputItem = brandBinding.getValue();
-	                	if(brandBinding.isInherited())
-	                	{
-	                		inputItem = new InputItem();
-	                	}
-	                	inputItem.setType(InputItem.EXPRESSION);
-	                	inputItem.setValue("");
-	                	brandBinding.setValue(inputItem);
+						InputBinding vd = (InputBinding) selection.getFirstElement();
+						InputBrandBinding brandBinding = vd.getBrandBinding(currentBrand);
+						InputItem inputItem = brandBinding.getValue();
+						if (brandBinding.isInherited()) {
+							inputItem = new InputItem();
+						}
+						inputItem.setType(InputItem.EXPRESSION);
+						inputItem.setValue("");
+						brandBinding.setValue(inputItem);
 					}
 				}
 				updating = false;
-            }
-			
+			}
+
 		});
-		
+
 		expressionText = new Text(mappingComposite, SWT.SINGLE | SWT.BORDER);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalIndent = 15;
 		expressionText.setLayoutData(gd);
-		expressionText.addModifyListener(new ModifyListener()
-		{
+		expressionText.addModifyListener(new ModifyListener() {
 
-			public void modifyText(ModifyEvent e)
-            {
-				if(updating)
-					return;
-				StructuredSelection selection = (StructuredSelection)expectedVariableViewer.getSelection();
-				if(!selection.isEmpty())
-				{
-                	InputBinding vd = (InputBinding)selection.getFirstElement();
-                	InputBrandBinding brandBinding = vd.getBrandBinding(currentBrand);
-                	InputItem inputItem = brandBinding.getValue();
-                	if(brandBinding.isInherited())
-                	{
-                		inputItem = new InputItem();
-                	}
-//					if(inputItem.getType().equals(InputItem.EXPRESSION))
-//					{
-						inputItem.setValue(expressionText.getText());
-						brandBinding.setValue(inputItem);
-//					}
+			public void modifyText(ModifyEvent e) {
+				if (updating) return;
+				StructuredSelection selection = (StructuredSelection) expectedVariableViewer
+						.getSelection();
+				if (!selection.isEmpty()) {
+					InputBinding vd = (InputBinding) selection.getFirstElement();
+					InputBrandBinding brandBinding = vd.getBrandBinding(currentBrand);
+					InputItem inputItem = brandBinding.getValue();
+					if (brandBinding.isInherited()) {
+						inputItem = new InputItem();
+					}
+					// if(inputItem.getType().equals(InputItem.EXPRESSION))
+					// {
+					inputItem.setValue(expressionText.getText());
+					brandBinding.setValue(inputItem);
+					// }
 				}
-            }
-			
+			}
+
 		});
-		
+
 		appVariableButton = new Button(mappingComposite, SWT.RADIO);
 		appVariableButton.setBackground(mappingComposite.getBackground());
 		appVariableButton.setText("Use this application variable");
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		appVariableButton.setLayoutData(gd);
-		appVariableButton.addSelectionListener(new SelectionListener()
-		{
+		appVariableButton.addSelectionListener(new SelectionListener() {
 
-			public void widgetDefaultSelected(SelectionEvent e)
-            {
-            }
+			public void widgetDefaultSelected(SelectionEvent e) {}
 
-			public void widgetSelected(SelectionEvent e)
-            {
-				if(updating)
-					return;
+			public void widgetSelected(SelectionEvent e) {
+				if (updating) return;
 				updating = true;
-				if(appVariableButton.getSelection())
-				{
-					StructuredSelection selection = (StructuredSelection)expectedVariableViewer.getSelection();
-					if(!selection.isEmpty())
-					{
+				if (appVariableButton.getSelection()) {
+					StructuredSelection selection = (StructuredSelection) expectedVariableViewer
+							.getSelection();
+					if (!selection.isEmpty()) {
 						staticText.setText("");
 						staticText.setEnabled(false);
 						expressionText.setText("");
 						expressionText.setEnabled(false);
 						appVariableViewer.setSelection(null);
 						appVariableViewer.getControl().setEnabled(true);
-	                	InputBinding vd = (InputBinding)selection.getFirstElement();
-	                	InputBrandBinding brandBinding = vd.getBrandBinding(currentBrand);
-	                	InputItem inputItem = brandBinding.getValue();
-	                	if(brandBinding.isInherited())
-	                	{
-	                		inputItem = new InputItem();
-	                	}
-	                	inputItem.setType(InputItem.VARIABLE);
-	                	inputItem.setValue("");
+						InputBinding vd = (InputBinding) selection.getFirstElement();
+						InputBrandBinding brandBinding = vd.getBrandBinding(currentBrand);
+						InputItem inputItem = brandBinding.getValue();
+						if (brandBinding.isInherited()) {
+							inputItem = new InputItem();
+						}
+						inputItem.setType(InputItem.VARIABLE);
+						inputItem.setValue("");
 						brandBinding.setValue(inputItem);
 					}
 				}
 				updating = false;
-            }
-			
+			}
+
 		});
-		
-		Table appVariableTable = new Table(mappingComposite, SWT.FULL_SELECTION | SWT.SINGLE | SWT.V_SCROLL | SWT.BORDER);
+
+		Table appVariableTable = new Table(mappingComposite, SWT.FULL_SELECTION | SWT.SINGLE
+				| SWT.V_SCROLL | SWT.BORDER);
 		appVariableTable.setHeaderVisible(true);
 		TableColumn appVariableNameColumn = new TableColumn(appVariableTable, SWT.NONE);
 		appVariableNameColumn.setText("Variable Name");
@@ -510,156 +446,131 @@ outer:	for(Variable v : vars)
 		gd = new GridData(GridData.FILL_BOTH);
 		gd.horizontalIndent = 15;
 		appVariableViewer.getControl().setLayoutData(gd);
-		appVariableViewer.addSelectionChangedListener(new ISelectionChangedListener()
-		{
+		appVariableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
-			public void selectionChanged(SelectionChangedEvent event)
-            {
-				if(updating)
-					return;
-				StructuredSelection selection = (StructuredSelection)expectedVariableViewer.getSelection();
-				if(!selection.isEmpty())
-				{
-                	InputBinding vd = (InputBinding)selection.getFirstElement();
-                	InputBrandBinding brandBinding = vd.getBrandBinding(currentBrand);
-                	InputItem inputItem = brandBinding.getValue();
-                	if(brandBinding.isInherited())
-                	{
-                		inputItem = new InputItem();
-                	}
-//					if(mapping.getMappingType() == ApplicationFragmentVariableMapping.MAPPING_VARIABLE)
-//					{
-						StructuredSelection appSel = (StructuredSelection)event.getSelection();
-						if(appSel.isEmpty())
-							inputItem.setValue("");
-						else
-							inputItem.setValue(((Variable)appSel.getFirstElement()).getName());
-						brandBinding.setValue(inputItem);
-//					}
+			public void selectionChanged(SelectionChangedEvent event) {
+				if (updating) return;
+				StructuredSelection selection = (StructuredSelection) expectedVariableViewer
+						.getSelection();
+				if (!selection.isEmpty()) {
+					InputBinding vd = (InputBinding) selection.getFirstElement();
+					InputBrandBinding brandBinding = vd.getBrandBinding(currentBrand);
+					InputItem inputItem = brandBinding.getValue();
+					if (brandBinding.isInherited()) {
+						inputItem = new InputItem();
+					}
+					// if(mapping.getMappingType() ==
+					// ApplicationFragmentVariableMapping.MAPPING_VARIABLE)
+					// {
+					StructuredSelection appSel = (StructuredSelection) event.getSelection();
+					if (appSel.isEmpty()) inputItem.setValue("");
+					else inputItem.setValue(((Variable) appSel.getFirstElement()).getName());
+					brandBinding.setValue(inputItem);
+					// }
 				}
-            }
-			
+			}
+
 		});
-		
+
 		this.setControl(comp);
-		
+
 	}
 
-	public void save()
-	{
+	public void save() {
 		getElement().commitConfigurationChanges(manager);
 	}
-	
-	public void cancel()
-	{
+
+	public void cancel() {
 		getElement().rollbackConfigurationChanges(manager);
 	}
 
-	public void setConfigurationContext(Map<String, Object> values)
-	{
+	public void setConfigurationContext(Map<String, Object> values) {
 		Object obj = values.get(BrandContext.CONTEXT_ID);
-		if(obj != null)
-		{
-			currentBrand = (IBrand)obj;
-			((GridData)inheritButton.getLayoutData()).exclude = currentBrand.getParent() == null;
+		if (obj != null) {
+			currentBrand = (IBrand) obj;
+			((GridData) inheritButton.getLayoutData()).exclude = currentBrand.getParent() == null;
 			inheritButton.setVisible(currentBrand.getParent() != null);
 			mappingComposite.layout(true, true);
-			//initialize selection and value states
-			expectedVariableViewer.setSelection(manager.getInputBindings().size() < 1 ? StructuredSelection.EMPTY : new StructuredSelection(manager.getInputBindings().get(0)));
+			// initialize selection and value states
+			expectedVariableViewer
+					.setSelection(manager.getInputBindings().size() < 1 ? StructuredSelection.EMPTY
+							: new StructuredSelection(manager.getInputBindings().get(0)));
 		}
 	}
 
-	public void updateInputValues()
-	{
+	public void updateInputValues() {
 		inputVariables = Collections.emptyList();
-		ApplicationFragmentElement applicationFragmentElement = (ApplicationFragmentElement)getElement();
-		if(applicationFragmentElement.isModelPresent())
-		{
+		ApplicationFragmentElement applicationFragmentElement = (ApplicationFragmentElement) getElement();
+		if (applicationFragmentElement.isModelPresent()) {
 			String entryId = manager.getEntryId();
-			if(entryId != null && !entryId.equals(""))
-			{
+			if (entryId != null && !entryId.equals("")) {
 				IOpenVXMLProject referencedModel = applicationFragmentElement.getReferencedModel();
-				IWorkflowProjectAspect workflowAspect = (IWorkflowProjectAspect)referencedModel.getProjectAspect(IWorkflowProjectAspect.ASPECT_ID);
+				IWorkflowProjectAspect workflowAspect = (IWorkflowProjectAspect) referencedModel
+						.getProjectAspect(IWorkflowProjectAspect.ASPECT_ID);
 				IWorkflowEntry entry = workflowAspect.getWorkflowEntry(entryId);
-				if(entry != null)
-				{
+				if (entry != null) {
 					inputVariables = entry.getInputVariables();
 					System.err.println("inputVariables: " + inputVariables);
 				}
 			}
 		}
 		List<InputBinding> oldBindings = new LinkedList<InputBinding>(manager.getInputBindings());
-		for(Variable v : inputVariables)
-		{
-			if(v.getType().isObject() || (v.getType().hasBaseType() && v.getType().isObjectBaseType()))
-				continue;
+		for (Variable v : inputVariables) {
+			if (v.getType().isObject()
+					|| (v.getType().hasBaseType() && v.getType().isObjectBaseType())) continue;
 			manager.addInputBinding(v.getName());
 		}
-outer:	for(InputBinding binding : oldBindings)
-		{
-			for(Variable v : inputVariables)
-			{
-				if(v.getName().equals(binding.getInput()))
-					continue outer;
+		outer: for (InputBinding binding : oldBindings) {
+			for (Variable v : inputVariables) {
+				if (v.getName().equals(binding.getInput())) continue outer;
 			}
 			manager.removeInputBinding(binding.getInput());
 		}
 		System.err.println(manager.getInputBindings());
 	}
 
-	public void entryChanged(FragmentConfigurationManager manager)
-	{
+	public void entryChanged(FragmentConfigurationManager manager) {
 		updateInputValues();
-		if(expectedVariableViewer != null)
-		{
+		if (expectedVariableViewer != null) {
 			expectedVariableViewer.refresh();
-			if(expectedVariableViewer.getSelection().isEmpty())
-				expectedVariableViewer.setSelection(manager.getInputBindings().size() < 1 ? StructuredSelection.EMPTY : new StructuredSelection(manager.getInputBindings().get(0)));
+			if (expectedVariableViewer.getSelection().isEmpty()) expectedVariableViewer
+					.setSelection(manager.getInputBindings().size() < 1 ? StructuredSelection.EMPTY
+							: new StructuredSelection(manager.getInputBindings().get(0)));
 		}
 	}
 
-	private class ExpectedVariableContentProvider implements IStructuredContentProvider
-	{
+	private class ExpectedVariableContentProvider implements IStructuredContentProvider {
 
-		public Object[] getElements(Object inputElement)
-        {
-	        return manager.getInputBindings().toArray();
-        }
+		public Object[] getElements(Object inputElement) {
+			return manager.getInputBindings().toArray();
+		}
 
-		public void dispose()
-        {
-        }
+		public void dispose() {}
 
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput)
-        {
-        }
-		
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
+
 	}
-	
-	private class ExpectedVariableLabelProvider extends LabelProvider implements ITableLabelProvider
-	{
 
-		public Image getColumnImage(Object element, int columnIndex)
-        {
-	        return null;
-        }
+	private class ExpectedVariableLabelProvider extends LabelProvider
+		implements
+		ITableLabelProvider {
 
-		public String getColumnText(Object element, int columnIndex)
-        {
-			InputBinding vd = (InputBinding)element;
-			if(columnIndex == 0) //variable name
+		public Image getColumnImage(Object element, int columnIndex) {
+			return null;
+		}
+
+		public String getColumnText(Object element, int columnIndex) {
+			InputBinding vd = (InputBinding) element;
+			if (columnIndex == 0) // variable name
 			{
 				return vd.getInput();
-			}
-			else if(columnIndex == 1) //variable type
+			} else if (columnIndex == 1) // variable type
 			{
-				for(Variable v : inputVariables)
-				{
-					if(v.getName().equals(vd.getInput()))
-					{
+				for (Variable v : inputVariables) {
+					if (v.getName().equals(vd.getInput())) {
 						StringBuffer buf = new StringBuffer();
 						buf.append(v.getType().getName());
-						if(v.getType().hasBaseType()) //is array or map
+						if (v.getType().hasBaseType()) // is array or map
 						{
 							buf.append(" of ");
 							buf.append(v.getType().getBaseTypeName());
@@ -669,58 +580,50 @@ outer:	for(InputBinding binding : oldBindings)
 				}
 				return "";
 			}
-	        return "Unknown Column";
-        }
-		
+			return "Unknown Column";
+		}
+
 	}
 
-	private class ApplicationVariableContentProvider implements IStructuredContentProvider
-	{
+	private class ApplicationVariableContentProvider implements IStructuredContentProvider {
 
-		public Object[] getElements(Object inputElement)
-        {
-	        return applicationVariables.toArray();
-        }
+		public Object[] getElements(Object inputElement) {
+			return applicationVariables.toArray();
+		}
 
-		public void dispose()
-        {
-        }
+		public void dispose() {}
 
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput)
-        {
-        }
-		
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
+
 	}
-	
-	private class ApplicationVariableLabelProvider extends LabelProvider implements ITableLabelProvider
-	{
 
-		public Image getColumnImage(Object element, int columnIndex)
-        {
-	        return null;
-        }
+	private class ApplicationVariableLabelProvider extends LabelProvider
+		implements
+		ITableLabelProvider {
 
-		public String getColumnText(Object element, int columnIndex)
-        {
-			Variable v = (Variable)element;
-			if(columnIndex == 0) //variable name
+		public Image getColumnImage(Object element, int columnIndex) {
+			return null;
+		}
+
+		public String getColumnText(Object element, int columnIndex) {
+			Variable v = (Variable) element;
+			if (columnIndex == 0) // variable name
 			{
 				return v.getName();
-			}
-			else if(columnIndex == 1) //variable type
+			} else if (columnIndex == 1) // variable type
 			{
 				StringBuffer buf = new StringBuffer();
 				buf.append(v.getType().getName());
-				if(v.getType().hasBaseType()) //is array or map
+				if (v.getType().hasBaseType()) // is array or map
 				{
 					buf.append(" of ");
 					buf.append(v.getType().getBaseTypeName());
 				}
 				return buf.toString();
 			}
-	        return "Unknown Column";
-        }
-		
+			return "Unknown Column";
+		}
+
 	}
 
 }

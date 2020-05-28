@@ -26,9 +26,7 @@ public class PortType {
 
 	public Operation getOperation(String name) {
 		for (Operation operation : operations) {
-			if (operation.getName().equals(name)) {
-				return operation;
-			}
+			if (operation.getName().equals(name)) { return operation; }
 		}
 		return null;
 	}

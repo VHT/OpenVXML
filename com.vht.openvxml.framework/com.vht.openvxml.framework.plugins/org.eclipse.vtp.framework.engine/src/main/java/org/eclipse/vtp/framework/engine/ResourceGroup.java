@@ -18,9 +18,11 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URL;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ResponseHandler;
@@ -38,22 +40,20 @@ import org.osgi.framework.Bundle;
  * 
  * @author Lonnie Pryor
  */
-public class ResourceGroup implements IResourceManager,
-		ExternalServerManagerListener {
+public class ResourceGroup implements IResourceManager, ExternalServerManagerListener {
 	/** The bundle to load from. */
 	private final Bundle bundle;
 	/** The base path to publish. */
 	private final String path;
 	private Object lock = new Object();
 	private HashSet<String> index = new HashSet<String>();
+	private static Map<String, Boolean> bundleList = new HashMap<String, Boolean>();
 
 	/**
 	 * Creates a new ResourceGroup.
 	 * 
-	 * @param bundle
-	 *            The bundle to load from.
-	 * @param path
-	 *            The base path to publish.
+	 * @param bundle The bundle to load from.
+	 * @param path The base path to publish.
 	 */
 	public ResourceGroup(Bundle bundle, String path) {
 		ExternalServerManager.getInstance().addListener(this);
@@ -64,9 +64,12 @@ public class ResourceGroup implements IResourceManager,
 		this.path = path;
 		URL indexURL = bundle.getResource("files.index");
 		if (indexURL != null) {
+			if (!bundleList.containsKey(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"))) {
+				bundleList.put(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"), true);
+			}
 			try {
-				BufferedReader br = new BufferedReader(new InputStreamReader(
-						indexURL.openConnection().getInputStream()));
+				BufferedReader br = new BufferedReader(new InputStreamReader(indexURL
+						.openConnection().getInputStream()));
 				String line = br.readLine();
 				while (line != null) {
 					index.add(line);
@@ -82,10 +85,10 @@ public class ResourceGroup implements IResourceManager,
 				try {
 					while (true) {
 						HashSet<String> localIndex = new HashSet<String>();
-						ExternalServerManager.Logging logging = ExternalServerManager
-								.getInstance().getLogging();
-						List<ExternalServer> locations = ExternalServerManager
-								.getInstance().getLocations();
+						ExternalServerManager.Logging logging = ExternalServerManager.getInstance()
+								.getLogging();
+						List<ExternalServer> locations = ExternalServerManager.getInstance()
+								.getLocations();
 						if (locations.size() > 0) {
 							boolean connected = false;
 							for (ExternalServer server : locations) {
@@ -94,45 +97,31 @@ public class ResourceGroup implements IResourceManager,
 									location = location + "/";
 								}
 								location = location
-										+ ResourceGroup.this.bundle
-												.getHeaders()
-												.get("Bundle-Name") + "/";
+										+ ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")
+										+ "/";
 								if (logging == ExternalServerManager.Logging.ALWAYS) {
 									System.out
-											.println("Attempting to load index from: "
-													+ location);
+											.println("Attempting to load index from: " + location);
 								}
 								try {
 									URI indexURL = new URI(location);
 									DefaultHttpClient httpclient = new DefaultHttpClient();
 									HttpGet httpGet = new HttpGet(indexURL);
 
-									HttpResponse response = httpclient
-											.execute(httpGet);
-									int statusCode = response.getStatusLine()
-											.getStatusCode();
-									if (statusCode != 200) {
-										throw new Exception(
-												"Error during request. "
-														+ response
-																.getStatusLine());
-									}
+									HttpResponse response = httpclient.execute(httpGet);
+									int statusCode = response.getStatusLine().getStatusCode();
+									if (statusCode != 200) { throw new Exception(
+											"Error during request. " + response.getStatusLine()); }
 									ResponseHandler<String> responseHandler = new BasicResponseHandler();
-									String responseBody = responseHandler
-											.handleResponse(response);
-									BufferedReader br = new BufferedReader(
-											new InputStreamReader(
-													new ByteArrayInputStream(
-															responseBody
-																	.getBytes())));
+									String responseBody = responseHandler.handleResponse(response);
+									BufferedReader br = new BufferedReader(new InputStreamReader(
+											new ByteArrayInputStream(responseBody.getBytes())));
 									String line = br.readLine();
 									while (line != null) {
 										if (logging == ExternalServerManager.Logging.ALWAYS) {
-											System.out
-													.println(ResourceGroup.this.bundle
-															.getHeaders()
-															.get("Bundle-Name")
-															+ " " + line);
+											System.out.println(ResourceGroup.this.bundle
+													.getHeaders().get("Bundle-Name")
+													+ " " + line);
 										}
 										localIndex.add(line);
 										line = br.readLine();
@@ -140,15 +129,15 @@ public class ResourceGroup implements IResourceManager,
 									br.close();
 									index = localIndex;
 									connected = true;
+									bundleList.put(ResourceGroup.this.bundle.getHeaders().get(
+											"Bundle-Name"), true);
 									server.setStatus(true);
 									break;
 								} catch (Exception e) {
-									switch (logging) {
-									case FIRSTFAILURE:
-										if (!server.lastStatus()) {
-											break;
-										}
-									case ALWAYS:
+									if (logging == ExternalServerManager.Logging.ALWAYS
+											|| (logging == ExternalServerManager.Logging.FIRSTFAILURE
+													&& bundleList.get(ResourceGroup.this.bundle
+															.getHeaders().get("Bundle-Name")) && !connected)) {
 										System.out
 												.println("Unable to connect to external media server @ "
 														+ location);
@@ -158,13 +147,16 @@ public class ResourceGroup implements IResourceManager,
 								}
 							}
 							if (!connected
-									&& logging != ExternalServerManager.Logging.NONE) {
+									&& logging != ExternalServerManager.Logging.NONE
+									&& ((logging == ExternalServerManager.Logging.FIRSTFAILURE && bundleList
+											.get(ResourceGroup.this.bundle.getHeaders().get(
+													"Bundle-Name"))))) {
 								System.out.println("Unable to load index for "
-										+ ResourceGroup.this.bundle
-												.getHeaders()
-												.get("Bundle-Name")
+										+ ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")
 										+ " from any external media servers");
 							}
+							bundleList.put(ResourceGroup.this.bundle.getHeaders()
+									.get("Bundle-Name"), false);
 						}
 						try {
 							synchronized (lock) {
@@ -186,8 +178,7 @@ public class ResourceGroup implements IResourceManager,
 	/**
 	 * Returns the requested resource.
 	 * 
-	 * @param fullResourcePath
-	 *            The path of the resource to return.
+	 * @param fullResourcePath The path of the resource to return.
 	 * @return The requested resource.
 	 */
 	public URL getResource(String fullResourcePath) {
@@ -201,7 +192,6 @@ public class ResourceGroup implements IResourceManager,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.media.IResourceManager#
 	 * listResources(java.lang.String)
 	 */
@@ -211,8 +201,8 @@ public class ResourceGroup implements IResourceManager,
 			fullDirectoryPath = "/" + fullDirectoryPath;
 		}
 		LinkedList<String> list = new LinkedList<String>();
-		for (Enumeration<String> e = bundle.getEntryPaths(path
-				+ fullDirectoryPath); e != null && e.hasMoreElements();) {
+		for (Enumeration<String> e = bundle.getEntryPaths(path + fullDirectoryPath); e != null
+				&& e.hasMoreElements();) {
 			list.add(e.nextElement());
 		}
 		return list.toArray(new String[list.size()]);
@@ -220,7 +210,6 @@ public class ResourceGroup implements IResourceManager,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.media.IResourceManager#
 	 * isDirectoryResource(java.lang.String)
 	 */
@@ -231,7 +220,6 @@ public class ResourceGroup implements IResourceManager,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.media.IResourceManager#
 	 * isFileResource(java.lang.String)
 	 */
@@ -244,8 +232,7 @@ public class ResourceGroup implements IResourceManager,
 		if (slashIndex >= 0) {
 			String prefix = fullFilePath.substring(0, slashIndex);
 			String libraryFile = "/" + prefix + "/.library";
-			if (!index.contains(libraryFile)
-					&& getResource(libraryFile) == null) {
+			if (!index.contains(libraryFile) && getResource(libraryFile) == null) {
 				fullFilePath = "Default/" + fullFilePath;
 			}
 		} else {

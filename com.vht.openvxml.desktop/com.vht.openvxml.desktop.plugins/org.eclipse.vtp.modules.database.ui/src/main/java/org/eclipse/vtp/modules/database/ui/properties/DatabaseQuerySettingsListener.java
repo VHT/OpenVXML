@@ -13,7 +13,6 @@ package org.eclipse.vtp.modules.database.ui.properties;
 
 /**
  * @author Trip
- *
  */
 public interface DatabaseQuerySettingsListener {
 	public void targetVariableChanged();

@@ -24,37 +24,28 @@ public class OptionSetLegacyConverter implements XMLConverter {
 			if (newModuleElement.getAttribute("type").equals(
 					"org.eclipse.vtp.desktop.editors.core.elements.primitive")) {
 				// It's a basic element of some sort
-				NodeList propertyNodes = newModuleElement
-						.getElementsByTagName("property");
+				NodeList propertyNodes = newModuleElement.getElementsByTagName("property");
 				for (int c = 0; c < propertyNodes.getLength(); c++) {
 					// Cycle through the property tags, searching for one in
 					// which attribute 'name' == "type"
-					if (((Element) propertyNodes.item(c)).getAttribute("name")
-							.equals("type")) {
+					if (((Element) propertyNodes.item(c)).getAttribute("name").equals("type")) {
 						// We have the right property tag. What type of of
 						// primitive is this?
-						if (((Element) propertyNodes.item(c))
-								.getAttribute("value")
-								.equals("org.eclipse.vtp.desktop.editors.core.optionSet")) {
-							newModuleElement
-									.setAttribute("type",
-											"org.eclipse.vtp.desktop.model.elements.core.basic");
-							((Element) propertyNodes.item(c))
-									.setAttribute("value",
-											"org.eclipse.vtp.modules.interactive.optionSet");
+						if (((Element) propertyNodes.item(c)).getAttribute("value").equals(
+								"org.eclipse.vtp.desktop.editors.core.optionSet")) {
+							newModuleElement.setAttribute("type",
+									"org.eclipse.vtp.desktop.model.elements.core.basic");
+							((Element) propertyNodes.item(c)).setAttribute("value",
+									"org.eclipse.vtp.modules.interactive.optionSet");
 							Element managedConfig = (Element) newModuleElement
-									.getElementsByTagName("managed-config")
-									.item(0);
+									.getElementsByTagName("managed-config").item(0);
 							managedConfig.setAttribute("type",
 									"org.eclipse.vtp.configuration.menuchoice");
 							NodeList customConfigChildNodes = newModuleElement
-									.getElementsByTagName("custom-config")
-									.item(0).getChildNodes();
-							for (int d = 0; d < customConfigChildNodes
-									.getLength(); d++) {
-								managedConfig.insertBefore(
-										customConfigChildNodes.item(d)
-												.cloneNode(true), null);
+									.getElementsByTagName("custom-config").item(0).getChildNodes();
+							for (int d = 0; d < customConfigChildNodes.getLength(); d++) {
+								managedConfig.insertBefore(customConfigChildNodes.item(d)
+										.cloneNode(true), null);
 							}
 						}
 					}

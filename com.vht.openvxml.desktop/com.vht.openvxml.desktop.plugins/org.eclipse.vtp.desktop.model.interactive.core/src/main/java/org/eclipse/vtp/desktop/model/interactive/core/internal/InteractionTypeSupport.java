@@ -10,8 +10,7 @@ public class InteractionTypeSupport implements Cloneable {
 	private String interactionTypeName = null;
 	private Map<String, LanguageSupport> languageMappings = new HashMap<String, LanguageSupport>();
 
-	public InteractionTypeSupport(String interactionType,
-			String interactionTypeName) {
+	public InteractionTypeSupport(String interactionType, String interactionTypeName) {
 		super();
 		this.interactionType = interactionType;
 		this.interactionTypeName = interactionTypeName;
@@ -34,8 +33,7 @@ public class InteractionTypeSupport implements Cloneable {
 		return ls;
 	}
 
-	private void addLanguageSupport0(String language,
-			LanguageSupport languageMapping) {
+	private void addLanguageSupport0(String language, LanguageSupport languageMapping) {
 		languageMappings.put(language, languageMapping);
 	}
 
@@ -53,12 +51,10 @@ public class InteractionTypeSupport implements Cloneable {
 
 	@Override
 	public Object clone() {
-		InteractionTypeSupport copy = new InteractionTypeSupport(
-				interactionType, interactionTypeName);
-		for (Map.Entry<String, LanguageSupport> entry : languageMappings
-				.entrySet()) {
-			copy.addLanguageSupport0(entry.getKey(), (LanguageSupport) entry
-					.getValue().clone());
+		InteractionTypeSupport copy = new InteractionTypeSupport(interactionType,
+				interactionTypeName);
+		for (Map.Entry<String, LanguageSupport> entry : languageMappings.entrySet()) {
+			copy.addLanguageSupport0(entry.getKey(), (LanguageSupport) entry.getValue().clone());
 		}
 		return copy;
 	}

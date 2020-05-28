@@ -11,34 +11,29 @@ public interface IVariableStorage {
 	/**
 	 * Creates a new variable of the specified type.
 	 * 
-	 * @param type
-	 *            The type of variable to create.
+	 * @param type The type of variable to create.
 	 * @return A new variable of the specified type.
-	 * @throws NullPointerException
-	 *             If the supplied type is <code>null</code>.
+	 * @throws NullPointerException If the supplied type is <code>null</code>.
 	 */
 	IDataObject createVariable(IDataType type) throws IllegalArgumentException,
 			NullPointerException;
 
-	IDataObject createVariable(IDataType type, boolean secured)
-			throws IllegalArgumentException, NullPointerException;
+	IDataObject createVariable(IDataType type, boolean secured) throws IllegalArgumentException,
+			NullPointerException;
 
 	/**
 	 * Creates a new variable of the specified type.
 	 * 
-	 * @param typeName
-	 *            The name of the type of variable to create.
+	 * @param typeName The name of the type of variable to create.
 	 * @return A new variable of the specified type.
-	 * @throws IllegalArgumentException
-	 *             If no type with the specified name exists.
-	 * @throws NullPointerException
-	 *             If the supplied type name is <code>null</code>.
+	 * @throws IllegalArgumentException If no type with the specified name exists.
+	 * @throws NullPointerException If the supplied type name is <code>null</code>.
 	 */
-	IDataObject createVariable(String typeName)
-			throws IllegalArgumentException, NullPointerException;
+	IDataObject createVariable(String typeName) throws IllegalArgumentException,
+			NullPointerException;
 
-	IDataObject createVariable(String typeName, boolean secured)
-			throws IllegalArgumentException, NullPointerException;
+	IDataObject createVariable(String typeName, boolean secured) throws IllegalArgumentException,
+			NullPointerException;
 
 	public ILogger getLogger();
 

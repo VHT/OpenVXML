@@ -37,20 +37,17 @@ public class ElementManager {
 	public ElementManager() {
 		super();
 		elementTypes = new HashMap<String, ReaderRecord>();
-		IConfigurationElement[] primitiveExtensions = Platform
-				.getExtensionRegistry().getConfigurationElementsFor(
-						elementTypeExtensionId);
+		IConfigurationElement[] primitiveExtensions = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(elementTypeExtensionId);
 		for (IConfigurationElement primitiveExtension : primitiveExtensions) {
 			ReaderRecord rr = new ReaderRecord();
 			rr.type = primitiveExtension.getAttribute("id");
 			String className = primitiveExtension.getAttribute("class");
-			Bundle contributor = Platform.getBundle(primitiveExtension
-					.getContributor().getName());
+			Bundle contributor = Platform.getBundle(primitiveExtension.getContributor().getName());
 			try {
-				rr.elementClass = (Class<DesignElement>) contributor
-						.loadClass(className);
-				rr.constructor = rr.elementClass.getConstructor(new Class[] {
-						String.class, String.class, Properties.class });
+				rr.elementClass = (Class<DesignElement>) contributor.loadClass(className);
+				rr.constructor = rr.elementClass.getConstructor(new Class[] { String.class,
+						String.class, Properties.class });
 			} catch (Exception e) {
 				e.printStackTrace();
 				continue;
@@ -66,14 +63,12 @@ public class ElementManager {
 	 * @param properties
 	 * @return
 	 */
-	public DesignElement loadElement(String elementTypeId, String id,
-			String name, Properties properties) {
+	public DesignElement loadElement(String elementTypeId, String id, String name,
+			Properties properties) {
 		ReaderRecord rr = elementTypes.get(elementTypeId);
-		System.out.println("Looking up element: " + id + "[" + elementTypeId
-				+ "]: " + rr);
+		System.out.println("Looking up element: " + id + "[" + elementTypeId + "]: " + rr);
 		try {
-			return rr.constructor.newInstance(new Object[] { id, name,
-					properties });
+			return rr.constructor.newInstance(new Object[] { id, name, properties });
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

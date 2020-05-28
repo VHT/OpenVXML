@@ -14,9 +14,8 @@ package org.eclipse.vtp.framework.util;
 import java.security.SecureRandom;
 
 /**
- * The <code>Guid</code> class provides a facility for generating unique
- * identifiers. The identifier is a 128 bit number packed into a 32 character
- * hex string.
+ * The <code>Guid</code> class provides a facility for generating unique identifiers. The identifier
+ * is a 128 bit number packed into a 32 character hex string.
  * 
  * @author trip
  */
@@ -69,8 +68,7 @@ public class Guid {
 	/**
 	 * Utility function that converts the given long into a hex encoded string.
 	 * 
-	 * @param l
-	 *            The long to encode.
+	 * @param l The long to encode.
 	 * @return The hex encoded string representation of the given long value.
 	 */
 	private static String convertToString(long l) {
@@ -84,12 +82,10 @@ public class Guid {
 	}
 
 	/**
-	 * Utility function that allows the generation of a unique identifier
-	 * directly from the command line. The identifier is printed to standard out
-	 * and the program terminates.
+	 * Utility function that allows the generation of a unique identifier directly from the command
+	 * line. The identifier is printed to standard out and the program terminates.
 	 * 
-	 * @param args
-	 *            The command line arguments provided.
+	 * @param args The command line arguments provided.
 	 */
 	public static void main(String[] args) {
 		System.out.println(Guid.createGUID());

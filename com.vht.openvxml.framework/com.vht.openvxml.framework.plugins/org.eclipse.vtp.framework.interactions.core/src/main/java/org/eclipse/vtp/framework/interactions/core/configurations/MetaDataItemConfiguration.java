@@ -19,8 +19,7 @@ import org.w3c.dom.Element;
  * 
  * @author Lonnie Pryor
  */
-public class MetaDataItemConfiguration implements IConfiguration,
-		InteractionsConstants {
+public class MetaDataItemConfiguration implements IConfiguration, InteractionsConstants {
 	/** A static variable value. */
 	public static final int TYPE_STATIC = 0;
 	/** A variable value derived from an expression. */
@@ -41,8 +40,7 @@ public class MetaDataItemConfiguration implements IConfiguration,
 	/**
 	 * Creates a new MetaDataItemConfiguration.
 	 */
-	public MetaDataItemConfiguration() {
-	}
+	public MetaDataItemConfiguration() {}
 
 	/**
 	 * Returns the name of the target variable.
@@ -56,8 +54,7 @@ public class MetaDataItemConfiguration implements IConfiguration,
 	/**
 	 * Sets the name of the target variable.
 	 * 
-	 * @param name
-	 *            The name of the target variable.
+	 * @param name The name of the target variable.
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -93,8 +90,7 @@ public class MetaDataItemConfiguration implements IConfiguration,
 	/**
 	 * Sets the value of the target variable as a static value.
 	 * 
-	 * @param value
-	 *            The value of the target variable.
+	 * @param value The value of the target variable.
 	 */
 	public void setStaticValue(String value) {
 		this.type = TYPE_STATIC;
@@ -105,10 +101,8 @@ public class MetaDataItemConfiguration implements IConfiguration,
 	/**
 	 * Sets the value of the target variable as the result of an expression.
 	 * 
-	 * @param expression
-	 *            The expression to evaluate.
-	 * @param scriptingLanguage
-	 *            The scripting language the expression is in.
+	 * @param expression The expression to evaluate.
+	 * @param scriptingLanguage The scripting language the expression is in.
 	 */
 	public void setExpressionValue(String expression, String scriptingLanguage) {
 		this.type = TYPE_EXPRESSION;
@@ -119,8 +113,7 @@ public class MetaDataItemConfiguration implements IConfiguration,
 	/**
 	 * Sets the value of the target variable as an existing variable.
 	 * 
-	 * @param variableName
-	 *            The name of the variable to set as the target variable.
+	 * @param variableName The name of the variable to set as the target variable.
 	 */
 	public void setVariableValue(String variableName) {
 		this.type = TYPE_VARIABLE;
@@ -136,9 +129,7 @@ public class MetaDataItemConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#load( org.w3c.dom.Element)
 	 */
 	@Override
 	public void load(Element configurationElement) {
@@ -159,8 +150,7 @@ public class MetaDataItemConfiguration implements IConfiguration,
 		}
 		value = configurationElement.getAttribute(NAME_VALUE);
 		if (configurationElement.hasAttribute(NAME_SCRIPTING_LANGUGAGE)) {
-			scriptingLanguage = configurationElement
-					.getAttribute(NAME_SCRIPTING_LANGUGAGE);
+			scriptingLanguage = configurationElement.getAttribute(NAME_SCRIPTING_LANGUGAGE);
 		} else {
 			scriptingLanguage = null;
 		}
@@ -168,9 +158,7 @@ public class MetaDataItemConfiguration implements IConfiguration,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#save( org.w3c.dom.Element)
 	 */
 	@Override
 	public void save(Element configurationElement) {
@@ -190,8 +178,7 @@ public class MetaDataItemConfiguration implements IConfiguration,
 		configurationElement.setAttribute(NAME_TYPE, typeString);
 		configurationElement.setAttribute(NAME_VALUE, value);
 		if (scriptingLanguage != null) {
-			configurationElement.setAttribute(NAME_SCRIPTING_LANGUGAGE,
-					scriptingLanguage);
+			configurationElement.setAttribute(NAME_SCRIPTING_LANGUGAGE, scriptingLanguage);
 		}
 	}
 }

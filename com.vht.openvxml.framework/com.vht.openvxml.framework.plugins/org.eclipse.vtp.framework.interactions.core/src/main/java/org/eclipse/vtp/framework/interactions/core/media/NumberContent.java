@@ -19,8 +19,7 @@ import org.w3c.dom.Element;
 public class NumberContent extends FormattableContent {
 	public static final String ELEMENT_NAME = "number-content"; //$NON-NLS-1$
 
-	public NumberContent() {
-	}
+	public NumberContent() {}
 
 	public NumberContent(Element element) {
 		super(element);
@@ -37,10 +36,8 @@ public class NumberContent extends FormattableContent {
 
 		try {
 			if (getValueType() != VARIABLE_VALUE) {
-				ret.addAll(formatter.formatNumber(
-						Integer.parseInt(getValue()),
-						mediaProvider.getFormatManager().getFormat(this,
-								getFormatName()), getFormatOptions(),
+				ret.addAll(formatter.formatNumber(Integer.parseInt(getValue()), mediaProvider
+						.getFormatManager().getFormat(this, getFormatName()), getFormatOptions(),
 						mediaProvider.getResourceManager()));
 			}
 		} catch (Exception e) {
@@ -51,8 +48,8 @@ public class NumberContent extends FormattableContent {
 
 	@Override
 	public Element store(Element element) {
-		Element thisElement = element.getOwnerDocument().createElementNS(
-				ELEMENT_NAMESPACE, ELEMENT_NAME);
+		Element thisElement = element.getOwnerDocument().createElementNS(ELEMENT_NAMESPACE,
+				ELEMENT_NAME);
 		element.appendChild(thisElement);
 		super.storeBaseInfo(thisElement);
 		return thisElement;
@@ -65,9 +62,7 @@ public class NumberContent extends FormattableContent {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.media.Content#createCopy()
+	 * @see org.eclipse.vtp.framework.interactions.core.media.Content#createCopy()
 	 */
 	@Override
 	public Content createCopy() {

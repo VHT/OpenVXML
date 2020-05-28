@@ -23,57 +23,44 @@ public interface ILogger extends IReporter {
 	/**
 	 * Creates and publishes a log entry with the specified attributes.
 	 * 
-	 * @param severity
-	 *            The severity of the log entry.
-	 * @param message
-	 *            The message associated with the log entry or <code>null</code>
-	 *            to not include a message.
+	 * @param severity The severity of the log entry.
+	 * @param message The message associated with the log entry or <code>null</code> to not include
+	 *            a message.
 	 */
 	void log(int severity, String message);
 
 	/**
 	 * Creates and publishes a log entry with the specified attributes.
 	 * 
-	 * @param severity
-	 *            The severity of the log entry.
-	 * @param message
-	 *            The message associated with the log entry or <code>null</code>
-	 *            to not include a message.
-	 * @param properties
-	 *            The properties of the log entry or <code>null</code> if no
-	 *            properties are specified.
+	 * @param severity The severity of the log entry.
+	 * @param message The message associated with the log entry or <code>null</code> to not include
+	 *            a message.
+	 * @param properties The properties of the log entry or <code>null</code> if no properties are
+	 *            specified.
 	 */
-	void log(int severity, String message,
-			@SuppressWarnings("rawtypes") Dictionary properties);
+	void log(int severity, String message, @SuppressWarnings("rawtypes") Dictionary properties);
 
 	/**
 	 * Creates and publishes a log entry with the specified attributes.
 	 * 
-	 * @param severity
-	 *            The severity of the log entry.
-	 * @param categories
-	 *            The categories the log entry pertains to or <code>null</code>
-	 *            if no catagories are related.
-	 * @param message
-	 *            The message associated with the log entry or <code>null</code>
-	 *            to not include a message.
+	 * @param severity The severity of the log entry.
+	 * @param categories The categories the log entry pertains to or <code>null</code> if no
+	 *            catagories are related.
+	 * @param message The message associated with the log entry or <code>null</code> to not include
+	 *            a message.
 	 */
 	void log(int severity, String[] categories, String message);
 
 	/**
 	 * Creates and publishes a log entry with the specified attributes.
 	 * 
-	 * @param severity
-	 *            The severity of the log entry.
-	 * @param categories
-	 *            The categories the log entry pertains to or <code>null</code>
-	 *            if no catagories are related.
-	 * @param message
-	 *            The message associated with the log entry or <code>null</code>
-	 *            to not include a message.
-	 * @param properties
-	 *            The properties of the log entry or <code>null</code> if no
-	 *            properties are specified.
+	 * @param severity The severity of the log entry.
+	 * @param categories The categories the log entry pertains to or <code>null</code> if no
+	 *            catagories are related.
+	 * @param message The message associated with the log entry or <code>null</code> to not include
+	 *            a message.
+	 * @param properties The properties of the log entry or <code>null</code> if no properties are
+	 *            specified.
 	 */
 	void log(int severity, String[] categories, String message,
 			@SuppressWarnings("rawtypes") Dictionary properties);
@@ -88,49 +75,40 @@ public interface ILogger extends IReporter {
 	/**
 	 * Creates and publishes an error log entry with the specified attributes.
 	 * 
-	 * @param message
-	 *            The message associated with the log entry or <code>null</code>
-	 *            to not include a message.
+	 * @param message The message associated with the log entry or <code>null</code> to not include
+	 *            a message.
 	 */
 	void error(String message);
 
 	/**
 	 * Creates and publishes an error log entry with the specified attributes.
 	 * 
-	 * @param message
-	 *            The message associated with the log entry or <code>null</code>
-	 *            to not include a message.
-	 * @param properties
-	 *            The properties of the log entry or <code>null</code> if no
-	 *            properties are specified.
+	 * @param message The message associated with the log entry or <code>null</code> to not include
+	 *            a message.
+	 * @param properties The properties of the log entry or <code>null</code> if no properties are
+	 *            specified.
 	 */
-	void error(String message,
-			@SuppressWarnings("rawtypes") Dictionary properties);
+	void error(String message, @SuppressWarnings("rawtypes") Dictionary properties);
 
 	/**
 	 * Creates and publishes an error log entry with the specified attributes.
 	 * 
-	 * @param categories
-	 *            The categories the log entry pertains to or <code>null</code>
-	 *            if no catagories are related.
-	 * @param message
-	 *            The message associated with the log entry or <code>null</code>
-	 *            to not include a message.
+	 * @param categories The categories the log entry pertains to or <code>null</code> if no
+	 *            catagories are related.
+	 * @param message The message associated with the log entry or <code>null</code> to not include
+	 *            a message.
 	 */
 	void error(String[] categories, String message);
 
 	/**
 	 * Creates and publishes an error log entry with the specified attributes.
 	 * 
-	 * @param categories
-	 *            The categories the log entry pertains to or <code>null</code>
-	 *            if no catagories are related.
-	 * @param message
-	 *            The message associated with the log entry or <code>null</code>
-	 *            to not include a message.
-	 * @param properties
-	 *            The properties of the log entry or <code>null</code> if no
-	 *            properties are specified.
+	 * @param categories The categories the log entry pertains to or <code>null</code> if no
+	 *            catagories are related.
+	 * @param message The message associated with the log entry or <code>null</code> to not include
+	 *            a message.
+	 * @param properties The properties of the log entry or <code>null</code> if no properties are
+	 *            specified.
 	 */
 	void error(String[] categories, String message,
 			@SuppressWarnings("rawtypes") Dictionary properties);
@@ -145,49 +123,40 @@ public interface ILogger extends IReporter {
 	/**
 	 * Creates and publishes a warning log entry with the specified attributes.
 	 * 
-	 * @param message
-	 *            The message associated with the log entry or <code>null</code>
-	 *            to not include a message.
+	 * @param message The message associated with the log entry or <code>null</code> to not include
+	 *            a message.
 	 */
 	void warn(String message);
 
 	/**
 	 * Creates and publishes a warning log entry with the specified attributes.
 	 * 
-	 * @param message
-	 *            The message associated with the log entry or <code>null</code>
-	 *            to not include a message.
-	 * @param properties
-	 *            The properties of the log entry or <code>null</code> if no
-	 *            properties are specified.
+	 * @param message The message associated with the log entry or <code>null</code> to not include
+	 *            a message.
+	 * @param properties The properties of the log entry or <code>null</code> if no properties are
+	 *            specified.
 	 */
-	void warn(String message,
-			@SuppressWarnings("rawtypes") Dictionary properties);
+	void warn(String message, @SuppressWarnings("rawtypes") Dictionary properties);
 
 	/**
 	 * Creates and publishes a warning log entry with the specified attributes.
 	 * 
-	 * @param categories
-	 *            The categories the log entry pertains to or <code>null</code>
-	 *            if no catagories are related.
-	 * @param message
-	 *            The message associated with the log entry or <code>null</code>
-	 *            to not include a message.
+	 * @param categories The categories the log entry pertains to or <code>null</code> if no
+	 *            catagories are related.
+	 * @param message The message associated with the log entry or <code>null</code> to not include
+	 *            a message.
 	 */
 	void warn(String[] categories, String message);
 
 	/**
 	 * Creates and publishes a warning log entry with the specified attributes.
 	 * 
-	 * @param categories
-	 *            The categories the log entry pertains to or <code>null</code>
-	 *            if no catagories are related.
-	 * @param message
-	 *            The message associated with the log entry or <code>null</code>
-	 *            to not include a message.
-	 * @param properties
-	 *            The properties of the log entry or <code>null</code> if no
-	 *            properties are specified.
+	 * @param categories The categories the log entry pertains to or <code>null</code> if no
+	 *            catagories are related.
+	 * @param message The message associated with the log entry or <code>null</code> to not include
+	 *            a message.
+	 * @param properties The properties of the log entry or <code>null</code> if no properties are
+	 *            specified.
 	 */
 	void warn(String[] categories, String message,
 			@SuppressWarnings("rawtypes") Dictionary properties);
@@ -200,55 +169,42 @@ public interface ILogger extends IReporter {
 	boolean isInfoEnabled();
 
 	/**
-	 * Creates and publishes an informational log entry with the specified
-	 * attributes.
+	 * Creates and publishes an informational log entry with the specified attributes.
 	 * 
-	 * @param message
-	 *            The message associated with the log entry or <code>null</code>
-	 *            to not include a message.
+	 * @param message The message associated with the log entry or <code>null</code> to not include
+	 *            a message.
 	 */
 	void info(String message);
 
 	/**
-	 * Creates and publishes an informational log entry with the specified
-	 * attributes.
+	 * Creates and publishes an informational log entry with the specified attributes.
 	 * 
-	 * @param message
-	 *            The message associated with the log entry or <code>null</code>
-	 *            to not include a message.
-	 * @param properties
-	 *            The properties of the log entry or <code>null</code> if no
-	 *            properties are specified.
+	 * @param message The message associated with the log entry or <code>null</code> to not include
+	 *            a message.
+	 * @param properties The properties of the log entry or <code>null</code> if no properties are
+	 *            specified.
 	 */
-	void info(String message,
-			@SuppressWarnings("rawtypes") Dictionary properties);
+	void info(String message, @SuppressWarnings("rawtypes") Dictionary properties);
 
 	/**
-	 * Creates and publishes an informational log entry with the specified
-	 * attributes.
+	 * Creates and publishes an informational log entry with the specified attributes.
 	 * 
-	 * @param categories
-	 *            The categories the log entry pertains to or <code>null</code>
-	 *            if no catagories are related.
-	 * @param message
-	 *            The message associated with the log entry or <code>null</code>
-	 *            to not include a message.
+	 * @param categories The categories the log entry pertains to or <code>null</code> if no
+	 *            catagories are related.
+	 * @param message The message associated with the log entry or <code>null</code> to not include
+	 *            a message.
 	 */
 	void info(String[] categories, String message);
 
 	/**
-	 * Creates and publishes an informational log entry with the specified
-	 * attributes.
+	 * Creates and publishes an informational log entry with the specified attributes.
 	 * 
-	 * @param categories
-	 *            The categories the log entry pertains to or <code>null</code>
-	 *            if no catagories are related.
-	 * @param message
-	 *            The message associated with the log entry or <code>null</code>
-	 *            to not include a message.
-	 * @param properties
-	 *            The properties of the log entry or <code>null</code> if no
-	 *            properties are specified.
+	 * @param categories The categories the log entry pertains to or <code>null</code> if no
+	 *            catagories are related.
+	 * @param message The message associated with the log entry or <code>null</code> to not include
+	 *            a message.
+	 * @param properties The properties of the log entry or <code>null</code> if no properties are
+	 *            specified.
 	 */
 	void info(String[] categories, String message,
 			@SuppressWarnings("rawtypes") Dictionary properties);
@@ -263,49 +219,40 @@ public interface ILogger extends IReporter {
 	/**
 	 * Creates and publishes a debug log entry with the specified attributes.
 	 * 
-	 * @param message
-	 *            The message associated with the log entry or <code>null</code>
-	 *            to not include a message.
+	 * @param message The message associated with the log entry or <code>null</code> to not include
+	 *            a message.
 	 */
 	void debug(String message);
 
 	/**
 	 * Creates and publishes a debug log entry with the specified attributes.
 	 * 
-	 * @param message
-	 *            The message associated with the log entry or <code>null</code>
-	 *            to not include a message.
-	 * @param properties
-	 *            The properties of the log entry or <code>null</code> if no
-	 *            properties are specified.
+	 * @param message The message associated with the log entry or <code>null</code> to not include
+	 *            a message.
+	 * @param properties The properties of the log entry or <code>null</code> if no properties are
+	 *            specified.
 	 */
-	void debug(String message,
-			@SuppressWarnings("rawtypes") Dictionary properties);
+	void debug(String message, @SuppressWarnings("rawtypes") Dictionary properties);
 
 	/**
 	 * Creates and publishes a debug log entry with the specified attributes.
 	 * 
-	 * @param categories
-	 *            The categories the log entry pertains to or <code>null</code>
-	 *            if no catagories are related.
-	 * @param message
-	 *            The message associated with the log entry or <code>null</code>
-	 *            to not include a message.
+	 * @param categories The categories the log entry pertains to or <code>null</code> if no
+	 *            catagories are related.
+	 * @param message The message associated with the log entry or <code>null</code> to not include
+	 *            a message.
 	 */
 	void debug(String[] categories, String message);
 
 	/**
 	 * Creates and publishes a debug log entry with the specified attributes.
 	 * 
-	 * @param categories
-	 *            The categories the log entry pertains to or <code>null</code>
-	 *            if no catagories are related.
-	 * @param message
-	 *            The message associated with the log entry or <code>null</code>
-	 *            to not include a message.
-	 * @param properties
-	 *            The properties of the log entry or <code>null</code> if no
-	 *            properties are specified.
+	 * @param categories The categories the log entry pertains to or <code>null</code> if no
+	 *            catagories are related.
+	 * @param message The message associated with the log entry or <code>null</code> to not include
+	 *            a message.
+	 * @param properties The properties of the log entry or <code>null</code> if no properties are
+	 *            specified.
 	 */
 	void debug(String[] categories, String message,
 			@SuppressWarnings("rawtypes") Dictionary properties);

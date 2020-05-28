@@ -34,29 +34,26 @@ import com.openmethods.openvxml.desktop.model.workflow.IDesignItemContainer;
 import com.openmethods.openvxml.desktop.model.workflow.IWorkflowProjectAspect;
 
 /**
- * Used in context menus to initiate the creation of a new application. This
- * action is not view or perspective specific. The resulting wizard will be
- * centered on the current shell associated with the current UI thread. This
- * action will terminate upon opening of the wizard dialog, and does not block
- * until its completion or cancellation.
+ * Used in context menus to initiate the creation of a new application. This action is not view or
+ * perspective specific. The resulting wizard will be centered on the current shell associated with
+ * the current UI thread. This action will terminate upon opening of the wizard dialog, and does not
+ * block until its completion or cancellation.
  *
  * @author Trip
  * @version 1.0
  */
-@SuppressWarnings("deprecation")
 public class ConvertWorkflowProjectAction extends SelectionListenerAction {
 	/**
-	 * Constructs a new <code>CreateApplicationAction</code> instance with the
-	 * default values.
+	 * Constructs a new <code>CreateApplicationAction</code> instance with the default values.
 	 */
 	public ConvertWorkflowProjectAction() {
-		super("Convert to 5.0 OpenVXML Project");
+		super("Convert to 6.0 OpenVXML Project");
 	}
 
 	@Override
 	public void run() {
-		ConversionSelectionDialog dialog = new ConversionSelectionDialog(
-				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
+		ConversionSelectionDialog dialog = new ConversionSelectionDialog(PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getShell());
 		if (dialog.open() == Dialog.OK) {
 			IWorkspace workspace = ResourcesPlugin.getWorkspace();
 			IWorkspaceDescription description = workspace.getDescription();
@@ -87,24 +84,20 @@ public class ConvertWorkflowProjectAction extends SelectionListenerAction {
 							|| project
 									.hasNature("org.eclipse.vtp.desktop.model.interactive.core.InteractiveWorkflowProjectNature")) {
 						pc.convertProject(project);
-					} else {
-					}
+					} else {}
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
 			}
 			for (IProject project : projects) {
 				try {
-					if (WorkflowCore.getDefault().getWorkflowModel()
-							.isWorkflowProject(project)) {
-						IOpenVXMLProject op = WorkflowCore.getDefault()
-								.getWorkflowModel()
+					if (WorkflowCore.getDefault().getWorkflowModel().isWorkflowProject(project)) {
+						IOpenVXMLProject op = WorkflowCore.getDefault().getWorkflowModel()
 								.convertToWorkflowProject(project);
 						IWorkflowProjectAspect workflowAspect = (IWorkflowProjectAspect) op
 								.getProjectAspect(IWorkflowProjectAspect.ASPECT_ID);
 						if (workflowAspect != null) {
-							IDesignItemContainer container = workflowAspect
-									.getDesignRootFolder();
+							IDesignItemContainer container = workflowAspect.getDesignRootFolder();
 							touchContainer(container);
 						}
 					}

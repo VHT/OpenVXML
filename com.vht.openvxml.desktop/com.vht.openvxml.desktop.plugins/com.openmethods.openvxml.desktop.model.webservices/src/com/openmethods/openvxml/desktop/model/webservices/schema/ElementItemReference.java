@@ -43,32 +43,27 @@ public class ElementItemReference extends ElementItem {
 
 	@Override
 	public void setDefaultValue(String defaultValue) {
-		throw new UnsupportedOperationException(
-				"Cannot modify a referenced element directly.");
+		throw new UnsupportedOperationException("Cannot modify a referenced element directly.");
 	}
 
 	@Override
 	public void setFixedValue(String fixedValue) {
-		throw new UnsupportedOperationException(
-				"Cannot modify a referenced element directly.");
+		throw new UnsupportedOperationException("Cannot modify a referenced element directly.");
 	}
 
 	@Override
 	public void setQualified(boolean qualified) {
-		throw new UnsupportedOperationException(
-				"Cannot modify a referenced element directly.");
+		throw new UnsupportedOperationException("Cannot modify a referenced element directly.");
 	}
 
 	@Override
 	public void setQualifyOverride(boolean qualifyOverride) {
-		throw new UnsupportedOperationException(
-				"Cannot modify a referenced element directly.");
+		throw new UnsupportedOperationException("Cannot modify a referenced element directly.");
 	}
 
 	@Override
 	public void setType(Type type) {
-		throw new UnsupportedOperationException(
-				"Cannot modify a referenced element directly.");
+		throw new UnsupportedOperationException("Cannot modify a referenced element directly.");
 	}
 
 }

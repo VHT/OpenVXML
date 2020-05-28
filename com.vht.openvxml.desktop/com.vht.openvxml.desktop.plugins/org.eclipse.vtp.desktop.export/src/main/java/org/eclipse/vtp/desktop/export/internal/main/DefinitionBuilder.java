@@ -103,24 +103,16 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 	/**
 	 * Creates a new DefinitionBuilder.
 	 * 
-	 * @param callDesigns
-	 *            The call design document.
-	 * @param builder
-	 *            The document builder to use.
-	 * @param project
-	 *            The project being built.
-	 * @param brands
-	 *            The brand tree.
-	 * @param formatterIDsByLanguage
-	 *            The formatter IDs by language.
-	 * @param resourceManagerIDsByLanguage
-	 *            The resource manager IDs by language.
-	 * @throws Exception
-	 *             If the process cannot be built.
+	 * @param callDesigns The call design document.
+	 * @param builder The document builder to use.
+	 * @param project The project being built.
+	 * @param brands The brand tree.
+	 * @param formatterIDsByLanguage The formatter IDs by language.
+	 * @param resourceManagerIDsByLanguage The resource manager IDs by language.
+	 * @throws Exception If the process cannot be built.
 	 */
-	public DefinitionBuilder(DesignReference[] callDesigns,
-			DocumentBuilder builder, IOpenVXMLProject project,
-			Map<String, String> formatterIDsByLanguage,
+	public DefinitionBuilder(DesignReference[] callDesigns, DocumentBuilder builder,
+			IOpenVXMLProject project, Map<String, String> formatterIDsByLanguage,
 			Map<String, String> resourceManagerIDsByLanguage,
 			Map<String, List<String>> languageMapping) throws Exception {
 		this.project = project;
@@ -131,24 +123,24 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 		this.callDesigns = callDesigns;
 		this.builder = builder;
 		this.definition = builder.newDocument();
-		Element definitionElement = definition.createElementNS(
-				NAMESPACE_URI_PROCESS_DEFINITION, "process:definition"); //$NON-NLS-1$
+		Element definitionElement = definition.createElementNS(NAMESPACE_URI_PROCESS_DEFINITION,
+				"process:definition"); //$NON-NLS-1$
 		definition.appendChild(definitionElement);
-		servicesElement = definition.createElementNS(
-				NAMESPACE_URI_PROCESS_DEFINITION, "process:services"); //$NON-NLS-1$
-		actionsElement = definition.createElementNS(
-				NAMESPACE_URI_PROCESS_DEFINITION, "process:actions"); //$NON-NLS-1$
-		observersElement = definition.createElementNS(
-				NAMESPACE_URI_PROCESS_DEFINITION, "process:observers"); //$NON-NLS-1$
-		transitionsElement = definition.createElementNS(
-				NAMESPACE_URI_PROCESS_DEFINITION, "process:transitions"); //$NON-NLS-1$
+		servicesElement = definition.createElementNS(NAMESPACE_URI_PROCESS_DEFINITION,
+				"process:services"); //$NON-NLS-1$
+		actionsElement = definition.createElementNS(NAMESPACE_URI_PROCESS_DEFINITION,
+				"process:actions"); //$NON-NLS-1$
+		observersElement = definition.createElementNS(NAMESPACE_URI_PROCESS_DEFINITION,
+				"process:observers"); //$NON-NLS-1$
+		transitionsElement = definition.createElementNS(NAMESPACE_URI_PROCESS_DEFINITION,
+				"process:transitions"); //$NON-NLS-1$
 		definitionElement.appendChild(servicesElement);
 		definitionElement.appendChild(actionsElement);
 		definitionElement.appendChild(observersElement);
 		definitionElement.appendChild(transitionsElement);
-		buildServices(project.getUnderlyingProject(), brandingAspect
-				.getBrandManager().getDefaultBrand(), formatterIDsByLanguage,
-				resourceManagerIDsByLanguage, languageMapping);
+		buildServices(project.getUnderlyingProject(), brandingAspect.getBrandManager()
+				.getDefaultBrand(), formatterIDsByLanguage, resourceManagerIDsByLanguage,
+				languageMapping);
 		buildFlow(workflowAspect.getWorkflowEntries());
 	}
 
@@ -164,16 +156,11 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 	/**
 	 * Builds the services in the process.
 	 * 
-	 * @param project
-	 *            The project being built.
-	 * @param brands
-	 *            The brand tree.
-	 * @param formatterIDsByLanguage
-	 *            The formatter IDs by language.
-	 * @param resourceManagerIDsByLanguage
-	 *            The resource manager IDs by language.
-	 * @throws Exception
-	 *             If the services cannot be built.
+	 * @param project The project being built.
+	 * @param brands The brand tree.
+	 * @param formatterIDsByLanguage The formatter IDs by language.
+	 * @param resourceManagerIDsByLanguage The resource manager IDs by language.
+	 * @throws Exception If the services cannot be built.
 	 */
 	private void buildServices(IProject project, IBrand defaultBrand,
 			Map<String, String> formatterIDsByLanguage,
@@ -182,8 +169,8 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 		// Build the brand configurations.
 		Element brandRegistryElement = newServiceElement(//
 		"org.eclipse.vtp.framework.common.services.brand-registry"); //$NON-NLS-1$
-		Element defaultBrandElement = definition.createElementNS(
-				NAMESPACE_URI_COMMON, "common:brand"); //$NON-NLS-1$
+		Element defaultBrandElement = definition.createElementNS(NAMESPACE_URI_COMMON,
+				"common:brand"); //$NON-NLS-1$
 		BrandConfiguration defaultBrandConfiguration = new BrandConfiguration();
 		defaultBrandConfiguration.setId(defaultBrand.getId());
 		defaultBrandConfiguration.setName(defaultBrand.getName());
@@ -196,19 +183,16 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 		IResource[] dataTypeFiles = project.getFolder("Business Objects") //$NON-NLS-1$
 				.members();
 		for (IResource dataTypeFile : dataTypeFiles) {
-			Document dataTypeDoc = builder.parse(dataTypeFile.getLocation()
-					.toFile());
-			Element dataTypeElement = definition.createElementNS(
-					NAMESPACE_URI_COMMON, "common:data-type"); //$NON-NLS-1$
+			Document dataTypeDoc = builder.parse(dataTypeFile.getLocation().toFile());
+			Element dataTypeElement = definition.createElementNS(NAMESPACE_URI_COMMON,
+					"common:data-type"); //$NON-NLS-1$
 			DataTypeConfiguration dataType = new DataTypeConfiguration();
-			dataType.setName(dataTypeDoc.getDocumentElement().getAttribute(
-					"name")); //$NON-NLS-1$
+			dataType.setName(dataTypeDoc.getDocumentElement().getAttribute("name")); //$NON-NLS-1$
 			if (dataTypeDoc.getDocumentElement().hasAttribute("primary")) {
-				dataType.setPrimaryField(dataTypeDoc.getDocumentElement()
-						.getAttribute("primary")); //$NON-NLS-1$
+				dataType.setPrimaryField(dataTypeDoc.getDocumentElement().getAttribute("primary")); //$NON-NLS-1$
 			}
-			NodeList list = ((Element) dataTypeDoc.getDocumentElement()
-					.getElementsByTagName("fields").item(0)). //$NON-NLS-1$
+			NodeList list = ((Element) dataTypeDoc.getDocumentElement().getElementsByTagName(
+					"fields").item(0)). //$NON-NLS-1$
 					getElementsByTagName("field"); //$NON-NLS-1$
 			for (int j = 0; j < list.getLength(); ++j) {
 				FieldConfiguration field = new FieldConfiguration();
@@ -225,15 +209,12 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 					int styleBits = 0;
 					try {
 						styleBits = Integer.parseInt(style);
-					} catch (Exception ex) {
-					}
+					} catch (Exception ex) {}
 					if ((styleBits & 1) == 1) {
 						field.setType("Array"); //$NON-NLS-1$
 					} else {
-						String typeStr = XMLUtilities.getElementTextData(
-								(Element) fieldTypeElement
-										.getElementsByTagName("type").item(0),
-								true);
+						String typeStr = XMLUtilities.getElementTextData((Element) fieldTypeElement
+								.getElementsByTagName("type").item(0), true);
 						if ("DateTime".equals(typeStr)) {
 							typeStr = IDateObject.TYPE_NAME;
 						}
@@ -250,11 +231,9 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 					field.setType(typeStr);
 				}
 				if (fieldElement.getAttribute("initialValue").length() > 0) {
-					field.setInitialValue(fieldElement
-							.getAttribute("initialValue")); //$NON-NLS-1$
+					field.setInitialValue(fieldElement.getAttribute("initialValue")); //$NON-NLS-1$
 				}
-				field.setSecured(Boolean.parseBoolean(fieldElement
-						.getAttribute("secured")));
+				field.setSecured(Boolean.parseBoolean(fieldElement.getAttribute("secured")));
 				dataType.addField(field);
 			}
 			dataType.save(dataTypeElement);
@@ -267,8 +246,7 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 			for (String lang : entry.getValue()) {
 				// Build the language entry.
 				Element languageElement = definition.createElementNS(
-						NAMESPACE_URI_INTERACTIONS_CORE,
-						"interactions:language"); //$NON-NLS-1$
+						NAMESPACE_URI_INTERACTIONS_CORE, "interactions:language"); //$NON-NLS-1$
 				LanguageConfiguration language = new LanguageConfiguration();
 				language.setID(lang);
 				language.setInteractionType(entry.getKey());
@@ -278,22 +256,19 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 		}
 		Element mediaProviderRegistryElement = newServiceElement(//
 		"org.eclipse.vtp.framework.interactions.core.services.media-provider-registry"); //$NON-NLS-1$
-		for (Map.Entry<String, String> entry : formatterIDsByLanguage
-				.entrySet()) {
+		for (Map.Entry<String, String> entry : formatterIDsByLanguage.entrySet()) {
 			String languageID = entry.getKey();
 			String formatterID = entry.getValue();
-			String resourceManagerID = resourceManagerIDsByLanguage
-					.get(languageID);
+			String resourceManagerID = resourceManagerIDsByLanguage.get(languageID);
 			IFormatter formatter = null;
-			FormatterRegistration reg = FormatterRegistrationManager
-					.getInstance().getFormatter(formatterID);
+			FormatterRegistration reg = FormatterRegistrationManager.getInstance().getFormatter(
+					formatterID);
 			if (reg != null) {
 				formatter = reg.getFormatter();
 			}
 			// Build the media provider entry.
 			Element mediaProviderElement = definition.createElementNS(
-					NAMESPACE_URI_INTERACTIONS_CORE,
-					"interactions:media-provider"); //$NON-NLS-1$
+					NAMESPACE_URI_INTERACTIONS_CORE, "interactions:media-provider"); //$NON-NLS-1$
 			MediaProviderConfiguration mediaProvider = new MediaProviderConfiguration(
 					ContentLoadingManager.getInstance());
 			mediaProvider.setID(resourceManagerID);
@@ -303,32 +278,27 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 			mediaProvider.save(mediaProviderElement);
 			mediaProviderRegistryElement.appendChild(mediaProviderElement);
 			Element mediaProviderBindingElement = definition.createElementNS(
-					NAMESPACE_URI_INTERACTIONS_CORE,
-					"interactions:media-provider-binding"); //$NON-NLS-1$
+					NAMESPACE_URI_INTERACTIONS_CORE, "interactions:media-provider-binding"); //$NON-NLS-1$
 			MediaProviderBindingConfiguration mediaProviderBinding = //
 			new MediaProviderBindingConfiguration();
 			mediaProviderBinding.setKey(languageID);
 			mediaProviderBinding.setMediaProviderID(mediaProvider.getID());
 			mediaProviderBinding.save(mediaProviderBindingElement);
-			mediaProviderRegistryElement
-					.appendChild(mediaProviderBindingElement);
+			mediaProviderRegistryElement.appendChild(mediaProviderBindingElement);
 		}
 	}
 
 	/**
 	 * Loads the voice.xml file into the media provider config.
 	 * 
-	 * @param processProject
-	 *            The process referencing the voice.
-	 * @param mediaProvider
-	 *            The media provider to create.
-	 * @throws Exception
-	 *             If the voice cannot be loaded.
+	 * @param processProject The process referencing the voice.
+	 * @param mediaProvider The media provider to create.
+	 * @throws Exception If the voice cannot be loaded.
 	 */
-	private void loadSharedContent(IProject processProject,
-			MediaProviderConfiguration mediaProvider) throws Exception {
-		IProject voiceProject = processProject.getWorkspace().getRoot()
-				.getProject(mediaProvider.getResourceManagerID());
+	private void loadSharedContent(IProject processProject, MediaProviderConfiguration mediaProvider)
+			throws Exception {
+		IProject voiceProject = processProject.getWorkspace().getRoot().getProject(
+				mediaProvider.getResourceManagerID());
 		IFile xmlFile = voiceProject.getFile("Voice.xml");
 		String uri = "http://eclipse.org/vtp/xml/media/voice#1.0"; //$NON-NLS-1$
 		if (!xmlFile.exists()) {
@@ -336,16 +306,15 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 			uri = "http://eclipse.org/vtp/xml/media/author#1.0"; //$NON-NLS-1$
 		}
 		Document voiceDocument = builder.parse(xmlFile.getLocation().toFile());
-		NodeList list = ((Element) voiceDocument.getDocumentElement()
-				.getElementsByTagNameNS(uri, "shared-content").item(0)) //$NON-NLS-1$
+		NodeList list = ((Element) voiceDocument.getDocumentElement().getElementsByTagNameNS(uri,
+				"shared-content").item(0)) //$NON-NLS-1$
 				.getChildNodes();
 		for (int i = 0; i < list.getLength(); ++i) {
 			if (!(list.item(i) instanceof Element)) {
 				continue;
 			}
 			Element element = (Element) list.item(i);
-			ContentLoadingManager contentFactory = ContentLoadingManager
-					.getInstance();
+			ContentLoadingManager contentFactory = ContentLoadingManager.getInstance();
 			SharedContentConfiguration sharedContent = new SharedContentConfiguration(
 					contentFactory);
 			sharedContent.setName(element.getAttributeNS(uri, "item-name")); //$NON-NLS-1$
@@ -357,13 +326,10 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 	/**
 	 * Builds the configurations for the specified brand tree.
 	 * 
-	 * @param brands
-	 *            The brand tree to build the configurations for.
-	 * @param config
-	 *            The configuration created for the brand tree.
+	 * @param brands The brand tree to build the configurations for.
+	 * @param config The configuration created for the brand tree.
 	 */
-	private void buildBrandConfigurations(IBrand brand,
-			BrandConfiguration config) {
+	private void buildBrandConfigurations(IBrand brand, BrandConfiguration config) {
 		for (IBrand child : brand.getChildBrands()) {
 			BrandConfiguration childConfig = new BrandConfiguration();
 			childConfig.setId(child.getId());
@@ -376,62 +342,50 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 	/**
 	 * Builds the flow elements of the process.
 	 * 
-	 * @throws Exception
-	 *             If the flow cannot be built.
+	 * @throws Exception If the flow cannot be built.
 	 */
 	private void buildFlow(List<IWorkflowEntry> entries) throws Exception {
 		mainModel = new FlowModel();
 		for (DesignReference callDesign : callDesigns) {
-			Element documentElement = callDesign.getXMLDocument()
-					.getDocumentElement();
+			Element documentElement = callDesign.getXMLDocument().getDocumentElement();
 			String xmlVersion = documentElement.getAttribute("xml-version");
-			if (!xmlVersion.equals("4.0.0")) {
-				throw new Exception("Incorrect model xml version.");
-			}
+			if (!xmlVersion.equals("4.0.0")) { throw new Exception("Incorrect model xml version."); }
 			callDesign.getDesignDocument().becomeWorkingCopy();
-			buildFlowModel(
-					mainModel,
-					(Element) ((Element) documentElement.getElementsByTagName(
-							"workflow").item(0)) //$NON-NLS-1$
-							.getElementsByTagName("model").item(0), CONTEXT_APPLICATION, null); //$NON-NLS-1$
-			NodeList dialogs = ((Element) documentElement.getElementsByTagName(
-					"dialogs").item(0)) //$NON-NLS-1$
+			buildFlowModel(mainModel, (Element) ((Element) documentElement.getElementsByTagName(
+					"workflow").item(0)) //$NON-NLS-1$
+					.getElementsByTagName("model").item(0), CONTEXT_APPLICATION, null); //$NON-NLS-1$
+			NodeList dialogs = ((Element) documentElement.getElementsByTagName("dialogs").item(0)) //$NON-NLS-1$
 					.getElementsByTagName("workflow"); //$NON-NLS-1$
 			for (int i = 0; i < dialogs.getLength(); ++i) {
 				Element dialog = (Element) dialogs.item(i);
 				FlowModel dialogModel = new FlowModel();
 				String dialogId = dialog.getAttribute("id");
-				buildFlowModel(dialogModel, (Element) dialog
-						.getElementsByTagName("model") //$NON-NLS-1$
+				buildFlowModel(dialogModel, (Element) dialog.getElementsByTagName("model") //$NON-NLS-1$
 						.item(0), CONTEXT_DIALOG, dialogId);
 				System.out.println("Gathering Receivers for Dialog: "
-						+ callDesign.getDesignDocument().getUnderlyingFile()
-								.getFullPath().toString() + ":" + dialogId);
+						+ callDesign.getDesignDocument().getUnderlyingFile().getFullPath()
+								.toString() + ":" + dialogId);
 				List<IDesignElement> receiverElements = gatherReceivers(callDesign
 						.getDesignDocument().getDialogDesign(dialogId));
-				bindDialogBroadcastReceivers(dialogModel, callDesign
-						.getDesignDocument().getDialogDesign(dialogId),
-						receiverElements, dialogId);
+				bindDialogBroadcastReceivers(dialogModel, callDesign.getDesignDocument()
+						.getDialogDesign(dialogId), receiverElements, dialogId);
 				dialogModels.put(dialogId, dialogModel);
 			}
-			List<IDesignElement> receiverElements = gatherReceivers(callDesign
-					.getDesignDocument().getMainDesign());
-			bindBroadcastReceivers(mainModel, callDesign.getDesignDocument()
-					.getMainDesign(), receiverElements);
+			List<IDesignElement> receiverElements = gatherReceivers(callDesign.getDesignDocument()
+					.getMainDesign());
+			bindBroadcastReceivers(mainModel, callDesign.getDesignDocument().getMainDesign(),
+					receiverElements);
 		}
 		StringBuilder entryIds = new StringBuilder();
 		for (IWorkflowEntry entry : entries) {
-			mainModel.addEntry((FlowElement) mainModel.getElementsById().get(
-					entry.getId()));
+			mainModel.addEntry((FlowElement) mainModel.getElementsById().get(entry.getId()));
 			entryIds.append(entry.getId()).append(',');
 		}
 		if (entryIds.length() > 0) {
 			entryIds.setLength(entryIds.length() - 1);
 		}
-		definition.getDocumentElement().setAttribute("start",
-				entryIds.toString());
-		LinkedList<FlowElement> toProcess = new LinkedList<FlowElement>(
-				mainModel.getEntryList());
+		definition.getDocumentElement().setAttribute("start", entryIds.toString());
+		LinkedList<FlowElement> toProcess = new LinkedList<FlowElement>(mainModel.getEntryList());
 		while (!toProcess.isEmpty()) {
 			for (FlowElement element : toProcess.removeFirst().process()) {
 				toProcess.addLast(element);
@@ -442,21 +396,15 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 	/**
 	 * Builds the flow elements of a model in the process.
 	 * 
-	 * @param modelElement
-	 *            The model element to process.
-	 * @param context
-	 *            The context the parsing is occurring in.
-	 * @param dialogID
-	 *            The ID of the dialog that contains the model or
-	 *            <code>null</code>.
+	 * @param modelElement The model element to process.
+	 * @param context The context the parsing is occurring in.
+	 * @param dialogID The ID of the dialog that contains the model or <code>null</code>.
 	 * @return The element that starts the supplied flow.
-	 * @throws Exception
-	 *             If the flow cannot be built.
+	 * @throws Exception If the flow cannot be built.
 	 */
-	private FlowModel buildFlowModel(FlowModel flowModel, Element modelElement,
-			int context, String dialogID) throws Exception {
-		NodeList elements = ((Element) modelElement.getElementsByTagName(
-				"elements") //$NON-NLS-1$
+	private FlowModel buildFlowModel(FlowModel flowModel, Element modelElement, int context,
+			String dialogID) throws Exception {
+		NodeList elements = ((Element) modelElement.getElementsByTagName("elements") //$NON-NLS-1$
 				.item(0)).getChildNodes();
 		for (int i = 0; i < elements.getLength(); ++i) {
 			if (!(elements.item(i) instanceof Element)) {
@@ -472,32 +420,26 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 				id = dialogID + ":" + id; //$NON-NLS-1$
 				elementProperties.setProperty("DIALOG_ID", dialogID);
 			}
-			NodeList propertiesElementList = element
-					.getElementsByTagName("properties");
+			NodeList propertiesElementList = element.getElementsByTagName("properties");
 			if (propertiesElementList.getLength() > 0) {
-				Element propertiesElement = (Element) propertiesElementList
-						.item(0);
-				NodeList propertyElementList = propertiesElement
-						.getElementsByTagName("property");
+				Element propertiesElement = (Element) propertiesElementList.item(0);
+				NodeList propertyElementList = propertiesElement.getElementsByTagName("property");
 				for (int pe = 0; pe < propertyElementList.getLength(); pe++) {
-					Element propertyElement = (Element) propertyElementList
-							.item(pe);
-					elementProperties.setProperty(
-							propertyElement.getAttribute("name"),
+					Element propertyElement = (Element) propertyElementList.item(pe);
+					elementProperties.setProperty(propertyElement.getAttribute("name"),
 							propertyElement.getAttribute("value"));
 				}
 			}
-			Element elementConfigurationElement = (Element) element
-					.getElementsByTagName("configuration").item(0);
+			Element elementConfigurationElement = (Element) element.getElementsByTagName(
+					"configuration").item(0);
 			System.err.println("Adding flow element: " + elementType);
 			elementProperties.store(System.err, "");
 			System.err.println();
-			flowElement = new FlowElement(context, id, name, elementType,
-					elementProperties, elementConfigurationElement);
+			flowElement = new FlowElement(context, id, name, elementType, elementProperties,
+					elementConfigurationElement);
 			flowModel.addElement(flowElement);
 		}
-		NodeList connectors = ((Element) modelElement.getElementsByTagName(
-				"connectors") //$NON-NLS-1$
+		NodeList connectors = ((Element) modelElement.getElementsByTagName("connectors") //$NON-NLS-1$
 				.item(0)).getElementsByTagName("connector"); //$NON-NLS-1$
 		for (int i = 0; i < connectors.getLength(); ++i) {
 			Element connector = (Element) connectors.item(i);
@@ -505,8 +447,7 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 			if (context == CONTEXT_DIALOG) {
 				originID = dialogID + ":" + originID; //$NON-NLS-1$
 			}
-			FlowElement origin = (FlowElement) flowModel.getElementsById().get(
-					originID);
+			FlowElement origin = (FlowElement) flowModel.getElementsById().get(originID);
 			if (origin == null) {
 				continue;
 			}
@@ -514,8 +455,7 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 			if (context == CONTEXT_DIALOG) {
 				destinationID = dialogID + ":" + destinationID; //$NON-NLS-1$
 			}
-			FlowElement destination = (FlowElement) flowModel.getElementsById()
-					.get(destinationID);
+			FlowElement destination = (FlowElement) flowModel.getElementsById().get(destinationID);
 			if (destination == null) {
 				continue;
 			}
@@ -532,14 +472,12 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 		List<IDesignElement> list = new ArrayList<IDesignElement>();
 		design.getDocument().becomeWorkingCopy();
 		for (IDesignElement element : design.getDesignElements()) {
-			System.out.println("Inspecting: " + element.getId() + ":"
-					+ element.getName());
+			System.out.println("Inspecting: " + element.getId() + ":" + element.getName());
 			if (element.getExitBroadcastReceivers().isEmpty()) {
 				continue;
 			}
 			list.add(element);
-			System.err.println("has receivers: " + element.getId() + ":"
-					+ element.getName());
+			System.err.println("has receivers: " + element.getId() + ":" + element.getName());
 		}
 		return list;
 	}
@@ -548,12 +486,11 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 			List<IDesignElement> elements) {
 		design.getDocument().becomeWorkingCopy();
 		for (IDesignElement element : design.getDesignElements()) {
-			List<IDesignElementConnectionPoint> records = element
-					.getConnectorRecords();
+			List<IDesignElementConnectionPoint> records = element.getConnectorRecords();
 			for (IDesignElementConnectionPoint point : records) {
 				if (point.getDesignConnector() == null) {
-					System.err.println("Disconnected exit: " + element.getId()
-							+ ":" + element.getName() + ":" + point.getName());
+					System.err.println("Disconnected exit: " + element.getId() + ":"
+							+ element.getName() + ":" + point.getName());
 					for (IDesignElement receiverElement : elements) {
 						// must avoid looping of disconnected receivers
 						if (element.getId().equals(receiverElement.getId())) {
@@ -561,18 +498,15 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 						}
 						for (IExitBroadcastReceiver receiver : receiverElement
 								.getExitBroadcastReceivers()) {
-							System.err.print("Matching: " + point.getName()
-									+ "->" + receiver.getExitPattern() + "...");
-							if (receiver.getExitPattern().equals(
-									point.getName())) {
+							System.err.print("Matching: " + point.getName() + "->"
+									+ receiver.getExitPattern() + "...");
+							if (receiver.getExitPattern().equals(point.getName())) {
 								System.err.println("true");
-								IFlowElement origin = model.flowElementsById
-										.get(element.getId());
-								IFlowElement target = model.flowElementsById
-										.get(receiverElement.getId());
+								IFlowElement origin = model.flowElementsById.get(element.getId());
+								IFlowElement target = model.flowElementsById.get(receiverElement
+										.getId());
 								if (origin != null && target != null) {
-									((FlowElement) origin).addResultPath(
-											point.getName(),
+									((FlowElement) origin).addResultPath(point.getName(),
 											(FlowElement) target);
 								}
 							} else {
@@ -589,13 +523,11 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 			List<IDesignElement> elements, String dialogId) {
 		design.getDocument().becomeWorkingCopy();
 		for (IDesignElement element : design.getDesignElements()) {
-			List<IDesignElementConnectionPoint> records = element
-					.getConnectorRecords();
+			List<IDesignElementConnectionPoint> records = element.getConnectorRecords();
 			for (IDesignElementConnectionPoint point : records) {
 				if (point.getDesignConnector() == null) {
-					System.err.println("Disconnected exit: " + dialogId + ":"
-							+ element.getId() + ":" + element.getName() + ":"
-							+ point.getName());
+					System.err.println("Disconnected exit: " + dialogId + ":" + element.getId()
+							+ ":" + element.getName() + ":" + point.getName());
 					for (IDesignElement receiverElement : elements) {
 						// must avoid looping of disconnected receivers
 						if (element.getId().equals(receiverElement.getId())) {
@@ -603,19 +535,16 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 						}
 						for (IExitBroadcastReceiver receiver : receiverElement
 								.getExitBroadcastReceivers()) {
-							System.err.print("Matching: " + point.getName()
-									+ "->" + receiver.getExitPattern() + "...");
-							if (receiver.getExitPattern().equals(
-									point.getName())) {
+							System.err.print("Matching: " + point.getName() + "->"
+									+ receiver.getExitPattern() + "...");
+							if (receiver.getExitPattern().equals(point.getName())) {
 								System.err.println("true");
-								IFlowElement origin = model.flowElementsById
-										.get(dialogId + ":" + element.getId());
-								IFlowElement target = model.flowElementsById
-										.get(dialogId + ":"
-												+ receiverElement.getId());
+								IFlowElement origin = model.flowElementsById.get(dialogId + ":"
+										+ element.getId());
+								IFlowElement target = model.flowElementsById.get(dialogId + ":"
+										+ receiverElement.getId());
 								if (origin != null && target != null) {
-									((FlowElement) origin).addResultPath(
-											point.getName(),
+									((FlowElement) origin).addResultPath(point.getName(),
 											(FlowElement) target);
 								}
 							} else {
@@ -631,13 +560,12 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 	/**
 	 * Creates a new service element with the specified ID.
 	 * 
-	 * @param serviceID
-	 *            The ID of the service.
+	 * @param serviceID The ID of the service.
 	 * @return A new service element with the specified ID.
 	 */
 	private Element newServiceElement(String serviceID) {
-		Element element = definition.createElementNS(
-				NAMESPACE_URI_PROCESS_DEFINITION, "process:service"); //$NON-NLS-1$
+		Element element = definition.createElementNS(NAMESPACE_URI_PROCESS_DEFINITION,
+				"process:service"); //$NON-NLS-1$
 		element.setAttribute("id", serviceID); //$NON-NLS-1$
 		servicesElement.appendChild(element);
 		return element;
@@ -646,18 +574,14 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 	/**
 	 * Creates a new action element with the specified IDs.
 	 * 
-	 * @param actionID
-	 *            The ID of the action.
-	 * @param actionName
-	 *            The display name of the action.
-	 * @param actionDescriptorID
-	 *            The ID of the action descriptor.
+	 * @param actionID The ID of the action.
+	 * @param actionName The display name of the action.
+	 * @param actionDescriptorID The ID of the action descriptor.
 	 * @return A new action element with the specified IDs.
 	 */
-	private Element newActionElement(String actionID, String actionName,
-			String actionDescriptorID) {
-		Element element = definition.createElementNS(
-				NAMESPACE_URI_PROCESS_DEFINITION, "process:action"); //$NON-NLS-1$
+	private Element newActionElement(String actionID, String actionName, String actionDescriptorID) {
+		Element element = definition.createElementNS(NAMESPACE_URI_PROCESS_DEFINITION,
+				"process:action"); //$NON-NLS-1$
 		element.setAttribute("id", actionID); //$NON-NLS-1$
 		element.setAttribute("name", actionName); //$NON-NLS-1$
 		element.setAttribute("descriptor-id", actionDescriptorID); //$NON-NLS-1$
@@ -668,16 +592,13 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 	/**
 	 * Creates a new observer element with the specified IDs.
 	 * 
-	 * @param observerID
-	 *            The ID of the observer.
-	 * @param observerDescriptorID
-	 *            The ID of the observer descriptor.
+	 * @param observerID The ID of the observer.
+	 * @param observerDescriptorID The ID of the observer descriptor.
 	 * @return A new observer element with the specified IDs.
 	 */
-	private Element newObserverElement(String observerID,
-			String observerDescriptorID) {
-		Element element = definition.createElementNS(
-				NAMESPACE_URI_PROCESS_DEFINITION, "process:observer"); //$NON-NLS-1$
+	private Element newObserverElement(String observerID, String observerDescriptorID) {
+		Element element = definition.createElementNS(NAMESPACE_URI_PROCESS_DEFINITION,
+				"process:observer"); //$NON-NLS-1$
 		element.setAttribute("id", observerID); //$NON-NLS-1$
 		element.setAttribute("descriptor-id", observerDescriptorID); //$NON-NLS-1$
 		observersElement.appendChild(element);
@@ -687,15 +608,13 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 	/**
 	 * Creates a new transition element with the specified ID and path.
 	 * 
-	 * @param actionID
-	 *            The ID of the action that the transition follows.
-	 * @param path
-	 *            The exit path this transition applies to.
+	 * @param actionID The ID of the action that the transition follows.
+	 * @param path The exit path this transition applies to.
 	 * @return A new transition element with the specified ID and path.
 	 */
 	private Element newAfterTransitionElement(String actionID, String path) {
-		Element element = definition.createElementNS(
-				NAMESPACE_URI_PROCESS_DEFINITION, "process:after"); //$NON-NLS-1$
+		Element element = definition.createElementNS(NAMESPACE_URI_PROCESS_DEFINITION,
+				"process:after"); //$NON-NLS-1$
 		element.setAttribute("action", actionID); //$NON-NLS-1$
 		element.setAttribute("path", path); //$NON-NLS-1$
 		transitionsElement.appendChild(element);
@@ -728,15 +647,13 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 		 * Creates a new FlowElement.
 		 * 
 		 * @param context
-		 * @param id
-		 *            The ID of this element.
+		 * @param id The ID of this element.
 		 * @param name
 		 * @param properties
-		 * @param configuration
-		 *            The configuration of this element.
+		 * @param configuration The configuration of this element.
 		 */
-		FlowElement(int context, String id, String name, String type,
-				Properties properties, Element configuration) {
+		FlowElement(int context, String id, String name, String type, Properties properties,
+				Element configuration) {
 			this.context = context;
 			this.id = id;
 			this.name = name;
@@ -783,10 +700,8 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 		/**
 		 * Configures a result path on this element.
 		 * 
-		 * @param path
-		 *            The result path to configure.
-		 * @param next
-		 *            The element the path points at.
+		 * @param path The result path to configure.
+		 * @param next The element the path points at.
 		 */
 		void addResultPath(String path, FlowElement next) {
 			resultPaths.put(path, next);
@@ -800,16 +715,13 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 		/**
 		 * Returns the ID that should be used for targeting this element.
 		 * 
-		 * @param afterTransitionElement
-		 *            The transition to configure with additional observer
+		 * @param afterTransitionElement The transition to configure with additional observer
 		 *            notifications.
 		 * @return The ID that should be used for targeting this element.
 		 */
 		@Override
 		public String getTargetID(Element afterTransitionElement) {
-			if (exporter != null) {
-				return exporter.getTargetId(this, afterTransitionElement);
-			}
+			if (exporter != null) { return exporter.getTargetId(this, afterTransitionElement); }
 			return getDefaultTargetId(afterTransitionElement);
 		}
 
@@ -824,33 +736,26 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 		 * @return The next elements to be processed.
 		 */
 		final List<FlowElement> process() {
-			if (processed) {
-				return Collections.emptyList();
-			}
+			if (processed) { return Collections.emptyList(); }
 			processed = true;
 			buildAction();
-			List<FlowElement> nextElements = new ArrayList<FlowElement>(
-					resultPaths.size());
+			List<FlowElement> nextElements = new ArrayList<FlowElement>(resultPaths.size());
 			for (Map.Entry<String, FlowElement> entry : resultPaths.entrySet()) {
 				String designPath = entry.getKey();
 				String processPath = mapResultPath(designPath);
-				Element afterTrasition = newAfterTransitionElement(id,
-						processPath);
+				Element afterTrasition = newAfterTransitionElement(id, processPath);
 				buildObservers(designPath, afterTrasition);
 				String target = entry.getValue().getTargetID(afterTrasition);
 				if (target == null) {
 					transitionsElement.removeChild(afterTrasition);
 				} else {
 					afterTrasition.setAttribute("target", target); //$NON-NLS-1$
-					Map<String, IFlowElement> flowElementsById = mainModel
-							.getElementsById();
+					Map<String, IFlowElement> flowElementsById = mainModel.getElementsById();
 					if (target.indexOf(':') != -1) {
 						flowElementsById = dialogModels.get(
-								target.substring(0, target.indexOf(':')))
-								.getElementsById();
+								target.substring(0, target.indexOf(':'))).getElementsById();
 					}
-					nextElements
-							.add((FlowElement) flowElementsById.get(target));
+					nextElements.add((FlowElement) flowElementsById.get(target));
 				}
 			}
 			return nextElements;
@@ -870,35 +775,28 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 		}
 
 		public boolean isEntryPoint() {
-			if (exporter != null) {
-				return exporter.isEntryPoint(this);
-			}
+			if (exporter != null) { return exporter.isEntryPoint(this); }
 			return false;
 		}
 
 		/**
 		 * Writes the observers bound to the specified result path.
 		 * 
-		 * @param designPath
-		 *            The path to write the observers for.
-		 * @param afterTrasition
-		 *            The element to write the notifications to.
+		 * @param designPath The path to write the observers for.
+		 * @param afterTrasition The element to write the notifications to.
 		 */
 		@Override
 		public void buildObservers(String designPath, Element afterTrasition) {
 			String uri = "http://eclipse.org/vtp/xml/configuration/attacheddata"; //$NON-NLS-1$
-			NodeList bindingsList = configuration
-					.getElementsByTagName("managed-config"); //$NON-NLS-1$
+			NodeList bindingsList = configuration.getElementsByTagName("managed-config"); //$NON-NLS-1$
 			Element attachedData = null;
-			for (int i = 0; attachedData == null
-					&& i < bindingsList.getLength(); ++i) {
+			for (int i = 0; attachedData == null && i < bindingsList.getLength(); ++i) {
 				Element bindings = (Element) bindingsList.item(i);
 				if (bindings.getAttribute("type").equals(
 						"org.eclipse.vtp.configuration.attacheddata")) {
 					NodeList itemList = bindings.getElementsByTagNameNS(uri,
 							"attached-data-binding"); //$NON-NLS-1$
-					for (int j = 0; attachedData == null
-							&& j < itemList.getLength(); ++j) {
+					for (int j = 0; attachedData == null && j < itemList.getLength(); ++j) {
 						Element item = (Element) itemList.item(j);
 						if (designPath.equals(item.getAttribute("name"))) {
 							attachedData = item;
@@ -906,13 +804,10 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 					}
 				}
 			}
-			if (attachedData == null) {
-				return;
-			}
+			if (attachedData == null) { return; }
 			String observerID = Guid.createGUID();
 			MetaDataConfiguration config = new MetaDataConfiguration();
-			NodeList itemList = attachedData
-					.getElementsByTagNameNS(uri, "item"); //$NON-NLS-1$
+			NodeList itemList = attachedData.getElementsByTagNameNS(uri, "item"); //$NON-NLS-1$
 			int count = 0;
 			for (int i = 0; i < itemList.getLength(); ++i) {
 				Element item = (Element) itemList.item(i);
@@ -924,22 +819,15 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 						Element entry = (Element) entryList.item(j);
 						MetaDataItemConfiguration metaDataItem = new MetaDataItemConfiguration();
 						metaDataItem.setName(entry.getAttribute("name")); //$NON-NLS-1$
-						if ("variable".equalsIgnoreCase(entry
-								.getAttribute("type"))) {
-							metaDataItem.setVariableValue(entry
-									.getAttribute("value")); //$NON-NLS-1$
-						} else if ("expression".equalsIgnoreCase(entry
-								.getAttribute("type"))) {
-							metaDataItem.setExpressionValue(
-									entry.getAttribute("value"), //$NON-NLS-1$
+						if ("variable".equalsIgnoreCase(entry.getAttribute("type"))) {
+							metaDataItem.setVariableValue(entry.getAttribute("value")); //$NON-NLS-1$
+						} else if ("expression".equalsIgnoreCase(entry.getAttribute("type"))) {
+							metaDataItem.setExpressionValue(entry.getAttribute("value"), //$NON-NLS-1$
 									"JavaScript"); //$NON-NLS-1$
-						} else if ("map".equalsIgnoreCase(entry
-								.getAttribute("type"))) {
-							metaDataItem.setMapValue(entry
-									.getAttribute("value"));
+						} else if ("map".equalsIgnoreCase(entry.getAttribute("type"))) {
+							metaDataItem.setMapValue(entry.getAttribute("value"));
 						} else {
-							metaDataItem.setStaticValue(entry
-									.getAttribute("value")); //$NON-NLS-1$
+							metaDataItem.setStaticValue(entry.getAttribute("value")); //$NON-NLS-1$
 						}
 						metaDataItems[j] = metaDataItem;
 					}
@@ -947,13 +835,11 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 					++count;
 				}
 			}
-			if (count == 0) {
-				return;
-			}
+			if (count == 0) { return; }
 			Element observerElement = newObserverElement(observerID,
 					"org.eclipse.vtp.framework.interactions.core.observers.meta-data-message"); //$NON-NLS-1$
-			Element configElement = definition.createElementNS(
-					NAMESPACE_URI_INTERACTIONS_CORE, "interactions:meta-data"); //$NON-NLS-1$
+			Element configElement = definition.createElementNS(NAMESPACE_URI_INTERACTIONS_CORE,
+					"interactions:meta-data"); //$NON-NLS-1$
 			config.save(configElement);
 			observerElement.appendChild(configElement);
 			Element notify = afterTrasition.getOwnerDocument().createElementNS(
@@ -965,15 +851,12 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 		/**
 		 * Maps a result path from the designer to a path in the process engine.
 		 * 
-		 * @param input
-		 *            The path in the designer.
+		 * @param input The path in the designer.
 		 * @return The path in the process engine.
 		 */
 		String mapResultPath(String input) {
 			if (exporter != null) {
-				if (input.equals(exporter.getDefaultPath(this))) {
-					return "default";
-				}
+				if (input.equals(exporter.getDefaultPath(this))) { return "default"; }
 				return exporter.translatePath(this, input);
 			}
 			return "Continue".equals(input) ? "default" //$NON-NLS-1$ //$NON-NLS-2$
@@ -981,36 +864,30 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 		}
 
 		/**
-		 * Loads the bindings from this element's configuration into a media
-		 * configuration.
+		 * Loads the bindings from this element's configuration into a media configuration.
 		 * 
 		 * @return The loaded binding information.
 		 */
 		@Override
 		public MediaConfiguration loadMediaBindings(String elementTypeId) {
-			NodeList managedConfigList = configuration
-					.getElementsByTagName("managed-config");
+			NodeList managedConfigList = configuration.getElementsByTagName("managed-config");
 			Element genericConfigElement = null;
 			for (int i = 0; i < managedConfigList.getLength(); i++) {
-				Element managedConfigElement = (Element) managedConfigList
-						.item(i);
+				Element managedConfigElement = (Element) managedConfigList.item(i);
 				if (managedConfigElement.getAttribute("type").equals(
 						"org.eclipse.vtp.configuration.generic")) {
 					genericConfigElement = managedConfigElement;
 					break;
 				}
 			}
-			if (genericConfigElement == null) {
-				return null;
-			}
+			if (genericConfigElement == null) { return null; }
 			return loadMediaBindings(elementTypeId, genericConfigElement);
 		}
 
 		@Override
 		public MediaConfiguration loadMediaBindings(String elementTypeId,
 				Element genericConfigElement) {
-			MediaConfiguration result = new MediaConfiguration(
-					ContentLoadingManager.getInstance(),
+			MediaConfiguration result = new MediaConfiguration(ContentLoadingManager.getInstance(),
 					InputLoadingManager.getInstance());
 			Map<String, OutputConfiguration> outputConfigurations = new HashMap<String, OutputConfiguration>();
 			Map<String, InputConfiguration> inputConfigurations = new HashMap<String, InputConfiguration>();
@@ -1018,10 +895,8 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 			NodeList interactionBindingList = genericConfigElement
 					.getElementsByTagName("interaction-binding");
 			for (int i = 0; i < interactionBindingList.getLength(); i++) {
-				Element interactionBinding = (Element) interactionBindingList
-						.item(i);
-				String interactionType = interactionBinding
-						.getAttribute("type");
+				Element interactionBinding = (Element) interactionBindingList.item(i);
+				String interactionType = interactionBinding.getAttribute("type");
 				NodeList namedBindingList = interactionBinding
 						.getElementsByTagName("named-binding");
 				for (int nb = 0; nb < namedBindingList.getLength(); nb++) {
@@ -1030,67 +905,49 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 					NodeList languageBindingList = namedBinding
 							.getElementsByTagName("language-binding");
 					for (int lb = 0; lb < languageBindingList.getLength(); lb++) {
-						Element languageBinding = (Element) languageBindingList
-								.item(lb);
-						String languageName = languageBinding
-								.getAttribute("language");
+						Element languageBinding = (Element) languageBindingList.item(lb);
+						String languageName = languageBinding.getAttribute("language");
 						NodeList brandBindingList = languageBinding
 								.getElementsByTagName("brand-binding");
 						for (int bb = 0; bb < brandBindingList.getLength(); bb++) {
-							Element brandBinding = (Element) brandBindingList
-									.item(bb);
+							Element brandBinding = (Element) brandBindingList.item(bb);
 							String brandId = brandBinding.getAttribute("id");
 							NodeList bindingItemList = brandBinding
 									.getElementsByTagName("binding-item");
 							if (bindingItemList.getLength() > 0) {
-								Element bindingItemElement = (Element) bindingItemList
-										.item(0);
-								String bindingItemType = bindingItemElement
-										.getAttribute("type");
+								Element bindingItemElement = (Element) bindingItemList.item(0);
+								String bindingItemType = bindingItemElement.getAttribute("type");
 								if ("org.eclipse.vtp.configuration.generic.items.prompt"
 										.equals(bindingItemType)) {
 									OutputConfiguration outputConfig = outputConfigurations
 											.get(bindingName);
 									if (outputConfig == null) {
 										outputConfig = new OutputConfiguration(
-												ContentLoadingManager
-														.getInstance());
-										outputConfigurations.put(bindingName,
-												outputConfig);
+												ContentLoadingManager.getInstance());
+										outputConfigurations.put(bindingName, outputConfig);
 									}
-									outputConfig
-											.setItem(
-													brandId,
-													interactionType,
-													languageName,
-													loadOutputNodesFrom(bindingItemElement));
+									outputConfig.setItem(brandId, interactionType, languageName,
+											loadOutputNodesFrom(bindingItemElement));
 								}
 								if ("org.eclipse.vtp.configuration.generic.items.grammar"
 										.equals(bindingItemType)) {
 									InputConfiguration inputConfig = inputConfigurations
 											.get(bindingName);
 									if (inputConfig == null) {
-										inputConfig = new InputConfiguration(
-												InputLoadingManager
-														.getInstance());
-										inputConfigurations.put(bindingName,
-												inputConfig);
+										inputConfig = new InputConfiguration(InputLoadingManager
+												.getInstance());
+										inputConfigurations.put(bindingName, inputConfig);
 									}
 									InputGrammar grammar = null;
-									NodeList contents = bindingItemElement
-											.getChildNodes();
-									for (int k = 0; grammar == null
-											&& k < contents.getLength(); ++k) {
+									NodeList contents = bindingItemElement.getChildNodes();
+									for (int k = 0; grammar == null && k < contents.getLength(); ++k) {
 										if (contents.item(k) instanceof Element) {
-											grammar = InputLoadingManager
-													.getInstance().loadInput(
-															(Element) contents
-																	.item(k));
+											grammar = InputLoadingManager.getInstance().loadInput(
+													(Element) contents.item(k));
 										}
 									}
 									if (grammar != null) {
-										inputConfig.setItem(brandId,
-												interactionType, languageName,
+										inputConfig.setItem(brandId, interactionType, languageName,
 												grammar);
 									}
 								}
@@ -1100,8 +957,7 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 											.get(bindingName);
 									if (propertyConfig == null) {
 										propertyConfig = new PropertyConfiguration();
-										propertyConfigurations.put(bindingName,
-												propertyConfig);
+										propertyConfigurations.put(bindingName, propertyConfig);
 									}
 									NodeList propertyValueList = bindingItemElement
 											.getElementsByTagName("property-value");
@@ -1109,17 +965,11 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 										Element propertyValueElement = (Element) propertyValueList
 												.item(0);
 										try {
-											propertyConfig
-													.setItem(
-															brandId,
-															interactionType,
-															languageName,
-															propertyValueElement
-																	.getAttribute("value-type"),
-															XMLUtilities
-																	.getElementTextData(
-																			propertyValueElement,
-																			true));
+											propertyConfig.setItem(brandId, interactionType,
+													languageName, propertyValueElement
+															.getAttribute("value-type"),
+													XMLUtilities.getElementTextData(
+															propertyValueElement, true));
 										} catch (Exception e) {
 											e.printStackTrace();
 										}
@@ -1130,57 +980,45 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 					}
 				}
 			}
-			for (Map.Entry<String, OutputConfiguration> entry : outputConfigurations
-					.entrySet()) {
+			for (Map.Entry<String, OutputConfiguration> entry : outputConfigurations.entrySet()) {
 				result.setOutputConfiguration(entry.getKey(), entry.getValue());
 			}
-			for (Map.Entry<String, InputConfiguration> entry : inputConfigurations
-					.entrySet()) {
+			for (Map.Entry<String, InputConfiguration> entry : inputConfigurations.entrySet()) {
 				result.setInputConfiguration(entry.getKey(), entry.getValue());
 			}
 			for (int i = 0; i < interactionBindingList.getLength(); i++) {
-				Element interactionBinding = (Element) interactionBindingList
-						.item(i);
-				String interactionType = interactionBinding
-						.getAttribute("type");
-				List<String> names = WorkspaceMediaDefaultSettings
-						.getInstance().getDefaultSettingNames(elementTypeId,
-								interactionType);
+				Element interactionBinding = (Element) interactionBindingList.item(i);
+				String interactionType = interactionBinding.getAttribute("type");
+				List<String> names = WorkspaceMediaDefaultSettings.getInstance()
+						.getDefaultSettingNames(elementTypeId, interactionType);
 				for (String name : names) {
 					System.err.print("Checking default value: " + name + "...");
-					String defaultSetting = WorkspaceMediaDefaultSettings
-							.getInstance()
-							.getDefaultSetting(interactionType, elementTypeId,
-									name).getValue();
+					String defaultSetting = WorkspaceMediaDefaultSettings.getInstance()
+							.getDefaultSetting(interactionType, elementTypeId, name).getValue();
 					System.err.println(defaultSetting);
 					if (defaultSetting != null) {
-						PropertyConfiguration propertyConfig = propertyConfigurations
-								.get(name);
-						System.err.println("Current property config: "
-								+ propertyConfig);
+						PropertyConfiguration propertyConfig = propertyConfigurations.get(name);
+						System.err.println("Current property config: " + propertyConfig);
 						if (propertyConfig == null) {
 							propertyConfig = new PropertyConfiguration();
 							propertyConfigurations.put(name, propertyConfig);
 						}
-						Value item = propertyConfig.getItem(brandingAspect
-								.getBrandManager().getDefaultBrand().getId(),
-								interactionType);
-						System.err.println("Current property value: "
-								+ (item == null ? "null" : (item.getType()
-										+ ":" + item.getValue())));
+						Value item = propertyConfig.getItem(brandingAspect.getBrandManager()
+								.getDefaultBrand().getId(), interactionType);
+						System.err
+								.println("Current property value: "
+										+ (item == null ? "null" : (item.getType() + ":" + item
+												.getValue())));
 						if (item == null) {
-							propertyConfig.setItem(brandingAspect
-									.getBrandManager().getDefaultBrand()
-									.getId(), interactionType, "static",
+							propertyConfig.setItem(brandingAspect.getBrandManager()
+									.getDefaultBrand().getId(), interactionType, "static",
 									defaultSetting);
 						}
 					}
 				}
 			}
-			for (Map.Entry<String, PropertyConfiguration> entry : propertyConfigurations
-					.entrySet()) {
-				result.setPropertyConfiguration(entry.getKey(),
-						entry.getValue());
+			for (Map.Entry<String, PropertyConfiguration> entry : propertyConfigurations.entrySet()) {
+				result.setPropertyConfiguration(entry.getKey(), entry.getValue());
 			}
 			return result;
 		}
@@ -1195,33 +1033,27 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 					if ("binding-branch".equals(childElement.getTagName())) {
 						if (!content.isEmpty()) {
 							OutputContent node = new OutputContent();
-							node.setContent(content.toArray(new Content[content
-									.size()]));
+							node.setContent(content.toArray(new Content[content.size()]));
 							content.clear();
 							nodes.add(node);
 						}
 						OutputSwitch switchNode = new OutputSwitch();
 						NodeList caseElements = childElement.getChildNodes();
-						List<OutputCase> cases = new ArrayList<OutputCase>(
-								caseElements.getLength());
+						List<OutputCase> cases = new ArrayList<OutputCase>(caseElements.getLength());
 						for (int j = 0; j < caseElements.getLength(); ++j) {
 							if (caseElements.item(j) instanceof Element) {
-								Element caseElement = (Element) caseElements
-										.item(j);
+								Element caseElement = (Element) caseElements.item(j);
 								OutputCase caseNode = new OutputCase();
-								caseNode.setScript(caseElement
-										.getAttribute("condition"));
+								caseNode.setScript(caseElement.getAttribute("condition"));
 								caseNode.setScriptingLanguage("JavaScript");
 								caseNode.setNodes(loadOutputNodesFrom(caseElement));
 								cases.add(caseNode);
 							}
 						}
-						switchNode.setCases(cases.toArray(new OutputCase[cases
-								.size()]));
+						switchNode.setCases(cases.toArray(new OutputCase[cases.size()]));
 						nodes.add(switchNode);
 					} else {
-						content.add(ContentLoadingManager.getInstance()
-								.loadContent(childElement));
+						content.add(ContentLoadingManager.getInstance().loadContent(childElement));
 					}
 				}
 			}
@@ -1240,8 +1072,7 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 		private Map<String, IFlowElement> flowElementsById = new HashMap<String, IFlowElement>();
 		private List<FlowElement> flowElements = new ArrayList<FlowElement>();
 
-		public FlowModel() {
-		}
+		public FlowModel() {}
 
 		@Override
 		public List<IFlowElement> getEntries() {
@@ -1267,8 +1098,7 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 
 		public void addElement(IFlowElement flowElement) {
 			FlowElement old = null;
-			if ((old = (FlowElement) flowElementsById.put(flowElement.getId(),
-					flowElement)) != null) {
+			if ((old = (FlowElement) flowElementsById.put(flowElement.getId(), flowElement)) != null) {
 				flowElements.remove(old);
 				old.setModel(null);
 			}

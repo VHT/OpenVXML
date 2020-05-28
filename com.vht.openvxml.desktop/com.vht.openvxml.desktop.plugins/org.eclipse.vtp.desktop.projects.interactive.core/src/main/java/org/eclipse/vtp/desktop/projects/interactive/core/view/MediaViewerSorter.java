@@ -26,15 +26,11 @@ public class MediaViewerSorter extends ViewerSorter {
 		} else if (element instanceof IMediaLibrariesFolder) {
 			return 2;
 		} else if (element instanceof IMediaLibrary) {
-			if (((IMediaLibrary) element).getName().equals("Default")) {
-				return 1;
-			}
+			if (((IMediaLibrary) element).getName().equals("Default")) { return 1; }
 			return 2;
 		} else if (element instanceof IMediaFolder) {
 			return 2;
-		} else if (element instanceof IMediaFile) {
-			return 3;
-		}
+		} else if (element instanceof IMediaFile) { return 3; }
 		return Integer.MAX_VALUE;
 	}
 

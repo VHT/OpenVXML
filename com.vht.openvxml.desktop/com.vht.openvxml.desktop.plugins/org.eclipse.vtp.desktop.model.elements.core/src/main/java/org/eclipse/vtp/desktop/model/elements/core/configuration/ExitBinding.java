@@ -32,19 +32,16 @@ public class ExitBinding {
 	/** The binding manager that contains this binding */
 	private FragmentConfigurationManager manager = null;
 	/**
-	 * An index of the output bindings contained by this binding, based on the
-	 * output name
+	 * An index of the output bindings contained by this binding, based on the output name
 	 */
 	private Map<String, OutputBinding> outputBindings = new TreeMap<String, OutputBinding>();
 
 	/**
-	 * Creates a new exit binding instance that is contained by the provided
-	 * manager with the given name.
+	 * Creates a new exit binding instance that is contained by the provided manager with the given
+	 * name.
 	 * 
-	 * @param manager
-	 *            The binding manager that contains this binding
-	 * @param name
-	 *            The name of this binding
+	 * @param manager The binding manager that contains this binding
+	 * @param name The name of this binding
 	 */
 	public ExitBinding(FragmentConfigurationManager manager, String name) {
 		super();
@@ -62,8 +59,7 @@ public class ExitBinding {
 	/**
 	 * Retrieves the output binding associated with the given name.
 	 * 
-	 * @param outputName
-	 *            The name of the output associated with the desired binding
+	 * @param outputName The name of the output associated with the desired binding
 	 * @return The output binding associated with the output with the given name
 	 */
 	public OutputBinding getOutputBinding(String outputName) {
@@ -77,8 +73,7 @@ public class ExitBinding {
 	public OutputBinding addOutputBinding(String outputName) {
 		OutputBinding ret = outputBindings.get(outputName);
 		if (ret == null) {
-			outputBindings.put(outputName, ret = new OutputBinding(manager,
-					outputName));
+			outputBindings.put(outputName, ret = new OutputBinding(manager, outputName));
 		}
 		return ret;
 	}
@@ -92,19 +87,16 @@ public class ExitBinding {
 	}
 
 	/**
-	 * Reads the configuration data stored in the given DOM element into this
-	 * exit binding instance. Any previous information stored in this exit
-	 * binding is lost.
+	 * Reads the configuration data stored in the given DOM element into this exit binding instance.
+	 * Any previous information stored in this exit binding is lost.
 	 * 
-	 * @param exitBindingElement
-	 *            The DOM element containing the configuration
+	 * @param exitBindingElement The DOM element containing the configuration
 	 */
 	public void readConfiguration(Element exitBindingElement) {
 		NodeList outputBindingElementList = exitBindingElement
 				.getElementsByTagName("output-binding");
 		for (int i = 0; i < outputBindingElementList.getLength(); i++) {
-			Element outputBindingElement = (Element) outputBindingElementList
-					.item(i);
+			Element outputBindingElement = (Element) outputBindingElementList.item(i);
 			String outputName = outputBindingElement.getAttribute("name");
 			OutputBinding outputBinding = new OutputBinding(manager, outputName);
 			outputBinding.readConfiguration(outputBindingElement);
@@ -115,28 +107,25 @@ public class ExitBinding {
 	/**
 	 * Stores this exit binding's information into the given DOM element.
 	 * 
-	 * @param exitBindingElement
-	 *            The DOM element to hold this binding's data
+	 * @param exitBindingElement The DOM element to hold this binding's data
 	 */
 	public void writeConfiguration(Element exitBindingElement) {
 		Iterator<OutputBinding> iterator = outputBindings.values().iterator();
 		while (iterator.hasNext()) {
 			OutputBinding outputBinding = iterator.next();
-			Element outputBindingElement = exitBindingElement
-					.getOwnerDocument().createElement("output-binding");
+			Element outputBindingElement = exitBindingElement.getOwnerDocument().createElement(
+					"output-binding");
 			exitBindingElement.appendChild(outputBindingElement);
-			outputBindingElement
-					.setAttribute("name", outputBinding.getOutput());
+			outputBindingElement.setAttribute("name", outputBinding.getOutput());
 			outputBinding.writeConfiguration(outputBindingElement);
 		}
 	}
 
 	/**
-	 * Prints this binding's information to the given print stream. This is
-	 * useful for logging and debugging.
+	 * Prints this binding's information to the given print stream. This is useful for logging and
+	 * debugging.
 	 * 
-	 * @param out
-	 *            The print stream to write the information to
+	 * @param out The print stream to write the information to
 	 */
 	public void dumpContents(PrintStream out) {
 		out.println("[Exit Binding] " + name);

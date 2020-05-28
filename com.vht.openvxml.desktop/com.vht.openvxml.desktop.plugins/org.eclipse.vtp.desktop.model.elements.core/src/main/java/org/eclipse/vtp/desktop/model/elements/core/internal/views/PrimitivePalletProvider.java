@@ -33,20 +33,17 @@ public class PrimitivePalletProvider implements PalletItemProvider {
 
 	public PrimitivePalletProvider() {
 		super();
-		IConfigurationElement[] primitiveExtensions = Platform
-				.getExtensionRegistry().getConfigurationElementsFor(
-						PrimitiveElementManager.primitiveExtensionPointId);
+		IConfigurationElement[] primitiveExtensions = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(PrimitiveElementManager.primitiveExtensionPointId);
 		for (IConfigurationElement primitiveExtension : primitiveExtensions) {
 			String id = primitiveExtension.getAttribute("id");
 			String name = primitiveExtension.getAttribute("name");
 			boolean popOnDrop = false;
-			String popOnDropString = primitiveExtension
-					.getAttribute("pop-on-drop");
+			String popOnDropString = primitiveExtension.getAttribute("pop-on-drop");
 			if (popOnDropString != null) {
 				popOnDrop = Boolean.parseBoolean(popOnDropString);
 			}
-			Bundle contributor = Platform.getBundle(primitiveExtension
-					.getContributor().getName());
+			Bundle contributor = Platform.getBundle(primitiveExtension.getContributor().getName());
 			String className = primitiveExtension.getAttribute("filter");
 			if (className != null) {
 				try {
@@ -54,9 +51,8 @@ public class PrimitivePalletProvider implements PalletItemProvider {
 					Class<PalletItemFilter> filterClass = (Class<PalletItemFilter>) contributor
 							.loadClass(className);
 					final PalletItemFilter filter = filterClass.newInstance();
-					PalletItem palletItem = new PalletItem(name, Activator
-							.getDefault().getImageRegistry().get(id),
-							new PrimitiveElementFactory(), id) {
+					PalletItem palletItem = new PalletItem(name, Activator.getDefault()
+							.getImageRegistry().get(id), new PrimitiveElementFactory(), id) {
 						@Override
 						public boolean canBeContainedBy(IDesign container) {
 							return filter.canBeContainedBy(container);
@@ -69,10 +65,8 @@ public class PrimitivePalletProvider implements PalletItemProvider {
 					continue;
 				}
 			} else {
-				PalletItem palletItem = new PalletItem(name,
-						org.eclipse.vtp.desktop.core.Activator.getDefault()
-								.getImageRegistry().get(id),
-						new PrimitiveElementFactory(), id);
+				PalletItem palletItem = new PalletItem(name, org.eclipse.vtp.desktop.core.Activator
+						.getDefault().getImageRegistry().get(id), new PrimitiveElementFactory(), id);
 				palletItem.setPopOnDrop(popOnDrop);
 				primitiveItems.add(palletItem);
 			}
@@ -91,7 +85,6 @@ public class PrimitivePalletProvider implements PalletItemProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.views.pallet.PalletItemProvider#getRanking()
 	 */
 	@Override
@@ -101,21 +94,15 @@ public class PrimitivePalletProvider implements PalletItemProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.desktop.views.pallet.PalletItemProvider#createMenu(
-	 * org.eclipse.jface.action.IMenuManager,
-	 * org.eclipse.vtp.desktop.views.pallet.PalletItem[])
+	 * org.eclipse.jface.action.IMenuManager, org.eclipse.vtp.desktop.views.pallet.PalletItem[])
 	 */
 	@Override
-	public void createMenu(IAdaptable container, IMenuManager manager,
-			PalletItem[] selectedItems) {
-	}
+	public void createMenu(IAdaptable container, IMenuManager manager, PalletItem[] selectedItems) {}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.views.pallet.PalletItemProvider#
-	 * addPalletItemObserver(
+	 * @see org.eclipse.vtp.desktop.views.pallet.PalletItemProvider# addPalletItemObserver(
 	 * org.eclipse.vtp.desktop.views.pallet.PalletItemObserver)
 	 */
 	@Override
@@ -126,9 +113,7 @@ public class PrimitivePalletProvider implements PalletItemProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.desktop.views.pallet.PalletItemProvider#
-	 * removePalletItemObserver(
+	 * @see org.eclipse.vtp.desktop.views.pallet.PalletItemProvider# removePalletItemObserver(
 	 * org.eclipse.vtp.desktop.views.pallet.PalletItemObserver)
 	 */
 	@Override

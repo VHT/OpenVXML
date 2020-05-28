@@ -24,8 +24,8 @@ import org.eclipse.vtp.framework.core.IActionResult;
 import org.eclipse.vtp.framework.core.IReporter;
 
 /**
- * An action that terminates the current process and returns control to the
- * process that included it.
+ * An action that terminates the current process and returns control to the process that included
+ * it.
  * 
  * @author Lonnie Pryor
  */
@@ -42,16 +42,12 @@ public class ExitAction implements IAction {
 	/**
 	 * Creates a new ForwardAction.
 	 * 
-	 * @param context
-	 *            The context that contains this action.
-	 * @param controller
-	 *            The controller to enqueue with.
-	 * @param configuration
-	 *            The configuration for this exit action.
+	 * @param context The context that contains this action.
+	 * @param controller The controller to enqueue with.
+	 * @param configuration The configuration for this exit action.
 	 */
 	public ExitAction(IActionContext context, IController controller,
-			ExitConfiguration configuration,
-			AssignmentConfiguration[] assignments) {
+			ExitConfiguration configuration, AssignmentConfiguration[] assignments) {
 		this.context = context;
 		this.controller = controller;
 		this.configuration = configuration;
@@ -60,7 +56,6 @@ public class ExitAction implements IAction {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.core.IAction#execute()
 	 */
 	@Override
@@ -73,9 +68,8 @@ public class ExitAction implements IAction {
 				context.report(IReporter.SEVERITY_INFO, "Exiting via path \""
 						+ configuration.getValue() + "\".", props);
 			}
-			if (controller.createExit(configuration, assignments).enqueue()) {
-				return context.createResult(IActionResult.RESULT_NAME_ABORT);
-			}
+			if (controller.createExit(configuration, assignments).enqueue()) { return context
+					.createResult(IActionResult.RESULT_NAME_ABORT); }
 		} catch (final Exception e) {
 			return context.createResult("error.exit", e); //$NON-NLS-1$
 		}

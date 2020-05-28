@@ -16,13 +16,10 @@ package org.eclipse.vtp.modules.standard.ui;
 
 import com.openmethods.openvxml.desktop.model.businessobjects.FieldType;
 
-
 /**
  * @author Trip
- *
  */
-public class VariableDeclaration implements Cloneable
-{
+public class VariableDeclaration implements Cloneable {
 	String name = null;
 	FieldType type = null;
 	int valueType = 0;
@@ -32,9 +29,7 @@ public class VariableDeclaration implements Cloneable
 	/**
 	 *
 	 */
-	public VariableDeclaration(String name, FieldType type,
-		int valueType, String value)
-	{
+	public VariableDeclaration(String name, FieldType type, int valueType, String value) {
 		super();
 		this.name = name;
 		this.type = type;
@@ -42,9 +37,8 @@ public class VariableDeclaration implements Cloneable
 		this.value = value;
 	}
 
-	public VariableDeclaration(String name, FieldType type,
-			int valueType, String value, boolean secure)
-	{
+	public VariableDeclaration(String name, FieldType type, int valueType, String value,
+			boolean secure) {
 		super();
 		this.name = name;
 		this.type = type;
@@ -53,59 +47,47 @@ public class VariableDeclaration implements Cloneable
 		this.secure = secure;
 	}
 
-	public String getName()
-    {
-    	return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-	public void setName(String name)
-    {
-    	this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-	public FieldType getType()
-    {
-    	return type;
-    }
+	public FieldType getType() {
+		return type;
+	}
 
-	public void setType(FieldType type)
-    {
-    	this.type = type;
-    }
+	public void setType(FieldType type) {
+		this.type = type;
+	}
 
-	public int getValueType()
-    {
-    	return valueType;
-    }
+	public int getValueType() {
+		return valueType;
+	}
 
-	public void setValueType(int valueType)
-    {
-    	this.valueType = valueType;
-    }
+	public void setValueType(int valueType) {
+		this.valueType = valueType;
+	}
 
-	public String getValue()
-    {
-    	return value;
-    }
+	public String getValue() {
+		return value;
+	}
 
-	public void setValue(String value)
-    {
-    	this.value = value;
-    }
+	public void setValue(String value) {
+		this.value = value;
+	}
 
-	public boolean isSecure()
-	{
+	public boolean isSecure() {
 		return secure;
 	}
-	
-	public void setSecure(boolean secure)
-	{
+
+	public void setSecure(boolean secure) {
 		this.secure = secure;
 	}
 
-	public Object clone()
-	{
-		return new VariableDeclaration(name, type, valueType,
-			value);
+	public Object clone() {
+		return new VariableDeclaration(name, type, valueType, value);
 	}
 }

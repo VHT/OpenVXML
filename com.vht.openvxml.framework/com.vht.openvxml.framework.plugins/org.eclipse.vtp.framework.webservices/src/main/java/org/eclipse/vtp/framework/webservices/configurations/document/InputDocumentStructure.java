@@ -14,8 +14,8 @@ public class InputDocumentStructure extends DocumentItemContainer {
 
 	@Override
 	public Element createConfigurationElement(Element parentElement) {
-		Element conditionalContainerElement = parentElement.getOwnerDocument()
-				.createElement("input-document-structure");
+		Element conditionalContainerElement = parentElement.getOwnerDocument().createElement(
+				"input-document-structure");
 		parentElement.appendChild(conditionalContainerElement);
 		return conditionalContainerElement;
 	}

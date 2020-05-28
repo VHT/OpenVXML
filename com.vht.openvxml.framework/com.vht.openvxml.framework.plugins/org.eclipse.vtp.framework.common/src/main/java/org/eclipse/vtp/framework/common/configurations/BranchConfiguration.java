@@ -60,15 +60,12 @@ public class BranchConfiguration implements IConfiguration, CommonConstants {
 	/**
 	 * Creates a new AssignmentConfiguration.
 	 */
-	public BranchConfiguration() {
-	}
+	public BranchConfiguration() {}
 
 	/**
-	 * Returns the scripting language to use for the left-hand side of the
-	 * operation.
+	 * Returns the scripting language to use for the left-hand side of the operation.
 	 * 
-	 * @return The scripting language to use for the left-hand side of the
-	 *         operation.
+	 * @return The scripting language to use for the left-hand side of the operation.
 	 */
 	public String getLeftScriptingLanguage() {
 		return leftScriptingLanguage;
@@ -147,9 +144,7 @@ public class BranchConfiguration implements IConfiguration, CommonConstants {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#load(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#load( org.w3c.dom.Element)
 	 */
 	@Override
 	public void load(Element configurationElement) {
@@ -172,8 +167,8 @@ public class BranchConfiguration implements IConfiguration, CommonConstants {
 		leftType = OPERAND_TYPE_VARIABLE;
 		leftValue = ""; //$NON-NLS-1$
 		leftScriptingLanguage = null;
-		final NodeList leftList = configurationElement.getElementsByTagNameNS(
-				NAMESPACE_URI, NAME_LEFT_OPERAND);
+		final NodeList leftList = configurationElement.getElementsByTagNameNS(NAMESPACE_URI,
+				NAME_LEFT_OPERAND);
 		if (leftList.getLength() > 0) {
 			final Element left = (Element) leftList.item(0);
 			if ("expression".equalsIgnoreCase(left.getAttribute(NAME_TYPE))) {
@@ -184,15 +179,14 @@ public class BranchConfiguration implements IConfiguration, CommonConstants {
 			leftValue = left.getAttribute(NAME_VALUE);
 			leftSecured = Boolean.parseBoolean(left.getAttribute(NAME_SECURED));
 			if (left.hasAttribute(NAME_SCRIPTING_LANGUGAGE)) {
-				leftScriptingLanguage = left
-						.getAttribute(NAME_SCRIPTING_LANGUGAGE);
+				leftScriptingLanguage = left.getAttribute(NAME_SCRIPTING_LANGUGAGE);
 			}
 		}
 		rightType = OPERAND_TYPE_VARIABLE;
 		rightValue = ""; //$NON-NLS-1$
 		rightScriptingLanguage = null;
-		final NodeList rightList = configurationElement.getElementsByTagNameNS(
-				NAMESPACE_URI, NAME_RIGHT_OPERAND);
+		final NodeList rightList = configurationElement.getElementsByTagNameNS(NAMESPACE_URI,
+				NAME_RIGHT_OPERAND);
 		if (rightList.getLength() > 0) {
 			final Element right = (Element) rightList.item(0);
 			if ("expression".equalsIgnoreCase(right.getAttribute(NAME_TYPE))) {
@@ -201,20 +195,16 @@ public class BranchConfiguration implements IConfiguration, CommonConstants {
 				rightType = OPERAND_TYPE_VARIABLE;
 			}
 			rightValue = right.getAttribute(NAME_VALUE);
-			rightSecured = Boolean.parseBoolean(right
-					.getAttribute(NAME_SECURED));
+			rightSecured = Boolean.parseBoolean(right.getAttribute(NAME_SECURED));
 			if (right.hasAttribute(NAME_SCRIPTING_LANGUGAGE)) {
-				rightScriptingLanguage = right
-						.getAttribute(NAME_SCRIPTING_LANGUGAGE);
+				rightScriptingLanguage = right.getAttribute(NAME_SCRIPTING_LANGUGAGE);
 			}
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.vtp.framework.core.IConfiguration#save(
-	 * org.w3c.dom.Element)
+	 * @see org.eclipse.vtp.framework.core.IConfiguration#save( org.w3c.dom.Element)
 	 */
 	@Override
 	public void save(Element configurationElement) {
@@ -248,8 +238,8 @@ public class BranchConfiguration implements IConfiguration, CommonConstants {
 			rightName = prefix + ":" + rightName; //$NON-NLS-1$
 		}
 		configurationElement.setAttribute(NAME_PATH, path);
-		final Element left = configurationElement.getOwnerDocument()
-				.createElementNS(NAMESPACE_URI, leftName);
+		final Element left = configurationElement.getOwnerDocument().createElementNS(NAMESPACE_URI,
+				leftName);
 		left.setAttribute(NAME_TYPE, leftType == OPERAND_TYPE_VARIABLE ? //
 		"variable" //$NON-NLS-1$
 				: "expression"); //$NON-NLS-1$
@@ -259,8 +249,8 @@ public class BranchConfiguration implements IConfiguration, CommonConstants {
 			left.setAttribute(NAME_SCRIPTING_LANGUGAGE, leftScriptingLanguage);
 		}
 		configurationElement.appendChild(left);
-		final Element right = configurationElement.getOwnerDocument()
-				.createElementNS(NAMESPACE_URI, rightName);
+		final Element right = configurationElement.getOwnerDocument().createElementNS(
+				NAMESPACE_URI, rightName);
 		right.setAttribute(NAME_TYPE, rightType == OPERAND_TYPE_VARIABLE ? //
 		"variable" //$NON-NLS-1$
 				: "expression"); //$NON-NLS-1$
@@ -275,14 +265,11 @@ public class BranchConfiguration implements IConfiguration, CommonConstants {
 	/**
 	 * Sets the value to use for the left-hand side of the operation.
 	 * 
-	 * @param leftValue
-	 *            The expression to use for the left-hand side of the operation.
-	 * @param leftScriptingLanguage
-	 *            The scripting language to use for the left-hand side of the
+	 * @param leftValue The expression to use for the left-hand side of the operation.
+	 * @param leftScriptingLanguage The scripting language to use for the left-hand side of the
 	 *            operation.
 	 */
-	public void setLeftExpressionValue(String leftValue,
-			String leftScriptingLanguage) {
+	public void setLeftExpressionValue(String leftValue, String leftScriptingLanguage) {
 		this.leftType = OPERAND_TYPE_EXPRESSION;
 		this.leftValue = leftValue == null ? "" : leftValue; //$NON-NLS-1$;
 		this.leftScriptingLanguage = leftScriptingLanguage;
@@ -295,9 +282,7 @@ public class BranchConfiguration implements IConfiguration, CommonConstants {
 	/**
 	 * Sets the value to use for the left-hand side of the operation.
 	 * 
-	 * @param leftValue
-	 *            The name of the variable to use for the left-hand side of the
-	 *            operation.
+	 * @param leftValue The name of the variable to use for the left-hand side of the operation.
 	 */
 	public void setLeftVariableValue(String leftValue) {
 		this.leftType = OPERAND_TYPE_VARIABLE;
@@ -308,8 +293,7 @@ public class BranchConfiguration implements IConfiguration, CommonConstants {
 	/**
 	 * Sets the path to follow if the comparison is true.
 	 * 
-	 * @param path
-	 *            The path to follow if the comparison is true.
+	 * @param path The path to follow if the comparison is true.
 	 */
 	public void setPath(String path) {
 		this.path = path == null ? "" : path; //$NON-NLS-1$;
@@ -318,15 +302,11 @@ public class BranchConfiguration implements IConfiguration, CommonConstants {
 	/**
 	 * Sets the value to use for the right-hand side of the operation.
 	 * 
-	 * @param rightValue
-	 *            The expression to use for the right-hand side of the
-	 *            operation.
-	 * @param rightScriptingLanguage
-	 *            The scripting language to use for the right-hand side of the
+	 * @param rightValue The expression to use for the right-hand side of the operation.
+	 * @param rightScriptingLanguage The scripting language to use for the right-hand side of the
 	 *            operation.
 	 */
-	public void setRightExpressionValue(String rightValue,
-			String rightScriptingLanguage) {
+	public void setRightExpressionValue(String rightValue, String rightScriptingLanguage) {
 		this.rightType = OPERAND_TYPE_EXPRESSION;
 		this.rightValue = rightValue == null ? "" : rightValue; //$NON-NLS-1$;
 		this.rightScriptingLanguage = rightScriptingLanguage;
@@ -339,9 +319,7 @@ public class BranchConfiguration implements IConfiguration, CommonConstants {
 	/**
 	 * Sets the value to use for the right-hand side of the operation.
 	 * 
-	 * @param rightValue
-	 *            The name of the variable to use for the right-hand side of the
-	 *            operation.
+	 * @param rightValue The name of the variable to use for the right-hand side of the operation.
 	 */
 	public void setRightVariableValue(String rightValue) {
 		this.rightType = OPERAND_TYPE_VARIABLE;
@@ -352,8 +330,7 @@ public class BranchConfiguration implements IConfiguration, CommonConstants {
 	/**
 	 * Sets the type of comparison to make.
 	 * 
-	 * @param type
-	 *            The type of comparison to make.
+	 * @param type The type of comparison to make.
 	 */
 	public void setType(int type) {
 		this.type = type;

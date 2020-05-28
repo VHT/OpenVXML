@@ -43,7 +43,6 @@ import com.openmethods.openvxml.platforms.genesys.vxml.Send;
 
 /**
  * @author trip
- *
  */
 public class GenesysVoicePlatform8 extends VoicePlatform {
 
@@ -58,8 +57,7 @@ public class GenesysVoicePlatform8 extends VoicePlatform {
 		super(context);
 		this.context = context;
 		if (context.getRootAttribute("isCtiC") != null) {
-			isCtiC = Boolean.parseBoolean((String) context
-					.getRootAttribute("isCtiC"));
+			isCtiC = Boolean.parseBoolean((String) context.getRootAttribute("isCtiC"));
 		}
 	}
 
@@ -70,20 +68,17 @@ public class GenesysVoicePlatform8 extends VoicePlatform {
 		document.setProperty("documentmaxstale", "0"); //$NON-NLS-1$ //$NON-NLS-2$
 		document.setProperty("fetchaudio", "");
 		if (isCtiC) {
-			document.setProperty("com.genesyslab.externalevents.enable",
-					"false");
+			document.setProperty("com.genesyslab.externalevents.enable", "false");
 			document.setProperty("com.genesyslab.externalevents.queue", "true");
 		} else {
 			document.setProperty("com.genesyslab.externalevents.enable", "true");
 		}
-		document.addOtherNamespace("gvp",
-				"http://www.genesyslab.com/2006/vxml21-extension");
+		document.addOtherNamespace("gvp", "http://www.genesyslab.com/2006/vxml21-extension");
 		return document;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.interactions.voice.services.VoicePlatform#
 	 * generateInitialVariableRequests(java.util.Map)
 	 */
@@ -117,8 +112,7 @@ public class GenesysVoicePlatform8 extends VoicePlatform {
 				isCtiC = true;
 			}
 		} else if ("gvpCtiC".equals(name)) {
-			if (originalValue != null
-					&& originalValue.contains("gvp.rm.cti-call=1")) {
+			if (originalValue != null && originalValue.contains("gvp.rm.cti-call=1")) {
 				context.setRootAttribute("isCtiC", "true");
 				return "true";
 			} else {
@@ -130,24 +124,20 @@ public class GenesysVoicePlatform8 extends VoicePlatform {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.support.AbstractPlatform#
-	 * renderInitialDocument(
-	 * org.eclipse.vtp.framework.interactions.core.platforms.ILinkFactory,
+	 * @see org.eclipse.vtp.framework.interactions.core.support.AbstractPlatform#
+	 * renderInitialDocument( org.eclipse.vtp.framework.interactions.core.platforms.ILinkFactory,
 	 * org.eclipse.vtp.framework.interactions.core.commands.InitialCommand)
 	 */
 	@Override
-	protected IDocument renderInitialDocument(ILinkFactory links,
-			InitialCommand initialCommand) {
+	protected IDocument renderInitialDocument(ILinkFactory links, InitialCommand initialCommand) {
 		VXMLDocument document = new VXMLDocument();
 		document.setProperty("documentmaxage", "0"); //$NON-NLS-1$ //$NON-NLS-2$
 		document.setProperty("documentmaxstale", "0"); //$NON-NLS-1$ //$NON-NLS-2$
 		document.setProperty("com.genesyslab.externalevents.enable", "true");
 		Script jsonInclude = new Script();
 		jsonInclude.setSrc(links.createIncludeLink(
-				Activator.getDefault().getBundle().getSymbolicName()
-						+ "/includes/json.js").toString());
+				Activator.getDefault().getBundle().getSymbolicName() + "/includes/json.js")
+				.toString());
 		document.addScript(jsonInclude);
 		Form form = new Form("InitialForm"); //$NON-NLS-1$
 		Map<String, String> varMap = new LinkedHashMap<String, String>();
@@ -157,8 +147,7 @@ public class GenesysVoicePlatform8 extends VoicePlatform {
 		}
 		form.addVariable(new Variable("gvpUserData",
 				"JSON.stringify(session.com.genesyslab.userdata)"));
-		form.addVariable(new Variable("gvpCtiC",
-				"JSON.stringify(session.com.genesyslab.userdata)"));
+		form.addVariable(new Variable("gvpCtiC", "JSON.stringify(session.com.genesyslab.userdata)"));
 		String[] variables = initialCommand.getVariableNames();
 		for (String variable : variables) {
 			String value = initialCommand.getVariableValue(variable);
@@ -182,11 +171,9 @@ public class GenesysVoicePlatform8 extends VoicePlatform {
 		ILink nextLink = links.createNextLink();
 		String[] parameterNames = initialCommand.getParameterNames();
 		for (String parameterName : parameterNames) {
-			nextLink.setParameters(parameterName,
-					initialCommand.getParameterValues(parameterName));
+			nextLink.setParameters(parameterName, initialCommand.getParameterValues(parameterName));
 		}
-		nextLink.setParameter(initialCommand.getResultName(),
-				initialCommand.getResultValue());
+		nextLink.setParameter(initialCommand.getResultName(), initialCommand.getResultValue());
 		String[] fields = new String[varMap.size() + variables.length + 2];
 		int j = 0;
 		for (String key : varMap.keySet()) {
@@ -202,18 +189,17 @@ public class GenesysVoicePlatform8 extends VoicePlatform {
 		form.addFormElement(block);
 		ILink hangupLink = links.createNextLink();
 		for (String parameterName : parameterNames) {
-			hangupLink.setParameters(parameterName,
-					initialCommand.getParameterValues(parameterName));
+			hangupLink.setParameters(parameterName, initialCommand
+					.getParameterValues(parameterName));
 		}
-		hangupLink.setParameter(initialCommand.getResultName(),
-				initialCommand.getHangupResultValue());
+		hangupLink.setParameter(initialCommand.getResultName(), initialCommand
+				.getHangupResultValue());
 		Catch disconnectCatch = new Catch("connection.disconnect.hangup");
 		disconnectCatch.addAction(new Goto(hangupLink.toString()));
 		form.addEventHandler(disconnectCatch);
 		document.addDialog(form);
 
-		List<String> events = ExtendedActionEventManager.getDefault()
-				.getExtendedEvents();
+		List<String> events = ExtendedActionEventManager.getDefault().getExtendedEvents();
 		String cpaPrefix = "externalmessage.cpa";
 		if (events.contains(cpaPrefix)) {
 			List<String> cpaEvents = new ArrayList<String>();
@@ -226,8 +212,7 @@ public class GenesysVoicePlatform8 extends VoicePlatform {
 						eventLink.setParameters(parameterName, initialCommand
 								.getParameterValues(parameterName));
 					}
-					eventLink.setParameter(initialCommand.getResultName(),
-							event);
+					eventLink.setParameter(initialCommand.getResultName(), event);
 					Catch eventCatch = new Catch(event);
 					eventCatch.addAction(new Goto(eventLink.toString()));
 					form.addEventHandler(eventCatch);
@@ -243,8 +228,7 @@ public class GenesysVoicePlatform8 extends VoicePlatform {
 						eventLink.setParameters(parameterName, initialCommand
 								.getParameterValues(parameterName));
 					}
-					eventLink.setParameter(initialCommand.getResultName(),
-							cpaEvent);
+					eventLink.setParameter(initialCommand.getResultName(), cpaEvent);
 					If eventIf = new If("_event==Õ" + cpaEvent + "Õ");
 					// If eventIf = new If("_event=='" + cpaEvent + "'");
 					eventIf.addAction(new Goto(eventLink.toString()));
@@ -253,8 +237,8 @@ public class GenesysVoicePlatform8 extends VoicePlatform {
 			}
 			ILink cpaLink = links.createNextLink();
 			for (String parameterName : parameterNames) {
-				cpaLink.setParameters(parameterName,
-						initialCommand.getParameterValues(parameterName));
+				cpaLink.setParameters(parameterName, initialCommand
+						.getParameterValues(parameterName));
 			}
 			cpaLink.setParameter(initialCommand.getResultName(), cpaPrefix);
 			cpaCatch.addAction(new Goto(cpaLink.toString()));
@@ -263,8 +247,8 @@ public class GenesysVoicePlatform8 extends VoicePlatform {
 			for (String event : events) {
 				ILink eventLink = links.createNextLink();
 				for (String parameterName : parameterNames) {
-					eventLink.setParameters(parameterName,
-							initialCommand.getParameterValues(parameterName));
+					eventLink.setParameters(parameterName, initialCommand
+							.getParameterValues(parameterName));
 				}
 				eventLink.setParameter(initialCommand.getResultName(), event);
 				Catch eventCatch = new Catch(event);
@@ -311,18 +295,17 @@ public class GenesysVoicePlatform8 extends VoicePlatform {
 
 		Block block = new Block("RedirectBlock");
 		ILink createNextLink = links.createNextLink();
-		createNextLink.setParameter(metaDataMessageRequest.getResultName(),
-				metaDataMessageRequest.getFilledResultValue());
+		createNextLink.setParameter(metaDataMessageRequest.getResultName(), metaDataMessageRequest
+				.getFilledResultValue());
 		String[] params = metaDataMessageRequest.getParameterNames();
 		for (String param : params) {
-			createNextLink.setParameters(param,
-					metaDataMessageRequest.getParameterValues(param));
+			createNextLink.setParameters(param, metaDataMessageRequest.getParameterValues(param));
 		}
 
 		Script jsonInclude = new Script();
 		jsonInclude.setSrc(links.createIncludeLink(
-				Activator.getDefault().getBundle().getSymbolicName()
-						+ "/includes/json.js").toString());
+				Activator.getDefault().getBundle().getSymbolicName() + "/includes/json.js")
+				.toString());
 		block.addAction(jsonInclude);
 
 		send.setGvpPrefix(true);
@@ -332,17 +315,15 @@ public class GenesysVoicePlatform8 extends VoicePlatform {
 
 		// block.addAction(new Assignment("GetDataMessage",
 		// "application.lastmessage$.content"));
-		block.addAction(new Assignment("GetDataMessage",
-				"JSON.stringify(application.lastmessage$)"));
+		block.addAction(new Assignment("GetDataMessage", "JSON.stringify(application.lastmessage$)"));
 
-		Submit submit = new Submit(createNextLink.toString(),
-				new String[] { "GetDataMessage" });
+		Submit submit = new Submit(createNextLink.toString(), new String[] { "GetDataMessage" });
 		submit.setMethod(METHOD_POST);
 		block.addAction(submit);
 		form.addFormElement(block);
 		ILink hangupLink = links.createNextLink();
-		hangupLink.setParameter(metaDataMessageRequest.getResultName(),
-				metaDataMessageRequest.getHangupResultValue());
+		hangupLink.setParameter(metaDataMessageRequest.getResultName(), metaDataMessageRequest
+				.getHangupResultValue());
 		Catch disconnectCatch = new Catch("connection.disconnect.hangup");
 		disconnectCatch.addAction(new Goto(hangupLink.toString()));
 		form.addEventHandler(disconnectCatch);
@@ -350,39 +331,30 @@ public class GenesysVoicePlatform8 extends VoicePlatform {
 
 		/*
 		 * Form form = new Form("SetAttachedDataForm"); UserData userData = new
-		 * UserData("GetAttachedData"); userData.setDoGet(true); String[] names
-		 * = metaDataMessageRequest.getMetaDataNames(); for(int i = 0; i <
-		 * names.length; i++) { userData.addParameter(new Parameter(names[i],
-		 * "''")); } String[] parameterNames =
+		 * UserData("GetAttachedData"); userData.setDoGet(true); String[] names =
+		 * metaDataMessageRequest.getMetaDataNames(); for(int i = 0; i < names.length; i++) {
+		 * userData.addParameter(new Parameter(names[i], "''")); } String[] parameterNames =
 		 * metaDataMessageRequest.getParameterNames(); String[] submitVars = new
-		 * String[parameterNames.length + 2]; submitVars[0] =
-		 * metaDataMessageRequest.getDataName(); submitVars[1] =
-		 * metaDataMessageRequest.getResultName(); Filled filled = new Filled();
-		 * filled.addVariable(new
-		 * Variable(metaDataMessageRequest.getResultName(), "'" +
-		 * metaDataMessageRequest.getFilledResultValue() + "'")); for (int i =
-		 * 0; i < parameterNames.length; ++i) { submitVars[i + 2] =
-		 * parameterNames[i]; String[] values =
-		 * metaDataMessageRequest.getParameterValues(parameterNames[i]);
-		 * StringBuffer buf = new StringBuffer(); for(int v = 0; v <
-		 * values.length; v++) { buf.append(values[v]); if(v < values.length -
-		 * 1) buf.append(','); } Variable paramVar = new
-		 * Variable(parameterNames[i], "'" + buf.toString() + "'");
-		 * filled.addVariable(paramVar); } ILink filledLink =
-		 * links.createNextLink(); Submit submit = new
-		 * Submit(filledLink.toString(), submitVars);
+		 * String[parameterNames.length + 2]; submitVars[0] = metaDataMessageRequest.getDataName();
+		 * submitVars[1] = metaDataMessageRequest.getResultName(); Filled filled = new Filled();
+		 * filled.addVariable(new Variable(metaDataMessageRequest.getResultName(), "'" +
+		 * metaDataMessageRequest.getFilledResultValue() + "'")); for (int i = 0; i <
+		 * parameterNames.length; ++i) { submitVars[i + 2] = parameterNames[i]; String[] values =
+		 * metaDataMessageRequest.getParameterValues(parameterNames[i]); StringBuffer buf = new
+		 * StringBuffer(); for(int v = 0; v < values.length; v++) { buf.append(values[v]); if(v <
+		 * values.length - 1) buf.append(','); } Variable paramVar = new Variable(parameterNames[i],
+		 * "'" + buf.toString() + "'"); filled.addVariable(paramVar); } ILink filledLink =
+		 * links.createNextLink(); Submit submit = new Submit(filledLink.toString(), submitVars);
 		 * submit.setMethod(VXMLConstants.METHOD_POST);
-		 * submit.setEncodingType("multipart/form-data");
-		 * filled.addAction(submit); userData.addFilledHandler(filled);
-		 * form.addFormElement(userData); ILink hangupLink =
-		 * links.createNextLink(); for (int i = 0; i < parameterNames.length;
-		 * ++i) hangupLink.setParameters(parameterNames[i],
-		 * metaDataMessageRequest .getParameterValues(parameterNames[i]));
+		 * submit.setEncodingType("multipart/form-data"); filled.addAction(submit);
+		 * userData.addFilledHandler(filled); form.addFormElement(userData); ILink hangupLink =
+		 * links.createNextLink(); for (int i = 0; i < parameterNames.length; ++i)
+		 * hangupLink.setParameters(parameterNames[i], metaDataMessageRequest
+		 * .getParameterValues(parameterNames[i]));
 		 * hangupLink.setParameter(metaDataMessageRequest.getResultName(),
-		 * metaDataMessageRequest.getHangupResultValue()); Catch disconnectCatch
-		 * = new Catch("connection.disconnect.hangup");
-		 * disconnectCatch.addAction(new Goto(hangupLink.toString()));
-		 * form.addEventHandler(disconnectCatch); return
+		 * metaDataMessageRequest.getHangupResultValue()); Catch disconnectCatch = new
+		 * Catch("connection.disconnect.hangup"); disconnectCatch.addAction(new
+		 * Goto(hangupLink.toString())); form.addEventHandler(disconnectCatch); return
 		 * this.createVXMLDocument(links, form);
 		 */
 	}
@@ -419,17 +391,15 @@ public class GenesysVoicePlatform8 extends VoicePlatform {
 
 		// send.setBody(nameList.toString() + (isCtiC ?
 		// "&Action=AttachData&sub_action=Add": ""));
-		send.setBody(nameList.toString()
-				+ (isCtiC ? "&Action=AttachData&sub_action=Replace" : ""));
+		send.setBody(nameList.toString() + (isCtiC ? "&Action=AttachData&sub_action=Replace" : ""));
 		send.setContentType("application/x-www-form-urlencoded;charset=utf-8");
 		Block block = new Block("RedirectBlock");
 		ILink createNextLink = links.createNextLink();
-		createNextLink.setParameter(metaDataMessageCommand.getResultName(),
-				metaDataMessageCommand.getFilledResultValue());
+		createNextLink.setParameter(metaDataMessageCommand.getResultName(), metaDataMessageCommand
+				.getFilledResultValue());
 		String[] params = metaDataMessageCommand.getParameterNames();
 		for (String param : params) {
-			createNextLink.setParameters(param,
-					metaDataMessageCommand.getParameterValues(param));
+			createNextLink.setParameters(param, metaDataMessageCommand.getParameterValues(param));
 		}
 		block.addAction(send);
 		if (isCtiC) {
@@ -440,8 +410,8 @@ public class GenesysVoicePlatform8 extends VoicePlatform {
 		block.addAction(new Goto(createNextLink.toString()));
 		form.addFormElement(block);
 		ILink hangupLink = links.createNextLink();
-		hangupLink.setParameter(metaDataMessageCommand.getResultName(),
-				metaDataMessageCommand.getHangupResultValue());
+		hangupLink.setParameter(metaDataMessageCommand.getResultName(), metaDataMessageCommand
+				.getHangupResultValue());
 		Catch disconnectCatch = new Catch("connection.disconnect.hangup");
 		disconnectCatch.addAction(new Goto(hangupLink.toString()));
 		form.addEventHandler(disconnectCatch);
@@ -449,8 +419,8 @@ public class GenesysVoicePlatform8 extends VoicePlatform {
 	}
 
 	@Override
-	public Map processMetaDataResponse(
-			MetaDataRequestConfiguration configuration, IActionContext context) {
+	public Map processMetaDataResponse(MetaDataRequestConfiguration configuration,
+			IActionContext context) {
 		Map dataMap = new HashMap();
 		// String attachedDataContent = context.getParameter("GetAttachedData");
 		String attachedDataContent = context.getParameter("GetDataMessage");
@@ -475,19 +445,14 @@ public class GenesysVoicePlatform8 extends VoicePlatform {
 
 		/*
 		 * try { ByteArrayInputStream bais = new
-		 * ByteArrayInputStream(attachedDataContent.getBytes()); Document
-		 * attachedDataDocument = XMLUtilities.getDocumentBuilder().parse(bais);
-		 * context.debug("AttachedDataDocument: " + attachedDataDocument);
-		 * NodeList dataList =
-		 * attachedDataDocument.getDocumentElement().getElementsByTagName
-		 * ("key"); for(int i = 0; i < dataList.getLength(); i++) { Element
-		 * dataElement = (Element)dataList.item(i);
-		 * context.debug("KVP received - key: " +
-		 * dataElement.getAttribute("name") + " value: " +
-		 * dataElement.getAttribute("value"));
-		 * dataMap.put(dataElement.getAttribute("name"),
-		 * dataElement.getAttribute("value")); } } catch(Exception e) {
-		 * e.printStackTrace(); }
+		 * ByteArrayInputStream(attachedDataContent.getBytes()); Document attachedDataDocument =
+		 * XMLUtilities.getDocumentBuilder().parse(bais); context.debug("AttachedDataDocument: " +
+		 * attachedDataDocument); NodeList dataList =
+		 * attachedDataDocument.getDocumentElement().getElementsByTagName ("key"); for(int i = 0; i
+		 * < dataList.getLength(); i++) { Element dataElement = (Element)dataList.item(i);
+		 * context.debug("KVP received - key: " + dataElement.getAttribute("name") + " value: " +
+		 * dataElement.getAttribute("value")); dataMap.put(dataElement.getAttribute("name"),
+		 * dataElement.getAttribute("value")); } } catch(Exception e) { e.printStackTrace(); }
 		 */
 		return dataMap;
 	}

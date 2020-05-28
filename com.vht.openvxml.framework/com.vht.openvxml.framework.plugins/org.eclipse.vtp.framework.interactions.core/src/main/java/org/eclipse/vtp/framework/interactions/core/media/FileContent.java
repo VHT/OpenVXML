@@ -22,8 +22,7 @@ public abstract class FileContent extends Content {
 	private int dataType = STATIC_PATH;
 	private String data = ""; //$NON-NLS-1$
 
-	public FileContent() {
-	}
+	public FileContent() {}
 
 	public FileContent(Element element) {
 		String dataTypeString = element.getAttribute("dataType"); //$NON-NLS-1$
@@ -71,9 +70,7 @@ public abstract class FileContent extends Content {
 
 	@Override
 	public Content captureData(IDataSet dataSet) {
-		if (dataType == STATIC_PATH) {
-			return this;
-		}
+		if (dataType == STATIC_PATH) { return this; }
 		FileContent clone = (FileContent) createCopy();
 		clone.setStaticPath(dataSet.getData(data).toString());
 		return clone;

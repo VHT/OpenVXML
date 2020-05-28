@@ -15,7 +15,6 @@ import com.openmethods.openvxml.desktop.model.businessobjects.FieldType;
 
 /**
  * @author Trip
- *
  */
 public class Variable extends ObjectDefinition {
 	/**

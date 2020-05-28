@@ -36,8 +36,7 @@ public class FormatterRegistry implements IFormatterRegistry {
 	/**
 	 * Creates a new FormatterRegistry.
 	 * 
-	 * @param registry
-	 *            The extension registry to load from.
+	 * @param registry The extension registry to load from.
 	 */
 	public FormatterRegistry(IExtensionRegistry registry) {
 		IExtensionPoint point = registry.getExtensionPoint(//
@@ -45,16 +44,12 @@ public class FormatterRegistry implements IFormatterRegistry {
 		IExtension[] extensions = point.getExtensions();
 		Map formatters = new HashMap(extensions.length);
 		for (IExtension extension : extensions) {
-			Bundle bundle = Platform.getBundle(extension.getContributor()
-					.getName());
-			IConfigurationElement[] elements = extension
-					.getConfigurationElements();
+			Bundle bundle = Platform.getBundle(extension.getContributor().getName());
+			IConfigurationElement[] elements = extension.getConfigurationElements();
 			for (IConfigurationElement element : elements) {
 				try {
-					formatters
-							.put(element.getAttribute("id"), bundle //$NON-NLS-1$
-											.loadClass(
-													element.getAttribute("class")).newInstance()); //$NON-NLS-1$
+					formatters.put(element.getAttribute("id"), bundle //$NON-NLS-1$
+							.loadClass(element.getAttribute("class")).newInstance()); //$NON-NLS-1$
 				} catch (Exception e) {
 					e.printStackTrace();
 					continue;
@@ -66,22 +61,16 @@ public class FormatterRegistry implements IFormatterRegistry {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.media.IFormatterRegistry#
-	 * getFormatterIDs()
+	 * @see org.eclipse.vtp.framework.interactions.core.media.IFormatterRegistry# getFormatterIDs()
 	 */
 	@Override
 	public String[] getFormatterIDs() {
-		return (String[]) formatters.keySet().toArray(
-				new String[formatters.size()]);
+		return (String[]) formatters.keySet().toArray(new String[formatters.size()]);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.vtp.framework.interactions.core.media.IFormatterRegistry#
+	 * @see org.eclipse.vtp.framework.interactions.core.media.IFormatterRegistry#
 	 * getFormatter(java.lang.String)
 	 */
 	@Override

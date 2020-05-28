@@ -32,8 +32,8 @@ public class DependencyDropAssistant extends CommonDropAdapterAssistant {
 	}
 
 	@Override
-	public IStatus handleDrop(CommonDropAdapter aDropAdapter,
-			DropTargetEvent aDropTargetEvent, Object aTarget) {
+	public IStatus handleDrop(CommonDropAdapter aDropAdapter, DropTargetEvent aDropTargetEvent,
+			Object aTarget) {
 		IDependencySet dependencySet = null;
 		if (aTarget instanceof IDependencySet) {
 			dependencySet = (IDependencySet) aTarget;
@@ -42,8 +42,7 @@ public class DependencyDropAssistant extends CommonDropAdapterAssistant {
 		} else {
 			return Status.CANCEL_STATUS;
 		}
-		Object objs = FileTransfer.getInstance().nativeToJava(
-				aDropTargetEvent.currentDataType);
+		Object objs = FileTransfer.getInstance().nativeToJava(aDropTargetEvent.currentDataType);
 		if (objs instanceof String[]) {
 			System.out.println("is file transfer");
 			String[] files = (String[]) objs;
@@ -51,8 +50,7 @@ public class DependencyDropAssistant extends CommonDropAdapterAssistant {
 				File f = new File(filePath);
 				if (f.exists()) {
 					try {
-						dependencySet.createDependency(f.getName(),
-								new FileInputStream(f));
+						dependencySet.createDependency(f.getName(), new FileInputStream(f));
 					} catch (FileNotFoundException e) {
 						e.printStackTrace();
 					}
@@ -82,8 +80,7 @@ public class DependencyDropAssistant extends CommonDropAdapterAssistant {
 						}
 						CopyFilesAndFoldersOperation operation = new CopyFilesAndFoldersOperation(
 								this.getShell());
-						operation.copyResources(
-								toCopy.toArray(new IResource[toCopy.size()]),
+						operation.copyResources(toCopy.toArray(new IResource[toCopy.size()]),
 								dependencySet.getUnderlyingFolder());
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -95,8 +92,7 @@ public class DependencyDropAssistant extends CommonDropAdapterAssistant {
 		return Status.CANCEL_STATUS;
 	}
 
-	private void addResource(IResource resource, List<IFile> toCopy)
-			throws CoreException {
+	private void addResource(IResource resource, List<IFile> toCopy) throws CoreException {
 		if (resource instanceof IFile) {
 			toCopy.add((IFile) resource);
 		} else if (resource instanceof IFolder) {
@@ -109,16 +105,10 @@ public class DependencyDropAssistant extends CommonDropAdapterAssistant {
 	}
 
 	@Override
-	public IStatus validateDrop(Object target, int operation,
-			TransferData transferType) {
+	public IStatus validateDrop(Object target, int operation, TransferData transferType) {
 		System.out.println("in validate transfer drop");
-		if (!(target instanceof IDependencySet)
-				&& !(target instanceof IDependency)) {
-			return Status.CANCEL_STATUS;
-		}
-		if (FileTransfer.getInstance().isSupportedType(transferType)) {
-			return Status.OK_STATUS;
-		}
+		if (!(target instanceof IDependencySet) && !(target instanceof IDependency)) { return Status.CANCEL_STATUS; }
+		if (FileTransfer.getInstance().isSupportedType(transferType)) { return Status.OK_STATUS; }
 		if (LocalSelectionTransfer.getTransfer().isSupportedType(transferType)) {
 			IStructuredSelection selection = (IStructuredSelection) LocalSelectionTransfer
 					.getTransfer().getSelection();
@@ -128,12 +118,9 @@ public class DependencyDropAssistant extends CommonDropAdapterAssistant {
 				if (obj instanceof IResource) {
 					resource = (IResource) obj;
 				} else if (obj instanceof IAdaptable) {
-					resource = (IResource) ((IAdaptable) obj)
-							.getAdapter(IResource.class);
+					resource = (IResource) ((IAdaptable) obj).getAdapter(IResource.class);
 				}
-				if (resource == null) {
-					return Status.CANCEL_STATUS;
-				}
+				if (resource == null) { return Status.CANCEL_STATUS; }
 			}
 			return Status.OK_STATUS;
 		}

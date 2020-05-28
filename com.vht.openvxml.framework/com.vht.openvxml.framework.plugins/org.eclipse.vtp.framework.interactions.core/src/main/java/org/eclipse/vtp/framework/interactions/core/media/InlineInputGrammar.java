@@ -7,7 +7,6 @@ import org.w3c.dom.Element;
 
 /**
  * @author trip
- *
  */
 public abstract class InlineInputGrammar extends InputGrammar {
 

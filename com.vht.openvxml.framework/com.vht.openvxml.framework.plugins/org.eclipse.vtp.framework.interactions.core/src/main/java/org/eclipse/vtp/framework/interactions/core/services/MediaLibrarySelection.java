@@ -28,8 +28,7 @@ import org.eclipse.vtp.framework.interactions.core.media.IResourceManager;
  * 
  * @author Lonnie Pryor
  */
-public class MediaLibrarySelection implements IMediaLibrarySelection,
-		IScriptable {
+public class MediaLibrarySelection implements IMediaLibrarySelection, IScriptable {
 	/** The session context. */
 	private final ISessionContext context;
 	private ILanguageSelection languageSelection;
@@ -41,15 +40,11 @@ public class MediaLibrarySelection implements IMediaLibrarySelection,
 	/**
 	 * Creates a new LanguageSelection.
 	 * 
-	 * @param context
-	 *            The session context.
-	 * @param languageRegistry
-	 *            The language registry.
+	 * @param context The session context.
+	 * @param languageRegistry The language registry.
 	 */
-	public MediaLibrarySelection(ISessionContext context,
-			ILanguageSelection languageSelection,
-			IBrandSelection brandSelection,
-			IInteractionTypeSelection interactionTypeSelection,
+	public MediaLibrarySelection(ISessionContext context, ILanguageSelection languageSelection,
+			IBrandSelection brandSelection, IInteractionTypeSelection interactionTypeSelection,
 			IMediaProviderRegistry mediaProviderRegistry) {
 		this.context = context;
 		this.languageSelection = languageSelection;
@@ -60,16 +55,14 @@ public class MediaLibrarySelection implements IMediaLibrarySelection,
 
 	@Override
 	public String getSelectedMediaLibrary() {
-		String interactionTypeID = interactionTypeSelection
-				.getSelectedInteractionType().getId();
+		String interactionTypeID = interactionTypeSelection.getSelectedInteractionType().getId();
 		String languageID = languageSelection.getSelectedLanguage();
 		IBrand brand = brandSelection.getSelectedBrand();
-		context.info("Brand: " + brand.getId() + "Interaction Type: "
-				+ interactionTypeID + "Language: " + languageID);
-		String mediaProviderId = mediaProviderRegistry.lookupMediaProviderID(
-				brand.getId(), interactionTypeID, languageID);
-		IMediaProvider mediaProvider = mediaProviderRegistry
-				.getMediaProvider(mediaProviderId);
+		context.info("Brand: " + brand.getId() + "Interaction Type: " + interactionTypeID
+				+ "Language: " + languageID);
+		String mediaProviderId = mediaProviderRegistry.lookupMediaProviderID(brand.getId(),
+				interactionTypeID, languageID);
+		IMediaProvider mediaProvider = mediaProviderRegistry.getMediaProvider(mediaProviderId);
 		IResourceManager resourceManager = mediaProvider.getResourceManager();
 		String id = (String) context.getAttribute("library.selection"); //$NON-NLS-1$
 		if (id == null || id.equals("")) {
@@ -83,33 +76,28 @@ public class MediaLibrarySelection implements IMediaLibrarySelection,
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.vtp.framework.interactions.core.ILanguageSelection#
 	 * setSelectedLanguage(java.lang.String)
 	 */
 	@Override
 	public boolean setSelectedMediaLibrary(String libraryId) {
-		context.info("Setting media library to: "
-				+ (libraryId == null ? "Default" : libraryId));
+		context.info("Setting media library to: " + (libraryId == null ? "Default" : libraryId));
 		if (libraryId == null) {
 			context.clearAttribute("library.selection"); //$NON-NLS-1$
 			return true;
 		}
-		String interactionTypeID = interactionTypeSelection
-				.getSelectedInteractionType().getId();
+		String interactionTypeID = interactionTypeSelection.getSelectedInteractionType().getId();
 		String languageID = languageSelection.getSelectedLanguage();
 		IBrand brand = brandSelection.getSelectedBrand();
-		String mediaProviderId = mediaProviderRegistry.lookupMediaProviderID(
-				brand.getId(), interactionTypeID, languageID);
-		IMediaProvider mediaProvider = mediaProviderRegistry
-				.getMediaProvider(mediaProviderId);
+		String mediaProviderId = mediaProviderRegistry.lookupMediaProviderID(brand.getId(),
+				interactionTypeID, languageID);
+		IMediaProvider mediaProvider = mediaProviderRegistry.getMediaProvider(mediaProviderId);
 		IResourceManager resourceManager = mediaProvider.getResourceManager();
 		if (resourceManager.hasMediaLibrary(libraryId)) {
 			context.setAttribute("library.selection", libraryId);
 			return true;
 		} else {
-			context.info("Media library "
-					+ (libraryId == null ? "Default" : libraryId)
+			context.info("Media library " + (libraryId == null ? "Default" : libraryId)
 					+ " not found.  Library not modified.");
 		}
 		return false;
@@ -131,9 +119,7 @@ public class MediaLibrarySelection implements IMediaLibrarySelection,
 
 	@Override
 	public Object getEntry(String name) {
-		if ("value".equals(name)) {
-			return getSelectedMediaLibrary();
-		}
+		if ("value".equals(name)) { return getSelectedMediaLibrary(); }
 		return null;
 	}
 

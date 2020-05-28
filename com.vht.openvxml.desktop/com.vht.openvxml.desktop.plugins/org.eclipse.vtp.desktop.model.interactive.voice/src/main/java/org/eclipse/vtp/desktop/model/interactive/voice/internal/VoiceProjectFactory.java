@@ -34,8 +34,7 @@ public class VoiceProjectFactory implements IMediaProjectFactory {
 
 	@Override
 	public IMediaProject createMediaProject(String name, String languagePackId) {
-		IProject newProject = ResourcesPlugin.getWorkspace().getRoot()
-				.getProject(name);
+		IProject newProject = ResourcesPlugin.getWorkspace().getRoot().getProject(name);
 		try {
 			newProject.create(null);
 			newProject.open(null);
@@ -48,8 +47,8 @@ public class VoiceProjectFactory implements IMediaProjectFactory {
 			dot.create(new ByteArrayInputStream("".getBytes()), true, null);
 
 			IFile configDocument = newProject.getFile(".config");
-			InputStream templateIn = this.getClass().getClassLoader()
-					.getResourceAsStream("config_template.xml");
+			InputStream templateIn = this.getClass().getClassLoader().getResourceAsStream(
+					"config_template.xml");
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			byte[] buf = new byte[10240];
 			int len = templateIn.read(buf);
@@ -60,14 +59,11 @@ public class VoiceProjectFactory implements IMediaProjectFactory {
 			templateIn.close();
 			String template = baos.toString();
 			template = template.replaceAll("\\[\\[id\\]\\]", Guid.createGUID());
-			template = template.replaceAll("\\[\\[language-pack-id\\]\\]",
-					languagePackId);
-			configDocument.create(
-					new ByteArrayInputStream(template.getBytes()), true, null);
+			template = template.replaceAll("\\[\\[language-pack-id\\]\\]", languagePackId);
+			configDocument.create(new ByteArrayInputStream(template.getBytes()), true, null);
 
 			IFile mainDesignDocument = newProject.getFile("Voice.xml");
-			templateIn = this.getClass().getClassLoader()
-					.getResourceAsStream("voice_template.xml");
+			templateIn = this.getClass().getClassLoader().getResourceAsStream("voice_template.xml");
 			baos = new ByteArrayOutputStream();
 			len = templateIn.read(buf);
 			while (len != -1) {
@@ -76,8 +72,7 @@ public class VoiceProjectFactory implements IMediaProjectFactory {
 			}
 			templateIn.close();
 			template = baos.toString();
-			mainDesignDocument.create(
-					new ByteArrayInputStream(template.getBytes()), true, null);
+			mainDesignDocument.create(new ByteArrayInputStream(template.getBytes()), true, null);
 
 			IProjectDescription desc = newProject.getDescription();
 			desc.setNatureIds(new String[] { VoiceProjectNature5_0.NATURE_ID });
