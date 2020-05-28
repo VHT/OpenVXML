@@ -13,11 +13,13 @@ package org.eclipse.vtp.framework.interactions.voice.media;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Currency;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -130,6 +132,13 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		return formatDate(cal, formatDefinition, formatOptions, resourceManager);
+	}
+
+	public List<Content> formatDate(ZonedDateTime date,
+			String formatDefinition, String formatOptions,
+			IResourceManager resourceManager) {
+		return formatDate(GregorianCalendar.from(date), formatDefinition,
+				formatOptions, resourceManager);
 	}
 
 	@Override

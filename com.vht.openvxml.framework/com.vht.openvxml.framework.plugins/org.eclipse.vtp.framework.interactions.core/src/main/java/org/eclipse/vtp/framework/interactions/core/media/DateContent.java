@@ -81,25 +81,6 @@ public class DateContent extends FormattableContent {
 		return configureCopy(new DateContent());
 	}
 
-	public static void main(String[] args) {
-		String[] dates = new String[] { "3/4/1977 3:45:34 pm EST",
-				"3/4/1977 3:45:34 pm -6000", "3/4/1977 3:45:34 pm GMT-6:00",
-				"3/4/1977 3:45:34 pm GMT-06:00", "3/4/1977 3:45:34 pm -5000",
-				"3/4/1977 3:45:34 pm GMT-5:00",
-				"3/4/1977 3:45:34 pm GMT-05:00", "3/4/1977 3:45:34 pm",
-				"3/4/1977 3:45:34 EST", "3/4/1977 3:45 pm EST",
-				"3/4/1977 3:45 pm", "3/4/1977 3:45 EST", "3:45:34 pm EST",
-				"3:45:34 pm", "3:45:34 EST", "3/31/2010 3:45:34 pm EST",
-				"1-4-1977", "6/4/1977" };
-		for (String date : dates) {
-			printDate(date);
-		}
-		Calendar cal = Calendar.getInstance();
-		System.out.println(DateHelper.toDateString(cal));
-		System.out.println(DateFormat.getDateTimeInstance().format(
-				cal.getTime()));
-	}
-
 	public static void printDate(String date) {
 		Calendar cal = DateHelper.parseDate(date);
 		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,
