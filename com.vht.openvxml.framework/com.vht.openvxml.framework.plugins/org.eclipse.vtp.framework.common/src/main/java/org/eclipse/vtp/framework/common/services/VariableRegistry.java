@@ -779,10 +779,7 @@ public class VariableRegistry implements IVariableRegistry, IScriptable, IVariab
 		 */
 		@Override
 		public Calendar getValue() {
-			Calendar cal = Calendar.getInstance();
-			final String val = (String) load();
-			cal = DateHelper.parseDate(val);
-			return cal;
+			return (Calendar) load();
 		}
 
 		/*
@@ -804,7 +801,7 @@ public class VariableRegistry implements IVariableRegistry, IScriptable, IVariab
 		public boolean setValue(Object value) throws IllegalStateException {
 			final Calendar cal = coerce(value);
 			if (cal == null) { return false; }
-			save(DateHelper.toDateString(cal));
+			save(cal);
 			return true;
 		}
 
