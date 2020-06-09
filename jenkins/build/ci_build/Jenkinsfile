@@ -1,6 +1,6 @@
 timestamps {
     gitCredentials = 'b8c95475-d39c-415a-a0e6-c8eefb05cd34'
-    gitURL = 'http://github.com/asqr-tech/OpenVXML.git'
+    gitURL = 'http://github.com/VHT/OpenVXML.git'
     node ('ubuntu-18-04-jdk') {
         deleteDir()
         stage('Checkout') {
