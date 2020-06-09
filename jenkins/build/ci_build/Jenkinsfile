@@ -6,7 +6,7 @@ timestamps {
         stage('Checkout') {
             checkout([
      	        $class: 'GitSCM',
-         	     branches: [[name: '*/${BRANCH_TO_BUILD}']],
+         	     branches: [[name: '*/6.2.0']],
          	     doGenerateSubmoduleConfigurations: false,
          	     extensions: [],
          	     submoduleCfg: [],
