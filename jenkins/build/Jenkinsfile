@@ -16,6 +16,7 @@ timestamps {
          	     ]
          	])
         }
+
         stage('Build OpenVXML') {
             withEnv(["JAVA_HOME=${tool 'jdk8-191-oracle'}", "PATH+JAVA_HOME=${env.JAVA_HOME}/bin"]) {
                 withMaven( maven: 'maven354' ) {
@@ -33,6 +34,7 @@ timestamps {
             stash includes: 'OpenVXML.zip', name: 'OpenVXML'
         }
     }
+    
     node ('win-2016') {
         deleteDir()
 	    stage ('Publish OpenVXML') {
