@@ -1,49 +1,310 @@
 timestamps {
-    gitCredentials = 'b8c95475-d39c-415a-a0e6-c8eefb05cd34'
-    gitURL = 'http://github.com/VHT/OpenVXML.git'
+    
+    def tempDir = '${WORKSPACE}/temp'
+
+    def toolkitDir = '${WORKSPACE}/toolkit/repository'
+    
+    def openvxmlDir = '${WORKSPACE}/OpenVXML/repository/'
+    
+    def gitCredentials = 'b8c95475-d39c-415a-a0e6-c8eefb05cd34'
+    def gitURLVisWarExporter = 'https://github.com/VHT/VXML-WAR-Export.git'
+    def gitURLOpenVXML = 'https://github.com/VHT/OpenVXML.git'
+    def gitURLToolkit = 'https://github.com/VHT/VXML-IVR.git'
+    
+    def vissrc = '${WORKSPACE}/VXML-IVR'
+    def openvxmlsrc = '${WORKSPACE}/openvxml'
+    def visDest = '${WORKSPACE}/VIS'
+
     node ('ubuntu-18-04-jdk') {
         deleteDir()
-        stage('Checkout') {
-            checkout([
+
+     	stage ('Build: Dependencies'){
+            dir('openvxml') {
+                stage ('Checkout: OpenVXML') {
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: '*/6.2.0']],
+                        doGenerateSubmoduleConfigurations: false,
+                        extensions: [],
+                        submoduleCfg: [],
+                        userRemoteConfigs: [
+                            [credentialsId: "${gitCredentials}",
+                            url: "${gitURLOpenVXML}"]
+                        ]
+                    ])
+                }
+                stage ('Build: OpenVXML') {
+                    withEnv(["JAVA_HOME=${tool 'jdk8-191-oracle'}", "PATH+JAVA_HOME=${env.JAVA_HOME}/bin"]) {
+                        withMaven( maven: 'maven354' ) {
+                
+                            // Run the maven build
+                            sh """
+                                mvn clean verify
+                                mkdir -p ${WORKSPACE}/OpenVXML/repository
+                                cp -r com.vht.openvxml.releng/com.vht.openvxml.update/target/repository/ ${WORKSPACE}/OpenVXML/
+                                cd ${WORKSPACE}
+                                zip -r OpenVXML.zip OpenVXML/
+                            """
+                
+                        }
+                    }
+                }
+            }
+            dir('VXML-IVR') {
+                stage ('Checkout: VXML-IVR') {
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: '*/master']],
+                        doGenerateSubmoduleConfigurations: false,
+                        extensions: [],
+                        submoduleCfg: [],
+                        userRemoteConfigs: [
+                            [credentialsId: "${gitCredentials}",
+                            url: "${gitURLToolkit}"]
+                        ]
+                    ])
+                }
+                stage('Build: VIS-Toolkit') {
+                    withEnv(["JAVA_HOME=${tool 'jdk8-191-oracle'}", "PATH+JAVA_HOME=${env.JAVA_HOME}/bin"]) {
+                        withMaven( maven: 'maven354' ) {
+                
+                            // Run the maven build
+                            sh """
+                                cd com.vht.toolkit.root
+                                #sed -i s/5.0.0.qualifier/${VIS_VERSION_NUMBER}.qualifier/ com.vht.toolkit.plugins/com.openmethods.vht.modules.runtime/META-INF/MANIFEST.MF
+                                #sed -i s/5.0.0.qualifier/${VIS_VERSION_NUMBER}.qualifier/ com.vht.toolkit.plugins/com.openmethods.vht.modules.ui/META-INF/MANIFEST.MF
+                                #sed -i s/5.0.0.qualifier/${VIS_VERSION_NUMBER}.qualifier/ com.vht.toolkit.plugins/com.openmethods.vht.toolkit/META-INF/MANIFEST.MF
+                                #sed -i s/5.0.0.qualifier/${VIS_VERSION_NUMBER}.qualifier/ com.vht.toolkit.plugins/com.openmethods.vht.toolkit.updatesite/feature.xml
+                                #sed -i s/5.0.0.qualifier/${VIS_VERSION_NUMBER}.qualifier/ com.vht.toolkit.plugins/com.openmethods.vht.toolkit.feature/feature.xml
+                                #sed -i s/5.0.0.qualifier/${VIS_VERSION_NUMBER}.qualifier/ com.vht.toolkit.plugins/com.openmethods.openvxml.platforms.cic.feature/feature.xml
+                                #sed -i s/5.0.0.qualifier/${VIS_VERSION_NUMBER}.qualifier/ com.vht.toolkit.plugins/com.vht.openvxml.platforms.genvxmlidrvr/META-INF/MANIFEST.MF
+                                #sed -i s/5.0.0.qualifier/${VIS_VERSION_NUMBER}.qualifier/ com.vht.toolkit.plugins/com.vht.openvxml.platforms.genvxmlidrvr.feature/feature.xml
+                                #sed -i s/5.0.0.qualifier/${VIS_VERSION_NUMBER}.qualifier/ com.vht.toolkit.plugins/com.vht.openvxml.platforms.holly/META-INF/MANIFEST.MF
+                                #sed -i s/5.0.0.qualifier/${VIS_VERSION_NUMBER}.qualifier/ com.vht.toolkit.plugins/com.vht.openvxml.platforms.holly.feature/feature.xml
+                                #sed -i s/5.0.0.qualifier/${VIS_VERSION_NUMBER}.qualifier/ com.vht.toolkit.plugins/com.openmethods.openvxml.platforms.cic/META-INF/MANIFEST.MF
+                                #sed -i s/5.0.0.qualifier/${VIS_VERSION_NUMBER}.qualifier/ com.vht.toolkit.plugins/com.vht.openvxml.language.collection/META-INF/MANIFEST.MF
+                                #sed -i s/VHT-5.0.0-p2Site/VHT-${VIS_VERSION_NUMBER}-p2Site/ com.vht.toolkit.plugins/com.openmethods.vht.toolkit.updatesite/workspace.properties
+
+                                sed -i s/5.0.0/${VIS_VERSION_NUMBER}/ com.vht.toolkit.plugins/com.openmethods.vht.toolkit/src/main/java/com/openmethods/vht/toolkit/impl/VHTToolkitStub.java
+
+                                mvn clean verify
+                                mkdir -p ${WORKSPACE}/toolkit/repository
+                                cp -r com.vht.toolkit.releng/com.vht.toolkit.update/target/repository/ ${WORKSPACE}/toolkit/
+                                cd ${WORKSPACE} 
+                                zip -r toolkit.zip toolkit/
+                            """
+                        }
+                    }
+                }
+            }
+            // stash includes: 'OpenVXML.zip', name: 'OPENVXML'
+            // stash includes: 'toolkit.zip', name: 'VISTOOLKIT'
+        }
+
+        stage ('Checkout: VXML-WAR-Exporter') {
+     	    checkout([
      	        $class: 'GitSCM',
-         	     branches: [[name: '*/6.2.0']],
+         	     branches: [[name: '*/master']],
          	     doGenerateSubmoduleConfigurations: false,
          	     extensions: [],
          	     submoduleCfg: [],
          	     userRemoteConfigs: [
          	         [credentialsId: "${gitCredentials}", 
-         	         url: "${gitURL}"]
+         	         url: "${gitURLVisWarExporter}"]
          	     ]
-         	])
-        }
+         	 ])
+    	}
+        stage ('Build VIS War Exporter'){
+            sh """
+                if [ -d ${tempDir} ]; then
+                     rm -rf ${tempDir}
+                fi
 
-        stage('Build OpenVXML') {
+                mkdir ${tempDir}
+                
+                #copy toolkit jars from toolkit job
+                cp ${toolkitDir}/plugins/com.openmethods.openvxml.platforms.cic* ${tempDir}/
+                cp ${toolkitDir}/plugins/com.openmethods.vht.modules.runtime* ${tempDir}/
+                cp ${toolkitDir}/plugins/com.openmethods.vht.toolkit* ${tempDir}/
+                cp ${toolkitDir}/plugins/com.vht.openvxml.language.collection* ${tempDir}/
+                cp ${toolkitDir}/plugins/com.vht.openvxml.platforms.genvxmlidrvr* ${tempDir}/
+                cp ${toolkitDir}/plugins/com.vht.openvxml.platforms.holly* ${tempDir}/
+                
+                #copy open vxml jars from openvxml job
+                cp ${openvxmlDir}/plugins/com.openmethods.openvxml.idriver.runtime_* ${tempDir}/
+                cp ${openvxmlDir}/plugins/com.openmethods.openvxml.platforms.avp_* ${tempDir}/
+                cp ${openvxmlDir}/plugins/com.openmethods.openvxml.platforms.avpwithidriver_* ${tempDir}/
+                cp ${openvxmlDir}/plugins/com.openmethods.openvxml.platforms.cvp_* ${tempDir}/
+                cp ${openvxmlDir}/plugins/com.openmethods.openvxml.platforms.genesys_* ${tempDir}/
+                cp ${openvxmlDir}/plugins/com.openmethods.openvxml.platforms.prophecy_* ${tempDir}/
+                cp ${openvxmlDir}/plugins/com.openmethods.openvxml.platforms.vtop_* ${tempDir}/
+                cp ${openvxmlDir}/plugins/com.openmethods.openvxml.platforms.vxmlb_* ${tempDir}/
+                cp ${openvxmlDir}/plugins/org.eclipse.vtp.framework.common_* ${tempDir}/
+                cp ${openvxmlDir}/plugins/org.eclipse.vtp.framework.core_* ${tempDir}/ 
+                cp ${openvxmlDir}/plugins/org.eclipse.vtp.framework.databases_* ${tempDir}/
+                cp ${openvxmlDir}/plugins/org.eclipse.vtp.framework.engine_* ${tempDir}/
+                cp ${openvxmlDir}/plugins/org.eclipse.vtp.framework.interactions.core_* ${tempDir}/
+                cp ${openvxmlDir}/plugins/org.eclipse.vtp.framework.interactions.voice_* ${tempDir}/
+                cp ${openvxmlDir}/plugins/org.eclipse.vtp.framework.scripting.rhino_* ${tempDir}/
+                cp ${openvxmlDir}/plugins/org.eclipse.vtp.framework.spi_* ${tempDir}/
+                cp ${openvxmlDir}/plugins/org.eclipse.vtp.framework.util_* ${tempDir}/
+                cp ${openvxmlDir}/plugins/org.eclipse.vtp.framework.webservices_* ${tempDir}/
+                cp ${openvxmlDir}/plugins/javax.activation_* ${tempDir}/
+                cp ${openvxmlDir}/plugins/javax.mail_* ${tempDir}/
+                cp ${openvxmlDir}/plugins/javax.wsdl_* ${tempDir}/
+                cp ${openvxmlDir}/plugins/javax.xml.rpc_* ${tempDir}/
+                cp ${openvxmlDir}/plugins/javax.xml.soap_* ${tempDir}/
+                cp ${openvxmlDir}/plugins/javax.xml_* ${tempDir}/
+                cp ${openvxmlDir}/plugins/org.apache.commons.discovery_* ${tempDir}/
+                cp ${openvxmlDir}/plugins/org.apache.commons.fileupload_* ${tempDir}/
+                cp ${openvxmlDir}/plugins/org.apache.commons.io_* ${tempDir}/
+                cp ${openvxmlDir}/plugins/org.apache.xerces_* ${tempDir}/
+                cp ${openvxmlDir}/plugins/org.apache.xml.resolver_* ${tempDir}/
+                cp ${openvxmlDir}/plugins/org.apache.xml.serializer_* ${tempDir}/
+                cp ${openvxmlDir}/plugins/org.eclipse.equinox.http.servletbridge_* ${tempDir}/
+                cp ${openvxmlDir}/plugins/org.mozilla.javascript_* ${tempDir}/  
+                 
+                #copy osgi bundles and other dependencies
+                #cp ${openvxmlDir}/plugins/org.apache.commons.lang_* ${tempDir}/
+                #cp ${openvxmlDir}/plugins/org.apache.commons.logging_* ${tempDir}/
+                #cp ${openvxmlDir}/plugins/org.eclipse.core.contenttype_* ${tempDir}/
+                #cp ${openvxmlDir}/plugins/org.eclipse.core.jobs_* ${tempDir}/
+                #cp ${openvxmlDir}/plugins/org.eclipse.core.runtime_* ${tempDir}/
+                #cp ${openvxmlDir}/plugins/org.eclipse.core.runtime.compatibility.auth_* ${tempDir}/
+                #cp ${openvxmlDir}/plugins/org.eclipse.equinox.app_* ${tempDir}/
+                #cp ${openvxmlDir}/plugins/org.eclipse.equinox.common_* ${tempDir}/
+                #cp ${openvxmlDir}/plugins/org.eclipse.equinox.preferences_* ${tempDir}/
+                #cp ${openvxmlDir}/plugins/org.eclipse.equinox.registry_* ${tempDir}/
+                #cp ${openvxmlDir}/plugins/org.eclipse.osgi_* ${tempDir}/
+                #cp ${openvxmlDir}/plugins/org.eclipse.osgi.services_* ${tempDir}/
+                #cp ${openvxmlDir}/plugins/org.eclipse.update.configurator_* ${tempDir}/
+
+                #copy other dependencies from maven repo
+                # replacement for org.eclipse.core.runtime.compatibility.registry_3.5.200.v20130514-1256.jar
+                #cp ~/.m2/repository/org/eclipse/core/runtime/compatibility/registry/3.5.200/registry-3.5.200.jar ${tempDir}/
+
+                # replacement for org.eclipse.equinox.http.servlet-1.1.400.v20130418-1354.jar
+                cp ~/.m2/repository/org/eclipse/equinox/org.eclipse.equinox.http.servlet/1.1.400.v20130418-1354/org.eclipse.equinox.http.servlet-1.1.400.v20130418-1354.jar ${tempDir}/
+                
+                cp ~/.m2/repository/org/apache/directory/studio/org.apache.commons.codec/1.3/org.apache.commons.codec-1.3.jar ${tempDir}/
+
+                ##not found
+                #cp ~/.m2/repository/org/eclipse/core/runtime/compatibility/auth/source/3.2.200/source-3.2.200.jar ${tempDir}/
+                cp ${WORKSPACE}/lib/org.eclipse.core.runtime.compatibility.auth_3.2.300.v20120523-2004.jar ${tempDir}/
+
+                #cp ~/.m2/repository/org/eclipse/update/configurator/source/3.3.200/source-3.3.200.jar ${tempDir}/
+                cp ${WORKSPACE}/lib/org.eclipse.update.configurator_3.3.200.v20140203-1328.jar ${tempDir}/
+
+                #copy other dependencies from maven p2 repo
+                cp ~/.m2/repository/p2/osgi/bundle/org.apache.commons.logging/1.1.1.v201101211721/org.apache.commons.logging-1.1.1.v201101211721.jar ${tempDir}/
+
+                cp ~/.m2/repository/p2/osgi/bundle/org.apache.commons.lang/2.6.0.v201205030909/org.apache.commons.lang-2.6.0.v201205030909.jar ${tempDir}/
+                cp ~/.m2/repository/p2/osgi/bundle/org.eclipse.core.contenttype/3.4.200.v20130326-1255/org.eclipse.core.contenttype-3.4.200.v20130326-1255.jar ${tempDir}/
+                cp ~/.m2/repository/p2/osgi/bundle/org.eclipse.core.jobs/3.5.300.v20130429-1813/org.eclipse.core.jobs-3.5.300.v20130429-1813.jar ${tempDir}/
+                cp ~/.m2/repository/p2/osgi/bundle/org.eclipse.core.runtime/3.9.100.v20131218-1515/org.eclipse.core.runtime-3.9.100.v20131218-1515.jar ${tempDir}/
+
+                cp ~/.m2/repository/p2/osgi/bundle/org.eclipse.equinox.app/1.3.100.v20130327-1442/org.eclipse.equinox.app-1.3.100.v20130327-1442.jar ${tempDir}/
+                cp ~/.m2/repository/p2/osgi/bundle/org.eclipse.equinox.common/3.6.200.v20130402-1505/org.eclipse.equinox.common-3.6.200.v20130402-1505.jar ${tempDir}/
+                cp ~/.m2/repository/p2/osgi/bundle/org.eclipse.equinox.preferences/3.5.100.v20130422-1538/org.eclipse.equinox.preferences-3.5.100.v20130422-1538.jar ${tempDir}/
+                cp ~/.m2/repository/p2/osgi/bundle/org.eclipse.equinox.registry/3.5.301.v20130717-1549/org.eclipse.equinox.registry-3.5.301.v20130717-1549.jar ${tempDir}/
+                
+                #cp ~/.m2/repository/p2/osgi/bundle/org.eclipse.osgi/3.9.1.v20140110-1610/org.eclipse.osgi-3.9.1.v20140110-1610.jar ${tempDir}/
+                cp ${WORKSPACE}/lib/org.eclipse.osgi_3.9.1.v20140110-1610.jar ${tempDir}/
+                
+                cp ~/.m2/repository/p2/osgi/bundle/org.eclipse.osgi.services/3.3.100.v20130513-1956/org.eclipse.osgi.services-3.3.100.v20130513-1956.jar ${tempDir}/
+
+            """
+            
             withEnv(["JAVA_HOME=${tool 'jdk8-191-oracle'}", "PATH+JAVA_HOME=${env.JAVA_HOME}/bin"]) {
-                withMaven( maven: 'maven354' ) {
-        
+                withMaven(maven: 'maven354') {
                     // Run the maven build
-                    sh """
-                        mvn clean verify
-                        mkdir -p ${WORKSPACE}/OpenVXML/repository
-                        cp -r com.vht.openvxml.releng/com.vht.openvxml.update/target/repository/ OpenVXML/
-                        zip -r OpenVXML.zip OpenVXML/
-                    """
-        
+                    sh "mvn clean verify"
                 }
             }
-            stash includes: 'OpenVXML.zip', name: 'OpenVXML'
+        }
+        stage ('Generate: VIS.war'){    
+            sh """
+                if [ -d ${visDest} ]; then
+                 rm -rf ${visDest}
+                fi
+                
+                mkdir ${visDest}
+                
+                cd ${WORKSPACE}/target
+                
+                java -jar VISExporter-0.0.1-SNAPSHOT.jar ${vissrc} ${openvxmlsrc} ${visDest}/ ${tempDir}/ vis
+                
+                cd ${visDest}/
+                
+                zip -r VIS-${VIS_VERSION_NUMBER}.war WEB-INF/
+                
+                zip -r voices.zip voices/
+                
+                cd ${vissrc}/../
+                
+                rm -rf Callflow
+                rm -rf VISSRC.zip
+                
+                ls
+                    
+                cp -r VXML-IVR/ Callflow
+                
+                zip -r VISSRC.zip Callflow/*
+
+                cd ${WORKSPACE}
+                
+                cp ${vissrc}/../VISSRC.zip ./VIS
+            """
+            stash includes: 'VIS/*', name: 'VIS'
+            stash includes: 'OpenVXML.zip', name: 'OPENVXML'
+            stash includes: 'toolkit.zip', name: 'VISTOOLKIT'
         }
     }
-    
     node ('win-2016') {
+        
         deleteDir()
-	    stage ('Publish OpenVXML') {
-            unstash 'OpenVXML'
-            bat """
-                7z.exe x OpenVXML.zip
-                rem Copy the OpenVXML
-                xcopy /y /i /s /e "%WORKSPACE%\\OpenVXML" "C:\\Builds\\OpenVXML_Builds\\OpenVXML_%VERSION_NUMBER%.%BUILD_NUMBER%\\*" 
-            """ 
+        stage ('Publish: Windows node'){
+            parallel (
+                'Publish: VIS.war':{
+                    stage ('Publish VIS war') {
+                        unstash 'VIS'
+                        bat """
+                            rem Copy the VIS.war & voices.zip
+                            xcopy /y /i /s /e "%WORKSPACE%\\VIS" "C:\\Builds\\VIS_Builds\\VIS_%VIS_VERSION_NUMBER%.%BUILD_NUMBER%\\*"
+                            xcopy /y /i /s /e "%WORKSPACE%\\VIS\\VISSRC.zip" "C:\\Builds\\VIS_Builds\\VIS_%VIS_VERSION_NUMBER%.%BUILD_NUMBER%\\VISSRC\\*" 
+                        """ 
+                    }
+                },
+                'Publish: OpenVXML artifacts':{
+                    stage ('Publish OpenVXML artifacts') {
+                        unstash 'OPENVXML'
+                        bat """
+                            7z.exe x OpenVXML.zip
+                            rem Copy OPENVXML artifacts
+                            xcopy /y /i /s /e "%WORKSPACE%\\OpenVXML" "C:\\Builds\\VIS_Builds\\VIS_%VIS_VERSION_NUMBER%.%BUILD_NUMBER%\\OpenVXML\\*"
+                        """ 
+                    }
+                },
+                'Publish: VIS-Toolkit artifacts':{
+                    stage ('Publish VIS-Toolkit artifacts') {
+                        unstash 'VISTOOLKIT'
+                        bat """
+                            7z.exe x toolkit.zip
+                            rem Copy VISTOOLKIT artifacts
+                            xcopy /y /i /s /e "%WORKSPACE%\\toolkit" "C:\\Builds\\VIS_Builds\\VIS_%VIS_VERSION_NUMBER%.%BUILD_NUMBER%\\VISToolkit\\*" 
+                        """ 
+                    }
+                }
+            )
+        }
+        if(publishToDependencies == 'true') {
+            stage ('Publish: VIS.war to IVG dependecies') {
+                bat """
+                    rename VIS\\VIS-${VIS_VERSION_NUMBER}.war VIS.war
+                    rem Copy VIS.war the IVG Dependencies
+                    xcopy /y /i /s /e "%WORKSPACE%\\VIS\\VIS.war" "C:\\Builds\\IVG_Builds\\Dependencies"
+                """
+            }
         }
     }
 }
