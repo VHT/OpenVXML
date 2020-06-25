@@ -1,6 +1,7 @@
 timestamps {
     def branch = env.BRANCH_NAME
     def gitURLOpenVXML = 'git@github.com:VHT/OpenVXML.git'
+    echo "Branch Name: ${branch}"
     
     node ('ubuntu-18-04-jdk') {
         deleteDir()
