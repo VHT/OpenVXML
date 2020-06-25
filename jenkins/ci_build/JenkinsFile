@@ -1,3 +1,6 @@
+def branch = env.BRANCH_NAME
+def gitURLOpenVXML = 'git@github.com:VHT/OpenVXML.git'
+
 pipeline{
     agent{
         label "ubuntu-18-04-jdk"
