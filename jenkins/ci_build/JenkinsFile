@@ -1,6 +1,13 @@
 timestamps {
-    def branch = env.BRANCH_NAME
     def gitURLOpenVXML = 'git@github.com:VHT/OpenVXML.git'
+    def branch = env.CHANGE_TARGET
+    if(branch == null){
+        echo "branch name assignment"
+        branch = env.BRANCH_NAME
+    }else{
+        echo "target branch assignment in pull request"
+        branch = env.CHANGE_BRANCH
+    }
     echo "Branch Name: ${branch}"
     
     node ('ubuntu-18-04-jdk') {
