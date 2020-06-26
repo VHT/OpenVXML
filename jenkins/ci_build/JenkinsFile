@@ -1,0 +1,57 @@
+timestamps {
+    def gitURLOpenVXML = 'git@github.com:VHT/OpenVXML.git'
+    def branch = env.CHANGE_TARGET
+    if(branch == null){
+        echo "branch name assignment"
+        branch = env.BRANCH_NAME
+    }else{
+        echo "target branch assignment in pull request"
+        branch = env.CHANGE_BRANCH
+    }
+    echo "Branch Name: ${branch}"
+    
+    node ('ubuntu-18-04-jdk') {
+        deleteDir()
+        stage("Git Checkout"){
+            checkout([
+                $class: 'GitSCM',
+                branches: [[name: "*/${branch}"]],
+                doGenerateSubmoduleConfigurations: false,
+                extensions: [],
+                submoduleCfg: [],
+                userRemoteConfigs: [
+                    [credentialsId: "${GIT_CREDENTIALS}",
+                    url: "${gitURLOpenVXML}"]
+                ]
+            ])
+        }
+        stage ('Build') {
+            withEnv(["JAVA_HOME=${tool 'jdk8-191-oracle'}", "PATH+JAVA_HOME=${env.JAVA_HOME}/bin"]) {
+                withMaven( maven: 'maven354' ) {
+        
+                    // Run the maven build
+                    sh """
+                        mvn clean verify
+                        mkdir -p ${WORKSPACE}/OpenVXML/repository
+                        cp -r com.vht.openvxml.releng/com.vht.openvxml.update/target/repository/ ${WORKSPACE}/OpenVXML/
+                        cd ${WORKSPACE}
+                        zip -r OpenVXML.zip OpenVXML/
+                    """
+                }
+            }
+            stash includes: 'OpenVXML.zip', name: 'OpenVXML'
+        }
+    }
+
+    node ('win-2016') {
+        deleteDir()
+	    stage ('Publish') {
+            unstash 'OpenVXML'
+            bat """
+                7z.exe x OpenVXML.zip
+                rem Copy the OpenVXML
+                xcopy /y /i /s /e "%WORKSPACE%\\OpenVXML" "C:\\Builds\\OpenVXML_Builds\\OpenVXML_%OPENVXML_VERSION_NUMBER%.%BUILD_NUMBER%\\*" 
+            """ 
+        }
+    }   
+}
