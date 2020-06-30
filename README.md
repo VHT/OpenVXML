@@ -204,5 +204,5 @@ To install [Apache Maven](http://maven.apache.org/) on Windows, you just need to
 
     > From the Parent Eclipse Menu: Run History > VXML-IVR
 
-13. Now, clean and build all the projects to see the changes made on OpenVXML 6.0 to be reflected on the VXML-IVR projects
+13. Now, clean and build all the projects to see the changes made on OpenVXML 6.2 to be reflected on the VXML-IVR projects
 
