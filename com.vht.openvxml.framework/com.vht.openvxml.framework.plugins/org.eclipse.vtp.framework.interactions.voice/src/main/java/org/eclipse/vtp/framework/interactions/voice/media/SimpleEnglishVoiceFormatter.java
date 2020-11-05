@@ -394,6 +394,10 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 				ret.add(getAudioContent(resourceManager, "/press_digits/",
 						"press_digits_" + s, s));
 			}
+		} else if(formatDefinition.equals("System DTMF")){
+			System.out.println("in System generated dtmf form");
+			ret.add(getAudioContent(resourceManager, "", "dtmf:"+digits+"#",
+					"dtmf:"+digits+"#"));
 		} else {
 			for (int i = 0; i < chars.length; i++) {
 				if (!Character.isDigit(chars[i])) {
@@ -863,6 +867,7 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 		} else if (formattable instanceof DigitsContent) {
 			ret.add("DTMF");
 			ret.add("Press Digits");
+			ret.add("System DTMF");
 		} else if (formattable instanceof LettersContent) {
 			ret.add("Preserve Case");
 		}
