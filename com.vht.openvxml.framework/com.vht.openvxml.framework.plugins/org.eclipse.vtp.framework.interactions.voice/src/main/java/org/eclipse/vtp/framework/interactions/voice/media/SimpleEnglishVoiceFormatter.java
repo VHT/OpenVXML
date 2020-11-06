@@ -396,8 +396,9 @@ public class SimpleEnglishVoiceFormatter extends VoiceFormatter {
 			}
 		} else if(formatDefinition.equals("System DTMF")){
 			System.out.println("in System generated dtmf form");
-			ret.add(getAudioContent(resourceManager, "", "dtmf:"+digits+"#",
-					"dtmf:"+digits+"#"));
+//			ret.add(getAudioContent(resourceManager, "", "dtmf:"+digits+"#",
+//					"dtmf:"+digits+"#"));
+			ret.add(getAudioContent("dtmf:"+digits+"#"));
 		} else {
 			for (int i = 0; i < chars.length; i++) {
 				if (!Character.isDigit(chars[i])) {

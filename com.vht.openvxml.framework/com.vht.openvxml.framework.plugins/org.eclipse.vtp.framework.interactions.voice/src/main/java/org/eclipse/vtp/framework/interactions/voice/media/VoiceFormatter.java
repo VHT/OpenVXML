@@ -86,6 +86,14 @@ public abstract class VoiceFormatter implements IFormatter {
 		}
 		return ret;
 	}
+	
+	protected Content getAudioContent(String defaultText) {
+		Content ret = null;
+		AudioContent ac = new AudioContent();
+		ac.setStaticPath(defaultText+"");
+		ret = ac;
+		return ret;
+	}
 
 	@Override
 	public List<Content> formatDate(Calendar cal, String formatDefinition,
