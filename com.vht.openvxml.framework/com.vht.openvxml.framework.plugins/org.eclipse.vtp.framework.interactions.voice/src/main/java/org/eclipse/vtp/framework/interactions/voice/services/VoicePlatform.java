@@ -1559,6 +1559,7 @@ public class VoicePlatform extends AbstractPlatform implements VXMLConstants {
 		Form form = new Form("FinalForm"); //$NON-NLS-1$
 		String[] variables = finalCommand.getVariableNames();
 		for (String variable : variables) {
+			System.out.println("in renderFinaldoc : " + finalCommand.getVariable(variable));
 			form.addVariable(new Variable(variable, "'"
 					+ finalCommand.getVariable(variable) + "'"));
 		}

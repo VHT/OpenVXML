@@ -69,6 +69,8 @@ public class FinalAction extends ExitAction {
 			}
 			IFinal f = conversation.createFinal();
 			for (AssignmentConfiguration configuration2 : configurations) {
+				System.out.println(configuration2.getName() + " = " + variableRegistry
+						.getVariable(configuration2.getName()).toString());
 				f.setVariableValue(configuration2.getName(), variableRegistry
 						.getVariable(configuration2.getName()).toString());
 			}

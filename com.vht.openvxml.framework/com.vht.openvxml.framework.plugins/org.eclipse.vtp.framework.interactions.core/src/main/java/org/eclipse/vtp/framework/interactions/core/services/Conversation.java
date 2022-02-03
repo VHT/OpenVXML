@@ -1881,6 +1881,7 @@ public class Conversation implements IConversation {
 			FinalCommand command = new FinalCommand();
 			for (Map.Entry<String, String> entry : variables.entrySet())
 			{
+				System.out.println("in createcommand : " + entry.getKey() + "=" + entry.getValue());
 				command.addVariable(entry.getKey(), entry.getValue());
 			}
 			return command;
