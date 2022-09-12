@@ -266,11 +266,14 @@ public class OpenVXMLProject extends WorkflowResource implements
 				Element aspectsElement = (Element) aspectsList.item(0);
 				List<Element> aspectsToProcess = new LinkedList<Element>();
 				NodeList aspectList = aspectsElement.getChildNodes();
-				for (int i = 0; i < aspectList.getLength(); i++) {
-					Node node = aspectList.item(i);
-					if (node.getNodeType() == Node.ELEMENT_NODE
-							&& ((Element) node).getTagName().equals("aspect")) {
-						aspectsToProcess.add((Element) node);
+				if(aspectList != null)
+				{
+					for (int i = 0; i < aspectList.getLength(); i++) {
+						Node node = aspectList.item(i);
+						if (node.getNodeType() == Node.ELEMENT_NODE
+								&& ((Element) node).getTagName().equals("aspect")) {
+							aspectsToProcess.add((Element) node);
+						}
 					}
 				}
 

@@ -193,22 +193,24 @@ public class VoiceModel {
 		if (sharedContentList.getLength() > 0) {
 			Element sharedContentElement = (Element) sharedContentList.item(0);
 			NodeList contentList = sharedContentElement.getChildNodes();
-			for (int i = 0; i < contentList.getLength(); i++) {
-				if (!(contentList.item(i) instanceof Element)) {
-					continue;
+			if(contentList != null){
+				for (int i = 0; i < contentList.getLength(); i++) {
+					if (!(contentList.item(i) instanceof Element)) {
+						continue;
+					}
+					Element contentElement = (Element) contentList.item(i);
+					String name = contentElement.getAttributeNS(NS_URI_VOICE,
+							ATTRIBUTE_ITEM_NAME);
+					if (name == null) {
+						continue;
+					}
+					Content content = ContentLoadingManager.getInstance()
+							.loadContent(contentElement);
+					if (content == null) {
+						continue;
+					}
+					sharedContent.put(name, content);
 				}
-				Element contentElement = (Element) contentList.item(i);
-				String name = contentElement.getAttributeNS(NS_URI_VOICE,
-						ATTRIBUTE_ITEM_NAME);
-				if (name == null) {
-					continue;
-				}
-				Content content = ContentLoadingManager.getInstance()
-						.loadContent(contentElement);
-				if (content == null) {
-					continue;
-				}
-				sharedContent.put(name, content);
 			}
 		}
 	}

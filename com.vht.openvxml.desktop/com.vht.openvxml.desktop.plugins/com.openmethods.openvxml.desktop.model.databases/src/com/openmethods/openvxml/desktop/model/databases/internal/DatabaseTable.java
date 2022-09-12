@@ -95,7 +95,7 @@ public class DatabaseTable extends WorkflowResource implements IDatabaseTable {
 			columns = new ArrayList<DatabaseTableColumn>();
 
 			NodeList nl = rootElement.getElementsByTagName("column");
-
+			if(nl != null){
 			for (int i = 0; i < nl.getLength(); i++) {
 				Element fieldElement = (Element) nl.item(i);
 				String fieldName = fieldElement.getAttribute("name");
@@ -109,6 +109,7 @@ public class DatabaseTable extends WorkflowResource implements IDatabaseTable {
 							fieldName, fieldDataType);
 					columns.add(dtc);
 				}
+			}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
