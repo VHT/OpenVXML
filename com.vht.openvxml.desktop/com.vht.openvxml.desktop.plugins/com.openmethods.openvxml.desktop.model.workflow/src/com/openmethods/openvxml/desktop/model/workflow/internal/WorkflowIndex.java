@@ -1286,7 +1286,7 @@ public class WorkflowIndex {
 					.getProjectRelativePath().toString();
 			//Statement st = con.createStatement();
 			PreparedStatement st = con.prepareStatement("select id from designdocuments where path = (?)");
-			st.setString(1,path);
+			st.setString(1,"test");
 			ResultSet rs = st
 					.executeQuery();
 			if (rs.next()) {
