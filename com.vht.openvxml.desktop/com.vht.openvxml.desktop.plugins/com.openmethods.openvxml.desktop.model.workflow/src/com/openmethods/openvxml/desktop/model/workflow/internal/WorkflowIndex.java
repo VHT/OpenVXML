@@ -6,6 +6,7 @@ package com.openmethods.openvxml.desktop.model.workflow.internal;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -729,10 +730,13 @@ public class WorkflowIndex {
 		lock.readLock().lock();
 		try {
 			Connection con = createConnection(true);
-			Statement st = con.createStatement();
+//			Statement st = con.createStatement();
+			PreparedStatement st = con.prepareStatement("select documentid from elementindex where elementid = '"
+					+ elementId + "'");
+//			statement.setString(1, input);
+//			ResultSet resultSet = statement.executeQuery();
 			ResultSet rs = st
-					.executeQuery("select documentid from elementindex where elementid = '"
-							+ elementId + "'");
+					.executeQuery();
 			if (rs.next()) {
 				documentId = rs.getString(1);
 			}
@@ -1213,10 +1217,11 @@ public class WorkflowIndex {
 		lock.writeLock().lock();
 		try {
 			Connection con = createConnection(false);
-			Statement st = con.createStatement();
+			//Statement st = con.createStatement();
+			PreparedStatement st = con.prepareStatement("select id from designdocuments where path = '"
+					+ documentPath + "'");
 			ResultSet rs = st
-					.executeQuery("select id from designdocuments where path = '"
-							+ documentPath + "'");
+					.executeQuery();
 			if (rs.next()) {
 				documentId = rs.getString(1);
 			}
