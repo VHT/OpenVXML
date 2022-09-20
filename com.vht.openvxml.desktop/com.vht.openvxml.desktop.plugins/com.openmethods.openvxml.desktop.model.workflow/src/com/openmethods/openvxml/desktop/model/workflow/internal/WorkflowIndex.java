@@ -94,10 +94,11 @@ public class WorkflowIndex {
 		try {
 			if (documentId != null) {
 				Connection con = createConnection(true);
-				Statement st = con.createStatement();
+//				Statement st = con.createStatement();
+				PreparedStatement st = con.prepareStatement("select id, name from workflowentries where documentid = '"
+						+ documentId + "'");
 				ResultSet rs = st
-						.executeQuery("select id, name from workflowentries where documentid = '"
-								+ documentId + "'");
+						.executeQuery();
 				while (rs.next()) {
 					String id = rs.getString(1);
 					String name = rs.getString(2);
@@ -166,10 +167,11 @@ public class WorkflowIndex {
 		try {
 			if (documentId != null) {
 				Connection con = createConnection(true);
-				Statement st = con.createStatement();
+//				Statement st = con.createStatement();
+				PreparedStatement st = con.prepareStatement("select id, name, type from workflowexits where documentid = '"
+						+ documentId + "'");
 				ResultSet rs = st
-						.executeQuery("select id, name, type from workflowexits where documentid = '"
-								+ documentId + "'");
+						.executeQuery();
 				while (rs.next()) {
 					String id = rs.getString(1);
 					String name = rs.getString(2);
@@ -236,10 +238,11 @@ public class WorkflowIndex {
 		try {
 			if (documentId != null) {
 				Connection con = createConnection(true);
-				Statement st = con.createStatement();
+//				Statement st = con.createStatement();
+				PreparedStatement st = con.prepareStatement("select id, target, entry from workflowreferences where documentid = '"
+						+ documentId + "'");
 				ResultSet rs = st
-						.executeQuery("select id, target, entry from workflowreferences where documentid = '"
-								+ documentId + "'");
+						.executeQuery();
 				while (rs.next()) {
 					String id = rs.getString(1);
 					String target = rs.getString(2);
@@ -295,10 +298,11 @@ public class WorkflowIndex {
 		try {
 			if (documentId != null) {
 				Connection con = createConnection(true);
-				Statement st = con.createStatement();
+//				Statement st = con.createStatement();
+				PreparedStatement st = con.prepareStatement("select id, name from designentries where documentid = '"
+						+ documentId + "'");
 				ResultSet rs = st
-						.executeQuery("select id, name from designentries where documentid = '"
-								+ documentId + "'");
+						.executeQuery();
 				while (rs.next()) {
 					String id = rs.getString(1);
 					String name = rs.getString(2);
@@ -329,10 +333,11 @@ public class WorkflowIndex {
 		try {
 			if (documentId != null) {
 				Connection con = createConnection(true);
-				Statement st = con.createStatement();
+//				Statement st = con.createStatement();
+				PreparedStatement st = con.prepareStatement("select id, targetid, targetname from designexits where documentid = '"
+						+ documentId + "'");
 				ResultSet rs = st
-						.executeQuery("select id, targetid, targetname from designexits where documentid = '"
-								+ documentId + "'");
+						.executeQuery();
 				while (rs.next()) {
 					String id = rs.getString(1);
 					String targetId = rs.getString(2);
@@ -413,14 +418,15 @@ public class WorkflowIndex {
 		try {
 			if (documentId != null) {
 				Connection con = createConnection(true);
-				Statement st = con.createStatement();
+//				Statement st = con.createStatement();
+				PreparedStatement st = con.prepareStatement("select id, name from workflowentries where documentid = '"
+						+ documentId
+						+ "' and id in (select upstreamid from streamindex where documentid = '"
+						+ documentId
+						+ "' and downstreamid = '"
+						+ sourceId + "')");
 				ResultSet rs = st
-						.executeQuery("select id, name from workflowentries where documentid = '"
-								+ documentId
-								+ "' and id in (select upstreamid from streamindex where documentid = '"
-								+ documentId
-								+ "' and downstreamid = '"
-								+ sourceId + "')");
+						.executeQuery();
 				while (rs.next()) {
 					String id = rs.getString(1);
 					String name = rs.getString(2);
@@ -496,14 +502,15 @@ public class WorkflowIndex {
 		try {
 			if (documentId != null) {
 				Connection con = createConnection(true);
-				Statement st = con.createStatement();
+//				Statement st = con.createStatement();
+				PreparedStatement st = con.prepareStatement("select id, name from designentries where documentid = '"
+						+ documentId
+						+ "' and id in (select upstreamid from streamindex where documentid = '"
+						+ documentId
+						+ "' and downstreamid = '"
+						+ sourceId + "')");
 				ResultSet rs = st
-						.executeQuery("select id, name from designentries where documentid = '"
-								+ documentId
-								+ "' and id in (select upstreamid from streamindex where documentid = '"
-								+ documentId
-								+ "' and downstreamid = '"
-								+ sourceId + "')");
+						.executeQuery();
 				while (rs.next()) {
 					String id = rs.getString(1);
 					String name = rs.getString(2);
@@ -545,14 +552,15 @@ public class WorkflowIndex {
 		try {
 			if (documentId != null) {
 				Connection con = createConnection(true);
-				Statement st = con.createStatement();
+//				Statement st = con.createStatement();
+				PreparedStatement st = con.prepareStatement("select id, name, type from workflowexits where documentid = '"
+						+ documentId
+						+ "' and id in (select downstreamid from streamindex where documentid = '"
+						+ documentId
+						+ "' and upstreamid = '"
+						+ sourceId + "')");
 				ResultSet rs = st
-						.executeQuery("select id, name, type from workflowexits where documentid = '"
-								+ documentId
-								+ "' and id in (select downstreamid from streamindex where documentid = '"
-								+ documentId
-								+ "' and upstreamid = '"
-								+ sourceId + "')");
+						.executeQuery();
 				while (rs.next()) {
 					String id = rs.getString(1);
 					String name = rs.getString(2);
@@ -633,14 +641,15 @@ public class WorkflowIndex {
 		try {
 			if (documentId != null) {
 				Connection con = createConnection(true);
-				Statement st = con.createStatement();
+//				Statement st = con.createStatement();
+				PreparedStatement st = con.prepareStatement("select id, targetid, targetname from designexits where documentid = '"
+						+ documentId
+						+ "' and id in (select downstreamid from streamindex where documentid = '"
+						+ documentId
+						+ "' and upstreamid = '"
+						+ sourceId + "')");
 				ResultSet rs = st
-						.executeQuery("select id, targetid, targetname from designexits where documentid = '"
-								+ documentId
-								+ "' and id in (select downstreamid from streamindex where documentid = '"
-								+ documentId
-								+ "' and upstreamid = '"
-								+ sourceId + "')");
+						.executeQuery();
 				while (rs.next()) {
 					String id = rs.getString(1);
 					String targetId = rs.getString(2);
@@ -703,14 +712,15 @@ public class WorkflowIndex {
 		lock.readLock().lock();
 		try {
 			Connection con = createConnection(true);
-			Statement st = con.createStatement();
+//			Statement st = con.createStatement();
 			String documentId = getDocumentId(newDocument);
+			PreparedStatement st = con.prepareStatement("select * from elementindex where elementid = '"
+					+ elementId
+					+ "'"
+					+ (documentId == null ? "" : " and documentid != '"
+							+ documentId + "'"));
 			ResultSet rs = st
-					.executeQuery("select * from elementindex where elementid = '"
-							+ elementId
-							+ "'"
-							+ (documentId == null ? "" : " and documentid != '"
-									+ documentId + "'"));
+					.executeQuery();
 			boolean ret = rs.next();
 			rs.close();
 			st.close();
@@ -733,8 +743,6 @@ public class WorkflowIndex {
 //			Statement st = con.createStatement();
 			PreparedStatement st = con.prepareStatement("select documentid from elementindex where elementid = '"
 					+ elementId + "'");
-//			statement.setString(1, input);
-//			ResultSet resultSet = statement.executeQuery();
 			ResultSet rs = st
 					.executeQuery();
 			if (rs.next()) {
@@ -1277,11 +1285,12 @@ public class WorkflowIndex {
 		lock.readLock().lock();
 		try {
 			Connection con = createConnection(true);
-			Statement st = con.createStatement();
+			//Statement st = con.createStatement();
+			PreparedStatement st = con.prepareStatement("select id from designdocuments where path = '"
+					+ designDocument.getUnderlyingFile()
+					.getProjectRelativePath().toString() + "'");
 			ResultSet rs = st
-					.executeQuery("select id from designdocuments where path = '"
-							+ designDocument.getUnderlyingFile()
-									.getProjectRelativePath().toString() + "'");
+					.executeQuery();
 			if (rs.next()) {
 				documentId = rs.getString(1);
 			}
@@ -1301,10 +1310,11 @@ public class WorkflowIndex {
 		lock.readLock().lock();
 		try {
 			Connection con = createConnection(true);
-			Statement st = con.createStatement();
+//			Statement st = con.createStatement();
+			PreparedStatement st = con.prepareStatement("select path from designdocuments where id = '"
+					+ documentId + "'");
 			ResultSet rs = st
-					.executeQuery("select path from designdocuments where id = '"
-							+ documentId + "'");
+					.executeQuery();
 			if (rs.next()) {
 				documentPath = rs.getString(1);
 			}
