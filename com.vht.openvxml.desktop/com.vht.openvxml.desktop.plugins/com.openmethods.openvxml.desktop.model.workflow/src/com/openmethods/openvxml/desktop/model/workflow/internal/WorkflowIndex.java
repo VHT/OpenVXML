@@ -1282,10 +1282,11 @@ public class WorkflowIndex {
 		lock.readLock().lock();
 		try {
 			Connection con = createConnection(true);
+			String path = designDocument.getUnderlyingFile()
+					.getProjectRelativePath().toString();
 			//Statement st = con.createStatement();
 			PreparedStatement st = con.prepareStatement("select id from designdocuments where path = (?)");
-			st.setString(1, designDocument.getUnderlyingFile()
-					.getProjectRelativePath().toString());
+			st.setString(1,path);
 			ResultSet rs = st
 					.executeQuery();
 			if (rs.next()) {
