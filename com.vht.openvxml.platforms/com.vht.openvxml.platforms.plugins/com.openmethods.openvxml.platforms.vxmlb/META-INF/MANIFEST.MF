@@ -13,8 +13,8 @@ Bundle-ManifestVersion: 2
 Bundle-SymbolicName: com.openmethods.openvxml.platforms.vxmlb;singleto
  n:=true
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Bundle-ClassPath: jackson-annotations-2.12.6.jar,
- jackson-core-2.12.6.jar,
- jackson-databind-2.13.2.jar,
+Bundle-ClassPath: jackson-annotations-2.13.3.jar,
+ jackson-core-2.13.3.jar,
+ jackson-databind-2.13.3.jar,
  .
 
