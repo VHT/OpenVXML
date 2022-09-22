@@ -239,8 +239,8 @@ public class WorkflowIndex {
 			if (documentId != null) {
 				Connection con = createConnection(true);
 //				Statement st = con.createStatement();
-				PreparedStatement st = con.prepareStatement("select id, target, entry from workflowreferences where documentid = '"
-						+ documentId + "'");
+				PreparedStatement st = con.prepareStatement("select id, target, entry from workflowreferences where documentid = (?)");
+				st.setString(1, documentId);
 				ResultSet rs = st
 						.executeQuery();
 				while (rs.next()) {
@@ -1156,23 +1156,46 @@ public class WorkflowIndex {
 				return;
 			}
 			Connection con = createConnection(false);
-			Statement st = con.createStatement();
-			st.executeUpdate("delete from workflowentries where documentid = '"
-					+ documentId + "'");
-			st.executeUpdate("delete from variables where documentid = '"
-					+ documentId + "'");
-			st.executeUpdate("delete from workflowexits where documentid = '"
-					+ documentId + "'");
-			st.executeUpdate("delete from workflowreferences where documentid = '"
-					+ documentId + "'");
-			st.executeUpdate("delete from designentries where documentid = '"
-					+ documentId + "'");
-			st.executeUpdate("delete from designexits where documentid = '"
-					+ documentId + "'");
-			st.executeUpdate("delete from streamindex where documentid = '"
-					+ documentId + "'");
-			st.executeUpdate("delete from elementindex where documentid = '"
-					+ documentId + "'");
+			String sql = "delete from workflowentries where documentid = (?)";
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, documentId);
+			st.executeUpdate();
+			st.clearBatch();
+
+			sql = "delete from variables where documentid = (?)";
+			st.setString(1, documentId);
+			st.executeUpdate();
+			st.clearBatch();
+
+			sql = "delete from workflowexits where documentid = (?)";
+			st.setString(1, documentId);
+			st.executeUpdate();
+			st.clearBatch();
+
+			sql = "delete from workflowreferences where documentid = (?)";
+			st.setString(1, documentId);
+			st.executeUpdate();
+			st.clearBatch();
+
+			sql = "delete from designentries where documentid = (?)";
+			st.setString(1, documentId);
+			st.executeUpdate();
+			st.clearBatch();
+
+			sql = "delete from designexits where documentid = (?)";
+			st.setString(1, documentId);
+			st.executeUpdate();
+			st.clearBatch();
+
+			sql = "delete from streamindex where documentid = (?)";
+			st.setString(1, documentId);
+			st.executeUpdate();
+			st.clearBatch();
+
+			sql = "delete from elementindex where documentid = (?)";
+			st.setString(1, documentId);
+			st.executeUpdate();
+			st.clearBatch();
 			con.commit();
 			st.close();
 			con.close();
@@ -1286,7 +1309,7 @@ public class WorkflowIndex {
 					.getProjectRelativePath().toString();
 			//Statement st = con.createStatement();
 			PreparedStatement st = con.prepareStatement("select id from designdocuments where path = (?)");
-			st.setString(1,"test");
+			st.setString(1,path);
 			ResultSet rs = st
 					.executeQuery();
 			if (rs.next()) {
