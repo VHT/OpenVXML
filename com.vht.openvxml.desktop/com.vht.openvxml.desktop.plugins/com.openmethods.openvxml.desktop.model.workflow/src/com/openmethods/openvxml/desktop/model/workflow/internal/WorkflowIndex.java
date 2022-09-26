@@ -95,7 +95,8 @@ public class WorkflowIndex {
 			if (documentId != null) {
 				Connection con = createConnection(true);
 				System.out.println("SAST debug:1");
-				PreparedStatement st = con.prepareStatement("select id, name from workflowentries where documentid = (?)");
+				String query = "select id, name from workflowentries where documentid = (?)";
+				PreparedStatement st = con.prepareStatement(query);
 				st.setString(1, documentId);
 				ResultSet rs = st
 						.executeQuery();
@@ -107,11 +108,12 @@ public class WorkflowIndex {
 					ret.add(workflowEntry);
 				}
 				rs.close();
+				query = "select name, type, basetype, precision from variables where documentid = (?) and elementid = (?)";
+				st = con.prepareStatement(query);
 				for (IWorkflowEntry workflowEntry : ret) {
-					rs = st.executeQuery("select name, type, basetype, precision from variables where documentid = '"
-							+ documentId
-							+ "' and elementid = '"
-							+ workflowEntry.getId() + "'");
+					st.setString(1, documentId);
+					st.setString(2, workflowEntry.getId());
+					rs = st.executeQuery();
 					while (rs.next()) {
 						String name = rs.getString(1);
 						String type = rs.getString(2);
@@ -168,7 +170,8 @@ public class WorkflowIndex {
 			if (documentId != null) {
 				Connection con = createConnection(true);
 				System.out.println("SAST debug:2");
-				PreparedStatement st = con.prepareStatement("select id, name, type from workflowexits where documentid = (?)");
+				String query = "select id, name, type from workflowexits where documentid = (?)";
+				PreparedStatement st = con.prepareStatement(query);
 				st.setString(1, documentId);
 				ResultSet rs = st
 						.executeQuery();
@@ -181,11 +184,12 @@ public class WorkflowIndex {
 					ret.add(workflowExit);
 				}
 				rs.close();
+				query = "select name, type, basetype, precision from variables where documentid = (?) and elementid = (?)";
+				st = con.prepareStatement(query);
 				for (IWorkflowExit workflowExit : ret) {
-					rs = st.executeQuery("select name, type, basetype, precision from variables where documentid = '"
-							+ documentId
-							+ "' and elementid = '"
-							+ workflowExit.getId() + "'");
+					st.setString(1, documentId);
+					st.setString(2, workflowExit.getId());
+					rs = st.executeQuery();
 					while (rs.next()) {
 						String name = rs.getString(1);
 						String type = rs.getString(2);
@@ -335,7 +339,8 @@ public class WorkflowIndex {
 			if (documentId != null) {
 				Connection con = createConnection(true);
 				System.out.println("SAST debug:6");
-				PreparedStatement st = con.prepareStatement("select id, targetid, targetname from designexits where documentid = (?)");
+				String query = "select id, targetid, targetname from designexits where documentid = (?)";
+				PreparedStatement st = con.prepareStatement(query);
 				st.setString(1, documentId);
 				ResultSet rs = st
 						.executeQuery();
@@ -348,11 +353,12 @@ public class WorkflowIndex {
 					ret.add(designExit);
 				}
 				rs.close();
+				query = "select name, type, basetype, precision from variables where documentid = (?) and elementid = (?)";
+				st = con.prepareStatement(query);
 				for (IDesignExitPoint workflowExit : ret) {
-					rs = st.executeQuery("select name, type, basetype, precision from variables where documentid = '"
-							+ documentId
-							+ "' and elementid = '"
-							+ workflowExit.getId() + "'");
+					st.setString(1,documentId);
+					st.setString(2, workflowExit.getId());
+					rs = st.executeQuery();
 					while (rs.next()) {
 						String name = rs.getString(1);
 						String type = rs.getString(2);
@@ -420,10 +426,12 @@ public class WorkflowIndex {
 			if (documentId != null) {
 				Connection con = createConnection(true);
 				System.out.println("SAST debug:7");
-				PreparedStatement st = con.prepareStatement("select id, name from workflowentries where documentid = (?) and id in (select upstreamid from streamindex where documentid = (?) and downstreamid = (?))");
+				String query = "select id, name from workflowentries where documentid = (?) and id in (select upstreamid from streamindex where documentid = (?) and downstreamid = (?))";
+				PreparedStatement st = con.prepareStatement(query);
 				st.setString(1, documentId);
 				st.setString(2, documentId);
 				st.setString(3, sourceId);
+				System.out.println(st.toString());
 				ResultSet rs = st
 						.executeQuery();
 				while (rs.next()) {
@@ -434,11 +442,13 @@ public class WorkflowIndex {
 					ret.add(workflowEntry);
 				}
 				rs.close();
+				query = "select name, type, basetype, precision from variables where documentid = (?) and elementid = (?)";
+				st = con.prepareStatement(query);
 				for (IWorkflowEntry workflowEntry : ret) {
-					rs = st.executeQuery("select name, type, basetype, precision from variables where documentid = '"
-							+ documentId
-							+ "' and elementid = '"
-							+ workflowEntry.getId() + "'");
+					st.setString(1, documentId);
+					st.setString(2, workflowEntry.getId());
+					System.out.println(st.toString());
+					rs = st.executeQuery();
 					while (rs.next()) {
 						String name = rs.getString(1);
 						String type = rs.getString(2);
@@ -550,7 +560,8 @@ public class WorkflowIndex {
 			if (documentId != null) {
 				Connection con = createConnection(true);
 				System.out.println("SAST debug:9");
-				PreparedStatement st = con.prepareStatement("select id, name, type from workflowexits where documentid = (?) and id in (select downstreamid from streamindex where documentid = (?) and upstreamid = (?))");
+				String query = "select id, name, type from workflowexits where documentid = (?) and id in (select downstreamid from streamindex where documentid = (?) and upstreamid = (?))";
+				PreparedStatement st = con.prepareStatement(query);
 				st.setString(1, documentId);
 				st.setString(2, documentId);
 				st.setString(3, sourceId);
@@ -565,11 +576,12 @@ public class WorkflowIndex {
 					ret.add(workflowExit);
 				}
 				rs.close();
+				query = "select name, type, basetype, precision from variables where documentid = (?) and elementid = (?)";
+				st = con.prepareStatement(query);
 				for (IWorkflowExit workflowExit : ret) {
-					rs = st.executeQuery("select name, type, basetype, precision from variables where documentid = '"
-							+ documentId
-							+ "' and elementid = '"
-							+ workflowExit.getId() + "'");
+					st.setString(1, documentId);
+					st.setString(2, workflowExit.getId());
+					rs = st.executeQuery();
 					while (rs.next()) {
 						String name = rs.getString(1);
 						String type = rs.getString(2);
@@ -637,7 +649,8 @@ public class WorkflowIndex {
 			if (documentId != null) {
 				Connection con = createConnection(true);
 				System.out.println("SAST debug:10");
-				PreparedStatement st = con.prepareStatement("select id, targetid, targetname from designexits where documentid = (?) and id in (select downstreamid from streamindex where documentid = (?) and upstreamid = (?))");
+				String query = "select id, targetid, targetname from designexits where documentid = (?) and id in (select downstreamid from streamindex where documentid = (?) and upstreamid = (?))";
+				PreparedStatement st = con.prepareStatement(query);
 				st.setString(1, documentId);
 				st.setString(2, documentId);
 				st.setString(3, sourceId);
@@ -652,11 +665,12 @@ public class WorkflowIndex {
 					ret.add(designExit);
 				}
 				rs.close();
+				query = "select name, type, basetype, precision from variables where documentid = (?) and elementid = (?)";
+				st = con.prepareStatement(query);
 				for (IDesignExitPoint workflowExit : ret) {
-					rs = st.executeQuery("select name, type, basetype, precision from variables where documentid = '"
-							+ documentId
-							+ "' and elementid = '"
-							+ workflowExit.getId() + "'");
+					st.setString(1, documentId);
+					st.setString(2, workflowExit.getId());
+					rs = st.executeQuery();
 					while (rs.next()) {
 						String name = rs.getString(1);
 						String type = rs.getString(2);
@@ -1167,36 +1181,43 @@ public class WorkflowIndex {
 			st.clearBatch();
 
 			sql = "delete from variables where documentid = (?)";
+			st = con.prepareStatement(sql);
 			st.setString(1, documentId);
 			st.executeUpdate();
 			st.clearBatch();
 
 			sql = "delete from workflowexits where documentid = (?)";
+			st = con.prepareStatement(sql);
 			st.setString(1, documentId);
 			st.executeUpdate();
 			st.clearBatch();
 
 			sql = "delete from workflowreferences where documentid = (?)";
+			st = con.prepareStatement(sql);
 			st.setString(1, documentId);
 			st.executeUpdate();
 			st.clearBatch();
 
 			sql = "delete from designentries where documentid = (?)";
+			st = con.prepareStatement(sql);
 			st.setString(1, documentId);
 			st.executeUpdate();
 			st.clearBatch();
 
 			sql = "delete from designexits where documentid = (?)";
+			st = con.prepareStatement(sql);
 			st.setString(1, documentId);
 			st.executeUpdate();
 			st.clearBatch();
 
 			sql = "delete from streamindex where documentid = (?)";
+			st = con.prepareStatement(sql);
 			st.setString(1, documentId);
 			st.executeUpdate();
 			st.clearBatch();
 
 			sql = "delete from elementindex where documentid = (?)";
+			st = con.prepareStatement(sql);
 			st.setString(1, documentId);
 			st.executeUpdate();
 			st.clearBatch();
@@ -1293,9 +1314,10 @@ public class WorkflowIndex {
 		try {
 			Connection con = createConnection(true);
 			System.out.println("SAST debug:16");
-			Statement st = con.createStatement();
-			st.executeUpdate("update designdocuments set path = '"
-					+ destinationPath + "' where path = '" + originalPath + "'");
+			PreparedStatement st = con.prepareStatement("update designdocuments set path = (?) where path = (?)");
+			st.setString(1, destinationPath);
+			st.setString(2, originalPath);
+			st.executeUpdate();
 			st.close();
 			con.close();
 		} catch (SQLException e) {
