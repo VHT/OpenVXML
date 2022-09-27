@@ -1300,7 +1300,8 @@ public class WorkflowIndex {
 		try {
 			Connection con = createConnection(false);
 			System.out.println("SAST debug:15");
-			PreparedStatement st = con.prepareStatement("select id from designdocuments where path = (?)");
+			String query = "select id from designdocuments where path = (?)";
+			PreparedStatement st = con.prepareStatement(query);
 			st.setString(1, documentPath);
 			ResultSet rs = st
 					.executeQuery();
@@ -1309,24 +1310,42 @@ public class WorkflowIndex {
 			}
 			rs.close();
 			if (documentId != null) {
-				st.executeUpdate("delete from designdocuments where id = '"
-						+ documentId + "'");
-				st.executeUpdate("delete from workflowentries where documentid = '"
-						+ documentId + "'");
-				st.executeUpdate("delete from variables where documentid = '"
-						+ documentId + "'");
-				st.executeUpdate("delete from workflowexits where documentid = '"
-						+ documentId + "'");
-				st.executeUpdate("delete from workflowreferences where documentid = '"
-						+ documentId + "'");
-				st.executeUpdate("delete from designentries where documentid = '"
-						+ documentId + "'");
-				st.executeUpdate("delete from designexits where documentid = '"
-						+ documentId + "'");
-				st.executeUpdate("delete from streamindex where documentid = '"
-						+ documentId + "'");
-				st.executeUpdate("delete from elementindex where documentid = '"
-						+ documentId + "'");
+				query = "delete from designdocuments where id = (?)";
+				st = con.prepareStatement(query);
+				st.setString(1, documentId);
+				st.executeUpdate();
+				query = "delete from workflowentries where documentid = (?)";
+				st = con.prepareStatement(query);
+				st.setString(1, documentId);
+				st.executeUpdate();
+				query = "delete from variables where documentid = (?)";
+				st = con.prepareStatement(query);
+				st.setString(1, documentId);
+				st.executeUpdate();
+				query = "delete from workflowexits where documentid = (?)";
+				st = con.prepareStatement(query);
+				st.setString(1, documentId);
+				st.executeUpdate();
+				query = "delete from workflowreferences where documentid = (?)";
+				st = con.prepareStatement(query);
+				st.setString(1, documentId);
+				st.executeUpdate();
+				query = "delete from designentries where documentid = (?)";
+				st = con.prepareStatement(query);
+				st.setString(1, documentId);
+				st.executeUpdate();
+				query = "delete from designexits where documentid = (?)";
+				st = con.prepareStatement(query);
+				st.setString(1, documentId);
+				st.executeUpdate();
+				query = "delete from streamindex where documentid = (?)";
+				st = con.prepareStatement(query);
+				st.setString(1, documentId);
+				st.executeUpdate();
+				query = "delete from elementindex where documentid = (?)";
+				st = con.prepareStatement(query);
+				st.setString(1, documentId);
+				st.executeUpdate();
 			}
 			con.commit();
 			st.close();
