@@ -88,8 +88,15 @@ public class DatabaseTable extends WorkflowResource implements IDatabaseTable {
 	 */
 	private void loadModel() {
 		try {
-			Document document = DocumentBuilderFactory.newInstance()
-					.newDocumentBuilder().parse(file.getContents());
+			DocumentBuilderFactory factory = DocumentBuilderFactory
+					.newInstance();
+			factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+			factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+			factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+			factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+			factory.setXIncludeAware(false);
+			factory.setExpandEntityReferences(false);
+			Document document = factory.newDocumentBuilder().parse(file.getContents());
 			Element rootElement = document.getDocumentElement();
 			name = rootElement.getAttribute("name");
 			columns = new ArrayList<DatabaseTableColumn>();

@@ -55,6 +55,12 @@ public abstract class MediaProject extends MediaObject implements IMediaProject 
 			IFile buildPath = project.getFile(".config");
 			DocumentBuilderFactory buildFactory = DocumentBuilderFactory
 					.newInstance();
+			buildFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+			buildFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+			buildFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+			buildFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+			buildFactory.setXIncludeAware(false);
+			buildFactory.setExpandEntityReferences(false);
 			DocumentBuilder builder = buildFactory.newDocumentBuilder();
 
 			if (!buildPath.isSynchronized(IResource.DEPTH_INFINITE)) {

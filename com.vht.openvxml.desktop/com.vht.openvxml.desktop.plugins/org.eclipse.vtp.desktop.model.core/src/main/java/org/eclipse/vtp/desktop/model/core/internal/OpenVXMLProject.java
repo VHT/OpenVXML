@@ -249,6 +249,12 @@ public class OpenVXMLProject extends WorkflowResource implements
 			}
 			DocumentBuilderFactory buildFactory = DocumentBuilderFactory
 					.newInstance();
+			buildFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+			buildFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+			buildFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+			buildFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+			buildFactory.setXIncludeAware(false);
+			buildFactory.setExpandEntityReferences(false);
 			DocumentBuilder builder = buildFactory.newDocumentBuilder();
 			Document doc = builder.parse(buildPath.getContents());
 			Element root = doc.getDocumentElement();
