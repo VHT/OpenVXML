@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -696,7 +698,9 @@ public class WSDL {
 			System.out.println("Usage: java WSDL file_path");
 			System.exit(1);
 		}
-		File file = new File(args[0]);
+		Path path = Paths.get(args[0]);
+		String fileName = path.getFileName().toString();
+		File file = new File(fileName);
 		if (!file.exists()) {
 			System.out.println("Usage: java WSDL file_path");
 			System.exit(1);
