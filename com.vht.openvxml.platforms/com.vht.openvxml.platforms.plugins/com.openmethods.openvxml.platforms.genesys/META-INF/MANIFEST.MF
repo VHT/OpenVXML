@@ -6,7 +6,7 @@ Bundle-Version: 6.0.0.qualifier
 Bundle-ClassPath: .,
  jackson-annotations-2.13.3.jar,
  jackson-core-2.13.3.jar,
- jackson-databind-2.13.3.jar
+ jackson-databind-2.13.4.2.jar
 Bundle-Activator: com.openmethods.openvxml.platforms.genesys.Activator
 Bundle-Vendor: OPENMETHODS
 Bundle-Localization: plugin
