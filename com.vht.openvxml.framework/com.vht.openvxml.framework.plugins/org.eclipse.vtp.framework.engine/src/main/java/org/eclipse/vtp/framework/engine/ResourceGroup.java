@@ -25,10 +25,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.eclipse.vtp.framework.interactions.core.media.IResourceManager;
 import org.eclipse.vtp.framework.interactions.voice.services.ExternalServer;
 import org.eclipse.vtp.framework.interactions.voice.services.ExternalServerManager;
@@ -110,7 +112,8 @@ public class ResourceGroup implements IResourceManager,
 								}
 								try {
 									URI indexURL = new URI(location);
-									DefaultHttpClient httpclient = new DefaultHttpClient();
+//									DefaultHttpClient httpclient = new DefaultHttpClient();
+									HttpClient httpclient = HttpClientBuilder.create().build();
 									HttpGet httpGet = new HttpGet(indexURL);
 
 									HttpResponse response = httpclient
