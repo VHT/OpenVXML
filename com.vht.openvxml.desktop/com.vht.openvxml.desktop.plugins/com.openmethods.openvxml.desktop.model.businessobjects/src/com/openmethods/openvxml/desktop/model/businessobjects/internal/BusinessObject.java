@@ -93,8 +93,14 @@ public class BusinessObject extends WorkflowResource implements IBusinessObject 
 	 */
 	private void loadHeaders() {
 		try {
-			Document document = DocumentBuilderFactory.newInstance()
-					.newDocumentBuilder().parse(file.getContents());
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+			dbf.setFeature("http://xml.org/sax/features/external-general-entities", false);
+			dbf.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+			dbf.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+			dbf.setXIncludeAware(false);
+			dbf.setExpandEntityReferences(false);
+			Document document = dbf.newDocumentBuilder().parse(file.getContents());
 			Element rootElement = document.getDocumentElement();
 			id = rootElement.getAttribute("id");
 			name = rootElement.getAttribute("name");

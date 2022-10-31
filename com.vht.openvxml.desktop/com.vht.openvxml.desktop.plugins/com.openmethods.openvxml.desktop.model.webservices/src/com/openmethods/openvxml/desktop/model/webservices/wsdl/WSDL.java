@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -76,6 +78,12 @@ public class WSDL {
 					DocumentBuilderFactory factory = DocumentBuilderFactory
 							.newInstance();
 					factory.setNamespaceAware(true);
+					factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+					factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+					factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+					factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+					factory.setXIncludeAware(false);
+					factory.setExpandEntityReferences(false);
 					DocumentBuilder builder = factory.newDocumentBuilder();
 					Document document = builder.parse(in);
 					org.w3c.dom.Element rootElement = document
@@ -690,7 +698,9 @@ public class WSDL {
 			System.out.println("Usage: java WSDL file_path");
 			System.exit(1);
 		}
-		File file = new File(args[0]);
+		Path path = Paths.get(args[0]);
+		String fileName = path.getFileName().toString();
+		File file = new File(fileName);
 		if (!file.exists()) {
 			System.out.println("Usage: java WSDL file_path");
 			System.exit(1);
@@ -699,6 +709,12 @@ public class WSDL {
 			DocumentBuilderFactory factory = DocumentBuilderFactory
 					.newInstance();
 			factory.setNamespaceAware(true);
+			factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+			factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+			factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+			factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+			factory.setXIncludeAware(false);
+			factory.setExpandEntityReferences(false);
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document document = builder.parse(file);
 			org.w3c.dom.Element rootElement = document.getDocumentElement();
