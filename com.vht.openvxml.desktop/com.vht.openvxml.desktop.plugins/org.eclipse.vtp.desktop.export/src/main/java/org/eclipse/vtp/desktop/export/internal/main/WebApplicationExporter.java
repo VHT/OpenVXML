@@ -17,6 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
@@ -139,6 +140,13 @@ public class WebApplicationExporter {
 			this.bundleExporters = new LinkedHashMap<String, BundleExporter>();
 			this.monitor = monitor;
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+			dbf.setFeature("http://xml.org/sax/features/external-general-entities", false);
+			dbf.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+			dbf.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+			dbf.setFeature(XMLConstants.ACCESS_EXTERNAL_DTD, false);
+			dbf.setFeature(XMLConstants.ACCESS_EXTERNAL_SCHEMA, false);
+			dbf.setFeature(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, false);
 			dbf.setNamespaceAware(true);
 			dbf.setValidating(false);
 			this.documentBuilder = dbf.newDocumentBuilder();
