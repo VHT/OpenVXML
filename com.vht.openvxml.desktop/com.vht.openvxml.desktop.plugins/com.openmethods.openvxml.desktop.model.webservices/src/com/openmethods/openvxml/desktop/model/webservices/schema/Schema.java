@@ -148,6 +148,7 @@ public class Schema {
 				}
 			}
 			try {
+				if(!locationUri.startsWith("//")){
 				URL url = new URL(locationUri);
 				URLConnection con = url.openConnection();
 				InputStream in = con.getInputStream();
@@ -180,6 +181,7 @@ public class Schema {
 							imports.get(i), ex));
 				}
 				in.close();
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				problemCollector.add(createProblem(
