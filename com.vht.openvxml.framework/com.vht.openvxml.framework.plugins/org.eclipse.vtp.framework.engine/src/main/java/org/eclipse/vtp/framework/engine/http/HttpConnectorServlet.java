@@ -66,6 +66,7 @@ public class HttpConnectorServlet extends HttpServlet {
 		if (pathInfo.startsWith(HttpConnector.RESOURCES_PATH)) {
 			String resourcePath = pathInfo
 					.substring(HttpConnector.RESOURCES_PATH.length());
+			System.out.println("resource path debug 1: "+resourcePath);
 			URL resource = connector.getResource(resourcePath);
 			if (resource == null) {
 				resource = getServletContext().getResource(resourcePath);
@@ -117,6 +118,7 @@ public class HttpConnectorServlet extends HttpServlet {
 		} else if (pathInfo.startsWith(HttpConnector.PLATFORM_PATH)) {
 			String resourcePath = pathInfo
 					.substring(HttpConnector.PLATFORM_PATH.length());
+			System.out.println("resource path debug: " +resourcePath);
 			URL resource = connector.getPlatformInclude(resourcePath);
 			if (resource == null) {
 				resource = getServletContext().getResource(resourcePath);
