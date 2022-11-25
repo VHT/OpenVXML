@@ -71,6 +71,7 @@ public class WSDL {
 				}
 			}
 			try {
+				if (locationUri.startsWith("/") && !locationUri.startsWith("//")){
 				URL url = new URL(locationUri);
 				URLConnection con = url.openConnection();
 				InputStream in = con.getInputStream();
@@ -102,6 +103,7 @@ public class WSDL {
 							imports.get(i), ex));
 				}
 				in.close();
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				addProblem(createProblem("Error while importing WSDL.",

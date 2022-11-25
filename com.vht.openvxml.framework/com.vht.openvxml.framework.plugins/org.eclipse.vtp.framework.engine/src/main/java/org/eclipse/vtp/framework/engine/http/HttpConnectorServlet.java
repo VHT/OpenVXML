@@ -63,6 +63,7 @@ public class HttpConnectorServlet extends HttpServlet {
 	protected void process(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
 		String pathInfo = HttpUtils.normalizePath(req.getPathInfo());
+		if (pathInfo.startsWith("/") && !pathInfo.startsWith("//")){
 		if (pathInfo.startsWith(HttpConnector.RESOURCES_PATH)) {
 			String resourcePath = pathInfo
 					.substring(HttpConnector.RESOURCES_PATH.length());
@@ -164,6 +165,7 @@ public class HttpConnectorServlet extends HttpServlet {
 				}
 			}
 			return;
+		}
 		}
 		connector.process(req, res);
 	}

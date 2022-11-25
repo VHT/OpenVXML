@@ -148,7 +148,7 @@ public class Schema {
 				}
 			}
 			try {
-				if(!locationUri.startsWith("//")){
+				if (locationUri.startsWith("/") && !locationUri.startsWith("//")){
 				System.out.println("schema uri test");
 				URL url = new URL(locationUri);
 				URLConnection con = url.openConnection();
