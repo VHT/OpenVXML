@@ -94,7 +94,6 @@ public class WorkflowIndex {
 		try {
 			if (documentId != null) {
 				Connection con = createConnection(true);
-				System.out.println("SAST debug:1");
 				String query = "select id, name from workflowentries where documentid = (?)";
 				PreparedStatement st = con.prepareStatement(query);
 				st.setString(1, documentId);
@@ -169,7 +168,6 @@ public class WorkflowIndex {
 		try {
 			if (documentId != null) {
 				Connection con = createConnection(true);
-				System.out.println("SAST debug:2");
 				String query = "select id, name, type from workflowexits where documentid = (?)";
 				PreparedStatement st = con.prepareStatement(query);
 				st.setString(1, documentId);
@@ -242,7 +240,6 @@ public class WorkflowIndex {
 		try {
 			if (documentId != null) {
 				Connection con = createConnection(true);
-				System.out.println("SAST debug:3");
 				PreparedStatement st = con.prepareStatement("select id, target, entry from workflowreferences where documentid = (?)");
 				st.setString(1, documentId);
 				ResultSet rs = st
@@ -272,7 +269,6 @@ public class WorkflowIndex {
 		lock.readLock().lock();
 		try {
 			Connection con = createConnection(true);
-			System.out.println("SAST debug:4");
 			Statement st = con.createStatement();
 			ResultSet rs = st
 					.executeQuery("select id, target, entry from workflowreferences");
@@ -303,7 +299,6 @@ public class WorkflowIndex {
 		try {
 			if (documentId != null) {
 				Connection con = createConnection(true);
-				System.out.println("SAST debug:5");
 				PreparedStatement st = con.prepareStatement("select id, name from designentries where documentid = (?)");
 				st.setString(1, documentId);
 				ResultSet rs = st
@@ -338,7 +333,6 @@ public class WorkflowIndex {
 		try {
 			if (documentId != null) {
 				Connection con = createConnection(true);
-				System.out.println("SAST debug:6");
 				String query = "select id, targetid, targetname from designexits where documentid = (?)";
 				PreparedStatement st = con.prepareStatement(query);
 				st.setString(1, documentId);
@@ -425,7 +419,6 @@ public class WorkflowIndex {
 		try {
 			if (documentId != null) {
 				Connection con = createConnection(true);
-				System.out.println("SAST debug:7");
 				String query = "select id, name from workflowentries where documentid = (?) and id in (select upstreamid from streamindex where documentid = (?) and downstreamid = (?))";
 				PreparedStatement st = con.prepareStatement(query);
 				st.setString(1, documentId);
@@ -511,7 +504,6 @@ public class WorkflowIndex {
 		try {
 			if (documentId != null) {
 				Connection con = createConnection(true);
-				System.out.println("SAST debug:8");
 				PreparedStatement st = con.prepareStatement("select id, name from designentries where documentid = (?) and id in (select upstreamid from streamindex where documentid = (?) and downstreamid = (?))");
 				st.setString(1, documentId);
 				st.setString(2, documentId);
@@ -559,7 +551,6 @@ public class WorkflowIndex {
 		try {
 			if (documentId != null) {
 				Connection con = createConnection(true);
-				System.out.println("SAST debug:9");
 				String query = "select id, name, type from workflowexits where documentid = (?) and id in (select downstreamid from streamindex where documentid = (?) and upstreamid = (?))";
 				PreparedStatement st = con.prepareStatement(query);
 				st.setString(1, documentId);
@@ -648,7 +639,6 @@ public class WorkflowIndex {
 		try {
 			if (documentId != null) {
 				Connection con = createConnection(true);
-				System.out.println("SAST debug:10");
 				String query = "select id, targetid, targetname from designexits where documentid = (?) and id in (select downstreamid from streamindex where documentid = (?) and upstreamid = (?))";
 				PreparedStatement st = con.prepareStatement(query);
 				st.setString(1, documentId);
@@ -720,7 +710,6 @@ public class WorkflowIndex {
 		try {
 			Connection con = createConnection(true);
 			String documentId = getDocumentId(newDocument);
-			System.out.println("SAST debug:20");
 			PreparedStatement st = null;
 			if(documentId == null){
 				st = con.prepareStatement("select * from elementindex where elementid = (?)");
@@ -752,7 +741,6 @@ public class WorkflowIndex {
 		lock.readLock().lock();
 		try {
 			Connection con = createConnection(true);
-			System.out.println("SAST debug:11");
 			PreparedStatement st = con.prepareStatement("select documentid from elementindex where elementid = (?)");
 			st.setString(1,elementId);
 			ResultSet rs = st
@@ -933,7 +921,6 @@ public class WorkflowIndex {
 		lock.writeLock().lock();
 		try {
 			Connection con = createConnection(true);
-			System.out.println("SAST debug:12");
 			String query = "insert into designdocuments values ((?), (?))";
 			PreparedStatement st = con.prepareStatement(query);
 			String documentId = getDocumentId(designDocument);
@@ -1008,7 +995,6 @@ public class WorkflowIndex {
 		try {
 			long t2 = System.currentTimeMillis();
 			Connection con = createConnection(false);
-			System.out.println("SAST debug:13");
 			String query = "";
 			PreparedStatement st = con.prepareStatement(query);
 			System.out.println("Time: connection: "
@@ -1207,7 +1193,6 @@ public class WorkflowIndex {
 			}
 			Connection con = createConnection(false);
 			String sql = "delete from workflowentries where documentid = (?)";
-			System.out.println("SAST debug:14");
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setString(1, documentId);
 			st.executeUpdate();
@@ -1364,7 +1349,6 @@ public class WorkflowIndex {
 		lock.writeLock().lock();
 		try {
 			Connection con = createConnection(true);
-			System.out.println("SAST debug:16");
 			PreparedStatement st = con.prepareStatement("update designdocuments set path = (?) where path = (?)");
 			st.setString(1, destinationPath);
 			st.setString(2, originalPath);
@@ -1385,7 +1369,6 @@ public class WorkflowIndex {
 			Connection con = createConnection(true);
 			String path = designDocument.getUnderlyingFile()
 					.getProjectRelativePath().toString();
-			System.out.println("SAST debug:17");
 			PreparedStatement st = con.prepareStatement("select id from designdocuments where path = (?)");
 			st.setString(1,path);
 			ResultSet rs = st
@@ -1409,7 +1392,6 @@ public class WorkflowIndex {
 		lock.readLock().lock();
 		try {
 			Connection con = createConnection(true);
-			System.out.println("SAST debug:18");
 			PreparedStatement st = con.prepareStatement("select path from designdocuments where id = (?)");
 			st.setString(1, documentId);
 			ResultSet rs = st
@@ -1446,7 +1428,6 @@ public class WorkflowIndex {
 			System.err.println("Connection Creation: " + project.getName()
 					+ " in " + Long.toString(System.currentTimeMillis() - t));
 			if (!previousIndex) {
-				System.out.println("SAST debug:19");
 				Statement st = con.createStatement();
 				createStructure(con, st);
 				st.close();
