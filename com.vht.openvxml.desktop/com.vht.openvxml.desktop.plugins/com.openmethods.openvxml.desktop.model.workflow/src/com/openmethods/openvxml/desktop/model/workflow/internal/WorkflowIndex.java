@@ -995,7 +995,7 @@ public class WorkflowIndex {
 		try {
 			long t2 = System.currentTimeMillis();
 			Connection con = createConnection(false);
-			String query = "insert into designdocuments values ((?), (?))";
+			String query = "";
 			PreparedStatement st = con.prepareStatement(query);
 			System.out.println("Time: connection: "
 					+ Long.toString(System.currentTimeMillis() - t2));
@@ -1003,7 +1003,9 @@ public class WorkflowIndex {
 			String documentId = getDocumentId(designDocument);
 			if (documentId == null) // should always be true
 			{
-				documentId = Guid.createGUID();
+				documentId = Guid.createGUID();			
+				query = "insert into designdocuments values ((?), (?))";
+				st = con.prepareStatement(query);
 				st.setString(1, documentId);
 				st.setString(2, designDocument.getUnderlyingFile().getProjectRelativePath().toString());
 				st.executeUpdate();
@@ -1013,30 +1015,29 @@ public class WorkflowIndex {
 			t2 = System.currentTimeMillis();
 			List<IWorkflowEntry> workflowEntries = designDocument
 					.getWorkflowEntries();
-			query = "insert into workflowentries values ((?), (?), (?))";
-			st = con.prepareStatement(query);
-			query = "insert into variables values ((?), (?), (?), (?), (?), (?)";
-			PreparedStatement st1 = con.prepareStatement(query);
 			for (IWorkflowEntry workflowEntry : workflowEntries) {
 				System.out
 						.println("indexing workflow entry: "
 								+ workflowEntry.getId() + " "
-								+ workflowEntry.getName());
+								+ workflowEntry.getName());		
+				query = "insert into workflowentries values ((?), (?), (?))";
+				st = con.prepareStatement(query);							
 				st.setString(1, workflowEntry.getId());
 				st.setString(2, workflowEntry.getName());
 				st.setString(3, documentId);
 				st.executeUpdate();
 				List<Variable> inputVariables = workflowEntry
 						.getInputVariables();
-				for (Variable v : inputVariables) {
-					st1 = con.prepareStatement(query);
-					st1.setString(1, v.getName());
-					st1.setString(2, v.getType().getName());
-					st1.setString(3, v.getType().hasBaseType() ? v.getType().getBaseTypeName() : "");
-					st1.setInt(4, v.getType().getPrecision());
-					st1.setString(5, workflowEntry.getId());
-					st1.setString(6, documentId);
-					st1.executeUpdate();
+				for (Variable v : inputVariables) {		
+					query = "insert into variables values ((?), (?), (?), (?), (?), (?))";
+					st = con.prepareStatement(query);
+					st.setString(1, v.getName());
+					st.setString(2, v.getType().getName());
+					st.setString(3, v.getType().hasBaseType() ? v.getType().getBaseTypeName() : "");
+					st.setInt(4, v.getType().getPrecision());
+					st.setString(5, workflowEntry.getId());
+					st.setString(6, documentId);
+					st.executeUpdate();
 				}
 			}
 			System.out.println("Time: workflow entry: "
@@ -1044,13 +1045,13 @@ public class WorkflowIndex {
 			t2 = System.currentTimeMillis();
 			List<IWorkflowReference> workflowReferences = designDocument
 					.getWorkflowReferences();
-			query = "insert into workflowreferences values ((?), (?), (?), (?))";
-			st = con.prepareStatement(query);
 			for (IWorkflowReference workflowReference : workflowReferences) {
 				System.out.println("indexing workflow reference: "
 						+ workflowReference.getId() + " "
 						+ workflowReference.getTargetId() + " "
-						+ workflowReference.getEntryId());
+						+ workflowReference.getEntryId());				
+				query = "insert into workflowreferences values ((?), (?), (?), (?))";
+				st = con.prepareStatement(query);
 				st.setString(1, workflowReference.getId());
 				st.setString(2, workflowReference.getTargetId());
 				st.setString(3, workflowReference.getEntryId());
@@ -1062,11 +1063,11 @@ public class WorkflowIndex {
 			t2 = System.currentTimeMillis();
 			List<IDesignEntryPoint> designEntries = designDocument
 					.getDesignEntryPoints();
-			query = "insert into designentries values ((?), (?), (?))";
-			st = con.prepareStatement(query);
 			for (IDesignEntryPoint designEntry : designEntries) {
 				System.out.println("indexing design entry: "
-						+ designEntry.getId() + " " + designEntry.getName());
+						+ designEntry.getId() + " " + designEntry.getName());	
+				query = "insert into designentries values ((?), (?), (?))";
+				st = con.prepareStatement(query);
 				st.setString(1, designEntry.getId());
 				st.setString(2, designEntry.getName());
 				st.setString(3, documentId);
@@ -1077,14 +1078,12 @@ public class WorkflowIndex {
 			t2 = System.currentTimeMillis();
 			List<IDesignExitPoint> designExits = designDocument
 					.getDesignExitPoints();
-			query = "insert into designexits values ((?), (?), (?), (?))";
-			st = con.prepareStatement(query);
-			query = "insert into variables values ((?), (?), (?), (?), (?), (?))";
-			st1 = con.prepareStatement(query);
 			for (IDesignExitPoint designExit : designExits) {
 				System.out.println("indexing design exit: "
 						+ designExit.getId() + " " + designExit.getTargetId()
-						+ " " + designExit.getTargetName());
+						+ " " + designExit.getTargetName());			
+				query = "insert into designexits values ((?), (?), (?), (?))";
+				st = con.prepareStatement(query);
 				st.setString(1, designExit.getId());
 				st.setString(2, designExit.getTargetId());
 				st.setString(3, designExit.getTargetName());
@@ -1092,28 +1091,28 @@ public class WorkflowIndex {
 				st.executeUpdate();
 				List<Variable> variables = designExit
 						.getExportedDesignVariables();
-				for (Variable v : variables) {
-					st1.setString(1, v.getName());
-					st1.setString(2, v.getType().getName());
-					st1.setString(3, (v.getType().hasBaseType() ? v.getType()
+				for (Variable v : variables) {			
+					query = "insert into variables values ((?), (?), (?), (?), (?), (?))";
+					st = con.prepareStatement(query);				
+					st.setString(1, v.getName());
+					st.setString(2, v.getType().getName());
+					st.setString(3, (v.getType().hasBaseType() ? v.getType()
 							.getBaseTypeName() : ""));
-					st1.setInt(4, v.getType().getPrecision());
-					st1.setString(5, designExit.getId());
-					st1.setString(6, documentId);
-					st1.executeUpdate();
+					st.setInt(4, v.getType().getPrecision());
+					st.setString(5, designExit.getId());
+					st.setString(6, documentId);
+					st.executeUpdate();
 				}
 			}
 			System.out.println("Time: design exit: "
 					+ Long.toString(System.currentTimeMillis() - t2));
 			t2 = System.currentTimeMillis();
-			query = "insert into streamindex values ((?), (?), (?))";
-			st = con.prepareStatement(query);
-			query = "insert into streamindex values ((?), (?), (?))";
-			st1 = con.prepareStatement(query);
 			for (IWorkflowEntry workflowEntry : workflowEntries) {
 				List<IWorkflowExit> downStreamWorkflowExits = designDocument
 						.getDownStreamWorkflowExits(workflowEntry);
-				for (IWorkflowExit workflowExit : downStreamWorkflowExits) {
+				for (IWorkflowExit workflowExit : downStreamWorkflowExits) {		
+					query = "insert into streamindex values ((?), (?), (?))";
+					st = con.prepareStatement(query);				
 					st.setString(1, workflowEntry.getId());
 					st.setString(2, workflowExit.getId());
 					st.setString(3, documentId);
@@ -1121,11 +1120,13 @@ public class WorkflowIndex {
 				}
 				List<IDesignExitPoint> downStreamDesignExits = designDocument
 						.getDownStreamDesignExits(workflowEntry);
-				for (IDesignExitPoint designExit : downStreamDesignExits) {
-					st1.setString(1, workflowEntry.getId());
-					st1.setString(2, designExit.getId());
-					st1.setString(3, documentId);
-					st1.executeUpdate();
+				for (IDesignExitPoint designExit : downStreamDesignExits) {			
+					query = "insert into streamindex values ((?), (?), (?))";
+					st = con.prepareStatement(query);				
+					st.setString(1, workflowEntry.getId());
+					st.setString(2, designExit.getId());
+					st.setString(3, documentId);
+					st.executeUpdate();
 				}
 			}
 			System.out.println("Time: stream index: workflow entry: "
@@ -1135,6 +1136,8 @@ public class WorkflowIndex {
 				List<IWorkflowExit> downStreamWorkflowExits = designDocument
 						.getDownStreamWorkflowExits(designEntry);
 				for (IWorkflowExit workflowExit : downStreamWorkflowExits) {
+					query = "insert into streamindex values ((?), (?), (?))";
+					st = con.prepareStatement(query);				
 					st.setString(1, designEntry.getId());
 					st.setString(2, workflowExit.getId());
 					st.setString(3, documentId);
@@ -1142,20 +1145,22 @@ public class WorkflowIndex {
 				}
 				List<IDesignExitPoint> downStreamDesignExits = designDocument
 						.getDownStreamDesignExits(designEntry);
-				for (IDesignExitPoint designExit : downStreamDesignExits) {
-					st1.setString(1, designEntry.getId());
-					st1.setString(2, designExit.getId());
-					st1.setString(3, documentId);
-					st1.executeUpdate();
+				for (IDesignExitPoint designExit : downStreamDesignExits) {		
+					query = "insert into streamindex values ((?), (?), (?))";
+					st = con.prepareStatement(query);				
+					st.setString(1, designEntry.getId());
+					st.setString(2, designExit.getId());
+					st.setString(3, documentId);
+					st.executeUpdate();
 				}
 			}
 			System.out.println("Time: stream index: design entry: "
 					+ Long.toString(System.currentTimeMillis() - t2));
 			t2 = System.currentTimeMillis();
-			query = "insert into elementindex values ((?), (?))";
-			st = con.prepareStatement(query);
 			for (IDesignElement designElement : designDocument.getMainDesign()
-					.getDesignElements()) {
+					.getDesignElements()) {		
+				query = "insert into elementindex values ((?), (?))";
+				st = con.prepareStatement(query);			
 				st.setString(1, designElement.getId());
 				st.setString(2, documentId);
 				st.executeUpdate();
@@ -1171,7 +1176,6 @@ public class WorkflowIndex {
 					+ designDocument.getName() + " in "
 					+ Long.toString(System.currentTimeMillis() - t));
 			st.close();
-			st1.close();
 			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
