@@ -36,11 +36,11 @@ public void printDir(String prefix, File dir, PrintWriter out)
 	{
 		if(child.isDirectory())
 		{
-			printDir(prefix + "/" + dir.getName(), child, out);
+			printDir(prefix + "/" + fn:escapeXml(dir.getName()), child, out);
 		}
 		else
 		{
-			out.println(prefix + "/" + dir.getName() + "/" + child.getName());
+			out.println(prefix + "/" + fn:escapeXml(dir.getName()) + "/" + child.getName());
 		}
 	}
 }
