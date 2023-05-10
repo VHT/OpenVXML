@@ -40,7 +40,7 @@ public void printDir(String prefix, File dir, PrintWriter out)
 		}
 		else
 		{
-			out.println(prefix + "/" + StringEscapeUtils.escapeHtml4(dir.getName()) + "/" + child.getName());
+			out.println(prefix + "/" + StringEscapeUtils.escapeHtml4(dir.getName()) + "/" + StringEscapeUtils.escapeHtml4(child.getName()));
 		}
 	}
 }
