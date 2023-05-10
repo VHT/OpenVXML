@@ -31,7 +31,7 @@ response.flushBuffer();
 <%! 
 public void printDir(String prefix, File dir, PrintWriter out)
 {
-	out.println(prefix + "/" + dir.getName() + "/");
+	out.println(prefix + "/" + StringEscapeUtils.escapeHtml4(dir.getName()) + "/");
 	for(File child : dir.listFiles())
 	{
 		if(child.isDirectory())
