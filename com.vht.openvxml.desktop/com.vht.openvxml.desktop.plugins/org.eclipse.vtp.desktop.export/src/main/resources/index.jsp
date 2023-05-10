@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/plain; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1" import="java.io.File,java.io.PrintWriter"%>
+    pageEncoding="ISO-8859-1" import="java.io.File,java.io.PrintWriter,org.apache.commons.lang3.StringEscapeUtils"%>
 <%
 String requestURI = request.getRequestURI();
 //System.out.println(requestURI);
@@ -36,11 +36,11 @@ public void printDir(String prefix, File dir, PrintWriter out)
 	{
 		if(child.isDirectory())
 		{
-			printDir(prefix + "/" + fn:escapeXml(dir.getName()), child, out);
+			printDir(prefix + "/" + StringEscapeUtils.escapeHtml4(dir.getName()), child, out);
 		}
 		else
 		{
-			out.println(prefix + "/" + fn:escapeXml(dir.getName()) + "/" + child.getName());
+			out.println(prefix + "/" + StringEscapeUtils.escapeHtml4(dir.getName()) + "/" + child.getName());
 		}
 	}
 }
