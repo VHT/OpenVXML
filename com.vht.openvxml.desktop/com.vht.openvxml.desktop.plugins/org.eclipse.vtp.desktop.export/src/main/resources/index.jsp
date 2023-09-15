@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/plain; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1" import="java.io.File,java.io.PrintWriter,org.apache.commons.lang3.StringEscapeUtils"%>
+    pageEncoding="ISO-8859-1" import="java.io.File,java.io.PrintWriter"%>
 <%
 String requestURI = request.getRequestURI();
 //System.out.println(requestURI);
@@ -31,16 +31,16 @@ response.flushBuffer();
 <%! 
 public void printDir(String prefix, File dir, PrintWriter out)
 {
-	out.println(prefix + "/" + StringEscapeUtils.escapeHtml4(dir.getName()) + "/");
+	out.println(prefix + "/" + dir.getName() + "/");
 	for(File child : dir.listFiles())
 	{
 		if(child.isDirectory())
 		{
-			printDir(prefix + "/" + StringEscapeUtils.escapeHtml4(dir.getName()), child, out);
+			printDir(prefix + "/" + dir.getName(), child, out);
 		}
 		else
 		{
-			out.println(prefix + "/" + StringEscapeUtils.escapeHtml4(dir.getName()) + "/" + StringEscapeUtils.escapeHtml4(child.getName()));
+			out.println(prefix + "/" + dir.getName() + "/" + child.getName());
 		}
 	}
 }
