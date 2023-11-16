@@ -194,14 +194,11 @@ public class ResourceGroup implements IResourceManager,
 	 * @return The requested resource.
 	 */
 	public URL getResource(String fullResourcePath) {
-		System.out.println("resolving resource 1: fullResourcePath: "+ fullResourcePath);
-		System.out.println("resolving resource 1: path: "+ path);
 		if (!fullResourcePath.startsWith("/")) {
 			fullResourcePath = "/" + fullResourcePath;
 		}
-		System.out.println("resolving resource 1: " + path + fullResourcePath);
+		System.out.println("resolving resource: " + path + fullResourcePath);
 		URL ret = bundle.getEntry(path + fullResourcePath);
-		System.out.println("resolving resource 1: URL : " + URL);
 		return ret;
 	}
 
@@ -273,10 +270,6 @@ public class ResourceGroup implements IResourceManager,
 		  }
 		System.out.println("-----media resourceManager index End: ---");
 		//-----media end
-		System.out.println("-----media resourceManager index getResource: ---");
-		getResource(libraryPath);
-		System.out.println("-----media resourceManager index getResource End: ---");
-		System.out.println("-----media resourceManager index index.contains(libraryPath): ---" + index.contains(libraryPath));
 		return index.contains(libraryPath) || getResource(libraryPath) != null;
 	}
 
