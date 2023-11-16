@@ -119,11 +119,9 @@ public abstract class MediaProject extends MediaObject implements IMediaProject 
 	 */
 	@Override
 	public IMediaLibrariesFolder getMediaLibrariesFolder() {
-		IFolder f = project.getFolder("Default");
-		System.out.println("-----media getMediaLibrariesFolder");
+		IFolder f = project.getFolder("Media Libraries");
+
 		if (!f.exists()) {
-			System.out.println("-----media getMediaLibrariesFolder folder missing");
-			
 			throw new RuntimeException("Media Libraries filder is missing");
 		}
 

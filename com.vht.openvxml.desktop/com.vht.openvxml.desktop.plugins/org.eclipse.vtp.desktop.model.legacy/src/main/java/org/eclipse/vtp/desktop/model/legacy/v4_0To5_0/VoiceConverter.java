@@ -17,9 +17,10 @@ public class VoiceConverter {
 		try {
 			IFolder mediaFilesFolder = project.getFolder("Media Files");
 			if (mediaFilesFolder.exists()) {
-				//IFolder mediaLibrariesFolder = project.getFolder("Media Libraries");
-				//mediaLibrariesFolder.create(true, true, null);
-				IFolder defaultLibraryFolder = project
+				IFolder mediaLibrariesFolder = project
+						.getFolder("Media Libraries");
+				mediaLibrariesFolder.create(true, true, null);
+				IFolder defaultLibraryFolder = mediaLibrariesFolder
 						.getFolder("Default");
 				mediaFilesFolder.move(defaultLibraryFolder.getFullPath(), true,
 						null);

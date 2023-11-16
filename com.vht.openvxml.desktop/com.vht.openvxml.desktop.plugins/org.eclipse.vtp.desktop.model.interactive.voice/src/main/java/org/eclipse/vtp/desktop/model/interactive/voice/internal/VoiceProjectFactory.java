@@ -40,9 +40,9 @@ public class VoiceProjectFactory implements IMediaProjectFactory {
 			newProject.create(null);
 			newProject.open(null);
 
-			//IFolder mfFolder = newProject.getFolder("Media Libraries");
-			//mfFolder.create(true, true, null);
-			IFolder dFolder = newProject.getFolder("Default");
+			IFolder mfFolder = newProject.getFolder("Media Libraries");
+			mfFolder.create(true, true, null);
+			IFolder dFolder = mfFolder.getFolder("Default");
 			dFolder.create(true, true, null);
 			IFile dot = dFolder.getFile(".library");
 			dot.create(new ByteArrayInputStream("".getBytes()), true, null);
