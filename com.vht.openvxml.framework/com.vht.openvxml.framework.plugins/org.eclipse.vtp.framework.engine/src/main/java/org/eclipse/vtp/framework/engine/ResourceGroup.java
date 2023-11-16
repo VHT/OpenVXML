@@ -20,6 +20,7 @@ import java.net.URL;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -262,6 +263,13 @@ public class ResourceGroup implements IResourceManager,
 	@Override
 	public boolean hasMediaLibrary(String libraryId) {
 		String libraryPath = "/" + libraryId + "/.library";
+		
+		
+	    Iterator<String> iterator = index.iterator();
+	    String firstIndex = iterator.next();
+		if (firstIndex.contains("Media Libraries")){
+			libraryPath = "Media Libraries/" + libraryPath ;
+		}
 		//-----media start
 		System.out.println("-----media resourceManager libraryPath: "+ libraryPath);
 		System.out.println("-----media resourceManager index: ---");  
