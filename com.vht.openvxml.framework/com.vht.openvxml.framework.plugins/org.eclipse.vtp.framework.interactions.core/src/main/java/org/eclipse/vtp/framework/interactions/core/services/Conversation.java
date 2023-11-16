@@ -256,13 +256,16 @@ public class Conversation implements IConversation {
 		IBrand brand = brandSelection.getSelectedBrand();
 		context.info("-----media conversation resolveFilePath brand-----------: "+ brand);
 		String mediaProviderID = null;
-		while (brand != null && mediaProviderID == null) {
+		while (brand != null) {
 			mediaProviderID = mediaProviderRegistry.lookupMediaProviderID(
 					brand.getId(), interactionTypeID, languageID);
 			context.info("-----media conversation resolveFilePath mediaProviderID 2-----------: "+ mediaProviderID);
 			if (mediaProviderID != null) {
+				context.info("-----media conversation resolveFilePath mediaProviderID != null-----------: "+ mediaProviderID);
 				IMediaProvider provider = mediaProviderRegistry
 						.getMediaProvider(mediaProviderID);
+				//context.info("-----media conversation resolveFilePath mediaProviderID != null-----------: "+ mediaProviderID);
+				
 				if (provider != null) {
 					IResourceManager resourceManager = provider
 							.getResourceManager();
@@ -272,8 +275,8 @@ public class Conversation implements IConversation {
 					}
 				}
 			}
-			mediaProviderID = null;
-			brand = brand.getParentBrand();
+			//mediaProviderID = null;
+			//brand = brand.getParentBrand();
 			context.info("-----media conversation resolveFilePath brand-----------: "+ brand);
 		}
 		if (mediaProviderID == null)
