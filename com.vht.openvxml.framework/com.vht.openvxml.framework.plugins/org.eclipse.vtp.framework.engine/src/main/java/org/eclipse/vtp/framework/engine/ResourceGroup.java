@@ -265,19 +265,20 @@ public class ResourceGroup implements IResourceManager,
 		String libraryPath = "/" + libraryId + "/.library";
 		
 		
-	    Iterator<String> iterator = index.iterator();
-	    String firstIndex = iterator.next();
-		if (firstIndex.contains("Media Libraries")){
-			libraryPath = "Media Libraries" + libraryPath ;
+		Iterator<String> iterator = index.iterator();
+		String firstIndex = iterator.next();
+		if (firstIndex.contains("Media Libraries")) {
+			libraryPath = "Media Libraries" + libraryPath;
 		}
-		//-----media start
-		System.out.println("-----media resourceManager libraryPath: "+ libraryPath);
-		System.out.println("-----media resourceManager index: ---");  
-		for (Object item: index){
-		      System.out.println(" " + item);
-		  }
+		// -----media start
+		System.out.println("-----media resourceManager libraryPath: "
+				+ libraryPath);
+		System.out.println("-----media resourceManager index: ---");
+		for (Object item : index) {
+			System.out.println(" " + item);
+		}
 		System.out.println("-----media resourceManager index End: ---");
-		//-----media end
+		// -----media end
 		return index.contains(libraryPath) || getResource(libraryPath) != null;
 	}
 

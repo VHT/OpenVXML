@@ -259,7 +259,7 @@ public class Conversation implements IConversation {
 		while (brand != null && mediaProviderID == null) {
 			mediaProviderID = mediaProviderRegistry.lookupMediaProviderID(
 					brand.getId(), interactionTypeID, languageID);
-			context.info("-----media conversation resolveFilePath mediaProviderID-----------: "+ mediaProviderID);
+			context.info("-----media conversation resolveFilePath mediaProviderID 2-----------: "+ mediaProviderID);
 			if (mediaProviderID != null) {
 				IMediaProvider provider = mediaProviderRegistry
 						.getMediaProvider(mediaProviderID);

@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.vtp.framework.core.IProcessContext;
 import org.eclipse.vtp.framework.interactions.core.configurations.MediaProviderBindingConfiguration;
@@ -115,8 +116,20 @@ public class MediaProviderRegistry implements IMediaProviderRegistry {
 	@Override
 	public String lookupMediaProviderID(String brandID,
 			String interactionTypeID, String langugageID) {
-		return (String) mediaProviderIndex.get(brandID + ":"
-				+ interactionTypeID + ":" + langugageID);
+		Map.Entry<String,String> entry = (Entry<String, String>) mediaProviderIndex.entrySet().iterator().next();
+		String key = entry.getKey();
+		String value = entry.getValue();
+		System.out.println("-----media lookupMediaProviderID resolveFilePath key-----------: "+ key);
+		System.out.println("-----media lookupMediaProviderID resolveFilePath value-----------: "+ value);
+		String libraryPath = brandID + ":"
+				+ interactionTypeID + ":" + langugageID;
+		if (key.contains("Media Libraries")){
+			libraryPath = "Media Libraries/" + libraryPath ;
+		}
+		//mediaProviderIndex.
+		//return (String) mediaProviderIndex.get(brandID + ":"
+		//		+ interactionTypeID + ":" + langugageID);
+		return (String) mediaProviderIndex.get(libraryPath);
 	}
 
 	/**
