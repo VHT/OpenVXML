@@ -73,7 +73,7 @@ public class ResourceGroup implements IResourceManager,
 		if (indexURL != null) {
 			System.out.println("-----media ResourceGroup indexURL !=null: ---");
 			if(!bundleList.containsKey(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"))){
-				System.out.println("-----media ResourceGroup bundleList !contains key: ---" + ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"));
+				System.out.println("-----media ResourceGroup bundleList !contains key: ---" + ResourceGroup.this.bundle.getHeaders().get("Bundle-Name")));
 				bundleList.put(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"), true);
 			}
 			try {
