@@ -103,6 +103,12 @@ public class MediaProviderRegistry implements IMediaProviderRegistry {
 	 */
 	@Override
 	public IMediaProvider getMediaProvider(String mediaProviderID) {
+		 System.out.println("-----media getMediaProvider mediaProviderID -----------: "+ mediaProviderID);
+		 Map.Entry<String,Object> entry = (Entry<String, Object>) mediaProviders.entrySet().iterator().next();
+		 String key = entry.getKey();
+		 System.out.println("-----media getMediaProvider mediaProviders key -----------: "+ key);
+		 MediaProvider value = (MediaProvider) entry.getValue();
+		 System.out.println("-----media getMediaProvider mediaProviders value -----------: "+ value.toString());
 		return (IMediaProvider) mediaProviders.get(mediaProviderID);
 	}
 
