@@ -201,7 +201,7 @@ public class ResourceGroup implements IResourceManager,
 		}
 		System.out.println("resolving resource 1: " + path + fullResourcePath);
 		URL ret = bundle.getEntry(path + fullResourcePath);
-		System.out.println("resolving resource 1: URL : ");
+		System.out.println("resolving resource 1: URL : " + URL);
 		return ret;
 	}
 
