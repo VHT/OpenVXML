@@ -204,7 +204,7 @@ public class VoiceMediaProvider implements IMediaProvider {
 					}
 				}
 			}
-			System.out.println("-----media VoiceMediaProvider isFileResource find result: "+ result.toString());
+			//System.out.println("-----media VoiceMediaProvider isFileResource find result: "+ result.toString());
 			return result;
 		}
 
