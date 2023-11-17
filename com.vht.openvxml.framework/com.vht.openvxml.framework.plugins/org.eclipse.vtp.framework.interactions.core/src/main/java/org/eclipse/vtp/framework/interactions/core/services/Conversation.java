@@ -268,6 +268,8 @@ public class Conversation implements IConversation {
 					context.info("-----media conversation resolveFilePath provider found "+ mediaProviderID);
 					IResourceManager resourceManager = provider
 							.getResourceManager();
+					context.info("-----media conversation resolveFilePath resourceManager relativePath "+ relativePath);
+					context.info("-----media conversation resolveFilePath resourceManager relativePath "+ relativePath);
 					context.info("-----media conversation resolveFilePath resourceManager isFileResource "+ resourceManager.isFileResource(relativePath));
 					if (resourceManager != null) {
 						if (resourceManager.isFileResource(relativePath))

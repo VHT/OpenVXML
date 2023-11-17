@@ -149,6 +149,9 @@ public class VoiceMediaProvider implements IMediaProvider {
 
 		@Override
 		public boolean isFileResource(String path) {
+			System.out.println("-----media VoiceMediaProvider isFileResource ");
+			System.out.println("-----media VoiceMediaProvider isFileResource path: "+ path);
+			System.out.println("-----media VoiceMediaProvider isFileResource find(path): "+ find(path));
 			return path != null && !path.endsWith("/") && find(path) != null;
 		}
 
@@ -178,9 +181,11 @@ public class VoiceMediaProvider implements IMediaProvider {
 		}
 
 		private IMediaObject find(String path) {
+			System.out.println("-----media VoiceMediaProvider isFileResource find method: ");
 			if (path == null || path.length() == 0) {
 				path = "/";
 			}
+			System.out.println("-----media VoiceMediaProvider isFileResource find path: "+ path);
 			IMediaLibrariesFolder libraries = project.getMediaLibrariesFolder();
 			IMediaContainer folder = libraries.getMediaLibrary("Default");
 			IMediaObject result = folder;
@@ -199,6 +204,7 @@ public class VoiceMediaProvider implements IMediaProvider {
 					}
 				}
 			}
+			System.out.println("-----media VoiceMediaProvider isFileResource find result: "+ result.toString());
 			return result;
 		}
 

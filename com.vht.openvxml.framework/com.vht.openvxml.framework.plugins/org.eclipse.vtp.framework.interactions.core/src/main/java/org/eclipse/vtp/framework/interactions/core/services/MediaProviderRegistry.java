@@ -171,6 +171,7 @@ public class MediaProviderRegistry implements IMediaProviderRegistry {
 			SharedContentConfiguration[] contentConfigurations = configuration
 					.getSharedContent();
 			Map sharedContent = new HashMap(contentConfigurations.length);
+			context.info("-----media getResourceManagerID contentConfigurations "+ contentConfigurations[0].getName());
 			for (SharedContentConfiguration contentConfiguration : contentConfigurations) {
 				sharedContent.put(contentConfiguration.getName(),
 						contentConfiguration.getContent().createCopy());
