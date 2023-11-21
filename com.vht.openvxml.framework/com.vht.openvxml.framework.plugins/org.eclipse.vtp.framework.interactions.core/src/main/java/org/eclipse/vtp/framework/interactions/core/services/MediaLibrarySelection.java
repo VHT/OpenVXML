@@ -108,13 +108,11 @@ public class MediaLibrarySelection implements IMediaLibrarySelection,
 			context.setAttribute("library.selection", libraryId);
 			return true;
 		} else {
-			//context.setAttribute("library.selection", libraryId);
 			context.info("Media library "
 					+ (libraryId == null ? "Default" : libraryId)
 					+ " not found.  Library not modified.");
 		}
 		return false;
-		//return true;
 	}
 
 	@Override
