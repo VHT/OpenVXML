@@ -11,7 +11,6 @@
  -------------------------------------------------------------------------*/
 package org.eclipse.vtp.desktop.model.interactive.core.internal;
 
-import java.io.ByteArrayOutputStream;
 import java.util.LinkedList;
 import java.util.List;
 
