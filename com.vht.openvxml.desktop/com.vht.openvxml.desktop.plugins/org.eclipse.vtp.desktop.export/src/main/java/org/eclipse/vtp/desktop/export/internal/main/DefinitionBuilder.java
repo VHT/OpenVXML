@@ -332,10 +332,10 @@ public class DefinitionBuilder implements IDefinitionBuilder {
 		IProject voiceProject = processProject.getWorkspace().getRoot()
 				.getProject(mediaProvider.getResourceManagerID());
 		IFile xmlFile = voiceProject.getFile("Voice.xml");
-		String uri = "http://eclipse.org/vtp/xml/media/voice#1.0"; //$NON-NLS-1$
+		String uri = "https://eclipse.org/vtp/xml/media/voice#1.0"; //$NON-NLS-1$
 		if (!xmlFile.exists()) {
 			xmlFile = voiceProject.getFile("Author.xml");
-			uri = "http://eclipse.org/vtp/xml/media/author#1.0"; //$NON-NLS-1$
+			uri = "https://eclipse.org/vtp/xml/media/author#1.0"; //$NON-NLS-1$
 		}
 		Document voiceDocument = builder.parse(xmlFile.getLocation().toFile());
 		NodeList list = ((Element) voiceDocument.getDocumentElement()

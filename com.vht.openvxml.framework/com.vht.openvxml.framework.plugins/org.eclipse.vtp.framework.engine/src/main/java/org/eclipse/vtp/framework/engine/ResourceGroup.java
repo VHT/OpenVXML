@@ -20,6 +20,7 @@ import java.net.URL;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -258,6 +259,10 @@ public class ResourceGroup implements IResourceManager,
 			fullFilePath = "Default/" + fullFilePath;
 		}
 		fullFilePath = "/" + fullFilePath;
+		String joinedIndex = String.join(",", index);
+		if (joinedIndex.contains("Media Libraries")) {
+			fullFilePath = "Media Libraries" + fullFilePath;
+		}
 		return !isDirectoryResource(fullFilePath)
 				&& (index.contains(fullFilePath) || getResource(fullFilePath) != null);
 	}
@@ -265,6 +270,10 @@ public class ResourceGroup implements IResourceManager,
 	@Override
 	public boolean hasMediaLibrary(String libraryId) {
 		String libraryPath = "/" + libraryId + "/.library";
+		String joinedIndex = String.join(",", index);
+		if (joinedIndex.contains("Media Libraries")) {
+			libraryPath = "Media Libraries" + libraryPath;
+		}
 		return index.contains(libraryPath) || getResource(libraryPath) != null;
 	}
 
