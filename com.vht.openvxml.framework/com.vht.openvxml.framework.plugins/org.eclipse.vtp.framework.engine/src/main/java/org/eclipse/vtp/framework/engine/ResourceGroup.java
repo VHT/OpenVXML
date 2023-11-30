@@ -257,7 +257,7 @@ public class ResourceGroup implements IResourceManager,
 		}
 		fullFilePath = "/" + fullFilePath;
 		String joinedIndex = String.join(",", index);
-		if (joinedIndex.contains("Media Libraries")) {
+		if (joinedIndex.contains("Media Libraries") && !fullFilePath.contains("Media Libraries")) {
 			fullFilePath = "Media Libraries" + fullFilePath;
 		}
 		return !isDirectoryResource(fullFilePath)
@@ -268,7 +268,7 @@ public class ResourceGroup implements IResourceManager,
 	public boolean hasMediaLibrary(String libraryId) {
 		String libraryPath = "/" + libraryId + "/.library";
 		String joinedIndex = String.join(",", index);
-		if (joinedIndex.contains("Media Libraries")) {
+		if (joinedIndex.contains("Media Libraries") && !libraryPath.contains("Media Libraries")) {
 			libraryPath = "Media Libraries" + libraryPath;
 		}
 		return index.contains(libraryPath) || getResource(libraryPath) != null;
