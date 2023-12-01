@@ -299,7 +299,8 @@ public class ResourceGroup implements IResourceManager,
 			prefix = fullFilePath.substring(0, slashIndex);
 			String libraryFile = "/" + prefix + "/.library";
 			//prefix = prefix + "/";
-			if (!index.contains(libraryFile)
+			String joinedIndex = String.join(",", index);
+			if (!joinedIndex.contains(libraryFile)
 					&& getResource(libraryFile) == null) {
 				prefix = "Default/";
 				fullFilePath = prefix + fullFilePath;
@@ -318,11 +319,11 @@ public class ResourceGroup implements IResourceManager,
 		}
 		System.out.println("---media fullFilePath 6 : "+ fullFilePath);
 		System.out.println("---media  isDirectoryResource : "+ isDirectoryResource(fullFilePath));
-		System.out.println("---media  isDirectoryResource index.contains(fullFilePath) : "+ index.contains(fullFilePath));
+		System.out.println("---media  isDirectoryResource index.contains(fullFilePath) : "+ joinedIndex.contains(fullFilePath));
 		System.out.println("---media  isDirectoryResource getResource(fullFilePath, prefix): "+ getResource(filePath));
 		
 		return ((!isDirectoryResource(fullFilePath)
-				&& (index.contains(fullFilePath)) || getResource(filePath) != null));
+				&& (joinedIndex.contains(fullFilePath)) || getResource(filePath) != null));
 	}
 
 	@Override
@@ -332,7 +333,7 @@ public class ResourceGroup implements IResourceManager,
 		if (joinedIndex.contains("Media Libraries") && !libraryPath.contains("Media Libraries")) {
 			libraryPath = "Media Libraries" + libraryPath;
 		}
-		return index.contains(libraryPath) || getResource(libraryPath) != null;
+		return joinedIndex.contains(libraryPath) || getResource(libraryPath) != null;
 	}
 
 	@Override
