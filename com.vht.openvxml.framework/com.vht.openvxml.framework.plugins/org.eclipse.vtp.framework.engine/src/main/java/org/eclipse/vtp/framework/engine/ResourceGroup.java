@@ -301,7 +301,7 @@ public class ResourceGroup implements IResourceManager,
 			//prefix = prefix + "/";
 			String joinedIndex = String.join(",", index);
 			if (!joinedIndex.contains(libraryFile)
-					&& getResource(libraryFile) == null && !fullFilePath.contains(prefix)) {
+					&& getResource(libraryFile) == null && !fullFilePath.contains("Default/")) {
 				prefix = "Default/";
 				fullFilePath = prefix + fullFilePath;
 				System.out.println("---media fullFilePath 2 "+ fullFilePath);
