@@ -231,7 +231,7 @@ public class ResourceGroup implements IResourceManager,
 		System.out.println("resolving resource: " + path + fullResourcePath);
 		System.out.println("---media getResource path "+ path);
 		
-		
+		/*
 		//String modifiedPath = path;
 		String mediaString = "Media Libraries";
 		if(fullResourcePath.contains(mediaString) && path.contains(mediaString)){
@@ -242,7 +242,7 @@ public class ResourceGroup implements IResourceManager,
 		if(fullResourcePath.contains(resourcePathPrefix) && path.contains(resourcePathPrefix)){
 			fullResourcePath = fullResourcePath.replace(resourcePathPrefix, "");
 			System.out.println("---media getResource fullResourcePath modified 2: "+ fullResourcePath);	
-		}
+		}*/
 		URL ret = bundle.getEntry(path + fullResourcePath);
 		return ret;
 	}
@@ -287,6 +287,7 @@ public class ResourceGroup implements IResourceManager,
 	@Override
 	public boolean isFileResource(String fullFilePath) {
 		String prefix = "Default/";
+		String filePath = fullFilePath;
 		System.out.println("---media isFileResource");
 		System.out.println("---media fullFilePath "+ fullFilePath);
 		if (fullFilePath.startsWith("/")) {
@@ -297,7 +298,7 @@ public class ResourceGroup implements IResourceManager,
 		if (slashIndex >= 0) {
 			prefix = fullFilePath.substring(0, slashIndex);
 			String libraryFile = "/" + prefix + "/.library";
-			prefix = prefix + "/";
+			//prefix = prefix + "/";
 			if (!index.contains(libraryFile)
 					&& getResource(libraryFile) == null) {
 				prefix = "Default/";
@@ -315,9 +316,13 @@ public class ResourceGroup implements IResourceManager,
 			fullFilePath = "Media Libraries" + fullFilePath;
 			System.out.println("---media fullFilePath 5 "+ fullFilePath);
 		}
-		System.out.println("---media fullFilePath 6 "+ fullFilePath);
-		return !isDirectoryResource(fullFilePath)
-				&& (index.contains(fullFilePath) || getResource(fullFilePath, prefix) != null);
+		System.out.println("---media fullFilePath 6 : "+ fullFilePath);
+		System.out.println("---media  isDirectoryResource : "+ isDirectoryResource(fullFilePath));
+		System.out.println("---media  isDirectoryResource index.contains(fullFilePath) : "+ index.contains(fullFilePath));
+		System.out.println("---media  isDirectoryResource getResource(fullFilePath, prefix): "+ getResource(filePath));
+		
+		return ((!isDirectoryResource(fullFilePath)
+				&& (index.contains(fullFilePath)) || getResource(filePath) != null));
 	}
 
 	@Override
