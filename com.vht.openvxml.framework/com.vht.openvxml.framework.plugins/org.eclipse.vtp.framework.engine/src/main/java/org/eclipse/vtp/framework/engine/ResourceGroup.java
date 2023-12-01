@@ -195,10 +195,13 @@ public class ResourceGroup implements IResourceManager,
 	 * @return The requested resource.
 	 */
 	public URL getResource(String fullResourcePath) {
+		System.out.println("---media getResource fullResourcePath "+ fullResourcePath);
 		if (!fullResourcePath.startsWith("/")) {
 			fullResourcePath = "/" + fullResourcePath;
 		}
+		System.out.println("---media getResource fullResourcePath "+ fullResourcePath);
 		System.out.println("resolving resource: " + path + fullResourcePath);
+		System.out.println("---media getResource path "+ path);
 		URL ret = bundle.getEntry(path + fullResourcePath);
 		return ret;
 	}
