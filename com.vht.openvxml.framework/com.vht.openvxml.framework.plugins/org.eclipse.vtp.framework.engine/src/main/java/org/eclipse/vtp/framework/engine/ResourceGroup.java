@@ -241,8 +241,11 @@ public class ResourceGroup implements IResourceManager,
 	 */
 	@Override
 	public boolean isFileResource(String fullFilePath) {
+		System.out.println("---media isFileResource");
+		System.out.println("---media fullFilePath "+ fullFilePath);
 		if (fullFilePath.startsWith("/")) {
 			fullFilePath = fullFilePath.substring(1);
+			System.out.println("---media fullFilePath 1 "+ fullFilePath);
 		}
 		int slashIndex = fullFilePath.indexOf('/');
 		if (slashIndex >= 0) {
@@ -251,15 +254,20 @@ public class ResourceGroup implements IResourceManager,
 			if (!index.contains(libraryFile)
 					&& getResource(libraryFile) == null) {
 				fullFilePath = "Default/" + fullFilePath;
+				System.out.println("---media fullFilePath 2 "+ fullFilePath);
 			}
 		} else {
 			fullFilePath = "Default/" + fullFilePath;
+			System.out.println("---media fullFilePath 3 "+ fullFilePath);
 		}
 		fullFilePath = "/" + fullFilePath;
+		System.out.println("---media fullFilePath 4 "+ fullFilePath);
 		String joinedIndex = String.join(",", index);
 		if (joinedIndex.contains("Media Libraries") && !fullFilePath.contains("Media Libraries")) {
 			fullFilePath = "Media Libraries" + fullFilePath;
+			System.out.println("---media fullFilePath 5 "+ fullFilePath);
 		}
+		System.out.println("---media fullFilePath 6 "+ fullFilePath);
 		return !isDirectoryResource(fullFilePath)
 				&& (index.contains(fullFilePath) || getResource(fullFilePath) != null);
 	}
