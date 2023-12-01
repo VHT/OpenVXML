@@ -202,6 +202,14 @@ public class ResourceGroup implements IResourceManager,
 		System.out.println("---media getResource fullResourcePath "+ fullResourcePath);
 		System.out.println("resolving resource: " + path + fullResourcePath);
 		System.out.println("---media getResource path "+ path);
+		
+		
+		//String modifiedPath = path;
+		String mediaString = "Media Libraries";
+		if(fullResourcePath.contains(mediaString) && path.contains(mediaString)){
+			fullResourcePath = fullResourcePath.replace(mediaString + "/", "");
+		}
+		System.out.println("---media getResource fullResourcePath modified"+ fullResourcePath);
 		URL ret = bundle.getEntry(path + fullResourcePath);
 		return ret;
 	}
