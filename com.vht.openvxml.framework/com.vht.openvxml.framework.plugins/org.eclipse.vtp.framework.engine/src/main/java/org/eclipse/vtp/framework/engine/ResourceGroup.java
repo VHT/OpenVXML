@@ -297,14 +297,15 @@ public class ResourceGroup implements IResourceManager,
 		if (slashIndex >= 0) {
 			prefix = fullFilePath.substring(0, slashIndex);
 			String libraryFile = "/" + prefix + "/.library";
+			prefix = prefix + "/";
 			if (!index.contains(libraryFile)
 					&& getResource(libraryFile) == null) {
-				fullFilePath = "Default/" + fullFilePath;
+				prefix = "Default/";
+				fullFilePath = prefix + fullFilePath;
 				System.out.println("---media fullFilePath 2 "+ fullFilePath);
 			}
-			prefix = prefix + "/";
 		} else {
-			fullFilePath = "Default/" + fullFilePath;
+			fullFilePath = prefix + fullFilePath;
 			System.out.println("---media fullFilePath 3 "+ fullFilePath);
 		}
 		fullFilePath = "/" + fullFilePath;
