@@ -299,8 +299,8 @@ public class ResourceGroup implements IResourceManager,
 			prefix = fullFilePath.substring(0, slashIndex);
 			String libraryFile = "/" + prefix + "/.library";
 			//prefix = prefix + "/";
-			String joinedIndex = String.join(",", index);
-			if (!joinedIndex.contains(libraryFile)
+			//String joinedIndex = String.join(",", index);
+			if (!index.contains(libraryFile)
 					&& getResource(libraryFile) == null) {
 				prefix = "Default/";
 				fullFilePath = prefix + fullFilePath;
