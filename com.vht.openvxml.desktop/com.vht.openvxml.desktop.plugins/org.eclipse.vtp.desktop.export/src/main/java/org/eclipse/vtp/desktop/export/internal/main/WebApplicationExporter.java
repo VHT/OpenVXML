@@ -483,8 +483,14 @@ public class WebApplicationExporter {
 		stream.close();
 		StringBuilder fileIndex = new StringBuilder();
 		IFolder folderPath = project.getMediaProject().getMediaLibrariesFolder().getUnderlyingFolder();
+		System.out.println("---media folderPath path : " + folderPath.getProjectRelativePath().toString());
+		
 		IPath parentFolderPath = folderPath.getParent().getFullPath();
+		System.out.println("---media parentFolderPath path : " + parentFolderPath.toString());
+		
 		IFolder mediaLibrariesFolder = folderPath.getParent().getParent().getFolder(parentFolderPath);
+		System.out.println("---media mediaLibrariesFolder path : " + mediaLibrariesFolder.toString());
+		
 		indexMedia(fileIndex, mediaLibrariesFolder);
 		stream = output.write(path + "files.index");
 		stream.write(fileIndex.toString().getBytes());
@@ -493,6 +499,7 @@ public class WebApplicationExporter {
 
 	private void indexMedia(StringBuilder index, IFolder toIndex) {
 		try {
+			System.out.println("---media folder path : " + toIndex.getProjectRelativePath().toString());
 			for (IResource r : toIndex.members()) {
 				if (r instanceof IFolder) {
 					indexMedia(index, (IFolder) r);
