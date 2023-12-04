@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -16,6 +19,8 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -482,16 +487,16 @@ public class WebApplicationExporter {
 				new XMLWriter(stream).toXMLResult());
 		stream.close();
 		StringBuilder fileIndex = new StringBuilder();
-		IFolder folderPath = project.getMediaProject().getMediaLibrariesFolder().getUnderlyingFolder();
-		System.out.println("---media folderPath path : " + folderPath.getProjectRelativePath().toString());
+		//IFolder folderPath = project.getMediaProject().getMediaLibrariesFolder().getUnderlyingFolder();
+		//System.out.println("---media folderPath path : " + folderPath.getProjectRelativePath().toString());
 		
-		IPath parentFolderPath = folderPath.getParent().getFullPath();
-		System.out.println("---media parentFolderPath path : " + parentFolderPath.toString());
+		//IPath parentFolderPath = folderPath.getParent().getFullPath();
+		//System.out.println("---media parentFolderPath path : " + parentFolderPath.toString());
 		
-		IFolder mediaLibrariesFolder = folderPath.getParent().getParent().getFolder(parentFolderPath);
-		System.out.println("---media mediaLibrariesFolder path : " + mediaLibrariesFolder.toString());
+		//IFolder mediaLibrariesFolder = folderPath.getParent().getParent().getFolder(parentFolderPath);
+		//System.out.println("---media mediaLibrariesFolder path : " + mediaLibrariesFolder.toString());
 		
-		indexMedia(fileIndex, mediaLibrariesFolder);
+		indexMedia(fileIndex, project.getMediaProject().getMediaLibrariesFolder().getUnderlyingFolder());
 		stream = output.write(path + "files.index");
 		stream.write(fileIndex.toString().getBytes());
 		stream.close();
@@ -500,6 +505,18 @@ public class WebApplicationExporter {
 	private void indexMedia(StringBuilder index, IFolder toIndex) {
 		try {
 			System.out.println("---media folder path : " + toIndex.getProjectRelativePath().toString());
+			try {
+				List<String> pathsList = listFiles(toIndex.getProjectRelativePath().toString());
+				for (String path : pathsList){
+					index.append(path);
+					index.append("\r\n");
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
 			for (IResource r : toIndex.members()) {
 				if (r instanceof IFolder) {
 					indexMedia(index, (IFolder) r);
@@ -510,6 +527,15 @@ public class WebApplicationExporter {
 			}
 		} catch (CoreException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public List<String> listFiles(String directoryPath) throws IOException {
+		Path start = Paths.get(directoryPath);
+		try (Stream<Path> stream = Files.walk(start, Integer.MAX_VALUE)) {
+			return stream.map(String::valueOf)
+					.filter(file -> !new File(file).isDirectory()).sorted()
+					.collect(Collectors.toList());
 		}
 	}
 
