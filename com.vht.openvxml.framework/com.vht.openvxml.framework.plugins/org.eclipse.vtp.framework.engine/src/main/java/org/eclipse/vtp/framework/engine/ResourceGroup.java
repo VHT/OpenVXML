@@ -296,8 +296,8 @@ public class ResourceGroup implements IResourceManager,
 		}
 		int slashIndex = fullFilePath.indexOf('/');
 		if (slashIndex >= 0) {
-			prefix = fullFilePath.substring(0, slashIndex);
-			String libraryFile = "/" + prefix + "/.library";
+			prefix = fullFilePath.substring(0, slashIndex) + "/";
+			String libraryFile = "/" + prefix + ".library";
 			//prefix = prefix + "/";
 			String joinedIndex = String.join(",", index);
 			if (!joinedIndex.contains(libraryFile)
@@ -313,6 +313,10 @@ public class ResourceGroup implements IResourceManager,
 		fullFilePath = "/" + fullFilePath;
 		System.out.println("---media fullFilePath 4 "+ fullFilePath);
 		String joinedIndex = String.join(",", index);
+		if (joinedIndex.contains(prefix) && !fullFilePath.contains(prefix)) {
+			fullFilePath = prefix + fullFilePath;
+			System.out.println("---media fullFilePath 5 "+ fullFilePath);
+		}
 		if (joinedIndex.contains("Media Libraries") && !fullFilePath.contains("Media Libraries")) {
 			fullFilePath = "Media Libraries" + fullFilePath;
 			System.out.println("---media fullFilePath 5 "+ fullFilePath);
