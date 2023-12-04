@@ -30,6 +30,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.vtp.desktop.export.internal.ExportAgent;
@@ -481,8 +482,10 @@ public class WebApplicationExporter {
 				new XMLWriter(stream).toXMLResult());
 		stream.close();
 		StringBuilder fileIndex = new StringBuilder();
-		indexMedia(fileIndex, project.getMediaProject()
-				.getMediaLibrariesFolder().getUnderlyingFolder());
+		IFolder folderPath = project.getMediaProject().getMediaLibrariesFolder().getUnderlyingFolder();
+		IPath parentFolderPath = folderPath.getParent().getFullPath();
+		IFolder mediaLibrariesFolder = folderPath.getParent().getParent().getFolder(parentFolderPath);
+		indexMedia(fileIndex, mediaLibrariesFolder);
 		stream = output.write(path + "files.index");
 		stream.write(fileIndex.toString().getBytes());
 		stream.close();
