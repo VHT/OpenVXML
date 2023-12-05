@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -16,6 +19,8 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -30,6 +35,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.vtp.desktop.export.internal.ExportAgent;
@@ -481,8 +487,11 @@ public class WebApplicationExporter {
 				new XMLWriter(stream).toXMLResult());
 		stream.close();
 		StringBuilder fileIndex = new StringBuilder();
-		indexMedia(fileIndex, project.getMediaProject()
-				.getMediaLibrariesFolder().getUnderlyingFolder());
+		IPath parentPath = project.getMediaProject().getMediaLibrariesFolder().getUnderlyingFolder().getParent().getProjectRelativePath();
+		IFolder parentFolder = project.getMediaProject().getMediaLibrariesFolder().getUnderlyingFolder().getFolder(parentPath);
+		indexMedia(fileIndex, parentFolder);
+		//indexMedia(fileIndex, project.getMediaProject()
+		//		.getMediaLibrariesFolder().getUnderlyingFolder().getFullPath());
 		stream = output.write(path + "files.index");
 		stream.write(fileIndex.toString().getBytes());
 		stream.close();
@@ -491,11 +500,11 @@ public class WebApplicationExporter {
 	private void indexMedia(StringBuilder index, IFolder toIndex) {
 		try {
 			for (IResource r : toIndex.members()) {
-				if (r instanceof IFolder) {
-					indexMedia(index, (IFolder) r);
-				} else {
+				if (!(r instanceof IFolder)) {
 					index.append(r.getProjectRelativePath().toString());
 					index.append("\r\n");
+				} else {
+					indexMedia(index, (IFolder) r);
 				}
 			}
 		} catch (CoreException e) {
