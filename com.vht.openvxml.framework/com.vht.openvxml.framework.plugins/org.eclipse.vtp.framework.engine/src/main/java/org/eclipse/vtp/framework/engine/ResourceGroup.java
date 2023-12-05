@@ -20,7 +20,6 @@ import java.net.URL;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -195,58 +194,12 @@ public class ResourceGroup implements IResourceManager,
 	 * @return The requested resource.
 	 */
 	public URL getResource(String fullResourcePath) {
-		System.out.println("---media getResource fullResourcePath "+ fullResourcePath);
 		if (!fullResourcePath.startsWith("/")) {
 			fullResourcePath = "/" + fullResourcePath;
 		}
-		System.out.println("---media getResource fullResourcePath "+ fullResourcePath);
-		System.out.println("resolving resource: " + path + fullResourcePath);
-		System.out.println("---media getResource path "+ path);
-		
-		
-		//String modifiedPath = path;
-		/*String mediaString = "Media Libraries";
-		if(fullResourcePath.contains(mediaString) && path.contains(mediaString)){
-			fullResourcePath = fullResourcePath.replace(mediaString + "/", "");
-		}*/
-		System.out.println("---media getResource fullResourcePath modified"+ fullResourcePath);
 		URL ret = bundle.getEntry(path + fullResourcePath);
 		return ret;
 	}
-	
-	
-	/**
-	 * Returns the requested resource.
-	 * 
-	 * @param fullResourcePath
-	 *            The path of the resource to return.
-	 * @return The requested resource.
-	 */
-	public URL getResource(String fullResourcePath, String resourcePathPrefix) {
-		System.out.println("---media getResource fullResourcePath "+ fullResourcePath);
-		if (!fullResourcePath.startsWith("/")) {
-			fullResourcePath = "/" + fullResourcePath;
-		}
-		System.out.println("---media getResource fullResourcePath "+ fullResourcePath);
-		System.out.println("resolving resource: " + path + fullResourcePath);
-		System.out.println("---media getResource path "+ path);
-		
-		/*
-		//String modifiedPath = path;
-		String mediaString = "Media Libraries";
-		if(fullResourcePath.contains(mediaString) && path.contains(mediaString)){
-			fullResourcePath = fullResourcePath.replace(mediaString + "/", "");
-			System.out.println("---media getResource fullResourcePath modified 1: "+ fullResourcePath);
-		}
-		//String mediaString = "Media Libraries";
-		if(fullResourcePath.contains(resourcePathPrefix) && path.contains(resourcePathPrefix)){
-			fullResourcePath = fullResourcePath.replace(resourcePathPrefix, "");
-			System.out.println("---media getResource fullResourcePath modified 2: "+ fullResourcePath);	
-		}*/
-		URL ret = bundle.getEntry(path + fullResourcePath);
-		return ret;
-	}
-
 
 	/*
 	 * (non-Javadoc)
@@ -288,44 +241,29 @@ public class ResourceGroup implements IResourceManager,
 	public boolean isFileResource(String fullFilePath) {
 		String prefix = "Default/";
 		String filePath = fullFilePath;
-		System.out.println("---media isFileResource");
-		System.out.println("---media fullFilePath "+ fullFilePath);
 		if (fullFilePath.startsWith("/")) {
 			fullFilePath = fullFilePath.substring(1);
-			System.out.println("---media fullFilePath 1 "+ fullFilePath);
 		}
 		int slashIndex = fullFilePath.indexOf('/');
 		if (slashIndex >= 0) {
 			prefix = fullFilePath.substring(0, slashIndex) + "/";
 			String libraryFile = "/" + prefix + ".library";
-			//prefix = prefix + "/";
 			String joinedIndex = String.join(",", index);
 			if (!joinedIndex.contains(libraryFile)
 					&& getResource(libraryFile) == null && !fullFilePath.contains("Default/")) {
 				prefix = "Default/";
 				fullFilePath = prefix + fullFilePath;
-				System.out.println("---media fullFilePath 2 "+ fullFilePath);
 			}
 		} else {
 			fullFilePath = prefix + fullFilePath;
-			System.out.println("---media fullFilePath 3 "+ fullFilePath);
 		}
 		filePath = fullFilePath;
 		fullFilePath = "/" + fullFilePath;
-		System.out.println("---media fullFilePath 4 "+ fullFilePath);
 		String joinedIndex = String.join(",", index);
 		if (joinedIndex.contains("Media Libraries") && !fullFilePath.contains("Media Libraries")) {
 			fullFilePath = "Media Libraries" + fullFilePath;
-			System.out.println("---media fullFilePath 5 "+ fullFilePath);
 		}
-		System.out.println("---media fullFilePath 6 : "+ fullFilePath);
-		System.out.println("---media  isDirectoryResource : "+ isDirectoryResource(fullFilePath));
-		System.out.println("---media  isDirectoryResource index.contains(fullFilePath) : "+ joinedIndex.contains(fullFilePath));
-		System.out.println("---media  isDirectoryResource getResource(fullFilePath, prefix): "+ getResource(filePath));
-
-		System.out.println("---media  isDirectoryResource index -------------");
 		System.out.println(joinedIndex);
-		System.out.println("---media  isDirectoryResource index -------------");
 		return ((!isDirectoryResource(fullFilePath)
 				&& (joinedIndex.contains(fullFilePath)) || getResource(filePath) != null));
 	}
