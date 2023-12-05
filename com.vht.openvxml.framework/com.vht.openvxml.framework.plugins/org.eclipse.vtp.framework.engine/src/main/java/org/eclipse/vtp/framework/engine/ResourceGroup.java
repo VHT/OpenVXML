@@ -197,8 +197,8 @@ public class ResourceGroup implements IResourceManager,
 		if (!fullResourcePath.startsWith("/")) {
 			fullResourcePath = "/" + fullResourcePath;
 		}
-		URL ret = bundle.getEntry(path + fullResourcePath);
 		System.out.println("resolving resource: " + path + fullResourcePath);
+		URL ret = bundle.getEntry(path + fullResourcePath);
 		return ret;
 	}
 
