@@ -198,6 +198,7 @@ public class ResourceGroup implements IResourceManager,
 			fullResourcePath = "/" + fullResourcePath;
 		}
 		URL ret = bundle.getEntry(path + fullResourcePath);
+		System.out.println("resolving resource: " + path + fullResourcePath);
 		return ret;
 	}
 
@@ -263,7 +264,6 @@ public class ResourceGroup implements IResourceManager,
 		if (joinedIndex.contains("Media Libraries") && !fullFilePath.contains("Media Libraries")) {
 			fullFilePath = "Media Libraries" + fullFilePath;
 		}
-		System.out.println(joinedIndex);
 		return ((!isDirectoryResource(fullFilePath)
 				&& (joinedIndex.contains(fullFilePath)) || getResource(filePath) != null));
 	}
