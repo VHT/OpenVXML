@@ -487,11 +487,8 @@ public class WebApplicationExporter {
 				new XMLWriter(stream).toXMLResult());
 		stream.close();
 		StringBuilder fileIndex = new StringBuilder();
-		IPath parentPath = project.getMediaProject().getMediaLibrariesFolder().getUnderlyingFolder().getParent().getProjectRelativePath();
-		IFolder parentFolder = project.getMediaProject().getMediaLibrariesFolder().getUnderlyingFolder().getFolder(parentPath);
-		indexMedia(fileIndex, parentFolder);
-		//indexMedia(fileIndex, project.getMediaProject()
-		//		.getMediaLibrariesFolder().getUnderlyingFolder().getFullPath());
+		indexMedia(fileIndex, project.getMediaProject()
+				.getMediaLibrariesFolder().getUnderlyingFolder());
 		stream = output.write(path + "files.index");
 		stream.write(fileIndex.toString().getBytes());
 		stream.close();
