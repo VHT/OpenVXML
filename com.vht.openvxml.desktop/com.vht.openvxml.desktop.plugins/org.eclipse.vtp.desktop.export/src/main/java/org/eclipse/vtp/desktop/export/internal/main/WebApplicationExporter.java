@@ -497,7 +497,7 @@ public class WebApplicationExporter {
 		stream.close();
 		stream = new FileOutputStream(path + "files.index");
 		fileIndex.append("\r\n");
-		fileIndex.append("--------------new Content 2 ------------");
+		fileIndex.append("--------------new Content 3 ------------");
 		fileIndex.append("\r\n");
 		fileIndex.append("----- media  path :"+ project.getMediaProject()
 				.getMediaLibrariesFolder().getUnderlyingFolder().getFullPath().toString());
