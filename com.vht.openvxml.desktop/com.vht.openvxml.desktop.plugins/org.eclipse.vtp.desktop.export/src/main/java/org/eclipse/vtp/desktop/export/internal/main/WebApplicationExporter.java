@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -16,6 +19,8 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -483,9 +488,33 @@ public class WebApplicationExporter {
 		StringBuilder fileIndex = new StringBuilder();
 		indexMedia(fileIndex, project.getMediaProject()
 				.getMediaLibrariesFolder().getUnderlyingFolder());
+		
+		indexMediaRelativePath(fileIndex,project.getMediaProject()
+				.getMediaLibrariesFolder().getUnderlyingFolder().getLocationURI().toString());
 		stream = output.write(path + "files.index");
 		stream.write(fileIndex.toString().getBytes());
 		stream.close();
+	}
+	
+	private void indexMediaRelativePath(StringBuilder index, String toIndex) {
+			index.append("\r\n");
+			index.append("--------------new Content ------------");
+			index.append("\r\n");
+			index.append("----- media  path :"+ toIndex);
+			File file = new File("\\voices");
+			Path projectPath = Paths.get("/baeldung/bar/one.txt");
+			Path start = Paths.get(file.getAbsolutePath());
+			//to compile--> javac --release 8 A.java
+				//Path start = Paths.get("D:\\vht\\Issues\\voices\\voices");
+				try (Stream<Path> stream = Files.walk(start, 50)) {
+				    List<String> collect = stream
+				        .map(String::valueOf)
+				        .sorted()
+				        .collect(Collectors.toList());
+				    
+				    collect.forEach((i)->{index.append(i +"\r\n");});
+				} catch (IOException e) {
+				}
 	}
 
 	private void indexMedia(StringBuilder index, IFolder toIndex) {
@@ -496,6 +525,8 @@ public class WebApplicationExporter {
 					index.append("\r\n");
 				} else {
 					indexMedia(index, (IFolder) r);
+					index.append(r.getProjectRelativePath().toString());
+					index.append("\r\n");
 				}
 			}
 		} catch (CoreException e) {
