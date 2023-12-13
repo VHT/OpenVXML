@@ -501,12 +501,14 @@ public class WebApplicationExporter {
 			index.append("--------------new Content ------------");
 			index.append("\r\n");
 			index.append("----- media  path :"+ toIndex);
-			File file = new File("\\voices");
-			Path projectPath = Paths.get("/baeldung/bar/one.txt");
-			Path start = Paths.get(file.getAbsolutePath());
+			
+			Path start = Paths.get(toIndex);
+			//File file = new File("\\voices");
+			//Path projectPath = Paths.get("/one.txt");
+			//Path start = Paths.get(file.getAbsolutePath());
 			//to compile--> javac --release 8 A.java
 				//Path start = Paths.get("D:\\vht\\Issues\\voices\\voices");
-				try (Stream<Path> stream = Files.walk(start, 50)) {
+				try (Stream<Path> stream = Files.walk(start)) {
 				    List<String> collect = stream
 				        .map(String::valueOf)
 				        .sorted()
