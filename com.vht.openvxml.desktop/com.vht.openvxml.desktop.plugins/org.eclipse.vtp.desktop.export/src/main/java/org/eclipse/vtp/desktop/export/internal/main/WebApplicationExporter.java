@@ -3,6 +3,7 @@ package org.eclipse.vtp.desktop.export.internal.main;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -486,17 +487,26 @@ public class WebApplicationExporter {
 				new XMLWriter(stream).toXMLResult());
 		stream.close();
 		StringBuilder fileIndex = new StringBuilder();
-		indexMedia(fileIndex, project.getMediaProject()
+		fileIndex = indexMedia(fileIndex, project.getMediaProject()
 				.getMediaLibrariesFolder().getUnderlyingFolder());
 		
-		indexMediaRelativePath(fileIndex,project.getMediaProject()
-				.getMediaLibrariesFolder().getUnderlyingFolder().getLocationURI().toString());
+		fileIndex = indexMediaRelativePath(fileIndex, project.getMediaProject()
+				.getMediaLibrariesFolder().getUnderlyingFolder().getFullPath().toString());
 		stream = output.write(path + "files.index");
 		stream.write(fileIndex.toString().getBytes());
 		stream.close();
+		stream = new FileOutputStream(path + "files.index");
+		fileIndex.append("\r\n");
+		fileIndex.append("--------------new Content 2 ------------");
+		fileIndex.append("\r\n");
+		fileIndex.append("----- media  path :"+ project.getMediaProject()
+				.getMediaLibrariesFolder().getUnderlyingFolder().getFullPath().toString());
+		stream.write(fileIndex.toString().getBytes());
+		stream.close();
+		
 	}
 	
-	private void indexMediaRelativePath(StringBuilder index, String toIndex) {
+	private StringBuilder indexMediaRelativePath(StringBuilder index, String toIndex) {
 			index.append("\r\n");
 			index.append("--------------new Content ------------");
 			index.append("\r\n");
@@ -517,9 +527,10 @@ public class WebApplicationExporter {
 				    collect.forEach((i)->{index.append(i +"\r\n");});
 				} catch (IOException e) {
 				}
+				return index;
 	}
 
-	private void indexMedia(StringBuilder index, IFolder toIndex) {
+	private StringBuilder indexMedia(StringBuilder index, IFolder toIndex) {
 		try {
 			for (IResource r : toIndex.members()) {
 				if (!(r instanceof IFolder)) {
@@ -534,6 +545,7 @@ public class WebApplicationExporter {
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
+		return index;
 	}
 
 	private void exportWorkflow(WorkflowExporter project) throws Exception {
