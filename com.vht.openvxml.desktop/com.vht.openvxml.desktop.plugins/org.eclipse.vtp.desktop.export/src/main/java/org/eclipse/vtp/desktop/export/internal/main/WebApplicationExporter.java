@@ -487,20 +487,31 @@ public class WebApplicationExporter {
 				new XMLWriter(stream).toXMLResult());
 		stream.close();
 		StringBuilder fileIndex = new StringBuilder();
+		fileIndex.append("\r\n");
+		fileIndex.append("--------------new Content 4 ------------");
+		fileIndex.append("\r\n");
+		System.out.println("--------fileIndex Starting ------");
+		System.out.println(fileIndex);
+		System.out.println("--------fileIndex End ------");
 		fileIndex = indexMedia(fileIndex, project.getMediaProject()
 				.getMediaLibrariesFolder().getUnderlyingFolder());
-		
+		fileIndex.append("\r\n");
+		fileIndex.append("--------------new Content 5 ------------");
+		fileIndex.append("\r\n");
 		fileIndex = indexMediaRelativePath(fileIndex, project.getMediaProject()
 				.getMediaLibrariesFolder().getUnderlyingFolder().getFullPath().toString());
 		stream = output.write(path + "files.index");
 		stream.write(fileIndex.toString().getBytes());
 		stream.close();
-		stream = new FileOutputStream(path + "files.index");
+		stream = new FileOutputStream(path + "files3.index", true);
 		fileIndex.append("\r\n");
 		fileIndex.append("--------------new Content 3 ------------");
 		fileIndex.append("\r\n");
 		fileIndex.append("----- media  path :"+ project.getMediaProject()
 				.getMediaLibrariesFolder().getUnderlyingFolder().getFullPath().toString());
+		System.out.println("--------fileIndex Starting ------");
+		System.out.println(fileIndex);
+		System.out.println("--------fileIndex End ------");
 		stream.write(fileIndex.toString().getBytes());
 		stream.close();
 		
