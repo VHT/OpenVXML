@@ -20,7 +20,6 @@ import java.net.URL;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -244,37 +243,42 @@ public class ResourceGroup implements IResourceManager,
 	 */
 	@Override
 	public boolean isFileResource(String fullFilePath) {
+		String prefix = "Default/";
+		String filePath = fullFilePath;
 		if (fullFilePath.startsWith("/")) {
 			fullFilePath = fullFilePath.substring(1);
 		}
 		int slashIndex = fullFilePath.indexOf('/');
 		if (slashIndex >= 0) {
-			String prefix = fullFilePath.substring(0, slashIndex);
-			String libraryFile = "/" + prefix + "/.library";
-			if (!index.contains(libraryFile)
-					&& getResource(libraryFile) == null) {
-				fullFilePath = "Default/" + fullFilePath;
+			prefix = fullFilePath.substring(0, slashIndex) + "/";
+			String libraryFile = "/" + prefix + ".library";
+			String joinedIndex = String.join(",", index);
+			if (!joinedIndex.contains(libraryFile)
+					&& getResource(libraryFile) == null && !fullFilePath.contains("Default/")) {
+				prefix = "Default/";
+				fullFilePath = prefix + fullFilePath;
 			}
 		} else {
-			fullFilePath = "Default/" + fullFilePath;
+			fullFilePath = prefix + fullFilePath;
 		}
+		filePath = fullFilePath;
 		fullFilePath = "/" + fullFilePath;
 		String joinedIndex = String.join(",", index);
-		if (joinedIndex.contains("Media Libraries")) {
+		if (joinedIndex.contains("Media Libraries") && !fullFilePath.contains("Media Libraries")) {
 			fullFilePath = "Media Libraries" + fullFilePath;
 		}
-		return !isDirectoryResource(fullFilePath)
-				&& (index.contains(fullFilePath) || getResource(fullFilePath) != null);
+		return ((!isDirectoryResource(fullFilePath)
+				&& (joinedIndex.contains(fullFilePath)) || getResource(filePath) != null));
 	}
 
 	@Override
 	public boolean hasMediaLibrary(String libraryId) {
 		String libraryPath = "/" + libraryId + "/.library";
 		String joinedIndex = String.join(",", index);
-		if (joinedIndex.contains("Media Libraries")) {
+		if (joinedIndex.contains("Media Libraries") && !libraryPath.contains("Media Libraries")) {
 			libraryPath = "Media Libraries" + libraryPath;
 		}
-		return index.contains(libraryPath) || getResource(libraryPath) != null;
+		return joinedIndex.contains(libraryPath) || getResource(libraryPath) != null;
 	}
 
 	@Override
