@@ -491,11 +491,11 @@ public class WebApplicationExporter {
 	private void indexMedia(StringBuilder index, IFolder toIndex) {
 		try {
 			for (IResource r : toIndex.members()) {
-				if (!(r instanceof IFolder)) {
+				if (r instanceof IFolder) {
+					indexMedia(index, (IFolder) r);
+				} else {
 					index.append(r.getProjectRelativePath().toString());
 					index.append("\r\n");
-				} else {
-					indexMedia(index, (IFolder) r);
 				}
 			}
 		} catch (CoreException e) {
