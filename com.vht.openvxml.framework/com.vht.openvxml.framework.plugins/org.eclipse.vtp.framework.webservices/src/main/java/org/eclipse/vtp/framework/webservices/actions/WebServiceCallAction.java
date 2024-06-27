@@ -23,6 +23,7 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
@@ -160,6 +161,9 @@ public class WebServiceCallAction implements IAction {
 					factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
 					factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
 					factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+					factory.setFeature(XMLConstants.ACCESS_EXTERNAL_DTD, false);
+					factory.setFeature(XMLConstants.ACCESS_EXTERNAL_SCHEMA, false);
+					factory.setFeature(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, false);
 					factory.setXIncludeAware(false);
 					factory.setExpandEntityReferences(false);
 					DocumentBuilder builder = factory.newDocumentBuilder();
