@@ -19,6 +19,7 @@ import java.util.Hashtable;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.apache.commons.logging.Log;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
@@ -45,7 +46,6 @@ import org.osgi.service.cm.ConfigurationException;
 import org.osgi.service.cm.ManagedService;
 import org.osgi.service.cm.ManagedServiceFactory;
 import org.osgi.service.http.HttpService;
-import org.osgi.service.log.LogService;
 
 /**
  * Maintains an instance of {@link HttpConnector} linked to the currently
@@ -56,7 +56,7 @@ import org.osgi.service.log.LogService;
  */
 public final class HttpConnectorManager extends SingletonTracker {
 	/** The log to use. */
-	private final LogService log;
+	private final Log log;
 	/** The extension registry to use. */
 	private final IExtensionRegistry extensionRegistry;
 	/** The process engine to use. */
@@ -103,7 +103,7 @@ public final class HttpConnectorManager extends SingletonTracker {
 	 * @param log
 	 *            The process engine to use.
 	 */
-	public HttpConnectorManager(BundleContext context, LogService log,
+	public HttpConnectorManager(BundleContext context, Log log,
 			IExtensionRegistry extensionRegistry, IProcessEngine processEngine,
 			IReporter reporter) {
 		super(context, createHttpFilter(context), null);
@@ -120,10 +120,10 @@ public final class HttpConnectorManager extends SingletonTracker {
 	 *            The HTTP service to use.
 	 */
 	private void createHttpConnector(HttpService httpService) {
-		log.log(LogService.LOG_DEBUG, "Creating HTTP connector...");
+		log.info("Creating HTTP connector...");
 		httpConnectorInstance = new HttpConnectorInstance(httpService);
 		httpConnectorInstance.open();
-		log.log(LogService.LOG_DEBUG, "HTTP connector created.");
+		log.info("HTTP connector created.");
 	}
 
 	/**
@@ -132,13 +132,13 @@ public final class HttpConnectorManager extends SingletonTracker {
 	private void releaseHttpConnector() {
 		try {
 			if (httpConnectorInstance != null) {
-				log.log(LogService.LOG_DEBUG, "Releasing HTTP connector...");
+				log.debug(extensionRegistry);
 				httpConnectorInstance.close();
 			}
 		} finally {
 			if (httpConnectorInstance != null) {
 				httpConnectorInstance = null;
-				log.log(LogService.LOG_DEBUG, "HTTP connector released.");
+				log.debug("HTTP connector released.");
 			}
 		}
 	}
@@ -256,7 +256,7 @@ public final class HttpConnectorManager extends SingletonTracker {
 			try {
 				documentBuilder = factory.newDocumentBuilder();
 			} catch (Exception e) {
-				log.log(LogService.LOG_ERROR, e.getMessage(), e);
+				log.info(e.getMessage(), e);
 				throw new IllegalStateException(e);
 			}
 		}
@@ -370,7 +370,7 @@ public final class HttpConnectorManager extends SingletonTracker {
 									contributor);
 						} catch (Exception e) {
 							e.printStackTrace();
-							log.log(LogService.LOG_ERROR, e.getMessage(), e);
+							log.info(e.getMessage(), e);
 							continue;
 						} finally {
 							try {

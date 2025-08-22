@@ -26,6 +26,7 @@ import java.util.StringTokenizer;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.apache.commons.logging.Log;
 import org.eclipse.osgi.framework.console.CommandInterpreter;
 import org.eclipse.osgi.framework.console.CommandProvider;
 import org.eclipse.vtp.framework.core.IReporter;
@@ -62,7 +63,7 @@ public class Activator extends AbstractReporter implements BundleActivator,
 	/** The service tracker that tracks the log service. */
 	private BundleContext context = null;
 	/** The service tracker that tracks the log service. */
-	private LogTracker log = null;
+	private Log log = null;
 	/** The static configuration admin instance. */
 	private StaticConfigurationAdmin configurationAdmin = null;
 	/** The service tracker that tracks the extension registry service. */
@@ -304,12 +305,12 @@ public class Activator extends AbstractReporter implements BundleActivator,
 		logReader.open();
 		reporters = new ServiceTracker(context, IReporter.class.getName(), null);
 		reporters.open();
-		log = new LogTracker(context);
-		log.open();
+		
+
 		URL staticConfig = context.getBundle().getResource("META-INF/services/" //$NON-NLS-1$
 				+ StaticConfigurationAdmin.class.getName());
 		if (staticConfig != null) {
-			log.log(LogService.LOG_DEBUG, "Loading static configuration...");
+			log.info("Loading static configuration...");
 			Document document = null;
 			InputStream input = null;
 			try {
@@ -319,13 +320,11 @@ public class Activator extends AbstractReporter implements BundleActivator,
 				dbf.setValidating(false);
 				document = dbf.newDocumentBuilder().parse(
 						input = staticConfig.openStream());
-				log.log(LogService.LOG_INFO,
+				log.info(
 						"Loaded static configuration from \""
 								+ staticConfig.toExternalForm() + "\".");
 			} catch (Exception e) {
-				log.log(LogService.LOG_WARNING,
-						"Failed to load static configuration: "
-								+ e.getMessage(), e);
+				log.info("Failed to load static configuration: " + e.getMessage());
 			} finally {
 				try {
 					if (input != null) {
@@ -335,17 +334,17 @@ public class Activator extends AbstractReporter implements BundleActivator,
 				}
 			}
 			if (document != null) {
-				log.log(LogService.LOG_DEBUG, "Creating configuration admin...");
+				log.info("Creating configuration admin...");
 				configurationAdmin = new StaticConfigurationAdmin(context, log,
 						document.getDocumentElement());
 				configurationAdmin.start();
-				log.log(LogService.LOG_DEBUG, "Configuration admin created.");
+				log.info("Configuration admin created.");
 			}
 		}
-		log.log(LogService.LOG_DEBUG, "Creating process engine manager...");
+		log.info("Creating process engine manager...");
 		processEngineManager = new ProcessEngineManager(context, log, this);
 		processEngineManager.open();
-		log.log(LogService.LOG_DEBUG, "Process engine manager created.");
+		log.info("Process engine manager created.");
 		Dictionary report = new Hashtable();
 		report.put("event", "host.started");
 		report(IReporter.SEVERITY_INFO, "Host Started", report);
@@ -367,31 +366,31 @@ public class Activator extends AbstractReporter implements BundleActivator,
 		report(IReporter.SEVERITY_INFO, "Host Stopped", report);
 		try {
 			if (processEngineManager != null) {
-				log.log(LogService.LOG_DEBUG,
+				log.info(
 						"Releasing process engine manager...");
 				processEngineManager.close();
 			}
 		} finally {
 			if (processEngineManager != null) {
 				processEngineManager = null;
-				log.log(LogService.LOG_DEBUG,
+				log.info(
 						"Process engine manager released.");
 			}
 			try {
 				if (configurationAdmin != null) {
-					log.log(LogService.LOG_DEBUG,
+					log.info(
 							"Releasing configuration admin...");
 					configurationAdmin.stop();
 				}
 			} finally {
 				if (configurationAdmin != null) {
 					configurationAdmin = null;
-					log.log(LogService.LOG_DEBUG,
+					log.info(
 							"Configuration admin released.");
 				}
 				try {
 					if (log != null) {
-						log.close();
+						
 					}
 				} finally {
 					if (log != null) {

@@ -19,14 +19,13 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
-
+import org.apache.commons.logging.Log;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.cm.ManagedService;
 import org.osgi.service.cm.ManagedServiceFactory;
-import org.osgi.service.log.LogService;
 import org.osgi.util.tracker.ServiceTracker;
 import org.w3c.dom.Element;
 
@@ -76,7 +75,7 @@ public class StaticConfigurationAdmin {
 	/** The context to operate under. */
 	private final BundleContext context;
 	/** The log service to use. */
-	private final LogService log;
+	private final Log log;
 	/** The tracker of all the managed service objects. */
 	private final ConfigurationTargetTracker tracker;
 	/** The object that dispatches configuration events asynchronously. */
@@ -98,7 +97,7 @@ public class StaticConfigurationAdmin {
 	 * @param configurationsData
 	 *            The configuration data to load.
 	 */
-	public StaticConfigurationAdmin(BundleContext context, LogService log,
+	public StaticConfigurationAdmin(BundleContext context, Log log,
 			Element configurationsData) {
 		this.context = context;
 		this.log = log;
@@ -331,7 +330,7 @@ public class StaticConfigurationAdmin {
 	 *            The error to log.
 	 */
 	private void error(Exception e) {
-		log.log(LogService.LOG_ERROR, e.getMessage(), e);
+		log.info(e.getMessage());
 	}
 
 	/**

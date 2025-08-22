@@ -40,6 +40,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.servlet.ServletRequestContext;
+import org.apache.commons.logging.Log;
 import org.eclipse.vtp.framework.common.IArrayObject;
 import org.eclipse.vtp.framework.common.IBooleanObject;
 import org.eclipse.vtp.framework.common.IDataObject;
@@ -59,7 +60,6 @@ import org.eclipse.vtp.framework.util.XMLWriter;
 import org.osgi.framework.Bundle;
 import org.osgi.service.http.HttpService;
 import org.osgi.service.http.NamespaceException;
-import org.osgi.service.log.LogService;
 
 /**
  * The HTTP connection strategy.
@@ -133,6 +133,7 @@ public class HttpConnector {
 	/** The currently deployed processes. */
 	private final Map<String, Deployment> deploymentsByPath = new TreeMap<String, Deployment>(
 			PATH_SORT);
+	private Log log;
 
 	/**
 	 * Creates a new HttpConnector.
@@ -142,9 +143,9 @@ public class HttpConnector {
 	 * @param httpService
 	 *            The HTTP service to use.
 	 */
-	public HttpConnector(LogService log, IProcessEngine engine,
+	public HttpConnector(Log log, IProcessEngine engine,
 			HttpService httpService, IReporter reporter) {
-		// this.log = log;
+	    this.log = log;
 		this.engine = engine;
 		this.httpService = httpService;
 		this.reporter = reporter;

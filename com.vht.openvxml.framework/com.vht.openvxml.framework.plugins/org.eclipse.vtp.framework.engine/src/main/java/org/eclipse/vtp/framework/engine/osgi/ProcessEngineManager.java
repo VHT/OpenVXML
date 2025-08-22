@@ -11,6 +11,7 @@
  -------------------------------------------------------------------------*/
 package org.eclipse.vtp.framework.engine.osgi;
 
+import org.apache.commons.logging.Log;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
@@ -43,7 +44,7 @@ import org.osgi.service.log.LogService;
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public final class ProcessEngineManager extends SingletonTracker {
 	/** The log to use. */
-	private final LogService log;
+	private final Log log;
 	/** Comment for reporter. */
 	private final IReporter reporter;
 	/** The instance of the process engine. */
@@ -59,7 +60,7 @@ public final class ProcessEngineManager extends SingletonTracker {
 	 * @param log
 	 *            The log to use.
 	 */
-	public ProcessEngineManager(BundleContext context, LogService log,
+	public ProcessEngineManager(BundleContext context, Log log,
 			IReporter reporter) {
 		super(context, IExtensionRegistry.class.getName(), null);
 		this.log = log;
@@ -73,16 +74,16 @@ public final class ProcessEngineManager extends SingletonTracker {
 	 *            The extension registry to use.
 	 */
 	private void createProcessEngine(IExtensionRegistry extensionRegistry) {
-		log.log(LogService.LOG_DEBUG, "Creating process engine...");
+		log.info("Creating process engine...");
 		processEngineInstance = new ProcessEngineInstance(extensionRegistry);
 		processEngineInstance.open();
-		log.log(LogService.LOG_DEBUG, "Process engine created.");
-		log.log(LogService.LOG_DEBUG, "Creating HTTP connector manager...");
+		log.info("Process engine created.");
+		log.info("Creating HTTP connector manager...");
 		httpConnectorManager = new HttpConnectorManager(context, log,
 				extensionRegistry, processEngineInstance.processEngine,
 				reporter);
 		httpConnectorManager.open();
-		log.log(LogService.LOG_DEBUG, "HTTP connector manager created.");
+		log.info("HTTP connector manager created.");
 	}
 
 	/**
@@ -91,25 +92,19 @@ public final class ProcessEngineManager extends SingletonTracker {
 	private void releaseProcessEngine() {
 		try {
 			if (httpConnectorManager != null) {
-				log.log(LogService.LOG_DEBUG,
-						"Releasing HTTP connector manager...");
 				httpConnectorManager.close();
 			}
 		} finally {
 			if (httpConnectorManager != null) {
 				httpConnectorManager = null;
-				log.log(LogService.LOG_DEBUG,
-						"HTTP connector manager released.");
 			}
 			try {
 				if (processEngineInstance != null) {
-					log.log(LogService.LOG_DEBUG, "Releasing process engine...");
 					processEngineInstance.close();
 				}
 			} finally {
 				if (processEngineInstance != null) {
 					processEngineInstance = null;
-					log.log(LogService.LOG_DEBUG, "Process engine released.");
 				}
 			}
 		}

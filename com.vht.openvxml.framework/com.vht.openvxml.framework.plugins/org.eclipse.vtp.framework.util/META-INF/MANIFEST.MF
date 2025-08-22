@@ -4,7 +4,8 @@ Bundle-Name: VTP Framework Utilities Plug-in
 Bundle-SymbolicName: org.eclipse.vtp.framework.util
 Bundle-Version: 6.0.0.qualifier
 Bundle-Vendor: Eclipse.org
-Import-Package: org.osgi.framework;resolution:=optional,
+Import-Package: org.apache.commons.logging;version="[1.2.0,2.0.0)",
+ org.osgi.framework;resolution:=optional,
  org.osgi.service.cm;resolution:=optional,
  org.osgi.service.log;resolution:=optional,
  org.osgi.util.tracker;resolution:=optional
