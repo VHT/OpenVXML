@@ -486,6 +486,21 @@ public class XMLUtilities {
 			throws ParserConfigurationException {
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
 				.newInstance();
+		// Harden the parser against XML External Entity (XXE) attacks
+		// (CWE-611). This utility is shared across the framework, so any caller
+		// that parses untrusted XML (e.g. Genesys attached data) inherits a
+		// safe-by-default parser. See the OWASP XXE Prevention Cheat Sheet.
+		documentBuilderFactory.setFeature(
+				"http://apache.org/xml/features/disallow-doctype-decl", true);
+		documentBuilderFactory.setFeature(
+				"http://xml.org/sax/features/external-general-entities", false);
+		documentBuilderFactory.setFeature(
+				"http://xml.org/sax/features/external-parameter-entities", false);
+		documentBuilderFactory.setFeature(
+				"http://apache.org/xml/features/nonvalidating/load-external-dtd",
+				false);
+		documentBuilderFactory.setXIncludeAware(false);
+		documentBuilderFactory.setExpandEntityReferences(false);
 
 		return documentBuilderFactory.newDocumentBuilder();
 	}
