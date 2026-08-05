@@ -170,7 +170,11 @@ public class GenesysVoicePlatform extends VoicePlatform {
 			MetaDataRequestConfiguration configuration, IActionContext context) {
 		Map dataMap = new HashMap();
 		String attachedDataContent = context.getParameter("GetAttachedData");
-		System.out.println(attachedDataContent);
+		if (context.isDebugEnabled()) {
+			context.debug("Processing Genesys attached-data response ("
+					+ (attachedDataContent == null ? 0 : attachedDataContent
+							.length()) + " chars)");
+		}
 		try {
 			ByteArrayInputStream bais = new ByteArrayInputStream(
 					attachedDataContent.getBytes());

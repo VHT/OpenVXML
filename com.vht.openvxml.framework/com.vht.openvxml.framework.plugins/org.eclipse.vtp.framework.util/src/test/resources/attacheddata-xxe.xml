@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- XXE variant: DOCTYPE + external entity. Rejected by the hardened parser. -->
+<!DOCTYPE userdata [
+  <!ENTITY xxe SYSTEM "file:///c:/windows/win.ini">
+]>
+<userdata>
+  <key name="CustomerSegment" value="&xxe;"/>
+</userdata>
