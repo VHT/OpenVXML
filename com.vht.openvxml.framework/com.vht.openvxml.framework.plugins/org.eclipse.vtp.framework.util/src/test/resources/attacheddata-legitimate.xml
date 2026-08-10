@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Representative Genesys GetAttachedData response; no DOCTYPE, parses fine. -->
+<userdata>
+  <key name="CustomerSegment" value="VQ_Runteam"/>
+  <key name="VH_ANI" value="2167025451"/>
+  <key name="VH_OFFER" value="1:Y"/>
+</userdata>

@@ -24,7 +24,6 @@ import java.util.Hashtable;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -153,16 +152,9 @@ public class WebServiceCallAction implements IAction {
 				ps.close();
 				int rc = con.getResponseCode();
 				if (rc == 200) {
-					DocumentBuilderFactory factory = DocumentBuilderFactory
-							.newInstance();
-					factory.setNamespaceAware(true);
-					factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
-					factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
-					factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
-					factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
-					factory.setXIncludeAware(false);
-					factory.setExpandEntityReferences(false);
-					DocumentBuilder builder = factory.newDocumentBuilder();
+					// Namespace-aware for the SOAP getLocalName()/NS lookups.
+					DocumentBuilder builder = XMLUtilities
+							.getDocumentBuilder(true);
 					Document document = builder.parse(con.getInputStream());
 					Element rootElement = document.getDocumentElement();
 					if (!rootElement.getLocalName().equals("Envelope")) {

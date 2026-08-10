@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
-import javax.xml.parsers.DocumentBuilderFactory;
+import org.eclipse.vtp.framework.util.XMLUtilities;
 
 import org.eclipse.vtp.framework.common.ILastResult;
 import org.eclipse.vtp.framework.common.IStringObject;
@@ -106,9 +106,8 @@ public class SelectionRequestAction implements IAction {
 				if (lastResultXML != null && !lastResultXML.equals("")) {
 					Document lastResultDocument = null;
 					try {
-						lastResultDocument = DocumentBuilderFactory
-								.newInstance()
-								.newDocumentBuilder()
+						lastResultDocument = XMLUtilities
+								.getDocumentBuilder()
 								.parse(new ByteArrayInputStream(lastResultXML
 										.getBytes()));
 					} catch (Exception ex) {
@@ -163,9 +162,8 @@ public class SelectionRequestAction implements IAction {
 				if (lastResultXML != null && !lastResultXML.equals("")) {
 					Document lastResultDocument = null;
 					try {
-						lastResultDocument = DocumentBuilderFactory
-								.newInstance()
-								.newDocumentBuilder()
+						lastResultDocument = XMLUtilities
+								.getDocumentBuilder()
 								.parse(new ByteArrayInputStream(lastResultXML
 										.getBytes()));
 					} catch (Exception ex) {

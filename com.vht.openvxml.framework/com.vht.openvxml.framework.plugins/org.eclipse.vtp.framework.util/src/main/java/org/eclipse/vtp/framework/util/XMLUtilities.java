@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -28,7 +29,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 /**
  * Static utility class that hosts functions that make dealing with xml
@@ -477,18 +480,73 @@ public class XMLUtilities {
 	}
 
 	/**
-	 * Convenience function to get a DOM document builder object.
-	 * 
-	 * @return A new <code>DocumentBuilder</code> instance.
-	 * @throws ParserConfigurationException
+	 * Returns a namespace-unaware, XXE-hardened document builder. Equivalent to
+	 * {@link #getDocumentBuilder(boolean) getDocumentBuilder(false)}.
 	 */
 	public static DocumentBuilder getDocumentBuilder()
 			throws ParserConfigurationException {
+		return getDocumentBuilder(false);
+	}
+
+	/**
+	 * Returns the framework's shared document builder, hardened against XXE
+	 * (CWE-611); all runtime parsers of untrusted XML should obtain their builder
+	 * here. {@code disallow-doctype-decl} is the primary control; the
+	 * external-entity/DTD flags are kept as a fallback should it ever be relaxed.
+	 * {@code setExpandEntityReferences} is deliberately omitted - it is not an XXE
+	 * control and leaves EntityReference nodes that callers do not traverse.
+	 *
+	 * @param namespaceAware
+	 *            required by callers using getLocalName()/NS lookups (e.g. SOAP).
+	 */
+	public static DocumentBuilder getDocumentBuilder(boolean namespaceAware)
+			throws ParserConfigurationException {
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
 				.newInstance();
+		documentBuilderFactory.setNamespaceAware(namespaceAware);
+		documentBuilderFactory.setFeature(
+				"http://apache.org/xml/features/disallow-doctype-decl", true);
+		documentBuilderFactory.setFeature(
+				"http://xml.org/sax/features/external-general-entities", false);
+		documentBuilderFactory.setFeature(
+				"http://xml.org/sax/features/external-parameter-entities", false);
+		documentBuilderFactory.setFeature(
+				"http://apache.org/xml/features/nonvalidating/load-external-dtd",
+				false);
+		documentBuilderFactory.setXIncludeAware(false);
 
-		return documentBuilderFactory.newDocumentBuilder();
+		DocumentBuilder documentBuilder = documentBuilderFactory
+				.newDocumentBuilder();
+		// Callers swallow parse exceptions, so log DOCTYPE rejections distinctly.
+		documentBuilder.setErrorHandler(XXE_LOGGING_ERROR_HANDLER);
+		return documentBuilder;
 	}
+
+	/** Logs DOCTYPE rejections before rethrowing, since callers swallow them. */
+	private static final ErrorHandler XXE_LOGGING_ERROR_HANDLER = new ErrorHandler() {
+		private final Logger log = Logger.getLogger(XMLUtilities.class
+				.getName());
+
+		@Override
+		public void warning(SAXParseException exception) {
+		}
+
+		@Override
+		public void error(SAXParseException exception) {
+			// Non-fatal; don't throw, matching the default handler.
+		}
+
+		@Override
+		public void fatalError(SAXParseException exception)
+				throws SAXParseException {
+			String message = exception.getMessage();
+			if (message != null && message.contains("DOCTYPE")) {
+				log.warning("Rejected XML containing a DOCTYPE declaration "
+						+ "(disallowed to prevent XXE): " + message);
+			}
+			throw exception;
+		}
+	};
 
 	/**
 	 * Loads the given file using the default XML DOM implementation.
