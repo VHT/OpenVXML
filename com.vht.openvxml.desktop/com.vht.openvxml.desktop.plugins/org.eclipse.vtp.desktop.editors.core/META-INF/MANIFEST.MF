@@ -39,4 +39,4 @@ Export-Package: org.eclipse.vtp.desktop.editors.core,
  org.eclipse.vtp.desktop.editors.core.model,
  org.eclipse.vtp.desktop.editors.core.widgets
 Bundle-Activator: org.eclipse.vtp.desktop.editors.core.Activator
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-21
