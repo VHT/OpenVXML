@@ -44,9 +44,9 @@ XML parsing is centralized through `XMLUtilities` in `org.eclipse.vtp.framework.
 
 Jenkins pipeline in `jenkins/ci_build/JenkinsFile`. Runs `mvn clean verify` on Ubuntu with Corretto JDK 8, then packages the p2 repository and publishes to a build server.
 
-## Related Repos
+## Relevant Projects
 
-VXML-IVR (`github.com/VHT/VXML-IVR`) builds the final deployable product and consumes this repo's p2 update site.
+- `VXML-IVR` — builds the final deployable product and consumes this repo's p2 update site.
 
 ## Conventions
 
