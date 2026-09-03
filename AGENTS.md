@@ -50,4 +50,4 @@ Jenkins pipeline in `jenkins/ci_build/JenkinsFile`. Runs `mvn clean verify` on U
 
 ## Conventions
 
-Code ownership: `@VHT/prem-voice-platform`. PRs use `.github/PULL_REQUEST_TEMPLATE.md` with sections: Card(s), Related Pull Requests, Changes Made, Test Procedure (Cucumber format).
+PRs use `.github/PULL_REQUEST_TEMPLATE.md` with sections: Card(s), Related Pull Requests, Changes Made, Test Procedure (Cucumber format).
