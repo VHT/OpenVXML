@@ -3,8 +3,8 @@ library "vxml-shared-library"
 def WIN_LABEL    = '2019CoreBuild'
 def LINUX_LABEL  = 'docker'
 def MAVEN_IMAGE  = 'maven:3.6.0-amazoncorretto-8'
-def PUBLISH_ROOT = '\\\\10.100.60.42\\u\\VXML_Builds'
-def FILE_IP      = '10.100.60.42'
+def FILE_IP      = env.FILE_SERVER
+def PUBLISH_ROOT = "\\\\${FILE_IP}\\u\\VXML_Builds"
 def SMB_CRED_ID  = 'windows_admin_login'
 
 def ensureFileServer(String ip, String credId) {
