@@ -16,14 +16,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtension;
-import org.eclipse.core.runtime.IExtensionPoint;
-import org.eclipse.core.runtime.IExtensionRegistry;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.vtp.framework.interactions.core.media.IInputGrammarFactory;
 import org.eclipse.vtp.framework.interactions.core.media.InputGrammar;
-import org.osgi.framework.Bundle;
+import org.eclipse.vtp.framework.util.ConfigurationElement;
+import org.eclipse.vtp.framework.util.Contributor;
+import org.eclipse.vtp.framework.util.Extension;
+import org.eclipse.vtp.framework.util.ExtensionRegistry;
 import org.w3c.dom.Element;
 
 /**
@@ -44,18 +42,16 @@ public class InputManager implements IInputGrammarFactory {
 	 * @param registry
 	 *            The extension registry to load from.
 	 */
-	public InputManager(IExtensionRegistry registry) {
-		IExtensionPoint point = registry.getExtensionPoint(//
+	public InputManager(ExtensionRegistry registry) {
+		Extension[] extensions = registry.getExtensions(//
 				"org.eclipse.vtp.framework.interactions.core.inputtypes"); //$NON-NLS-1$
-		IExtension[] extensions = point.getExtensions();
 		// Map inputTypes = new HashMap(extensions.length);
 		Map inputTypeIndex = new HashMap(extensions.length);
-		for (IExtension extension : extensions) {
-			Bundle bundle = Platform.getBundle(extension.getContributor()
-					.getName());
-			IConfigurationElement[] elements = extension
+		for (Extension extension : extensions) {
+			Contributor bundle = extension.getContributor();
+			ConfigurationElement[] elements = extension
 					.getConfigurationElements();
-			for (IConfigurationElement element : elements) {
+			for (ConfigurationElement element : elements) {
 				try {
 					InputType inputType = new InputType(
 							element.getAttribute("id"), //$NON-NLS-1$
