@@ -29,8 +29,6 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.Vector;
 
-import org.osgi.framework.Constants;
-import org.osgi.service.cm.ConfigurationAdmin;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -48,9 +46,9 @@ public class ConfigurationDictionary extends Dictionary implements
 	/** Set of reserved property keys. */
 	private static final Set RESERVED_KEYS = Collections
 			.unmodifiableSet(new HashSet<String>(Arrays.asList(new String[] {
-					Constants.SERVICE_PID,
-					ConfigurationAdmin.SERVICE_FACTORYPID,
-					ConfigurationAdmin.SERVICE_BUNDLELOCATION })));
+					"service.pid",
+					"service.factoryPid",
+					"service.bundleLocation" })));
 	/** Index of simple types. */
 	private static final Set<Class> SIMPLE_TYPES;
 	/** Index of supported types by tag name. */
@@ -446,7 +444,7 @@ public class ConfigurationDictionary extends Dictionary implements
 	 * @return The value of the "service.pid" property.
 	 */
 	public synchronized String getPid() {
-		return (String) properties.get(Constants.SERVICE_PID);
+		return (String) properties.get("service.pid");
 	}
 
 	/**
@@ -455,7 +453,7 @@ public class ConfigurationDictionary extends Dictionary implements
 	 * @return The value of the "service.factoryPid" property.
 	 */
 	public synchronized String getFactoryPid() {
-		return (String) properties.get(ConfigurationAdmin.SERVICE_FACTORYPID);
+		return (String) properties.get("service.factoryPid");
 	}
 
 	/**
@@ -465,7 +463,7 @@ public class ConfigurationDictionary extends Dictionary implements
 	 */
 	public synchronized String getBundleLocation() {
 		return (String) properties
-				.get(ConfigurationAdmin.SERVICE_BUNDLELOCATION);
+				.get("service.bundleLocation");
 	}
 
 	/**
@@ -476,9 +474,9 @@ public class ConfigurationDictionary extends Dictionary implements
 	 */
 	public synchronized void setPid(String pid) {
 		if (pid == null || pid.length() == 0) {
-			properties.remove(Constants.SERVICE_PID);
+			properties.remove("service.pid");
 		} else {
-			properties.put(Constants.SERVICE_PID, pid);
+			properties.put("service.pid", pid);
 		}
 	}
 
@@ -490,9 +488,9 @@ public class ConfigurationDictionary extends Dictionary implements
 	 */
 	public synchronized void setFactoryPid(String factoryPid) {
 		if (factoryPid == null || factoryPid.length() == 0) {
-			properties.remove(ConfigurationAdmin.SERVICE_FACTORYPID);
+			properties.remove("service.factoryPid");
 		} else {
-			properties.put(ConfigurationAdmin.SERVICE_FACTORYPID, factoryPid);
+			properties.put("service.factoryPid", factoryPid);
 		}
 	}
 
@@ -504,9 +502,9 @@ public class ConfigurationDictionary extends Dictionary implements
 	 */
 	public synchronized void setBundleLocation(String bundleLocation) {
 		if (bundleLocation == null || bundleLocation.length() == 0) {
-			properties.remove(ConfigurationAdmin.SERVICE_BUNDLELOCATION);
+			properties.remove("service.bundleLocation");
 		} else {
-			properties.put(ConfigurationAdmin.SERVICE_BUNDLELOCATION,
+			properties.put("service.bundleLocation",
 					bundleLocation);
 		}
 	}
