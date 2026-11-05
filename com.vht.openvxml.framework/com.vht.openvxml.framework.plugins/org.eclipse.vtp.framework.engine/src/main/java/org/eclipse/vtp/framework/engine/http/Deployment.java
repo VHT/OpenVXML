@@ -32,7 +32,7 @@ import org.eclipse.vtp.framework.spi.IProcess;
 import org.eclipse.vtp.framework.spi.IProcessDefinition;
 import org.eclipse.vtp.framework.spi.IProcessDescriptor;
 import org.eclipse.vtp.framework.spi.IProcessEngine;
-import org.osgi.framework.Bundle;
+import org.eclipse.vtp.framework.util.Contributor;
 
 /**
  * A process deployed on the HTTP connector.
@@ -47,7 +47,7 @@ public class Deployment implements IProcessDescriptor,
 	/** The process properties. */
 	private final Dictionary properties;
 	/** The process contributor. */
-	private final Bundle contributor;
+	private final Contributor contributor;
 	/** Comment for reporter. */
 	private final IReporter reporter;
 	/** The resource managers. */
@@ -70,7 +70,7 @@ public class Deployment implements IProcessDescriptor,
 	 *            The process contributor.
 	 */
 	public Deployment(IProcessEngine engine, IProcessDefinition definition,
-			Dictionary properties, Bundle contributor, IReporter reporter) {
+			Dictionary properties, Contributor contributor, IReporter reporter) {
 		this.properties = properties;
 		this.contributor = contributor;
 		this.reporter = reporter;

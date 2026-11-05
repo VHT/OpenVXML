@@ -14,76 +14,81 @@ package org.eclipse.vtp.framework.engine.http;
 import java.io.IOException;
 import java.net.URL;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.osgi.service.http.HttpContext;
-
 /**
- * An {@link HttpContext} implementation that forwards invocations to an
- * {@link HttpConnector}.
+ * A context that forwards invocations to an {@link HttpConnector}, falling back
+ * to the servlet context.
  * 
  * @author Lonnie Pryor
  */
-public class HttpConnectorContext implements HttpContext {
-	/** The default HTTP context. */
-	private final HttpContext defaultContext;
+public class HttpConnectorContext {
+	/** The servlet context to fall back to. */
+	private final ServletContext servletContext;
 	/** The {@link HttpConnector} instance to use. */
 	private final HttpConnector connector;
 
 	/**
 	 * Creates a new HttpConnectorContext.
 	 * 
-	 * @param defaultContext
-	 *            The default HTTP context.
+	 * @param servletContext
+	 *            The servlet context to fall back to.
 	 * @param connector
 	 *            The {@link HttpConnector} instance to use.
 	 */
-	public HttpConnectorContext(HttpContext defaultContext,
+	public HttpConnectorContext(ServletContext servletContext,
 			HttpConnector connector) {
-
-		this.defaultContext = defaultContext;
+		this.servletContext = servletContext;
 		this.connector = connector;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Returns the MIME type of the specified resource.
 	 * 
-	 * @see org.osgi.service.http.HttpContext#getMimeType(java.lang.String)
+	 * @param path
+	 *            The path of the resource.
+	 * @return The MIME type of the specified resource.
 	 */
-	@Override
 	public String getMimeType(String path) {
 		String mimeType = connector.getMimeType(path);
 		if (mimeType == null) {
-			mimeType = defaultContext.getMimeType(path);
+			mimeType = servletContext.getMimeType(path);
 		}
 		return mimeType;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Returns the resource at the specified path.
 	 * 
-	 * @see org.osgi.service.http.HttpContext#getResource(java.lang.String)
+	 * @param path
+	 *            The path of the resource.
+	 * @return The resource at the specified path.
 	 */
-	@Override
 	public URL getResource(String path) {
 		URL resource = connector.getResource(path);
 		if (resource == null) {
-			resource = defaultContext.getResource(path);
+			String name = HttpUtils.normalizePath(path).substring(1);
+			resource = HttpConnectorContext.class.getClassLoader()
+					.getResource(name);
 		}
 		return resource;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Handles security for the specified request.
 	 * 
-	 * @see org.osgi.service.http.HttpContext#handleSecurity(
-	 * javax.servlet.http.HttpServletRequest,
-	 * javax.servlet.http.HttpServletResponse)
+	 * @param req
+	 *            The HTTP request.
+	 * @param res
+	 *            The HTTP response.
+	 * @return Always <code>true</code>.
+	 * @throws IOException
+	 *             If the connection fails.
 	 */
-	@Override
 	public boolean handleSecurity(HttpServletRequest req,
 			HttpServletResponse res) throws IOException {
-		return defaultContext.handleSecurity(req, res);
+		return true;
 	}
 }

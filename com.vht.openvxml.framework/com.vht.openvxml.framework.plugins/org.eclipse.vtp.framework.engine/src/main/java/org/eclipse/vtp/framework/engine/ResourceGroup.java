@@ -35,7 +35,7 @@ import org.eclipse.vtp.framework.interactions.core.media.IResourceManager;
 import org.eclipse.vtp.framework.interactions.voice.services.ExternalServer;
 import org.eclipse.vtp.framework.interactions.voice.services.ExternalServerManager;
 import org.eclipse.vtp.framework.interactions.voice.services.ExternalServerManagerListener;
-import org.osgi.framework.Bundle;
+import org.eclipse.vtp.framework.util.Contributor;
 
 /**
  * A group of public resources.
@@ -45,7 +45,7 @@ import org.osgi.framework.Bundle;
 public class ResourceGroup implements IResourceManager,
 		ExternalServerManagerListener {
 	/** The bundle to load from. */
-	private final Bundle bundle;
+	private final Contributor bundle;
 	/** The base path to publish. */
 	private final String path;
 	private Object lock = new Object();
@@ -60,7 +60,7 @@ public class ResourceGroup implements IResourceManager,
 	 * @param path
 	 *            The base path to publish.
 	 */
-	public ResourceGroup(Bundle bundle, String path) {
+	public ResourceGroup(Contributor bundle, String path) {
 		ExternalServerManager.getInstance().addListener(this);
 		this.bundle = bundle;
 		if (!path.startsWith("/")) {
@@ -69,8 +69,8 @@ public class ResourceGroup implements IResourceManager,
 		this.path = path;
 		URL indexURL = bundle.getResource("files.index");
 		if (indexURL != null) {
-			if(!bundleList.containsKey(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"))){
-				bundleList.put(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"), true);
+			if(!bundleList.containsKey(ResourceGroup.this.bundle.getBundleName())){
+				bundleList.put(ResourceGroup.this.bundle.getBundleName(), true);
 			}
 			try {
 				BufferedReader br = new BufferedReader(new InputStreamReader(
@@ -102,9 +102,7 @@ public class ResourceGroup implements IResourceManager,
 									location = location + "/";
 								}
 								location = location
-										+ ResourceGroup.this.bundle
-												.getHeaders()
-												.get("Bundle-Name") + "/";
+										+ ResourceGroup.this.bundle.getBundleName() + "/";
 								if (logging == ExternalServerManager.Logging.ALWAYS) {
 									System.out
 											.println("Attempting to load index from: "
@@ -138,9 +136,7 @@ public class ResourceGroup implements IResourceManager,
 									while (line != null) {
 										if (logging == ExternalServerManager.Logging.ALWAYS) {
 											System.out
-													.println(ResourceGroup.this.bundle
-															.getHeaders()
-															.get("Bundle-Name")
+													.println(ResourceGroup.this.bundle.getBundleName()
 															+ " " + line);
 										}
 										localIndex.add(line);
@@ -149,12 +145,12 @@ public class ResourceGroup implements IResourceManager,
 									br.close();
 									index = localIndex;
 									connected = true;
-                                    					bundleList.put(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"), true);
+                                    					bundleList.put(ResourceGroup.this.bundle.getBundleName(), true);
 									server.setStatus(true);
 									break;
 								} catch (Exception e) {
 									if (logging == ExternalServerManager.Logging.ALWAYS || 
-											(logging == ExternalServerManager.Logging.FIRSTFAILURE && bundleList.get(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"))&& !connected)){
+											(logging == ExternalServerManager.Logging.FIRSTFAILURE && bundleList.get(ResourceGroup.this.bundle.getBundleName())&& !connected)){
 										System.out.println("Unable to connect to external media server @ "+ location);
 										e.printStackTrace();
 									}
@@ -163,14 +159,12 @@ public class ResourceGroup implements IResourceManager,
 							}
 							if (!connected
 									&& logging != ExternalServerManager.Logging.NONE
-									&&((logging == ExternalServerManager.Logging.FIRSTFAILURE && bundleList.get(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"))))) {
+									&&((logging == ExternalServerManager.Logging.FIRSTFAILURE && bundleList.get(ResourceGroup.this.bundle.getBundleName())))) {
 								System.out.println("Unable to load index for "
-										+ ResourceGroup.this.bundle
-												.getHeaders()
-												.get("Bundle-Name")
+										+ ResourceGroup.this.bundle.getBundleName()
 										+ " from any external media servers");
 							}
-							bundleList.put(ResourceGroup.this.bundle.getHeaders().get("Bundle-Name"), false);
+							bundleList.put(ResourceGroup.this.bundle.getBundleName(), false);
 						}
 						try {
 							synchronized (lock) {
