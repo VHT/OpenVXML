@@ -22,7 +22,7 @@
 		</repository>
 		<repository>
 			<id>elements</id>
-			<url>https://build.vhtcx.com/downloads/Elements/repository/</url>
+			<url>https://artifactory.eng.medallia.com/artifactory/release-generic/medallia/mindful-premise/p2/Elements/repository/</url>
 			<layout>p2</layout>
 		</repository>
 		<repository>
@@ -32,7 +32,7 @@
 		</repository>
 		<repository>
 			<id>kepler-r4</id>
-			<url>https://build.vhtcx.com/downloads/kepler-equinox/repository/</url>
+			<url>https://artifactory.eng.medallia.com/artifactory/release-generic/medallia/mindful-premise/p2/kepler-equinox/repository/</url>
 			<layout>p2</layout>
 		</repository>
 	</repositories>
