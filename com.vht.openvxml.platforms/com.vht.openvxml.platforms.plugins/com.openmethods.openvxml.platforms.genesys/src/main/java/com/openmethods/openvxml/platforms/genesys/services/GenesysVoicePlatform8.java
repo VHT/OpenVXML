@@ -37,7 +37,6 @@ import org.eclipse.vtp.framework.interactions.voice.vxml.Variable;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.openmethods.openvxml.platforms.genesys.Activator;
 import com.openmethods.openvxml.platforms.genesys.vxml.Receive;
 import com.openmethods.openvxml.platforms.genesys.vxml.Send;
 
@@ -47,6 +46,9 @@ import com.openmethods.openvxml.platforms.genesys.vxml.Send;
  */
 @SuppressWarnings({"rawtypes", "unchecked", "deprecation"})
 public class GenesysVoicePlatform8 extends VoicePlatform {
+
+	/** The Bundle-SymbolicName of this bundle. */
+	private static final String BUNDLE_SYMBOLIC_NAME = "com.openmethods.openvxml.platforms.genesys"; //$NON-NLS-1$
 
 	private boolean isCtiC = false;
 	private IExecutionContext context;
@@ -147,7 +149,7 @@ public class GenesysVoicePlatform8 extends VoicePlatform {
 		document.setProperty("com.genesyslab.externalevents.enable", "true");
 		Script jsonInclude = new Script();
 		jsonInclude.setSrc(links.createIncludeLink(
-				Activator.getDefault().getBundle().getSymbolicName()
+				BUNDLE_SYMBOLIC_NAME
 						+ "/includes/json.js").toString());
 		document.addScript(jsonInclude);
 		Form form = new Form("InitialForm"); //$NON-NLS-1$
@@ -322,7 +324,7 @@ public class GenesysVoicePlatform8 extends VoicePlatform {
 
 		Script jsonInclude = new Script();
 		jsonInclude.setSrc(links.createIncludeLink(
-				Activator.getDefault().getBundle().getSymbolicName()
+				BUNDLE_SYMBOLIC_NAME
 						+ "/includes/json.js").toString());
 		block.addAction(jsonInclude);
 

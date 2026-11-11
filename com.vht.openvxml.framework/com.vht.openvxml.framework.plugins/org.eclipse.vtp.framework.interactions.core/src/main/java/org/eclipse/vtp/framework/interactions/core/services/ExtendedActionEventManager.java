@@ -3,19 +3,37 @@ package org.eclipse.vtp.framework.interactions.core.services;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.Platform;
+import org.eclipse.vtp.framework.util.ConfigurationElement;
+import org.eclipse.vtp.framework.util.ExtensionRegistry;
 
 public class ExtendedActionEventManager {
 	/** The identifier for the event extension point */
 	public static String eventExtensionPointId = "org.eclipse.vtp.framework.interactions.core.extendedEvents";
+	/** The extension registry the shared instance reads from */
+	private static ExtensionRegistry registry;
 	/** The shared instance of the event manager */
-	private static ExtendedActionEventManager instance = new ExtendedActionEventManager();
+	private static ExtendedActionEventManager instance;
+
+	/**
+	 * Sets the extension registry that the shared instance reads from. This is
+	 * called by the engine bootstrap before the shared instance is first used.
+	 * 
+	 * @param extensionRegistry
+	 *            The extension registry to use.
+	 */
+	public static synchronized void setExtensionRegistry(
+			ExtensionRegistry extensionRegistry) {
+		registry = extensionRegistry;
+		instance = null;
+	}
 
 	/**
 	 * @return The shared instance of the event manager
 	 */
-	public static ExtendedActionEventManager getDefault() {
+	public static synchronized ExtendedActionEventManager getDefault() {
+		if (instance == null) {
+			instance = new ExtendedActionEventManager();
+		}
 		return instance;
 	}
 
@@ -28,9 +46,9 @@ public class ExtendedActionEventManager {
 	public ExtendedActionEventManager() {
 		super();
 		extendedEvents = new ArrayList<String>();
-		IConfigurationElement[] extensions = Platform.getExtensionRegistry()
-				.getConfigurationElementsFor(eventExtensionPointId);
-		for (IConfigurationElement extension : extensions) {
+		ConfigurationElement[] extensions = registry
+				.getConfigurationElements(eventExtensionPointId);
+		for (ConfigurationElement extension : extensions) {
 			String name = extension.getAttribute("name");
 			if (!extendedEvents.contains(name)) {
 				extendedEvents.add(name);

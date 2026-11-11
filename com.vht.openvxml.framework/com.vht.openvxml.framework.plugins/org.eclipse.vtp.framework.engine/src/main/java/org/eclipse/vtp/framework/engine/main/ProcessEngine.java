@@ -19,7 +19,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.vtp.framework.util.ExtensionRegistry;
 import org.eclipse.vtp.framework.engine.ActionDescriptor;
 import org.eclipse.vtp.framework.engine.ConfigurationDescriptor;
 import org.eclipse.vtp.framework.engine.ObserverDescriptor;
@@ -43,7 +43,7 @@ public class ProcessEngine implements IProcessEngine {
 	private static final IProcessEngineObserver[] NO_OBSERVERS = new IProcessEngineObserver[0];
 
 	/** The extension registry to use. */
-	private final IExtensionRegistry extensionRegistry;
+	private final ExtensionRegistry extensionRegistry;
 	/** The action component registry. */
 	private final Map actionRegistry = new HashMap();
 	/** The configuration component registry. */
@@ -59,7 +59,7 @@ public class ProcessEngine implements IProcessEngine {
 	/**
 	 * Creates a new ProcessEngine.
 	 */
-	public ProcessEngine(IExtensionRegistry extensionRegistry) {
+	public ProcessEngine(ExtensionRegistry extensionRegistry) {
 		this.extensionRegistry = extensionRegistry;
 	}
 
