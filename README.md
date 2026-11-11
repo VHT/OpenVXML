@@ -55,7 +55,7 @@ From the Eclipse menu: Help > Install New Software > Add
 
 > **Name:** Elements
 >
-> **Location:**  https://build.vhtcx.com/downloads/Elements/repository/ 
+> **Location:**  https://artifactory.eng.medallia.com/artifactory/release-generic/medallia/mindful-premise/p2/Elements/repository/ 
 >
 > **Selection:** select all 
 
@@ -67,7 +67,7 @@ From the Eclipse menu: Help > Install New Software > Add
 
 > **Name:** Kepler R4
 >
-> **Location:**   https://build.vhtcx.com/downloads/kepler-equinox/repository/ 
+> **Location:**   https://artifactory.eng.medallia.com/artifactory/release-generic/medallia/mindful-premise/p2/kepler-equinox/repository/ 
 >
 > **Selection:** select all  (uncheck "Group items by category" under details  section)
 
@@ -166,6 +166,24 @@ To install [Apache Maven](http://maven.apache.org/) on Windows, you just need to
 
 
 
+### Building OpenVXML with Maven (Artifactory credentials)
+
+The Tycho build resolves the `elements` and `kepler-r4` p2 repositories from Artifactory, which requires authentication. The committed `.mvn/settings.xml` holds only `${env.ARTIFACTORY_USER}` / `${env.ARTIFACTORY_TOKEN}` placeholders, and `.mvn/maven.config` (`-s .mvn/settings.xml`) makes Maven use it. Export `ARTIFACTORY_USER` and `ARTIFACTORY_TOKEN` in your environment before building. Never put the values in a file or on a command line.
+
+> **Supported only from the OpenVXML root:** the build is supported only when `mvn` runs from the OpenVXML root folder, because `-s .mvn/settings.xml` is resolved relative to the folder `mvn` runs in.
+
+Native Maven, from the OpenVXML root:
+
+```
+mvn clean verify
+```
+
+Maven 3.6.0 in a container (`<repos>` is the absolute path of your local `repos/` folder):
+
+```
+docker run --rm -e ARTIFACTORY_USER -e ARTIFACTORY_TOKEN -v <repos>:/src -w /src/OpenVXML maven:3.6.0-amazoncorretto-8 mvn clean verify
+```
+
 ### Development on OpenVXML
 
 1. Close Child Eclipse (VXML-IVR)
@@ -186,7 +204,7 @@ To install [Apache Maven](http://maven.apache.org/) on Windows, you just need to
 
 7. Look for <repository> tag set with below details
 
-   > <id>openvxml</id> and <url> http://build.vhtcx.com/vht/openvxml/6.0.0/repository/</url>
+   > <id>openvxml</id> and <url> https://artifactory.eng.medallia.com/artifactory/release-generic/medallia/mindful-premise/p2/openvxml/6.0.0/repository/</url>
 
 8. Replace <url> tag content with the new generated .p2 repository location with below specified syntax
 
