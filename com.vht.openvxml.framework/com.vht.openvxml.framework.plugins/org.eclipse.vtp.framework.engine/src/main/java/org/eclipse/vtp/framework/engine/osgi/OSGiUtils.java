@@ -11,35 +11,31 @@
  -------------------------------------------------------------------------*/
 package org.eclipse.vtp.framework.engine.osgi;
 
-import org.eclipse.core.runtime.IContributor;
-import org.osgi.framework.Bundle;
+import java.util.List;
+
+import org.eclipse.vtp.framework.util.Contributor;
 
 /**
- * Utilities for the OSGi environment.
+ * Utilities for finding contributors.
  *
  * @author Lonnie Pryor
  */
 public class OSGiUtils {
 	/**
-	 * Finds the bundle that matches the specified contributor.
+	 * Finds the contributor that matches the specified contributor.
 	 * 
 	 * @param contributor
-	 *            The contributor to match to a bundle.
-	 * @param bundles
-	 *            The bundles to search for a match.
-	 * @return The bundle that matched the specified contributor.
+	 *            The contributor to match.
+	 * @param contributors
+	 *            The contributors to search for a match.
+	 * @return The contributor that matched the specified contributor.
 	 */
-	public static Bundle findBundle(IContributor contributor, Bundle[] bundles) {
+	public static Contributor findBundle(Contributor contributor,
+			List<Contributor> contributors) {
 		String name = contributor.getName();
-		for (Bundle bundle : bundles) {
-			switch (bundle.getState()) {
-			case Bundle.INSTALLED:
-			case Bundle.UNINSTALLED:
-				break;
-			default:
-				if (name.equals(bundle.getSymbolicName())) {
-					return bundle;
-				}
+		for (Contributor candidate : contributors) {
+			if (name.equals(candidate.getSymbolicName())) {
+				return candidate;
 			}
 		}
 		return null;

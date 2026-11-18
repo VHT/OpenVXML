@@ -20,7 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.vtp.framework.util.ExtensionRegistry;
 import org.eclipse.vtp.framework.core.IContext;
 import org.eclipse.vtp.framework.engine.ActionDescriptor;
 import org.eclipse.vtp.framework.engine.ConfigurationDescriptor;
@@ -43,13 +43,13 @@ public class Blueprint {
 	private final Map actionServiceIndex;
 	private final Map executableIndex;
 	private final Map<String, Executable> entryPointIndex;
-	private final IExtensionRegistry registry;
+	private final ExtensionRegistry registry;
 
 	public Blueprint(IProcessDefinition definition,
 			ConfigurationDescriptor[] configurationDescriptors,
 			ActionDescriptor[] actionDescriptors,
 			ObserverDescriptor[] observerDescriptors,
-			ServiceDescriptor[] serviceDescriptors, IExtensionRegistry registry) {
+			ServiceDescriptor[] serviceDescriptors, ExtensionRegistry registry) {
 		this.configurationIndex = indexConfigurations(configurationDescriptors);
 		List processServiceDescriptors = new ArrayList(
 				serviceDescriptors.length);
@@ -161,7 +161,7 @@ public class Blueprint {
 		return entryPointIndex.get(entryName);
 	}
 
-	public IExtensionRegistry getRegistry() {
+	public ExtensionRegistry getRegistry() {
 		return registry;
 	}
 

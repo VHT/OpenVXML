@@ -50,16 +50,13 @@ import org.eclipse.vtp.framework.common.IStringObject;
 import org.eclipse.vtp.framework.common.IVariableRegistry;
 import org.eclipse.vtp.framework.core.IReporter;
 import org.eclipse.vtp.framework.engine.ResourceGroup;
-import org.eclipse.vtp.framework.engine.osgi.Activator;
 import org.eclipse.vtp.framework.interactions.core.platforms.IDocument;
 import org.eclipse.vtp.framework.spi.IProcessDefinition;
 import org.eclipse.vtp.framework.spi.IProcessEngine;
+import org.eclipse.vtp.framework.util.Contributor;
+import org.eclipse.vtp.framework.util.ExtensionRegistry;
 import org.eclipse.vtp.framework.util.Guid;
 import org.eclipse.vtp.framework.util.XMLWriter;
-import org.osgi.framework.Bundle;
-import org.osgi.service.http.HttpService;
-import org.osgi.service.http.NamespaceException;
-import org.osgi.service.log.LogService;
 
 /**
  * The HTTP connection strategy.
@@ -104,18 +101,16 @@ public class HttpConnector {
 	};
 	/** The process engine to use. */
 
-	/** The log to use. */
-	// private final LogService log;
 	/** The process engine to use. */
 	private final IProcessEngine engine;
-	/** The HTTP service to use. */
-	private final HttpService httpService;
+	/** The extension registry to use. */
+	private final ExtensionRegistry extensionRegistry;
 	/** Comment for reporter. */
 	private final IReporter reporter;
 	/** The available process definitions. */
 	private final Map<String, IProcessDefinition> definitionsByID = new HashMap<String, IProcessDefinition>();
 	/** The contributors of the available process definitions. */
-	private final Map<String, Bundle> definitionContributors = new HashMap<String, Bundle>();
+	private final Map<String, Contributor> definitionContributors = new HashMap<String, Contributor>();
 	/** The available resources definitions. */
 	private final Map<String, ResourceGroup> resourcesByID = new HashMap<String, ResourceGroup>();
 	/** The currently configured properties. */
@@ -139,14 +134,15 @@ public class HttpConnector {
 	 * 
 	 * @param engine
 	 *            The process engine to use.
-	 * @param httpService
-	 *            The HTTP service to use.
+	 * @param extensionRegistry
+	 *            The extension registry to use.
+	 * @param reporter
+	 *            The reporter to use.
 	 */
-	public HttpConnector(LogService log, IProcessEngine engine,
-			HttpService httpService, IReporter reporter) {
-		// this.log = log;
+	public HttpConnector(IProcessEngine engine,
+			ExtensionRegistry extensionRegistry, IReporter reporter) {
 		this.engine = engine;
-		this.httpService = httpService;
+		this.extensionRegistry = extensionRegistry;
 		this.reporter = reporter;
 	}
 
@@ -159,7 +155,7 @@ public class HttpConnector {
 	 *            The definition to register.
 	 */
 	public void registerDefinition(String definitionID,
-			IProcessDefinition definition, Bundle contributor) {
+			IProcessDefinition definition, Contributor contributor) {
 		synchronized (definitionsByID) {
 			definitionsByID.put(definitionID, definition);
 			definitionContributors.put(definitionID, contributor);
@@ -234,7 +230,7 @@ public class HttpConnector {
 		String deploymentID = (String) properties.get("deployment.id");
 		String path = (String) properties.get("path");
 		IProcessDefinition definition = null;
-		Bundle contributor = null;
+		Contributor contributor = null;
 		synchronized (definitionsByID) {
 			definition = definitionsByID.get(definitionID);
 			contributor = definitionContributors.get(definitionID);
@@ -857,12 +853,31 @@ public class HttpConnector {
 			return null;
 		}
 		String resourcesID = normal.substring(0, firstSlash);
-		Bundle bundle = null;
-		bundle = Activator.getInstance().findBundle(resourcesID);
+		Contributor bundle = extensionRegistry.getContributor(resourcesID);
 		if (bundle == null) {
 			return null;
 		}
 		return bundle.getResource(normal.substring(firstSlash + 1));
+	}
+
+	/**
+	 * Returns the path the servlet is served on, or <code>null</code> if this
+	 * connector is not open.
+	 * 
+	 * @return The path the servlet is served on.
+	 */
+	public synchronized String getServletPath() {
+		return servletPath;
+	}
+
+	/**
+	 * Returns the path the resources are served on, or <code>null</code> if
+	 * this connector is not open.
+	 * 
+	 * @return The path the resources are served on.
+	 */
+	public synchronized String getResourcesPath() {
+		return resourcesPath;
 	}
 
 	/**
@@ -872,39 +887,22 @@ public class HttpConnector {
 		if (open) {
 			return;
 		}
-		try {
-			String servletPath = null, resourcesPath = null;
-			Object path = properties == null ? null : properties.get("path");
-			if (path instanceof String) {
-				servletPath = HttpUtils.normalizePath((String) path);
-			} else {
-				servletPath = "/"; //$NON-NLS-1$
-			}
-			if ("/".equals(servletPath)) //$NON-NLS-1$
-			{
-				resourcesPath = RESOURCES_PATH;
-			} else {
-				resourcesPath = servletPath + RESOURCES_PATH;
-			}
-			HttpConnectorContext context = new HttpConnectorContext(
-					httpService.createDefaultHttpContext(), this);
-			httpService.registerResources(resourcesPath, "/", context); //$NON-NLS-1$
-			this.resourcesPath = resourcesPath;
-			httpService.registerServlet(servletPath, new HttpConnectorServlet(
-					this), null, context);
-			this.servletPath = servletPath;
-			open = true;
-		} catch (NamespaceException e) {
-			throw new IllegalArgumentException(e);
-		} catch (ServletException e) {
-			throw new IllegalArgumentException(e);
-		} finally {
-			if (!open && resourcesPath != null) {
-				String resourcesPath = this.resourcesPath;
-				this.resourcesPath = null;
-				httpService.unregister(resourcesPath);
-			}
+		String servletPath = null, resourcesPath = null;
+		Object path = properties == null ? null : properties.get("path");
+		if (path instanceof String) {
+			servletPath = HttpUtils.normalizePath((String) path);
+		} else {
+			servletPath = "/"; //$NON-NLS-1$
 		}
+		if ("/".equals(servletPath)) //$NON-NLS-1$
+		{
+			resourcesPath = RESOURCES_PATH;
+		} else {
+			resourcesPath = servletPath + RESOURCES_PATH;
+		}
+		this.resourcesPath = resourcesPath;
+		this.servletPath = servletPath;
+		open = true;
 	}
 
 	/**
@@ -915,20 +913,8 @@ public class HttpConnector {
 			return;
 		}
 		open = false;
-		try {
-			if (servletPath != null) {
-				httpService.unregister(servletPath);
-			}
-		} finally {
-			servletPath = null;
-			try {
-				if (resourcesPath != null) {
-					httpService.unregister(resourcesPath);
-				}
-			} finally {
-				resourcesPath = null;
-			}
-		}
+		servletPath = null;
+		resourcesPath = null;
 	}
 
 	/**

@@ -17,9 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtensionRegistry;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.vtp.framework.common.IArrayObject;
 import org.eclipse.vtp.framework.common.IBooleanObject;
 import org.eclipse.vtp.framework.common.IDataType;
@@ -34,7 +31,9 @@ import org.eclipse.vtp.framework.common.IStringObject;
 import org.eclipse.vtp.framework.common.configurations.DataTypeConfiguration;
 import org.eclipse.vtp.framework.common.configurations.FieldConfiguration;
 import org.eclipse.vtp.framework.common.support.ScriptableArray;
-import org.osgi.framework.Bundle;
+import org.eclipse.vtp.framework.util.ConfigurationElement;
+import org.eclipse.vtp.framework.util.Contributor;
+import org.eclipse.vtp.framework.util.ExtensionRegistry;
 
 /**
  * Implementation of {@link IDataTypeRegistry}.
@@ -54,21 +53,20 @@ public class DataTypeRegistry implements IDataTypeRegistry, IScriptable {
 	 *            The configurations to use.
 	 */
 	@SuppressWarnings("unchecked")
-	public DataTypeRegistry(IExtensionRegistry extensionRegistry,
+	public DataTypeRegistry(ExtensionRegistry extensionRegistry,
 			DataTypeConfiguration[] configurations) {
 		final Map<String, IDataType> dataTypes = new HashMap<String, IDataType>();
 		// Create the registered types.
-		final IConfigurationElement[] elements = extensionRegistry
-				.getConfigurationElementsFor(//
+		final ConfigurationElement[] elements = extensionRegistry
+				.getConfigurationElements(//
 				"org.eclipse.vtp.framework.common.dataTypes"); //$NON-NLS-1$
-		for (final IConfigurationElement element : elements) {
+		for (final ConfigurationElement element : elements) {
 			final DataType type = new DataType(element);
 			dataTypes.put(type.getName(), type);
 			if (element.getName().equals("object-implementation")) {
 				final String typeClassName = element
 						.getAttribute("factory-class");
-				final Bundle contributor = Platform.getBundle(element
-						.getContributor().getName());
+				final Contributor contributor = element.getContributor();
 				IExternalDataType factory = null;
 				try {
 					factory = ((Class<IExternalDataType>) contributor
@@ -370,9 +368,9 @@ public class DataTypeRegistry implements IDataTypeRegistry, IScriptable {
 		 * @param configuration
 		 *            The configuration for this type.
 		 */
-		DataType(IConfigurationElement configuration) {
+		DataType(ConfigurationElement configuration) {
 			this.name = configuration.getAttribute("name"); //$NON-NLS-1$
-			final IConfigurationElement[] fieldConfigs = configuration
+			final ConfigurationElement[] fieldConfigs = configuration
 					.getChildren("field"); //$NON-NLS-1$
 			this.fields = new Field[fieldConfigs.length];
 			final String primaryFieldName = configuration

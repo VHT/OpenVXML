@@ -14,7 +14,7 @@ package org.eclipse.vtp.framework.engine.runtime;
 import java.util.Collection;
 import java.util.Set;
 
-import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.vtp.framework.util.ExtensionRegistry;
 import org.eclipse.vtp.framework.engine.support.AbstractProcessContext;
 import org.eclipse.vtp.framework.spi.IProcess;
 import org.eclipse.vtp.framework.spi.IProcessDescriptor;
@@ -63,7 +63,7 @@ public class Process extends Scope implements IProcess {
 	 */
 	@Override
 	protected Object lookupInScope(String identifier) {
-		if (IExtensionRegistry.class.getName().equals(identifier)) {
+		if (ExtensionRegistry.class.getName().equals(identifier)) {
 			return blueprint.getRegistry();
 		}
 		return super.lookupInScope(identifier);
@@ -78,7 +78,7 @@ public class Process extends Scope implements IProcess {
 	@Override
 	protected Object[] lookupAllInScope(String identifier) {
 		Object[] results = super.lookupAllInScope(identifier);
-		if (IExtensionRegistry.class.getName().equals(identifier)) {
+		if (ExtensionRegistry.class.getName().equals(identifier)) {
 			Object[] allResults = new Object[results == null ? 1
 					: results.length + 1];
 			allResults[0] = blueprint.getRegistry();

@@ -15,12 +15,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtension;
-import org.eclipse.core.runtime.IExtensionPoint;
-import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.vtp.framework.interactions.core.IInteractionType;
 import org.eclipse.vtp.framework.interactions.core.IInteractionTypeRegistry;
+import org.eclipse.vtp.framework.util.ConfigurationElement;
+import org.eclipse.vtp.framework.util.Extension;
+import org.eclipse.vtp.framework.util.ExtensionRegistry;
 
 /**
  * Implementation of {@link IInteractionTypeRegistry}.
@@ -38,15 +37,14 @@ public class InteractionTypeRegistry implements IInteractionTypeRegistry {
 	 * @param registry
 	 *            The extension registry to load from.
 	 */
-	public InteractionTypeRegistry(IExtensionRegistry registry) {
-		IExtensionPoint point = registry.getExtensionPoint(//
+	public InteractionTypeRegistry(ExtensionRegistry registry) {
+		Extension[] extensions = registry.getExtensions(//
 				"org.eclipse.vtp.framework.interactions.core.interactionTypes"); //$NON-NLS-1$
-		IExtension[] extensions = point.getExtensions();
 		Map interactionTypes = new HashMap(extensions.length);
-		for (IExtension extension : extensions) {
-			IConfigurationElement[] elements = extension
+		for (Extension extension : extensions) {
+			ConfigurationElement[] elements = extension
 					.getConfigurationElements();
-			for (IConfigurationElement element : elements) {
+			for (ConfigurationElement element : elements) {
 				InteractionType contentType = new InteractionType(
 						element.getAttribute("id"), //$NON-NLS-1$
 						element.getAttribute("name")); //$NON-NLS-1$
